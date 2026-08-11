@@ -12,83 +12,83 @@
 namespace de.unika.ipd.grgen.ir.expr.set
 {
 
-using System.Collections.Generic;
-using System.Diagnostics;
+	using System.Collections.Generic;
+	using System.Diagnostics;
 
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
 
-public class SetInit : Expression
-{
-	private ICollection<Expression> setItems;
-	private Entity member;
-	private SetType setType;
-	private bool isConst;
-
-	public SetInit(ICollection<Expression> setItems, Entity member, SetType setType, bool isConst)
-		: base("set init", member != null ? member.Type : setType)
+	public class SetInit : Expression
 	{
-		this.setItems = setItems;
-		this.member = member;
-		this.setType = setType;
-		this.isConst = isConst;
-	}
+		private ICollection<Expression> setItems;
+		private Entity member;
+		private SetType setType;
+		private bool isConst;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.Add(this);
-		foreach(Expression setItem in setItems)
-			setItem.CollectNeededEntities(needs);
-	}
-
-	public virtual ICollection<Expression> SetItems
-	{
-		get
+		public SetInit(ICollection<Expression> setItems, Entity member, SetType setType, bool isConst)
+			: base("set init", member != null ? member.Type : setType)
 		{
-			return setItems;
+			this.setItems = setItems;
+			this.member = member;
+			this.setType = setType;
+			this.isConst = isConst;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.Add(this);
+			foreach(Expression setItem in setItems)
+				setItem.CollectNeededEntities(needs);
+		}
+
+		public virtual ICollection<Expression> SetItems
+		{
+			get
+			{
+				return setItems;
+			}
+		}
+
+		public virtual Entity Member
+		{
+			set
+			{
+				Debug.Assert((member == null && value != null));
+				member = value;
+			}
+			get
+			{
+				return member;
+			}
+		}
+
+
+		public virtual SetType SetType
+		{
+			get
+			{
+				return setType;
+			}
+		}
+
+		public virtual void ForceNotConstant()
+		{
+			isConst = false;
+		}
+
+		public virtual bool IsConstant()
+		{
+			return isConst;
+		}
+
+		public virtual string AnonymousSetName
+		{
+			get
+			{
+				return "anonymous_set_" + Id;
+			}
 		}
 	}
-
-	public virtual Entity Member
-	{
-		set
-		{
-			Debug.Assert((member == null && value != null));
-			member = value;
-		}
-		get
-		{
-			return member;
-		}
-	}
-
-
-	public virtual SetType SetType
-	{
-		get
-		{
-			return setType;
-		}
-	}
-
-	public virtual void ForceNotConstant()
-	{
-		isConst = false;
-	}
-
-	public virtual bool IsConstant()
-	{
-		return isConst;
-	}
-
-	public virtual string AnonymousSetName
-	{
-		get
-		{
-			return "anonymous_set_" + Id;
-		}
-	}
-}
 
 }

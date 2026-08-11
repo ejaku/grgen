@@ -7,46 +7,46 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class EdgeByNameExpr : BuiltinFunctionInvocationExpr
-{
-	private readonly Expression name;
-	private readonly Expression edgeType;
-
-	public EdgeByNameExpr(Expression name, Expression edgeType, Type type)
-		: base("edge by name expression", type)
+	public class EdgeByNameExpr : BuiltinFunctionInvocationExpr
 	{
-		this.name = name;
-		this.edgeType = edgeType;
-	}
+		private readonly Expression name;
+		private readonly Expression edgeType;
 
-	public virtual Expression NameExpr
-	{
-		get
+		public EdgeByNameExpr(Expression name, Expression edgeType, Type type)
+			: base("edge by name expression", type)
 		{
-			return name;
+			this.name = name;
+			this.edgeType = edgeType;
+		}
+
+		public virtual Expression NameExpr
+		{
+			get
+			{
+				return name;
+			}
+		}
+
+		public virtual Expression EdgeTypeExpr
+		{
+			get
+			{
+				return edgeType;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			name.CollectNeededEntities(needs);
+			edgeType.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression EdgeTypeExpr
-	{
-		get
-		{
-			return edgeType;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		name.CollectNeededEntities(needs);
-		edgeType.CollectNeededEntities(needs);
-	}
-}
 
 }

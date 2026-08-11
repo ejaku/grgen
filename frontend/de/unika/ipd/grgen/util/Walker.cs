@@ -11,19 +11,19 @@
 
 namespace de.unika.ipd.grgen.util
 {
-/// <summary>
-/// User interface of walkers,
-/// walking over structures of walkable objects (i.e. containing walkable children)
-/// </summary>
-public interface Walker
-{
 	/// <summary>
-	/// reset state of walk, i.e. forget about already visited children </summary>
-	void Reset();
+	/// User interface of walkers,
+	/// walking over structures of walkable objects (i.e. containing walkable children)
+	/// </summary>
+	public interface Walker
+	{
+		/// <summary>
+		/// reset state of walk, i.e. forget about already visited children </summary>
+		void Reset();
 
-	/// <summary>
-	/// start walk on node w </summary>
-	void Walk(Walkable w);
-}
+		/// <summary>
+		/// start walk on node w </summary>
+		void Walk(Walkable w);
+	}
 
 }

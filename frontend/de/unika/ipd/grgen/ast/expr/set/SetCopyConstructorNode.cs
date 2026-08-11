@@ -12,118 +12,118 @@
 namespace de.unika.ipd.grgen.ast.expr.set
 {
 
-using System.Collections.Generic;
-using System.Diagnostics;
+	using System.Collections.Generic;
+	using System.Diagnostics;
 
-using de.unika.ipd.grgen.ast;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using SetCopyConstructor = de.unika.ipd.grgen.ir.expr.set.SetCopyConstructor;
-using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using SetCopyConstructor = de.unika.ipd.grgen.ir.expr.set.SetCopyConstructor;
+	using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class SetCopyConstructorNode : ExprNode
-{
-	static SetCopyConstructorNode()
+	public class SetCopyConstructorNode : ExprNode
 	{
-		SetClassName(typeof(SetCopyConstructorNode), "set copy constructor");
-	}
-
-	private SetTypeNode setType;
-	private ExprNode setToCopy;
-	private BaseNode lhsUnresolved;
-
-	public SetCopyConstructorNode(Coords coords, IdentNode member, SetTypeNode setType, ExprNode setToCopy)
-		: base(coords)
-	{
-
-		if(member != null)
-			lhsUnresolved = BecomeParent(member);
-		else
-			this.setType = setType;
-		this.setToCopy = setToCopy;
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static SetCopyConstructorNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(setToCopy);
-			return children;
+			SetClassName(typeof(SetCopyConstructorNode), "set copy constructor");
 		}
-	}
 
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		private SetTypeNode setType;
+		private ExprNode setToCopy;
+		private BaseNode lhsUnresolved;
+
+		public SetCopyConstructorNode(Coords coords, IdentNode member, SetTypeNode setType, ExprNode setToCopy)
+			: base(coords)
 		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("setToCopy");
-			return childrenNames;
+
+			if(member != null)
+				lhsUnresolved = BecomeParent(member);
+			else
+				this.setType = setType;
+			this.setToCopy = setToCopy;
 		}
-	}
 
-	protected internal override bool ResolveLocal()
-	{
-		if(setType != null)
-			return setType.Resolve();
-		else
-			return true;
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		bool success = true;
-
-		if(lhsUnresolved != null)
+		public override ICollection<BaseNode> Children
 		{
-			ReportError("A set copy constructor is not allowed in a set initialization in the model.");
-			success = false;
-		}
-		else
-		{
-			if(setToCopy.Type is SetTypeNode)
+			get
 			{
-				SetTypeNode sourceSetType = (SetTypeNode)setToCopy.Type;
-				success &= CheckCopyConstructorTypes(setType.valueType, sourceSetType.valueType, "set", false);
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(setToCopy);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("setToCopy");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool ResolveLocal()
+		{
+			if(setType != null)
+				return setType.Resolve();
+			else
+				return true;
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			bool success = true;
+
+			if(lhsUnresolved != null)
+			{
+				ReportError("A set copy constructor is not allowed in a set initialization in the model.");
+				success = false;
 			}
 			else
 			{
-				ReportError("A set copy constructor expects a value of set type to copy"
-						+ " (but is given " + setToCopy.Type.TypeName + ").");
-				success = false;
+				if(setToCopy.Type is SetTypeNode)
+				{
+					SetTypeNode sourceSetType = (SetTypeNode)setToCopy.Type;
+					success &= CheckCopyConstructorTypes(setType.valueType, sourceSetType.valueType, "set", false);
+				}
+				else
+				{
+					ReportError("A set copy constructor expects a value of set type to copy"
+							+ " (but is given " + setToCopy.Type.TypeName + ").");
+					success = false;
+				}
+			}
+
+			return success;
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				Debug.Assert((IsResolved()));
+				return setType;
 			}
 		}
 
-		return success;
-	}
-
-	public override TypeNode Type
-	{
-		get
+		protected internal override IR ConstructIR()
 		{
-			Debug.Assert((IsResolved()));
-			return setType;
+			setToCopy = setToCopy.Evaluate();
+			return new SetCopyConstructor(setToCopy.CheckIR(typeof(Expression)), setType.CheckIR(typeof(SetType)));
+		}
+
+		public static string KindStr
+		{
+			get
+			{
+				return "set copy constructor";
+			}
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		setToCopy = setToCopy.Evaluate();
-		return new SetCopyConstructor(setToCopy.CheckIR(typeof(Expression)), setType.CheckIR(typeof(SetType)));
-	}
-
-	public static string KindStr
-	{
-		get
-		{
-			return "set copy constructor";
-		}
-	}
-}
 
 }

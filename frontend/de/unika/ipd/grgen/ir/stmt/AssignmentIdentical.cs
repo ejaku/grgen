@@ -11,20 +11,20 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-/// <summary>
-/// Represents a relict from an assignment statement of the form x=x optimized away.
-/// </summary>
-public class AssignmentIdentical : EvalStatement
-{
-	public AssignmentIdentical()
-		: base("assignment identical")
+	/// <summary>
+	/// Represents a relict from an assignment statement of the form x=x optimized away.
+	/// </summary>
+	public class AssignmentIdentical : EvalStatement
 	{
-	}
+		public AssignmentIdentical()
+			: base("assignment identical")
+		{
+		}
 
-	public override string ToString()
-	{
-		return ". = .";
+		public override string ToString()
+		{
+			return ". = .";
+		}
 	}
-}
 
 }

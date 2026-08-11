@@ -11,66 +11,66 @@
 
 namespace de.unika.ipd.grgen.ast.expr.array
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayMedUnorderedExpr = de.unika.ipd.grgen.ir.expr.array.ArrayMedUnorderedExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayMedUnorderedExpr = de.unika.ipd.grgen.ir.expr.array.ArrayMedUnorderedExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayMedUnorderedNode : ArrayAccumulationMethodNode
-{
-	static ArrayMedUnorderedNode()
+	public class ArrayMedUnorderedNode : ArrayAccumulationMethodNode
 	{
-		SetClassName(typeof(ArrayMedUnorderedNode), "array med unordered");
-	}
-
-	public ArrayMedUnorderedNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = TargetTypeExact;
-		if(!arrayType.valueType.IsAccumulatableType())
+		static ArrayMedUnorderedNode()
 		{
-			targetExpr.ReportError("The array function method medUnordered can only be employed on an object of type array<" + TypeNode.AccumulatableTypesAsString + ">"
-					+ " (but is employed on an object of type " + arrayType.TypeName + ").");
-			return false;
+			SetClassName(typeof(ArrayMedUnorderedNode), "array med unordered");
 		}
-		return true;
-	}
 
-	public override TypeNode Type
-	{
-		get
+		public ArrayMedUnorderedNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
 		{
-			return BasicTypeNode.doubleType;
 		}
-	}
 
-	public override bool IsValidTargetTypeOfAccumulation(TypeNode type)
-	{
-		return type.IsEqual(BasicTypeNode.doubleType);
-	}
-
-	public override string ValidTargetTypesOfAccumulation
-	{
-		get
+		protected internal override bool CheckLocal()
 		{
-			return "double";
+			// target type already checked during resolving into this node
+			ArrayTypeNode arrayType = TargetTypeExact;
+			if(!arrayType.valueType.IsAccumulatableType())
+			{
+				targetExpr.ReportError("The array function method medUnordered can only be employed on an object of type array<" + TypeNode.AccumulatableTypesAsString + ">"
+						+ " (but is employed on an object of type " + arrayType.TypeName + ").");
+				return false;
+			}
+			return true;
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.doubleType;
+			}
+		}
+
+		public override bool IsValidTargetTypeOfAccumulation(TypeNode type)
+		{
+			return type.IsEqual(BasicTypeNode.doubleType);
+		}
+
+		public override string ValidTargetTypesOfAccumulation
+		{
+			get
+			{
+				return "double";
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new ArrayMedUnorderedExpr(targetExpr.CheckIR(typeof(Expression)));
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new ArrayMedUnorderedExpr(targetExpr.CheckIR(typeof(Expression)));
-	}
-}
 
 }

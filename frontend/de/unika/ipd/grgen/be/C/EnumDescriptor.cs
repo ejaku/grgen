@@ -12,16 +12,16 @@
 namespace de.unika.ipd.grgen.be.C
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using EnumItem = de.unika.ipd.grgen.ir.model.EnumItem;
+	using EnumItem = de.unika.ipd.grgen.ir.model.EnumItem;
 
-public class EnumDescriptor
-{
-	public int type_id;
-	public string name;
-	public int n_items;
-	public IList<EnumItem> items = new List<EnumItem>();
-}
+	public class EnumDescriptor
+	{
+		public int type_id;
+		public string name;
+		public int n_items;
+		public IList<EnumItem> items = new List<EnumItem>();
+	}
 
 }

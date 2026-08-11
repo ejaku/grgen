@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.util
 {
-/// <summary>
-/// A visitor that computes a result.
-/// </summary>
-public interface ResultVisitor<RT> : Visitor
-{
 	/// <summary>
-	/// Get the result, the visitor computed. </summary>
-	/// <returns> The result </returns>
-	RT Result {get;}
-}
+	/// A visitor that computes a result.
+	/// </summary>
+	public interface ResultVisitor<RT> : Visitor
+	{
+		/// <summary>
+		/// Get the result, the visitor computed. </summary>
+		/// <returns> The result </returns>
+		RT Result {get;}
+	}
 
 }

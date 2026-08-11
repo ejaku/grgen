@@ -8,70 +8,70 @@
 namespace de.unika.ipd.grgen.ir.model
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using IR = de.unika.ipd.grgen.ir.IR;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
-using EnumExpression = de.unika.ipd.grgen.ir.expr.EnumExpression;
-
-/// <summary>
-/// An enumeration value
-/// </summary>
-public class EnumItem : Identifiable
-{
-	private readonly Ident id;
-
-	private readonly EnumExpression value;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+	using EnumExpression = de.unika.ipd.grgen.ir.expr.EnumExpression;
 
 	/// <summary>
-	/// Make a new enumeration value. </summary>
-	/// <param name="id"> The enumeration item identifier. </param>
-	/// <param name="value"> The associated value. </param>
-	public EnumItem(Ident id, EnumExpression value)
-		: base("enum item", id)
+	/// An enumeration value
+	/// </summary>
+	public class EnumItem : Identifiable
 	{
-		this.id = id;
-		this.value = value;
-	}
+		private readonly Ident id;
 
-	/// <returns> The identifier of the enum item. </returns>
-	public override Ident Ident
-	{
-		get
+		private readonly EnumExpression value;
+
+		/// <summary>
+		/// Make a new enumeration value. </summary>
+		/// <param name="id"> The enumeration item identifier. </param>
+		/// <param name="value"> The associated value. </param>
+		public EnumItem(Ident id, EnumExpression value)
+			: base("enum item", id)
 		{
-			return id;
+			this.id = id;
+			this.value = value;
+		}
+
+		/// <returns> The identifier of the enum item. </returns>
+		public override Ident Ident
+		{
+			get
+			{
+				return id;
+			}
+		}
+
+		/// <summary>
+		/// The string of an enum item is its identifier's text. </summary>
+		/// <seealso cref="java.lang.Object.toString() "/>
+		public override string ToString()
+		{
+			return id.ToString();
+		}
+
+		/// <returns> The value of the enum item. </returns>
+		public virtual EnumExpression Value
+		{
+			get
+			{
+				return value;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.Walkable.getWalkableChildren() "/>
+		public virtual ICollection<IR> WalkableChildren
+		{
+			get
+			{
+				ISet<IR> res = new HashSet<IR>();
+				res.Add(id);
+				res.Add(value);
+				return res;
+			}
 		}
 	}
-
-	/// <summary>
-	/// The string of an enum item is its identifier's text. </summary>
-	/// <seealso cref="java.lang.Object.toString() "/>
-	public override string ToString()
-	{
-		return id.ToString();
-	}
-
-	/// <returns> The value of the enum item. </returns>
-	public virtual EnumExpression Value
-	{
-		get
-		{
-			return value;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.Walkable.getWalkableChildren() "/>
-	public virtual ICollection<IR> WalkableChildren
-	{
-		get
-		{
-			ISet<IR> res = new HashSet<IR>();
-			res.Add(id);
-			res.Add(value);
-			return res;
-		}
-	}
-}
 
 }

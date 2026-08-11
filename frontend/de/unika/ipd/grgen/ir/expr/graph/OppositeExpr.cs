@@ -7,45 +7,45 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class OppositeExpr : BuiltinFunctionInvocationExpr
-{
-	private readonly Expression edge;
-	private readonly Expression node;
-
-	public OppositeExpr(Expression edge, Expression node, Type type)
-		: base("opposite expression", type)
+	public class OppositeExpr : BuiltinFunctionInvocationExpr
 	{
-		this.edge = edge;
-		this.node = node;
-	}
+		private readonly Expression edge;
+		private readonly Expression node;
 
-	public virtual Expression EdgeExpr
-	{
-		get
+		public OppositeExpr(Expression edge, Expression node, Type type)
+			: base("opposite expression", type)
 		{
-			return edge;
+			this.edge = edge;
+			this.node = node;
+		}
+
+		public virtual Expression EdgeExpr
+		{
+			get
+			{
+				return edge;
+			}
+		}
+
+		public virtual Expression NodeExpr
+		{
+			get
+			{
+				return node;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			edge.CollectNeededEntities(needs);
+			node.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression NodeExpr
-	{
-		get
-		{
-			return node;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		edge.CollectNeededEntities(needs);
-		node.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -12,43 +12,43 @@
 namespace de.unika.ipd.grgen.ir.executable
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using NestingStatement = de.unika.ipd.grgen.ir.NestingStatement;
-using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
-
-/// <summary>
-/// An internal filter function
-/// (is a top-level object that contains nested statements).
-/// </summary>
-public class FilterFunctionInternal : FilterFunction, NestingStatement
-{
-	/// <summary>
-	/// The computation statements </summary>
-	private List<EvalStatement> computationStatements = new List<EvalStatement>();
-
-	public FilterFunctionInternal(string name, Ident ident)
-		: base(name, ident)
-	{
-	}
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using NestingStatement = de.unika.ipd.grgen.ir.NestingStatement;
+	using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
 
 	/// <summary>
-	/// Add a computation statement to the filter function. </summary>
-	public virtual void AddStatement(EvalStatement eval)
+	/// An internal filter function
+	/// (is a top-level object that contains nested statements).
+	/// </summary>
+	public class FilterFunctionInternal : FilterFunction, NestingStatement
 	{
-		computationStatements.Add(eval);
-	}
+		/// <summary>
+		/// The computation statements </summary>
+		private List<EvalStatement> computationStatements = new List<EvalStatement>();
 
-	/// <summary>
-	/// Get all computation statements of this filter function. </summary>
-	public virtual ICollection<EvalStatement> Statements
-	{
-		get
+		public FilterFunctionInternal(string name, Ident ident)
+			: base(name, ident)
 		{
-			return computationStatements.AsReadOnly();
+		}
+
+		/// <summary>
+		/// Add a computation statement to the filter function. </summary>
+		public virtual void AddStatement(EvalStatement eval)
+		{
+			computationStatements.Add(eval);
+		}
+
+		/// <summary>
+		/// Get all computation statements of this filter function. </summary>
+		public virtual ICollection<EvalStatement> Statements
+		{
+			get
+			{
+				return computationStatements.AsReadOnly();
+			}
 		}
 	}
-}
 
 }

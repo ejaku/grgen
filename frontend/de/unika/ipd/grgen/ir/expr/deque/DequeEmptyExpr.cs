@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.deque
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-public class DequeEmptyExpr : DequeFunctionMethodInvocationBaseExpr
-{
-	public DequeEmptyExpr(Expression targetExpr)
-		: base("deque empty expression", BooleanType.Type, targetExpr)
+	public class DequeEmptyExpr : DequeFunctionMethodInvocationBaseExpr
 	{
+		public DequeEmptyExpr(Expression targetExpr)
+			: base("deque empty expression", BooleanType.Type, targetExpr)
+		{
+		}
 	}
-}
 
 }

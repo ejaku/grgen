@@ -7,37 +7,37 @@
 
 namespace de.unika.ipd.grgen.ast.decl.executable
 {
-public enum Operator
-{
-	ERROR,
-	LOG_OR,
-	LOG_AND,
-	BIT_OR,
-	BIT_XOR,
-	BIT_AND,
-	EQ,
-	NE,
-	LT,
-	LE,
-	GT,
-	GE,
-	SHL,
-	SHR,
-	BIT_SHR,
-	ADD,
-	SUB,
-	MUL,
-	DIV,
-	MOD,
-	LOG_NOT,
-	BIT_NOT,
-	NEG,
-	CONST,
-	COND,
-	IN,
-	INDEX,
-	EXCEPT,
-	SE
-}
+	public enum Operator
+	{
+		ERROR,
+		LOG_OR,
+		LOG_AND,
+		BIT_OR,
+		BIT_XOR,
+		BIT_AND,
+		EQ,
+		NE,
+		LT,
+		LE,
+		GT,
+		GE,
+		SHL,
+		SHR,
+		BIT_SHR,
+		ADD,
+		SUB,
+		MUL,
+		DIV,
+		MOD,
+		LOG_NOT,
+		BIT_NOT,
+		NEG,
+		CONST,
+		COND,
+		IN,
+		INDEX,
+		EXCEPT,
+		SE
+	}
 
 }

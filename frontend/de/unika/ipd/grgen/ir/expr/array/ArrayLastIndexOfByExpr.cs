@@ -10,63 +10,63 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class ArrayLastIndexOfByExpr : ArrayFunctionMethodInvocationBaseExpr
-{
-	private Entity member;
-	private Expression valueExpr;
-	private Expression startIndexExpr;
-
-	public ArrayLastIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr)
-		: base("array lastIndexOfBy expr", IntType.Type, targetExpr)
+	public class ArrayLastIndexOfByExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
-		this.member = member;
-		this.valueExpr = valueExpr;
-	}
+		private Entity member;
+		private Expression valueExpr;
+		private Expression startIndexExpr;
 
-	public ArrayLastIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr, Expression startIndexExpr)
-		: base("array indexOfBy expr", IntType.Type, targetExpr)
-	{
-		this.member = member;
-		this.valueExpr = valueExpr;
-		this.startIndexExpr = startIndexExpr;
-	}
-
-	public virtual Entity Member
-	{
-		get
+		public ArrayLastIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr)
+			: base("array lastIndexOfBy expr", IntType.Type, targetExpr)
 		{
-			return member;
+			this.member = member;
+			this.valueExpr = valueExpr;
+		}
+
+		public ArrayLastIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr, Expression startIndexExpr)
+			: base("array indexOfBy expr", IntType.Type, targetExpr)
+		{
+			this.member = member;
+			this.valueExpr = valueExpr;
+			this.startIndexExpr = startIndexExpr;
+		}
+
+		public virtual Entity Member
+		{
+			get
+			{
+				return member;
+			}
+		}
+
+		public virtual Expression ValueExpr
+		{
+			get
+			{
+				return valueExpr;
+			}
+		}
+
+		public virtual Expression StartIndexExpr
+		{
+			get
+			{
+				return startIndexExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+			valueExpr.CollectNeededEntities(needs);
+			if(startIndexExpr != null)
+				startIndexExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression ValueExpr
-	{
-		get
-		{
-			return valueExpr;
-		}
-	}
-
-	public virtual Expression StartIndexExpr
-	{
-		get
-		{
-			return startIndexExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-		valueExpr.CollectNeededEntities(needs);
-		if(startIndexExpr != null)
-			startIndexExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -12,118 +12,118 @@
 namespace de.unika.ipd.grgen.ast.expr.deque
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using DequeTypeNode = de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using DequeIndexOfExpr = de.unika.ipd.grgen.ir.expr.deque.DequeIndexOfExpr;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using DequeTypeNode = de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using DequeIndexOfExpr = de.unika.ipd.grgen.ir.expr.deque.DequeIndexOfExpr;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class DequeIndexOfNode : DequeFunctionMethodInvocationBaseExprNode
-{
-	static DequeIndexOfNode()
+	public class DequeIndexOfNode : DequeFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(DequeIndexOfNode), "deque index of");
-	}
-
-	private ExprNode valueExpr;
-	private ExprNode startIndexExpr;
-
-	public DequeIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr)
-		: base(coords, targetExpr)
-	{
-		this.valueExpr = BecomeParent(valueExpr);
-	}
-
-	public DequeIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr, ExprNode startIndexExpr)
-		: base(coords, targetExpr)
-	{
-		this.valueExpr = BecomeParent(valueExpr);
-		this.startIndexExpr = BecomeParent(startIndexExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static DequeIndexOfNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(targetExpr);
-			children.Add(valueExpr);
-			if(startIndexExpr != null)
-				children.Add(startIndexExpr);
-			return children;
+			SetClassName(typeof(DequeIndexOfNode), "deque index of");
 		}
-	}
 
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		private ExprNode valueExpr;
+		private ExprNode startIndexExpr;
+
+		public DequeIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr)
+			: base(coords, targetExpr)
 		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("targetExpr");
-			childrenNames.Add("valueExpr");
-			if(startIndexExpr != null)
-				childrenNames.Add("startIndex");
-			return childrenNames;
+			this.valueExpr = BecomeParent(valueExpr);
 		}
-	}
 
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		TypeNode valueType = valueExpr.Type;
-		DequeTypeNode dequeType = TargetTypeExact;
-		if(!valueType.IsEqual(dequeType.valueType))
+		public DequeIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr, ExprNode startIndexExpr)
+			: base(coords, targetExpr)
 		{
-			ExprNode valueExprOld = valueExpr;
-			valueExpr = BecomeParent(valueExpr.AdjustType(dequeType.valueType, Coords));
-			if(valueExpr == ConstNode.Invalid)
+			this.valueExpr = BecomeParent(valueExpr);
+			this.startIndexExpr = BecomeParent(startIndexExpr);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
 			{
-				valueExprOld.ReportError("The deque function method indexOf expects as 1. argument (valueToSearchFor) a value of type " + dequeType.valueType.ToStringWithDeclarationCoords()
-						+ " (but is given a value of type " + valueType.ToStringWithDeclarationCoords() + ").");
-				return false;
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(targetExpr);
+				children.Add(valueExpr);
+				if(startIndexExpr != null)
+					children.Add(startIndexExpr);
+				return children;
 			}
 		}
-		if(startIndexExpr != null && !startIndexExpr.Type.IsEqual(BasicTypeNode.intType))
-		{
-			startIndexExpr.ReportError("The deque function method indexOf expects as 2. argument (startIndex) a value of type int"
-					+ " (but is given a value of type " + startIndexExpr.Type.TypeName + ").");
-			return false;
-		}
-		return true;
-	}
 
-	public override TypeNode Type
-	{
-		get
+		public override ICollection<string> ChildrenNames
 		{
-			return BasicTypeNode.intType;
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("targetExpr");
+				childrenNames.Add("valueExpr");
+				if(startIndexExpr != null)
+					childrenNames.Add("startIndex");
+				return childrenNames;
+			}
 		}
-	}
 
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		valueExpr = valueExpr.Evaluate();
-		if(startIndexExpr != null)
+		protected internal override bool CheckLocal()
 		{
-			startIndexExpr = startIndexExpr.Evaluate();
-			return new DequeIndexOfExpr(targetExpr.CheckIR(typeof(Expression)),
-					valueExpr.CheckIR(typeof(Expression)),
-					startIndexExpr.CheckIR(typeof(Expression)));
+			// target type already checked during resolving into this node
+			TypeNode valueType = valueExpr.Type;
+			DequeTypeNode dequeType = TargetTypeExact;
+			if(!valueType.IsEqual(dequeType.valueType))
+			{
+				ExprNode valueExprOld = valueExpr;
+				valueExpr = BecomeParent(valueExpr.AdjustType(dequeType.valueType, Coords));
+				if(valueExpr == ConstNode.Invalid)
+				{
+					valueExprOld.ReportError("The deque function method indexOf expects as 1. argument (valueToSearchFor) a value of type " + dequeType.valueType.ToStringWithDeclarationCoords()
+							+ " (but is given a value of type " + valueType.ToStringWithDeclarationCoords() + ").");
+					return false;
+				}
+			}
+			if(startIndexExpr != null && !startIndexExpr.Type.IsEqual(BasicTypeNode.intType))
+			{
+				startIndexExpr.ReportError("The deque function method indexOf expects as 2. argument (startIndex) a value of type int"
+						+ " (but is given a value of type " + startIndexExpr.Type.TypeName + ").");
+				return false;
+			}
+			return true;
 		}
-		else
+
+		public override TypeNode Type
 		{
-			return new DequeIndexOfExpr(targetExpr.CheckIR(typeof(Expression)),
-					valueExpr.CheckIR(typeof(Expression)));
+			get
+			{
+				return BasicTypeNode.intType;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			valueExpr = valueExpr.Evaluate();
+			if(startIndexExpr != null)
+			{
+				startIndexExpr = startIndexExpr.Evaluate();
+				return new DequeIndexOfExpr(targetExpr.CheckIR(typeof(Expression)),
+						valueExpr.CheckIR(typeof(Expression)),
+						startIndexExpr.CheckIR(typeof(Expression)));
+			}
+			else
+			{
+				return new DequeIndexOfExpr(targetExpr.CheckIR(typeof(Expression)),
+						valueExpr.CheckIR(typeof(Expression)));
+			}
 		}
 	}
-}
 
 }

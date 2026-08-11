@@ -7,54 +7,54 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class GraphRedirectTargetProc : BuiltinProcedureInvocationBase
-{
-	private Expression edge;
-	private Expression newTarget;
-	private Expression oldTargetName; // optional
-
-	public GraphRedirectTargetProc(Expression edge, Expression newTarget, Expression oldTargetName)
-		: base("graph redirect target procedure")
+	public class GraphRedirectTargetProc : BuiltinProcedureInvocationBase
 	{
-		this.edge = edge;
-		this.newTarget = newTarget;
-		this.oldTargetName = oldTargetName;
-	}
+		private Expression edge;
+		private Expression newTarget;
+		private Expression oldTargetName; // optional
 
-	public virtual Expression Edge
-	{
-		get
+		public GraphRedirectTargetProc(Expression edge, Expression newTarget, Expression oldTargetName)
+			: base("graph redirect target procedure")
 		{
-			return edge;
+			this.edge = edge;
+			this.newTarget = newTarget;
+			this.oldTargetName = oldTargetName;
+		}
+
+		public virtual Expression Edge
+		{
+			get
+			{
+				return edge;
+			}
+		}
+
+		public virtual Expression NewTarget
+		{
+			get
+			{
+				return newTarget;
+			}
+		}
+
+		public virtual Expression OldTargetName
+		{
+			get
+			{
+				return oldTargetName;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			edge.CollectNeededEntities(needs);
+			newTarget.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression NewTarget
-	{
-		get
-		{
-			return newTarget;
-		}
-	}
-
-	public virtual Expression OldTargetName
-	{
-		get
-		{
-			return oldTargetName;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		edge.CollectNeededEntities(needs);
-		newTarget.CollectNeededEntities(needs);
-	}
-}
 
 }

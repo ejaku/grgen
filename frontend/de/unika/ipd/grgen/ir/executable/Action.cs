@@ -11,18 +11,18 @@
 
 namespace de.unika.ipd.grgen.ir.executable
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
 
-/// <summary>
-/// A graph action.
-/// </summary>
-public abstract class Action : Identifiable
-{
-	public Action(string name, Ident ident)
-		: base(name, ident)
+	/// <summary>
+	/// A graph action.
+	/// </summary>
+	public abstract class Action : Identifiable
 	{
+		public Action(string name, Ident ident)
+			: base(name, ident)
+		{
+		}
 	}
-}
 
 }

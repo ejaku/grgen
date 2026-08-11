@@ -11,50 +11,50 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using de.unika.ipd.grgen.ir;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-
-/// <summary>
-/// A variable expression node.
-/// </summary>
-public class VariableExpression : Expression
-{
-	private Variable var;
-
-	public VariableExpression(Variable var)
-		: base("variable", var.Type)
-	{
-		this.var = var;
-	}
+	using de.unika.ipd.grgen.ir;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
 	/// <summary>
-	/// Returns the variable of this variable expression. </summary>
-	public virtual Variable Variable
+	/// A variable expression node.
+	/// </summary>
+	public class VariableExpression : Expression
 	{
-		get
+		private Variable var;
+
+		public VariableExpression(Variable var)
+			: base("variable", var.Type)
 		{
-			return var;
+			this.var = var;
+		}
+
+		/// <summary>
+		/// Returns the variable of this variable expression. </summary>
+		public virtual Variable Variable
+		{
+			get
+			{
+				return var;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(!IsGlobalVariable(var))
+				needs.Add(var);
+		}
+
+		public override bool Equals(object other)
+		{
+			if(!(other is VariableExpression))
+				return false;
+			return var == ((VariableExpression)other).Variable;
+		}
+
+		public override int GetHashCode()
+		{
+			return var.GetHashCode();
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(!IsGlobalVariable(var))
-			needs.Add(var);
-	}
-
-	public override bool Equals(object other)
-	{
-		if(!(other is VariableExpression))
-			return false;
-		return var == ((VariableExpression)other).Variable;
-	}
-
-	public override int GetHashCode()
-	{
-		return var.GetHashCode();
-	}
-}
 
 }

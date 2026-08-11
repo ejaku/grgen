@@ -12,83 +12,83 @@
 namespace de.unika.ipd.grgen.ir.expr.array
 {
 
-using System.Collections.Generic;
-using System.Diagnostics;
+	using System.Collections.Generic;
+	using System.Diagnostics;
 
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayInit : Expression
-{
-	private ICollection<Expression> arrayItems;
-	private Entity member;
-	private ArrayType arrayType;
-	private bool isConst;
-
-	public ArrayInit(ICollection<Expression> arrayItems, Entity member, ArrayType arrayType, bool isConst)
-		: base("array init", member != null ? member.Type : arrayType)
+	public class ArrayInit : Expression
 	{
-		this.arrayItems = arrayItems;
-		this.member = member;
-		this.arrayType = arrayType;
-		this.isConst = isConst;
-	}
+		private ICollection<Expression> arrayItems;
+		private Entity member;
+		private ArrayType arrayType;
+		private bool isConst;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.Add(this);
-		foreach(Expression arrayItem in arrayItems)
-			arrayItem.CollectNeededEntities(needs);
-	}
-
-	public virtual ICollection<Expression> ArrayItems
-	{
-		get
+		public ArrayInit(ICollection<Expression> arrayItems, Entity member, ArrayType arrayType, bool isConst)
+			: base("array init", member != null ? member.Type : arrayType)
 		{
-			return arrayItems;
+			this.arrayItems = arrayItems;
+			this.member = member;
+			this.arrayType = arrayType;
+			this.isConst = isConst;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.Add(this);
+			foreach(Expression arrayItem in arrayItems)
+				arrayItem.CollectNeededEntities(needs);
+		}
+
+		public virtual ICollection<Expression> ArrayItems
+		{
+			get
+			{
+				return arrayItems;
+			}
+		}
+
+		public virtual Entity Member
+		{
+			set
+			{
+				Debug.Assert((member == null && value != null));
+				member = value;
+			}
+			get
+			{
+				return member;
+			}
+		}
+
+
+		public virtual ArrayType ArrayType
+		{
+			get
+			{
+				return arrayType;
+			}
+		}
+
+		public virtual void ForceNotConstant()
+		{
+			isConst = false;
+		}
+
+		public virtual bool IsConstant()
+		{
+			return isConst;
+		}
+
+		public virtual string AnonymousArrayName
+		{
+			get
+			{
+				return "anonymous_array_" + Id;
+			}
 		}
 	}
-
-	public virtual Entity Member
-	{
-		set
-		{
-			Debug.Assert((member == null && value != null));
-			member = value;
-		}
-		get
-		{
-			return member;
-		}
-	}
-
-
-	public virtual ArrayType ArrayType
-	{
-		get
-		{
-			return arrayType;
-		}
-	}
-
-	public virtual void ForceNotConstant()
-	{
-		isConst = false;
-	}
-
-	public virtual bool IsConstant()
-	{
-		return isConst;
-	}
-
-	public virtual string AnonymousArrayName
-	{
-		get
-		{
-			return "anonymous_array_" + Id;
-		}
-	}
-}
 
 }

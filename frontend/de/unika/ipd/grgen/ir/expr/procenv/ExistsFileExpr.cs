@@ -7,34 +7,34 @@
 
 namespace de.unika.ipd.grgen.ir.expr.procenv
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class ExistsFileExpr : BuiltinFunctionInvocationExpr
-{
-	private readonly Expression pathExpr;
-
-	public ExistsFileExpr(Expression pathExpr, Type type)
-		: base("exists file expression", type)
+	public class ExistsFileExpr : BuiltinFunctionInvocationExpr
 	{
-		this.pathExpr = pathExpr;
-	}
+		private readonly Expression pathExpr;
 
-	public virtual Expression PathExpr
-	{
-		get
+		public ExistsFileExpr(Expression pathExpr, Type type)
+			: base("exists file expression", type)
 		{
-			return pathExpr;
+			this.pathExpr = pathExpr;
+		}
+
+		public virtual Expression PathExpr
+		{
+			get
+			{
+				return pathExpr;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			pathExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		pathExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

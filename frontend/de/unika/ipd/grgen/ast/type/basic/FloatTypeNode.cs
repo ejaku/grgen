@@ -7,28 +7,28 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using FloatType = de.unika.ipd.grgen.ir.type.basic.FloatType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using FloatType = de.unika.ipd.grgen.ir.type.basic.FloatType;
 
-/// <summary>
-/// The floating point basic type.
-/// </summary>
-public class FloatTypeNode : BasicTypeNode
-{
-	static FloatTypeNode()
+	/// <summary>
+	/// The floating point basic type.
+	/// </summary>
+	public class FloatTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(FloatTypeNode), "float type");
-	}
+		static FloatTypeNode()
+		{
+			SetClassName(typeof(FloatTypeNode), "float type");
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new FloatType(Ident.IRIdent);
-	}
+		protected internal override IR ConstructIR()
+		{
+			return new FloatType(Ident.IRIdent);
+		}
 
-	public override string ToString()
-	{
-		return "float";
+		public override string ToString()
+		{
+			return "float";
+		}
 	}
-}
 
 }

@@ -12,43 +12,43 @@
 namespace de.unika.ipd.grgen.ir.executable
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-
-/// <summary>
-/// An external procedure.
-/// </summary>
-public class ExternalProcedure : ProcedureBase
-{
-	/// <summary>
-	/// A list of the pattern parameters </summary>
-	private readonly List<Type> paramTypes = new List<Type>();
-
-	/// <param name="name"> The name of the external procedure. </param>
-	/// <param name="ident"> The identifier that identifies this object. </param>
-	public ExternalProcedure(string name, Ident ident)
-		: base(name, ident)
-	{
-	}
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
 	/// <summary>
-	/// Add a parameter type to the external procedure. </summary>
-	public virtual void AddParameterType(Type paramType)
+	/// An external procedure.
+	/// </summary>
+	public class ExternalProcedure : ProcedureBase
 	{
-		paramTypes.Add(paramType);
-	}
+		/// <summary>
+		/// A list of the pattern parameters </summary>
+		private readonly List<Type> paramTypes = new List<Type>();
 
-	/// <summary>
-	/// Get all parameter types of this external procedure. </summary>
-	public override IList<Type> ParameterTypes
-	{
-		get
+		/// <param name="name"> The name of the external procedure. </param>
+		/// <param name="ident"> The identifier that identifies this object. </param>
+		public ExternalProcedure(string name, Ident ident)
+			: base(name, ident)
 		{
-			return paramTypes.AsReadOnly();
+		}
+
+		/// <summary>
+		/// Add a parameter type to the external procedure. </summary>
+		public virtual void AddParameterType(Type paramType)
+		{
+			paramTypes.Add(paramType);
+		}
+
+		/// <summary>
+		/// Get all parameter types of this external procedure. </summary>
+		public override IList<Type> ParameterTypes
+		{
+			get
+			{
+				return paramTypes.AsReadOnly();
+			}
 		}
 	}
-}
 
 }

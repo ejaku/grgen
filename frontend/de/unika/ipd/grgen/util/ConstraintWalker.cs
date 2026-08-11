@@ -11,64 +11,64 @@
 
 namespace de.unika.ipd.grgen.util
 {
-using System;
+	using System;
 
-/// <summary>
-/// A post walker that visits only some of the nodes walked.
-/// </summary>
-public class ConstraintWalker : PostWalker
-{
-	private class ConstraintVisitor : Visitor
+	/// <summary>
+	/// A post walker that visits only some of the nodes walked.
+	/// </summary>
+	public class ConstraintWalker : PostWalker
 	{
-		/// <summary>
-		/// A set containing all classes, that shall be visited </summary>
-		internal Type[] classes;
-
-		/// <summary>
-		/// Visitor to invoke, if the walked class is legal. </summary>
-		internal Visitor visitor;
-
-		public ConstraintVisitor(Type[] classes, Visitor visitor)
+		private class ConstraintVisitor : Visitor
 		{
-			this.classes = classes;
-			this.visitor = visitor;
-		}
+			/// <summary>
+			/// A set containing all classes, that shall be visited </summary>
+			internal Type[] classes;
 
-		/// <seealso cref="de.unika.ipd.grgen.util.Visitor.visit(de.unika.ipd.grgen.util.Walkable)"/>
-		public virtual void Visit(Walkable n)
-		{
-			for(int i = 0; i < classes.Length; i++)
+			/// <summary>
+			/// Visitor to invoke, if the walked class is legal. </summary>
+			internal Visitor visitor;
+
+			public ConstraintVisitor(Type[] classes, Visitor visitor)
 			{
-				if(classes[i].IsInstanceOfType(n))
+				this.classes = classes;
+				this.visitor = visitor;
+			}
+
+			/// <seealso cref="de.unika.ipd.grgen.util.Visitor.visit(de.unika.ipd.grgen.util.Walkable)"/>
+			public virtual void Visit(Walkable n)
+			{
+				for(int i = 0; i < classes.Length; i++)
 				{
-					visitor.Visit(n);
-					return;
+					if(classes[i].IsInstanceOfType(n))
+					{
+						visitor.Visit(n);
+						return;
+					}
 				}
 			}
 		}
-	}
 
-	/// <summary>
-	/// Make a new constraint walker.
-	/// The visitor is just called on objects that are instances
-	/// of classes (and subclasses) in the <code>classes</code> array. </summary>
-	/// <param name="classes"> An array containing all classes that shall be visited. </param>
-	/// <param name="visitor"> The visitor to use. </param>
-	public ConstraintWalker(Type[] classes, Visitor visitor)
-		: base(new ConstraintVisitor(classes, visitor))
-	{
-	}
+		/// <summary>
+		/// Make a new constraint walker.
+		/// The visitor is just called on objects that are instances
+		/// of classes (and subclasses) in the <code>classes</code> array. </summary>
+		/// <param name="classes"> An array containing all classes that shall be visited. </param>
+		/// <param name="visitor"> The visitor to use. </param>
+		public ConstraintWalker(Type[] classes, Visitor visitor)
+			: base(new ConstraintVisitor(classes, visitor))
+		{
+		}
 
-	/// <summary>
-	/// Make a new constraint walker.
-	/// The visitor is just called on objects that are instances
-	/// of the class (and subclasses) given by <code>cl</code> </summary>
-	/// <param name="cl"> The class whose objects shall be visited. </param>
-	/// <param name="visitor"> The visitor to use. </param>
-	public ConstraintWalker(Type cl, Visitor visitor)
-		: base(new ConstraintVisitor(new Type[] {cl}, visitor))
-	{
+		/// <summary>
+		/// Make a new constraint walker.
+		/// The visitor is just called on objects that are instances
+		/// of the class (and subclasses) given by <code>cl</code> </summary>
+		/// <param name="cl"> The class whose objects shall be visited. </param>
+		/// <param name="visitor"> The visitor to use. </param>
+		public ConstraintWalker(Type cl, Visitor visitor)
+			: base(new ConstraintVisitor(new Type[] {cl}, visitor))
+		{
+		}
 	}
-}
 
 }

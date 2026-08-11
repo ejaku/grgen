@@ -11,43 +11,43 @@
 
 namespace de.unika.ipd.grgen.ir.expr.numeric
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 
-public class MaxExpr : BuiltinFunctionInvocationExpr
-{
-	private Expression leftExpr;
-	private Expression rightExpr;
-
-	public MaxExpr(Expression leftExpr, Expression rightExpr)
-		: base("max expr", leftExpr.Type)
+	public class MaxExpr : BuiltinFunctionInvocationExpr
 	{
-		this.leftExpr = leftExpr;
-		this.rightExpr = rightExpr;
-	}
+		private Expression leftExpr;
+		private Expression rightExpr;
 
-	public virtual Expression LeftExpr
-	{
-		get
+		public MaxExpr(Expression leftExpr, Expression rightExpr)
+			: base("max expr", leftExpr.Type)
 		{
-			return leftExpr;
+			this.leftExpr = leftExpr;
+			this.rightExpr = rightExpr;
+		}
+
+		public virtual Expression LeftExpr
+		{
+			get
+			{
+				return leftExpr;
+			}
+		}
+
+		public virtual Expression RightExpr
+		{
+			get
+			{
+				return rightExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			leftExpr.CollectNeededEntities(needs);
+			rightExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression RightExpr
-	{
-		get
-		{
-			return rightExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		leftExpr.CollectNeededEntities(needs);
-		rightExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

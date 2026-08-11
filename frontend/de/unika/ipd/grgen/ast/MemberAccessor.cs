@@ -11,14 +11,14 @@
 
 namespace de.unika.ipd.grgen.ast
 {
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
 
-/// <summary>
-/// Something, that gives access to members.
-/// </summary>
-public interface MemberAccessor
-{
-	DeclNode TryGetMember(string memberName);
-}
+	/// <summary>
+	/// Something, that gives access to members.
+	/// </summary>
+	public interface MemberAccessor
+	{
+		DeclNode TryGetMember(string memberName);
+	}
 
 }

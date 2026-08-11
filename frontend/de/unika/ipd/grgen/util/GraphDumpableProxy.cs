@@ -12,81 +12,81 @@
 namespace de.unika.ipd.grgen.util
 {
 
-/// <summary>
-/// A Graph Dumpable proxy class.
-/// </summary>
-public class GraphDumpableProxy : GraphDumpable
-{
 	/// <summary>
-	/// The GraphDumpable to be proxy for. </summary>
-	private GraphDumpable gd;
-
-	public GraphDumpableProxy(GraphDumpable gd)
+	/// A Graph Dumpable proxy class.
+	/// </summary>
+	public class GraphDumpableProxy : GraphDumpable
 	{
-		this.gd = gd;
-	}
+		/// <summary>
+		/// The GraphDumpable to be proxy for. </summary>
+		private GraphDumpable gd;
 
-	/// <summary>
-	/// Get the proxied object. </summary>
-	/// <returns> The proxied GraphDumpable object. </returns>
-	protected internal virtual GraphDumpable GraphDumpable
-	{
-		get
+		public GraphDumpableProxy(GraphDumpable gd)
 		{
-			return gd;
+			this.gd = gd;
+		}
+
+		/// <summary>
+		/// Get the proxied object. </summary>
+		/// <returns> The proxied GraphDumpable object. </returns>
+		protected internal virtual GraphDumpable GraphDumpable
+		{
+			get
+			{
+				return gd;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeId()"/>
+		public virtual string NodeId
+		{
+			get
+			{
+				return gd.NodeId;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor()"/>
+		public virtual Color NodeColor
+		{
+			get
+			{
+				return gd.NodeColor;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeShape()"/>
+		public virtual int NodeShape
+		{
+			get
+			{
+				return gd.NodeShape;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel()"/>
+		public virtual string NodeLabel
+		{
+			get
+			{
+				return gd.NodeLabel;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeInfo()"/>
+		public virtual string NodeInfo
+		{
+			get
+			{
+				return gd.NodeInfo;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getEdgeLabel(int)"/>
+		public virtual string GetEdgeLabel(int edge)
+		{
+			return gd.GetEdgeLabel(edge);
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeId()"/>
-	public virtual string NodeId
-	{
-		get
-		{
-			return gd.NodeId;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor()"/>
-	public virtual Color NodeColor
-	{
-		get
-		{
-			return gd.NodeColor;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeShape()"/>
-	public virtual int NodeShape
-	{
-		get
-		{
-			return gd.NodeShape;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel()"/>
-	public virtual string NodeLabel
-	{
-		get
-		{
-			return gd.NodeLabel;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeInfo()"/>
-	public virtual string NodeInfo
-	{
-		get
-		{
-			return gd.NodeInfo;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getEdgeLabel(int)"/>
-	public virtual string GetEdgeLabel(int edge)
-	{
-		return gd.GetEdgeLabel(edge);
-	}
-}
 
 }

@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-/// <summary>
-/// Represents a continue statement in the IR.
-/// </summary>
-public class ContinueStatement : EvalStatement
-{
-	public ContinueStatement()
-		: base("continue statement")
+	/// <summary>
+	/// Represents a continue statement in the IR.
+	/// </summary>
+	public class ContinueStatement : EvalStatement
 	{
+		public ContinueStatement()
+			: base("continue statement")
+		{
+		}
 	}
-}
 
 }

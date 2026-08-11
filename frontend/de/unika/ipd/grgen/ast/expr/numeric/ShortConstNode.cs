@@ -11,60 +11,60 @@
 
 namespace de.unika.ipd.grgen.ast.expr.numeric
 {
-using System;
+	using System;
 
-using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
-using StringConstNode = de.unika.ipd.grgen.ast.expr.@string.StringConstNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+	using StringConstNode = de.unika.ipd.grgen.ast.expr.@string.StringConstNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-/// <summary>
-/// A short constant.
-/// </summary>
-public class ShortConstNode : ConstNode
-{
-	public ShortConstNode(Coords coords, short v)
-		: base(coords, "short", new short?(v))
+	/// <summary>
+	/// A short constant.
+	/// </summary>
+	public class ShortConstNode : ConstNode
 	{
-	}
-
-	public override TypeNode Type
-	{
-		get
+		public ShortConstNode(Coords coords, short v)
+			: base(coords, "short", new short?(v))
 		{
-			return BasicTypeNode.shortType;
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.shortType;
+			}
+		}
+
+		protected internal override ConstNode DoCastTo(TypeNode type)
+		{
+			short? value = (short?)Value;
+			short unboxed = value.Value;
+
+			if(type.IsEqual(BasicTypeNode.byteType))
+				return new ByteConstNode(Coords, (sbyte)unboxed);
+			else if(type.IsEqual(BasicTypeNode.intType))
+				return new IntConstNode(Coords, unboxed);
+			else if(type.IsEqual(BasicTypeNode.longType))
+				return new LongConstNode(Coords, unboxed);
+			else if(type.IsEqual(BasicTypeNode.floatType))
+				return new FloatConstNode(Coords, unboxed);
+			else if(type.IsEqual(BasicTypeNode.doubleType))
+				return new DoubleConstNode(Coords, unboxed);
+			else if(type.IsEqual(BasicTypeNode.stringType))
+				return new StringConstNode(Coords, value.ToString());
+			else
+				throw new System.NotSupportedException();
+		}
+
+		public static string RemoveSuffix(string shortLiteral)
+		{
+			if(shortLiteral.EndsWith("s", StringComparison.Ordinal) || shortLiteral.EndsWith("S", StringComparison.Ordinal))
+				return shortLiteral.Substring(0, shortLiteral.Length - 1);
+			else
+				return shortLiteral;
 		}
 	}
-
-	protected internal override ConstNode DoCastTo(TypeNode type)
-	{
-		short? value = (short?)Value;
-		short unboxed = value.Value;
-
-		if(type.IsEqual(BasicTypeNode.byteType))
-			return new ByteConstNode(Coords, (sbyte)unboxed);
-		else if(type.IsEqual(BasicTypeNode.intType))
-			return new IntConstNode(Coords, unboxed);
-		else if(type.IsEqual(BasicTypeNode.longType))
-			return new LongConstNode(Coords, unboxed);
-		else if(type.IsEqual(BasicTypeNode.floatType))
-			return new FloatConstNode(Coords, unboxed);
-		else if(type.IsEqual(BasicTypeNode.doubleType))
-			return new DoubleConstNode(Coords, unboxed);
-		else if(type.IsEqual(BasicTypeNode.stringType))
-			return new StringConstNode(Coords, value.ToString());
-		else
-			throw new System.NotSupportedException();
-	}
-
-	public static string RemoveSuffix(string shortLiteral)
-	{
-		if(shortLiteral.EndsWith("s", StringComparison.Ordinal) || shortLiteral.EndsWith("S", StringComparison.Ordinal))
-			return shortLiteral.Substring(0, shortLiteral.Length - 1);
-		else
-			return shortLiteral;
-	}
-}
 
 }

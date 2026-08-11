@@ -12,41 +12,41 @@
 namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using DebugAddProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugAddProc;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using DebugAddProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugAddProc;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class DebugAddProcNode : DebugProcNode
-{
-	static DebugAddProcNode()
+	public class DebugAddProcNode : DebugProcNode
 	{
-		SetClassName(typeof(DebugAddProcNode), "debug add procedure");
-	}
-
-	public DebugAddProcNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	protected internal override string ShortSignature()
-	{
-		return "Debug::add()";
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		IList<Expression> expressions = new List<Expression>();
-		foreach(ExprNode expr in exprs.GetChildrenExact())
+		static DebugAddProcNode()
 		{
-			ExprNode exprEvaluated = expr.Evaluate();
-			expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+			SetClassName(typeof(DebugAddProcNode), "debug add procedure");
 		}
-		return new DebugAddProc(expressions);
+
+		public DebugAddProcNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		protected internal override string ShortSignature()
+		{
+			return "Debug::add()";
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			IList<Expression> expressions = new List<Expression>();
+			foreach(ExprNode expr in exprs.GetChildrenExact())
+			{
+				ExprNode exprEvaluated = expr.Evaluate();
+				expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+			}
+			return new DebugAddProc(expressions);
+		}
 	}
-}
 
 }

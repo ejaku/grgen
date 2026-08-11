@@ -11,12 +11,12 @@
 
 namespace de.unika.ipd.grgen.util.report
 {
-/// <summary>
-/// A Handler to handle reporting.
-/// </summary>
-public interface Handler
-{
-	void Report(int level, Location loc, string msg);
-}
+	/// <summary>
+	/// A Handler to handle reporting.
+	/// </summary>
+	public interface Handler
+	{
+		void Report(int level, Location loc, string msg);
+	}
 
 }

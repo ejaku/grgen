@@ -10,43 +10,43 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
 
-/// <summary>
-/// Represents an indexed assignment statement in the IR.
-/// </summary>
-public class AssignmentIndexed : Assignment
-{
 	/// <summary>
-	/// The index to the lhs. </summary>
-	private Expression index;
-
-	public AssignmentIndexed(Qualification target, Expression expr, Expression index)
-		: base("assignment indexed", target, expr)
+	/// Represents an indexed assignment statement in the IR.
+	/// </summary>
+	public class AssignmentIndexed : Assignment
 	{
-		this.index = index;
-	}
+		/// <summary>
+		/// The index to the lhs. </summary>
+		private Expression index;
 
-	public virtual Expression Index
-	{
-		get
+		public AssignmentIndexed(Qualification target, Expression expr, Expression index)
+			: base("assignment indexed", target, expr)
 		{
-			return index;
+			this.index = index;
+		}
+
+		public virtual Expression Index
+		{
+			get
+			{
+				return index;
+			}
+		}
+
+		public override string ToString()
+		{
+			return Target + "[" + Index + "] = " + Expression;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+			Index.CollectNeededEntities(needs);
 		}
 	}
-
-	public override string ToString()
-	{
-		return Target + "[" + Index + "] = " + Expression;
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-		Index.CollectNeededEntities(needs);
-	}
-}
 
 }

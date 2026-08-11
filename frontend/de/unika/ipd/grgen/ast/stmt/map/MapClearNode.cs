@@ -11,39 +11,39 @@
 
 namespace de.unika.ipd.grgen.ast.stmt.map
 {
-using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using MapClear = de.unika.ipd.grgen.ir.stmt.map.MapClear;
-using MapVarClear = de.unika.ipd.grgen.ir.stmt.map.MapVarClear;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+	using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using MapClear = de.unika.ipd.grgen.ir.stmt.map.MapClear;
+	using MapVarClear = de.unika.ipd.grgen.ir.stmt.map.MapVarClear;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class MapClearNode : MapProcedureMethodInvocationBaseNode
-{
-	static MapClearNode()
+	public class MapClearNode : MapProcedureMethodInvocationBaseNode
 	{
-		SetClassName(typeof(MapClearNode), "map clear statement");
-	}
+		static MapClearNode()
+		{
+			SetClassName(typeof(MapClearNode), "map clear statement");
+		}
 
-	public MapClearNode(Coords coords, QualIdentNode target)
-		: base(coords, target)
-	{
-	}
+		public MapClearNode(Coords coords, QualIdentNode target)
+			: base(coords, target)
+		{
+		}
 
-	public MapClearNode(Coords coords, VarDeclNode targetVar)
-		: base(coords, targetVar)
-	{
-	}
+		public MapClearNode(Coords coords, VarDeclNode targetVar)
+			: base(coords, targetVar)
+		{
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		if(target != null)
-			return new MapClear(target.CheckIR(typeof(Qualification)));
-		else
-			return new MapVarClear(targetVar.CheckIR(typeof(Variable)));
+		protected internal override IR ConstructIR()
+		{
+			if(target != null)
+				return new MapClear(target.CheckIR(typeof(Qualification)));
+			else
+				return new MapVarClear(targetVar.CheckIR(typeof(Variable)));
+		}
 	}
-}
 
 }

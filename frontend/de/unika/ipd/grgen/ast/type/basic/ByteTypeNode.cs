@@ -7,28 +7,28 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using ByteType = de.unika.ipd.grgen.ir.type.basic.ByteType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using ByteType = de.unika.ipd.grgen.ir.type.basic.ByteType;
 
-/// <summary>
-/// The byte basic type.
-/// </summary>
-public class ByteTypeNode : BasicTypeNode
-{
-	static ByteTypeNode()
+	/// <summary>
+	/// The byte basic type.
+	/// </summary>
+	public class ByteTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(ByteTypeNode), "byte type");
-	}
+		static ByteTypeNode()
+		{
+			SetClassName(typeof(ByteTypeNode), "byte type");
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new ByteType(Ident.IRIdent);
-	}
+		protected internal override IR ConstructIR()
+		{
+			return new ByteType(Ident.IRIdent);
+		}
 
-	public override string ToString()
-	{
-		return "byte";
+		public override string ToString()
+		{
+			return "byte";
+		}
 	}
-}
 
 }

@@ -12,66 +12,66 @@
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
-using BlockNestingStatement = de.unika.ipd.grgen.ir.stmt.BlockNestingStatement;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+	using BlockNestingStatement = de.unika.ipd.grgen.ir.stmt.BlockNestingStatement;
 
-/// <summary>
-/// Represents a for lookup of a neighborhood function in the IR.
-/// </summary>
-public class ForFunction : BlockNestingStatement
-{
-	private Variable iterationVar;
-	private Expression function;
-
-	public ForFunction(Variable iterationVar, Expression function)
-		: base("for function")
+	/// <summary>
+	/// Represents a for lookup of a neighborhood function in the IR.
+	/// </summary>
+	public class ForFunction : BlockNestingStatement
 	{
-		this.iterationVar = iterationVar;
-		this.function = function;
-	}
+		private Variable iterationVar;
+		private Expression function;
 
-	public virtual void AddLoopedStatement(EvalStatement loopedStatement)
-	{
-		statements.Add(loopedStatement);
-	}
-
-	public virtual Variable IterationVar
-	{
-		get
+		public ForFunction(Variable iterationVar, Expression function)
+			: base("for function")
 		{
-			return iterationVar;
+			this.iterationVar = iterationVar;
+			this.function = function;
+		}
+
+		public virtual void AddLoopedStatement(EvalStatement loopedStatement)
+		{
+			statements.Add(loopedStatement);
+		}
+
+		public virtual Variable IterationVar
+		{
+			get
+			{
+				return iterationVar;
+			}
+		}
+
+		public virtual Expression Function
+		{
+			get
+			{
+				return function;
+			}
+		}
+
+		public virtual ICollection<EvalStatement> LoopedStatements
+		{
+			get
+			{
+				return statements;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			function.CollectNeededEntities(needs);
+			foreach(EvalStatement loopedStatement in statements)
+				loopedStatement.CollectNeededEntities(needs);
+			if(needs.variables != null)
+				needs.variables.Remove(iterationVar);
 		}
 	}
-
-	public virtual Expression Function
-	{
-		get
-		{
-			return function;
-		}
-	}
-
-	public virtual ICollection<EvalStatement> LoopedStatements
-	{
-		get
-		{
-			return statements;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		function.CollectNeededEntities(needs);
-		foreach(EvalStatement loopedStatement in statements)
-			loopedStatement.CollectNeededEntities(needs);
-		if(needs.variables != null)
-			needs.variables.Remove(iterationVar);
-	}
-}
 
 }

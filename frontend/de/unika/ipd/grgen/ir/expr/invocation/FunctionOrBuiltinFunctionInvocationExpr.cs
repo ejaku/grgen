@@ -11,19 +11,19 @@
 
 namespace de.unika.ipd.grgen.ir.expr.invocation
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// Base class for builtin and real function calls.
-/// A function invocation is an expression.
-/// </summary>
-public abstract class FunctionOrBuiltinFunctionInvocationExpr : Expression
-{
-	protected internal FunctionOrBuiltinFunctionInvocationExpr(string name, Type type)
-		: base(name, type)
+	/// <summary>
+	/// Base class for builtin and real function calls.
+	/// A function invocation is an expression.
+	/// </summary>
+	public abstract class FunctionOrBuiltinFunctionInvocationExpr : Expression
 	{
+		protected internal FunctionOrBuiltinFunctionInvocationExpr(string name, Type type)
+			: base(name, type)
+		{
+		}
 	}
-}
 
 }

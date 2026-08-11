@@ -7,33 +7,33 @@
 
 namespace de.unika.ipd.grgen.ir.type.basic
 {
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using de.unika.ipd.grgen.ir;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using de.unika.ipd.grgen.ir;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A short type.
-/// </summary>
-public class ShortType : PrimitiveType
-{
-	public ShortType(Ident ident)
-		: base("short type", ident)
+	/// <summary>
+	/// A short type.
+	/// </summary>
+	public class ShortType : PrimitiveType
 	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_SHORT;
-	}
-
-	public static Type Type
-	{
-		get
+		public ShortType(Ident ident)
+			: base("short type", ident)
 		{
-			return BasicTypeNode.shortType.CheckIR(typeof(Type));
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_SHORT;
+		}
+
+		public static Type Type
+		{
+			get
+			{
+				return BasicTypeNode.shortType.CheckIR(typeof(Type));
+			}
 		}
 	}
-}
 
 }

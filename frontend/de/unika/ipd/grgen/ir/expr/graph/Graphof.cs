@@ -7,36 +7,36 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class Graphof : BuiltinFunctionInvocationExpr
-{
-	/// <summary>
-	/// The entity whose containing graph we want to know. </summary>
-	private readonly Expression entity;
-
-	public Graphof(Expression entity, Type type)
-		: base("graphof", type)
+	public class Graphof : BuiltinFunctionInvocationExpr
 	{
-		this.entity = entity;
-	}
+		/// <summary>
+		/// The entity whose containing graph we want to know. </summary>
+		private readonly Expression entity;
 
-	public virtual Expression Entity
-	{
-		get
+		public Graphof(Expression entity, Type type)
+			: base("graphof", type)
 		{
-			return entity;
+			this.entity = entity;
+		}
+
+		public virtual Expression Entity
+		{
+			get
+			{
+				return entity;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			entity.CollectNeededEntities(needs);
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		entity.CollectNeededEntities(needs);
-	}
-}
 
 }

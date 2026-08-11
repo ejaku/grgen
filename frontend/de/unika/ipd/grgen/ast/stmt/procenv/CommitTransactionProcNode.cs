@@ -12,84 +12,84 @@
 namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using CommitTransactionProc = de.unika.ipd.grgen.ir.stmt.procenv.CommitTransactionProc;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+	using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using CommitTransactionProc = de.unika.ipd.grgen.ir.stmt.procenv.CommitTransactionProc;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class CommitTransactionProcNode : BuiltinProcedureInvocationBaseNode
-{
-	static CommitTransactionProcNode()
+	public class CommitTransactionProcNode : BuiltinProcedureInvocationBaseNode
 	{
-		SetClassName(typeof(CommitTransactionProcNode), "commit transaction procedure");
-	}
-
-	private ExprNode transactionIdExpr;
-
-	public CommitTransactionProcNode(Coords coords, ExprNode transactionIdExpr)
-		: base(coords)
-	{
-
-		this.transactionIdExpr = BecomeParent(transactionIdExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static CommitTransactionProcNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(transactionIdExpr);
-			return children;
+			SetClassName(typeof(CommitTransactionProcNode), "commit transaction procedure");
+		}
+
+		private ExprNode transactionIdExpr;
+
+		public CommitTransactionProcNode(Coords coords, ExprNode transactionIdExpr)
+			: base(coords)
+		{
+
+			this.transactionIdExpr = BecomeParent(transactionIdExpr);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(transactionIdExpr);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("transactionIdExpr");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool ResolveLocal()
+		{
+			return true;
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			TypeNode transactionIdExprType = transactionIdExpr.Type;
+			if(!transactionIdExprType.IsEqual(BasicTypeNode.intType))
+			{
+				transactionIdExpr.ReportError("The Transaction::commit procedure expects as argument (transaction id)"
+						+ " a value of type int"
+						+ " (but is given a value of type " + transactionIdExprType.ToStringWithDeclarationCoords() + ").");
+				return false;
+			}
+			return true;
+		}
+
+		public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+		{
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			transactionIdExpr = transactionIdExpr.Evaluate();
+			return new CommitTransactionProc(transactionIdExpr.CheckIR(typeof(Expression)));
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("transactionIdExpr");
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool ResolveLocal()
-	{
-		return true;
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		TypeNode transactionIdExprType = transactionIdExpr.Type;
-		if(!transactionIdExprType.IsEqual(BasicTypeNode.intType))
-		{
-			transactionIdExpr.ReportError("The Transaction::commit procedure expects as argument (transaction id)"
-					+ " a value of type int"
-					+ " (but is given a value of type " + transactionIdExprType.ToStringWithDeclarationCoords() + ").");
-			return false;
-		}
-		return true;
-	}
-
-	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
-	{
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		transactionIdExpr = transactionIdExpr.Evaluate();
-		return new CommitTransactionProc(transactionIdExpr.CheckIR(typeof(Expression)));
-	}
-}
 
 }

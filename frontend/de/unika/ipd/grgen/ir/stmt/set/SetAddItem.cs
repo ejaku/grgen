@@ -11,35 +11,35 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.set
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
 
-public class SetAddItem : ContainerQualProcedureMethodInvocationBase
-{
-	internal Expression valueExpr;
-
-	public SetAddItem(Qualification target, Expression valueExpr)
-		: base("set add item", target)
+	public class SetAddItem : ContainerQualProcedureMethodInvocationBase
 	{
-		this.valueExpr = valueExpr;
-	}
+		internal Expression valueExpr;
 
-	public virtual Expression ValueExpr
-	{
-		get
+		public SetAddItem(Qualification target, Expression valueExpr)
+			: base("set add item", target)
 		{
-			return valueExpr;
+			this.valueExpr = valueExpr;
+		}
+
+		public virtual Expression ValueExpr
+		{
+			get
+			{
+				return valueExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+
+			valueExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-
-		valueExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

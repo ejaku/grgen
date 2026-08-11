@@ -12,47 +12,47 @@
 namespace de.unika.ipd.grgen.ast.type
 {
 
-using System;
-using System.Collections.Generic;
+	using System;
+	using System.Collections.Generic;
 
-using MemberAccessor = de.unika.ipd.grgen.ast.MemberAccessor;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using MemberAccessor = de.unika.ipd.grgen.ast.MemberAccessor;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
 
-// base class for the different match types (action, iterated, defined=match class)
-public abstract class MatchTypeNode : DeclaredTypeNode, MemberAccessor
-{
-	static MatchTypeNode()
+	// base class for the different match types (action, iterated, defined=match class)
+	public abstract class MatchTypeNode : DeclaredTypeNode, MemberAccessor
 	{
-		SetClassName(typeof(MatchTypeNode), "match type");
-	}
-
-	public override string Name
-	{
-		get
+		static MatchTypeNode()
 		{
-			return TypeName;
+			SetClassName(typeof(MatchTypeNode), "match type");
 		}
-	}
 
-	public override abstract DeclNode TryGetMember(string name);
-
-	public abstract ISet<DeclNode> Entities {get;}
-
-	// get set of names of contained entities excluding anonymous entities
-	public virtual ISet<string> NamesOfEntities
-	{
-		get
+		public override string Name
 		{
-			ISet<string> set = new HashSet<string>();
-			foreach(DeclNode entity in Entities)
+			get
 			{
-				string name = entity.ident.ToString();
-				if(!name.StartsWith("$", StringComparison.Ordinal))
-					set.Add(name);
+				return TypeName;
 			}
-			return set;
+		}
+
+		public override abstract DeclNode TryGetMember(string name);
+
+		public abstract ISet<DeclNode> Entities {get;}
+
+		// get set of names of contained entities excluding anonymous entities
+		public virtual ISet<string> NamesOfEntities
+		{
+			get
+			{
+				ISet<string> set = new HashSet<string>();
+				foreach(DeclNode entity in Entities)
+				{
+					string name = entity.ident.ToString();
+					if(!name.StartsWith("$", StringComparison.Ordinal))
+						set.Add(name);
+				}
+				return set;
+			}
 		}
 	}
-}
 
 }

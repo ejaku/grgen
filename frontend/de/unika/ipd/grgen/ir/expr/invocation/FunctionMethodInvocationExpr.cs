@@ -11,63 +11,63 @@
 
 namespace de.unika.ipd.grgen.ir.expr.invocation
 {
-using de.unika.ipd.grgen.ir;
-using Function = de.unika.ipd.grgen.ir.executable.Function;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-
-/// <summary>
-/// A function method invocation is an expression.
-/// </summary>
-public class FunctionMethodInvocationExpr : FunctionInvocationBaseExpr
-{
-	/// <summary>
-	/// The owner of the function method. </summary>
-	private Entity owner;
+	using de.unika.ipd.grgen.ir;
+	using Function = de.unika.ipd.grgen.ir.executable.Function;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
 	/// <summary>
-	/// The function of the function method invocation expression. </summary>
-	protected internal Function function;
-
-	public FunctionMethodInvocationExpr(Entity owner, Type type, Function function)
-		: base("function method invocation expr", type)
+	/// A function method invocation is an expression.
+	/// </summary>
+	public class FunctionMethodInvocationExpr : FunctionInvocationBaseExpr
 	{
+		/// <summary>
+		/// The owner of the function method. </summary>
+		private Entity owner;
 
-		this.owner = owner;
-		this.function = function;
-	}
+		/// <summary>
+		/// The function of the function method invocation expression. </summary>
+		protected internal Function function;
 
-	public virtual Entity Owner
-	{
-		get
+		public FunctionMethodInvocationExpr(Entity owner, Type type, Function function)
+			: base("function method invocation expr", type)
 		{
-			return owner;
+
+			this.owner = owner;
+			this.function = function;
+		}
+
+		public virtual Entity Owner
+		{
+			get
+			{
+				return owner;
+			}
+		}
+
+		public virtual Function Function
+		{
+			get
+			{
+				return function;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(!IsGlobalVariable(owner))
+			{
+				if(owner is GraphEntity)
+					needs.Add((GraphEntity)owner);
+				else
+					needs.Add((Variable)owner);
+			}
+			foreach(Expression child in WalkableChildren)
+				child.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Function Function
-	{
-		get
-		{
-			return function;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(!IsGlobalVariable(owner))
-		{
-			if(owner is GraphEntity)
-				needs.Add((GraphEntity)owner);
-			else
-				needs.Add((Variable)owner);
-		}
-		foreach(Expression child in WalkableChildren)
-			child.CollectNeededEntities(needs);
-	}
-}
 
 }

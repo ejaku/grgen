@@ -7,62 +7,62 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using System.Diagnostics;
+	using System.Diagnostics;
 
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class InsertDefinedSubgraphProc : BuiltinProcedureInvocationBase
-{
-	private readonly Expression edgeSetExpr;
-	private readonly Expression edgeExpr;
-
-	private readonly Type returnType;
-
-	public InsertDefinedSubgraphProc(Expression var, Expression edge, Type returnType)
-		: base("insert defined subgraph procedure")
+	public class InsertDefinedSubgraphProc : BuiltinProcedureInvocationBase
 	{
-		this.edgeSetExpr = var;
-		this.edgeExpr = edge;
-		this.returnType = returnType;
-	}
+		private readonly Expression edgeSetExpr;
+		private readonly Expression edgeExpr;
 
-	public virtual Expression SetExpr
-	{
-		get
+		private readonly Type returnType;
+
+		public InsertDefinedSubgraphProc(Expression var, Expression edge, Type returnType)
+			: base("insert defined subgraph procedure")
 		{
-			return edgeSetExpr;
+			this.edgeSetExpr = var;
+			this.edgeExpr = edge;
+			this.returnType = returnType;
+		}
+
+		public virtual Expression SetExpr
+		{
+			get
+			{
+				return edgeSetExpr;
+			}
+		}
+
+		public virtual Expression EdgeExpr
+		{
+			get
+			{
+				return edgeExpr;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			edgeSetExpr.CollectNeededEntities(needs);
+			edgeExpr.CollectNeededEntities(needs);
+		}
+
+		public override int ReturnArity()
+		{
+			return 1;
+		}
+
+		public override Type GetReturnType(int index)
+		{
+			Debug.Assert((index == 0));
+			return returnType;
 		}
 	}
-
-	public virtual Expression EdgeExpr
-	{
-		get
-		{
-			return edgeExpr;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		edgeSetExpr.CollectNeededEntities(needs);
-		edgeExpr.CollectNeededEntities(needs);
-	}
-
-	public override int ReturnArity()
-	{
-		return 1;
-	}
-
-	public override Type GetReturnType(int index)
-	{
-		Debug.Assert((index == 0));
-		return returnType;
-	}
-}
 
 }

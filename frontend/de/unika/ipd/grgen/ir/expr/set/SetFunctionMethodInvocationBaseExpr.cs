@@ -11,25 +11,25 @@
 
 namespace de.unika.ipd.grgen.ir.expr.set
 {
-using ContainerFunctionMethodInvocationBaseExpr = de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
+	using ContainerFunctionMethodInvocationBaseExpr = de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
 
-public abstract class SetFunctionMethodInvocationBaseExpr : ContainerFunctionMethodInvocationBaseExpr
-{
-	protected internal SetFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
-		: base(name, type, targetExpr)
+	public abstract class SetFunctionMethodInvocationBaseExpr : ContainerFunctionMethodInvocationBaseExpr
 	{
-	}
-
-	public virtual SetType TargetTypeExact
-	{
-		get
+		protected internal SetFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
+			: base(name, type, targetExpr)
 		{
-			return (SetType)TargetType;
+		}
+
+		public virtual SetType TargetTypeExact
+		{
+			get
+			{
+				return (SetType)TargetType;
+			}
 		}
 	}
-}
 
 }

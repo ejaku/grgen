@@ -14,12 +14,12 @@
 namespace de.unika.ipd.grgen.util
 {
 
-/// <summary>
-/// Something that can dump itself onto a print stream.
-/// </summary>
-public interface StreamDumpable
-{
-	void Dump(PrintStream ps);
-}
+	/// <summary>
+	/// Something that can dump itself onto a print stream.
+	/// </summary>
+	public interface StreamDumpable
+	{
+		void Dump(PrintStream ps);
+	}
 
 }

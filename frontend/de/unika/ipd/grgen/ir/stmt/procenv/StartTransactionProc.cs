@@ -11,37 +11,37 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-using System.Diagnostics;
+	using System.Diagnostics;
 
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class StartTransactionProc : BuiltinProcedureInvocationBase
-{
-	internal Type returnType;
-
-	public StartTransactionProc(Type returnType)
-		: base("start transaction procedure")
+	public class StartTransactionProc : BuiltinProcedureInvocationBase
 	{
-		this.returnType = returnType;
-	}
+		internal Type returnType;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-	}
+		public StartTransactionProc(Type returnType)
+			: base("start transaction procedure")
+		{
+			this.returnType = returnType;
+		}
 
-	public override int ReturnArity()
-	{
-		return 1;
-	}
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+		}
 
-	public override Type GetReturnType(int index)
-	{
-		Debug.Assert((index == 0));
-		return returnType;
+		public override int ReturnArity()
+		{
+			return 1;
+		}
+
+		public override Type GetReturnType(int index)
+		{
+			Debug.Assert((index == 0));
+			return returnType;
+		}
 	}
-}
 
 }

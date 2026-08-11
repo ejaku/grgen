@@ -11,35 +11,35 @@
 
 namespace de.unika.ipd.grgen.ir.executable
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A procedure method.
-/// </summary>
-public class ProcedureMethod : Procedure
-{
 	/// <summary>
-	/// The owner of the procedure method. </summary>
-	protected internal Type owner = null;
-
-	public ProcedureMethod(string name, Ident ident)
-		: base(name, ident)
+	/// A procedure method.
+	/// </summary>
+	public class ProcedureMethod : Procedure
 	{
-	}
+		/// <summary>
+		/// The owner of the procedure method. </summary>
+		protected internal Type owner = null;
 
-	public virtual Type Owner
-	{
-		get
+		public ProcedureMethod(string name, Ident ident)
+			: base(name, ident)
 		{
-			return owner;
 		}
-		set
-		{
-			owner = value;
-		}
-	}
 
-}
+		public virtual Type Owner
+		{
+			get
+			{
+				return owner;
+			}
+			set
+			{
+				owner = value;
+			}
+		}
+
+	}
 
 }

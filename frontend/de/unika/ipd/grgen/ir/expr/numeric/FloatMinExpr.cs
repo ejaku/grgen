@@ -7,15 +7,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.numeric
 {
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using FloatType = de.unika.ipd.grgen.ir.type.basic.FloatType;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using FloatType = de.unika.ipd.grgen.ir.type.basic.FloatType;
 
-public class FloatMinExpr : BuiltinFunctionInvocationExpr
-{
-	public FloatMinExpr()
-		: base("floatmin expr", FloatType.Type)
+	public class FloatMinExpr : BuiltinFunctionInvocationExpr
 	{
+		public FloatMinExpr()
+			: base("floatmin expr", FloatType.Type)
+		{
+		}
 	}
-}
 
 }

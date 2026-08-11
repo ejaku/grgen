@@ -10,42 +10,42 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ast.util
 {
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
-
-/// <summary>
-/// Checker containing list of checkers to apply one after the other to the node to check
-/// </summary>
-public class ChainChecker : Checker
-{
-	/// <summary>
-	/// The chain, i.e. list with the checkers to apply </summary>
-	private Checker[] checkers;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
 	/// <summary>
-	/// Create checker with the list of checkers to apply </summary>
-	public ChainChecker(Checker[] checkers)
-		: base()
+	/// Checker containing list of checkers to apply one after the other to the node to check
+	/// </summary>
+	public class ChainChecker : Checker
 	{
-		this.checkers = checkers;
-	}
+		/// <summary>
+		/// The chain, i.e. list with the checkers to apply </summary>
+		private Checker[] checkers;
 
-	/// <summary>
-	/// Check the node with the checkers from the list, one after the other </summary>
-	/// <seealso cref="de.unika.ipd.grgen.ast.util.Checker.check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)"/>
-	public virtual bool Check(BaseNode bn, ErrorReporter reporter)
-	{
-		bool res = true;
-
-		for(int i = 0; i < checkers.Length; i++)
+		/// <summary>
+		/// Create checker with the list of checkers to apply </summary>
+		public ChainChecker(Checker[] checkers)
+			: base()
 		{
-			bool r = checkers[i].Check(bn, reporter);
-
-			res = res && r;
+			this.checkers = checkers;
 		}
 
-		return res;
+		/// <summary>
+		/// Check the node with the checkers from the list, one after the other </summary>
+		/// <seealso cref="de.unika.ipd.grgen.ast.util.Checker.check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)"/>
+		public virtual bool Check(BaseNode bn, ErrorReporter reporter)
+		{
+			bool res = true;
+
+			for(int i = 0; i < checkers.Length; i++)
+			{
+				bool r = checkers[i].Check(bn, reporter);
+
+				res = res && r;
+			}
+
+			return res;
+		}
 	}
-}
 
 }

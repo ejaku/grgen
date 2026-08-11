@@ -11,17 +11,17 @@
 
 namespace de.unika.ipd.grgen.ir.expr.invocation
 {
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// An untyped function method invocation is an expression.
-/// </summary>
-public class UntypedFunctionMethodInvocationExpr : FunctionInvocationBaseExpr
-{
-	public UntypedFunctionMethodInvocationExpr(Type type)
-		: base("untyped function method invocation expr", type)
+	/// <summary>
+	/// An untyped function method invocation is an expression.
+	/// </summary>
+	public class UntypedFunctionMethodInvocationExpr : FunctionInvocationBaseExpr
 	{
+		public UntypedFunctionMethodInvocationExpr(Type type)
+			: base("untyped function method invocation expr", type)
+		{
+		}
 	}
-}
 
 }

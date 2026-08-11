@@ -10,44 +10,44 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArraySubarrayExpr : ArrayFunctionMethodInvocationBaseExpr
-{
-	private Expression startExpr;
-	private Expression lengthExpr;
-
-	public ArraySubarrayExpr(Expression targetExpr, Expression startExpr, Expression lengthExpr)
-		: base("array subarray expr", (ArrayType)targetExpr.Type, targetExpr)
+	public class ArraySubarrayExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
-		this.startExpr = startExpr;
-		this.lengthExpr = lengthExpr;
-	}
+		private Expression startExpr;
+		private Expression lengthExpr;
 
-	public virtual Expression StartExpr
-	{
-		get
+		public ArraySubarrayExpr(Expression targetExpr, Expression startExpr, Expression lengthExpr)
+			: base("array subarray expr", (ArrayType)targetExpr.Type, targetExpr)
 		{
-			return startExpr;
+			this.startExpr = startExpr;
+			this.lengthExpr = lengthExpr;
+		}
+
+		public virtual Expression StartExpr
+		{
+			get
+			{
+				return startExpr;
+			}
+		}
+
+		public virtual Expression LengthExpr
+		{
+			get
+			{
+				return lengthExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+			startExpr.CollectNeededEntities(needs);
+			lengthExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression LengthExpr
-	{
-		get
-		{
-			return lengthExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-		startExpr.CollectNeededEntities(needs);
-		lengthExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -7,58 +7,58 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-using Direction = de.unika.ipd.grgen.util.Direction;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Direction = de.unika.ipd.grgen.util.Direction;
 
-public abstract class NeighborhoodQueryExpr : BuiltinFunctionInvocationExpr
-{
-	protected internal readonly Expression startNodeExpr;
-	protected internal readonly Expression incidentEdgeTypeExpr;
-	protected internal readonly Direction direction;
-	protected internal readonly Expression adjacentNodeTypeExpr;
-
-	public NeighborhoodQueryExpr(string name, Type type,
-			Expression startNodeExpression,
-			Expression incidentEdgeTypeExpr, Direction direction,
-			Expression adjacentNodeTypeExpr)
-		: base(name, type)
+	public abstract class NeighborhoodQueryExpr : BuiltinFunctionInvocationExpr
 	{
-		this.startNodeExpr = startNodeExpression;
-		this.incidentEdgeTypeExpr = incidentEdgeTypeExpr;
-		this.direction = direction;
-		this.adjacentNodeTypeExpr = adjacentNodeTypeExpr;
-	}
+		protected internal readonly Expression startNodeExpr;
+		protected internal readonly Expression incidentEdgeTypeExpr;
+		protected internal readonly Direction direction;
+		protected internal readonly Expression adjacentNodeTypeExpr;
 
-	public virtual Expression StartNodeExpr
-	{
-		get
+		public NeighborhoodQueryExpr(string name, Type type,
+				Expression startNodeExpression,
+				Expression incidentEdgeTypeExpr, Direction direction,
+				Expression adjacentNodeTypeExpr)
+			: base(name, type)
 		{
-			return startNodeExpr;
+			this.startNodeExpr = startNodeExpression;
+			this.incidentEdgeTypeExpr = incidentEdgeTypeExpr;
+			this.direction = direction;
+			this.adjacentNodeTypeExpr = adjacentNodeTypeExpr;
+		}
+
+		public virtual Expression StartNodeExpr
+		{
+			get
+			{
+				return startNodeExpr;
+			}
+		}
+
+		public virtual Expression IncidentEdgeTypeExpr
+		{
+			get
+			{
+				return incidentEdgeTypeExpr;
+			}
+		}
+
+		public virtual Direction Direction()
+		{
+			return direction;
+		}
+
+		public virtual Expression AdjacentNodeTypeExpr
+		{
+			get
+			{
+				return adjacentNodeTypeExpr;
+			}
 		}
 	}
-
-	public virtual Expression IncidentEdgeTypeExpr
-	{
-		get
-		{
-			return incidentEdgeTypeExpr;
-		}
-	}
-
-	public virtual Direction Direction()
-	{
-		return direction;
-	}
-
-	public virtual Expression AdjacentNodeTypeExpr
-	{
-		get
-		{
-			return adjacentNodeTypeExpr;
-		}
-	}
-}
 
 }

@@ -7,29 +7,29 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using IR = de.unika.ipd.grgen.ir.IR;
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/// <summary>
-/// Class for initializing a single attribute of a type, or the name
-/// </summary>
-public class NameOrAttributeInitialization : IR
-{
-	public GraphEntity owner;
-	public Entity attribute;
-	public Expression expr;
-
-	public NameOrAttributeInitialization()
-		: base("name or attribute init")
+	/// <summary>
+	/// Class for initializing a single attribute of a type, or the name
+	/// </summary>
+	public class NameOrAttributeInitialization : IR
 	{
-	}
+		public GraphEntity owner;
+		public Entity attribute;
+		public Expression expr;
 
-	public virtual void CollectNeededEntities(NeededEntities needs)
-	{
-		expr.CollectNeededEntities(needs);
+		public NameOrAttributeInitialization()
+			: base("name or attribute init")
+		{
+		}
+
+		public virtual void CollectNeededEntities(NeededEntities needs)
+		{
+			expr.CollectNeededEntities(needs);
+		}
 	}
-}
 
 }

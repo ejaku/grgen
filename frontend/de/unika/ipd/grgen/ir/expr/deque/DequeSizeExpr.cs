@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.deque
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class DequeSizeExpr : DequeFunctionMethodInvocationBaseExpr
-{
-	public DequeSizeExpr(Expression targetExpr)
-		: base("deque size expression", IntType.Type, targetExpr)
+	public class DequeSizeExpr : DequeFunctionMethodInvocationBaseExpr
 	{
+		public DequeSizeExpr(Expression targetExpr)
+			: base("deque size expression", IntType.Type, targetExpr)
+		{
+		}
 	}
-}
 
 }

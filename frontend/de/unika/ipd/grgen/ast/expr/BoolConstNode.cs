@@ -11,39 +11,39 @@
 
 namespace de.unika.ipd.grgen.ast.expr
 {
-using StringConstNode = de.unika.ipd.grgen.ast.expr.@string.StringConstNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using StringConstNode = de.unika.ipd.grgen.ast.expr.@string.StringConstNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-/// <summary>
-/// A boolean constant.
-/// </summary>
-public class BoolConstNode : ConstNode
-{
-	public BoolConstNode(Coords coords, bool value)
-		: base(coords, "boolean", new bool?(value))
+	/// <summary>
+	/// A boolean constant.
+	/// </summary>
+	public class BoolConstNode : ConstNode
 	{
-	}
-
-	public override TypeNode Type
-	{
-		get
+		public BoolConstNode(Coords coords, bool value)
+			: base(coords, "boolean", new bool?(value))
 		{
-			return BasicTypeNode.booleanType;
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.booleanType;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.expr.ConstNode.doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) "/>
+		protected internal override ConstNode DoCastTo(TypeNode type)
+		{
+			bool? value = (bool?)Value;
+
+			if(type.IsEqual(BasicTypeNode.stringType))
+				return new StringConstNode(Coords, value.ToString());
+			else
+				throw new System.NotSupportedException();
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.expr.ConstNode.doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) "/>
-	protected internal override ConstNode DoCastTo(TypeNode type)
-	{
-		bool? value = (bool?)Value;
-
-		if(type.IsEqual(BasicTypeNode.stringType))
-			return new StringConstNode(Coords, value.ToString());
-		else
-			throw new System.NotSupportedException();
-	}
-}
 
 }

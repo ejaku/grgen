@@ -7,44 +7,44 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-public class Visited : Expression
-{
-	private Expression visitorID;
-	private Expression entity;
-
-	public Visited(Expression visitorID, Expression entity)
-		: base("visited", BooleanType.Type)
+	public class Visited : Expression
 	{
-		this.visitorID = visitorID;
-		this.entity = entity;
-	}
+		private Expression visitorID;
+		private Expression entity;
 
-	public virtual Expression VisitorID
-	{
-		get
+		public Visited(Expression visitorID, Expression entity)
+			: base("visited", BooleanType.Type)
 		{
-			return visitorID;
+			this.visitorID = visitorID;
+			this.entity = entity;
+		}
+
+		public virtual Expression VisitorID
+		{
+			get
+			{
+				return visitorID;
+			}
+		}
+
+		public virtual Expression Entity
+		{
+			get
+			{
+				return entity;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			entity.CollectNeededEntities(needs);
+			visitorID.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression Entity
-	{
-		get
-		{
-			return entity;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		entity.CollectNeededEntities(needs);
-		visitorID.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -11,44 +11,44 @@
 
 namespace de.unika.ipd.grgen.ir.expr.deque
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using DequeType = de.unika.ipd.grgen.ir.type.container.DequeType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using DequeType = de.unika.ipd.grgen.ir.type.container.DequeType;
 
-public class DequeCopyConstructor : Expression
-{
-	private Expression dequeToCopy;
-	private DequeType dequeType;
-
-	public DequeCopyConstructor(Expression dequeToCopy, DequeType dequeType)
-		: base("deque copy constructor", dequeType)
+	public class DequeCopyConstructor : Expression
 	{
-		this.dequeToCopy = dequeToCopy;
-		this.dequeType = dequeType;
-	}
+		private Expression dequeToCopy;
+		private DequeType dequeType;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.Add(this);
-		needs.NeedsGraph();
-		dequeToCopy.CollectNeededEntities(needs);
-	}
-
-	public virtual Expression DequeToCopy
-	{
-		get
+		public DequeCopyConstructor(Expression dequeToCopy, DequeType dequeType)
+			: base("deque copy constructor", dequeType)
 		{
-			return dequeToCopy;
+			this.dequeToCopy = dequeToCopy;
+			this.dequeType = dequeType;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.Add(this);
+			needs.NeedsGraph();
+			dequeToCopy.CollectNeededEntities(needs);
+		}
+
+		public virtual Expression DequeToCopy
+		{
+			get
+			{
+				return dequeToCopy;
+			}
+		}
+
+		public virtual DequeType DequeType
+		{
+			get
+			{
+				return dequeType;
+			}
 		}
 	}
-
-	public virtual DequeType DequeType
-	{
-		get
-		{
-			return dequeType;
-		}
-	}
-}
 
 }

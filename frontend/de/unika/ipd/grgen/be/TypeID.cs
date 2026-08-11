@@ -11,23 +11,23 @@
 
 namespace de.unika.ipd.grgen.be
 {
-using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
-using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+	using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// Something that can give IDs for types.
-/// </summary>
-public interface TypeID
-{
+	/// <summary>
+	/// Something that can give IDs for types.
+	/// </summary>
+	public interface TypeID
+	{
 
-	int GetId(NodeType nt);
+		int GetId(NodeType nt);
 
-	int GetId(EdgeType et);
+		int GetId(EdgeType et);
 
-	int GetId(Type type, bool forNode);
+		int GetId(Type type, bool forNode);
 
-	short[][] GetIsAMatrix(bool forNode);
-}
+		short[][] GetIsAMatrix(bool forNode);
+	}
 
 }

@@ -11,36 +11,36 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/// <summary>
-/// Represents a while statement in the IR.
-/// </summary>
-public class WhileStatement : BlockNestingStatement
-{
-	private Expression conditionExpr;
-
-	public WhileStatement(Expression conditionExpr)
-		: base("while statement")
+	/// <summary>
+	/// Represents a while statement in the IR.
+	/// </summary>
+	public class WhileStatement : BlockNestingStatement
 	{
-		this.conditionExpr = conditionExpr;
-	}
+		private Expression conditionExpr;
 
-	public virtual Expression ConditionExpr
-	{
-		get
+		public WhileStatement(Expression conditionExpr)
+			: base("while statement")
 		{
-			return conditionExpr;
+			this.conditionExpr = conditionExpr;
+		}
+
+		public virtual Expression ConditionExpr
+		{
+			get
+			{
+				return conditionExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			conditionExpr.CollectNeededEntities(needs);
+			foreach(EvalStatement loopedStatement in statements)
+				loopedStatement.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		conditionExpr.CollectNeededEntities(needs);
-		foreach(EvalStatement loopedStatement in statements)
-			loopedStatement.CollectNeededEntities(needs);
-	}
-}
 
 }

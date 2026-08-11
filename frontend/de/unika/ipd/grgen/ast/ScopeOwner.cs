@@ -11,12 +11,12 @@
 
 namespace de.unika.ipd.grgen.ast
 {
-/// <summary>
-/// Something, that owns a scope.
-/// </summary>
-public interface ScopeOwner
-{
-	bool FixupDefinition(IdentNode id);
-}
+	/// <summary>
+	/// Something, that owns a scope.
+	/// </summary>
+	public interface ScopeOwner
+	{
+		bool FixupDefinition(IdentNode id);
+	}
 
 }

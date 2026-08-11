@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.map
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class MapSizeExpr : MapFunctionMethodInvocationBaseExpr
-{
-	public MapSizeExpr(Expression targetExpr)
-		: base("map size expression", IntType.Type, targetExpr)
+	public class MapSizeExpr : MapFunctionMethodInvocationBaseExpr
 	{
+		public MapSizeExpr(Expression targetExpr)
+			: base("map size expression", IntType.Type, targetExpr)
+		{
+		}
 	}
-}
 
 }

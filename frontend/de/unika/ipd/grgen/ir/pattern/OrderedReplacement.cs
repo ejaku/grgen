@@ -11,10 +11,10 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-public interface OrderedReplacement
-{
-	// no functionality, allows ordering of subpattern replacement nodes and emit here nodes and eval here nodes
-	// in one container of the ordered replacement node type
-}
+	public interface OrderedReplacement
+	{
+		// no functionality, allows ordering of subpattern replacement nodes and emit here nodes and eval here nodes
+		// in one container of the ordered replacement node type
+	}
 
 }

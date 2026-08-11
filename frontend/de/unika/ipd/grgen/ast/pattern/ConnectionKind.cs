@@ -7,14 +7,14 @@
 
 namespace de.unika.ipd.grgen.ast.pattern
 {
-/// <summary>
-/// possible connection kinds (of edges/in ConnectionNodes) </summary>
-public enum ConnectionKind
-{
-	ARBITRARY,
-	ARBITRARY_DIRECTED,
-	DIRECTED,
-	UNDIRECTED
-}
+	/// <summary>
+	/// possible connection kinds (of edges/in ConnectionNodes) </summary>
+	public enum ConnectionKind
+	{
+		ARBITRARY,
+		ARBITRARY_DIRECTED,
+		DIRECTED,
+		UNDIRECTED
+	}
 
 }

@@ -12,18 +12,18 @@
 namespace de.unika.ipd.grgen.ir
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+	using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
 
-/// <summary>
-/// Represents an IR object containing nested statements
-/// (both top-level non-statement objects as well as block nesting statements).
-/// </summary>
-public interface NestingStatement
-{
-	void AddStatement(EvalStatement loopedStatement);
-	ICollection<EvalStatement> Statements {get;}
-}
+	/// <summary>
+	/// Represents an IR object containing nested statements
+	/// (both top-level non-statement objects as well as block nesting statements).
+	/// </summary>
+	public interface NestingStatement
+	{
+		void AddStatement(EvalStatement loopedStatement);
+		ICollection<EvalStatement> Statements {get;}
+	}
 
 }

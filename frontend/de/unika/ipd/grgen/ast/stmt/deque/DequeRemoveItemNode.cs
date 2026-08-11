@@ -12,117 +12,117 @@
 namespace de.unika.ipd.grgen.ast.stmt.deque
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using IntTypeNode = de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using DequeRemoveItem = de.unika.ipd.grgen.ir.stmt.deque.DequeRemoveItem;
-using DequeVarRemoveItem = de.unika.ipd.grgen.ir.stmt.deque.DequeVarRemoveItem;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+	using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using IntTypeNode = de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using DequeRemoveItem = de.unika.ipd.grgen.ir.stmt.deque.DequeRemoveItem;
+	using DequeVarRemoveItem = de.unika.ipd.grgen.ir.stmt.deque.DequeVarRemoveItem;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class DequeRemoveItemNode : DequeProcedureMethodInvocationBaseNode
-{
-	static DequeRemoveItemNode()
+	public class DequeRemoveItemNode : DequeProcedureMethodInvocationBaseNode
 	{
-		SetClassName(typeof(DequeRemoveItemNode), "deque remove item statement");
-	}
-
-	private ExprNode valueExpr;
-
-	public DequeRemoveItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr)
-		: base(coords, target)
-	{
-		if(valueExpr != null)
-			this.valueExpr = BecomeParent(valueExpr);
-	}
-
-	public DequeRemoveItemNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr)
-		: base(coords, targetVar)
-	{
-		if(valueExpr != null)
-			this.valueExpr = BecomeParent(valueExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static DequeRemoveItemNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(ValidTarget);
-			if(valueExpr != null)
-				children.Add(valueExpr);
-			return children;
+			SetClassName(typeof(DequeRemoveItemNode), "deque remove item statement");
 		}
-	}
 
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		private ExprNode valueExpr;
+
+		public DequeRemoveItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr)
+			: base(coords, target)
 		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("target");
 			if(valueExpr != null)
-				childrenNames.Add("valueExpr");
-			return childrenNames;
+				this.valueExpr = BecomeParent(valueExpr);
 		}
-	}
 
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		if(target != null)
+		public DequeRemoveItemNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr)
+			: base(coords, targetVar)
 		{
 			if(valueExpr != null)
+				this.valueExpr = BecomeParent(valueExpr);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
 			{
-				TypeNode valueType = valueExpr.Type;
-				if(!valueType.IsEqual(IntTypeNode.intType))
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(ValidTarget);
+				if(valueExpr != null)
+					children.Add(valueExpr);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("target");
+				if(valueExpr != null)
+					childrenNames.Add("valueExpr");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			// target type already checked during resolving into this node
+			if(target != null)
+			{
+				if(valueExpr != null)
 				{
-					ExprNode valueExprOld = valueExpr;
-					valueExpr = BecomeParent(valueExpr.AdjustType(IntTypeNode.intType, Coords));
-					if(valueExpr == ConstNode.Invalid)
+					TypeNode valueType = valueExpr.Type;
+					if(!valueType.IsEqual(IntTypeNode.intType))
 					{
-						valueExprOld.ReportError("The deque rem item procedure expects as argument (index)"
-								+ " a value of type int"
-								+ " (but is given a value of type " + valueType.ToStringWithDeclarationCoords() + ").");
-						return false;
+						ExprNode valueExprOld = valueExpr;
+						valueExpr = BecomeParent(valueExpr.AdjustType(IntTypeNode.intType, Coords));
+						if(valueExpr == ConstNode.Invalid)
+						{
+							valueExprOld.ReportError("The deque rem item procedure expects as argument (index)"
+									+ " a value of type int"
+									+ " (but is given a value of type " + valueType.ToStringWithDeclarationCoords() + ").");
+							return false;
+						}
 					}
 				}
+				return true;
 			}
-			return true;
+			else
+			{
+				if(valueExpr != null)
+					return CheckType(valueExpr, IntTypeNode.intType, "index value", "deque rem item procedure");
+				else
+					return true;
+			}
 		}
-		else
+
+		protected internal override IR ConstructIR()
 		{
 			if(valueExpr != null)
-				return CheckType(valueExpr, IntTypeNode.intType, "index value", "deque rem item procedure");
+				valueExpr = valueExpr.Evaluate();
+			if(target != null)
+			{
+				return new DequeRemoveItem(target.CheckIR(typeof(Qualification)),
+						valueExpr != null ? valueExpr.CheckIR(typeof(Expression)) : null);
+			}
 			else
-				return true;
+			{
+				return new DequeVarRemoveItem(targetVar.CheckIR(typeof(Variable)),
+						valueExpr != null ? valueExpr.CheckIR(typeof(Expression)) : null);
+			}
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		if(valueExpr != null)
-			valueExpr = valueExpr.Evaluate();
-		if(target != null)
-		{
-			return new DequeRemoveItem(target.CheckIR(typeof(Qualification)),
-					valueExpr != null ? valueExpr.CheckIR(typeof(Expression)) : null);
-		}
-		else
-		{
-			return new DequeVarRemoveItem(targetVar.CheckIR(typeof(Variable)),
-					valueExpr != null ? valueExpr.CheckIR(typeof(Expression)) : null);
-		}
-	}
-}
 
 }

@@ -11,48 +11,48 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.deque
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class DequeVarAddItem : ContainerVarProcedureMethodInvocationBase
-{
-	internal Expression valueExpr;
-	internal Expression indexExpr;
-
-	public DequeVarAddItem(Variable target, Expression valueExpr, Expression indexExpr)
-		: base("deque var add item", target)
+	public class DequeVarAddItem : ContainerVarProcedureMethodInvocationBase
 	{
-		this.valueExpr = valueExpr;
-		this.indexExpr = indexExpr;
-	}
+		internal Expression valueExpr;
+		internal Expression indexExpr;
 
-	public virtual Expression ValueExpr
-	{
-		get
+		public DequeVarAddItem(Variable target, Expression valueExpr, Expression indexExpr)
+			: base("deque var add item", target)
 		{
-			return valueExpr;
+			this.valueExpr = valueExpr;
+			this.indexExpr = indexExpr;
+		}
+
+		public virtual Expression ValueExpr
+		{
+			get
+			{
+				return valueExpr;
+			}
+		}
+
+		public virtual Expression IndexExpr
+		{
+			get
+			{
+				return indexExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+
+			valueExpr.CollectNeededEntities(needs);
+
+			if(indexExpr != null)
+				indexExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression IndexExpr
-	{
-		get
-		{
-			return indexExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-
-		valueExpr.CollectNeededEntities(needs);
-
-		if(indexExpr != null)
-			indexExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

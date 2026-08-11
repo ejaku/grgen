@@ -11,33 +11,33 @@
 
 namespace de.unika.ipd.grgen.ir.expr.map
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
 
-public class MapPeekExpr : MapFunctionMethodInvocationBaseExpr
-{
-	private Expression numberExpr;
-
-	public MapPeekExpr(Expression targetExpr, Expression numberExpr)
-		: base("map peek expr", ((MapType)(targetExpr.Type)).keyType, targetExpr)
+	public class MapPeekExpr : MapFunctionMethodInvocationBaseExpr
 	{
-		this.numberExpr = numberExpr;
-	}
+		private Expression numberExpr;
 
-	public virtual Expression NumberExpr
-	{
-		get
+		public MapPeekExpr(Expression targetExpr, Expression numberExpr)
+			: base("map peek expr", ((MapType)(targetExpr.Type)).keyType, targetExpr)
 		{
-			return numberExpr;
+			this.numberExpr = numberExpr;
+		}
+
+		public virtual Expression NumberExpr
+		{
+			get
+			{
+				return numberExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+			numberExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-		numberExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

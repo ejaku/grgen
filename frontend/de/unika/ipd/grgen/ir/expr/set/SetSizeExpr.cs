@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.set
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class SetSizeExpr : SetFunctionMethodInvocationBaseExpr
-{
-	public SetSizeExpr(Expression targetExpr)
-		: base("set size expression", IntType.Type, targetExpr)
+	public class SetSizeExpr : SetFunctionMethodInvocationBaseExpr
 	{
+		public SetSizeExpr(Expression targetExpr)
+			: base("set size expression", IntType.Type, targetExpr)
+		{
+		}
 	}
-}
 
 }

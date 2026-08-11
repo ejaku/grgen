@@ -8,75 +8,75 @@
 namespace de.unika.ipd.grgen.ast.expr.numeric
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using AbsExpr = de.unika.ipd.grgen.ir.expr.numeric.AbsExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using AbsExpr = de.unika.ipd.grgen.ir.expr.numeric.AbsExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class AbsExprNode : BuiltinFunctionInvocationBaseNode
-{
-	static AbsExprNode()
+	public class AbsExprNode : BuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(AbsExprNode), "abs expr");
-	}
-
-	private ExprNode argumentExpr;
-
-	public AbsExprNode(Coords coords, ExprNode argumentExpr)
-		: base(coords)
-	{
-
-		this.argumentExpr = BecomeParent(argumentExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static AbsExprNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(argumentExpr);
-			return children;
+			SetClassName(typeof(AbsExprNode), "abs expr");
+		}
+
+		private ExprNode argumentExpr;
+
+		public AbsExprNode(Coords coords, ExprNode argumentExpr)
+			: base(coords)
+		{
+
+			this.argumentExpr = BecomeParent(argumentExpr);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(argumentExpr);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("arg");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			if(argumentExpr.Type.IsNumericType())
+				return true;
+			ReportError("The function Math::abs() expects as argument a value of type " + TypeNode.NumericTypesAsString
+					+ " (but is given a value of type " + argumentExpr.Type.TypeName + ").");
+			return false;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			argumentExpr = argumentExpr.Evaluate();
+			return new AbsExpr(argumentExpr.CheckIR(typeof(Expression)));
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return argumentExpr.Type;
+			}
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("arg");
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		if(argumentExpr.Type.IsNumericType())
-			return true;
-		ReportError("The function Math::abs() expects as argument a value of type " + TypeNode.NumericTypesAsString
-				+ " (but is given a value of type " + argumentExpr.Type.TypeName + ").");
-		return false;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		argumentExpr = argumentExpr.Evaluate();
-		return new AbsExpr(argumentExpr.CheckIR(typeof(Expression)));
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return argumentExpr.Type;
-		}
-	}
-}
 
 }

@@ -7,30 +7,30 @@
 
 namespace de.unika.ipd.grgen.ast.decl.executable
 {
-using de.unika.ipd.grgen.ast;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using de.unika.ipd.grgen.ast.util;
-using de.unika.ipd.grgen.ast.util;
+	using de.unika.ipd.grgen.ast;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using de.unika.ipd.grgen.ast.util;
+	using de.unika.ipd.grgen.ast.util;
 
-public abstract class FunctionDeclBaseNode : FunctionOrOperatorDeclBaseNode
-{
-	protected internal BaseNode resultUnresolved;
-
-
-	public FunctionDeclBaseNode(IdentNode ident, BaseNode type)
-		: base(ident, type)
+	public abstract class FunctionDeclBaseNode : FunctionOrOperatorDeclBaseNode
 	{
-	}
+		protected internal BaseNode resultUnresolved;
 
-	private static readonly Resolver<TypeNode> resultTypeResolver =
-			new DeclarationTypeResolver<TypeNode>(typeof(TypeNode));
 
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
-	protected internal override bool ResolveLocal()
-	{
-		resultType = resultTypeResolver.Resolve(resultUnresolved, this);
-		return resultType != null;
+		public FunctionDeclBaseNode(IdentNode ident, BaseNode type)
+			: base(ident, type)
+		{
+		}
+
+		private static readonly Resolver<TypeNode> resultTypeResolver =
+				new DeclarationTypeResolver<TypeNode>(typeof(TypeNode));
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+		protected internal override bool ResolveLocal()
+		{
+			resultType = resultTypeResolver.Resolve(resultUnresolved, this);
+			return resultType != null;
+		}
 	}
-}
 
 }

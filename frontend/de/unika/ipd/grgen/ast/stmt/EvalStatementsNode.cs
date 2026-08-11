@@ -8,91 +8,91 @@
 namespace de.unika.ipd.grgen.ast.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using IR = de.unika.ipd.grgen.ir.IR;
-using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
-using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+	using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class EvalStatementsNode : BaseNode
-{
-	public string name;
-	public CollectNode<EvalStatementNode> evalStatements;
-
-	public EvalStatementsNode(Coords coords, string name)
-		: base(coords)
+	public class EvalStatementsNode : BaseNode
 	{
-		this.name = name;
-		evalStatements = new CollectNode<EvalStatementNode>();
-	}
+		public string name;
+		public CollectNode<EvalStatementNode> evalStatements;
 
-	public virtual void AddChild(EvalStatementNode evalStatement)
-	{
-		//assert(c!=null);
-		evalStatements.AddChild(evalStatement);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		public EvalStatementsNode(Coords coords, string name)
+			: base(coords)
 		{
-			return evalStatements.Children;
+			this.name = name;
+			evalStatements = new CollectNode<EvalStatementNode>();
 		}
-	}
 
-	public virtual ICollection<EvalStatementNode> ChildrenExact
-	{
-		get
+		public virtual void AddChild(EvalStatementNode evalStatement)
 		{
-			return evalStatements.ChildrenExact;
+			//assert(c!=null);
+			evalStatements.AddChild(evalStatement);
 		}
-	}
 
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		public override ICollection<BaseNode> Children
 		{
-			IList<string> res = new List<string>();
-			for(int i = 0; i < Children.Count; ++i)
-				res.Add("eval" + i);
+			get
+			{
+				return evalStatements.Children;
+			}
+		}
+
+		public virtual ICollection<EvalStatementNode> ChildrenExact
+		{
+			get
+			{
+				return evalStatements.ChildrenExact;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> res = new List<string>();
+				for(int i = 0; i < Children.Count; ++i)
+					res.Add("eval" + i);
+				return res;
+			}
+		}
+
+		protected internal override bool ResolveLocal()
+		{
+			return true;
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			return true;
+		}
+
+		public virtual bool NoExecStatement()
+		{
+			bool res = true;
+			foreach(EvalStatementNode evalStatement in evalStatements.ChildrenExact)
+				res &= evalStatement.NoExecStatement(false);
 			return res;
 		}
+
+		protected internal override IR ConstructIR()
+		{
+			if(IsIRAlreadySet())
+				return (EvalStatements)IR;
+
+			EvalStatements es = new EvalStatements(name);
+
+			IR = es;
+
+			foreach(EvalStatementNode evalStatement in evalStatements.ChildrenExact)
+				es.evalStatements.Add(evalStatement.CheckIR(typeof(EvalStatement)));
+
+			return es;
+		}
 	}
-
-	protected internal override bool ResolveLocal()
-	{
-		return true;
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		return true;
-	}
-
-	public virtual bool NoExecStatement()
-	{
-		bool res = true;
-		foreach(EvalStatementNode evalStatement in evalStatements.ChildrenExact)
-			res &= evalStatement.NoExecStatement(false);
-		return res;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		if(IsIRAlreadySet())
-			return (EvalStatements)IR;
-
-		EvalStatements es = new EvalStatements(name);
-
-		IR = es;
-
-		foreach(EvalStatementNode evalStatement in evalStatements.ChildrenExact)
-			es.evalStatements.Add(evalStatement.CheckIR(typeof(EvalStatement)));
-
-		return es;
-	}
-}
 
 }

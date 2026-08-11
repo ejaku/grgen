@@ -11,37 +11,37 @@
 
 namespace de.unika.ipd.grgen.ir.executable
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// An external procedure method.
-/// </summary>
-public class ExternalProcedureMethod : ExternalProcedure
-{
 	/// <summary>
-	/// The owner of the procedure method. </summary>
-	protected internal Type owner = null;
-
-	/// <param name="name"> The name of the external procedure. </param>
-	/// <param name="ident"> The identifier that identifies this object. </param>
-	public ExternalProcedureMethod(string name, Ident ident)
-		: base(name, ident)
+	/// An external procedure method.
+	/// </summary>
+	public class ExternalProcedureMethod : ExternalProcedure
 	{
-	}
+		/// <summary>
+		/// The owner of the procedure method. </summary>
+		protected internal Type owner = null;
 
-	public virtual Type Owner
-	{
-		get
+		/// <param name="name"> The name of the external procedure. </param>
+		/// <param name="ident"> The identifier that identifies this object. </param>
+		public ExternalProcedureMethod(string name, Ident ident)
+			: base(name, ident)
 		{
-			return owner;
 		}
-		set
-		{
-			owner = value;
-		}
-	}
 
-}
+		public virtual Type Owner
+		{
+			get
+			{
+				return owner;
+			}
+			set
+			{
+				owner = value;
+			}
+		}
+
+	}
 
 }

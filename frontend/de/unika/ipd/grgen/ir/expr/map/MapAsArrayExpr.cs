@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.map
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class MapAsArrayExpr : MapFunctionMethodInvocationBaseExpr
-{
-	public MapAsArrayExpr(Expression targetExpr, Type targetType)
-		: base("map as array expression", targetType, targetExpr)
+	public class MapAsArrayExpr : MapFunctionMethodInvocationBaseExpr
 	{
+		public MapAsArrayExpr(Expression targetExpr, Type targetType)
+			: base("map as array expression", targetType, targetExpr)
+		{
+		}
 	}
-}
 
 }

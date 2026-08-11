@@ -11,42 +11,42 @@
 
 namespace de.unika.ipd.grgen.ast.expr
 {
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using ContainerTypeNode = de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using ContainerTypeNode = de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ContainerInitNode : ExprNode
-{
-	static ContainerInitNode()
+	public abstract class ContainerInitNode : ExprNode
 	{
-		SetClassName(typeof(ContainerInitNode), "container init");
-	}
-
-	public ContainerInitNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	public override TypeNode Type
-	{
-		get
+		static ContainerInitNode()
 		{
-			return ContainerType;
+			SetClassName(typeof(ContainerInitNode), "container init");
+		}
+
+		public ContainerInitNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return ContainerType;
+			}
+		}
+
+		public abstract ContainerTypeNode ContainerType {get;}
+
+		public abstract bool IsInitInModel();
+
+		protected internal static bool IsEnumValue(ExprNode expr)
+		{
+			if(!(expr is DeclExprNode))
+				return false;
+			if(!(((DeclExprNode)expr).IsEnumValue()))
+				return false;
+			return true;
 		}
 	}
-
-	public abstract ContainerTypeNode ContainerType {get;}
-
-	public abstract bool IsInitInModel();
-
-	protected internal static bool IsEnumValue(ExprNode expr)
-	{
-		if(!(expr is DeclExprNode))
-			return false;
-		if(!(((DeclExprNode)expr).IsEnumValue()))
-			return false;
-		return true;
-	}
-}
 
 }

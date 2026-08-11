@@ -11,48 +11,48 @@
 
 namespace de.unika.ipd.grgen.ast.expr.deque
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using DequeAsArrayExpr = de.unika.ipd.grgen.ir.expr.deque.DequeAsArrayExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using DequeAsArrayExpr = de.unika.ipd.grgen.ir.expr.deque.DequeAsArrayExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class DequeAsArrayNode : DequeFunctionMethodInvocationBaseExprNode
-{
-	static DequeAsArrayNode()
+	public class DequeAsArrayNode : DequeFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(DequeAsArrayNode), "deque as array expression");
-	}
-
-	private ArrayTypeNode arrayTypeNode;
-
-	public DequeAsArrayNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	protected internal override bool ResolveLocal()
-	{
-		// target type already checked during resolving into this node
-		arrayTypeNode = new ArrayTypeNode(TargetTypeExact.valueTypeUnresolved);
-		return arrayTypeNode.Resolve();
-	}
-
-	public override TypeNode Type
-	{
-		get
+		static DequeAsArrayNode()
 		{
-			return arrayTypeNode;
+			SetClassName(typeof(DequeAsArrayNode), "deque as array expression");
+		}
+
+		private ArrayTypeNode arrayTypeNode;
+
+		public DequeAsArrayNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
+		{
+		}
+
+		protected internal override bool ResolveLocal()
+		{
+			// target type already checked during resolving into this node
+			arrayTypeNode = new ArrayTypeNode(TargetTypeExact.valueTypeUnresolved);
+			return arrayTypeNode.Resolve();
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return arrayTypeNode;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new DequeAsArrayExpr(targetExpr.CheckIR(typeof(Expression)), Type.IRType);
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new DequeAsArrayExpr(targetExpr.CheckIR(typeof(Expression)), Type.IRType);
-	}
-}
 
 }

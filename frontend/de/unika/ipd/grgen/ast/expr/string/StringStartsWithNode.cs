@@ -12,90 +12,90 @@
 namespace de.unika.ipd.grgen.ast.expr.@string
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using StringStartsWith = de.unika.ipd.grgen.ir.expr.@string.StringStartsWith;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using StringStartsWith = de.unika.ipd.grgen.ir.expr.@string.StringStartsWith;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class StringStartsWithNode : BuiltinFunctionInvocationBaseNode
-{
-	static StringStartsWithNode()
+	public class StringStartsWithNode : BuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(StringStartsWithNode), "string startsWith");
-	}
-
-	private ExprNode stringExpr;
-	private ExprNode stringToSearchForExpr;
-
-	public StringStartsWithNode(Coords coords, ExprNode stringExpr, ExprNode stringToSearchForExpr)
-		: base(coords)
-	{
-
-		this.stringExpr = BecomeParent(stringExpr);
-		this.stringToSearchForExpr = BecomeParent(stringToSearchForExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static StringStartsWithNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(stringExpr);
-			children.Add(stringToSearchForExpr);
-			return children;
+			SetClassName(typeof(StringStartsWithNode), "string startsWith");
+		}
+
+		private ExprNode stringExpr;
+		private ExprNode stringToSearchForExpr;
+
+		public StringStartsWithNode(Coords coords, ExprNode stringExpr, ExprNode stringToSearchForExpr)
+			: base(coords)
+		{
+
+			this.stringExpr = BecomeParent(stringExpr);
+			this.stringToSearchForExpr = BecomeParent(stringToSearchForExpr);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(stringExpr);
+				children.Add(stringToSearchForExpr);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("string");
+				childrenNames.Add("stringToSearchFor");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			if(!stringExpr.Type.IsEqual(BasicTypeNode.stringType))
+			{
+				stringExpr.ReportError("The string function method startsWith can only be employed on an object of type string"
+						+ " (but is employed on an object of type " + stringExpr.Type.TypeName + ").");
+				return false;
+			}
+			if(!stringToSearchForExpr.Type.IsEqual(BasicTypeNode.stringType))
+			{
+				stringToSearchForExpr.ReportError("The string function method startsWith expects as argument (stringToSearchFor) a value of type string"
+						+ " (but is given a value of type " + stringToSearchForExpr.Type.TypeName + ").");
+				return false;
+			}
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			stringExpr = stringExpr.Evaluate();
+			stringToSearchForExpr = stringToSearchForExpr.Evaluate();
+			return new StringStartsWith(stringExpr.CheckIR(typeof(Expression)),
+					stringToSearchForExpr.CheckIR(typeof(Expression)));
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.booleanType;
+			}
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("string");
-			childrenNames.Add("stringToSearchFor");
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		if(!stringExpr.Type.IsEqual(BasicTypeNode.stringType))
-		{
-			stringExpr.ReportError("The string function method startsWith can only be employed on an object of type string"
-					+ " (but is employed on an object of type " + stringExpr.Type.TypeName + ").");
-			return false;
-		}
-		if(!stringToSearchForExpr.Type.IsEqual(BasicTypeNode.stringType))
-		{
-			stringToSearchForExpr.ReportError("The string function method startsWith expects as argument (stringToSearchFor) a value of type string"
-					+ " (but is given a value of type " + stringToSearchForExpr.Type.TypeName + ").");
-			return false;
-		}
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		stringExpr = stringExpr.Evaluate();
-		stringToSearchForExpr = stringToSearchForExpr.Evaluate();
-		return new StringStartsWith(stringExpr.CheckIR(typeof(Expression)),
-				stringToSearchForExpr.CheckIR(typeof(Expression)));
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return BasicTypeNode.booleanType;
-		}
-	}
-}
 
 }

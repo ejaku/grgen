@@ -14,23 +14,23 @@
 namespace de.unika.ipd.grgen.ir.type
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+	using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
-public class TypeExprConst : TypeExpr
-{
-	private readonly ISet<InheritanceType> types = new HashSet<InheritanceType>();
-
-	public virtual void AddOperand(InheritanceType t)
+	public class TypeExprConst : TypeExpr
 	{
-		types.Add(t);
-	}
+		private readonly ISet<InheritanceType> types = new HashSet<InheritanceType>();
 
-	public override ISet<InheritanceType> Evaluate()
-	{
-		return Collections.UnmodifiableSet(types);
+		public virtual void AddOperand(InheritanceType t)
+		{
+			types.Add(t);
+		}
+
+		public override ISet<InheritanceType> Evaluate()
+		{
+			return Collections.UnmodifiableSet(types);
+		}
 	}
-}
 
 }

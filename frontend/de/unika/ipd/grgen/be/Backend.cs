@@ -12,34 +12,34 @@
 namespace de.unika.ipd.grgen.be
 {
 
-using Sys = de.unika.ipd.grgen.Sys;
-using Unit = de.unika.ipd.grgen.ir.Unit;
-
-/// <summary>
-/// Generic Backend interface.
-/// </summary>
-public interface Backend
-{
-	/// <summary>
-	/// Initialize the backend with the intermediate representation. </summary>
-	/// <param name="unit"> The intermediate representation unit to
-	/// generate code for. </param>
-	/// <param name="sys"> The sys(tem). </param>
-	/// <param name="outputPath"> The output path, where
-	/// all generated files should go. </param>
-	void Init(Unit unit, Sys sys, File outputPath);
+	using Sys = de.unika.ipd.grgen.Sys;
+	using Unit = de.unika.ipd.grgen.ir.Unit;
 
 	/// <summary>
-	/// Initiates the generation of code.
-	/// It is always called after <seealso cref="init(IR)"/>.
+	/// Generic Backend interface.
 	/// </summary>
-	void Generate();
+	public interface Backend
+	{
+		/// <summary>
+		/// Initialize the backend with the intermediate representation. </summary>
+		/// <param name="unit"> The intermediate representation unit to
+		/// generate code for. </param>
+		/// <param name="sys"> The sys(tem). </param>
+		/// <param name="outputPath"> The output path, where
+		/// all generated files should go. </param>
+		void Init(Unit unit, Sys sys, File outputPath);
 
-	/// <summary>
-	/// Clearup some things, perhaps.
-	/// Called after <seealso cref="generate"/>.
-	/// </summary>
-	void Done();
-}
+		/// <summary>
+		/// Initiates the generation of code.
+		/// It is always called after <seealso cref="init(IR)"/>.
+		/// </summary>
+		void Generate();
+
+		/// <summary>
+		/// Clearup some things, perhaps.
+		/// Called after <seealso cref="generate"/>.
+		/// </summary>
+		void Done();
+	}
 
 }

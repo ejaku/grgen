@@ -11,73 +11,73 @@
 
 namespace de.unika.ipd.grgen.ast.expr
 {
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Constant = de.unika.ipd.grgen.ir.expr.Constant;
-using Coords = de.unika.ipd.grgen.parser.Coords;
-
-/// <summary>
-/// The null constant.
-/// </summary>
-public class NullConstNode : ConstNode
-{
-	private TypeNode type;
-
-	public NullConstNode(Coords coords)
-		: base(coords, "null", Value.NULL)
-	{
-		type = BasicTypeNode.nullType;
-	}
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Constant = de.unika.ipd.grgen.ir.expr.Constant;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
 	/// <summary>
-	/// Singleton class representing the only constant value 'null' that
-	/// the basic type 'object' has.
+	/// The null constant.
 	/// </summary>
-	public class Value
+	public class NullConstNode : ConstNode
 	{
-		public static Value NULL = new ValueAnonymousInnerClass();
+		private TypeNode type;
 
-		private class ValueAnonymousInnerClass : Value
+		public NullConstNode(Coords coords)
+			: base(coords, "null", Value.NULL)
 		{
-			private readonly Value outerInstance;
+			type = BasicTypeNode.nullType;
+		}
 
-			public override string ToString()
+		/// <summary>
+		/// Singleton class representing the only constant value 'null' that
+		/// the basic type 'object' has.
+		/// </summary>
+		public class Value
+		{
+			public static Value NULL = new ValueAnonymousInnerClass();
+
+			private class ValueAnonymousInnerClass : Value
 			{
-				return "Const null";
+				private readonly Value outerInstance;
+
+				public override string ToString()
+				{
+					return "Const null";
+				}
+			}
+
+			internal Value()
+			{
 			}
 		}
 
-		internal Value()
+		public override TypeNode Type
 		{
+			get
+			{
+				return type;
+			}
+		}
+
+		public override string ToString()
+		{
+			return "Const (" + type + ") null";
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			return new Constant(Type.IRType, null);
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.expr.ConstNode.doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) "/>
+		protected internal override ConstNode DoCastTo(TypeNode type)
+		{
+			NullConstNode castedNull = new NullConstNode(Coords);
+			castedNull.type = type;
+			return castedNull;
 		}
 	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return type;
-		}
-	}
-
-	public override string ToString()
-	{
-		return "Const (" + type + ") null";
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		return new Constant(Type.IRType, null);
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.expr.ConstNode.doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) "/>
-	protected internal override ConstNode DoCastTo(TypeNode type)
-	{
-		NullConstNode castedNull = new NullConstNode(Coords);
-		castedNull.type = type;
-		return castedNull;
-	}
-}
 
 }

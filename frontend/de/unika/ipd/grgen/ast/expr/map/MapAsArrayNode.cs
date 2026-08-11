@@ -11,62 +11,62 @@
 
 namespace de.unika.ipd.grgen.ast.expr.map
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using IntTypeNode = de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
-using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using MapAsArrayExpr = de.unika.ipd.grgen.ir.expr.map.MapAsArrayExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using IntTypeNode = de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
+	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+	using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using MapAsArrayExpr = de.unika.ipd.grgen.ir.expr.map.MapAsArrayExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class MapAsArrayNode : MapFunctionMethodInvocationBaseExprNode
-{
-	static MapAsArrayNode()
+	public class MapAsArrayNode : MapFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(MapAsArrayNode), "map as array expression");
-	}
-
-	private ArrayTypeNode arrayTypeNode;
-
-	public MapAsArrayNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	protected internal override bool ResolveLocal()
-	{
-		// target type already checked during resolving into this node
-		arrayTypeNode = new ArrayTypeNode(TargetTypeExact.valueTypeUnresolved);
-		return arrayTypeNode.Resolve();
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		MapTypeNode targetMapType = TargetTypeExact;
-		if(!(targetMapType.keyType is IntTypeNode))
+		static MapAsArrayNode()
 		{
-			targetExpr.ReportError("The map function method asArray can only be employed on an object of type map<int,T>"
-					+ " (but is employed on an object of type " + targetMapType.TypeName + ").");
-			return false;
+			SetClassName(typeof(MapAsArrayNode), "map as array expression");
 		}
-		return true;
-	}
 
-	public override TypeNode Type
-	{
-		get
+		private ArrayTypeNode arrayTypeNode;
+
+		public MapAsArrayNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
 		{
-			return arrayTypeNode;
+		}
+
+		protected internal override bool ResolveLocal()
+		{
+			// target type already checked during resolving into this node
+			arrayTypeNode = new ArrayTypeNode(TargetTypeExact.valueTypeUnresolved);
+			return arrayTypeNode.Resolve();
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			MapTypeNode targetMapType = TargetTypeExact;
+			if(!(targetMapType.keyType is IntTypeNode))
+			{
+				targetExpr.ReportError("The map function method asArray can only be employed on an object of type map<int,T>"
+						+ " (but is employed on an object of type " + targetMapType.TypeName + ").");
+				return false;
+			}
+			return true;
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return arrayTypeNode;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new MapAsArrayExpr(targetExpr.CheckIR(typeof(Expression)), Type.IRType);
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new MapAsArrayExpr(targetExpr.CheckIR(typeof(Expression)), Type.IRType);
-	}
-}
 
 }

@@ -11,26 +11,26 @@
 
 namespace de.unika.ipd.grgen.ir
 {
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A variable declared inside an "exec" statement containing nodes, edges or primitive types.
-/// (due to being declared in the sequence, it can't be a defToBeYieldedTo variable, only entities from the outside can be)
-/// </summary>
-public class ExecVariable : Entity
-{
-	public ExecVariable(string name, Ident ident, Type type, int context)
-		: base(name, ident, type, false, false, context)
+	/// <summary>
+	/// A variable declared inside an "exec" statement containing nodes, edges or primitive types.
+	/// (due to being declared in the sequence, it can't be a defToBeYieldedTo variable, only entities from the outside can be)
+	/// </summary>
+	public class ExecVariable : Entity
 	{
-	}
-
-	public override string Kind
-	{
-		get
+		public ExecVariable(string name, Ident ident, Type type, int context)
+			: base(name, ident, type, false, false, context)
 		{
-			return "exec variable";
+		}
+
+		public override string Kind
+		{
+			get
+			{
+				return "exec variable";
+			}
 		}
 	}
-}
 
 }

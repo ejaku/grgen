@@ -7,170 +7,170 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Index = de.unika.ipd.grgen.ir.model.Index;
+	using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Index = de.unika.ipd.grgen.ir.model.Index;
 
-/// <summary>
-/// Class for accessing an index by ordering, binding a pattern element
-/// input: lower and upper bounds (each or both may be optional, output: from/to (each or both may be optional)
-/// when ascending, lower bound is from and upper bound is to, when descending, lower bound is to and upper bound is from
-/// </summary>
-public class IndexAccessOrdering : IndexAccess
-{
-	public bool ascending;
-	internal Operator comp;
-	internal Expression expr;
-	internal Operator comp2;
-	internal Expression expr2;
-
-	public IndexAccessOrdering(Index index, bool ascending,
-			Operator comp, Expression expr, Operator comp2, Expression expr2)
-		: base(index)
+	/// <summary>
+	/// Class for accessing an index by ordering, binding a pattern element
+	/// input: lower and upper bounds (each or both may be optional, output: from/to (each or both may be optional)
+	/// when ascending, lower bound is from and upper bound is to, when descending, lower bound is to and upper bound is from
+	/// </summary>
+	public class IndexAccessOrdering : IndexAccess
 	{
-		this.ascending = ascending;
-		this.comp = comp;
-		this.expr = expr;
-		this.comp2 = comp2;
-		this.expr2 = expr2;
-	}
+		public bool ascending;
+		internal Operator comp;
+		internal Expression expr;
+		internal Operator comp2;
+		internal Expression expr2;
 
-	public virtual Expression From()
-	{
-		if(ascending)
+		public IndexAccessOrdering(Index index, bool ascending,
+				Operator comp, Expression expr, Operator comp2, Expression expr2)
+			: base(index)
 		{
-			if(expr != null)
-			{ // return lower bound from expr or expr2
-				if(comp == Operator.GT || comp == Operator.GE)
-					return expr;
-			}
-			if(expr2 != null)
-			{
-				if(comp2 == Operator.GT || comp2 == Operator.GE)
-					return expr2;
-			}
-			return null;
+			this.ascending = ascending;
+			this.comp = comp;
+			this.expr = expr;
+			this.comp2 = comp2;
+			this.expr2 = expr2;
 		}
-		else
-		{
-			if(expr != null)
-			{ // return upper bound from expr or expr2
-				if(comp == Operator.LT || comp == Operator.LE)
-					return expr;
-			}
-			if(expr2 != null)
-			{
-				if(comp2 == Operator.LT || comp2 == Operator.LE)
-					return expr2;
-			}
-			return null;
-		}
-	}
 
-	public virtual Expression To()
-	{
-		if(ascending)
+		public virtual Expression From()
 		{
-			if(expr != null)
-			{ // return upper bound from expr or expr2
-				if(comp == Operator.LT || comp == Operator.LE)
-					return expr;
-			}
-			if(expr2 != null)
+			if(ascending)
 			{
-				if(comp2 == Operator.LT || comp2 == Operator.LE)
-					return expr2;
+				if(expr != null)
+				{ // return lower bound from expr or expr2
+					if(comp == Operator.GT || comp == Operator.GE)
+						return expr;
+				}
+				if(expr2 != null)
+				{
+					if(comp2 == Operator.GT || comp2 == Operator.GE)
+						return expr2;
+				}
+				return null;
 			}
-			return null;
-		}
-		else
-		{
-			if(expr != null)
-			{ // return lower bound from expr or expr2
-				if(comp == Operator.GT || comp == Operator.GE)
-					return expr;
-			}
-			if(expr2 != null)
+			else
 			{
-				if(comp2 == Operator.GT || comp2 == Operator.GE)
-					return expr2;
+				if(expr != null)
+				{ // return upper bound from expr or expr2
+					if(comp == Operator.LT || comp == Operator.LE)
+						return expr;
+				}
+				if(expr2 != null)
+				{
+					if(comp2 == Operator.LT || comp2 == Operator.LE)
+						return expr2;
+				}
+				return null;
 			}
-			return null;
 		}
-	}
 
-	public virtual bool IncludingFrom()
-	{
-		if(ascending)
+		public virtual Expression To()
 		{
-			if(expr != null)
+			if(ascending)
 			{
-				if(comp == Operator.GT || comp == Operator.GE)
-					return comp == Operator.GE;
+				if(expr != null)
+				{ // return upper bound from expr or expr2
+					if(comp == Operator.LT || comp == Operator.LE)
+						return expr;
+				}
+				if(expr2 != null)
+				{
+					if(comp2 == Operator.LT || comp2 == Operator.LE)
+						return expr2;
+				}
+				return null;
 			}
-			if(expr2 != null)
+			else
 			{
-				if(comp2 == Operator.GT || comp2 == Operator.GE)
-					return comp2 == Operator.GE;
+				if(expr != null)
+				{ // return lower bound from expr or expr2
+					if(comp == Operator.GT || comp == Operator.GE)
+						return expr;
+				}
+				if(expr2 != null)
+				{
+					if(comp2 == Operator.GT || comp2 == Operator.GE)
+						return expr2;
+				}
+				return null;
 			}
-			return false; // dummy/don't care
 		}
-		else
-		{
-			if(expr != null)
-			{
-				if(comp == Operator.LT || comp == Operator.LE)
-					return comp == Operator.LE;
-			}
-			if(expr2 != null)
-			{
-				if(comp2 == Operator.LT || comp2 == Operator.LE)
-					return comp2 == Operator.LE;
-			}
-			return false; // dummy/don't care
-		}
-	}
 
-	public virtual bool IncludingTo()
-	{
-		if(ascending)
+		public virtual bool IncludingFrom()
 		{
-			if(expr != null)
+			if(ascending)
 			{
-				if(comp == Operator.LT || comp == Operator.LE)
-					return comp == Operator.LE;
+				if(expr != null)
+				{
+					if(comp == Operator.GT || comp == Operator.GE)
+						return comp == Operator.GE;
+				}
+				if(expr2 != null)
+				{
+					if(comp2 == Operator.GT || comp2 == Operator.GE)
+						return comp2 == Operator.GE;
+				}
+				return false; // dummy/don't care
 			}
-			if(expr2 != null)
+			else
 			{
-				if(comp2 == Operator.LT || comp2 == Operator.LE)
-					return comp2 == Operator.LE;
+				if(expr != null)
+				{
+					if(comp == Operator.LT || comp == Operator.LE)
+						return comp == Operator.LE;
+				}
+				if(expr2 != null)
+				{
+					if(comp2 == Operator.LT || comp2 == Operator.LE)
+						return comp2 == Operator.LE;
+				}
+				return false; // dummy/don't care
 			}
-			return false; // dummy/don't care
 		}
-		else
-		{
-			if(expr != null)
-			{
-				if(comp == Operator.GT || comp == Operator.GE)
-					return comp == Operator.GE;
-			}
-			if(expr2 != null)
-			{
-				if(comp2 == Operator.GT || comp2 == Operator.GE)
-					return comp2 == Operator.GE;
-			}
-			return false; // dummy/don't care
-		}
-	}
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(expr != null)
-			expr.CollectNeededEntities(needs);
-		if(expr2 != null)
-			expr2.CollectNeededEntities(needs);
+		public virtual bool IncludingTo()
+		{
+			if(ascending)
+			{
+				if(expr != null)
+				{
+					if(comp == Operator.LT || comp == Operator.LE)
+						return comp == Operator.LE;
+				}
+				if(expr2 != null)
+				{
+					if(comp2 == Operator.LT || comp2 == Operator.LE)
+						return comp2 == Operator.LE;
+				}
+				return false; // dummy/don't care
+			}
+			else
+			{
+				if(expr != null)
+				{
+					if(comp == Operator.GT || comp == Operator.GE)
+						return comp == Operator.GE;
+				}
+				if(expr2 != null)
+				{
+					if(comp2 == Operator.GT || comp2 == Operator.GE)
+						return comp2 == Operator.GE;
+				}
+				return false; // dummy/don't care
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(expr != null)
+				expr.CollectNeededEntities(needs);
+			if(expr2 != null)
+				expr2.CollectNeededEntities(needs);
+		}
 	}
-}
 
 }

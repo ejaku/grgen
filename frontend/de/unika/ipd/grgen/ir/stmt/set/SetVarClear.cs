@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.set
 {
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class SetVarClear : ContainerVarProcedureMethodInvocationBase
-{
-	public SetVarClear(Variable target)
-		: base("set var clear", target)
+	public class SetVarClear : ContainerVarProcedureMethodInvocationBase
 	{
+		public SetVarClear(Variable target)
+			: base("set var clear", target)
+		{
+		}
 	}
-}
 
 }

@@ -12,48 +12,48 @@
 namespace de.unika.ipd.grgen.ir.pattern
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
-using Rule = de.unika.ipd.grgen.ir.executable.Rule;
-
-/// <summary>
-/// Represents an alternative statement in the IR.
-/// </summary>
-public class Alternative : Identifiable
-{
-	public Alternative(Ident ident)
-		: base("alternative", ident)
-	{
-	}
-
-	internal IList<Rule> alternativeCases = new List<Rule>();
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+	using Rule = de.unika.ipd.grgen.ir.executable.Rule;
 
 	/// <summary>
-	/// Was the replacement code already called by means of an alternative replacement declaration? </summary>
-	public bool wasReplacementAlreadyCalled;
-
-	public virtual ICollection<Rule> AlternativeCases
+	/// Represents an alternative statement in the IR.
+	/// </summary>
+	public class Alternative : Identifiable
 	{
-		get
+		public Alternative(Ident ident)
+			: base("alternative", ident)
 		{
-			return alternativeCases;
+		}
+
+		internal IList<Rule> alternativeCases = new List<Rule>();
+
+		/// <summary>
+		/// Was the replacement code already called by means of an alternative replacement declaration? </summary>
+		public bool wasReplacementAlreadyCalled;
+
+		public virtual ICollection<Rule> AlternativeCases
+		{
+			get
+			{
+				return alternativeCases;
+			}
+		}
+
+		public virtual void AddAlternativeCase(Rule alternativeCaseRule)
+		{
+			alternativeCases.Add(alternativeCaseRule);
+		}
+
+		public virtual string NameOfGraph
+		{
+			get
+			{
+				return Ident.ToString();
+			}
 		}
 	}
-
-	public virtual void AddAlternativeCase(Rule alternativeCaseRule)
-	{
-		alternativeCases.Add(alternativeCaseRule);
-	}
-
-	public virtual string NameOfGraph
-	{
-		get
-		{
-			return Ident.ToString();
-		}
-	}
-}
 
 }

@@ -11,14 +11,14 @@
 
 namespace de.unika.ipd.grgen.util // potential TODO: create common package, move there (things shared != utility code)
 {
-/// <summary>
-/// Direction of an edge (as requested by neighborhood query) </summary>
-public enum Direction
-{
-	INCIDENT,
-	INCOMING,
-	OUTGOING,
-	INVALID
-}
+	/// <summary>
+	/// Direction of an edge (as requested by neighborhood query) </summary>
+	public enum Direction
+	{
+		INCIDENT,
+		INCOMING,
+		OUTGOING,
+		INVALID
+	}
 
 }

@@ -10,15 +10,15 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayMaxExpr : ArrayFunctionMethodInvocationBaseExpr
-{
-	public ArrayMaxExpr(Expression targetExpr)
-		: base("array max expr", ((ArrayType)(targetExpr.Type)).valueType, targetExpr)
+	public class ArrayMaxExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
+		public ArrayMaxExpr(Expression targetExpr)
+			: base("array max expr", ((ArrayType)(targetExpr.Type)).valueType, targetExpr)
+		{
+		}
 	}
-}
 
 }

@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.array
 {
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
 
-public class ArrayClear : ContainerQualProcedureMethodInvocationBase
-{
-	public ArrayClear(Qualification target)
-		: base("array clear", target)
+	public class ArrayClear : ContainerQualProcedureMethodInvocationBase
 	{
+		public ArrayClear(Qualification target)
+			: base("array clear", target)
+		{
+		}
 	}
-}
 
 }

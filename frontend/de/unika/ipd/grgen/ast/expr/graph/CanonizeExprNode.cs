@@ -8,79 +8,79 @@
 namespace de.unika.ipd.grgen.ast.expr.graph
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using CanonizeExpr = de.unika.ipd.grgen.ir.expr.graph.CanonizeExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using CanonizeExpr = de.unika.ipd.grgen.ir.expr.graph.CanonizeExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class CanonizeExprNode : BuiltinFunctionInvocationBaseNode
-{
-	static CanonizeExprNode()
+	public class CanonizeExprNode : BuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(CanonizeExprNode), "canonize expr");
-	}
-
-	private ExprNode graphExpr;
-
-	public CanonizeExprNode(Coords coords, ExprNode graphExpr)
-		: base(coords)
-	{
-
-		this.graphExpr = BecomeParent(graphExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static CanonizeExprNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(graphExpr);
-			return children;
+			SetClassName(typeof(CanonizeExprNode), "canonize expr");
+		}
+
+		private ExprNode graphExpr;
+
+		public CanonizeExprNode(Coords coords, ExprNode graphExpr)
+			: base(coords)
+		{
+
+			this.graphExpr = BecomeParent(graphExpr);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(graphExpr);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("graph");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			if(graphExpr.Type.IsEqual(BasicTypeNode.graphType))
+				return true;
+			else
+			{
+				ReportError("The function canonize expects as argument a value of type graph"
+						+ " (but is given a value of type " + graphExpr.Type.TypeName + ").");
+				return false;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			graphExpr = graphExpr.Evaluate();
+			return new CanonizeExpr(graphExpr.CheckIR(typeof(Expression)));
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.stringType;
+			}
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("graph");
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		if(graphExpr.Type.IsEqual(BasicTypeNode.graphType))
-			return true;
-		else
-		{
-			ReportError("The function canonize expects as argument a value of type graph"
-					+ " (but is given a value of type " + graphExpr.Type.TypeName + ").");
-			return false;
-		}
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		graphExpr = graphExpr.Evaluate();
-		return new CanonizeExpr(graphExpr.CheckIR(typeof(Expression)));
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return BasicTypeNode.stringType;
-		}
-	}
-}
 
 }

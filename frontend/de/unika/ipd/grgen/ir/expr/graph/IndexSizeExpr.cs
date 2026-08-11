@@ -7,34 +7,34 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Index = de.unika.ipd.grgen.ir.model.Index;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Index = de.unika.ipd.grgen.ir.model.Index;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class IndexSizeExpr : BuiltinFunctionInvocationExpr
-{
-	public readonly Index index;
-
-	public IndexSizeExpr(Index index, Type type)
-		: base("index size expression", type)
+	public class IndexSizeExpr : BuiltinFunctionInvocationExpr
 	{
-		this.index = index;
-	}
+		public readonly Index index;
 
-	public virtual Index Index
-	{
-		get
+		public IndexSizeExpr(Index index, Type type)
+			: base("index size expression", type)
 		{
-			return index;
+			this.index = index;
+		}
+
+		public virtual Index Index
+		{
+			get
+			{
+				return index;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-	}
-}
 
 }

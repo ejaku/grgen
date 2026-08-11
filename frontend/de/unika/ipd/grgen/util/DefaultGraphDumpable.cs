@@ -12,115 +12,115 @@
 namespace de.unika.ipd.grgen.util
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
 
-/// <summary>
-/// Some base class for a graph dumpable thing.
-/// </summary>
-public abstract class DefaultGraphDumpable : Base, GraphDumpable, Walkable
-{
-	private ICollection<BaseNode> children = null;
-
-	private readonly Color color;
-	private readonly int shape;
-	private readonly string label;
-	private readonly string info;
-
-	protected internal DefaultGraphDumpable(string label, string info, Color col, int shape)
+	/// <summary>
+	/// Some base class for a graph dumpable thing.
+	/// </summary>
+	public abstract class DefaultGraphDumpable : Base, GraphDumpable, Walkable
 	{
-		this.label = label;
-		this.shape = shape;
-		this.color = col;
-		this.info = info;
-	}
+		private ICollection<BaseNode> children = null;
 
-	protected internal DefaultGraphDumpable(string label, string info, Color col)
-		: this(label, info, col, GraphDumper.DEFAULT)
-	{
-	}
+		private readonly Color color;
+		private readonly int shape;
+		private readonly string label;
+		private readonly string info;
 
-	protected internal DefaultGraphDumpable(string label, string info)
-		: this(label, info, Color.WHITE)
-	{
-	}
-
-	protected internal DefaultGraphDumpable(string label)
-		: this(label, null)
-	{
-	}
-
-	protected internal void setChildren(ICollection<BaseNode> children)
-	{
-		this.children = children;
-	}
-
-	protected internal void SetChildren(BaseNode[] children)
-	{
-		setChildren(children);
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeId()"/>
-	public virtual string NodeId
-	{
-		get
+		protected internal DefaultGraphDumpable(string label, string info, Color col, int shape)
 		{
-			return Id;
+			this.label = label;
+			this.shape = shape;
+			this.color = col;
+			this.info = info;
+		}
+
+		protected internal DefaultGraphDumpable(string label, string info, Color col)
+			: this(label, info, col, GraphDumper.DEFAULT)
+		{
+		}
+
+		protected internal DefaultGraphDumpable(string label, string info)
+			: this(label, info, Color.WHITE)
+		{
+		}
+
+		protected internal DefaultGraphDumpable(string label)
+			: this(label, null)
+		{
+		}
+
+		protected internal void setChildren(ICollection<BaseNode> children)
+		{
+			this.children = children;
+		}
+
+		protected internal void SetChildren(BaseNode[] children)
+		{
+			setChildren(children);
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeId()"/>
+		public virtual string NodeId
+		{
+			get
+			{
+				return Id;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor()"/>
+		public virtual Color NodeColor
+		{
+			get
+			{
+				return color;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeShape()"/>
+		public virtual int NodeShape
+		{
+			get
+			{
+				return shape;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel()"/>
+		public virtual string NodeLabel
+		{
+			get
+			{
+				return label;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeInfo()"/>
+		public virtual string NodeInfo
+		{
+			get
+			{
+				return info;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getEdgeLabel(int)"/>
+		public virtual string GetEdgeLabel(int edge)
+		{
+			return "" + edge;
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.Walkable.getWalkableChildren()"/>
+		public virtual ICollection<BaseNode> WalkableChildren
+		{
+			get
+			{
+				ICollection<BaseNode> empty = Collections.EmptySet();
+				return children == null ? empty : children;
+			}
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor()"/>
-	public virtual Color NodeColor
-	{
-		get
-		{
-			return color;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeShape()"/>
-	public virtual int NodeShape
-	{
-		get
-		{
-			return shape;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel()"/>
-	public virtual string NodeLabel
-	{
-		get
-		{
-			return label;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeInfo()"/>
-	public virtual string NodeInfo
-	{
-		get
-		{
-			return info;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getEdgeLabel(int)"/>
-	public virtual string GetEdgeLabel(int edge)
-	{
-		return "" + edge;
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.Walkable.getWalkableChildren()"/>
-	public virtual ICollection<BaseNode> WalkableChildren
-	{
-		get
-		{
-			ICollection<BaseNode> empty = Collections.EmptySet();
-			return children == null ? empty : children;
-		}
-	}
-}
 
 }

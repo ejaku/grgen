@@ -7,33 +7,33 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
 
-public class CanonizeExpr : BuiltinFunctionInvocationExpr
-{
-	private Expression graphExpr;
-
-	public CanonizeExpr(Expression graphExpr)
-		: base("canonize expr", StringType.Type)
+	public class CanonizeExpr : BuiltinFunctionInvocationExpr
 	{
-		this.graphExpr = graphExpr;
-	}
+		private Expression graphExpr;
 
-	public virtual Expression GraphExpr
-	{
-		get
+		public CanonizeExpr(Expression graphExpr)
+			: base("canonize expr", StringType.Type)
 		{
-			return graphExpr;
+			this.graphExpr = graphExpr;
+		}
+
+		public virtual Expression GraphExpr
+		{
+			get
+			{
+				return graphExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			graphExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		graphExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

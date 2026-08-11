@@ -11,49 +11,49 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using de.unika.ipd.grgen.ir;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using de.unika.ipd.grgen.ir;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-/// <summary>
-/// Represents an accumulation yielding of a matches variable in the IR.
-/// </summary>
-public class MatchesAccumulationYield : BlockNestingStatement
-{
-	private Variable iterationVar;
-	private Variable matchesVar;
-
-	public MatchesAccumulationYield(Variable iterationVar, Variable matchesVar)
-		: base("matches accumulation yield")
+	/// <summary>
+	/// Represents an accumulation yielding of a matches variable in the IR.
+	/// </summary>
+	public class MatchesAccumulationYield : BlockNestingStatement
 	{
-		this.iterationVar = iterationVar;
-		this.matchesVar = matchesVar;
-	}
+		private Variable iterationVar;
+		private Variable matchesVar;
 
-	public virtual Variable IterationVar
-	{
-		get
+		public MatchesAccumulationYield(Variable iterationVar, Variable matchesVar)
+			: base("matches accumulation yield")
 		{
-			return iterationVar;
+			this.iterationVar = iterationVar;
+			this.matchesVar = matchesVar;
+		}
+
+		public virtual Variable IterationVar
+		{
+			get
+			{
+				return iterationVar;
+			}
+		}
+
+		public virtual Variable MatchesVar
+		{
+			get
+			{
+				return matchesVar;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(!IsGlobalVariable(matchesVar))
+				needs.Add(matchesVar);
+			foreach(EvalStatement accumulationStatement in statements)
+				accumulationStatement.CollectNeededEntities(needs);
+			if(needs.variables != null)
+				needs.variables.Remove(iterationVar);
 		}
 	}
-
-	public virtual Variable MatchesVar
-	{
-		get
-		{
-			return matchesVar;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(!IsGlobalVariable(matchesVar))
-			needs.Add(matchesVar);
-		foreach(EvalStatement accumulationStatement in statements)
-			accumulationStatement.CollectNeededEntities(needs);
-		if(needs.variables != null)
-			needs.variables.Remove(iterationVar);
-	}
-}
 
 }

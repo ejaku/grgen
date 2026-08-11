@@ -12,52 +12,52 @@
 namespace de.unika.ipd.grgen.ir.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-public abstract class ContainerQualProcedureMethodInvocationBase : BuiltinProcedureInvocationBase
-{
-	protected internal Qualification target;
-
-	protected internal ContainerQualProcedureMethodInvocationBase(string name, Qualification target)
-		: base(name)
+	public abstract class ContainerQualProcedureMethodInvocationBase : BuiltinProcedureInvocationBase
 	{
-		this.target = target;
-	}
+		protected internal Qualification target;
 
-	public virtual Qualification Target
-	{
-		get
+		protected internal ContainerQualProcedureMethodInvocationBase(string name, Qualification target)
+			: base(name)
 		{
-			return target;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		Entity entity = target.Owner;
-		if(!IsGlobalVariable(entity))
-		{
-			if(entity is GraphEntity)
-				needs.Add((GraphEntity)entity);
-			else
-				needs.Add((Variable)entity);
+			this.target = target;
 		}
 
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.CollectNeededEntities(needs);
-		needs.variables = varSet;
+		public virtual Qualification Target
+		{
+			get
+			{
+				return target;
+			}
+		}
 
-		if(Next != null)
-			Next.CollectNeededEntities(needs);
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			Entity entity = target.Owner;
+			if(!IsGlobalVariable(entity))
+			{
+				if(entity is GraphEntity)
+					needs.Add((GraphEntity)entity);
+				else
+					needs.Add((Variable)entity);
+			}
+
+			// Temporarily do not collect variables for target
+			HashSet<Variable> varSet = needs.variables;
+			needs.variables = null;
+			target.CollectNeededEntities(needs);
+			needs.variables = varSet;
+
+			if(Next != null)
+				Next.CollectNeededEntities(needs);
+		}
 	}
-}
 
 }

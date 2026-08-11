@@ -11,47 +11,47 @@
 
 namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 
-/// <summary>
-/// AST node for an iterated pattern, maybe including replacements.
-/// </summary>
-public class IteratedPureDeclNode : IteratedDeclNode
-{
-	static IteratedPureDeclNode()
+	/// <summary>
+	/// AST node for an iterated pattern, maybe including replacements.
+	/// </summary>
+	public class IteratedPureDeclNode : IteratedDeclNode
 	{
-		SetClassName(typeof(IteratedPureDeclNode), "iterated");
-	}
-
-	public IteratedPureDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)
-		: base(id, left, right)
-	{
-	}
-
-	protected internal override int MinMatches
-	{
-		get
+		static IteratedPureDeclNode()
 		{
-			return 0;
+			SetClassName(typeof(IteratedPureDeclNode), "iterated");
+		}
+
+		public IteratedPureDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)
+			: base(id, left, right)
+		{
+		}
+
+		protected internal override int MinMatches
+		{
+			get
+			{
+				return 0;
+			}
+		}
+
+		protected internal override int MaxMatches
+		{
+			get
+			{
+				return 0;
+			}
+		}
+
+		public static string KindStr
+		{
+			get
+			{
+				return "iterated";
+			}
 		}
 	}
-
-	protected internal override int MaxMatches
-	{
-		get
-		{
-			return 0;
-		}
-	}
-
-	public static string KindStr
-	{
-		get
-		{
-			return "iterated";
-		}
-	}
-}
 
 }

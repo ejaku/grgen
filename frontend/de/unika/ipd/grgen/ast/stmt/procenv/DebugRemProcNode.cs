@@ -12,41 +12,41 @@
 namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using DebugRemProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugRemProc;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using DebugRemProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugRemProc;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class DebugRemProcNode : DebugProcNode
-{
-	static DebugRemProcNode()
+	public class DebugRemProcNode : DebugProcNode
 	{
-		SetClassName(typeof(DebugRemProcNode), "debug rem procedure");
-	}
-
-	public DebugRemProcNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	protected internal override string ShortSignature()
-	{
-		return "Debug::rem()";
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		IList<Expression> expressions = new List<Expression>();
-		foreach(ExprNode expr in exprs.GetChildrenExact())
+		static DebugRemProcNode()
 		{
-			ExprNode exprEvaluated = expr.Evaluate();
-			expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+			SetClassName(typeof(DebugRemProcNode), "debug rem procedure");
 		}
-		return new DebugRemProc(expressions);
+
+		public DebugRemProcNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		protected internal override string ShortSignature()
+		{
+			return "Debug::rem()";
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			IList<Expression> expressions = new List<Expression>();
+			foreach(ExprNode expr in exprs.GetChildrenExact())
+			{
+				ExprNode exprEvaluated = expr.Evaluate();
+				expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+			}
+			return new DebugRemProc(expressions);
+		}
 	}
-}
 
 }

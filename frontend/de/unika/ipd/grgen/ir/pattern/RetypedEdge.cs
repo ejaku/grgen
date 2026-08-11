@@ -7,56 +7,56 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
-using Annotations = de.unika.ipd.grgen.util.Annotations;
-using Retyped = de.unika.ipd.grgen.util.Retyped;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+	using Annotations = de.unika.ipd.grgen.util.Annotations;
+	using Retyped = de.unika.ipd.grgen.util.Retyped;
 
-public class RetypedEdge : Edge, Retyped
-{
-	/// <summary>
-	///  The original edge </summary>
-	public Edge oldEdge = null;
-
-	public RetypedEdge(Ident ident, EdgeType type, Annotations annots,
-			bool maybeDeleted, bool maybeRetyped, bool isDefToBeYieldedTo, int context)
-		: base(ident, type, annots, null, maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context)
+	public class RetypedEdge : Edge, Retyped
 	{
-	}
+		/// <summary>
+		///  The original edge </summary>
+		public Edge oldEdge = null;
 
-	public virtual Entity OldEntity
-	{
-		get
+		public RetypedEdge(Ident ident, EdgeType type, Annotations annots,
+				bool maybeDeleted, bool maybeRetyped, bool isDefToBeYieldedTo, int context)
+			: base(ident, type, annots, null, maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context)
 		{
-			return oldEdge;
 		}
-		set
+
+		public virtual Entity OldEntity
 		{
-			this.oldEdge = (Edge)value;
+			get
+			{
+				return oldEdge;
+			}
+			set
+			{
+				this.oldEdge = (Edge)value;
+			}
+		}
+
+
+		/// <summary>
+		/// returns the original edge in the graph. </summary>
+		public virtual Edge OldEdge
+		{
+			get
+			{
+				return oldEdge;
+			}
+			set
+			{
+				this.oldEdge = value;
+			}
+		}
+
+
+		public override bool IsRetyped()
+		{
+			return true;
 		}
 	}
-
-
-	/// <summary>
-	/// returns the original edge in the graph. </summary>
-	public virtual Edge OldEdge
-	{
-		get
-		{
-			return oldEdge;
-		}
-		set
-		{
-			this.oldEdge = value;
-		}
-	}
-
-
-	public override bool IsRetyped()
-	{
-		return true;
-	}
-}
 
 }

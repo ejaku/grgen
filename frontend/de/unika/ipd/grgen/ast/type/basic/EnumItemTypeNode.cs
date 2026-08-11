@@ -7,23 +7,23 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-/// <summary>
-/// The enum member type.
-/// </summary>
-public class EnumItemTypeNode : BasicTypeNode
-{
-	static EnumItemTypeNode()
+	/// <summary>
+	/// The enum member type.
+	/// </summary>
+	public class EnumItemTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(EnumItemTypeNode), "enum item type");
-	}
+		static EnumItemTypeNode()
+		{
+			SetClassName(typeof(EnumItemTypeNode), "enum item type");
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new IntType(Ident.IRIdent);
+		protected internal override IR ConstructIR()
+		{
+			return new IntType(Ident.IRIdent);
+		}
 	}
-}
 
 }

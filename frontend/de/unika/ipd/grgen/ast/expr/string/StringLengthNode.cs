@@ -12,78 +12,78 @@
 namespace de.unika.ipd.grgen.ast.expr.@string
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using StringLength = de.unika.ipd.grgen.ir.expr.@string.StringLength;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using StringLength = de.unika.ipd.grgen.ir.expr.@string.StringLength;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class StringLengthNode : BuiltinFunctionInvocationBaseNode
-{
-	static StringLengthNode()
+	public class StringLengthNode : BuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(StringLengthNode), "string length");
-	}
-
-	private ExprNode stringExpr;
-
-	public StringLengthNode(Coords coords, ExprNode stringExpr)
-		: base(coords)
-	{
-
-		this.stringExpr = BecomeParent(stringExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static StringLengthNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(stringExpr);
-			return children;
+			SetClassName(typeof(StringLengthNode), "string length");
+		}
+
+		private ExprNode stringExpr;
+
+		public StringLengthNode(Coords coords, ExprNode stringExpr)
+			: base(coords)
+		{
+
+			this.stringExpr = BecomeParent(stringExpr);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(stringExpr);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("string");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			if(!stringExpr.Type.IsEqual(BasicTypeNode.stringType))
+			{
+				stringExpr.ReportError("The string function method length can only be employed on an object of type string"
+						+ " (but is employed on an object of type " + stringExpr.Type.TypeName + ").");
+				return false;
+			}
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			stringExpr = stringExpr.Evaluate();
+			return new StringLength(stringExpr.CheckIR(typeof(Expression)));
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.intType;
+			}
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("string");
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		if(!stringExpr.Type.IsEqual(BasicTypeNode.stringType))
-		{
-			stringExpr.ReportError("The string function method length can only be employed on an object of type string"
-					+ " (but is employed on an object of type " + stringExpr.Type.TypeName + ").");
-			return false;
-		}
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		stringExpr = stringExpr.Evaluate();
-		return new StringLength(stringExpr.CheckIR(typeof(Expression)));
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return BasicTypeNode.intType;
-		}
-	}
-}
 
 }

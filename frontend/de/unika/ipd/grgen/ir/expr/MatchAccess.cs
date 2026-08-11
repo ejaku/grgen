@@ -11,35 +11,35 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using de.unika.ipd.grgen.ir;
+	using de.unika.ipd.grgen.ir;
 
-public class MatchAccess : Expression
-{
-	internal Expression expression;
-	internal Entity entity; // member
-
-	public MatchAccess(Expression expression, Entity entity)
-		: base("match access", entity.Type)
+	public class MatchAccess : Expression
 	{
-		this.expression = expression;
-		this.entity = entity;
-	}
+		internal Expression expression;
+		internal Entity entity; // member
 
-	public virtual Expression Expr
-	{
-		get
+		public MatchAccess(Expression expression, Entity entity)
+			: base("match access", entity.Type)
 		{
-			return expression;
+			this.expression = expression;
+			this.entity = entity;
+		}
+
+		public virtual Expression Expr
+		{
+			get
+			{
+				return expression;
+			}
+		}
+
+		public virtual Entity Entity
+		{
+			get
+			{
+				return entity;
+			}
 		}
 	}
-
-	public virtual Entity Entity
-	{
-		get
-		{
-			return entity;
-		}
-	}
-}
 
 }

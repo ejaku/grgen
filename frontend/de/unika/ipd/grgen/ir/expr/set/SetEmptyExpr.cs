@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.set
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-public class SetEmptyExpr : SetFunctionMethodInvocationBaseExpr
-{
-	public SetEmptyExpr(Expression targetExpr)
-		: base("set empty expression", BooleanType.Type, targetExpr)
+	public class SetEmptyExpr : SetFunctionMethodInvocationBaseExpr
 	{
+		public SetEmptyExpr(Expression targetExpr)
+			: base("set empty expression", BooleanType.Type, targetExpr)
+		{
+		}
 	}
-}
 
 }

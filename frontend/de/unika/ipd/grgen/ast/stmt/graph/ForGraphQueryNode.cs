@@ -11,66 +11,66 @@
 
 namespace de.unika.ipd.grgen.ast.stmt.graph
 {
-using de.unika.ipd.grgen.ast;
-using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-using NestingStatementNode = de.unika.ipd.grgen.ast.stmt.NestingStatementNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+	using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+	using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+	using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+	using NestingStatementNode = de.unika.ipd.grgen.ast.stmt.NestingStatementNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-/// <summary>
-/// AST node representing a for lookup of a neighborhood function.
-/// </summary>
-public abstract class ForGraphQueryNode : NestingStatementNode
-{
-	static ForGraphQueryNode()
+	/// <summary>
+	/// AST node representing a for lookup of a neighborhood function.
+	/// </summary>
+	public abstract class ForGraphQueryNode : NestingStatementNode
 	{
-		SetClassName(typeof(ForGraphQueryNode), "ForGraphQuery");
-	}
-
-	internal BaseNode iterationVariableUnresolved;
-	internal VarDeclNode iterationVariable;
-
-	protected internal ForGraphQueryNode(Coords coords, BaseNode iterationVariable, CollectNode<EvalStatementNode> loopedStatements)
-		: base(coords, loopedStatements)
-	{
-		this.iterationVariableUnresolved = iterationVariable;
-		BecomeParent(this.iterationVariableUnresolved);
-	}
-
-	protected internal virtual bool ResolveIterationVariable(string forType)
-	{
-		bool successfullyResolved = true;
-
-		if(iterationVariableUnresolved is VarDeclNode)
-			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
-		else
+		static ForGraphQueryNode()
 		{
-			ReportError("Error in resolving iteration variable of for " + forType + " loop.");
-			successfullyResolved = false;
+			SetClassName(typeof(ForGraphQueryNode), "ForGraphQuery");
 		}
 
-		if(!iterationVariable.Resolve())
-			successfullyResolved = false;
+		internal BaseNode iterationVariableUnresolved;
+		internal VarDeclNode iterationVariable;
 
-		return successfullyResolved;
-	}
-
-	protected internal virtual bool CheckIterationVariable(string forType)
-	{
-		TypeNode iterationVariableType = iterationVariable.DeclType;
-		if(!(iterationVariableType is NodeTypeNode)
-				&& !(iterationVariableType is EdgeTypeNode))
+		protected internal ForGraphQueryNode(Coords coords, BaseNode iterationVariable, CollectNode<EvalStatementNode> loopedStatements)
+			: base(coords, loopedStatements)
 		{
-			ReportError("Iteration variable of for " + forType + " loop must be of type Node or Edge"
-					+ " (but is of type " + iterationVariableType.ToStringWithDeclarationCoords() + ").");
-			return false;
+			this.iterationVariableUnresolved = iterationVariable;
+			BecomeParent(this.iterationVariableUnresolved);
 		}
 
-		return true;
+		protected internal virtual bool ResolveIterationVariable(string forType)
+		{
+			bool successfullyResolved = true;
+
+			if(iterationVariableUnresolved is VarDeclNode)
+				iterationVariable = (VarDeclNode)iterationVariableUnresolved;
+			else
+			{
+				ReportError("Error in resolving iteration variable of for " + forType + " loop.");
+				successfullyResolved = false;
+			}
+
+			if(!iterationVariable.Resolve())
+				successfullyResolved = false;
+
+			return successfullyResolved;
+		}
+
+		protected internal virtual bool CheckIterationVariable(string forType)
+		{
+			TypeNode iterationVariableType = iterationVariable.DeclType;
+			if(!(iterationVariableType is NodeTypeNode)
+					&& !(iterationVariableType is EdgeTypeNode))
+			{
+				ReportError("Iteration variable of for " + forType + " loop must be of type Node or Edge"
+						+ " (but is of type " + iterationVariableType.ToStringWithDeclarationCoords() + ").");
+				return false;
+			}
+
+			return true;
+		}
 	}
-}
 
 }

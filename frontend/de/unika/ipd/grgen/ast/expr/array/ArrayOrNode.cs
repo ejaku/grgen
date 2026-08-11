@@ -11,66 +11,66 @@
 
 namespace de.unika.ipd.grgen.ast.expr.array
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayOrExpr = de.unika.ipd.grgen.ir.expr.array.ArrayOrExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayOrExpr = de.unika.ipd.grgen.ir.expr.array.ArrayOrExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayOrNode : ArrayAccumulationMethodNode
-{
-	static ArrayOrNode()
+	public class ArrayOrNode : ArrayAccumulationMethodNode
 	{
-		SetClassName(typeof(ArrayOrNode), "array or");
-	}
-
-	public ArrayOrNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = TargetTypeExact;
-		if(!arrayType.valueType.IsEqual(BasicTypeNode.booleanType))
+		static ArrayOrNode()
 		{
-			targetExpr.ReportError("The array function method or can only be employed on an object of type array<boolean>"
-					+ " (but is employed on an object of type " + arrayType.TypeName + ").");
-			return false;
+			SetClassName(typeof(ArrayOrNode), "array or");
 		}
-		return true;
-	}
 
-	public override TypeNode Type
-	{
-		get
+		public ArrayOrNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
 		{
-			return BasicTypeNode.booleanType;
 		}
-	}
 
-	public override bool IsValidTargetTypeOfAccumulation(TypeNode type)
-	{
-		return type.IsEqual(BasicTypeNode.booleanType);
-	}
-
-	public override string ValidTargetTypesOfAccumulation
-	{
-		get
+		protected internal override bool CheckLocal()
 		{
-			return "boolean";
+			// target type already checked during resolving into this node
+			ArrayTypeNode arrayType = TargetTypeExact;
+			if(!arrayType.valueType.IsEqual(BasicTypeNode.booleanType))
+			{
+				targetExpr.ReportError("The array function method or can only be employed on an object of type array<boolean>"
+						+ " (but is employed on an object of type " + arrayType.TypeName + ").");
+				return false;
+			}
+			return true;
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.booleanType;
+			}
+		}
+
+		public override bool IsValidTargetTypeOfAccumulation(TypeNode type)
+		{
+			return type.IsEqual(BasicTypeNode.booleanType);
+		}
+
+		public override string ValidTargetTypesOfAccumulation
+		{
+			get
+			{
+				return "boolean";
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new ArrayOrExpr(targetExpr.CheckIR(typeof(Expression)));
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new ArrayOrExpr(targetExpr.CheckIR(typeof(Expression)));
-	}
-}
 
 }

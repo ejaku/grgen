@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.deque
 {
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
 
-public class DequeClear : ContainerQualProcedureMethodInvocationBase
-{
-	public DequeClear(Qualification target)
-		: base("deque clear", target)
+	public class DequeClear : ContainerQualProcedureMethodInvocationBase
 	{
+		public DequeClear(Qualification target)
+			: base("deque clear", target)
+		{
+		}
 	}
-}
 
 }

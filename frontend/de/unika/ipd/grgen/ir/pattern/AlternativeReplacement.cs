@@ -11,27 +11,27 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
 
-public class AlternativeReplacement : Identifiable, OrderedReplacement
-{
-	internal Alternative alternative;
-
-	public AlternativeReplacement(string name, Ident ident,
-			Alternative alternative)
-		: base(name, ident)
+	public class AlternativeReplacement : Identifiable, OrderedReplacement
 	{
-		this.alternative = alternative;
-	}
+		internal Alternative alternative;
 
-	public virtual Alternative Alternative
-	{
-		get
+		public AlternativeReplacement(string name, Ident ident,
+				Alternative alternative)
+			: base(name, ident)
 		{
-			return alternative;
+			this.alternative = alternative;
+		}
+
+		public virtual Alternative Alternative
+		{
+			get
+			{
+				return alternative;
+			}
 		}
 	}
-}
 
 }

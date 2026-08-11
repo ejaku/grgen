@@ -12,28 +12,28 @@
 namespace de.unika.ipd.grgen.util
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-/// <summary>
-/// A collection of annotations.
-/// </summary>
-public interface Annotations
-{
-	bool ContainsKey(string key);
+	/// <summary>
+	/// A collection of annotations.
+	/// </summary>
+	public interface Annotations
+	{
+		bool ContainsKey(string key);
 
-	object Get(string key);
+		object Get(string key);
 
-	bool IsInteger(string key);
+		bool IsInteger(string key);
 
-	bool IsBoolean(string key);
+		bool IsBoolean(string key);
 
-	bool IsString(string key);
+		bool IsString(string key);
 
-	bool IsFlagSet(string key);
+		bool IsFlagSet(string key);
 
-	void Put(string key, object value);
+		void Put(string key, object value);
 
-	ISet<string> KeySet();
-}
+		ISet<string> KeySet();
+	}
 
 }

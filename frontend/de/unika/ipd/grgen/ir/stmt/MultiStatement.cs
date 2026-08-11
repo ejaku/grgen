@@ -12,40 +12,40 @@
 namespace de.unika.ipd.grgen.ir.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
 
-/// <summary>
-/// Represents a multi statement in the IR.
-/// </summary>
-public class MultiStatement : EvalStatement
-{
-	private List<EvalStatement> statements = new List<EvalStatement>();
-
-	public MultiStatement()
-		: base("multi statement")
+	/// <summary>
+	/// Represents a multi statement in the IR.
+	/// </summary>
+	public class MultiStatement : EvalStatement
 	{
-	}
+		private List<EvalStatement> statements = new List<EvalStatement>();
 
-	public virtual void AddStatement(EvalStatement loopedStatement)
-	{
-		statements.Add(loopedStatement);
-	}
-
-	public virtual ICollection<EvalStatement> Statements
-	{
-		get
+		public MultiStatement()
+			: base("multi statement")
 		{
-			return statements.AsReadOnly();
+		}
+
+		public virtual void AddStatement(EvalStatement loopedStatement)
+		{
+			statements.Add(loopedStatement);
+		}
+
+		public virtual ICollection<EvalStatement> Statements
+		{
+			get
+			{
+				return statements.AsReadOnly();
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			foreach(EvalStatement statement in statements)
+				statement.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		foreach(EvalStatement statement in statements)
-			statement.CollectNeededEntities(needs);
-	}
-}
 
 }

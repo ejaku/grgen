@@ -11,33 +11,33 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class RecordProc : BuiltinProcedureInvocationBase
-{
-	private Expression toRecordExpr;
-
-	public RecordProc(Expression toRecordExpr)
-		: base("record procedure")
+	public class RecordProc : BuiltinProcedureInvocationBase
 	{
-		this.toRecordExpr = toRecordExpr;
-	}
+		private Expression toRecordExpr;
 
-	public virtual Expression ToRecordExpr
-	{
-		get
+		public RecordProc(Expression toRecordExpr)
+			: base("record procedure")
 		{
-			return toRecordExpr;
+			this.toRecordExpr = toRecordExpr;
+		}
+
+		public virtual Expression ToRecordExpr
+		{
+			get
+			{
+				return toRecordExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			toRecordExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		toRecordExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

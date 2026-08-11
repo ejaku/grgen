@@ -7,25 +7,25 @@
 
 namespace de.unika.ipd.grgen.ast.model.decl
 {
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 
-/// <summary>
-/// A compound type member declaration that is abstract, i.e. has no type defined yet, but just a member name.
-/// </summary>
-public class AbstractMemberDeclNode : MemberDeclNode
-{
-	static AbstractMemberDeclNode()
+	/// <summary>
+	/// A compound type member declaration that is abstract, i.e. has no type defined yet, but just a member name.
+	/// </summary>
+	public class AbstractMemberDeclNode : MemberDeclNode
 	{
-		SetClassName(typeof(AbstractMemberDeclNode), "abstract member declaration");
-	}
+		static AbstractMemberDeclNode()
+		{
+			SetClassName(typeof(AbstractMemberDeclNode), "abstract member declaration");
+		}
 
-	/// <param name="n"> Identifier which declared the member. </param>
-	/// <param name="t"> Type with which the member was declared. </param>
-	public AbstractMemberDeclNode(IdentNode n, bool isConst)
-		: base(n, BasicTypeNode.voidType, isConst)
-	{
+		/// <param name="n"> Identifier which declared the member. </param>
+		/// <param name="t"> Type with which the member was declared. </param>
+		public AbstractMemberDeclNode(IdentNode n, bool isConst)
+			: base(n, BasicTypeNode.voidType, isConst)
+		{
+		}
 	}
-}
 
 }

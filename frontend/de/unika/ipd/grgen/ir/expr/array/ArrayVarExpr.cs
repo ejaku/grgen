@@ -10,15 +10,15 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayVarExpr : ArrayFunctionMethodInvocationBaseExpr
-{
-	public ArrayVarExpr(Expression targetExpr)
-		: base("array var expr", ((ArrayType)(targetExpr.Type)).valueType, targetExpr)
+	public class ArrayVarExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
+		public ArrayVarExpr(Expression targetExpr)
+			: base("array var expr", ((ArrayType)(targetExpr.Type)).valueType, targetExpr)
+		{
+		}
 	}
-}
 
 }

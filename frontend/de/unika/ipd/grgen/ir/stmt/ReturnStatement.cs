@@ -11,34 +11,34 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/// <summary>
-/// Represents a return statement of a function in the IR.
-/// </summary>
-public class ReturnStatement : EvalStatement
-{
-	private Expression returnValueExpr;
-
-	public ReturnStatement(Expression returnValueExpr)
-		: base("return statement")
+	/// <summary>
+	/// Represents a return statement of a function in the IR.
+	/// </summary>
+	public class ReturnStatement : EvalStatement
 	{
-		this.returnValueExpr = returnValueExpr;
-	}
+		private Expression returnValueExpr;
 
-	public virtual Expression ReturnValueExpr
-	{
-		get
+		public ReturnStatement(Expression returnValueExpr)
+			: base("return statement")
 		{
-			return returnValueExpr;
+			this.returnValueExpr = returnValueExpr;
+		}
+
+		public virtual Expression ReturnValueExpr
+		{
+			get
+			{
+				return returnValueExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			returnValueExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		returnValueExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

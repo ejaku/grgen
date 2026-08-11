@@ -7,27 +7,27 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Index = de.unika.ipd.grgen.ir.model.Index;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Index = de.unika.ipd.grgen.ir.model.Index;
 
-/// <summary>
-/// Class for accessing an index by equality comparison, binding a pattern element
-/// </summary>
-public class IndexAccessEquality : IndexAccess
-{
-	public Expression expr;
-
-	public IndexAccessEquality(Index index, Expression expr)
-		: base(index)
+	/// <summary>
+	/// Class for accessing an index by equality comparison, binding a pattern element
+	/// </summary>
+	public class IndexAccessEquality : IndexAccess
 	{
-		this.expr = expr;
-	}
+		public Expression expr;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		expr.CollectNeededEntities(needs);
+		public IndexAccessEquality(Index index, Expression expr)
+			: base(index)
+		{
+			this.expr = expr;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			expr.CollectNeededEntities(needs);
+		}
 	}
-}
 
 }

@@ -8,63 +8,63 @@
 namespace de.unika.ipd.grgen.ast.expr.numeric
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using LongMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.LongMaxExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using LongMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.LongMaxExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class LongMaxExprNode : BuiltinFunctionInvocationBaseNode
-{
-	static LongMaxExprNode()
+	public class LongMaxExprNode : BuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(LongMaxExprNode), "longmax expr");
-	}
-
-	public LongMaxExprNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static LongMaxExprNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			return children;
+			SetClassName(typeof(LongMaxExprNode), "longmax expr");
+		}
+
+		public LongMaxExprNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			return new LongMaxExpr();
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.longType;
+			}
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		return new LongMaxExpr();
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return BasicTypeNode.longType;
-		}
-	}
-}
 
 }

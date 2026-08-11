@@ -12,36 +12,36 @@
 namespace de.unika.ipd.grgen.ir
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using FilterFunction = de.unika.ipd.grgen.ir.executable.FilterFunction;
-using Function = de.unika.ipd.grgen.ir.executable.Function;
-using MatchClassFilterFunction = de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
-using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
-using Rule = de.unika.ipd.grgen.ir.executable.Rule;
-using Sequence = de.unika.ipd.grgen.ir.executable.Sequence;
-using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+	using FilterFunction = de.unika.ipd.grgen.ir.executable.FilterFunction;
+	using Function = de.unika.ipd.grgen.ir.executable.Function;
+	using MatchClassFilterFunction = de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
+	using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
+	using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+	using Sequence = de.unika.ipd.grgen.ir.executable.Sequence;
+	using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
 
-/// <summary>
-/// A type bearing all the different actions available in the rules language.
-/// </summary>
-public interface ActionsBearer
-{
-	ICollection<Rule> SubpatternRules {get;}
+	/// <summary>
+	/// A type bearing all the different actions available in the rules language.
+	/// </summary>
+	public interface ActionsBearer
+	{
+		ICollection<Rule> SubpatternRules {get;}
 
-	ICollection<Rule> ActionRules {get;}
+		ICollection<Rule> ActionRules {get;}
 
-	ICollection<FilterFunction> FilterFunctions {get;}
+		ICollection<FilterFunction> FilterFunctions {get;}
 
-	ICollection<DefinedMatchType> MatchClasses {get;}
+		ICollection<DefinedMatchType> MatchClasses {get;}
 
-	ICollection<MatchClassFilterFunction> MatchClassFilterFunctions {get;}
+		ICollection<MatchClassFilterFunction> MatchClassFilterFunctions {get;}
 
-	ICollection<Function> Functions {get;}
+		ICollection<Function> Functions {get;}
 
-	ICollection<Procedure> Procedures {get;}
+		ICollection<Procedure> Procedures {get;}
 
-	ICollection<Sequence> Sequences {get;}
-}
+		ICollection<Sequence> Sequences {get;}
+	}
 
 }

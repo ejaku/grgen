@@ -10,53 +10,53 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-/// <summary>
-/// Represents an assignment statement in the IR.
-/// </summary>
-public class AssignmentVar : AssignmentBase
-{
 	/// <summary>
-	/// The lhs of the assignment. </summary>
-	private Variable target;
-
-	public AssignmentVar(Variable target, Expression expr)
-		: base("assignment var")
+	/// Represents an assignment statement in the IR.
+	/// </summary>
+	public class AssignmentVar : AssignmentBase
 	{
-		this.target = target;
-		this.expr = expr;
-	}
+		/// <summary>
+		/// The lhs of the assignment. </summary>
+		private Variable target;
 
-	protected internal AssignmentVar(string name, Variable target, Expression expr)
-		: base(name)
-	{
-		this.target = target;
-		this.expr = expr;
-	}
-
-	public virtual Variable Target
-	{
-		get
+		public AssignmentVar(Variable target, Expression expr)
+			: base("assignment var")
 		{
-			return target;
+			this.target = target;
+			this.expr = expr;
+		}
+
+		protected internal AssignmentVar(string name, Variable target, Expression expr)
+			: base(name)
+		{
+			this.target = target;
+			this.expr = expr;
+		}
+
+		public virtual Variable Target
+		{
+			get
+			{
+				return target;
+			}
+		}
+
+		public override string ToString()
+		{
+			return Target + " = " + Expression;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(!IsGlobalVariable(target))
+				needs.Add(target);
+
+			Expression.CollectNeededEntities(needs);
 		}
 	}
-
-	public override string ToString()
-	{
-		return Target + " = " + Expression;
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(!IsGlobalVariable(target))
-			needs.Add(target);
-
-		Expression.CollectNeededEntities(needs);
-	}
-}
 
 }

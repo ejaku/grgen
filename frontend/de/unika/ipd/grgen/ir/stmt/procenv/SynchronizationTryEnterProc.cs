@@ -11,49 +11,49 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-using System.Diagnostics;
+	using System.Diagnostics;
 
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class SynchronizationTryEnterProc : BuiltinProcedureInvocationBase
-{
-	internal Type returnType;
-
-	private Expression criticalSectionObjectExpr;
-
-	public SynchronizationTryEnterProc(Type returnType, Expression criticalSectionObjectExpr)
-		: base("synchronization try enter procedure")
+	public class SynchronizationTryEnterProc : BuiltinProcedureInvocationBase
 	{
-		this.returnType = returnType;
-		this.criticalSectionObjectExpr = criticalSectionObjectExpr;
-	}
+		internal Type returnType;
 
-	public virtual Expression CriticalSectionObject
-	{
-		get
+		private Expression criticalSectionObjectExpr;
+
+		public SynchronizationTryEnterProc(Type returnType, Expression criticalSectionObjectExpr)
+			: base("synchronization try enter procedure")
 		{
-			return criticalSectionObjectExpr;
+			this.returnType = returnType;
+			this.criticalSectionObjectExpr = criticalSectionObjectExpr;
+		}
+
+		public virtual Expression CriticalSectionObject
+		{
+			get
+			{
+				return criticalSectionObjectExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			criticalSectionObjectExpr.CollectNeededEntities(needs);
+		}
+
+		public override int ReturnArity()
+		{
+			return 1;
+		}
+
+		public override Type GetReturnType(int index)
+		{
+			Debug.Assert((index == 0));
+			return returnType;
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		criticalSectionObjectExpr.CollectNeededEntities(needs);
-	}
-
-	public override int ReturnArity()
-	{
-		return 1;
-	}
-
-	public override Type GetReturnType(int index)
-	{
-		Debug.Assert((index == 0));
-		return returnType;
-	}
-}
 
 }

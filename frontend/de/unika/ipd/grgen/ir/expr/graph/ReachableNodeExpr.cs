@@ -7,28 +7,28 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-using Direction = de.unika.ipd.grgen.util.Direction;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Direction = de.unika.ipd.grgen.util.Direction;
 
-public class ReachableNodeExpr : NeighborhoodQueryExpr
-{
-	public ReachableNodeExpr(Expression startNodeExpression,
-			Expression incidentEdgeTypeExpr, Direction direction,
-			Expression adjacentNodeTypeExpr, Type type)
-		: base("reachable node expression", type, startNodeExpression, incidentEdgeTypeExpr, direction, adjacentNodeTypeExpr)
+	public class ReachableNodeExpr : NeighborhoodQueryExpr
 	{
-	}
+		public ReachableNodeExpr(Expression startNodeExpression,
+				Expression incidentEdgeTypeExpr, Direction direction,
+				Expression adjacentNodeTypeExpr, Type type)
+			: base("reachable node expression", type, startNodeExpression, incidentEdgeTypeExpr, direction, adjacentNodeTypeExpr)
+		{
+		}
 
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		startNodeExpr.CollectNeededEntities(needs);
-		incidentEdgeTypeExpr.CollectNeededEntities(needs);
-		adjacentNodeTypeExpr.CollectNeededEntities(needs);
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			startNodeExpr.CollectNeededEntities(needs);
+			incidentEdgeTypeExpr.CollectNeededEntities(needs);
+			adjacentNodeTypeExpr.CollectNeededEntities(needs);
+		}
 	}
-}
 
 }

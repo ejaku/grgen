@@ -14,26 +14,26 @@
 namespace de.unika.ipd.grgen.util
 {
 
-using System.IO;
+	using System.IO;
 
-using Sys = de.unika.ipd.grgen.Sys;
+	using Sys = de.unika.ipd.grgen.Sys;
 
-public class VCGDumperFactory : GraphDumperFactory
-{
-	private Sys sys;
-
-	public VCGDumperFactory(Sys sys)
+	public class VCGDumperFactory : GraphDumperFactory
 	{
-		this.sys = sys;
-	}
+		private Sys sys;
 
-	public virtual GraphDumper Get(string fileNamePart)
-	{
-		string fileName = fileNamePart + ".vcg";
-		Stream os = sys.CreateDebugFile(new File(fileName));
-		PrintStream ps = new PrintStream(os);
-		return new VCGDumper(ps);
+		public VCGDumperFactory(Sys sys)
+		{
+			this.sys = sys;
+		}
+
+		public virtual GraphDumper Get(string fileNamePart)
+		{
+			string fileName = fileNamePart + ".vcg";
+			Stream os = sys.CreateDebugFile(new File(fileName));
+			PrintStream ps = new PrintStream(os);
+			return new VCGDumper(ps);
+		}
 	}
-}
 
 }

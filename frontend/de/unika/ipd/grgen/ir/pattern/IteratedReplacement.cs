@@ -11,28 +11,28 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
-using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+	using Rule = de.unika.ipd.grgen.ir.executable.Rule;
 
-public class IteratedReplacement : Identifiable, OrderedReplacement
-{
-	internal Rule iterated;
-
-	public IteratedReplacement(string name, Ident ident,
-			Rule iterated)
-		: base(name, ident)
+	public class IteratedReplacement : Identifiable, OrderedReplacement
 	{
-		this.iterated = iterated;
-	}
+		internal Rule iterated;
 
-	public virtual Rule Iterated
-	{
-		get
+		public IteratedReplacement(string name, Ident ident,
+				Rule iterated)
+			: base(name, ident)
 		{
-			return iterated;
+			this.iterated = iterated;
+		}
+
+		public virtual Rule Iterated
+		{
+			get
+			{
+				return iterated;
+			}
 		}
 	}
-}
 
 }

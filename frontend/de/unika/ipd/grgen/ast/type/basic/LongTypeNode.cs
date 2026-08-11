@@ -7,28 +7,28 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using LongType = de.unika.ipd.grgen.ir.type.basic.LongType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using LongType = de.unika.ipd.grgen.ir.type.basic.LongType;
 
-/// <summary>
-/// The long basic type.
-/// </summary>
-public class LongTypeNode : BasicTypeNode
-{
-	static LongTypeNode()
+	/// <summary>
+	/// The long basic type.
+	/// </summary>
+	public class LongTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(LongTypeNode), "long type");
-	}
+		static LongTypeNode()
+		{
+			SetClassName(typeof(LongTypeNode), "long type");
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new LongType(Ident.IRIdent);
-	}
+		protected internal override IR ConstructIR()
+		{
+			return new LongType(Ident.IRIdent);
+		}
 
-	public override string ToString()
-	{
-		return "long";
+		public override string ToString()
+		{
+			return "long";
+		}
 	}
-}
 
 }

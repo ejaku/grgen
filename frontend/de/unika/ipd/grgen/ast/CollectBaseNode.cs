@@ -8,57 +8,57 @@
 namespace de.unika.ipd.grgen.ast
 {
 
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using ExprPairNode = de.unika.ipd.grgen.ast.expr.ExprPairNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using ExprPairNode = de.unika.ipd.grgen.ast.expr.ExprPairNode;
 
-public abstract class CollectBaseNode : BaseNode
-{
-	public override Color NodeColor
+	public abstract class CollectBaseNode : BaseNode
 	{
-		get
+		public override Color NodeColor
 		{
-			return Color.GRAY;
+			get
+			{
+				return Color.GRAY;
+			}
+		}
+
+		public virtual bool NoDefElement(string containingConstruct)
+		{
+			bool res = true;
+			foreach(BaseNode child in Children)
+			{
+				if(child is ExprNode)
+					res &= ((ExprNode)child).NoDefElement(containingConstruct);
+				else if(child is ExprPairNode)
+					res &= ((ExprPairNode)child).NoDefElement(containingConstruct);
+			}
+			return res;
+		}
+
+		public virtual bool NoIteratedReference(string containingConstruct)
+		{
+			bool res = true;
+			foreach(BaseNode child in Children)
+			{
+				if(child is ExprNode)
+					res &= ((ExprNode)child).NoIteratedReference(containingConstruct);
+				else if(child is ExprPairNode)
+					res &= ((ExprPairNode)child).NoIteratedReference(containingConstruct);
+			}
+			return res;
+		}
+
+		public virtual bool IteratedNotReferenced(string iterName)
+		{
+			bool res = true;
+			foreach(BaseNode child in Children)
+			{
+				if(child is ExprNode)
+					res &= ((ExprNode)child).IteratedNotReferenced(iterName);
+				else if(child is ExprPairNode)
+					res &= ((ExprPairNode)child).IteratedNotReferenced(iterName);
+			}
+			return res;
 		}
 	}
-
-	public virtual bool NoDefElement(string containingConstruct)
-	{
-		bool res = true;
-		foreach(BaseNode child in Children)
-		{
-			if(child is ExprNode)
-				res &= ((ExprNode)child).NoDefElement(containingConstruct);
-			else if(child is ExprPairNode)
-				res &= ((ExprPairNode)child).NoDefElement(containingConstruct);
-		}
-		return res;
-	}
-
-	public virtual bool NoIteratedReference(string containingConstruct)
-	{
-		bool res = true;
-		foreach(BaseNode child in Children)
-		{
-			if(child is ExprNode)
-				res &= ((ExprNode)child).NoIteratedReference(containingConstruct);
-			else if(child is ExprPairNode)
-				res &= ((ExprPairNode)child).NoIteratedReference(containingConstruct);
-		}
-		return res;
-	}
-
-	public virtual bool IteratedNotReferenced(string iterName)
-	{
-		bool res = true;
-		foreach(BaseNode child in Children)
-		{
-			if(child is ExprNode)
-				res &= ((ExprNode)child).IteratedNotReferenced(iterName);
-			else if(child is ExprPairNode)
-				res &= ((ExprPairNode)child).IteratedNotReferenced(iterName);
-		}
-		return res;
-	}
-}
 
 }

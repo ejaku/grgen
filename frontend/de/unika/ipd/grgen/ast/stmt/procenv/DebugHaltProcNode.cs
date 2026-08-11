@@ -12,41 +12,41 @@
 namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using DebugHaltProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugHaltProc;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using DebugHaltProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugHaltProc;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class DebugHaltProcNode : DebugProcNode
-{
-	static DebugHaltProcNode()
+	public class DebugHaltProcNode : DebugProcNode
 	{
-		SetClassName(typeof(DebugHaltProcNode), "debug halt procedure");
-	}
-
-	public DebugHaltProcNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	protected internal override string ShortSignature()
-	{
-		return "Debug::halt()";
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		IList<Expression> expressions = new List<Expression>();
-		foreach(ExprNode expr in exprs.GetChildrenExact())
+		static DebugHaltProcNode()
 		{
-			ExprNode exprEvaluated = expr.Evaluate();
-			expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+			SetClassName(typeof(DebugHaltProcNode), "debug halt procedure");
 		}
-		return new DebugHaltProc(expressions);
+
+		public DebugHaltProcNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		protected internal override string ShortSignature()
+		{
+			return "Debug::halt()";
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			IList<Expression> expressions = new List<Expression>();
+			foreach(ExprNode expr in exprs.GetChildrenExact())
+			{
+				ExprNode exprEvaluated = expr.Evaluate();
+				expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+			}
+			return new DebugHaltProc(expressions);
+		}
 	}
-}
 
 }

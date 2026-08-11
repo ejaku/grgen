@@ -11,48 +11,48 @@
 
 namespace de.unika.ipd.grgen.ast.expr.array
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayAsSetExpr = de.unika.ipd.grgen.ir.expr.array.ArrayAsSetExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayAsSetExpr = de.unika.ipd.grgen.ir.expr.array.ArrayAsSetExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayAsSetNode : ArrayFunctionMethodInvocationBaseExprNode
-{
-	static ArrayAsSetNode()
+	public class ArrayAsSetNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(ArrayAsSetNode), "array as set expression");
-	}
-
-	private SetTypeNode setTypeNode;
-
-	public ArrayAsSetNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	protected internal override bool ResolveLocal()
-	{
-		// target type already checked during resolving into this node
-		setTypeNode = new SetTypeNode(TargetTypeExact.valueTypeUnresolved);
-		return setTypeNode.Resolve();
-	}
-
-	public override TypeNode Type
-	{
-		get
+		static ArrayAsSetNode()
 		{
-			return setTypeNode;
+			SetClassName(typeof(ArrayAsSetNode), "array as set expression");
+		}
+
+		private SetTypeNode setTypeNode;
+
+		public ArrayAsSetNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
+		{
+		}
+
+		protected internal override bool ResolveLocal()
+		{
+			// target type already checked during resolving into this node
+			setTypeNode = new SetTypeNode(TargetTypeExact.valueTypeUnresolved);
+			return setTypeNode.Resolve();
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return setTypeNode;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new ArrayAsSetExpr(targetExpr.CheckIR(typeof(Expression)), Type.IRType);
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new ArrayAsSetExpr(targetExpr.CheckIR(typeof(Expression)), Type.IRType);
-	}
-}
 
 }

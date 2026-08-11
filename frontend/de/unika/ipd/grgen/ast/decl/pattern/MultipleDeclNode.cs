@@ -11,47 +11,47 @@
 
 namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 
-/// <summary>
-/// AST node for a multiple pattern, maybe including replacements.
-/// </summary>
-public class MultipleDeclNode : IteratedDeclNode
-{
-	static MultipleDeclNode()
+	/// <summary>
+	/// AST node for a multiple pattern, maybe including replacements.
+	/// </summary>
+	public class MultipleDeclNode : IteratedDeclNode
 	{
-		SetClassName(typeof(MultipleDeclNode), "multiple");
-	}
-
-	public MultipleDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)
-		: base(id, left, right)
-	{
-	}
-
-	protected internal override int MinMatches
-	{
-		get
+		static MultipleDeclNode()
 		{
-			return 1;
+			SetClassName(typeof(MultipleDeclNode), "multiple");
+		}
+
+		public MultipleDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)
+			: base(id, left, right)
+		{
+		}
+
+		protected internal override int MinMatches
+		{
+			get
+			{
+				return 1;
+			}
+		}
+
+		protected internal override int MaxMatches
+		{
+			get
+			{
+				return 0;
+			}
+		}
+
+		public static string KindStr
+		{
+			get
+			{
+				return "multiple";
+			}
 		}
 	}
-
-	protected internal override int MaxMatches
-	{
-		get
-		{
-			return 0;
-		}
-	}
-
-	public static string KindStr
-	{
-		get
-		{
-			return "multiple";
-		}
-	}
-}
 
 }

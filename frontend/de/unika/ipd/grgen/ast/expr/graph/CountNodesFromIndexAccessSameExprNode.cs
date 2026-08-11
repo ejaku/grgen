@@ -7,68 +7,68 @@
 
 namespace de.unika.ipd.grgen.ast.expr.graph
 {
-using de.unika.ipd.grgen.ast;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using CountNodesFromIndexAccessSameExpr = de.unika.ipd.grgen.ir.expr.graph.CountNodesFromIndexAccessSameExpr;
-using Index = de.unika.ipd.grgen.ir.model.Index;
-using IndexAccessEquality = de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using CountNodesFromIndexAccessSameExpr = de.unika.ipd.grgen.ir.expr.graph.CountNodesFromIndexAccessSameExpr;
+	using Index = de.unika.ipd.grgen.ir.model.Index;
+	using IndexAccessEquality = de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-/// <summary>
-/// A node yielding the count of nodes from an index by accessing using a comparison for equality.
-/// </summary>
-public class CountNodesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
-{
-	static CountNodesFromIndexAccessSameExprNode()
+	/// <summary>
+	/// A node yielding the count of nodes from an index by accessing using a comparison for equality.
+	/// </summary>
+	public class CountNodesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
 	{
-		SetClassName(typeof(CountNodesFromIndexAccessSameExprNode), "count nodes from index access same expr");
-	}
-
-	public CountNodesFromIndexAccessSameExprNode(Coords coords, BaseNode index, ExprNode expr)
-		: base(coords, index, expr)
-	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
-	protected internal override bool ResolveLocal()
-	{
-		bool successfullyResolved = base.ResolveLocal();
-		successfullyResolved &= Type.Resolve();
-		return successfullyResolved;
-	}
-
-	protected internal override IdentNode Root
-	{
-		get
+		static CountNodesFromIndexAccessSameExprNode()
 		{
-			return NodeRoot;
+			SetClassName(typeof(CountNodesFromIndexAccessSameExprNode), "count nodes from index access same expr");
+		}
+
+		public CountNodesFromIndexAccessSameExprNode(Coords coords, BaseNode index, ExprNode expr)
+			: base(coords, index, expr)
+		{
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+		protected internal override bool ResolveLocal()
+		{
+			bool successfullyResolved = base.ResolveLocal();
+			successfullyResolved &= Type.Resolve();
+			return successfullyResolved;
+		}
+
+		protected internal override IdentNode Root
+		{
+			get
+			{
+				return NodeRoot;
+			}
+		}
+
+		protected internal override string ShortSignature()
+		{
+			return "countNodesFromIndexSame(.,.)";
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.intType;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			expr = expr.Evaluate();
+			return new CountNodesFromIndexAccessSameExpr(
+					new IndexAccessEquality(index.CheckIR(typeof(Index)), expr.CheckIR(typeof(Expression))),
+					Type.IRType);
 		}
 	}
-
-	protected internal override string ShortSignature()
-	{
-		return "countNodesFromIndexSame(.,.)";
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return BasicTypeNode.intType;
-		}
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		expr = expr.Evaluate();
-		return new CountNodesFromIndexAccessSameExpr(
-				new IndexAccessEquality(index.CheckIR(typeof(Index)), expr.CheckIR(typeof(Expression))),
-				Type.IRType);
-	}
-}
 
 }

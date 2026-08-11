@@ -11,19 +11,19 @@
 
 namespace de.unika.ipd.grgen.ir.type.container
 {
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public abstract class ContainerType : Type
-{
-	public ContainerType(string name)
-		: base(name, null)
+	public abstract class ContainerType : Type
 	{
+		public ContainerType(string name)
+			: base(name, null)
+		{
+		}
+
+		// returns value type for array|deque|set and key type for map
+		public abstract Type ElementType {get;}
+
+		public abstract bool ContainsBaseInternalObjectType();
 	}
-
-	// returns value type for array|deque|set and key type for map
-	public abstract Type ElementType {get;}
-
-	public abstract bool ContainsBaseInternalObjectType();
-}
 
 }

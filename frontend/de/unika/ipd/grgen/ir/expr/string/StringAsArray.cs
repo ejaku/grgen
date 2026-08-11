@@ -11,44 +11,44 @@
 
 namespace de.unika.ipd.grgen.ir.expr.@string
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class StringAsArray : BuiltinFunctionInvocationExpr
-{
-	private Expression stringExpr;
-	private Expression stringToSplitAtExpr;
-
-	public StringAsArray(Expression stringExpr, Expression stringToSplitAtExpr, Type targetType)
-		: base("string asArray", targetType)
+	public class StringAsArray : BuiltinFunctionInvocationExpr
 	{
-		this.stringExpr = stringExpr;
-		this.stringToSplitAtExpr = stringToSplitAtExpr;
-	}
+		private Expression stringExpr;
+		private Expression stringToSplitAtExpr;
 
-	public virtual Expression StringExpr
-	{
-		get
+		public StringAsArray(Expression stringExpr, Expression stringToSplitAtExpr, Type targetType)
+			: base("string asArray", targetType)
 		{
-			return stringExpr;
+			this.stringExpr = stringExpr;
+			this.stringToSplitAtExpr = stringToSplitAtExpr;
+		}
+
+		public virtual Expression StringExpr
+		{
+			get
+			{
+				return stringExpr;
+			}
+		}
+
+		public virtual Expression StringToSplitAtExpr
+		{
+			get
+			{
+				return stringToSplitAtExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			stringExpr.CollectNeededEntities(needs);
+			stringToSplitAtExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression StringToSplitAtExpr
-	{
-		get
-		{
-			return stringToSplitAtExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		stringExpr.CollectNeededEntities(needs);
-		stringToSplitAtExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

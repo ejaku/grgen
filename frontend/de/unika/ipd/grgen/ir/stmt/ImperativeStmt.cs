@@ -7,13 +7,13 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-/// <summary>
-/// A statment that needs to be executed in an certain (user-specified) order.
-/// It consists of Exec and Emit statments etc.
-/// </summary>
-public interface ImperativeStmt
-{
-	// only used for grouping as of now
-}
+	/// <summary>
+	/// A statment that needs to be executed in an certain (user-specified) order.
+	/// It consists of Exec and Emit statments etc.
+	/// </summary>
+	public interface ImperativeStmt
+	{
+		// only used for grouping as of now
+	}
 
 }

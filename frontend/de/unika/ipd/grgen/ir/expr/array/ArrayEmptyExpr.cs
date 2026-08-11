@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-public class ArrayEmptyExpr : ArrayFunctionMethodInvocationBaseExpr
-{
-	public ArrayEmptyExpr(Expression targetExpr)
-		: base("array empty expression", BooleanType.Type, targetExpr)
+	public class ArrayEmptyExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
+		public ArrayEmptyExpr(Expression targetExpr)
+			: base("array empty expression", BooleanType.Type, targetExpr)
+		{
+		}
 	}
-}
 
 }

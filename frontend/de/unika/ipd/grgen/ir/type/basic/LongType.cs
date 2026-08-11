@@ -7,33 +7,33 @@
 
 namespace de.unika.ipd.grgen.ir.type.basic
 {
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using de.unika.ipd.grgen.ir;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using de.unika.ipd.grgen.ir;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A long type.
-/// </summary>
-public class LongType : PrimitiveType
-{
-	public LongType(Ident ident)
-		: base("long type", ident)
+	/// <summary>
+	/// A long type.
+	/// </summary>
+	public class LongType : PrimitiveType
 	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_LONG;
-	}
-
-	public static Type Type
-	{
-		get
+		public LongType(Ident ident)
+			: base("long type", ident)
 		{
-			return BasicTypeNode.longType.CheckIR(typeof(Type));
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_LONG;
+		}
+
+		public static Type Type
+		{
+			get
+			{
+				return BasicTypeNode.longType.CheckIR(typeof(Type));
+			}
 		}
 	}
-}
 
 }

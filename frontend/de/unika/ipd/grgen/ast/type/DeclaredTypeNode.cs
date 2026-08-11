@@ -11,64 +11,64 @@
 
 namespace de.unika.ipd.grgen.ast.type
 {
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using PrimitiveType = de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
-
-/// <summary>
-/// Base class for all AST nodes representing declared types.
-/// Declared types have identifiers (and declaration nodes).
-/// The location of this type is set by the declaration node's
-/// constructor </summary>
-/// <seealso cref="DeclNode.DeclNode(IdentNode, BaseNode)"/>
-public abstract class DeclaredTypeNode : TypeNode
-{
-	private DeclNode decl = null;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using PrimitiveType = de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
 
 	/// <summary>
-	/// Set the declaration of this type. </summary>
-	///  <param name="decl"> The declaration of this type.  </param>
-	public virtual DeclNode Decl
+	/// Base class for all AST nodes representing declared types.
+	/// Declared types have identifiers (and declaration nodes).
+	/// The location of this type is set by the declaration node's
+	/// constructor </summary>
+	/// <seealso cref="DeclNode.DeclNode(IdentNode, BaseNode)"/>
+	public abstract class DeclaredTypeNode : TypeNode
 	{
-		set
+		private DeclNode decl = null;
+
+		/// <summary>
+		/// Set the declaration of this type. </summary>
+		///  <param name="decl"> The declaration of this type.  </param>
+		public virtual DeclNode Decl
 		{
-			this.decl = value;
+			set
+			{
+				this.decl = value;
+			}
+			get
+			{
+				return decl;
+			}
 		}
-		get
-		{
-			return decl;
-		}
-	}
 
 
-	/// <summary>
-	/// Get the identifier of the type declaration. </summary>
-	/// <returns> The identifier of the type declaration or an invalid
-	/// identifier, if the type declaration was not set. </returns>
-	public virtual IdentNode Ident
-	{
-		get
+		/// <summary>
+		/// Get the identifier of the type declaration. </summary>
+		/// <returns> The identifier of the type declaration or an invalid
+		/// identifier, if the type declaration was not set. </returns>
+		public virtual IdentNode Ident
 		{
-			return decl != null ? decl.Ident : IdentNode.Invalid;
+			get
+			{
+				return decl != null ? decl.Ident : IdentNode.Invalid;
+			}
 		}
-	}
 
-	public virtual PrimitiveType IRPrimitiveType
-	{
-		get
+		public virtual PrimitiveType IRPrimitiveType
 		{
-			return CheckIR(typeof(PrimitiveType));
+			get
+			{
+				return CheckIR(typeof(PrimitiveType));
+			}
 		}
-	}
 
-	public override string TypeName
-	{
-		get
+		public override string TypeName
 		{
-			return Ident.ToString();
+			get
+			{
+				return Ident.ToString();
+			}
 		}
 	}
-}
 
 }

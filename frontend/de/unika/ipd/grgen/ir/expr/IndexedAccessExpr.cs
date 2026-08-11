@@ -11,52 +11,52 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-using ContainerType = de.unika.ipd.grgen.ir.type.container.ContainerType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using ContainerType = de.unika.ipd.grgen.ir.type.container.ContainerType;
 
-public class IndexedAccessExpr : Expression
-{
-	internal Expression targetExpr;
-	internal Expression keyExpr;
-
-	public IndexedAccessExpr(Expression targetExpr, Expression keyExpr, Type type)
-		: base("indexed access expression", type)
+	public class IndexedAccessExpr : Expression
 	{
-		this.targetExpr = targetExpr;
-		this.keyExpr = keyExpr;
-	}
+		internal Expression targetExpr;
+		internal Expression keyExpr;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.Add(this);
-		targetExpr.CollectNeededEntities(needs);
-		keyExpr.CollectNeededEntities(needs);
-	}
-
-	public virtual Expression TargetExpr
-	{
-		get
+		public IndexedAccessExpr(Expression targetExpr, Expression keyExpr, Type type)
+			: base("indexed access expression", type)
 		{
-			return targetExpr;
+			this.targetExpr = targetExpr;
+			this.keyExpr = keyExpr;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.Add(this);
+			targetExpr.CollectNeededEntities(needs);
+			keyExpr.CollectNeededEntities(needs);
+		}
+
+		public virtual Expression TargetExpr
+		{
+			get
+			{
+				return targetExpr;
+			}
+		}
+
+		public virtual ContainerType TargetType
+		{
+			get
+			{
+				return (ContainerType)targetExpr.Type;
+			}
+		}
+
+		public virtual Expression KeyExpr
+		{
+			get
+			{
+				return keyExpr;
+			}
 		}
 	}
-
-	public virtual ContainerType TargetType
-	{
-		get
-		{
-			return (ContainerType)targetExpr.Type;
-		}
-	}
-
-	public virtual Expression KeyExpr
-	{
-		get
-		{
-			return keyExpr;
-		}
-	}
-}
 
 }

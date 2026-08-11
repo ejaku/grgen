@@ -7,27 +7,27 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using DoubleType = de.unika.ipd.grgen.ir.type.basic.DoubleType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using DoubleType = de.unika.ipd.grgen.ir.type.basic.DoubleType;
 
-/// <summary>
-/// The double precision floating point basic type. </summary>
-public class DoubleTypeNode : BasicTypeNode
-{
-	static DoubleTypeNode()
+	/// <summary>
+	/// The double precision floating point basic type. </summary>
+	public class DoubleTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(DoubleTypeNode), "double type");
-	}
+		static DoubleTypeNode()
+		{
+			SetClassName(typeof(DoubleTypeNode), "double type");
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new DoubleType(Ident.IRIdent);
-	}
+		protected internal override IR ConstructIR()
+		{
+			return new DoubleType(Ident.IRIdent);
+		}
 
-	public override string ToString()
-	{
-		return "double";
+		public override string ToString()
+		{
+			return "double";
+		}
 	}
-}
 
 }

@@ -8,42 +8,42 @@
 namespace de.unika.ipd.grgen.util
 {
 
-/// <summary>
-/// A Dumper for Graphs
-/// </summary>
-public interface GraphDumper
-{
+	/// <summary>
+	/// A Dumper for Graphs
+	/// </summary>
+	public interface GraphDumper
+	{
 
-	public static int DEFAULT = -1;
+		public static int DEFAULT = -1;
 
-	public static int BOX = 0;
-	public static int RHOMB = 1;
-	public static int ELLIPSE = 2;
-	public static int TRIANGLE = 3;
+		public static int BOX = 0;
+		public static int RHOMB = 1;
+		public static int ELLIPSE = 2;
+		public static int TRIANGLE = 3;
 
-	public static int SOLID = 0;
-	public static int DASHED = 1;
-	public static int DOTTED = 2;
+		public static int SOLID = 0;
+		public static int DASHED = 1;
+		public static int DOTTED = 2;
 
-	void Begin();
+		void Begin();
 
-	void Finish();
+		void Finish();
 
-	void BeginSubgraph(GraphDumpable d);
+		void BeginSubgraph(GraphDumpable d);
 
-	void BeginSubgraph(string name);
+		void BeginSubgraph(string name);
 
-	void EndSubgraph();
+		void EndSubgraph();
 
-	void Node(GraphDumpable d);
+		void Node(GraphDumpable d);
 
-	void Edge(GraphDumpable from, GraphDumpable to, string label, int style, Color color);
+		void Edge(GraphDumpable from, GraphDumpable to, string label, int style, Color color);
 
-	void Edge(GraphDumpable from, GraphDumpable to, string label, int style);
+		void Edge(GraphDumpable from, GraphDumpable to, string label, int style);
 
-	void Edge(GraphDumpable from, GraphDumpable to, string label);
+		void Edge(GraphDumpable from, GraphDumpable to, string label);
 
-	void Edge(GraphDumpable from, GraphDumpable to);
-}
+		void Edge(GraphDumpable from, GraphDumpable to);
+	}
 
 }

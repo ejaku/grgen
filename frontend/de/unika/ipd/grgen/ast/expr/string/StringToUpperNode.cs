@@ -12,78 +12,78 @@
 namespace de.unika.ipd.grgen.ast.expr.@string
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using StringToUpper = de.unika.ipd.grgen.ir.expr.@string.StringToUpper;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using StringToUpper = de.unika.ipd.grgen.ir.expr.@string.StringToUpper;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class StringToUpperNode : BuiltinFunctionInvocationBaseNode
-{
-	static StringToUpperNode()
+	public class StringToUpperNode : BuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(StringToUpperNode), "string toUpper");
-	}
-
-	private ExprNode stringExpr;
-
-	public StringToUpperNode(Coords coords, ExprNode stringExpr)
-		: base(coords)
-	{
-
-		this.stringExpr = BecomeParent(stringExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static StringToUpperNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(stringExpr);
-			return children;
+			SetClassName(typeof(StringToUpperNode), "string toUpper");
+		}
+
+		private ExprNode stringExpr;
+
+		public StringToUpperNode(Coords coords, ExprNode stringExpr)
+			: base(coords)
+		{
+
+			this.stringExpr = BecomeParent(stringExpr);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(stringExpr);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("string");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			if(!stringExpr.Type.IsEqual(BasicTypeNode.stringType))
+			{
+				stringExpr.ReportError("The string function method toUpper can only be employed on an object of type string"
+						+ " (but is employed on an object of type " + stringExpr.Type.TypeName + ").");
+				return false;
+			}
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			stringExpr = stringExpr.Evaluate();
+			return new StringToUpper(stringExpr.CheckIR(typeof(Expression)));
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.stringType;
+			}
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("string");
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		if(!stringExpr.Type.IsEqual(BasicTypeNode.stringType))
-		{
-			stringExpr.ReportError("The string function method toUpper can only be employed on an object of type string"
-					+ " (but is employed on an object of type " + stringExpr.Type.TypeName + ").");
-			return false;
-		}
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		stringExpr = stringExpr.Evaluate();
-		return new StringToUpper(stringExpr.CheckIR(typeof(Expression)));
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return BasicTypeNode.stringType;
-		}
-	}
-}
 
 }

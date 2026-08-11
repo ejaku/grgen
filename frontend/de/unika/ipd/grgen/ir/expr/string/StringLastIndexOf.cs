@@ -11,63 +11,63 @@
 
 namespace de.unika.ipd.grgen.ir.expr.@string
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class StringLastIndexOf : BuiltinFunctionInvocationExpr
-{
-	private Expression stringExpr;
-	private Expression stringToSearchForExpr;
-	private Expression startIndexExpr;
-
-	public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr)
-		: base("string lastIndexOf", IntType.Type)
+	public class StringLastIndexOf : BuiltinFunctionInvocationExpr
 	{
-		this.stringExpr = stringExpr;
-		this.stringToSearchForExpr = stringToSearchForExpr;
-	}
+		private Expression stringExpr;
+		private Expression stringToSearchForExpr;
+		private Expression startIndexExpr;
 
-	public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr, Expression startIndexExpr)
-		: base("string lastIndexOf", IntType.Type)
-	{
-		this.stringExpr = stringExpr;
-		this.stringToSearchForExpr = stringToSearchForExpr;
-		this.startIndexExpr = startIndexExpr;
-	}
-
-	public virtual Expression StringExpr
-	{
-		get
+		public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr)
+			: base("string lastIndexOf", IntType.Type)
 		{
-			return stringExpr;
+			this.stringExpr = stringExpr;
+			this.stringToSearchForExpr = stringToSearchForExpr;
+		}
+
+		public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr, Expression startIndexExpr)
+			: base("string lastIndexOf", IntType.Type)
+		{
+			this.stringExpr = stringExpr;
+			this.stringToSearchForExpr = stringToSearchForExpr;
+			this.startIndexExpr = startIndexExpr;
+		}
+
+		public virtual Expression StringExpr
+		{
+			get
+			{
+				return stringExpr;
+			}
+		}
+
+		public virtual Expression StringToSearchForExpr
+		{
+			get
+			{
+				return stringToSearchForExpr;
+			}
+		}
+
+		public virtual Expression StartIndexExpr
+		{
+			get
+			{
+				return startIndexExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			stringExpr.CollectNeededEntities(needs);
+			stringToSearchForExpr.CollectNeededEntities(needs);
+			if(startIndexExpr != null)
+				startIndexExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression StringToSearchForExpr
-	{
-		get
-		{
-			return stringToSearchForExpr;
-		}
-	}
-
-	public virtual Expression StartIndexExpr
-	{
-		get
-		{
-			return startIndexExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		stringExpr.CollectNeededEntities(needs);
-		stringToSearchForExpr.CollectNeededEntities(needs);
-		if(startIndexExpr != null)
-			startIndexExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

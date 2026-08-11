@@ -11,92 +11,92 @@
 
 namespace de.unika.ipd.grgen.ast.expr.array
 {
-using de.unika.ipd.grgen.ast;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-using MatchTypeNode = de.unika.ipd.grgen.ast.type.MatchTypeNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-using de.unika.ipd.grgen.ast.util;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayKeepOneForEachBy = de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEachBy;
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+	using MatchTypeNode = de.unika.ipd.grgen.ast.type.MatchTypeNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+	using de.unika.ipd.grgen.ast.util;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayKeepOneForEachBy = de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEachBy;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayKeepOneForEachByNode : ArrayFunctionMethodInvocationBaseExprNode
-{
-	static ArrayKeepOneForEachByNode()
+	public class ArrayKeepOneForEachByNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(ArrayKeepOneForEachByNode), "array keep one for each by");
-	}
-
-	private IdentNode attribute;
-	private DeclNode member;
-
-	public ArrayKeepOneForEachByNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
-		: base(coords, targetExpr)
-	{
-		this.attribute = attribute;
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = TargetTypeExact;
-		if(!(arrayType.valueType is InheritanceTypeNode)
-				&& !(arrayType.valueType is MatchTypeNode))
+		static ArrayKeepOneForEachByNode()
 		{
-			targetExpr.ReportError("The array function method keepOneForEachBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
-					+ " (but is employed on an object of type " + arrayType.TypeName + ").");
-			return false;
+			SetClassName(typeof(ArrayKeepOneForEachByNode), "array keep one for each by");
 		}
 
-		TypeNode valueType = arrayType.valueType;
-		member = Resolver.ResolveMember(valueType, attribute);
-		if(member == null)
-			return false;
+		private IdentNode attribute;
+		private DeclNode member;
 
-		TypeNode memberType = TypeOfElementToBeExtracted;
-		if(!memberType.IsFilterableType())
+		public ArrayKeepOneForEachByNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
+			: base(coords, targetExpr)
 		{
-			targetExpr.ReportError("The array function method keepOneForEachBy is only available for attributes of type "
-					+ TypeNode.FilterableTypesAsString + " (but is of type " + memberType.TypeName + ").");
-			return false;
+			this.attribute = attribute;
 		}
 
-		return true;
-	}
-
-	public override TypeNode Type
-	{
-		get
+		protected internal override bool CheckLocal()
 		{
-			return TargetType;
+			// target type already checked during resolving into this node
+			ArrayTypeNode arrayType = TargetTypeExact;
+			if(!(arrayType.valueType is InheritanceTypeNode)
+					&& !(arrayType.valueType is MatchTypeNode))
+			{
+				targetExpr.ReportError("The array function method keepOneForEachBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
+						+ " (but is employed on an object of type " + arrayType.TypeName + ").");
+				return false;
+			}
+
+			TypeNode valueType = arrayType.valueType;
+			member = Resolver.ResolveMember(valueType, attribute);
+			if(member == null)
+				return false;
+
+			TypeNode memberType = TypeOfElementToBeExtracted;
+			if(!memberType.IsFilterableType())
+			{
+				targetExpr.ReportError("The array function method keepOneForEachBy is only available for attributes of type "
+						+ TypeNode.FilterableTypesAsString + " (but is of type " + memberType.TypeName + ").");
+				return false;
+			}
+
+			return true;
 		}
-	}
 
-	private TypeNode TypeOfElementToBeExtracted
-	{
-		get
+		public override TypeNode Type
 		{
+			get
+			{
+				return TargetType;
+			}
+		}
+
+		private TypeNode TypeOfElementToBeExtracted
+		{
+			get
+			{
+				if(member != null)
+					return member.DeclType;
+				return null;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			Entity accessedMember = null;
 			if(member != null)
-				return member.DeclType;
-			return null;
+				accessedMember = member.CheckIR(typeof(Entity));
+
+			targetExpr = targetExpr.Evaluate();
+			return new ArrayKeepOneForEachBy(targetExpr.CheckIR(typeof(Expression)),
+					accessedMember);
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		Entity accessedMember = null;
-		if(member != null)
-			accessedMember = member.CheckIR(typeof(Entity));
-
-		targetExpr = targetExpr.Evaluate();
-		return new ArrayKeepOneForEachBy(targetExpr.CheckIR(typeof(Expression)),
-				accessedMember);
-	}
-}
 
 }

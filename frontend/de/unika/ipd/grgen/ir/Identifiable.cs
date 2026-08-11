@@ -12,103 +12,103 @@
 namespace de.unika.ipd.grgen.ir
 {
 
-using System;
-using System.Collections.Generic;
+	using System;
+	using System.Collections.Generic;
 
-using Annotated = de.unika.ipd.grgen.util.Annotated;
-using Annotations = de.unika.ipd.grgen.util.Annotations;
-
-/// <summary>
-/// Identifiable with an identifier.
-/// This is a super class for all classes which are associated with an identifier.
-/// </summary>
-public abstract class Identifiable : IR, Annotated, IComparable<Identifiable>
-{
-	/// <summary>
-	/// helper class for comparing objects of type Identifiable, used in compareTo </summary>
-	protected internal static readonly IComparer<Identifiable> COMPARATOR = new ComparatorAnonymousInnerClass();
-
-	private class ComparatorAnonymousInnerClass : IComparer<Identifiable>
-	{
-		private readonly Identifiable outerInstance;
-
-		public int Compare(Identifiable lt, Identifiable rt)
-		{
-			return lt.Ident.CompareTo(rt.Ident);
-		}
-	}
+	using Annotated = de.unika.ipd.grgen.util.Annotated;
+	using Annotations = de.unika.ipd.grgen.util.Annotations;
 
 	/// <summary>
-	/// The identifier </summary>
-	private Ident ident;
-
-	/// <param name="name"> The name of the IR class </param>
-	///  <param name="ident"> The identifier associated with this IR object  </param>
-	public Identifiable(string name, Ident ident)
-		: base(name)
+	/// Identifiable with an identifier.
+	/// This is a super class for all classes which are associated with an identifier.
+	/// </summary>
+	public abstract class Identifiable : IR, Annotated, IComparable<Identifiable>
 	{
-		this.ident = ident;
-	}
+		/// <summary>
+		/// helper class for comparing objects of type Identifiable, used in compareTo </summary>
+		protected internal static readonly IComparer<Identifiable> COMPARATOR = new ComparatorAnonymousInnerClass();
 
-	/// <returns> The identifier that identifies this IR structure. </returns>
-	public virtual Ident Ident
-	{
-		get
+		private class ComparatorAnonymousInnerClass : IComparer<Identifiable>
 		{
-			return ident;
+			private readonly Identifiable outerInstance;
+
+			public int Compare(Identifiable lt, Identifiable rt)
+			{
+				return lt.Ident.CompareTo(rt.Ident);
+			}
 		}
-		set
+
+		/// <summary>
+		/// The identifier </summary>
+		private Ident ident;
+
+		/// <param name="name"> The name of the IR class </param>
+		///  <param name="ident"> The identifier associated with this IR object  </param>
+		public Identifiable(string name, Ident ident)
+			: base(name)
 		{
-			this.ident = value;
+			this.ident = ident;
 		}
-	}
 
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel() "/>
-	public override string NodeLabel
-	{
-		get
+		/// <returns> The identifier that identifies this IR structure. </returns>
+		public virtual Ident Ident
 		{
-			return ToString();
+			get
+			{
+				return ident;
+			}
+			set
+			{
+				this.ident = value;
+			}
 		}
-	}
 
-	public override string NodeInfo
-	{
-		get
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel() "/>
+		public override string NodeLabel
 		{
-			return ident.NodeInfo;
+			get
+			{
+				return ToString();
+			}
 		}
-	}
 
-	public override string ToString()
-	{
-		return Name + " " + ident;
-	}
-
-	public override void AddFields(IDictionary<string, object> fields)
-	{
-		fields["ident"] = ident.ToString();
-	}
-
-	public override int GetHashCode()
-	{
-		return Ident.hashCode();
-	}
-
-	public virtual int CompareTo(Identifiable id)
-	{
-		return COMPARATOR.Compare(this, id);
-	}
-
-	/// <returns> The annotations. </returns>
-	public virtual Annotations Annotations
-	{
-		get
+		public override string NodeInfo
 		{
-			return Ident.GetCustomAttributes(true);
+			get
+			{
+				return ident.NodeInfo;
+			}
+		}
+
+		public override string ToString()
+		{
+			return Name + " " + ident;
+		}
+
+		public override void AddFields(IDictionary<string, object> fields)
+		{
+			fields["ident"] = ident.ToString();
+		}
+
+		public override int GetHashCode()
+		{
+			return Ident.hashCode();
+		}
+
+		public virtual int CompareTo(Identifiable id)
+		{
+			return COMPARATOR.Compare(this, id);
+		}
+
+		/// <returns> The annotations. </returns>
+		public virtual Annotations Annotations
+		{
+			get
+			{
+				return Ident.GetCustomAttributes(true);
+			}
 		}
 	}
-}
 
 }

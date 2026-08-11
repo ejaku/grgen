@@ -11,35 +11,35 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.map
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class MapVarRemoveItem : ContainerVarProcedureMethodInvocationBase
-{
-	internal Expression keyExpr;
-
-	public MapVarRemoveItem(Variable target, Expression keyExpr)
-		: base("map var remove item", target)
+	public class MapVarRemoveItem : ContainerVarProcedureMethodInvocationBase
 	{
-		this.keyExpr = keyExpr;
-	}
+		internal Expression keyExpr;
 
-	public virtual Expression KeyExpr
-	{
-		get
+		public MapVarRemoveItem(Variable target, Expression keyExpr)
+			: base("map var remove item", target)
 		{
-			return keyExpr;
+			this.keyExpr = keyExpr;
+		}
+
+		public virtual Expression KeyExpr
+		{
+			get
+			{
+				return keyExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+
+			keyExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-
-		keyExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

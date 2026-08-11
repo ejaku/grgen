@@ -11,67 +11,67 @@
 
 namespace de.unika.ipd.grgen.ir.expr.@string
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
 
-public class StringReplace : BuiltinFunctionInvocationExpr
-{
-	private Expression stringExpr;
-	private Expression startExpr;
-	private Expression lengthExpr;
-	private Expression replaceStrExpr;
-
-	public StringReplace(Expression stringExpr,
-			Expression startExpr, Expression lengthExpr, Expression replaceStrExpr)
-		: base("string replace", StringType.Type)
+	public class StringReplace : BuiltinFunctionInvocationExpr
 	{
-		this.stringExpr = stringExpr;
-		this.startExpr = startExpr;
-		this.lengthExpr = lengthExpr;
-		this.replaceStrExpr = replaceStrExpr;
-	}
+		private Expression stringExpr;
+		private Expression startExpr;
+		private Expression lengthExpr;
+		private Expression replaceStrExpr;
 
-	public virtual Expression StringExpr
-	{
-		get
+		public StringReplace(Expression stringExpr,
+				Expression startExpr, Expression lengthExpr, Expression replaceStrExpr)
+			: base("string replace", StringType.Type)
 		{
-			return stringExpr;
+			this.stringExpr = stringExpr;
+			this.startExpr = startExpr;
+			this.lengthExpr = lengthExpr;
+			this.replaceStrExpr = replaceStrExpr;
+		}
+
+		public virtual Expression StringExpr
+		{
+			get
+			{
+				return stringExpr;
+			}
+		}
+
+		public virtual Expression StartExpr
+		{
+			get
+			{
+				return startExpr;
+			}
+		}
+
+		public virtual Expression LengthExpr
+		{
+			get
+			{
+				return lengthExpr;
+			}
+		}
+
+		public virtual Expression ReplaceStrExpr
+		{
+			get
+			{
+				return replaceStrExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			stringExpr.CollectNeededEntities(needs);
+			startExpr.CollectNeededEntities(needs);
+			lengthExpr.CollectNeededEntities(needs);
+			replaceStrExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression StartExpr
-	{
-		get
-		{
-			return startExpr;
-		}
-	}
-
-	public virtual Expression LengthExpr
-	{
-		get
-		{
-			return lengthExpr;
-		}
-	}
-
-	public virtual Expression ReplaceStrExpr
-	{
-		get
-		{
-			return replaceStrExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		stringExpr.CollectNeededEntities(needs);
-		startExpr.CollectNeededEntities(needs);
-		lengthExpr.CollectNeededEntities(needs);
-		replaceStrExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

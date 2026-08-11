@@ -10,58 +10,58 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
-using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-using TypeExprNode = de.unika.ipd.grgen.ast.type.TypeExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+	using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+	using TypeExprNode = de.unika.ipd.grgen.ast.type.TypeExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 
-public abstract class MatchNodeFromByStorageDeclNode : NodeDeclNode
-{
-	static MatchNodeFromByStorageDeclNode()
+	public abstract class MatchNodeFromByStorageDeclNode : NodeDeclNode
 	{
-		SetClassName(typeof(MatchNodeFromByStorageDeclNode), "match node from by storage decl");
-	}
-
-	protected internal BaseNode storageUnresolved;
-	protected internal VarDeclNode storage = null;
-	protected internal QualIdentNode storageAttribute = null;
-	protected internal NodeDeclNode storageGlobalVariable = null;
-
-	protected internal MatchNodeFromByStorageDeclNode(IdentNode id, BaseNode type, int context, BaseNode storage,
-			PatternGraphLhsNode directlyNestingLHSGraph)
-		: base(id, type, CopyKind.None, context, TypeExprNode.Empty, directlyNestingLHSGraph)
-	{
-		this.storageUnresolved = storage;
-		BecomeParent(this.storageUnresolved);
-	}
-
-	protected internal virtual TypeNode StorageType
-	{
-		get
+		static MatchNodeFromByStorageDeclNode()
 		{
-			if(storage != null)
-				return storage.DeclType;
-			else if(storageGlobalVariable != null)
-				return storageGlobalVariable.DeclType;
-			else
-				return storageAttribute.Decl.DeclType;
+			SetClassName(typeof(MatchNodeFromByStorageDeclNode), "match node from by storage decl");
+		}
+
+		protected internal BaseNode storageUnresolved;
+		protected internal VarDeclNode storage = null;
+		protected internal QualIdentNode storageAttribute = null;
+		protected internal NodeDeclNode storageGlobalVariable = null;
+
+		protected internal MatchNodeFromByStorageDeclNode(IdentNode id, BaseNode type, int context, BaseNode storage,
+				PatternGraphLhsNode directlyNestingLHSGraph)
+			: base(id, type, CopyKind.None, context, TypeExprNode.Empty, directlyNestingLHSGraph)
+		{
+			this.storageUnresolved = storage;
+			BecomeParent(this.storageUnresolved);
+		}
+
+		protected internal virtual TypeNode StorageType
+		{
+			get
+			{
+				if(storage != null)
+					return storage.DeclType;
+				else if(storageGlobalVariable != null)
+					return storageGlobalVariable.DeclType;
+				else
+					return storageAttribute.Decl.DeclType;
+			}
+		}
+
+		protected internal virtual string StorageName
+		{
+			get
+			{
+				if(storage != null)
+					return storage.ToString();
+				else if(storageGlobalVariable != null)
+					return storageGlobalVariable.ToString();
+				else
+					return storageAttribute.ToString();
+			}
 		}
 	}
-
-	protected internal virtual string StorageName
-	{
-		get
-		{
-			if(storage != null)
-				return storage.ToString();
-			else if(storageGlobalVariable != null)
-				return storageGlobalVariable.ToString();
-			else
-				return storageAttribute.ToString();
-		}
-	}
-}
 
 }

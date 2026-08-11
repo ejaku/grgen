@@ -12,134 +12,134 @@
 namespace de.unika.ipd.grgen.ir.executable
 {
 
-using System.Collections.Generic;
-using System.Diagnostics;
+	using System.Collections.Generic;
+	using System.Diagnostics;
 
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-
-/// <summary>
-/// An action that represents something that does graph matching.
-/// </summary>
-public abstract class MatchingAction : Action
-{
-	/// <summary>
-	/// Children names of this node. </summary>
-	private static readonly string[] childrenNames = new string[] { "pattern" };
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 
 	/// <summary>
-	/// The graph pattern to match against. </summary>
-	public PatternGraphLhs pattern;
-
-	/// <summary>
-	/// A list of the pattern parameters </summary>
-	private readonly List<Entity> @params = new List<Entity>();
-
-	/// <summary>
-	/// A list of the pattern def parameters which get yielded </summary>
-	private readonly List<Entity> defParams = new List<Entity>();
-
-	/// <summary>
-	/// A list of the return-parameters </summary>
-	private readonly List<Expression> returns = new List<Expression>();
-
-	/// <summary>
-	/// A list of the filters </summary>
-	private readonly List<Filter> filters = new List<Filter>();
-
-	/// <param name="name"> The name of this action. </param>
-	/// <param name="ident"> The identifier that identifies this object. </param>
-	protected internal MatchingAction(string name, Ident ident)
-		: base(name, ident)
+	/// An action that represents something that does graph matching.
+	/// </summary>
+	public abstract class MatchingAction : Action
 	{
-		ChildrenNames = childrenNames;
-	}
+		/// <summary>
+		/// Children names of this node. </summary>
+		private static readonly string[] childrenNames = new string[] { "pattern" };
 
-	/// <param name="pattern"> The graph pattern to match against. </param>
-	protected internal virtual PatternGraphLhs Pattern
-	{
-		set
+		/// <summary>
+		/// The graph pattern to match against. </summary>
+		public PatternGraphLhs pattern;
+
+		/// <summary>
+		/// A list of the pattern parameters </summary>
+		private readonly List<Entity> @params = new List<Entity>();
+
+		/// <summary>
+		/// A list of the pattern def parameters which get yielded </summary>
+		private readonly List<Entity> defParams = new List<Entity>();
+
+		/// <summary>
+		/// A list of the return-parameters </summary>
+		private readonly List<Expression> returns = new List<Expression>();
+
+		/// <summary>
+		/// A list of the filters </summary>
+		private readonly List<Filter> filters = new List<Filter>();
+
+		/// <param name="name"> The name of this action. </param>
+		/// <param name="ident"> The identifier that identifies this object. </param>
+		protected internal MatchingAction(string name, Ident ident)
+			: base(name, ident)
 		{
-			Debug.Assert((value != null));
-			this.pattern = value;
-			value.NameSuffix = "pattern";
+			ChildrenNames = childrenNames;
 		}
-		get
+
+		/// <param name="pattern"> The graph pattern to match against. </param>
+		protected internal virtual PatternGraphLhs Pattern
 		{
-			return pattern;
+			set
+			{
+				Debug.Assert((value != null));
+				this.pattern = value;
+				value.NameSuffix = "pattern";
+			}
+			get
+			{
+				return pattern;
+			}
 		}
-	}
 
 
-	/// <summary>
-	/// Add a parameter to the graph. </summary>
-	public virtual void AddParameter(Entity id)
-	{
-		@params.Add(id);
-	}
-
-	/// <summary>
-	/// Get all Parameters of this graph. </summary>
-	public virtual IList<Entity> Parameters
-	{
-		get
+		/// <summary>
+		/// Add a parameter to the graph. </summary>
+		public virtual void AddParameter(Entity id)
 		{
-			return @params.AsReadOnly();
+			@params.Add(id);
 		}
-	}
 
-	/// <summary>
-	/// Add a def parameter which gets yielded to the graph. </summary>
-	public virtual void AddDefParameter(Entity id)
-	{
-		defParams.Add(id);
-	}
-
-	/// <summary>
-	/// Get all def Parameters which get yielded of this graph. </summary>
-	public virtual IList<Entity> DefParameters
-	{
-		get
+		/// <summary>
+		/// Get all Parameters of this graph. </summary>
+		public virtual IList<Entity> Parameters
 		{
-			return defParams.AsReadOnly();
+			get
+			{
+				return @params.AsReadOnly();
+			}
 		}
-	}
 
-	/// <summary>
-	/// Add a return-value to the graph. </summary>
-	public virtual void AddReturn(Expression expr)
-	{
-		returns.Add(expr);
-	}
-
-	/// <summary>
-	/// Get all Returns of this graph. </summary>
-	public virtual IList<Expression> Returns
-	{
-		get
+		/// <summary>
+		/// Add a def parameter which gets yielded to the graph. </summary>
+		public virtual void AddDefParameter(Entity id)
 		{
-			return returns.AsReadOnly();
+			defParams.Add(id);
 		}
-	}
 
-	/// <summary>
-	/// Add a filter to the action. </summary>
-	public virtual void AddFilter(Filter filter)
-	{
-		filters.Add(filter);
-	}
-
-	/// <summary>
-	/// Get all filters of this action. </summary>
-	public virtual IList<Filter> Filters
-	{
-		get
+		/// <summary>
+		/// Get all def Parameters which get yielded of this graph. </summary>
+		public virtual IList<Entity> DefParameters
 		{
-			return filters.AsReadOnly();
+			get
+			{
+				return defParams.AsReadOnly();
+			}
+		}
+
+		/// <summary>
+		/// Add a return-value to the graph. </summary>
+		public virtual void AddReturn(Expression expr)
+		{
+			returns.Add(expr);
+		}
+
+		/// <summary>
+		/// Get all Returns of this graph. </summary>
+		public virtual IList<Expression> Returns
+		{
+			get
+			{
+				return returns.AsReadOnly();
+			}
+		}
+
+		/// <summary>
+		/// Add a filter to the action. </summary>
+		public virtual void AddFilter(Filter filter)
+		{
+			filters.Add(filter);
+		}
+
+		/// <summary>
+		/// Get all filters of this action. </summary>
+		public virtual IList<Filter> Filters
+		{
+			get
+			{
+				return filters.AsReadOnly();
+			}
 		}
 	}
-}
 
 }

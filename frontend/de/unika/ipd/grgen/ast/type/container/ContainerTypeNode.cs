@@ -11,26 +11,26 @@
 
 namespace de.unika.ipd.grgen.ast.type.container
 {
-using DeclaredTypeNode = de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using DeclaredTypeNode = de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 
-public abstract class ContainerTypeNode : DeclaredTypeNode
-{
-	static ContainerTypeNode()
+	public abstract class ContainerTypeNode : DeclaredTypeNode
 	{
-		SetClassName(typeof(ContainerTypeNode), "container type");
-	}
-
-	public override string Name
-	{
-		get
+		static ContainerTypeNode()
 		{
-			return TypeName;
+			SetClassName(typeof(ContainerTypeNode), "container type");
 		}
-	}
 
-	// returns value type for array|deque|set and key type for map
-	public abstract TypeNode ElementType {get;}
-}
+		public override string Name
+		{
+			get
+			{
+				return TypeName;
+			}
+		}
+
+		// returns value type for array|deque|set and key type for map
+		public abstract TypeNode ElementType {get;}
+	}
 
 }

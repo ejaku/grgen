@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.map
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-public class MapEmptyExpr : MapFunctionMethodInvocationBaseExpr
-{
-	public MapEmptyExpr(Expression targetExpr)
-		: base("map empty expression", BooleanType.Type, targetExpr)
+	public class MapEmptyExpr : MapFunctionMethodInvocationBaseExpr
 	{
+		public MapEmptyExpr(Expression targetExpr)
+			: base("map empty expression", BooleanType.Type, targetExpr)
+		{
+		}
 	}
-}
 
 }

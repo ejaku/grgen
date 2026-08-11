@@ -12,101 +12,101 @@
 namespace de.unika.ipd.grgen.ast.expr.graph
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
-using Direction = de.unika.ipd.grgen.util.Direction;
-
-/// <summary>
-/// Base class for neighborhood graph queries (with members shared by all these queries).
-/// </summary>
-public abstract class NeighborhoodQueryExprNode : BuiltinFunctionInvocationBaseNode
-{
-	static NeighborhoodQueryExprNode()
-	{
-		SetClassName(typeof(NeighborhoodQueryExprNode), "neighborhood query expr");
-	}
-
-	protected internal ExprNode startNodeExpr;
-	protected internal ExprNode incidentTypeExpr;
-	protected internal ExprNode adjacentTypeExpr;
-
-	protected internal Direction direction;
-
-
-	protected internal NeighborhoodQueryExprNode(Coords coords,
-			ExprNode startNodeExpr,
-			ExprNode incidentTypeExpr, Direction direction,
-			ExprNode adjacentTypeExpr)
-		: base(coords)
-	{
-		this.startNodeExpr = startNodeExpr;
-		BecomeParent(this.startNodeExpr);
-		this.incidentTypeExpr = incidentTypeExpr;
-		BecomeParent(this.incidentTypeExpr);
-		this.direction = direction;
-		this.adjacentTypeExpr = adjacentTypeExpr;
-		BecomeParent(this.adjacentTypeExpr);
-	}
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+	using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
+	using Direction = de.unika.ipd.grgen.util.Direction;
 
 	/// <summary>
-	/// returns children of this node </summary>
-	public override ICollection<BaseNode> Children
+	/// Base class for neighborhood graph queries (with members shared by all these queries).
+	/// </summary>
+	public abstract class NeighborhoodQueryExprNode : BuiltinFunctionInvocationBaseNode
 	{
-		get
+		static NeighborhoodQueryExprNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(startNodeExpr);
-			children.Add(incidentTypeExpr);
-			children.Add(adjacentTypeExpr);
-			return children;
+			SetClassName(typeof(NeighborhoodQueryExprNode), "neighborhood query expr");
 		}
-	}
 
-	/// <summary>
-	/// returns names of the children, same order as in getChildren </summary>
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("start node expr");
-			childrenNames.Add("incident type expr");
-			childrenNames.Add("adjacent type expr");
-			return childrenNames;
-		}
-	}
+		protected internal ExprNode startNodeExpr;
+		protected internal ExprNode incidentTypeExpr;
+		protected internal ExprNode adjacentTypeExpr;
 
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
-	protected internal override bool CheckLocal()
-	{
-		if(!(startNodeExpr.Type is NodeTypeNode))
-		{
-			ReportError("The function " + ShortSignature() + " expects as 1. argument a value of type node"
-					+ " (but is given a value of type " + startNodeExpr.Type.TypeName + ").");
-			return false;
-		}
-		if(!(incidentTypeExpr.Type is EdgeTypeNode))
-		{
-			ReportError("The function " + ShortSignature() + " expects as 2. argument a value of type edge type"
-					+ " (but is given a value of type " + incidentTypeExpr.Type.TypeName + ").");
-			return false;
-		}
-		if(!(adjacentTypeExpr.Type is NodeTypeNode))
-		{
-			ReportError("The function " + ShortSignature() + " expects as 3. argument a value of type node type"
-					+ " (but is given a value of type " + adjacentTypeExpr.Type.TypeName + ").");
-			return false;
-		}
-		return true;
-	}
+		protected internal Direction direction;
 
-	protected internal abstract string ShortSignature();
-}
+
+		protected internal NeighborhoodQueryExprNode(Coords coords,
+				ExprNode startNodeExpr,
+				ExprNode incidentTypeExpr, Direction direction,
+				ExprNode adjacentTypeExpr)
+			: base(coords)
+		{
+			this.startNodeExpr = startNodeExpr;
+			BecomeParent(this.startNodeExpr);
+			this.incidentTypeExpr = incidentTypeExpr;
+			BecomeParent(this.incidentTypeExpr);
+			this.direction = direction;
+			this.adjacentTypeExpr = adjacentTypeExpr;
+			BecomeParent(this.adjacentTypeExpr);
+		}
+
+		/// <summary>
+		/// returns children of this node </summary>
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(startNodeExpr);
+				children.Add(incidentTypeExpr);
+				children.Add(adjacentTypeExpr);
+				return children;
+			}
+		}
+
+		/// <summary>
+		/// returns names of the children, same order as in getChildren </summary>
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("start node expr");
+				childrenNames.Add("incident type expr");
+				childrenNames.Add("adjacent type expr");
+				return childrenNames;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+		protected internal override bool CheckLocal()
+		{
+			if(!(startNodeExpr.Type is NodeTypeNode))
+			{
+				ReportError("The function " + ShortSignature() + " expects as 1. argument a value of type node"
+						+ " (but is given a value of type " + startNodeExpr.Type.TypeName + ").");
+				return false;
+			}
+			if(!(incidentTypeExpr.Type is EdgeTypeNode))
+			{
+				ReportError("The function " + ShortSignature() + " expects as 2. argument a value of type edge type"
+						+ " (but is given a value of type " + incidentTypeExpr.Type.TypeName + ").");
+				return false;
+			}
+			if(!(adjacentTypeExpr.Type is NodeTypeNode))
+			{
+				ReportError("The function " + ShortSignature() + " expects as 3. argument a value of type node type"
+						+ " (but is given a value of type " + adjacentTypeExpr.Type.TypeName + ").");
+				return false;
+			}
+			return true;
+		}
+
+		protected internal abstract string ShortSignature();
+	}
 
 }

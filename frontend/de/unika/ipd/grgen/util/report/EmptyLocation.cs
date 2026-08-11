@@ -11,47 +11,47 @@
 
 namespace de.unika.ipd.grgen.util.report
 {
-/// <summary>
-/// An empty location.
-/// </summary>
-public class EmptyLocation : Location
-{
-	private static readonly EmptyLocation EMPTY;
-
-	static EmptyLocation()
-	{
-		EMPTY = new EmptyLocation();
-	}
-
 	/// <summary>
-	/// Return the empty string always. </summary>
-	/// <seealso cref="de.unika.ipd.grgen.util.report.Location.getLocation()"/>
-	public virtual string Location
+	/// An empty location.
+	/// </summary>
+	public class EmptyLocation : Location
 	{
-		get
+		private static readonly EmptyLocation EMPTY;
+
+		static EmptyLocation()
 		{
-			return "<nowhere>";
+			EMPTY = new EmptyLocation();
+		}
+
+		/// <summary>
+		/// Return the empty string always. </summary>
+		/// <seealso cref="de.unika.ipd.grgen.util.report.Location.getLocation()"/>
+		public virtual string Location
+		{
+			get
+			{
+				return "<nowhere>";
+			}
+		}
+
+		/// <summary>
+		/// This location is never valid. </summary>
+		/// <seealso cref="de.unika.ipd.grgen.util.report.Location.hasLocation()"/>
+		public virtual bool HasLocation()
+		{
+			return false;
+		}
+
+		/// <summary>
+		/// Get a new empty location </summary>
+		/// <returns> an empty location </returns>
+		public static EmptyLocation EmptyLoc
+		{
+			get
+			{
+				return EMPTY;
+			}
 		}
 	}
-
-	/// <summary>
-	/// This location is never valid. </summary>
-	/// <seealso cref="de.unika.ipd.grgen.util.report.Location.hasLocation()"/>
-	public virtual bool HasLocation()
-	{
-		return false;
-	}
-
-	/// <summary>
-	/// Get a new empty location </summary>
-	/// <returns> an empty location </returns>
-	public static EmptyLocation EmptyLoc
-	{
-		get
-		{
-			return EMPTY;
-		}
-	}
-}
 
 }

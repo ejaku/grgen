@@ -12,78 +12,78 @@
 namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using StartTransactionProc = de.unika.ipd.grgen.ir.stmt.procenv.StartTransactionProc;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+	using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using StartTransactionProc = de.unika.ipd.grgen.ir.stmt.procenv.StartTransactionProc;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class StartTransactionProcNode : BuiltinProcedureInvocationBaseNode
-{
-	static StartTransactionProcNode()
+	public class StartTransactionProcNode : BuiltinProcedureInvocationBaseNode
 	{
-		SetClassName(typeof(StartTransactionProcNode), "start transaction procedure");
-	}
-
-	internal IList<TypeNode> returnTypes;
-
-	public StartTransactionProcNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static StartTransactionProcNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			return children;
+			SetClassName(typeof(StartTransactionProcNode), "start transaction procedure");
 		}
-	}
 
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		internal IList<TypeNode> returnTypes;
+
+		public StartTransactionProcNode(Coords coords)
+			: base(coords)
 		{
-			IList<string> childrenNames = new List<string>();
-			return childrenNames;
 		}
-	}
 
-	protected internal override bool CheckLocal()
-	{
-		return true;
-	}
-
-	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
-	{
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		StartTransactionProc startTransaction = new StartTransactionProc(BasicTypeNode.intType.GetIRType());
-		return startTransaction;
-	}
-
-	public override IList<TypeNode> Type
-	{
-		get
+		public override ICollection<BaseNode> Children
 		{
-			if(returnTypes == null)
+			get
 			{
-				returnTypes = new List<TypeNode>();
-				returnTypes.Add(BasicTypeNode.intType);
+				IList<BaseNode> children = new List<BaseNode>();
+				return children;
 			}
-			return returnTypes;
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			return true;
+		}
+
+		public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+		{
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			StartTransactionProc startTransaction = new StartTransactionProc(BasicTypeNode.intType.GetIRType());
+			return startTransaction;
+		}
+
+		public override IList<TypeNode> Type
+		{
+			get
+			{
+				if(returnTypes == null)
+				{
+					returnTypes = new List<TypeNode>();
+					returnTypes.Add(BasicTypeNode.intType);
+				}
+				return returnTypes;
+			}
 		}
 	}
-}
 
 }

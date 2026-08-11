@@ -11,60 +11,60 @@
 
 namespace de.unika.ipd.grgen.ir.type.container
 {
-using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class MapType : ContainerType
-{
-	public Type keyType;
-	public Type valueType;
-
-	public MapType(Type keyType, Type valueType)
-		: base("map type")
+	public class MapType : ContainerType
 	{
-		this.keyType = keyType;
-		this.valueType = valueType;
-	}
+		public Type keyType;
+		public Type valueType;
 
-	public virtual Type KeyType
-	{
-		get
+		public MapType(Type keyType, Type valueType)
+			: base("map type")
 		{
-			return keyType;
+			this.keyType = keyType;
+			this.valueType = valueType;
+		}
+
+		public virtual Type KeyType
+		{
+			get
+			{
+				return keyType;
+			}
+		}
+
+		public virtual Type ValueType
+		{
+			get
+			{
+				return valueType;
+			}
+		}
+
+		public override string ToString()
+		{
+			return "map<" + keyType + "," + valueType + ">";
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_MAP;
+		}
+
+		public override Type ElementType
+		{
+			get
+			{
+				return keyType;
+			}
+		}
+
+		public override bool ContainsBaseInternalObjectType()
+		{
+			return keyType is BaseInternalObjectType || valueType is BaseInternalObjectType;
 		}
 	}
-
-	public virtual Type ValueType
-	{
-		get
-		{
-			return valueType;
-		}
-	}
-
-	public override string ToString()
-	{
-		return "map<" + keyType + "," + valueType + ">";
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_MAP;
-	}
-
-	public override Type ElementType
-	{
-		get
-		{
-			return keyType;
-		}
-	}
-
-	public override bool ContainsBaseInternalObjectType()
-	{
-		return keyType is BaseInternalObjectType || valueType is BaseInternalObjectType;
-	}
-}
 
 }

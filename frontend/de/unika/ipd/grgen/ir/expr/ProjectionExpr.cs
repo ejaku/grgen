@@ -11,50 +11,50 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using ProcedureBase = de.unika.ipd.grgen.ir.executable.ProcedureBase;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using ProcedureBase = de.unika.ipd.grgen.ir.executable.ProcedureBase;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class ProjectionExpr : Expression
-{
-	private int index;
-	private ProcedureBase procedure;
-	private string projectedValueVarName;
-
-	public ProjectionExpr(int index, ProcedureBase procedure, Type type)^
-		: base("projection expr", type)
+	public class ProjectionExpr : Expression
 	{
-		this.index = index;
-		this.procedure = procedure;
-	}
+		private int index;
+		private ProcedureBase procedure;
+		private string projectedValueVarName;
 
-	public virtual int Index
-	{
-		get
+		public ProjectionExpr(int index, ProcedureBase procedure, Type type)^
+			: base("projection expr", type)
 		{
-			return index;
+			this.index = index;
+			this.procedure = procedure;
 		}
-	}
 
-	public virtual ProcedureBase Procedure
-	{
-		get
+		public virtual int Index
 		{
-			return procedure;
+			get
+			{
+				return index;
+			}
 		}
-	}
 
-	public virtual string ProjectedValueVarName
-	{
-		get
+		public virtual ProcedureBase Procedure
 		{
-			return projectedValueVarName;
+			get
+			{
+				return procedure;
+			}
 		}
-		set
-		{
-			this.projectedValueVarName = value;
-		}
-	}
 
-}
+		public virtual string ProjectedValueVarName
+		{
+			get
+			{
+				return projectedValueVarName;
+			}
+			set
+			{
+				this.projectedValueVarName = value;
+			}
+		}
+
+	}
 
 }

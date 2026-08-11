@@ -11,22 +11,22 @@
 
 namespace de.unika.ipd.grgen.ast.type
 {
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using ScopeOwner = de.unika.ipd.grgen.ast.ScopeOwner;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using ScopeOwner = de.unika.ipd.grgen.ast.ScopeOwner;
 
-/// <summary>
-/// Base class for all AST nodes representing compound types.
-/// Note: The scope stored in the node
-/// (accessible via <seealso cref="BaseNode.getScope()"/>) is the scope,
-/// this compound type owns, not the scope it is declared in.
-/// </summary>
-public abstract class CompoundTypeNode : DeclaredTypeNode, ScopeOwner
-{
-	public virtual bool FixupDefinition(IdentNode id)
+	/// <summary>
+	/// Base class for all AST nodes representing compound types.
+	/// Note: The scope stored in the node
+	/// (accessible via <seealso cref="BaseNode.getScope()"/>) is the scope,
+	/// this compound type owns, not the scope it is declared in.
+	/// </summary>
+	public abstract class CompoundTypeNode : DeclaredTypeNode, ScopeOwner
 	{
-		return FixupDefinition(id, Scope, true);
+		public virtual bool FixupDefinition(IdentNode id)
+		{
+			return FixupDefinition(id, Scope, true);
+		}
 	}
-}
 
 }

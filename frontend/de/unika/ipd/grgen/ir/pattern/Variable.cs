@@ -12,45 +12,45 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class Variable : Entity
-{
-	// the pattern graph of the variable
-	public PatternGraphLhs directlyNestingLHSGraph;
-
-	// null or an expression used to initialize the variable
-	public Expression initialization;
-
-	public bool isLambdaExpressionVariable;
-
-
-	public Variable(string name, Ident ident, Type type, bool isDefToBeYieldedTo,
-			PatternGraphLhs directlyNestingLHSGraph, int context, bool isLambdaExpressionVariable)
-		: base(name, ident, type, false, isDefToBeYieldedTo, context)
+	public class Variable : Entity
 	{
-		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
-		this.isLambdaExpressionVariable = isLambdaExpressionVariable;
-	}
+		// the pattern graph of the variable
+		public PatternGraphLhs directlyNestingLHSGraph;
 
-	public virtual Expression Initialization
-	{
-		set
+		// null or an expression used to initialize the variable
+		public Expression initialization;
+
+		public bool isLambdaExpressionVariable;
+
+
+		public Variable(string name, Ident ident, Type type, bool isDefToBeYieldedTo,
+				PatternGraphLhs directlyNestingLHSGraph, int context, bool isLambdaExpressionVariable)
+			: base(name, ident, type, false, isDefToBeYieldedTo, context)
 		{
-			this.initialization = value;
+			this.directlyNestingLHSGraph = directlyNestingLHSGraph;
+			this.isLambdaExpressionVariable = isLambdaExpressionVariable;
+		}
+
+		public virtual Expression Initialization
+		{
+			set
+			{
+				this.initialization = value;
+			}
+		}
+
+		public override string Kind
+		{
+			get
+			{
+				return "variable";
+			}
 		}
 	}
-
-	public override string Kind
-	{
-		get
-		{
-			return "variable";
-		}
-	}
-}
 
 }

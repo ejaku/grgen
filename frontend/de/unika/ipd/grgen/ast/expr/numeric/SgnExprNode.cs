@@ -8,76 +8,76 @@
 namespace de.unika.ipd.grgen.ast.expr.numeric
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using SgnExpr = de.unika.ipd.grgen.ir.expr.numeric.SgnExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using SgnExpr = de.unika.ipd.grgen.ir.expr.numeric.SgnExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class SgnExprNode : BuiltinFunctionInvocationBaseNode
-{
-	static SgnExprNode()
+	public class SgnExprNode : BuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(SgnExprNode), "sgn expr");
-	}
-
-	private ExprNode argumentExpr;
-
-	public SgnExprNode(Coords coords, ExprNode argumentExpr)
-		: base(coords)
-	{
-
-		this.argumentExpr = BecomeParent(argumentExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static SgnExprNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(argumentExpr);
-			return children;
+			SetClassName(typeof(SgnExprNode), "sgn expr");
+		}
+
+		private ExprNode argumentExpr;
+
+		public SgnExprNode(Coords coords, ExprNode argumentExpr)
+			: base(coords)
+		{
+
+			this.argumentExpr = BecomeParent(argumentExpr);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(argumentExpr);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("arg");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			if(argumentExpr.Type.IsEqual(BasicTypeNode.doubleType))
+				return true;
+			ReportError("The function Math::sgn() expects as argument a value of type double"
+					+ " (but is given a value of type " + argumentExpr.Type.TypeName + ").");
+			return false;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			argumentExpr = argumentExpr.Evaluate();
+			return new SgnExpr(argumentExpr.CheckIR(typeof(Expression)));
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return argumentExpr.Type;
+			}
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("arg");
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		if(argumentExpr.Type.IsEqual(BasicTypeNode.doubleType))
-			return true;
-		ReportError("The function Math::sgn() expects as argument a value of type double"
-				+ " (but is given a value of type " + argumentExpr.Type.TypeName + ").");
-		return false;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		argumentExpr = argumentExpr.Evaluate();
-		return new SgnExpr(argumentExpr.CheckIR(typeof(Expression)));
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return argumentExpr.Type;
-		}
-	}
-}
 
 }

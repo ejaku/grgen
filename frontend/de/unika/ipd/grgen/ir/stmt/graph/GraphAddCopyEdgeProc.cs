@@ -7,88 +7,88 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using System.Diagnostics;
+	using System.Diagnostics;
 
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class GraphAddCopyEdgeProc : BuiltinProcedureInvocationBase
-{
-	private readonly Expression sourceNode;
-	private readonly Expression targetNode;
-	private readonly Expression oldEdge;
-
-	private readonly Type returnType;
-
-	private readonly bool deep;
-
-	public GraphAddCopyEdgeProc(Expression edgeType,
-			Expression sourceNode,
-			Expression targetNode,
-			Type returnType,
-			bool deep)
-		: base("graph add copy edge procedure")
+	public class GraphAddCopyEdgeProc : BuiltinProcedureInvocationBase
 	{
-		this.oldEdge = edgeType;
-		this.sourceNode = sourceNode;
-		this.targetNode = targetNode;
-		this.returnType = returnType;
-		this.deep = deep;
-	}
+		private readonly Expression sourceNode;
+		private readonly Expression targetNode;
+		private readonly Expression oldEdge;
 
-	public virtual Expression OldEdgeExpr
-	{
-		get
+		private readonly Type returnType;
+
+		private readonly bool deep;
+
+		public GraphAddCopyEdgeProc(Expression edgeType,
+				Expression sourceNode,
+				Expression targetNode,
+				Type returnType,
+				bool deep)
+			: base("graph add copy edge procedure")
 		{
-			return oldEdge;
+			this.oldEdge = edgeType;
+			this.sourceNode = sourceNode;
+			this.targetNode = targetNode;
+			this.returnType = returnType;
+			this.deep = deep;
+		}
+
+		public virtual Expression OldEdgeExpr
+		{
+			get
+			{
+				return oldEdge;
+			}
+		}
+
+		public virtual Expression SourceNodeExpr
+		{
+			get
+			{
+				return sourceNode;
+			}
+		}
+
+		public virtual Expression TargetNodeExpr
+		{
+			get
+			{
+				return targetNode;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			oldEdge.CollectNeededEntities(needs);
+			sourceNode.CollectNeededEntities(needs);
+			targetNode.CollectNeededEntities(needs);
+		}
+
+		public override int ReturnArity()
+		{
+			return 1;
+		}
+
+		public override Type GetReturnType(int index)
+		{
+			Debug.Assert((index == 0));
+			return returnType;
+		}
+
+		public virtual bool Deep
+		{
+			get
+			{
+				return deep;
+			}
 		}
 	}
-
-	public virtual Expression SourceNodeExpr
-	{
-		get
-		{
-			return sourceNode;
-		}
-	}
-
-	public virtual Expression TargetNodeExpr
-	{
-		get
-		{
-			return targetNode;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		oldEdge.CollectNeededEntities(needs);
-		sourceNode.CollectNeededEntities(needs);
-		targetNode.CollectNeededEntities(needs);
-	}
-
-	public override int ReturnArity()
-	{
-		return 1;
-	}
-
-	public override Type GetReturnType(int index)
-	{
-		Debug.Assert((index == 0));
-		return returnType;
-	}
-
-	public virtual bool Deep
-	{
-		get
-		{
-			return deep;
-		}
-	}
-}
 
 }

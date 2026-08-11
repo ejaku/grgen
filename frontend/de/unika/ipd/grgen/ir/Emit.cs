@@ -12,48 +12,48 @@
 namespace de.unika.ipd.grgen.ir
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using OrderedReplacement = de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
-using ImperativeStmt = de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
-
-/// <summary>
-/// An emit statement.
-/// </summary>
-public class Emit : IR, ImperativeStmt, OrderedReplacement
-{
-	private List<Expression> arguments;
-	private bool isDebug;
-
-	public Emit(List<Expression> arguments, bool isDebug)
-		: base("emit")
-	{
-		this.arguments = arguments;
-		this.isDebug = isDebug;
-	}
-
-	public virtual bool IsDebug()
-	{
-		return isDebug;
-	}
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using OrderedReplacement = de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
+	using ImperativeStmt = de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 
 	/// <summary>
-	/// Returns Arguments
+	/// An emit statement.
 	/// </summary>
-	public virtual IList<Expression> Arguments
+	public class Emit : IR, ImperativeStmt, OrderedReplacement
 	{
-		get
+		private List<Expression> arguments;
+		private bool isDebug;
+
+		public Emit(List<Expression> arguments, bool isDebug)
+			: base("emit")
 		{
-			return arguments.AsReadOnly();
+			this.arguments = arguments;
+			this.isDebug = isDebug;
+		}
+
+		public virtual bool IsDebug()
+		{
+			return isDebug;
+		}
+
+		/// <summary>
+		/// Returns Arguments
+		/// </summary>
+		public virtual IList<Expression> Arguments
+		{
+			get
+			{
+				return arguments.AsReadOnly();
+			}
+		}
+
+		public virtual void CollectNeededEntities(NeededEntities needs)
+		{
+			foreach(Expression expr in arguments)
+				expr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual void CollectNeededEntities(NeededEntities needs)
-	{
-		foreach(Expression expr in arguments)
-			expr.CollectNeededEntities(needs);
-	}
-}
 
 }

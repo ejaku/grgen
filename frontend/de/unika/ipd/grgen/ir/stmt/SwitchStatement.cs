@@ -12,52 +12,52 @@
 namespace de.unika.ipd.grgen.ir.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/// <summary>
-/// Represents a switch statement in the IR.
-/// </summary>
-public class SwitchStatement : EvalStatement
-{
-	private Expression switchExpr;
-	private List<CaseStatement> statements = new List<CaseStatement>();
-
-	public SwitchStatement(Expression switchExpr)
-		: base("switch statement")
+	/// <summary>
+	/// Represents a switch statement in the IR.
+	/// </summary>
+	public class SwitchStatement : EvalStatement
 	{
-		this.switchExpr = switchExpr;
-	}
+		private Expression switchExpr;
+		private List<CaseStatement> statements = new List<CaseStatement>();
 
-	public virtual void AddStatement(CaseStatement statement)
-	{
-		statements.Add(statement);
-	}
-
-	public virtual Expression SwitchExpr
-	{
-		get
+		public SwitchStatement(Expression switchExpr)
+			: base("switch statement")
 		{
-			return switchExpr;
+			this.switchExpr = switchExpr;
+		}
+
+		public virtual void AddStatement(CaseStatement statement)
+		{
+			statements.Add(statement);
+		}
+
+		public virtual Expression SwitchExpr
+		{
+			get
+			{
+				return switchExpr;
+			}
+		}
+
+		public virtual ICollection<CaseStatement> Statements
+		{
+			get
+			{
+				return statements.AsReadOnly();
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			switchExpr.CollectNeededEntities(needs);
+			foreach(EvalStatement statement in statements)
+				statement.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual ICollection<CaseStatement> Statements
-	{
-		get
-		{
-			return statements.AsReadOnly();
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		switchExpr.CollectNeededEntities(needs);
-		foreach(EvalStatement statement in statements)
-			statement.CollectNeededEntities(needs);
-	}
-}
 
 }

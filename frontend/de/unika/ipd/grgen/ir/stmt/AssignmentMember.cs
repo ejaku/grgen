@@ -11,43 +11,43 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/// <summary>
-/// Represents an assignment statement in the IR.
-/// </summary>
-//currently unused, would be needed for member assignment inside method without "this." prefix
-public class AssignmentMember : AssignmentBase
-{
 	/// <summary>
-	/// The lhs of the assignment. </summary>
-	private Entity target;
-
-	public AssignmentMember(Entity target, Expression expr)
-		: base("assignment member")
+	/// Represents an assignment statement in the IR.
+	/// </summary>
+	//currently unused, would be needed for member assignment inside method without "this." prefix
+	public class AssignmentMember : AssignmentBase
 	{
-		this.target = target;
-		this.expr = expr;
-	}
+		/// <summary>
+		/// The lhs of the assignment. </summary>
+		private Entity target;
 
-	public virtual Entity Target
-	{
-		get
+		public AssignmentMember(Entity target, Expression expr)
+			: base("assignment member")
 		{
-			return target;
+			this.target = target;
+			this.expr = expr;
+		}
+
+		public virtual Entity Target
+		{
+			get
+			{
+				return target;
+			}
+		}
+
+		public override string ToString()
+		{
+			return Target + " = " + Expression;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			Expression.CollectNeededEntities(needs);
 		}
 	}
-
-	public override string ToString()
-	{
-		return Target + " = " + Expression;
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		Expression.CollectNeededEntities(needs);
-	}
-}
 
 }

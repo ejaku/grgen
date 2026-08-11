@@ -11,18 +11,18 @@
 
 namespace de.unika.ipd.grgen.ast
 {
-using DefinedMatchTypeNode = de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+	using DefinedMatchTypeNode = de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 
-/// <summary>
-/// AST interface representing match class filters
-/// </summary>
-public interface MatchClassFilterCharacter
-{
-	// returns the name of the filter (plain name without entity in case of an auto-generated filter)
-	string FilterName {get;}
+	/// <summary>
+	/// AST interface representing match class filters
+	/// </summary>
+	public interface MatchClassFilterCharacter
+	{
+		// returns the name of the filter (plain name without entity in case of an auto-generated filter)
+		string FilterName {get;}
 
-	// returns the match class the filter applies to
-	DefinedMatchTypeNode MatchType {get;}
-}
+		// returns the match class the filter applies to
+		DefinedMatchTypeNode MatchType {get;}
+	}
 
 }

@@ -13,9 +13,9 @@
 
 namespace de.unika.ipd.grgen.util
 {
-public interface GraphDumperFactory
-{
-	GraphDumper Get(string fileNamePart);
-}
+	public interface GraphDumperFactory
+	{
+		GraphDumper Get(string fileNamePart);
+	}
 
 }

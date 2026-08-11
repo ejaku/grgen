@@ -13,52 +13,52 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using System;
+	using System;
 
-using EnumItem = de.unika.ipd.grgen.ir.model.EnumItem;
-using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
+	using EnumItem = de.unika.ipd.grgen.ir.model.EnumItem;
+	using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
 
-public class EnumExpression : Constant
-{
-	private EnumItem item;
-
-	// Constructor for later initialization when EnumType and EnumItem have been constructed.
-	// See EnumTypeNode.constructIR().
-	public EnumExpression(int value)
-		: base(null, Convert.ToInt32(value))
+	public class EnumExpression : Constant
 	{
-		Name = "enum expression";
-	}
+		private EnumItem item;
 
-	public EnumExpression(EnumType type, EnumItem item)
-		: base(type, item.Value.Value)
-	{
-		this.item = item;
-		Name = "enum expression";
-	}
-
-	public virtual void LateInit(EnumType type, EnumItem item)
-	{
-		this.type = type;
-		this.item = item;
-	}
-
-	public virtual EnumItem EnumItem
-	{
-		get
+		// Constructor for later initialization when EnumType and EnumItem have been constructed.
+		// See EnumTypeNode.constructIR().
+		public EnumExpression(int value)
+			: base(null, Convert.ToInt32(value))
 		{
-			return item;
+			Name = "enum expression";
+		}
+
+		public EnumExpression(EnumType type, EnumItem item)
+			: base(type, item.Value.Value)
+		{
+			this.item = item;
+			Name = "enum expression";
+		}
+
+		public virtual void LateInit(EnumType type, EnumItem item)
+		{
+			this.type = type;
+			this.item = item;
+		}
+
+		public virtual EnumItem EnumItem
+		{
+			get
+			{
+				return item;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel() "/>
+		public override string NodeLabel
+		{
+			get
+			{
+				return item + " " + Value;
+			}
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel() "/>
-	public override string NodeLabel
-	{
-		get
-		{
-			return item + " " + Value;
-		}
-	}
-}
 
 }

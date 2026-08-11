@@ -7,33 +7,33 @@
 
 namespace de.unika.ipd.grgen.ir.type.basic
 {
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using de.unika.ipd.grgen.ir;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using de.unika.ipd.grgen.ir;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A double precision floating point type.
-/// </summary>
-public class DoubleType : PrimitiveType
-{
-	public DoubleType(Ident ident)
-		: base("double type", ident)
+	/// <summary>
+	/// A double precision floating point type.
+	/// </summary>
+	public class DoubleType : PrimitiveType
 	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_DOUBLE;
-	}
-
-	public static Type Type
-	{
-		get
+		public DoubleType(Ident ident)
+			: base("double type", ident)
 		{
-			return BasicTypeNode.doubleType.CheckIR(typeof(Type));
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_DOUBLE;
+		}
+
+		public static Type Type
+		{
+			get
+			{
+				return BasicTypeNode.doubleType.CheckIR(typeof(Type));
+			}
 		}
 	}
-}
 
 }

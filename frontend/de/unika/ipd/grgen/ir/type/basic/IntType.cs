@@ -11,33 +11,33 @@
 
 namespace de.unika.ipd.grgen.ir.type.basic
 {
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using de.unika.ipd.grgen.ir;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using de.unika.ipd.grgen.ir;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A Integer type.
-/// </summary>
-public class IntType : PrimitiveType
-{
-	public IntType(Ident ident)
-		: base("integer type", ident)
+	/// <summary>
+	/// A Integer type.
+	/// </summary>
+	public class IntType : PrimitiveType
 	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_INTEGER;
-	}
-
-	public static Type Type
-	{
-		get
+		public IntType(Ident ident)
+			: base("integer type", ident)
 		{
-			return BasicTypeNode.intType.CheckIR(typeof(Type));
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_INTEGER;
+		}
+
+		public static Type Type
+		{
+			get
+			{
+				return BasicTypeNode.intType.CheckIR(typeof(Type));
+			}
 		}
 	}
-}
 
 }

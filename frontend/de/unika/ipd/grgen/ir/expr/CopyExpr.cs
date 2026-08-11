@@ -7,44 +7,44 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using de.unika.ipd.grgen.ir;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class CopyExpr : BuiltinFunctionInvocationExpr
-{
-	private readonly Expression sourceExpr;
-	private readonly bool deep;
-
-	public CopyExpr(Expression sourceExpr, Type type, bool deep)
-		: base("copy expression", type)
+	public class CopyExpr : BuiltinFunctionInvocationExpr
 	{
-		this.sourceExpr = sourceExpr;
-		this.deep = deep;
-	}
+		private readonly Expression sourceExpr;
+		private readonly bool deep;
 
-	public virtual Expression SourceExpr
-	{
-		get
+		public CopyExpr(Expression sourceExpr, Type type, bool deep)
+			: base("copy expression", type)
 		{
-			return sourceExpr;
+			this.sourceExpr = sourceExpr;
+			this.deep = deep;
+		}
+
+		public virtual Expression SourceExpr
+		{
+			get
+			{
+				return sourceExpr;
+			}
+		}
+
+		public virtual bool Deep
+		{
+			get
+			{
+				return deep;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			sourceExpr.CollectNeededEntities(needs);
+			needs.NeedsGraph();
 		}
 	}
-
-	public virtual bool Deep
-	{
-		get
-		{
-			return deep;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		sourceExpr.CollectNeededEntities(needs);
-		needs.NeedsGraph();
-	}
-}
 
 }

@@ -11,35 +11,35 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.map
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
 
-public class MapRemoveItem : ContainerQualProcedureMethodInvocationBase
-{
-	internal Expression keyExpr;
-
-	public MapRemoveItem(Qualification target, Expression keyExpr)
-		: base("map remove item", target)
+	public class MapRemoveItem : ContainerQualProcedureMethodInvocationBase
 	{
-		this.keyExpr = keyExpr;
-	}
+		internal Expression keyExpr;
 
-	public virtual Expression KeyExpr
-	{
-		get
+		public MapRemoveItem(Qualification target, Expression keyExpr)
+			: base("map remove item", target)
 		{
-			return keyExpr;
+			this.keyExpr = keyExpr;
+		}
+
+		public virtual Expression KeyExpr
+		{
+			get
+			{
+				return keyExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+
+			keyExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-
-		keyExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

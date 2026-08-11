@@ -7,62 +7,62 @@
 
 namespace de.unika.ipd.grgen.ast.expr.graph
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using CountIncidentEdgeExpr = de.unika.ipd.grgen.ir.expr.graph.CountIncidentEdgeExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
-using Direction = de.unika.ipd.grgen.util.Direction;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using CountIncidentEdgeExpr = de.unika.ipd.grgen.ir.expr.graph.CountIncidentEdgeExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
+	using Direction = de.unika.ipd.grgen.util.Direction;
 
-/// <summary>
-/// A node yielding the count of the incident/incoming/outgoing edges of a node.
-/// </summary>
-public class CountIncidentEdgeExprNode : NeighborhoodQueryExprNode
-{
-	static CountIncidentEdgeExprNode()
+	/// <summary>
+	/// A node yielding the count of the incident/incoming/outgoing edges of a node.
+	/// </summary>
+	public class CountIncidentEdgeExprNode : NeighborhoodQueryExprNode
 	{
-		SetClassName(typeof(CountIncidentEdgeExprNode), "count incident edge expr");
-	}
-
-	public CountIncidentEdgeExprNode(Coords coords,
-			ExprNode startNodeExpr,
-			ExprNode incidentTypeExpr, Direction direction,
-			ExprNode adjacentTypeExpr)
-		: base(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr)
-	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
-	protected internal override bool ResolveLocal()
-	{
-		return Type.Resolve();
-	}
-
-	protected internal override string ShortSignature()
-	{
-		return "countIncidentEdges(.,.,.)";
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		startNodeExpr = startNodeExpr.Evaluate();
-		incidentTypeExpr = incidentTypeExpr.Evaluate();
-		adjacentTypeExpr = adjacentTypeExpr.Evaluate();
-		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
-		return new CountIncidentEdgeExpr(startNodeExpr.CheckIR(typeof(Expression)),
-				incidentTypeExpr.CheckIR(typeof(Expression)), direction,
-				adjacentTypeExpr.CheckIR(typeof(Expression)));
-	}
-
-	public override TypeNode Type
-	{
-		get
+		static CountIncidentEdgeExprNode()
 		{
-			return BasicTypeNode.intType;
+			SetClassName(typeof(CountIncidentEdgeExprNode), "count incident edge expr");
+		}
+
+		public CountIncidentEdgeExprNode(Coords coords,
+				ExprNode startNodeExpr,
+				ExprNode incidentTypeExpr, Direction direction,
+				ExprNode adjacentTypeExpr)
+			: base(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr)
+		{
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+		protected internal override bool ResolveLocal()
+		{
+			return Type.Resolve();
+		}
+
+		protected internal override string ShortSignature()
+		{
+			return "countIncidentEdges(.,.,.)";
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			startNodeExpr = startNodeExpr.Evaluate();
+			incidentTypeExpr = incidentTypeExpr.Evaluate();
+			adjacentTypeExpr = adjacentTypeExpr.Evaluate();
+			// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
+			return new CountIncidentEdgeExpr(startNodeExpr.CheckIR(typeof(Expression)),
+					incidentTypeExpr.CheckIR(typeof(Expression)), direction,
+					adjacentTypeExpr.CheckIR(typeof(Expression)));
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.intType;
+			}
 		}
 	}
-}
 
 }

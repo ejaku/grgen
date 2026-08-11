@@ -7,27 +7,27 @@
 
 namespace de.unika.ipd.grgen.util.collection
 {
-public class Mutable<T>
-{
-	internal T value;
-
-	public Mutable(T v)
+	public class Mutable<T>
 	{
-		value = v;
-	}
+		internal T value;
 
-	public virtual T Value
-	{
-		get
+		public Mutable(T v)
 		{
-			return value;
+			value = v;
 		}
-		set
-		{
-			this.value = value;
-		}
-	}
 
-}
+		public virtual T Value
+		{
+			get
+			{
+				return value;
+			}
+			set
+			{
+				this.value = value;
+			}
+		}
+
+	}
 
 }

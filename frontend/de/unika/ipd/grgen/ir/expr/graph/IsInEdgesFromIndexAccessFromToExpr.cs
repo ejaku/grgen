@@ -7,46 +7,46 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class IsInEdgesFromIndexAccessFromToExpr : EdgesFromIndexAccessExpr
-{
-	private readonly Expression candidateExpr;
-	private readonly IndexAccessOrdering indexAccess;
-
-	public IsInEdgesFromIndexAccessFromToExpr(Expression candidateExpr, IndexAccessOrdering indexAccess, Type type)
-		: base(indexAccess.index, type)
+	public class IsInEdgesFromIndexAccessFromToExpr : EdgesFromIndexAccessExpr
 	{
-		this.candidateExpr = candidateExpr;
-		this.indexAccess = indexAccess;
-	}
+		private readonly Expression candidateExpr;
+		private readonly IndexAccessOrdering indexAccess;
 
-	public virtual Expression CandidateExpr
-	{
-		get
+		public IsInEdgesFromIndexAccessFromToExpr(Expression candidateExpr, IndexAccessOrdering indexAccess, Type type)
+			: base(indexAccess.index, type)
 		{
-			return candidateExpr;
+			this.candidateExpr = candidateExpr;
+			this.indexAccess = indexAccess;
+		}
+
+		public virtual Expression CandidateExpr
+		{
+			get
+			{
+				return candidateExpr;
+			}
+		}
+
+		public virtual IndexAccessOrdering IndexAccessOrdering
+		{
+			get
+			{
+				return indexAccess;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			candidateExpr.CollectNeededEntities(needs);
+			indexAccess.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual IndexAccessOrdering IndexAccessOrdering
-	{
-		get
-		{
-			return indexAccess;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		candidateExpr.CollectNeededEntities(needs);
-		indexAccess.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -12,59 +12,59 @@
 namespace de.unika.ipd.grgen.ast.expr.array
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using ContainerFunctionMethodInvocationBaseExprNode = de.unika.ipd.grgen.ast.expr.ContainerFunctionMethodInvocationBaseExprNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using ContainerFunctionMethodInvocationBaseExprNode = de.unika.ipd.grgen.ast.expr.ContainerFunctionMethodInvocationBaseExprNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ArrayFunctionMethodInvocationBaseExprNode : ContainerFunctionMethodInvocationBaseExprNode
-{
-	static ArrayFunctionMethodInvocationBaseExprNode()
+	public abstract class ArrayFunctionMethodInvocationBaseExprNode : ContainerFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(ArrayFunctionMethodInvocationBaseExprNode), "array function method invocation base expression");
-	}
-
-	public ArrayFunctionMethodInvocationBaseExprNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	protected internal virtual ArrayTypeNode TargetTypeExact
-	{
-		get
+		static ArrayFunctionMethodInvocationBaseExprNode()
 		{
-			return (ArrayTypeNode)TargetType;
+			SetClassName(typeof(ArrayFunctionMethodInvocationBaseExprNode), "array function method invocation base expression");
+		}
+
+		public ArrayFunctionMethodInvocationBaseExprNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
+		{
+		}
+
+		protected internal virtual ArrayTypeNode TargetTypeExact
+		{
+			get
+			{
+				return (ArrayTypeNode)TargetType;
+			}
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(targetExpr);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("targetExpr");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			// target type already checked during resolving into this node
+			return true;
 		}
 	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
-		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(targetExpr);
-			return children;
-		}
-	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("targetExpr");
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		return true;
-	}
-}
 
 }

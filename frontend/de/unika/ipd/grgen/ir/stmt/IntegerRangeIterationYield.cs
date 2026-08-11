@@ -11,60 +11,60 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-/// <summary>
-/// Represents an accumulation yielding of a container variable in the IR.
-/// </summary>
-public class IntegerRangeIterationYield : BlockNestingStatement
-{
-	private Variable iterationVar;
-	private Expression leftExpr;
-	private Expression rightExpr;
-
-	public IntegerRangeIterationYield(Variable iterationVar, Expression left, Expression right)
-		: base("integer range iteration yield")
+	/// <summary>
+	/// Represents an accumulation yielding of a container variable in the IR.
+	/// </summary>
+	public class IntegerRangeIterationYield : BlockNestingStatement
 	{
-		this.iterationVar = iterationVar;
-		this.leftExpr = left;
-		this.rightExpr = right;
-	}
+		private Variable iterationVar;
+		private Expression leftExpr;
+		private Expression rightExpr;
 
-	public virtual Variable IterationVar
-	{
-		get
+		public IntegerRangeIterationYield(Variable iterationVar, Expression left, Expression right)
+			: base("integer range iteration yield")
 		{
-			return iterationVar;
+			this.iterationVar = iterationVar;
+			this.leftExpr = left;
+			this.rightExpr = right;
+		}
+
+		public virtual Variable IterationVar
+		{
+			get
+			{
+				return iterationVar;
+			}
+		}
+
+		public virtual Expression LeftExpr
+		{
+			get
+			{
+				return leftExpr;
+			}
+		}
+
+		public virtual Expression RightExpr
+		{
+			get
+			{
+				return rightExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			leftExpr.CollectNeededEntities(needs);
+			rightExpr.CollectNeededEntities(needs);
+			foreach(EvalStatement accumulationStatement in statements)
+				accumulationStatement.CollectNeededEntities(needs);
+			if(needs.variables != null)
+				needs.variables.Remove(iterationVar);
 		}
 	}
-
-	public virtual Expression LeftExpr
-	{
-		get
-		{
-			return leftExpr;
-		}
-	}
-
-	public virtual Expression RightExpr
-	{
-		get
-		{
-			return rightExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		leftExpr.CollectNeededEntities(needs);
-		rightExpr.CollectNeededEntities(needs);
-		foreach(EvalStatement accumulationStatement in statements)
-			accumulationStatement.CollectNeededEntities(needs);
-		if(needs.variables != null)
-			needs.variables.Remove(iterationVar);
-	}
-}
 
 }

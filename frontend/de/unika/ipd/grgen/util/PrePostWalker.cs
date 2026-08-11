@@ -12,55 +12,55 @@
 namespace de.unika.ipd.grgen.util
 {
 
-using System.Collections.Generic;
-
-/// <summary>
-/// A walker calling visitors
-/// pre before descending to the first child
-/// post after ascending from the last child.
-/// </summary>
-public class PrePostWalker : Base, Walker
-{
-	private ISet<Walkable> visited;
-	private Visitor pre, post;
+	using System.Collections.Generic;
 
 	/// <summary>
-	/// Creates PrePostWalker </summary>
-	/// <param name="pre"> Visitor called before descending to the first child </param>
-	/// <param name="post"> Visitor called after ascending from the last child </param>
-	public PrePostWalker(Visitor pre, Visitor post)
+	/// A walker calling visitors
+	/// pre before descending to the first child
+	/// post after ascending from the last child.
+	/// </summary>
+	public class PrePostWalker : Base, Walker
 	{
-		this.pre = pre;
-		this.post = post;
-		visited = new HashSet<Walkable>();
-	}
+		private ISet<Walkable> visited;
+		private Visitor pre, post;
 
-	public virtual void Reset()
-	{
-		visited.Clear();
-	}
-
-	public virtual void Walk(Walkable node)
-	{
-		if(!visited.Contains(node))
+		/// <summary>
+		/// Creates PrePostWalker </summary>
+		/// <param name="pre"> Visitor called before descending to the first child </param>
+		/// <param name="post"> Visitor called after ascending from the last child </param>
+		public PrePostWalker(Visitor pre, Visitor post)
 		{
-			if(node != null)
+			this.pre = pre;
+			this.post = post;
+			visited = new HashSet<Walkable>();
+		}
+
+		public virtual void Reset()
+		{
+			visited.Clear();
+		}
+
+		public virtual void Walk(Walkable node)
+		{
+			if(!visited.Contains(node))
 			{
-				visited.Add(node);
+				if(node != null)
+				{
+					visited.Add(node);
 
-				if(pre != null)
-					pre.Visit(node);
+					if(pre != null)
+						pre.Visit(node);
 
-				foreach(Walkable p in node.WalkableChildren)
-					Walk(p);
+					foreach(Walkable p in node.WalkableChildren)
+						Walk(p);
 
-				if(post != null)
-					post.Visit(node);
+					if(post != null)
+						post.Visit(node);
+				}
+				else
+					Base.error.Error("Internal error: node was null, while walking.");
 			}
-			else
-				Base.error.Error("Internal error: node was null, while walking.");
 		}
 	}
-}
 
 }

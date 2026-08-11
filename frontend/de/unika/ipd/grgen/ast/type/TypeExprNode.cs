@@ -14,61 +14,61 @@
 namespace de.unika.ipd.grgen.ast.type
 {
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using de.unika.ipd.grgen.ast;
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
-
-/// <summary>
-/// AST node representing type expressions.
-/// A lot more general than what is really used as of now (a non-empty constraint defines a set difference which is not modeled explicitly, and contains one or a union of types).
-/// </summary>
-public abstract class TypeExprNode : BaseNode
-{
-	public enum TypeOperator
-	{
-		SET,
-		UNION,
-		DIFFERENCE,
-		INTERSECT,
-	}
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using de.unika.ipd.grgen.ast;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
 	/// <summary>
-	/// Opcode of the set operation. </summary>
-	protected internal readonly TypeOperator op;
-
-	private static readonly TypeExprNode EMPTY = new TypeConstraintNode(Coords.Invalid, new CollectNode<IdentNode>());
-
-	public static TypeExprNode Empty
+	/// AST node representing type expressions.
+	/// A lot more general than what is really used as of now (a non-empty constraint defines a set difference which is not modeled explicitly, and contains one or a union of types).
+	/// </summary>
+	public abstract class TypeExprNode : BaseNode
 	{
-		get
+		public enum TypeOperator
 		{
-			return EMPTY;
+			SET,
+			UNION,
+			DIFFERENCE,
+			INTERSECT,
+		}
+
+		/// <summary>
+		/// Opcode of the set operation. </summary>
+		protected internal readonly TypeOperator op;
+
+		private static readonly TypeExprNode EMPTY = new TypeConstraintNode(Coords.Invalid, new CollectNode<IdentNode>());
+
+		public static TypeExprNode Empty
+		{
+			get
+			{
+				return EMPTY;
+			}
+		}
+
+		protected internal TypeExprNode(Coords coords, TypeOperator op)
+			: base(coords)
+		{
+			this.op = op;
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor() "/>
+		public override Color NodeColor
+		{
+			get
+			{
+				return Color.CYAN;
+			}
+		}
+
+		public override string NodeLabel
+		{
+			get
+			{
+				return "type expr " + op;
+			}
 		}
 	}
-
-	protected internal TypeExprNode(Coords coords, TypeOperator op)
-		: base(coords)
-	{
-		this.op = op;
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor() "/>
-	public override Color NodeColor
-	{
-		get
-		{
-			return Color.CYAN;
-		}
-	}
-
-	public override string NodeLabel
-	{
-		get
-		{
-			return "type expr " + op;
-		}
-	}
-}
 
 }

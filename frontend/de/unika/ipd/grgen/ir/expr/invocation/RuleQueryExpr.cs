@@ -11,16 +11,16 @@
 
 namespace de.unika.ipd.grgen.ir.expr.invocation
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-// dummy class for rule queries from compiled sequences
-public class RuleQueryExpr : Expression
-{
-	public RuleQueryExpr(Type targetType)
-		: base("rule query", targetType)
+	// dummy class for rule queries from compiled sequences
+	public class RuleQueryExpr : Expression
 	{
+		public RuleQueryExpr(Type targetType)
+			: base("rule query", targetType)
+		{
+		}
 	}
-}
 
 }

@@ -11,19 +11,19 @@
 
 namespace de.unika.ipd.grgen.util
 {
-/// <summary>
-/// An interface for something that has an id unique in
-/// space and life time of the program.
-/// </summary>
-public interface Id
-{
 	/// <summary>
-	/// Get the id.
-	/// An implementation must ensure, that for all objects that are instance of Id
-	/// the two strings (returned be the <code>getId()</code> methods
-	/// respectively) differ. </summary>
-	/// <returns> A new id. </returns>
-	string Id {get;}
-}
+	/// An interface for something that has an id unique in
+	/// space and life time of the program.
+	/// </summary>
+	public interface Id
+	{
+		/// <summary>
+		/// Get the id.
+		/// An implementation must ensure, that for all objects that are instance of Id
+		/// the two strings (returned be the <code>getId()</code> methods
+		/// respectively) differ. </summary>
+		/// <returns> A new id. </returns>
+		string Id {get;}
+	}
 
 }

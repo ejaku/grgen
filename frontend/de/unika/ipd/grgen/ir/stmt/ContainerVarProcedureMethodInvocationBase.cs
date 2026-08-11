@@ -11,35 +11,35 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-public abstract class ContainerVarProcedureMethodInvocationBase : BuiltinProcedureInvocationBase
-{
-	protected internal Variable target;
-
-	protected internal ContainerVarProcedureMethodInvocationBase(string name, Variable target)
-		: base(name)
+	public abstract class ContainerVarProcedureMethodInvocationBase : BuiltinProcedureInvocationBase
 	{
-		this.target = target;
-	}
+		protected internal Variable target;
 
-	public virtual Variable Target
-	{
-		get
+		protected internal ContainerVarProcedureMethodInvocationBase(string name, Variable target)
+			: base(name)
 		{
-			return target;
+			this.target = target;
+		}
+
+		public virtual Variable Target
+		{
+			get
+			{
+				return target;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(!IsGlobalVariable(target))
+				needs.Add(target);
+
+			if(Next != null)
+				Next.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(!IsGlobalVariable(target))
-			needs.Add(target);
-
-		if(Next != null)
-			Next.CollectNeededEntities(needs);
-	}
-}
 
 }

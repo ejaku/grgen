@@ -11,72 +11,72 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.invocation
 {
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
-using ProcedureBase = de.unika.ipd.grgen.ir.executable.ProcedureBase;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-
-/// <summary>
-/// A procedure method invocation.
-/// </summary>
-public class ProcedureMethodInvocation : ProcedureInvocationBase
-{
-	/// <summary>
-	/// The owner of the procedure method. </summary>
-	private Entity owner;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
+	using ProcedureBase = de.unika.ipd.grgen.ir.executable.ProcedureBase;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
 	/// <summary>
-	/// The procedure of the procedure method invocation. </summary>
-	protected internal Procedure procedure;
-
-	public ProcedureMethodInvocation(Entity owner, Procedure procedure)
-		: base("procedure method invocation")
+	/// A procedure method invocation.
+	/// </summary>
+	public class ProcedureMethodInvocation : ProcedureInvocationBase
 	{
+		/// <summary>
+		/// The owner of the procedure method. </summary>
+		private Entity owner;
 
-		this.owner = owner;
-		this.procedure = procedure;
-	}
+		/// <summary>
+		/// The procedure of the procedure method invocation. </summary>
+		protected internal Procedure procedure;
 
-	public virtual Entity Owner
-	{
-		get
+		public ProcedureMethodInvocation(Entity owner, Procedure procedure)
+			: base("procedure method invocation")
 		{
-			return owner;
+
+			this.owner = owner;
+			this.procedure = procedure;
+		}
+
+		public virtual Entity Owner
+		{
+			get
+			{
+				return owner;
+			}
+		}
+
+		public override ProcedureBase ProcedureBase
+		{
+			get
+			{
+				return procedure;
+			}
+		}
+
+		public virtual Procedure Procedure
+		{
+			get
+			{
+				return procedure;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(!IsGlobalVariable(owner))
+			{
+				if(owner is GraphEntity)
+					needs.Add((GraphEntity)owner);
+				else
+					needs.Add((Variable)owner);
+			}
+			foreach(Expression child in WalkableChildren)
+				child.CollectNeededEntities(needs);
 		}
 	}
-
-	public override ProcedureBase ProcedureBase
-	{
-		get
-		{
-			return procedure;
-		}
-	}
-
-	public virtual Procedure Procedure
-	{
-		get
-		{
-			return procedure;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(!IsGlobalVariable(owner))
-		{
-			if(owner is GraphEntity)
-				needs.Add((GraphEntity)owner);
-			else
-				needs.Add((Variable)owner);
-		}
-		foreach(Expression child in WalkableChildren)
-			child.CollectNeededEntities(needs);
-	}
-}
 
 }

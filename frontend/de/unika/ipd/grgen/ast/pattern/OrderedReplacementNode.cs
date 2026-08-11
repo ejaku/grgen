@@ -11,36 +11,36 @@
 
 namespace de.unika.ipd.grgen.ast.pattern
 {
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class OrderedReplacementNode : BaseNode
-{
-	// no functionality, allows ordering of subpattern replacement nodes and emit here nodes
-	// in one container of the ordered replacement node type
-
-	protected internal OrderedReplacementNode(Coords coords)
-		: base(coords)
+	public abstract class OrderedReplacementNode : BaseNode
 	{
-	}
+		// no functionality, allows ordering of subpattern replacement nodes and emit here nodes
+		// in one container of the ordered replacement node type
 
-	protected internal OrderedReplacementNode()
-		: base()
-	{
-	}
-
-	public virtual bool NoExecStatement(bool inEvalHereContext)
-	{
-		bool res = true;
-		foreach(BaseNode child in Children)
+		protected internal OrderedReplacementNode(Coords coords)
+			: base(coords)
 		{
-			if(!(child is OrderedReplacementNode))
-				continue;
-			OrderedReplacementNode orderedReplacement = (OrderedReplacementNode)child;
-			res &= orderedReplacement.NoExecStatement(inEvalHereContext);
 		}
-		return res;
+
+		protected internal OrderedReplacementNode()
+			: base()
+		{
+		}
+
+		public virtual bool NoExecStatement(bool inEvalHereContext)
+		{
+			bool res = true;
+			foreach(BaseNode child in Children)
+			{
+				if(!(child is OrderedReplacementNode))
+					continue;
+				OrderedReplacementNode orderedReplacement = (OrderedReplacementNode)child;
+				res &= orderedReplacement.NoExecStatement(inEvalHereContext);
+			}
+			return res;
+		}
 	}
-}
 
 }

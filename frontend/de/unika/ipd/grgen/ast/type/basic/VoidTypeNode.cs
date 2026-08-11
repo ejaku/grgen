@@ -7,28 +7,28 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using VoidType = de.unika.ipd.grgen.ir.type.basic.VoidType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using VoidType = de.unika.ipd.grgen.ir.type.basic.VoidType;
 
-/// <summary>
-/// The void basic type. It is compatible to no other type.
-/// </summary>
-public class VoidTypeNode : BasicTypeNode
-{
-	static VoidTypeNode()
+	/// <summary>
+	/// The void basic type. It is compatible to no other type.
+	/// </summary>
+	public class VoidTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(VoidTypeNode), "void type");
-	}
+		static VoidTypeNode()
+		{
+			SetClassName(typeof(VoidTypeNode), "void type");
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new VoidType(Ident.IRIdent);
-	}
+		protected internal override IR ConstructIR()
+		{
+			return new VoidType(Ident.IRIdent);
+		}
 
-	public override string ToString()
-	{
-		return "void";
+		public override string ToString()
+		{
+			return "void";
+		}
 	}
-}
 
 }

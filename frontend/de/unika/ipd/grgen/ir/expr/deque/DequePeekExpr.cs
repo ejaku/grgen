@@ -10,34 +10,34 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.expr.deque
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using DequeType = de.unika.ipd.grgen.ir.type.container.DequeType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using DequeType = de.unika.ipd.grgen.ir.type.container.DequeType;
 
-public class DequePeekExpr : DequeFunctionMethodInvocationBaseExpr
-{
-	private Expression numberExpr;
-
-	public DequePeekExpr(Expression targetExpr, Expression numberExpr)
-		: base("deque peek expr", ((DequeType)(targetExpr.Type)).valueType, targetExpr)
+	public class DequePeekExpr : DequeFunctionMethodInvocationBaseExpr
 	{
-		this.numberExpr = numberExpr;
-	}
+		private Expression numberExpr;
 
-	public virtual Expression NumberExpr
-	{
-		get
+		public DequePeekExpr(Expression targetExpr, Expression numberExpr)
+			: base("deque peek expr", ((DequeType)(targetExpr.Type)).valueType, targetExpr)
 		{
-			return numberExpr;
+			this.numberExpr = numberExpr;
+		}
+
+		public virtual Expression NumberExpr
+		{
+			get
+			{
+				return numberExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+			if(numberExpr != null)
+				numberExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-		if(numberExpr != null)
-			numberExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

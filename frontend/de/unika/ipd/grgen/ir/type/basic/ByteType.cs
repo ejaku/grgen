@@ -7,33 +7,33 @@
 
 namespace de.unika.ipd.grgen.ir.type.basic
 {
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using de.unika.ipd.grgen.ir;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using de.unika.ipd.grgen.ir;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A byte type.
-/// </summary>
-public class ByteType : PrimitiveType
-{
-	public ByteType(Ident ident)
-		: base("byte type", ident)
+	/// <summary>
+	/// A byte type.
+	/// </summary>
+	public class ByteType : PrimitiveType
 	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_BYTE;
-	}
-
-	public static Type Type
-	{
-		get
+		public ByteType(Ident ident)
+			: base("byte type", ident)
 		{
-			return BasicTypeNode.byteType.CheckIR(typeof(Type));
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_BYTE;
+		}
+
+		public static Type Type
+		{
+			get
+			{
+				return BasicTypeNode.byteType.CheckIR(typeof(Type));
+			}
 		}
 	}
-}
 
 }

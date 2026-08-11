@@ -11,34 +11,34 @@
 
 namespace de.unika.ipd.grgen.ir.type.basic
 {
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using de.unika.ipd.grgen.ir;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using de.unika.ipd.grgen.ir;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A boolean type
-/// </summary>
-public class BooleanType : PrimitiveType
-{
-	/// <param name="ident"> The name of the boolean type. </param>
-	public BooleanType(Ident ident)
-		: base("boolean type", ident)
+	/// <summary>
+	/// A boolean type
+	/// </summary>
+	public class BooleanType : PrimitiveType
 	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_BOOLEAN;
-	}
-
-	public static Type Type
-	{
-		get
+		/// <param name="ident"> The name of the boolean type. </param>
+		public BooleanType(Ident ident)
+			: base("boolean type", ident)
 		{
-			return BasicTypeNode.booleanType.CheckIR(typeof(Type));
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_BOOLEAN;
+		}
+
+		public static Type Type
+		{
+			get
+			{
+				return BasicTypeNode.booleanType.CheckIR(typeof(Type));
+			}
 		}
 	}
-}
 
 }

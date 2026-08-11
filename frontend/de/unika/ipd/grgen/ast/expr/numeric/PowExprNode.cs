@@ -12,103 +12,103 @@
 namespace de.unika.ipd.grgen.ast.expr.numeric
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using PowExpr = de.unika.ipd.grgen.ir.expr.numeric.PowExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using PowExpr = de.unika.ipd.grgen.ir.expr.numeric.PowExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class PowExprNode : BuiltinFunctionInvocationBaseNode
-{
-	static PowExprNode()
+	public class PowExprNode : BuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(PowExprNode), "pow expr");
-	}
-
-	private ExprNode leftExpr;
-	private ExprNode rightExpr;
-
-	public PowExprNode(Coords coords, ExprNode leftExpr, ExprNode rightExpr)
-		: base(coords)
-	{
-
-		this.leftExpr = BecomeParent(leftExpr);
-		this.rightExpr = BecomeParent(rightExpr);
-	}
-
-	public PowExprNode(Coords coords, ExprNode rightExpr)
-		: base(coords)
-	{
-
-		this.rightExpr = BecomeParent(rightExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static PowExprNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
+			SetClassName(typeof(PowExprNode), "pow expr");
+		}
+
+		private ExprNode leftExpr;
+		private ExprNode rightExpr;
+
+		public PowExprNode(Coords coords, ExprNode leftExpr, ExprNode rightExpr)
+			: base(coords)
+		{
+
+			this.leftExpr = BecomeParent(leftExpr);
+			this.rightExpr = BecomeParent(rightExpr);
+		}
+
+		public PowExprNode(Coords coords, ExprNode rightExpr)
+			: base(coords)
+		{
+
+			this.rightExpr = BecomeParent(rightExpr);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				if(leftExpr != null)
+					children.Add(leftExpr);
+				children.Add(rightExpr);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				if(leftExpr != null)
+					childrenNames.Add("left");
+				childrenNames.Add("right");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			if(!rightExpr.Type.IsEqual(BasicTypeNode.doubleType))
+			{
+				ReportError("The function Math::pow() expects as 1. argument a value of type double"
+						+ " (but is given a value of type " + rightExpr.Type.TypeName + ").");
+				return false;
+			}
+			if(leftExpr != null && !leftExpr.Type.IsEqual(BasicTypeNode.doubleType))
+			{
+				ReportError("The function Math::pow() expects as 2. argument a value of type double"
+						+ " (but is given a value of type " + leftExpr.Type.TypeName + ").");
+				return false;
+			}
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			rightExpr = rightExpr.Evaluate();
 			if(leftExpr != null)
-				children.Add(leftExpr);
-			children.Add(rightExpr);
-			return children;
+			{
+				leftExpr = leftExpr.Evaluate();
+				return new PowExpr(leftExpr.CheckIR(typeof(Expression)), rightExpr.CheckIR(typeof(Expression)));
+			}
+			else
+				return new PowExpr(rightExpr.CheckIR(typeof(Expression)));
 		}
-	}
 
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		public override TypeNode Type
 		{
-			IList<string> childrenNames = new List<string>();
-			if(leftExpr != null)
-				childrenNames.Add("left");
-			childrenNames.Add("right");
-			return childrenNames;
+			get
+			{
+				return BasicTypeNode.doubleType;
+			}
 		}
 	}
-
-	protected internal override bool CheckLocal()
-	{
-		if(!rightExpr.Type.IsEqual(BasicTypeNode.doubleType))
-		{
-			ReportError("The function Math::pow() expects as 1. argument a value of type double"
-					+ " (but is given a value of type " + rightExpr.Type.TypeName + ").");
-			return false;
-		}
-		if(leftExpr != null && !leftExpr.Type.IsEqual(BasicTypeNode.doubleType))
-		{
-			ReportError("The function Math::pow() expects as 2. argument a value of type double"
-					+ " (but is given a value of type " + leftExpr.Type.TypeName + ").");
-			return false;
-		}
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		rightExpr = rightExpr.Evaluate();
-		if(leftExpr != null)
-		{
-			leftExpr = leftExpr.Evaluate();
-			return new PowExpr(leftExpr.CheckIR(typeof(Expression)), rightExpr.CheckIR(typeof(Expression)));
-		}
-		else
-			return new PowExpr(rightExpr.CheckIR(typeof(Expression)));
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return BasicTypeNode.doubleType;
-		}
-	}
-}
 
 }

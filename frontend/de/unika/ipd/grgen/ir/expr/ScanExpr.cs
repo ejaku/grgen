@@ -7,34 +7,34 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using de.unika.ipd.grgen.ir;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class ScanExpr : BuiltinFunctionInvocationExpr
-{
-	private readonly Expression stringExpr;
-
-	public ScanExpr(Expression stringExpr, Type type)
-		: base("scan expression", type)
+	public class ScanExpr : BuiltinFunctionInvocationExpr
 	{
-		this.stringExpr = stringExpr;
-	}
+		private readonly Expression stringExpr;
 
-	public virtual Expression StringExpr
-	{
-		get
+		public ScanExpr(Expression stringExpr, Type type)
+			: base("scan expression", type)
 		{
-			return stringExpr;
+			this.stringExpr = stringExpr;
+		}
+
+		public virtual Expression StringExpr
+		{
+			get
+			{
+				return stringExpr;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			stringExpr.CollectNeededEntities(needs);
+			needs.NeedsGraph();
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		stringExpr.CollectNeededEntities(needs);
-		needs.NeedsGraph();
-	}
-}
 
 }

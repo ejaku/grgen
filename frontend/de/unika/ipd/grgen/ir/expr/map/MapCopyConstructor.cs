@@ -11,44 +11,44 @@
 
 namespace de.unika.ipd.grgen.ir.expr.map
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
 
-public class MapCopyConstructor : Expression
-{
-	private Expression mapToCopy;
-	private MapType mapType;
-
-	public MapCopyConstructor(Expression mapToCopy, MapType mapType)
-		: base("map copy construtor", mapType)
+	public class MapCopyConstructor : Expression
 	{
-		this.mapToCopy = mapToCopy;
-		this.mapType = mapType;
-	}
+		private Expression mapToCopy;
+		private MapType mapType;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.Add(this);
-		needs.NeedsGraph();
-		mapToCopy.CollectNeededEntities(needs);
-	}
-
-	public virtual Expression MapToCopy
-	{
-		get
+		public MapCopyConstructor(Expression mapToCopy, MapType mapType)
+			: base("map copy construtor", mapType)
 		{
-			return mapToCopy;
+			this.mapToCopy = mapToCopy;
+			this.mapType = mapType;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.Add(this);
+			needs.NeedsGraph();
+			mapToCopy.CollectNeededEntities(needs);
+		}
+
+		public virtual Expression MapToCopy
+		{
+			get
+			{
+				return mapToCopy;
+			}
+		}
+
+		public virtual MapType MapType
+		{
+			get
+			{
+				return mapType;
+			}
 		}
 	}
-
-	public virtual MapType MapType
-	{
-		get
-		{
-			return mapType;
-		}
-	}
-}
 
 }

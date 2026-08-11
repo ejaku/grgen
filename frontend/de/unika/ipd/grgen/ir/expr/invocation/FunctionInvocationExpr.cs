@@ -11,32 +11,32 @@
 
 namespace de.unika.ipd.grgen.ir.expr.invocation
 {
-using Function = de.unika.ipd.grgen.ir.executable.Function;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Function = de.unika.ipd.grgen.ir.executable.Function;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// Real function calls, i.e. calls of user-defined functions.
-/// </summary>
-public class FunctionInvocationExpr : FunctionInvocationBaseExpr
-{
 	/// <summary>
-	/// The function of the function invocation expression. </summary>
-	protected internal Function function;
-
-	public FunctionInvocationExpr(Type type, Function function)
-		: base("function invocation expr", type)
+	/// Real function calls, i.e. calls of user-defined functions.
+	/// </summary>
+	public class FunctionInvocationExpr : FunctionInvocationBaseExpr
 	{
+		/// <summary>
+		/// The function of the function invocation expression. </summary>
+		protected internal Function function;
 
-		this.function = function;
-	}
-
-	public virtual Function Function
-	{
-		get
+		public FunctionInvocationExpr(Type type, Function function)
+			: base("function invocation expr", type)
 		{
-			return function;
+
+			this.function = function;
+		}
+
+		public virtual Function Function
+		{
+			get
+			{
+				return function;
+			}
 		}
 	}
-}
 
 }

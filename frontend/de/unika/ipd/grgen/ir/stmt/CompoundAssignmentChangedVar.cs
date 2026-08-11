@@ -11,64 +11,64 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-
-/// <summary>
-/// Represents a compound assignment changed var statement in the IR.
-/// </summary>
-public class CompoundAssignmentChangedVar : CompoundAssignment
-{
-	/// <summary>
-	/// The change assignment. </summary>
-	private Variable changedTarget;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
 	/// <summary>
-	/// The operation of the change assignment </summary>
-	private CompoundAssignmentType changedOperation;
-
-	public CompoundAssignmentChangedVar(Qualification target,
-			CompoundAssignmentType compoundAssignmentType, Expression expr,
-			CompoundAssignmentType changedAssignmentType, Variable changedTarget)
-		: base(target, compoundAssignmentType, expr)
+	/// Represents a compound assignment changed var statement in the IR.
+	/// </summary>
+	public class CompoundAssignmentChangedVar : CompoundAssignment
 	{
-		this.changedOperation = changedAssignmentType;
-		this.changedTarget = changedTarget;
-	}
+		/// <summary>
+		/// The change assignment. </summary>
+		private Variable changedTarget;
 
-	public virtual Variable ChangedTarget
-	{
-		get
+		/// <summary>
+		/// The operation of the change assignment </summary>
+		private CompoundAssignmentType changedOperation;
+
+		public CompoundAssignmentChangedVar(Qualification target,
+				CompoundAssignmentType compoundAssignmentType, Expression expr,
+				CompoundAssignmentType changedAssignmentType, Variable changedTarget)
+			: base(target, compoundAssignmentType, expr)
 		{
-			return changedTarget;
+			this.changedOperation = changedAssignmentType;
+			this.changedTarget = changedTarget;
+		}
+
+		public virtual Variable ChangedTarget
+		{
+			get
+			{
+				return changedTarget;
+			}
+		}
+
+		public virtual CompoundAssignmentType ChangedOperation
+		{
+			get
+			{
+				return changedOperation;
+			}
+		}
+
+		public override string ToString()
+		{
+			return base.ToString()
+					+ (changedOperation == CompoundAssignmentType.UNION ?
+							" |> " : changedOperation == CompoundAssignmentType.INTERSECTION ? " &> " : " => ")
+					+ changedTarget.ToString();
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+
+			if(!IsGlobalVariable(changedTarget))
+				needs.Add(changedTarget);
 		}
 	}
-
-	public virtual CompoundAssignmentType ChangedOperation
-	{
-		get
-		{
-			return changedOperation;
-		}
-	}
-
-	public override string ToString()
-	{
-		return base.ToString()
-				+ (changedOperation == CompoundAssignmentType.UNION ?
-						" |> " : changedOperation == CompoundAssignmentType.INTERSECTION ? " &> " : " => ")
-				+ changedTarget.ToString();
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-
-		if(!IsGlobalVariable(changedTarget))
-			needs.Add(changedTarget);
-	}
-}
 
 }

@@ -11,45 +11,45 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using AssignmentBase = de.unika.ipd.grgen.ir.stmt.AssignmentBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using AssignmentBase = de.unika.ipd.grgen.ir.stmt.AssignmentBase;
 
-/// <summary>
-/// Represents a nameof assignment statement in the IR.
-/// </summary>
-public class AssignmentNameof : AssignmentBase
-{
 	/// <summary>
-	/// The lhs of the assignment. </summary>
-	private Expression target;
-
-	public AssignmentNameof(Expression target, Expression expr)
-		: base("assignment nameof")
+	/// Represents a nameof assignment statement in the IR.
+	/// </summary>
+	public class AssignmentNameof : AssignmentBase
 	{
-		this.target = target;
-		this.expr = expr;
-	}
+		/// <summary>
+		/// The lhs of the assignment. </summary>
+		private Expression target;
 
-	public virtual Expression Target
-	{
-		get
+		public AssignmentNameof(Expression target, Expression expr)
+			: base("assignment nameof")
 		{
-			return target;
+			this.target = target;
+			this.expr = expr;
+		}
+
+		public virtual Expression Target
+		{
+			get
+			{
+				return target;
+			}
+		}
+
+		public override string ToString()
+		{
+			return "nameof(" + (Target != null ? Target.ToString() : "") + ") = " + Expression;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(target != null)
+				target.CollectNeededEntities(needs);
+			Expression.CollectNeededEntities(needs);
 		}
 	}
-
-	public override string ToString()
-	{
-		return "nameof(" + (Target != null ? Target.ToString() : "") + ") = " + Expression;
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(target != null)
-			target.CollectNeededEntities(needs);
-		Expression.CollectNeededEntities(needs);
-	}
-}
 
 }

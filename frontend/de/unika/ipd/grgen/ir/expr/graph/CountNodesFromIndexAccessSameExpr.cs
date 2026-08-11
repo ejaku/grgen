@@ -7,34 +7,34 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using IndexAccessEquality = de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using IndexAccessEquality = de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class CountNodesFromIndexAccessSameExpr : NodesFromIndexAccessExpr
-{
-	private readonly IndexAccessEquality indexAccess;
-
-	public CountNodesFromIndexAccessSameExpr(IndexAccessEquality indexAccess, Type type)
-		: base(indexAccess.index, type)
+	public class CountNodesFromIndexAccessSameExpr : NodesFromIndexAccessExpr
 	{
-		this.indexAccess = indexAccess;
-	}
+		private readonly IndexAccessEquality indexAccess;
 
-	public virtual IndexAccessEquality IndexAccessEquality
-	{
-		get
+		public CountNodesFromIndexAccessSameExpr(IndexAccessEquality indexAccess, Type type)
+			: base(indexAccess.index, type)
 		{
-			return indexAccess;
+			this.indexAccess = indexAccess;
+		}
+
+		public virtual IndexAccessEquality IndexAccessEquality
+		{
+			get
+			{
+				return indexAccess;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			indexAccess.CollectNeededEntities(needs);
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		indexAccess.CollectNeededEntities(needs);
-	}
-}
 
 }

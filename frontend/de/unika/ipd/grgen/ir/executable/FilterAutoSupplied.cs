@@ -11,45 +11,45 @@
 
 namespace de.unika.ipd.grgen.ir.executable
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-
-/// <summary>
-/// An auto-supplied filter.
-/// </summary>
-public class FilterAutoSupplied : IR, Filter
-{
-	protected internal string name;
+	using IR = de.unika.ipd.grgen.ir.IR;
 
 	/// <summary>
-	/// The action we're a filter for </summary>
-	protected internal Rule action;
-
-	public FilterAutoSupplied(string name)
-		: base(name)
+	/// An auto-supplied filter.
+	/// </summary>
+	public class FilterAutoSupplied : IR, Filter
 	{
-		this.name = name;
-	}
+		protected internal string name;
 
-	public virtual Rule Action
-	{
-		set
+		/// <summary>
+		/// The action we're a filter for </summary>
+		protected internal Rule action;
+
+		public FilterAutoSupplied(string name)
+			: base(name)
 		{
-			this.action = value;
+			this.name = name;
 		}
-		get
+
+		public virtual Rule Action
 		{
-			return action;
+			set
+			{
+				this.action = value;
+			}
+			get
+			{
+				return action;
+			}
 		}
-	}
 
 
-	public virtual string FilterName
-	{
-		get
+		public virtual string FilterName
 		{
-			return name;
+			get
+			{
+				return name;
+			}
 		}
 	}
-}
 
 }

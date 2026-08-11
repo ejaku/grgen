@@ -11,50 +11,50 @@
 
 namespace de.unika.ipd.grgen.ir.expr.numeric
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 
-public class LogExpr : BuiltinFunctionInvocationExpr
-{
-	private Expression leftExpr;
-	private Expression rightExpr;
-
-	public LogExpr(Expression leftExpr, Expression rightExpr)
-		: base("log expr", leftExpr.Type)
+	public class LogExpr : BuiltinFunctionInvocationExpr
 	{
-		this.leftExpr = leftExpr;
-		this.rightExpr = rightExpr;
-	}
+		private Expression leftExpr;
+		private Expression rightExpr;
 
-	public LogExpr(Expression leftExpr)
-		: base("log expr", leftExpr.Type)
-	{
-		this.leftExpr = leftExpr;
-	}
-
-	public virtual Expression LeftExpr
-	{
-		get
+		public LogExpr(Expression leftExpr, Expression rightExpr)
+			: base("log expr", leftExpr.Type)
 		{
-			return leftExpr;
+			this.leftExpr = leftExpr;
+			this.rightExpr = rightExpr;
+		}
+
+		public LogExpr(Expression leftExpr)
+			: base("log expr", leftExpr.Type)
+		{
+			this.leftExpr = leftExpr;
+		}
+
+		public virtual Expression LeftExpr
+		{
+			get
+			{
+				return leftExpr;
+			}
+		}
+
+		public virtual Expression RightExpr
+		{
+			get
+			{
+				return rightExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			leftExpr.CollectNeededEntities(needs);
+			if(rightExpr != null)
+				rightExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression RightExpr
-	{
-		get
-		{
-			return rightExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		leftExpr.CollectNeededEntities(needs);
-		if(rightExpr != null)
-			rightExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

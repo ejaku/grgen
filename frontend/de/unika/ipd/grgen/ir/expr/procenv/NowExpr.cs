@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.procenv
 {
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using LongType = de.unika.ipd.grgen.ir.type.basic.LongType;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using LongType = de.unika.ipd.grgen.ir.type.basic.LongType;
 
-public class NowExpr : BuiltinFunctionInvocationExpr
-{
-	public NowExpr()
-		: base("now expr", LongType.Type)
+	public class NowExpr : BuiltinFunctionInvocationExpr
 	{
+		public NowExpr()
+			: base("now expr", LongType.Type)
+		{
+		}
 	}
-}
 
 }

@@ -10,27 +10,27 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayKeepOneForEachBy : ArrayFunctionMethodInvocationBaseExpr
-{
-	private Entity member;
-
-	public ArrayKeepOneForEachBy(Expression targetExpr, Entity member)
-		: base("array keep one for each by expr", (ArrayType)targetExpr.Type, targetExpr)
+	public class ArrayKeepOneForEachBy : ArrayFunctionMethodInvocationBaseExpr
 	{
-		this.member = member;
-	}
+		private Entity member;
 
-	public virtual Entity Member
-	{
-		get
+		public ArrayKeepOneForEachBy(Expression targetExpr, Entity member)
+			: base("array keep one for each by expr", (ArrayType)targetExpr.Type, targetExpr)
 		{
-			return member;
+			this.member = member;
+		}
+
+		public virtual Entity Member
+		{
+			get
+			{
+				return member;
+			}
 		}
 	}
-}
 
 }

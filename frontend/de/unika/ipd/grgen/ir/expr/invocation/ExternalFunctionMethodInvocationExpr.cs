@@ -11,55 +11,55 @@
 
 namespace de.unika.ipd.grgen.ir.expr.invocation
 {
-using de.unika.ipd.grgen.ir;
-using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-
-/// <summary>
-/// An external function method invocation is an expression.
-/// </summary>
-public class ExternalFunctionMethodInvocationExpr : FunctionInvocationBaseExpr
-{
-	/// <summary>
-	/// The owner of the function method. </summary>
-	private Expression owner;
+	using de.unika.ipd.grgen.ir;
+	using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
 	/// <summary>
-	/// The function of the function method invocation expression. </summary>
-	protected internal ExternalFunction externalFunction;
-
-	public ExternalFunctionMethodInvocationExpr(Expression owner, Type type, ExternalFunction externalFunction)
-		: base("external function method invocation expr", type)
+	/// An external function method invocation is an expression.
+	/// </summary>
+	public class ExternalFunctionMethodInvocationExpr : FunctionInvocationBaseExpr
 	{
+		/// <summary>
+		/// The owner of the function method. </summary>
+		private Expression owner;
 
-		this.owner = owner;
-		this.externalFunction = externalFunction;
-	}
+		/// <summary>
+		/// The function of the function method invocation expression. </summary>
+		protected internal ExternalFunction externalFunction;
 
-	public virtual Expression Owner
-	{
-		get
+		public ExternalFunctionMethodInvocationExpr(Expression owner, Type type, ExternalFunction externalFunction)
+			: base("external function method invocation expr", type)
 		{
-			return owner;
+
+			this.owner = owner;
+			this.externalFunction = externalFunction;
+		}
+
+		public virtual Expression Owner
+		{
+			get
+			{
+				return owner;
+			}
+		}
+
+		public virtual ExternalFunction ExternalFunc
+		{
+			get
+			{
+				return externalFunction;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			owner.CollectNeededEntities(needs);
+			foreach(Expression child in WalkableChildren)
+				child.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual ExternalFunction ExternalFunc
-	{
-		get
-		{
-			return externalFunction;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		owner.CollectNeededEntities(needs);
-		foreach(Expression child in WalkableChildren)
-			child.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -7,44 +7,44 @@
 
 namespace de.unika.ipd.grgen.ast.util
 {
-using Coords = de.unika.ipd.grgen.parser.Coords;
-using ParserEnvironment = de.unika.ipd.grgen.parser.ParserEnvironment;
-using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ParserEnvironment = de.unika.ipd.grgen.parser.ParserEnvironment;
+	using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
 
-public class ResolvingEnvironment
-{
-	public ResolvingEnvironment(ParserEnvironment env, ErrorReporter errorReporter, Coords coords)
+	public class ResolvingEnvironment
 	{
-		this.env = env;
-		this.errorReporter = errorReporter;
-		this.coords = coords;
-	}
-
-	public virtual void ReportError(string message)
-	{
-		errorReporter.Error(coords, message);
-	}
-
-	public virtual Coords Coords
-	{
-		get
+		public ResolvingEnvironment(ParserEnvironment env, ErrorReporter errorReporter, Coords coords)
 		{
-			return coords;
+			this.env = env;
+			this.errorReporter = errorReporter;
+			this.coords = coords;
 		}
-	}
 
-	public virtual ParserEnvironment ParserEnvironment
-	{
-		get
+		public virtual void ReportError(string message)
 		{
-			return env;
+			errorReporter.Error(coords, message);
 		}
-	}
 
-	internal ParserEnvironment env;
-	internal ErrorReporter errorReporter;
-	internal Coords coords;
-}
+		public virtual Coords Coords
+		{
+			get
+			{
+				return coords;
+			}
+		}
+
+		public virtual ParserEnvironment ParserEnvironment
+		{
+			get
+			{
+				return env;
+			}
+		}
+
+		internal ParserEnvironment env;
+		internal ErrorReporter errorReporter;
+		internal Coords coords;
+	}
 
 }

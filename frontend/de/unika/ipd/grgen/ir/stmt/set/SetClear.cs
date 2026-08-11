@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.set
 {
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
 
-public class SetClear : ContainerQualProcedureMethodInvocationBase
-{
-	public SetClear(Qualification target)
-		: base("set clear", target)
+	public class SetClear : ContainerQualProcedureMethodInvocationBase
 	{
+		public SetClear(Qualification target)
+			: base("set clear", target)
+		{
+		}
 	}
-}
 
 }

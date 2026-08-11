@@ -13,29 +13,29 @@
 namespace de.unika.ipd.grgen.be.Csharp
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Model = de.unika.ipd.grgen.ir.model.Model;
-using SourceBuilder = de.unika.ipd.grgen.util.SourceBuilder;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Model = de.unika.ipd.grgen.ir.model.Model;
+	using SourceBuilder = de.unika.ipd.grgen.util.SourceBuilder;
 
-public interface ExpressionGenerationState
-{
-	IDictionary<Expression, string> MapExprToTempVar {get;}
+	public interface ExpressionGenerationState
+	{
+		IDictionary<Expression, string> MapExprToTempVar {get;}
 
-	bool UseVarForResult();
+		bool UseVarForResult();
 
-	bool SwitchToVarForResultAfterFirstVarUsage();
+		bool SwitchToVarForResultAfterFirstVarUsage();
 
-	void SwitchToVarForResult();
+		void SwitchToVarForResult();
 
-	Model Model {get;}
+		Model Model {get;}
 
-	bool IsToBeParallelizedActionExisting();
+		bool IsToBeParallelizedActionExisting();
 
-	bool EmitProfilingInstrumentation();
+		bool EmitProfilingInstrumentation();
 
-	SourceBuilder PerElementMethodSourceBuilder {get;}
-}
+		SourceBuilder PerElementMethodSourceBuilder {get;}
+	}
 
 }

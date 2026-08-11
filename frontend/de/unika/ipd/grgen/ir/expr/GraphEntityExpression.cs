@@ -11,49 +11,49 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using de.unika.ipd.grgen.ir;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
-
-/// <summary>
-/// A graph entity expression node.
-/// </summary>
-public class GraphEntityExpression : Expression
-{
-	private GraphEntity graphEntity;
-
-	public GraphEntityExpression(GraphEntity graphEntity)
-		: base("graph entity", graphEntity.Type)
-	{
-		this.graphEntity = graphEntity;
-	}
+	using de.unika.ipd.grgen.ir;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
 
 	/// <summary>
-	/// Returns the graph entity of this graph entity expression. </summary>
-	public virtual GraphEntity GraphEntity
+	/// A graph entity expression node.
+	/// </summary>
+	public class GraphEntityExpression : Expression
 	{
-		get
+		private GraphEntity graphEntity;
+
+		public GraphEntityExpression(GraphEntity graphEntity)
+			: base("graph entity", graphEntity.Type)
 		{
-			return graphEntity;
+			this.graphEntity = graphEntity;
+		}
+
+		/// <summary>
+		/// Returns the graph entity of this graph entity expression. </summary>
+		public virtual GraphEntity GraphEntity
+		{
+			get
+			{
+				return graphEntity;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(!IsGlobalVariable(graphEntity))
+				needs.Add(graphEntity);
+		}
+
+		public override bool Equals(object other)
+		{
+			if(!(other is GraphEntityExpression))
+				return false;
+			return graphEntity == ((GraphEntityExpression)other).GraphEntity;
+		}
+
+		public override int GetHashCode()
+		{
+			return graphEntity.GetHashCode();
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(!IsGlobalVariable(graphEntity))
-			needs.Add(graphEntity);
-	}
-
-	public override bool Equals(object other)
-	{
-		if(!(other is GraphEntityExpression))
-			return false;
-		return graphEntity == ((GraphEntityExpression)other).GraphEntity;
-	}
-
-	public override int GetHashCode()
-	{
-		return graphEntity.GetHashCode();
-	}
-}
 
 }

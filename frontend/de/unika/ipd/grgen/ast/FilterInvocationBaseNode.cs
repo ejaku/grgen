@@ -11,37 +11,37 @@
 
 namespace de.unika.ipd.grgen.ast
 {
-using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-using de.unika.ipd.grgen.ast.util;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+	using de.unika.ipd.grgen.ast.util;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class FilterInvocationBaseNode : BaseNode
-{
-	static FilterInvocationBaseNode()
+	public abstract class FilterInvocationBaseNode : BaseNode
 	{
-		SetClassName(typeof(FilterInvocationBaseNode), "filter invocation base");
+		static FilterInvocationBaseNode()
+		{
+			SetClassName(typeof(FilterInvocationBaseNode), "filter invocation base");
+		}
+
+		protected internal IdentNode iteratedUnresolved;
+		protected internal IteratedDeclNode iterated;
+
+		public FilterInvocationBaseNode(Coords coords, IdentNode iteratedUnresolved)
+			: base(coords)
+		{
+			this.iteratedUnresolved = BecomeParent(iteratedUnresolved);
+		}
+
+		private static readonly DeclarationResolver<IteratedDeclNode> iteratedResolver =
+				new DeclarationResolver<IteratedDeclNode>(typeof(IteratedDeclNode));
+
+		protected internal override bool ResolveLocal()
+		{
+			// owner
+			iterated = iteratedResolver.Resolve(iteratedUnresolved, this);
+			if(iterated == null)
+				return false;
+			return true;
+		}
 	}
-
-	protected internal IdentNode iteratedUnresolved;
-	protected internal IteratedDeclNode iterated;
-
-	public FilterInvocationBaseNode(Coords coords, IdentNode iteratedUnresolved)
-		: base(coords)
-	{
-		this.iteratedUnresolved = BecomeParent(iteratedUnresolved);
-	}
-
-	private static readonly DeclarationResolver<IteratedDeclNode> iteratedResolver =
-			new DeclarationResolver<IteratedDeclNode>(typeof(IteratedDeclNode));
-
-	protected internal override bool ResolveLocal()
-	{
-		// owner
-		iterated = iteratedResolver.Resolve(iteratedUnresolved, this);
-		if(iterated == null)
-			return false;
-		return true;
-	}
-}
 
 }

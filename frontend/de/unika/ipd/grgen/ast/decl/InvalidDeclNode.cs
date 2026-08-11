@@ -8,102 +8,102 @@
 namespace de.unika.ipd.grgen.ast.decl
 {
 
-using System.Collections.Generic;
-using System.Diagnostics;
+	using System.Collections.Generic;
+	using System.Diagnostics;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using ErrorTypeNode = de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
-using de.unika.ipd.grgen.ast.util;
-
-/// <summary>
-/// AST node class representing invalid declarations.
-/// </summary>
-public class InvalidDeclNode : DeclNode
-{
-	static InvalidDeclNode()
-	{
-		SetClassName(typeof(InvalidDeclNode), "invalid declaration");
-	}
-
-	private ErrorTypeNode type;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using ErrorTypeNode = de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
+	using de.unika.ipd.grgen.ast.util;
 
 	/// <summary>
-	/// Create a resolved and checked invalid DeclNode.
+	/// AST node class representing invalid declarations.
 	/// </summary>
-	public InvalidDeclNode(IdentNode id)
-		: base(id, BasicTypeNode.GetErrorType(id))
+	public class InvalidDeclNode : DeclNode
 	{
-		Resolve();
-		Check();
-	}
-
-	/// <summary>
-	/// returns children of this node </summary>
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static InvalidDeclNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(ident);
-			children.Add(GetValidVersion(typeUnresolved, type));
-			return children;
+			SetClassName(typeof(InvalidDeclNode), "invalid declaration");
 		}
-	}
 
-	/// <summary>
-	/// returns names of the children, same order as in getChildren </summary>
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		private ErrorTypeNode type;
+
+		/// <summary>
+		/// Create a resolved and checked invalid DeclNode.
+		/// </summary>
+		public InvalidDeclNode(IdentNode id)
+			: base(id, BasicTypeNode.GetErrorType(id))
 		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("ident");
-			childrenNames.Add("type");
-			return childrenNames;
+			Resolve();
+			Check();
 		}
-	}
 
-	private static DeclarationResolver<ErrorTypeNode> typeResolver = new DeclarationResolver<ErrorTypeNode>(typeof(ErrorTypeNode));
+		/// <summary>
+		/// returns children of this node </summary>
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(ident);
+				children.Add(GetValidVersion(typeUnresolved, type));
+				return children;
+			}
+		}
 
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
-	protected internal override bool ResolveLocal()
-	{
-		type = typeResolver.Resolve(typeUnresolved, this);
+		/// <summary>
+		/// returns names of the children, same order as in getChildren </summary>
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("ident");
+				childrenNames.Add("type");
+				return childrenNames;
+			}
+		}
 
-		return type != null;
-	}
+		private static DeclarationResolver<ErrorTypeNode> typeResolver = new DeclarationResolver<ErrorTypeNode>(typeof(ErrorTypeNode));
 
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
-	protected internal override bool CheckLocal()
-	{
-		return true;
-	}
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+		protected internal override bool ResolveLocal()
+		{
+			type = typeResolver.Resolve(typeUnresolved, this);
 
-	public static string KindStr
-	{
-		get
+			return type != null;
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+		protected internal override bool CheckLocal()
+		{
+			return true;
+		}
+
+		public static string KindStr
+		{
+			get
+			{
+				return "undeclared identifier";
+			}
+		}
+
+		public override string ToString()
 		{
 			return "undeclared identifier";
 		}
-	}
 
-	public override string ToString()
-	{
-		return "undeclared identifier";
-	}
-
-	public override TypeNode DeclType
-	{
-		get
+		public override TypeNode DeclType
 		{
-			Debug.Assert(IsResolved());
+			get
+			{
+				Debug.Assert(IsResolved());
 
-			return type;
+				return type;
+			}
 		}
 	}
-}
 
 }

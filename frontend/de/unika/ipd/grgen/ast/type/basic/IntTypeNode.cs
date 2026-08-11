@@ -7,28 +7,28 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-/// <summary>
-/// The integer basic type.
-/// </summary>
-public class IntTypeNode : BasicTypeNode
-{
-	static IntTypeNode()
+	/// <summary>
+	/// The integer basic type.
+	/// </summary>
+	public class IntTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(IntTypeNode), "int type");
-	}
+		static IntTypeNode()
+		{
+			SetClassName(typeof(IntTypeNode), "int type");
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new IntType(Ident.IRIdent);
-	}
+		protected internal override IR ConstructIR()
+		{
+			return new IntType(Ident.IRIdent);
+		}
 
-	public override string ToString()
-	{
-		return "int";
+		public override string ToString()
+		{
+			return "int";
+		}
 	}
-}
 
 }

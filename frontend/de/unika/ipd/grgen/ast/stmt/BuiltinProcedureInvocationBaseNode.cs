@@ -12,45 +12,45 @@
 namespace de.unika.ipd.grgen.ast.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using ProcedureOrBuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBaseNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ProcedureOrBuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBaseNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-/// <summary>
-/// base class for builtin procedures calls </summary>
-public abstract class BuiltinProcedureInvocationBaseNode : ProcedureOrBuiltinProcedureInvocationBaseNode
-{
-	static BuiltinProcedureInvocationBaseNode()
+	/// <summary>
+	/// base class for builtin procedures calls </summary>
+	public abstract class BuiltinProcedureInvocationBaseNode : ProcedureOrBuiltinProcedureInvocationBaseNode
 	{
-		SetClassName(typeof(BuiltinProcedureInvocationBaseNode), "builtin procedure invocation base");
-	}
-
-	private static readonly IList<TypeNode> emptyReturn = new List<TypeNode>();
-
-	public BuiltinProcedureInvocationBaseNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
-	protected internal override bool ResolveLocal()
-	{
-		bool res = true;
-		foreach(TypeNode typeNode in Type)
-			res &= typeNode.Resolve();
-		return res;
-	}
-
-	// default is a procedure without returns, overwrite if return is not empty
-	public override IList<TypeNode> Type
-	{
-		get
+		static BuiltinProcedureInvocationBaseNode()
 		{
-			return emptyReturn;
+			SetClassName(typeof(BuiltinProcedureInvocationBaseNode), "builtin procedure invocation base");
+		}
+
+		private static readonly IList<TypeNode> emptyReturn = new List<TypeNode>();
+
+		public BuiltinProcedureInvocationBaseNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+		protected internal override bool ResolveLocal()
+		{
+			bool res = true;
+			foreach(TypeNode typeNode in Type)
+				res &= typeNode.Resolve();
+			return res;
+		}
+
+		// default is a procedure without returns, overwrite if return is not empty
+		public override IList<TypeNode> Type
+		{
+			get
+			{
+				return emptyReturn;
+			}
 		}
 	}
-}
 
 }

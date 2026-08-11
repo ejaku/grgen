@@ -8,44 +8,44 @@
 namespace de.unika.ipd.grgen.ast.model.type
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-
-/// <summary>
-/// Type of model node declaration.
-/// </summary>
-public class ModelTypeNode : TypeNode
-{
-	static ModelTypeNode()
-	{
-		SetClassName(typeof(ModelTypeNode), "model type");
-	}
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 
 	/// <summary>
-	/// returns children of this node </summary>
-	public override ICollection<BaseNode> Children
+	/// Type of model node declaration.
+	/// </summary>
+	public class ModelTypeNode : TypeNode
 	{
-		get
+		static ModelTypeNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			// no children
-			return children;
+			SetClassName(typeof(ModelTypeNode), "model type");
 		}
-	}
 
-	/// <summary>
-	/// returns names of the children, same order as in getChildren </summary>
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		/// <summary>
+		/// returns children of this node </summary>
+		public override ICollection<BaseNode> Children
 		{
-			IList<string> childrenNames = new List<string>();
-			// no children
-			return childrenNames;
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				// no children
+				return children;
+			}
+		}
+
+		/// <summary>
+		/// returns names of the children, same order as in getChildren </summary>
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				// no children
+				return childrenNames;
+			}
 		}
 	}
-}
 
 }

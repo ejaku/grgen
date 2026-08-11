@@ -12,92 +12,92 @@
 namespace de.unika.ipd.grgen.ir.type
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using MatchClassFilter = de.unika.ipd.grgen.ir.executable.MatchClassFilter;
-using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
-using Node = de.unika.ipd.grgen.ir.pattern.Node;
-using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using MatchClassFilter = de.unika.ipd.grgen.ir.executable.MatchClassFilter;
+	using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+	using Node = de.unika.ipd.grgen.ir.pattern.Node;
+	using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-public class DefinedMatchType : CompoundType, ContainedInPackage
-{
-	private string packageContainedIn;
-	private PatternGraphLhs pattern;
-	private List<MatchClassFilter> matchClassFilters;
-
-	public DefinedMatchType(string name, Ident ident, PatternGraphLhs pattern)
-		: base(name, ident)
+	public class DefinedMatchType : CompoundType, ContainedInPackage
 	{
-		this.pattern = pattern;
-		matchClassFilters = new List<MatchClassFilter>();
-	}
+		private string packageContainedIn;
+		private PatternGraphLhs pattern;
+		private List<MatchClassFilter> matchClassFilters;
 
-	public virtual string PackageContainedIn
-	{
-		get
+		public DefinedMatchType(string name, Ident ident, PatternGraphLhs pattern)
+			: base(name, ident)
 		{
-			return packageContainedIn;
+			this.pattern = pattern;
+			matchClassFilters = new List<MatchClassFilter>();
 		}
-		set
+
+		public virtual string PackageContainedIn
 		{
-			this.packageContainedIn = value;
+			get
+			{
+				return packageContainedIn;
+			}
+			set
+			{
+				this.packageContainedIn = value;
+			}
 		}
-	}
 
 
-	public virtual void AddMatchClassFilter(MatchClassFilter filter)
-	{
-		matchClassFilters.Add(filter);
-	}
-
-	public virtual IList<MatchClassFilter> MatchClassFilters
-	{
-		get
+		public virtual void AddMatchClassFilter(MatchClassFilter filter)
 		{
-			return matchClassFilters.AsReadOnly();
+			matchClassFilters.Add(filter);
 		}
-	}
 
-	public virtual PatternGraphLhs PatternGraph
-	{
-		get
+		public virtual IList<MatchClassFilter> MatchClassFilters
 		{
-			return pattern;
+			get
+			{
+				return matchClassFilters.AsReadOnly();
+			}
 		}
-	}
 
-	public virtual ICollection<Node> Nodes
-	{
-		get
+		public virtual PatternGraphLhs PatternGraph
 		{
-			return pattern.Nodes;
+			get
+			{
+				return pattern;
+			}
 		}
-	}
 
-	public virtual ICollection<Edge> Edges
-	{
-		get
+		public virtual ICollection<Node> Nodes
 		{
-			return pattern.Edges;
+			get
+			{
+				return pattern.Nodes;
+			}
 		}
-	}
 
-	public virtual ICollection<Variable> Vars
-	{
-		get
+		public virtual ICollection<Edge> Edges
 		{
-			return pattern.Vars;
+			get
+			{
+				return pattern.Edges;
+			}
+		}
+
+		public virtual ICollection<Variable> Vars
+		{
+			get
+			{
+				return pattern.Vars;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_DEFINED_MATCH;
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_DEFINED_MATCH;
-	}
-}
 
 }

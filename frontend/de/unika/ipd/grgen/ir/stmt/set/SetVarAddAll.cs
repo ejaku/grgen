@@ -11,35 +11,35 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.set
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class SetVarAddAll : ContainerVarProcedureMethodInvocationBase
-{
-	internal Expression valueExpr;
-
-	public SetVarAddAll(Variable target, Expression valueExpr)
-		: base("set var add item", target)
+	public class SetVarAddAll : ContainerVarProcedureMethodInvocationBase
 	{
-		this.valueExpr = valueExpr;
-	}
+		internal Expression valueExpr;
 
-	public virtual Expression ValueExpr
-	{
-		get
+		public SetVarAddAll(Variable target, Expression valueExpr)
+			: base("set var add item", target)
 		{
-			return valueExpr;
+			this.valueExpr = valueExpr;
+		}
+
+		public virtual Expression ValueExpr
+		{
+			get
+			{
+				return valueExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+
+			valueExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-
-		valueExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

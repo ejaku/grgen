@@ -11,33 +11,33 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class VFreeNonResetProc : BuiltinProcedureInvocationBase
-{
-	private Expression visFlagExpr;
-
-	public VFreeNonResetProc(Expression stringExpr)
-		: base("vfreenonreset procedure")
+	public class VFreeNonResetProc : BuiltinProcedureInvocationBase
 	{
-		this.visFlagExpr = stringExpr;
-	}
+		private Expression visFlagExpr;
 
-	public virtual Expression VisitedFlagExpr
-	{
-		get
+		public VFreeNonResetProc(Expression stringExpr)
+			: base("vfreenonreset procedure")
 		{
-			return visFlagExpr;
+			this.visFlagExpr = stringExpr;
+		}
+
+		public virtual Expression VisitedFlagExpr
+		{
+			get
+			{
+				return visFlagExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			visFlagExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		visFlagExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

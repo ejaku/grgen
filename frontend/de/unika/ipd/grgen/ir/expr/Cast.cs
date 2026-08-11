@@ -12,51 +12,51 @@
 namespace de.unika.ipd.grgen.ir.expr
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ir;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class Cast : Expression
-{
-	protected internal Expression expr;
-
-	public Cast(Type type, Expression expr)
-		: base("cast", type)
+	public class Cast : Expression
 	{
-		this.expr = expr;
-	}
+		protected internal Expression expr;
 
-	public override string NodeLabel
-	{
-		get
+		public Cast(Type type, Expression expr)
+			: base("cast", type)
 		{
-			return "Cast to " + type;
+			this.expr = expr;
+		}
+
+		public override string NodeLabel
+		{
+			get
+			{
+				return "Cast to " + type;
+			}
+		}
+
+		public virtual Expression Expression
+		{
+			get
+			{
+				return expr;
+			}
+		}
+
+		public virtual ICollection<Expression> WalkableChildren
+		{
+			get
+			{
+				IList<Expression> vec = new List<Expression>();
+				vec.Add(expr);
+				return vec;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			Expression.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression Expression
-	{
-		get
-		{
-			return expr;
-		}
-	}
-
-	public virtual ICollection<Expression> WalkableChildren
-	{
-		get
-		{
-			IList<Expression> vec = new List<Expression>();
-			vec.Add(expr);
-			return vec;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		Expression.CollectNeededEntities(needs);
-	}
-}
 
 }

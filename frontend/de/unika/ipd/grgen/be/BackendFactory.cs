@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.be
 {
-/// <summary>
-/// An interface for something that creates a backend.
-/// </summary>
-public interface BackendFactory
-{
 	/// <summary>
-	/// Create a new backend. </summary>
-	/// <returns> A new backend. </returns>
-	Backend Backend {get;}
-}
+	/// An interface for something that creates a backend.
+	/// </summary>
+	public interface BackendFactory
+	{
+		/// <summary>
+		/// Create a new backend. </summary>
+		/// <returns> A new backend. </returns>
+		Backend Backend {get;}
+	}
 
 }

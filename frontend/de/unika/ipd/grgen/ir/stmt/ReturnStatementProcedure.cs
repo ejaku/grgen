@@ -12,41 +12,41 @@
 namespace de.unika.ipd.grgen.ir.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/// <summary>
-/// Represents a return statement of a procedure in the IR.
-/// </summary>
-public class ReturnStatementProcedure : EvalStatement
-{
-	private IList<Expression> returnValuesExprs = new List<Expression>();
-
-	public ReturnStatementProcedure()
-		: base("return statement (procedure)")
+	/// <summary>
+	/// Represents a return statement of a procedure in the IR.
+	/// </summary>
+	public class ReturnStatementProcedure : EvalStatement
 	{
-	}
+		private IList<Expression> returnValuesExprs = new List<Expression>();
 
-	public virtual void AddReturnValueExpr(Expression returnValueExpr)
-	{
-		returnValuesExprs.Add(returnValueExpr);
-	}
-
-	public virtual IList<Expression> ReturnValueExpr
-	{
-		get
+		public ReturnStatementProcedure()
+			: base("return statement (procedure)")
 		{
-			return returnValuesExprs;
+		}
+
+		public virtual void AddReturnValueExpr(Expression returnValueExpr)
+		{
+			returnValuesExprs.Add(returnValueExpr);
+		}
+
+		public virtual IList<Expression> ReturnValueExpr
+		{
+			get
+			{
+				return returnValuesExprs;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			foreach(Expression returnValueExpr in returnValuesExprs)
+				returnValueExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		foreach(Expression returnValueExpr in returnValuesExprs)
-			returnValueExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

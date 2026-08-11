@@ -11,45 +11,45 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class ExportProc : BuiltinProcedureInvocationBase
-{
-	private Expression pathExpr;
-	private Expression graphExpr;
-
-	public ExportProc(Expression pathExpr, Expression graphExpr)
-		: base("export procedure")
+	public class ExportProc : BuiltinProcedureInvocationBase
 	{
-		this.pathExpr = pathExpr;
-		this.graphExpr = graphExpr;
-	}
+		private Expression pathExpr;
+		private Expression graphExpr;
 
-	public virtual Expression PathExpr
-	{
-		get
+		public ExportProc(Expression pathExpr, Expression graphExpr)
+			: base("export procedure")
 		{
-			return pathExpr;
+			this.pathExpr = pathExpr;
+			this.graphExpr = graphExpr;
+		}
+
+		public virtual Expression PathExpr
+		{
+			get
+			{
+				return pathExpr;
+			}
+		}
+
+		public virtual Expression GraphExpr
+		{
+			get
+			{
+				return graphExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			pathExpr.CollectNeededEntities(needs);
+			if(graphExpr != null)
+				graphExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression GraphExpr
-	{
-		get
-		{
-			return graphExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		pathExpr.CollectNeededEntities(needs);
-		if(graphExpr != null)
-			graphExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

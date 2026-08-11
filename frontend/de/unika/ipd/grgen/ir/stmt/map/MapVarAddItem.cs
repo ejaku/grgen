@@ -11,46 +11,46 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.map
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class MapVarAddItem : ContainerVarProcedureMethodInvocationBase
-{
-	internal Expression keyExpr;
-	internal Expression valueExpr;
-
-	public MapVarAddItem(Variable target, Expression keyExpr, Expression valueExpr)
-		: base("map var add item", target)
+	public class MapVarAddItem : ContainerVarProcedureMethodInvocationBase
 	{
-		this.keyExpr = keyExpr;
-		this.valueExpr = valueExpr;
-	}
+		internal Expression keyExpr;
+		internal Expression valueExpr;
 
-	public virtual Expression KeyExpr
-	{
-		get
+		public MapVarAddItem(Variable target, Expression keyExpr, Expression valueExpr)
+			: base("map var add item", target)
 		{
-			return keyExpr;
+			this.keyExpr = keyExpr;
+			this.valueExpr = valueExpr;
+		}
+
+		public virtual Expression KeyExpr
+		{
+			get
+			{
+				return keyExpr;
+			}
+		}
+
+		public virtual Expression ValueExpr
+		{
+			get
+			{
+				return valueExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+
+			keyExpr.CollectNeededEntities(needs);
+			valueExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression ValueExpr
-	{
-		get
-		{
-			return valueExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-
-		keyExpr.CollectNeededEntities(needs);
-		valueExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -7,13 +7,13 @@
 
 namespace de.unika.ipd.grgen.ast.util
 {
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
 
-public class Triple<R, S, T> where R : de.unika.ipd.grgen.ast.BaseNode where S : de.unika.ipd.grgen.ast.BaseNode where T : de.unika.ipd.grgen.ast.BaseNode
-{
-	public R first = null;
-	public S second = null;
-	public T third = null;
-}
+	public class Triple<R, S, T> where R : de.unika.ipd.grgen.ast.BaseNode where S : de.unika.ipd.grgen.ast.BaseNode where T : de.unika.ipd.grgen.ast.BaseNode
+	{
+		public R first = null;
+		public S second = null;
+		public T third = null;
+	}
 
 }

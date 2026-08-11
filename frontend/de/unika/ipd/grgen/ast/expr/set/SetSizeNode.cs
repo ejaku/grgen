@@ -11,39 +11,39 @@
 
 namespace de.unika.ipd.grgen.ast.expr.set
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using SetSizeExpr = de.unika.ipd.grgen.ir.expr.set.SetSizeExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using SetSizeExpr = de.unika.ipd.grgen.ir.expr.set.SetSizeExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class SetSizeNode : SetFunctionMethodInvocationBaseExprNode
-{
-	static SetSizeNode()
+	public class SetSizeNode : SetFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(SetSizeNode), "set size expression");
-	}
-
-	public SetSizeNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	public override TypeNode Type
-	{
-		get
+		static SetSizeNode()
 		{
-			return BasicTypeNode.intType;
+			SetClassName(typeof(SetSizeNode), "set size expression");
+		}
+
+		public SetSizeNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
+		{
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.intType;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new SetSizeExpr(targetExpr.CheckIR(typeof(Expression)));
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new SetSizeExpr(targetExpr.CheckIR(typeof(Expression)));
-	}
-}
 
 }

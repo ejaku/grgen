@@ -11,44 +11,44 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using IncidenceCountIndex = de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using IncidenceCountIndex = de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class CountIncidenceFromIndexExpr : Expression
-{
-	internal IncidenceCountIndex index;
-	internal Expression keyExpr;
-
-	public CountIncidenceFromIndexExpr(IncidenceCountIndex target, Expression keyExpr)
-		: base("count incidence from index access expression", IntType.Type)
+	public class CountIncidenceFromIndexExpr : Expression
 	{
-		this.index = target;
-		this.keyExpr = keyExpr;
-	}
+		internal IncidenceCountIndex index;
+		internal Expression keyExpr;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.Add(this);
-		keyExpr.CollectNeededEntities(needs);
-	}
-
-	public virtual IncidenceCountIndex Index
-	{
-		get
+		public CountIncidenceFromIndexExpr(IncidenceCountIndex target, Expression keyExpr)
+			: base("count incidence from index access expression", IntType.Type)
 		{
-			return index;
+			this.index = target;
+			this.keyExpr = keyExpr;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.Add(this);
+			keyExpr.CollectNeededEntities(needs);
+		}
+
+		public virtual IncidenceCountIndex Index
+		{
+			get
+			{
+				return index;
+			}
+		}
+
+		public virtual Expression KeyExpr
+		{
+			get
+			{
+				return keyExpr;
+			}
 		}
 	}
-
-	public virtual Expression KeyExpr
-	{
-		get
-		{
-			return keyExpr;
-		}
-	}
-}
 
 }

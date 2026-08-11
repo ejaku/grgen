@@ -14,35 +14,35 @@
 namespace de.unika.ipd.grgen.ir.type
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using IR = de.unika.ipd.grgen.ir.IR;
-using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
-public abstract class TypeExpr : IR
-{
-	public TypeExpr()
-		: base("type expr")
+	public abstract class TypeExpr : IR
 	{
-	}
-
-	/// <summary>
-	/// Evaluate this type expression by returning a set
-	/// of all types that are represented by the expression. </summary>
-	/// <returns> A collection of types that correspond to the expression. </returns>
-	public abstract ISet<InheritanceType> Evaluate();
-
-	public static readonly TypeExpr EMPTY = new TypeExprAnonymousInnerClass();
-
-	private class TypeExprAnonymousInnerClass : TypeExpr
-	{
-		private readonly TypeExpr outerInstance;
-
-		public override ISet<InheritanceType> evaluate()
+		public TypeExpr()
+			: base("type expr")
 		{
-			return Collections.EmptySet();
+		}
+
+		/// <summary>
+		/// Evaluate this type expression by returning a set
+		/// of all types that are represented by the expression. </summary>
+		/// <returns> A collection of types that correspond to the expression. </returns>
+		public abstract ISet<InheritanceType> Evaluate();
+
+		public static readonly TypeExpr EMPTY = new TypeExprAnonymousInnerClass();
+
+		private class TypeExprAnonymousInnerClass : TypeExpr
+		{
+			private readonly TypeExpr outerInstance;
+
+			public override ISet<InheritanceType> evaluate()
+			{
+				return Collections.EmptySet();
+			}
 		}
 	}
-}
 
 }

@@ -7,26 +7,26 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using Rule = de.unika.ipd.grgen.ir.executable.Rule;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class Count : Expression
-{
-	private Rule iterated;
-
-	public Count(Rule iterated, Type type)
-		: base("count", type)
+	public class Count : Expression
 	{
-		this.iterated = iterated;
-	}
+		private Rule iterated;
 
-	public virtual Rule Iterated
-	{
-		get
+		public Count(Rule iterated, Type type)
+			: base("count", type)
 		{
-			return iterated;
+			this.iterated = iterated;
+		}
+
+		public virtual Rule Iterated
+		{
+			get
+			{
+				return iterated;
+			}
 		}
 	}
-}
 
 }

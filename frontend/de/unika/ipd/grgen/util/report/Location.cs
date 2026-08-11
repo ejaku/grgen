@@ -11,25 +11,25 @@
 
 namespace de.unika.ipd.grgen.util.report
 {
-/// <summary>
-/// Represents a location known to the user, where a message can be
-/// generated. For example, in parser, the file and line number in
-/// the file that is parsed.
-/// </summary>
-public interface Location
-{
 	/// <summary>
-	/// Get the location's string representation.
-	/// This string is only meaningful, if #hasLocation() returns true. </summary>
-	/// <returns> The string representation of the location. </returns>
-	string Location {get;}
+	/// Represents a location known to the user, where a message can be
+	/// generated. For example, in parser, the file and line number in
+	/// the file that is parsed.
+	/// </summary>
+	public interface Location
+	{
+		/// <summary>
+		/// Get the location's string representation.
+		/// This string is only meaningful, if #hasLocation() returns true. </summary>
+		/// <returns> The string representation of the location. </returns>
+		string Location {get;}
 
-	/// <summary>
-	/// Checks, if the location is valid. If it is valid, #getLocation()
-	/// returns a valid location string, if not, the string returned by
-	/// #getLocation() is to be ignored. </summary>
-	/// <returns> true, if the location is valid. </returns>
-	bool HasLocation();
-}
+		/// <summary>
+		/// Checks, if the location is valid. If it is valid, #getLocation()
+		/// returns a valid location string, if not, the string returned by
+		/// #getLocation() is to be ignored. </summary>
+		/// <returns> true, if the location is valid. </returns>
+		bool HasLocation();
+	}
 
 }

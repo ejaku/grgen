@@ -7,44 +7,44 @@
 
 namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-using TypeExprNode = de.unika.ipd.grgen.ast.type.TypeExprNode;
-using Node = de.unika.ipd.grgen.ir.pattern.Node;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+	using TypeExprNode = de.unika.ipd.grgen.ast.type.TypeExprNode;
+	using Node = de.unika.ipd.grgen.ir.pattern.Node;
 
-/// <summary>
-/// Dummy node needed for dangling edges
-/// </summary>
-public class DummyNodeDeclNode : NodeDeclNode
-{
-	static DummyNodeDeclNode()
+	/// <summary>
+	/// Dummy node needed for dangling edges
+	/// </summary>
+	public class DummyNodeDeclNode : NodeDeclNode
 	{
-		SetClassName(typeof(DummyNodeDeclNode), "dummy node");
-	}
-
-	public DummyNodeDeclNode(IdentNode id, BaseNode type, int context, PatternGraphLhsNode directlyNestingLHSGraph)
-		: base(id, type, CopyKind.None, context, TypeExprNode.Empty, directlyNestingLHSGraph)
-	{
-	}
-
-	public override Node IRNode
-	{
-		get
+		static DummyNodeDeclNode()
 		{
-			return null;
+			SetClassName(typeof(DummyNodeDeclNode), "dummy node");
+		}
+
+		public DummyNodeDeclNode(IdentNode id, BaseNode type, int context, PatternGraphLhsNode directlyNestingLHSGraph)
+			: base(id, type, CopyKind.None, context, TypeExprNode.Empty, directlyNestingLHSGraph)
+		{
+		}
+
+		public override Node IRNode
+		{
+			get
+			{
+				return null;
+			}
+		}
+
+		public override bool IsDummy()
+		{
+			return true;
+		}
+
+		public override string ToString()
+		{
+			return "a dummy node";
 		}
 	}
-
-	public override bool IsDummy()
-	{
-		return true;
-	}
-
-	public override string ToString()
-	{
-		return "a dummy node";
-	}
-}
 
 }

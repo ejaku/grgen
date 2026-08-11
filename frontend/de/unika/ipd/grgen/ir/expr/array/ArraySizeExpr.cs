@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class ArraySizeExpr : ArrayFunctionMethodInvocationBaseExpr
-{
-	public ArraySizeExpr(Expression targetExpr)
-		: base("array size expression", IntType.Type, targetExpr)
+	public class ArraySizeExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
+		public ArraySizeExpr(Expression targetExpr)
+			: base("array size expression", IntType.Type, targetExpr)
+		{
+		}
 	}
-}
 
 }

@@ -7,67 +7,67 @@
 
 namespace de.unika.ipd.grgen.ast.expr.graph
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using AdjacentNodeExpr = de.unika.ipd.grgen.ir.expr.graph.AdjacentNodeExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
-using Direction = de.unika.ipd.grgen.util.Direction;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using AdjacentNodeExpr = de.unika.ipd.grgen.ir.expr.graph.AdjacentNodeExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
+	using Direction = de.unika.ipd.grgen.util.Direction;
 
-/// <summary>
-/// A node yielding the adjacent nodes/adjacent nodes via incoming edges/adjacent nodes via outgoing edges of a node.
-/// </summary>
-public class AdjacentNodeExprNode : NeighborhoodQueryExprNode
-{
-	static AdjacentNodeExprNode()
+	/// <summary>
+	/// A node yielding the adjacent nodes/adjacent nodes via incoming edges/adjacent nodes via outgoing edges of a node.
+	/// </summary>
+	public class AdjacentNodeExprNode : NeighborhoodQueryExprNode
 	{
-		SetClassName(typeof(AdjacentNodeExprNode), "adjacent node expr");
-	}
-
-	private SetTypeNode setTypeNode;
-
-
-	public AdjacentNodeExprNode(Coords coords,
-			ExprNode startNodeExpr,
-			ExprNode incidentTypeExpr, Direction direction,
-			ExprNode adjacentTypeExpr)
-		 : base(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr)
-	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
-	protected internal override bool ResolveLocal()
-	{
-		setTypeNode = new SetTypeNode(GetNodeRoot(adjacentTypeExpr));
-		return setTypeNode.Resolve();
-	}
-
-	protected internal override string ShortSignature()
-	{
-		return "adjacentNodes(.,.,.)";
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		startNodeExpr = startNodeExpr.Evaluate();
-		incidentTypeExpr = incidentTypeExpr.Evaluate();
-		adjacentTypeExpr = adjacentTypeExpr.Evaluate();
-		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
-		return new AdjacentNodeExpr(startNodeExpr.CheckIR(typeof(Expression)),
-				incidentTypeExpr.CheckIR(typeof(Expression)), direction,
-				adjacentTypeExpr.CheckIR(typeof(Expression)),
-				Type.IRType);
-	}
-
-	public override TypeNode Type
-	{
-		get
+		static AdjacentNodeExprNode()
 		{
-			return setTypeNode;
+			SetClassName(typeof(AdjacentNodeExprNode), "adjacent node expr");
+		}
+
+		private SetTypeNode setTypeNode;
+
+
+		public AdjacentNodeExprNode(Coords coords,
+				ExprNode startNodeExpr,
+				ExprNode incidentTypeExpr, Direction direction,
+				ExprNode adjacentTypeExpr)
+			 : base(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr)
+		{
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+		protected internal override bool ResolveLocal()
+		{
+			setTypeNode = new SetTypeNode(GetNodeRoot(adjacentTypeExpr));
+			return setTypeNode.Resolve();
+		}
+
+		protected internal override string ShortSignature()
+		{
+			return "adjacentNodes(.,.,.)";
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			startNodeExpr = startNodeExpr.Evaluate();
+			incidentTypeExpr = incidentTypeExpr.Evaluate();
+			adjacentTypeExpr = adjacentTypeExpr.Evaluate();
+			// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
+			return new AdjacentNodeExpr(startNodeExpr.CheckIR(typeof(Expression)),
+					incidentTypeExpr.CheckIR(typeof(Expression)), direction,
+					adjacentTypeExpr.CheckIR(typeof(Expression)),
+					Type.IRType);
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return setTypeNode;
+			}
 		}
 	}
-}
 
 }

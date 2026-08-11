@@ -7,30 +7,30 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using IR = de.unika.ipd.grgen.ir.IR;
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 
-/// <summary>
-/// Class for initializing a single attribute of a type
-/// </summary>
-public class AttributeInitialization : IR
-{
-	public InternalObjectInit init;
-	public BaseInternalObjectType owner;
-	public Entity attribute;
-	public Expression expr;
-
-	public AttributeInitialization()
-		: base("attribute init")
+	/// <summary>
+	/// Class for initializing a single attribute of a type
+	/// </summary>
+	public class AttributeInitialization : IR
 	{
-	}
+		public InternalObjectInit init;
+		public BaseInternalObjectType owner;
+		public Entity attribute;
+		public Expression expr;
 
-	public virtual void CollectNeededEntities(NeededEntities needs)
-	{
-		expr.CollectNeededEntities(needs);
+		public AttributeInitialization()
+			: base("attribute init")
+		{
+		}
+
+		public virtual void CollectNeededEntities(NeededEntities needs)
+		{
+			expr.CollectNeededEntities(needs);
+		}
 	}
-}
 
 }

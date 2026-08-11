@@ -12,94 +12,94 @@
 namespace de.unika.ipd.grgen.ast.expr.invocation
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using MultiRuleQueryExpr = de.unika.ipd.grgen.ir.expr.invocation.MultiRuleQueryExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using MultiRuleQueryExpr = de.unika.ipd.grgen.ir.expr.invocation.MultiRuleQueryExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class MultiRuleQueryExprNode : ExprNode
-{
-	static MultiRuleQueryExprNode()
+	public class MultiRuleQueryExprNode : ExprNode
 	{
-		SetClassName(typeof(MultiRuleQueryExprNode), "multi rule query");
-	}
-
-	private CollectNode<ExprNode> ruleQueries;
-	private IdentNode matchClass;
-
-	private TypeNode arrayOfMatchTypeUnresolved;
-	private TypeNode arrayOfMatchType;
-
-	public MultiRuleQueryExprNode(Coords coords, CollectNode<ExprNode> ruleQueries, IdentNode matchClass,
-			TypeNode arrayOfMatchType)
-		: base(coords)
-	{
-
-		this.ruleQueries = BecomeParent(ruleQueries);
-		this.matchClass = BecomeParent(matchClass);
-		this.arrayOfMatchTypeUnresolved = BecomeParent(arrayOfMatchType);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static MultiRuleQueryExprNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(ruleQueries);
-			children.Add(matchClass);
-			children.Add(GetValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
-			return children;
-		}
-	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("ruleQueries");
-			childrenNames.Add("matchClass");
-			childrenNames.Add("arrayOfMatchType");
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool ResolveLocal()
-	{
-		if(arrayOfMatchTypeUnresolved.Resolve())
-			arrayOfMatchType = arrayOfMatchTypeUnresolved;
-		return arrayOfMatchType != null;
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		// all actions must implement the match classes of the employed filters
-		foreach(ExprNode ruleQuery in ruleQueries.ChildrenExact)
-		{
-			CallActionNode actionCall = ((RuleQueryExprNode)ruleQuery).CallAction;
-			MultiCallActionNode.CheckWhetherCalledActionImplementsMatchClass(matchClass.IRIdent.ToString(), null,
-					actionCall);
+			SetClassName(typeof(MultiRuleQueryExprNode), "multi rule query");
 		}
 
-		return true;
-	}
+		private CollectNode<ExprNode> ruleQueries;
+		private IdentNode matchClass;
 
-	protected internal override IR ConstructIR()
-	{
-		return new MultiRuleQueryExpr(Type.IRType);
-	}
+		private TypeNode arrayOfMatchTypeUnresolved;
+		private TypeNode arrayOfMatchType;
 
-	public override TypeNode Type
-	{
-		get
+		public MultiRuleQueryExprNode(Coords coords, CollectNode<ExprNode> ruleQueries, IdentNode matchClass,
+				TypeNode arrayOfMatchType)
+			: base(coords)
 		{
-			return arrayOfMatchType;
+
+			this.ruleQueries = BecomeParent(ruleQueries);
+			this.matchClass = BecomeParent(matchClass);
+			this.arrayOfMatchTypeUnresolved = BecomeParent(arrayOfMatchType);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(ruleQueries);
+				children.Add(matchClass);
+				children.Add(GetValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("ruleQueries");
+				childrenNames.Add("matchClass");
+				childrenNames.Add("arrayOfMatchType");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool ResolveLocal()
+		{
+			if(arrayOfMatchTypeUnresolved.Resolve())
+				arrayOfMatchType = arrayOfMatchTypeUnresolved;
+			return arrayOfMatchType != null;
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			// all actions must implement the match classes of the employed filters
+			foreach(ExprNode ruleQuery in ruleQueries.ChildrenExact)
+			{
+				CallActionNode actionCall = ((RuleQueryExprNode)ruleQuery).CallAction;
+				MultiCallActionNode.CheckWhetherCalledActionImplementsMatchClass(matchClass.IRIdent.ToString(), null,
+						actionCall);
+			}
+
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			return new MultiRuleQueryExpr(Type.IRType);
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return arrayOfMatchType;
+			}
 		}
 	}
-}
 
 }

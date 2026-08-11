@@ -7,16 +7,16 @@
 
 namespace de.unika.ipd.grgen.util
 {
-using Entity = de.unika.ipd.grgen.ir.Entity;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
 
-/// <summary>
-/// @author adam
-/// Something that is being retyped during the rewrite
-/// </summary>
-public interface Retyped
-{
-	Entity OldEntity {get;set;}
+	/// <summary>
+	/// @author adam
+	/// Something that is being retyped during the rewrite
+	/// </summary>
+	public interface Retyped
+	{
+		Entity OldEntity {get;set;}
 
-}
+	}
 
 }

@@ -14,133 +14,133 @@
 namespace de.unika.ipd.grgen.util
 {
 
-using System.Collections.Generic;
-using System.Diagnostics;
+	using System.Collections.Generic;
+	using System.Diagnostics;
 
-public class XMLDumper
-{
-	private readonly PrintStream ps;
-
-	private int indentationLevel = 0;
-
-	private readonly string indentString;
-
-	private readonly ICollection<XMLDumpable> visited = new HashSet<XMLDumpable>();
-
-	public XMLDumper(PrintStream ps)
-		: this(ps, "  ")
+	public class XMLDumper
 	{
-	}
+		private readonly PrintStream ps;
 
-	public XMLDumper(PrintStream ps, string indentString)
-	{
-		this.ps = ps;
-		this.indentString = indentString;
-	}
+		private int indentationLevel = 0;
 
-	public virtual void Dump(XMLDumpable dumpable)
-	{
-		if(visited.Contains(dumpable))
+		private readonly string indentString;
+
+		private readonly ICollection<XMLDumpable> visited = new HashSet<XMLDumpable>();
+
+		public XMLDumper(PrintStream ps)
+			: this(ps, "  ")
 		{
-			DumpRef(dumpable);
-			return;
 		}
 
-		visited.Add(dumpable);
-
-		IDictionary<string, object> fields = new Dictionary<string, object>();
-		dumpable.AddFields(fields);
-		string tagName = dumpable.TagName;
-
-		Indent();
-		ps.Print('<');
-		ps.Print(tagName);
-		ps.Print(" id=\"");
-		ps.Print(dumpable.XMLId);
-		ps.Print('\"');
-
-		IList<string> keysToRemove = new List<string>();
-
-		foreach(string obj in fields.Keys)
+		public XMLDumper(PrintStream ps, string indentString)
 		{
-			object val = fields[obj];
-// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-// ORIGINAL LINE: if(!(val instanceof java.util.Iterator<?>))
-			if(!(val is IEnumerator<object>))
+			this.ps = ps;
+			this.indentString = indentString;
+		}
+
+		public virtual void Dump(XMLDumpable dumpable)
+		{
+			if(visited.Contains(dumpable))
 			{
-				ps.Print(' ');
-				ps.Print(obj);
-				ps.Print("=\"");
-				ps.Print(val);
-				ps.Print('\"');
-				keysToRemove.Add(obj);
+				DumpRef(dumpable);
+				return;
 			}
-		}
 
-		foreach(string keyToRemove in keysToRemove)
-			fields.Remove(keyToRemove);
+			visited.Add(dumpable);
 
-		if(fields.Count > 0)
-		{
-			ps.Println('>');
-			indentationLevel++;
-			foreach(object obj in fields.Keys)
+			IDictionary<string, object> fields = new Dictionary<string, object>();
+			dumpable.AddFields(fields);
+			string tagName = dumpable.TagName;
+
+			Indent();
+			ps.Print('<');
+			ps.Print(tagName);
+			ps.Print(" id=\"");
+			ps.Print(dumpable.XMLId);
+			ps.Print('\"');
+
+			IList<string> keysToRemove = new List<string>();
+
+			foreach(string obj in fields.Keys)
 			{
-				// the cast was checked some lines above
-// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-// ORIGINAL LINE: java.util.Iterator<?> childs = (java.util.Iterator<?>)fields.get(obj);
-				IEnumerator<object> childs = (IEnumerator<object>)fields[obj];
-				string tag = obj.ToString();
-
-// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
-				if(childs.HasNext())
+				object val = fields[obj];
+	// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
+	// ORIGINAL LINE: if(!(val instanceof java.util.Iterator<?>))
+				if(!(val is IEnumerator<object>))
 				{
-					Indent();
-					ps.Print('<');
-					ps.Print(tag);
-					ps.Println('>');
-					indentationLevel++;
-
-					while(childs.MoveNext())
-					{
-						object d = childs.Current;
-
-						Debug.Assert(d is XMLDumpable);
-						Dump((XMLDumpable)d);
-					}
-
-					indentationLevel--;
-					Indent();
-					ps.Print("</");
-					ps.Print(tag);
-					ps.Println('>');
+					ps.Print(' ');
+					ps.Print(obj);
+					ps.Print("=\"");
+					ps.Print(val);
+					ps.Print('\"');
+					keysToRemove.Add(obj);
 				}
 			}
-			indentationLevel--;
-			Indent();
-			ps.Print("</");
-			ps.Print(tagName);
-			ps.Println('>');
+
+			foreach(string keyToRemove in keysToRemove)
+				fields.Remove(keyToRemove);
+
+			if(fields.Count > 0)
+			{
+				ps.Println('>');
+				indentationLevel++;
+				foreach(object obj in fields.Keys)
+				{
+					// the cast was checked some lines above
+	// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
+	// ORIGINAL LINE: java.util.Iterator<?> childs = (java.util.Iterator<?>)fields.get(obj);
+					IEnumerator<object> childs = (IEnumerator<object>)fields[obj];
+					string tag = obj.ToString();
+
+	// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
+					if(childs.HasNext())
+					{
+						Indent();
+						ps.Print('<');
+						ps.Print(tag);
+						ps.Println('>');
+						indentationLevel++;
+
+						while(childs.MoveNext())
+						{
+							object d = childs.Current;
+
+							Debug.Assert(d is XMLDumpable);
+							Dump((XMLDumpable)d);
+						}
+
+						indentationLevel--;
+						Indent();
+						ps.Print("</");
+						ps.Print(tag);
+						ps.Println('>');
+					}
+				}
+				indentationLevel--;
+				Indent();
+				ps.Print("</");
+				ps.Print(tagName);
+				ps.Println('>');
+			}
+			else
+				ps.Println("/>");
 		}
-		else
-			ps.Println("/>");
-	}
 
-	private void DumpRef(XMLDumpable dumpable)
-	{
-		Indent();
-		ps.Print('<');
-		ps.Print(dumpable.RefTagName);
-		ps.Print(" id=\"");
-		ps.Print(dumpable.XMLId);
-		ps.Println("\"/>");
-	}
+		private void DumpRef(XMLDumpable dumpable)
+		{
+			Indent();
+			ps.Print('<');
+			ps.Print(dumpable.RefTagName);
+			ps.Print(" id=\"");
+			ps.Print(dumpable.XMLId);
+			ps.Println("\"/>");
+		}
 
-	private void Indent()
-	{
-		for(int i = 0; i < indentationLevel; i++)
-			ps.Print(indentString);
+		private void Indent()
+		{
+			for(int i = 0; i < indentationLevel; i++)
+				ps.Print(indentString);
+		}
 	}
-}
 
 }

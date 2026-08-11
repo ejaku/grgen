@@ -11,41 +11,41 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using de.unika.ipd.grgen.ir;
+	using de.unika.ipd.grgen.ir;
 
-public class ExpressionPair : IR
-{
-	internal Expression keyExpr; // first
-	internal Expression valueExpr; // second
-
-	public ExpressionPair(Expression keyExpr, Expression valueExpr)
-		: base("pair")
+	public class ExpressionPair : IR
 	{
-		this.keyExpr = keyExpr;
-		this.valueExpr = valueExpr;
-	}
+		internal Expression keyExpr; // first
+		internal Expression valueExpr; // second
 
-	public virtual Expression KeyExpr
-	{
-		get
+		public ExpressionPair(Expression keyExpr, Expression valueExpr)
+			: base("pair")
 		{
-			return keyExpr;
+			this.keyExpr = keyExpr;
+			this.valueExpr = valueExpr;
+		}
+
+		public virtual Expression KeyExpr
+		{
+			get
+			{
+				return keyExpr;
+			}
+		}
+
+		public virtual Expression ValueExpr
+		{
+			get
+			{
+				return valueExpr;
+			}
+		}
+
+		public virtual void CollectNeededEntities(NeededEntities needs)
+		{
+			keyExpr.CollectNeededEntities(needs);
+			valueExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression ValueExpr
-	{
-		get
-		{
-			return valueExpr;
-		}
-	}
-
-	public virtual void CollectNeededEntities(NeededEntities needs)
-	{
-		keyExpr.CollectNeededEntities(needs);
-		valueExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

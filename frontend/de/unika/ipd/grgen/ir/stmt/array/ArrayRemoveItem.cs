@@ -11,36 +11,36 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.array
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
 
-public class ArrayRemoveItem : ContainerQualProcedureMethodInvocationBase
-{
-	internal Expression indexExpr;
-
-	public ArrayRemoveItem(Qualification target, Expression indexExpr)
-		: base("array remove item", target)
+	public class ArrayRemoveItem : ContainerQualProcedureMethodInvocationBase
 	{
-		this.indexExpr = indexExpr;
-	}
+		internal Expression indexExpr;
 
-	public virtual Expression IndexExpr
-	{
-		get
+		public ArrayRemoveItem(Qualification target, Expression indexExpr)
+			: base("array remove item", target)
 		{
-			return indexExpr;
+			this.indexExpr = indexExpr;
+		}
+
+		public virtual Expression IndexExpr
+		{
+			get
+			{
+				return indexExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+
+			if(indexExpr != null)
+				indexExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-
-		if(indexExpr != null)
-			indexExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

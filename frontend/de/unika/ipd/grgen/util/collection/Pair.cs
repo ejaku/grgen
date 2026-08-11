@@ -13,50 +13,50 @@
 
 namespace de.unika.ipd.grgen.util.collection
 {
-public class Pair<T, S>
-{
-	public T first;
-	public S second;
-
-	public Pair()
+	public class Pair<T, S>
 	{
-		first = default(T);
-		second = default(S);
-	}
+		public T first;
+		public S second;
 
-	public Pair(T first, S second)
-	{
-		this.first = first;
-		this.second = second;
-	}
-
-	public override int GetHashCode()
-	{
-		return first.GetHashCode() * 31 + second.GetHashCode();
-	}
-
-	public override bool Equals(object that)
-	{
-		if(that == null)
-			return false;
-		if(this == that)
-			return true;
-// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-// ORIGINAL LINE: if(!(that instanceof Pair<?,?>))
-		if(!(that is Pair<object, object>))
-			return false;
-		try
+		public Pair()
 		{
-// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
-// ORIGINAL LINE: @SuppressWarnings("unchecked") Pair<T,S> that_ = (Pair<T,S>)that;
-			Pair<T, S> that_ = (Pair<T, S>)that;
-			return first.Equals(that_.first) && second.Equals(that_.second);
+			first = default(T);
+			second = default(S);
 		}
-		catch(System.InvalidCastException)
+
+		public Pair(T first, S second)
 		{
-			return false;
+			this.first = first;
+			this.second = second;
+		}
+
+		public override int GetHashCode()
+		{
+			return first.GetHashCode() * 31 + second.GetHashCode();
+		}
+
+		public override bool Equals(object that)
+		{
+			if(that == null)
+				return false;
+			if(this == that)
+				return true;
+	// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
+	// ORIGINAL LINE: if(!(that instanceof Pair<?,?>))
+			if(!(that is Pair<object, object>))
+				return false;
+			try
+			{
+	// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
+	// ORIGINAL LINE: @SuppressWarnings("unchecked") Pair<T,S> that_ = (Pair<T,S>)that;
+				Pair<T, S> that_ = (Pair<T, S>)that;
+				return first.Equals(that_.first) && second.Equals(that_.second);
+			}
+			catch(System.InvalidCastException)
+			{
+				return false;
+			}
 		}
 	}
-}
 
 }

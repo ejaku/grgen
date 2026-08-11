@@ -11,36 +11,36 @@
 
 namespace de.unika.ipd.grgen.ast.stmt.map
 {
-using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
-using ContainerProcedureMethodInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
-using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+	using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+	using ContainerProcedureMethodInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
+	using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class MapProcedureMethodInvocationBaseNode : ContainerProcedureMethodInvocationBaseNode
-{
-	static MapProcedureMethodInvocationBaseNode()
+	public abstract class MapProcedureMethodInvocationBaseNode : ContainerProcedureMethodInvocationBaseNode
 	{
-		SetClassName(typeof(MapProcedureMethodInvocationBaseNode), "map procedure method invocation base");
-	}
-
-	protected internal MapProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
-		: base(coords, target)
-	{
-	}
-
-	protected internal MapProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
-		: base(coords, targetVar)
-	{
-	}
-
-	protected internal virtual MapTypeNode TargetTypeExact
-	{
-		get
+		static MapProcedureMethodInvocationBaseNode()
 		{
-			return (MapTypeNode)TargetType;
+			SetClassName(typeof(MapProcedureMethodInvocationBaseNode), "map procedure method invocation base");
+		}
+
+		protected internal MapProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
+			: base(coords, target)
+		{
+		}
+
+		protected internal MapProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
+			: base(coords, targetVar)
+		{
+		}
+
+		protected internal virtual MapTypeNode TargetTypeExact
+		{
+			get
+			{
+				return (MapTypeNode)TargetType;
+			}
 		}
 	}
-}
 
 }

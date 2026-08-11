@@ -11,42 +11,42 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-using ContainerType = de.unika.ipd.grgen.ir.type.container.ContainerType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using ContainerType = de.unika.ipd.grgen.ir.type.container.ContainerType;
 
-public abstract class ContainerFunctionMethodInvocationBaseExpr : BuiltinFunctionInvocationExpr
-{
-	protected internal Expression targetExpr;
-
-	protected internal ContainerFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
-		: base(name, type)
+	public abstract class ContainerFunctionMethodInvocationBaseExpr : BuiltinFunctionInvocationExpr
 	{
-		this.targetExpr = targetExpr;
-	}
+		protected internal Expression targetExpr;
 
-	public virtual Expression TargetExpr
-	{
-		get
+		protected internal ContainerFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
+			: base(name, type)
 		{
-			return targetExpr;
+			this.targetExpr = targetExpr;
+		}
+
+		public virtual Expression TargetExpr
+		{
+			get
+			{
+				return targetExpr;
+			}
+		}
+
+		public virtual ContainerType TargetType
+		{
+			get
+			{
+				return (ContainerType)targetExpr.Type;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.Add(this);
+			targetExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual ContainerType TargetType
-	{
-		get
-		{
-			return (ContainerType)targetExpr.Type;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.Add(this);
-		targetExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

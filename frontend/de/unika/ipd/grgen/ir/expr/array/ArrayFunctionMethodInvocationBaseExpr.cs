@@ -11,25 +11,25 @@
 
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using ContainerFunctionMethodInvocationBaseExpr = de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+	using ContainerFunctionMethodInvocationBaseExpr = de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public abstract class ArrayFunctionMethodInvocationBaseExpr : ContainerFunctionMethodInvocationBaseExpr
-{
-	protected internal ArrayFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
-		: base(name, type, targetExpr)
+	public abstract class ArrayFunctionMethodInvocationBaseExpr : ContainerFunctionMethodInvocationBaseExpr
 	{
-	}
-
-	public virtual ArrayType TargetTypeExact
-	{
-		get
+		protected internal ArrayFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
+			: base(name, type, targetExpr)
 		{
-			return (ArrayType)TargetType;
+		}
+
+		public virtual ArrayType TargetTypeExact
+		{
+			get
+			{
+				return (ArrayType)TargetType;
+			}
 		}
 	}
-}
 
 }

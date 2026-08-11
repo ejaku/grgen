@@ -11,19 +11,19 @@
 
 namespace de.unika.ipd.grgen.ast.util
 {
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
-/// <summary>
-/// Interface for something, that can check an AST node
-/// </summary>
-public interface Checker
-{
 	/// <summary>
-	/// Check some AST node </summary>
-	/// <param name="bn"> The AST node to check </param>
-	/// <returns> true if the check succeeded, false if not. </returns>
-	bool Check(BaseNode bn, ErrorReporter reporter);
-}
+	/// Interface for something, that can check an AST node
+	/// </summary>
+	public interface Checker
+	{
+		/// <summary>
+		/// Check some AST node </summary>
+		/// <param name="bn"> The AST node to check </param>
+		/// <returns> true if the check succeeded, false if not. </returns>
+		bool Check(BaseNode bn, ErrorReporter reporter);
+	}
 
 }

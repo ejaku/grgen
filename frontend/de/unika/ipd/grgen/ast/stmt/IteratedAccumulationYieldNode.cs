@@ -12,160 +12,160 @@
 namespace de.unika.ipd.grgen.ast.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-using de.unika.ipd.grgen.ast.util;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Rule = de.unika.ipd.grgen.ir.executable.Rule;
-using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
-using IteratedAccumulationYield = de.unika.ipd.grgen.ir.stmt.IteratedAccumulationYield;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using Coords = de.unika.ipd.grgen.parser.Coords;
-
-/// <summary>
-/// AST node representing an accumulation yielding of an iterated match def variable.
-/// </summary>
-public class IteratedAccumulationYieldNode : NestingStatementNode
-{
-	static IteratedAccumulationYieldNode()
-	{
-		SetClassName(typeof(IteratedAccumulationYieldNode), "IteratedAccumulationYield");
-	}
-
-	internal VarDeclNode iterationVariableUnresolved;
-	internal IdentNode iteratedUnresolved;
-
-	internal VarDeclNode iterationVariable;
-	internal IteratedDeclNode iterated;
-
-	public IteratedAccumulationYieldNode(Coords coords, VarDeclNode iterationVariable, IdentNode iterated,
-			CollectNode<EvalStatementNode> accumulationStatements)
-		: base(coords, accumulationStatements)
-	{
-		this.iterationVariableUnresolved = iterationVariable;
-		BecomeParent(this.iterationVariableUnresolved);
-		this.iteratedUnresolved = iterated;
-		BecomeParent(this.iteratedUnresolved);
-	}
+	using de.unika.ipd.grgen.ast;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+	using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+	using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+	using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+	using de.unika.ipd.grgen.ast.util;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+	using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+	using IteratedAccumulationYield = de.unika.ipd.grgen.ir.stmt.IteratedAccumulationYield;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
 	/// <summary>
-	/// returns children of this node </summary>
-	public override ICollection<BaseNode> Children
+	/// AST node representing an accumulation yielding of an iterated match def variable.
+	/// </summary>
+	public class IteratedAccumulationYieldNode : NestingStatementNode
 	{
-		get
+		static IteratedAccumulationYieldNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
-			children.Add(GetValidVersion(iteratedUnresolved, iterated));
-			children.Add(statements);
-			return children;
-		}
-	}
-
-	/// <summary>
-	/// returns names of the children, same order as in getChildren </summary>
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("iterationVariable");
-			childrenNames.Add("iterated");
-			childrenNames.Add("accumulationStatements");
-			return childrenNames;
-		}
-	}
-
-	private static readonly DeclarationResolver<IteratedDeclNode> iteratedResolver =
-			new DeclarationResolver<IteratedDeclNode>(typeof(IteratedDeclNode));
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
-	protected internal override bool ResolveLocal()
-	{
-		bool successfullyResolved = true;
-
-		iterated = iteratedResolver.Resolve(iteratedUnresolved, this);
-		if(iterated == null)
-			successfullyResolved = false;
-
-		if(iterationVariableUnresolved is VarDeclNode)
-			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
-		//} else if(accumulationVariableUnresolved instanceof ConstraintDeclNode) {
-		//	accumulationGraphElement = (ConstraintDeclNode)accumulationVariableUnresolved;
-		else
-		{ // defining occurrence, no resolving should be necessary
-			ReportError("Error in resolving the iteration variable of the for iterated accumulation loop.");
-			successfullyResolved = false;
+			SetClassName(typeof(IteratedAccumulationYieldNode), "IteratedAccumulationYield");
 		}
 
-		if((iterationVariable.context & BaseNode.CONTEXT_LHS_OR_RHS) == CONTEXT_RHS)
+		internal VarDeclNode iterationVariableUnresolved;
+		internal IdentNode iteratedUnresolved;
+
+		internal VarDeclNode iterationVariable;
+		internal IteratedDeclNode iterated;
+
+		public IteratedAccumulationYieldNode(Coords coords, VarDeclNode iterationVariable, IdentNode iterated,
+				CollectNode<EvalStatementNode> accumulationStatements)
+			: base(coords, accumulationStatements)
 		{
-			ReportError("A for iterated accumulation loop can only be used within a yield block in the pattern.");
-			successfullyResolved = false;
+			this.iterationVariableUnresolved = iterationVariable;
+			BecomeParent(this.iterationVariableUnresolved);
+			this.iteratedUnresolved = iterated;
+			BecomeParent(this.iteratedUnresolved);
 		}
 
-		bool iterationVariableFound = false;
-		foreach(VarDeclNode var in iterated.pattern.DefVariablesToBeYieldedTo.ChildrenExact)
+		/// <summary>
+		/// returns children of this node </summary>
+		public override ICollection<BaseNode> Children
 		{
-			if(iterationVariable.ToString().Equals(var.ToString()))
+			get
 			{
-				iterationVariable.typeUnresolved = var.typeUnresolved;
-				iterationVariableFound = true;
-			}
-		}
-		foreach(NodeDeclNode node in iterated.pattern.Nodes)
-		{
-			if(iterationVariable.ToString().Equals(node.ToString()))
-			{
-				iterationVariable.typeUnresolved = node.typeUnresolved;
-				iterationVariableFound = true;
-			}
-		}
-		foreach(EdgeDeclNode edge in iterated.pattern.Edges)
-		{
-			if(iterationVariable.ToString().Equals(edge.ToString()))
-			{
-				iterationVariable.typeUnresolved = edge.typeUnresolved;
-				iterationVariableFound = true;
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
+				children.Add(GetValidVersion(iteratedUnresolved, iterated));
+				children.Add(statements);
+				return children;
 			}
 		}
 
-		if(!iterationVariableFound)
+		/// <summary>
+		/// returns names of the children, same order as in getChildren </summary>
+		public override ICollection<string> ChildrenNames
 		{
-			ReportError("Cannot find the iteration variable " + iterationVariable + " in the iterated.");
-			successfullyResolved = false;
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("iterationVariable");
+				childrenNames.Add("iterated");
+				childrenNames.Add("accumulationStatements");
+				return childrenNames;
+			}
 		}
 
-		if(!iterationVariable.Resolve())
-			successfullyResolved = false;
+		private static readonly DeclarationResolver<IteratedDeclNode> iteratedResolver =
+				new DeclarationResolver<IteratedDeclNode>(typeof(IteratedDeclNode));
 
-		return successfullyResolved;
-	}
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+		protected internal override bool ResolveLocal()
+		{
+			bool successfullyResolved = true;
 
-	protected internal override bool CheckLocal()
-	{
-		return true;
-	}
+			iterated = iteratedResolver.Resolve(iteratedUnresolved, this);
+			if(iterated == null)
+				successfullyResolved = false;
 
-	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
-	{
-		return true;
-	}
+			if(iterationVariableUnresolved is VarDeclNode)
+				iterationVariable = (VarDeclNode)iterationVariableUnresolved;
+			//} else if(accumulationVariableUnresolved instanceof ConstraintDeclNode) {
+			//	accumulationGraphElement = (ConstraintDeclNode)accumulationVariableUnresolved;
+			else
+			{ // defining occurrence, no resolving should be necessary
+				ReportError("Error in resolving the iteration variable of the for iterated accumulation loop.");
+				successfullyResolved = false;
+			}
 
-	protected internal override IR ConstructIR()
-	{
-		IteratedAccumulationYield iay = new IteratedAccumulationYield(iterationVariable.CheckIR(typeof(Variable)),
-				iterated.CheckIR(typeof(Rule)));
-		foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
-			iay.AddStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
-		return iay;
+			if((iterationVariable.context & BaseNode.CONTEXT_LHS_OR_RHS) == CONTEXT_RHS)
+			{
+				ReportError("A for iterated accumulation loop can only be used within a yield block in the pattern.");
+				successfullyResolved = false;
+			}
+
+			bool iterationVariableFound = false;
+			foreach(VarDeclNode var in iterated.pattern.DefVariablesToBeYieldedTo.ChildrenExact)
+			{
+				if(iterationVariable.ToString().Equals(var.ToString()))
+				{
+					iterationVariable.typeUnresolved = var.typeUnresolved;
+					iterationVariableFound = true;
+				}
+			}
+			foreach(NodeDeclNode node in iterated.pattern.Nodes)
+			{
+				if(iterationVariable.ToString().Equals(node.ToString()))
+				{
+					iterationVariable.typeUnresolved = node.typeUnresolved;
+					iterationVariableFound = true;
+				}
+			}
+			foreach(EdgeDeclNode edge in iterated.pattern.Edges)
+			{
+				if(iterationVariable.ToString().Equals(edge.ToString()))
+				{
+					iterationVariable.typeUnresolved = edge.typeUnresolved;
+					iterationVariableFound = true;
+				}
+			}
+
+			if(!iterationVariableFound)
+			{
+				ReportError("Cannot find the iteration variable " + iterationVariable + " in the iterated.");
+				successfullyResolved = false;
+			}
+
+			if(!iterationVariable.Resolve())
+				successfullyResolved = false;
+
+			return successfullyResolved;
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			return true;
+		}
+
+		public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+		{
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			IteratedAccumulationYield iay = new IteratedAccumulationYield(iterationVariable.CheckIR(typeof(Variable)),
+					iterated.CheckIR(typeof(Rule)));
+			foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
+				iay.AddStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
+			return iay;
+		}
 	}
-}
 
 }

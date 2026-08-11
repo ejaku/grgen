@@ -12,33 +12,33 @@
 namespace de.unika.ipd.grgen.ast.type.executable
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-
-/// <summary>
-/// Function abstraction.
-/// </summary>
-public interface FunctionSignature
-{
-	/// <summary>
-	/// Get the result(/return) type of this function signature. </summary>
-	/// <returns> The result(/return) type. </returns>
-	TypeNode ResultType {get;}
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 
 	/// <summary>
-	/// Get the parameter(/operand) types of this function signature. </summary>
-	/// <returns> The parameter(/operand) types. </returns>
-	IList<TypeNode> ParameterTypes {get;}
+	/// Function abstraction.
+	/// </summary>
+	public interface FunctionSignature
+	{
+		/// <summary>
+		/// Get the result(/return) type of this function signature. </summary>
+		/// <returns> The result(/return) type. </returns>
+		TypeNode ResultType {get;}
 
-	/// <summary>
-	/// Get the number of implicit type casts needed for calling this
-	/// function signature with the given arguments(/operands). </summary>
-	/// <param name="argumentTypes"> The types of the arguments(/operands) </param>
-	/// <returns> The number of implicit type casts needed to apply the arguments(/operands)
-	/// to this function signature. <code>Integer.MAX_VALUE</code> is returned,
-	/// if the arguments(/operands) cannot be applied to this functions signature. </returns>
-	int GetDistance(IList<TypeNode> argumentTypes);
-}
+		/// <summary>
+		/// Get the parameter(/operand) types of this function signature. </summary>
+		/// <returns> The parameter(/operand) types. </returns>
+		IList<TypeNode> ParameterTypes {get;}
+
+		/// <summary>
+		/// Get the number of implicit type casts needed for calling this
+		/// function signature with the given arguments(/operands). </summary>
+		/// <param name="argumentTypes"> The types of the arguments(/operands) </param>
+		/// <returns> The number of implicit type casts needed to apply the arguments(/operands)
+		/// to this function signature. <code>Integer.MAX_VALUE</code> is returned,
+		/// if the arguments(/operands) cannot be applied to this functions signature. </returns>
+		int GetDistance(IList<TypeNode> argumentTypes);
+	}
 
 }

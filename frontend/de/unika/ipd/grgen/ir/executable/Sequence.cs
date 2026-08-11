@@ -12,78 +12,78 @@
 namespace de.unika.ipd.grgen.ir.executable
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
-using Exec = de.unika.ipd.grgen.ir.Exec;
-using ExecVariable = de.unika.ipd.grgen.ir.ExecVariable;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+	using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
+	using Exec = de.unika.ipd.grgen.ir.Exec;
+	using ExecVariable = de.unika.ipd.grgen.ir.ExecVariable;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
 
-/// <summary>
-/// A graph rewrite sequence definition.
-/// </summary>
-public class Sequence : Identifiable, ContainedInPackage
-{
-	private string packageContainedIn;
-
-	private Exec exec;
-
-	private List<ExecVariable> inParams = new List<ExecVariable>();
-	private List<ExecVariable> outParams = new List<ExecVariable>();
-
-	public Sequence(Ident ident, Exec exec)
-		: base("sequence", ident)
+	/// <summary>
+	/// A graph rewrite sequence definition.
+	/// </summary>
+	public class Sequence : Identifiable, ContainedInPackage
 	{
-		this.exec = exec;
-	}
+		private string packageContainedIn;
 
-	public virtual string PackageContainedIn
-	{
-		get
+		private Exec exec;
+
+		private List<ExecVariable> inParams = new List<ExecVariable>();
+		private List<ExecVariable> outParams = new List<ExecVariable>();
+
+		public Sequence(Ident ident, Exec exec)
+			: base("sequence", ident)
 		{
-			return packageContainedIn;
+			this.exec = exec;
 		}
-		set
+
+		public virtual string PackageContainedIn
 		{
-			this.packageContainedIn = value;
+			get
+			{
+				return packageContainedIn;
+			}
+			set
+			{
+				this.packageContainedIn = value;
+			}
 		}
-	}
 
 
-	public virtual Exec Exec
-	{
-		get
+		public virtual Exec Exec
 		{
-			return exec;
+			get
+			{
+				return exec;
+			}
 		}
-	}
 
-	public virtual void AddInParam(ExecVariable inParam)
-	{
-		inParams.Add(inParam);
-	}
-
-	public virtual IList<ExecVariable> InParameters
-	{
-		get
+		public virtual void AddInParam(ExecVariable inParam)
 		{
-			return inParams.AsReadOnly();
+			inParams.Add(inParam);
 		}
-	}
 
-	public virtual void AddOutParam(ExecVariable outParam)
-	{
-		outParams.Add(outParam);
-	}
-
-	public virtual IList<ExecVariable> OutParameters
-	{
-		get
+		public virtual IList<ExecVariable> InParameters
 		{
-			return outParams.AsReadOnly();
+			get
+			{
+				return inParams.AsReadOnly();
+			}
+		}
+
+		public virtual void AddOutParam(ExecVariable outParam)
+		{
+			outParams.Add(outParam);
+		}
+
+		public virtual IList<ExecVariable> OutParameters
+		{
+			get
+			{
+				return outParams.AsReadOnly();
+			}
 		}
 	}
-}
 
 }

@@ -11,49 +11,49 @@
 
 namespace de.unika.ipd.grgen.ast.expr.array
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayKeepOneForEach = de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEach;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayKeepOneForEach = de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEach;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayKeepOneForEachNode : ArrayFunctionMethodInvocationBaseExprNode
-{
-	static ArrayKeepOneForEachNode()
+	public class ArrayKeepOneForEachNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(ArrayKeepOneForEachNode), "array keep one for each");
-	}
-
-	public ArrayKeepOneForEachNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = TargetTypeExact;
-		if(!(arrayType.valueType.IsFilterableType()))
-			targetExpr.ReportError("The array function method keepOneForEach can only be employed on an object of type array<" + TypeNode.FilterableTypesAsString + ">"
-					+ " (but is employed on an object of type " + arrayType.TypeName + ").");
-		return true;
-	}
-
-	public override TypeNode Type
-	{
-		get
+		static ArrayKeepOneForEachNode()
 		{
-			return TargetType;
+			SetClassName(typeof(ArrayKeepOneForEachNode), "array keep one for each");
+		}
+
+		public ArrayKeepOneForEachNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
+		{
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			// target type already checked during resolving into this node
+			ArrayTypeNode arrayType = TargetTypeExact;
+			if(!(arrayType.valueType.IsFilterableType()))
+				targetExpr.ReportError("The array function method keepOneForEach can only be employed on an object of type array<" + TypeNode.FilterableTypesAsString + ">"
+						+ " (but is employed on an object of type " + arrayType.TypeName + ").");
+			return true;
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return TargetType;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new ArrayKeepOneForEach(targetExpr.CheckIR(typeof(Expression)));
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new ArrayKeepOneForEach(targetExpr.CheckIR(typeof(Expression)));
-	}
-}
 
 }

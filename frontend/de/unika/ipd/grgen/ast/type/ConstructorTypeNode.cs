@@ -12,41 +12,41 @@
 namespace de.unika.ipd.grgen.ast.type
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-
-/// <summary>
-/// Type of constructor declaration nodes.
-/// </summary>
-public class ConstructorTypeNode : TypeNode
-{
-	internal static IList<BaseNode> emptyChildren = new List<BaseNode>();
-	internal static IList<string> emptyChildrenNames = new List<string>();
-	static ConstructorTypeNode()
-	{
-		SetClassName(typeof(ConstructorTypeNode), "constructor type");
-	}
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
 
 	/// <summary>
-	/// returns children of this node </summary>
-	public override ICollection<BaseNode> Children
+	/// Type of constructor declaration nodes.
+	/// </summary>
+	public class ConstructorTypeNode : TypeNode
 	{
-		get
+		internal static IList<BaseNode> emptyChildren = new List<BaseNode>();
+		internal static IList<string> emptyChildrenNames = new List<string>();
+		static ConstructorTypeNode()
 		{
-			return emptyChildren;
+			SetClassName(typeof(ConstructorTypeNode), "constructor type");
 		}
-	}
 
-	/// <summary>
-	/// returns names of the children, same order as in getChildren </summary>
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		/// <summary>
+		/// returns children of this node </summary>
+		public override ICollection<BaseNode> Children
 		{
-			return emptyChildrenNames;
+			get
+			{
+				return emptyChildren;
+			}
+		}
+
+		/// <summary>
+		/// returns names of the children, same order as in getChildren </summary>
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				return emptyChildrenNames;
+			}
 		}
 	}
-}
 
 }

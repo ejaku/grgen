@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.util
 {
-/// <summary>
-/// Something that has annotations.
-/// </summary>
-public interface Annotated
-{
 	/// <summary>
-	/// Get the annotations. </summary>
-	/// <returns> The annotations. </returns>
-	Annotations Annotations {get;}
-}
+	/// Something that has annotations.
+	/// </summary>
+	public interface Annotated
+	{
+		/// <summary>
+		/// Get the annotations. </summary>
+		/// <returns> The annotations. </returns>
+		Annotations Annotations {get;}
+	}
 
 }

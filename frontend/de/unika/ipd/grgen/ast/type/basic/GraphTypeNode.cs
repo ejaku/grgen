@@ -7,28 +7,28 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using GraphType = de.unika.ipd.grgen.ir.type.basic.GraphType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using GraphType = de.unika.ipd.grgen.ir.type.basic.GraphType;
 
-/// <summary>
-/// The graph basic type.
-/// </summary>
-public class GraphTypeNode : BasicTypeNode
-{
-	static GraphTypeNode()
+	/// <summary>
+	/// The graph basic type.
+	/// </summary>
+	public class GraphTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(GraphTypeNode), "graph type");
-	}
+		static GraphTypeNode()
+		{
+			SetClassName(typeof(GraphTypeNode), "graph type");
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new GraphType(Ident.IRIdent);
-	}
+		protected internal override IR ConstructIR()
+		{
+			return new GraphType(Ident.IRIdent);
+		}
 
-	public override string ToString()
-	{
-		return "graph";
+		public override string ToString()
+		{
+			return "graph";
+		}
 	}
-}
 
 }

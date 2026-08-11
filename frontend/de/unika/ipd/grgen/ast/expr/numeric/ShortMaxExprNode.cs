@@ -8,63 +8,63 @@
 namespace de.unika.ipd.grgen.ast.expr.numeric
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using ShortMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.ShortMaxExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using ShortMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.ShortMaxExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class ShortMaxExprNode : BuiltinFunctionInvocationBaseNode
-{
-	static ShortMaxExprNode()
+	public class ShortMaxExprNode : BuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(ShortMaxExprNode), "shortmax expr");
-	}
-
-	public ShortMaxExprNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static ShortMaxExprNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			return children;
+			SetClassName(typeof(ShortMaxExprNode), "shortmax expr");
+		}
+
+		public ShortMaxExprNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			return new ShortMaxExpr();
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.shortType;
+			}
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		return new ShortMaxExpr();
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return BasicTypeNode.shortType;
-		}
-	}
-}
 
 }

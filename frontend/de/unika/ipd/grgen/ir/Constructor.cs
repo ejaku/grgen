@@ -12,23 +12,23 @@
 namespace de.unika.ipd.grgen.ir
 {
 
-public class Constructor : IR
-{
-	private LinkedHashSet<ConstructorParam> parameters;
-
-	public Constructor(LinkedHashSet<ConstructorParam> parameters)
-		: base("constructor")
+	public class Constructor : IR
 	{
-		this.parameters = parameters;
-	}
+		private LinkedHashSet<ConstructorParam> parameters;
 
-	public virtual LinkedHashSet<ConstructorParam> Parameters
-	{
-		get
+		public Constructor(LinkedHashSet<ConstructorParam> parameters)
+			: base("constructor")
 		{
-			return parameters;
+			this.parameters = parameters;
+		}
+
+		public virtual LinkedHashSet<ConstructorParam> Parameters
+		{
+			get
+			{
+				return parameters;
+			}
 		}
 	}
-}
 
 }

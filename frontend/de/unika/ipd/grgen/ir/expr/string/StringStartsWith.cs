@@ -11,44 +11,44 @@
 
 namespace de.unika.ipd.grgen.ir.expr.@string
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-public class StringStartsWith : BuiltinFunctionInvocationExpr
-{
-	private Expression stringExpr;
-	private Expression stringToSearchForExpr;
-
-	public StringStartsWith(Expression stringExpr, Expression stringToSearchForExpr)
-		: base("string startsWith", BooleanType.Type)
+	public class StringStartsWith : BuiltinFunctionInvocationExpr
 	{
-		this.stringExpr = stringExpr;
-		this.stringToSearchForExpr = stringToSearchForExpr;
-	}
+		private Expression stringExpr;
+		private Expression stringToSearchForExpr;
 
-	public virtual Expression StringExpr
-	{
-		get
+		public StringStartsWith(Expression stringExpr, Expression stringToSearchForExpr)
+			: base("string startsWith", BooleanType.Type)
 		{
-			return stringExpr;
+			this.stringExpr = stringExpr;
+			this.stringToSearchForExpr = stringToSearchForExpr;
+		}
+
+		public virtual Expression StringExpr
+		{
+			get
+			{
+				return stringExpr;
+			}
+		}
+
+		public virtual Expression StringToSearchForExpr
+		{
+			get
+			{
+				return stringToSearchForExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			stringExpr.CollectNeededEntities(needs);
+			stringToSearchForExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression StringToSearchForExpr
-	{
-		get
-		{
-			return stringToSearchForExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		stringExpr.CollectNeededEntities(needs);
-		stringToSearchForExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

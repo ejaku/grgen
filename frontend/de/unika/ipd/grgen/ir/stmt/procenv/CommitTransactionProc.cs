@@ -11,33 +11,33 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class CommitTransactionProc : BuiltinProcedureInvocationBase
-{
-	private Expression transactionIdExpr;
-
-	public CommitTransactionProc(Expression stringExpr)
-		: base("commit transaction procedure")
+	public class CommitTransactionProc : BuiltinProcedureInvocationBase
 	{
-		this.transactionIdExpr = stringExpr;
-	}
+		private Expression transactionIdExpr;
 
-	public virtual Expression TransactionId
-	{
-		get
+		public CommitTransactionProc(Expression stringExpr)
+			: base("commit transaction procedure")
 		{
-			return transactionIdExpr;
+			this.transactionIdExpr = stringExpr;
+		}
+
+		public virtual Expression TransactionId
+		{
+			get
+			{
+				return transactionIdExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			transactionIdExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		transactionIdExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -7,54 +7,54 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class GraphMergeProc : BuiltinProcedureInvocationBase
-{
-	private Expression target;
-	private Expression source;
-	private Expression sourceName;
-
-	public GraphMergeProc(Expression target, Expression source, Expression sourceName)
-		: base("graph merge procedure")
+	public class GraphMergeProc : BuiltinProcedureInvocationBase
 	{
-		this.target = target;
-		this.source = source;
-		this.sourceName = sourceName;
-	}
+		private Expression target;
+		private Expression source;
+		private Expression sourceName;
 
-	public virtual Expression Target
-	{
-		get
+		public GraphMergeProc(Expression target, Expression source, Expression sourceName)
+			: base("graph merge procedure")
 		{
-			return target;
+			this.target = target;
+			this.source = source;
+			this.sourceName = sourceName;
+		}
+
+		public virtual Expression Target
+		{
+			get
+			{
+				return target;
+			}
+		}
+
+		public virtual Expression Source
+		{
+			get
+			{
+				return source;
+			}
+		}
+
+		public virtual Expression SourceName
+		{
+			get
+			{
+				return sourceName;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			target.CollectNeededEntities(needs);
+			source.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression Source
-	{
-		get
-		{
-			return source;
-		}
-	}
-
-	public virtual Expression SourceName
-	{
-		get
-		{
-			return sourceName;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		target.CollectNeededEntities(needs);
-		source.CollectNeededEntities(needs);
-	}
-}
 
 }

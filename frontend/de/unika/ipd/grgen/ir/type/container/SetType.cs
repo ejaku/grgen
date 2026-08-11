@@ -11,50 +11,50 @@
 
 namespace de.unika.ipd.grgen.ir.type.container
 {
-using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class SetType : ContainerType
-{
-	public Type valueType;
-
-	public SetType(Type valueType)
-		: base("set type")
+	public class SetType : ContainerType
 	{
-		this.valueType = valueType;
-	}
+		public Type valueType;
 
-	public virtual Type ValueType
-	{
-		get
+		public SetType(Type valueType)
+			: base("set type")
 		{
-			return valueType;
+			this.valueType = valueType;
+		}
+
+		public virtual Type ValueType
+		{
+			get
+			{
+				return valueType;
+			}
+		}
+
+		public override string ToString()
+		{
+			return "set<" + valueType + ">";
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_SET;
+		}
+
+		public override Type ElementType
+		{
+			get
+			{
+				return valueType;
+			}
+		}
+
+		public override bool ContainsBaseInternalObjectType()
+		{
+			return valueType is BaseInternalObjectType;
 		}
 	}
-
-	public override string ToString()
-	{
-		return "set<" + valueType + ">";
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_SET;
-	}
-
-	public override Type ElementType
-	{
-		get
-		{
-			return valueType;
-		}
-	}
-
-	public override bool ContainsBaseInternalObjectType()
-	{
-		return valueType is BaseInternalObjectType;
-	}
-}
 
 }

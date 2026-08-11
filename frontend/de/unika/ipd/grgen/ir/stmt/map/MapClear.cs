@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.map
 {
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
 
-public class MapClear : ContainerQualProcedureMethodInvocationBase
-{
-	public MapClear(Qualification target)
-		: base("map clear", target)
+	public class MapClear : ContainerQualProcedureMethodInvocationBase
 	{
+		public MapClear(Qualification target)
+			: base("map clear", target)
+		{
+		}
 	}
-}
 
 }

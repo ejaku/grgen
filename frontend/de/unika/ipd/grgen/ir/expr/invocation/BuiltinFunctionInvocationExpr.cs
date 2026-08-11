@@ -11,17 +11,17 @@
 
 namespace de.unika.ipd.grgen.ir.expr.invocation
 {
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// Base class for builtin function calls.
-/// </summary>
-public abstract class BuiltinFunctionInvocationExpr : FunctionOrBuiltinFunctionInvocationExpr
-{
-	protected internal BuiltinFunctionInvocationExpr(string name, Type type)
-		: base(name, type)
+	/// <summary>
+	/// Base class for builtin function calls.
+	/// </summary>
+	public abstract class BuiltinFunctionInvocationExpr : FunctionOrBuiltinFunctionInvocationExpr
 	{
+		protected internal BuiltinFunctionInvocationExpr(string name, Type type)
+			: base(name, type)
+		{
+		}
 	}
-}
 
 }

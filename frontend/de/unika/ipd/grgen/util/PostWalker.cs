@@ -11,26 +11,26 @@
 
 namespace de.unika.ipd.grgen.util
 {
-/// <summary>
-/// A walker calling a visitor after ascending from the last child
-/// </summary>
-public class PostWalker : PrePostWalker
-{
 	/// <summary>
-	/// Make a new post walker. </summary>
-	/// <param name="post"> The visitor to use after ascending from the last child of a node </param>
-	public PostWalker(Visitor post)
-		: base(new VisitorAnonymousInnerClass(), post)
+	/// A walker calling a visitor after ascending from the last child
+	/// </summary>
+	public class PostWalker : PrePostWalker
 	{
-	}
-
-	private class VisitorAnonymousInnerClass : Visitor
-	{
-		public void visit(Walkable w)
+		/// <summary>
+		/// Make a new post walker. </summary>
+		/// <param name="post"> The visitor to use after ascending from the last child of a node </param>
+		public PostWalker(Visitor post)
+			: base(new VisitorAnonymousInnerClass(), post)
 		{
-			// nothing to do
+		}
+
+		private class VisitorAnonymousInnerClass : Visitor
+		{
+			public void visit(Walkable w)
+			{
+				// nothing to do
+			}
 		}
 	}
-}
 
 }

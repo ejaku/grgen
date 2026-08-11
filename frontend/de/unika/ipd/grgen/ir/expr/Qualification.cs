@@ -11,92 +11,92 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using de.unika.ipd.grgen.ir;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
-using MatchType = de.unika.ipd.grgen.ir.type.MatchType;
+	using de.unika.ipd.grgen.ir;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+	using MatchType = de.unika.ipd.grgen.ir.type.MatchType;
 
-public class Qualification : Expression
-{
-	/// <summary>
-	/// The owner of the qualification. </summary>
-	private readonly Entity owner;
-
-	/// <summary>
-	/// The owner of the casted qualification. </summary>
-	private readonly Expression ownerExpr;
-
-	/// <summary>
-	/// The member of the qualification. </summary>
-	private readonly Entity member;
-
-	public Qualification(Entity owner, Entity member)
-		: base("qual", member.Type)
+	public class Qualification : Expression
 	{
-		this.owner = owner;
-		this.ownerExpr = null;
-		this.member = member;
-	}
+		/// <summary>
+		/// The owner of the qualification. </summary>
+		private readonly Entity owner;
 
-	public Qualification(Expression ownerExpr, Entity member)
-		: base("qual", member.Type)
-	{
-		this.owner = null;
-		this.ownerExpr = ownerExpr;
-		this.member = member;
-	}
+		/// <summary>
+		/// The owner of the casted qualification. </summary>
+		private readonly Expression ownerExpr;
 
-	public virtual Entity Owner
-	{
-		get
+		/// <summary>
+		/// The member of the qualification. </summary>
+		private readonly Entity member;
+
+		public Qualification(Entity owner, Entity member)
+			: base("qual", member.Type)
 		{
-			return owner;
+			this.owner = owner;
+			this.ownerExpr = null;
+			this.member = member;
 		}
-	}
 
-	public virtual Expression OwnerExpr
-	{
-		get
+		public Qualification(Expression ownerExpr, Entity member)
+			: base("qual", member.Type)
 		{
-			return ownerExpr;
+			this.owner = null;
+			this.ownerExpr = ownerExpr;
+			this.member = member;
 		}
-	}
 
-	public virtual Entity Member
-	{
-		get
+		public virtual Entity Owner
 		{
-			return member;
-		}
-	}
-
-	public override string NodeLabel
-	{
-		get
-		{
-			return "<" + owner + ">.<" + member + ">";
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(owner != null)
-		{
-			if(!IsGlobalVariable(owner)
-				&& !(owner.Type is MatchType)
-				&& !(owner.Type is DefinedMatchType))
+			get
 			{
-				if(owner is GraphEntity)
-					needs.AddAttr((GraphEntity)owner, member);
-				else
-					needs.Add((Variable)owner);
+				return owner;
 			}
 		}
-		else
-			ownerExpr.CollectNeededEntities(needs);
+
+		public virtual Expression OwnerExpr
+		{
+			get
+			{
+				return ownerExpr;
+			}
+		}
+
+		public virtual Entity Member
+		{
+			get
+			{
+				return member;
+			}
+		}
+
+		public override string NodeLabel
+		{
+			get
+			{
+				return "<" + owner + ">.<" + member + ">";
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(owner != null)
+			{
+				if(!IsGlobalVariable(owner)
+					&& !(owner.Type is MatchType)
+					&& !(owner.Type is DefinedMatchType))
+				{
+					if(owner is GraphEntity)
+						needs.AddAttr((GraphEntity)owner, member);
+					else
+						needs.Add((Variable)owner);
+				}
+			}
+			else
+				ownerExpr.CollectNeededEntities(needs);
+		}
 	}
-}
 
 }

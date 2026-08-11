@@ -11,27 +11,27 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Rule = de.unika.ipd.grgen.ir.executable.Rule;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class IteratedQueryExpr : Expression
-{
-	internal Ident iteratedName;
-
-	public IteratedQueryExpr(Ident iteratedName, Rule iterated, Type targetType)
-		: base("iterated query", targetType)
+	public class IteratedQueryExpr : Expression
 	{
-		this.iteratedName = iteratedName;
-	}
+		internal Ident iteratedName;
 
-	public virtual Ident IteratedName
-	{
-		get
+		public IteratedQueryExpr(Ident iteratedName, Rule iterated, Type targetType)
+			: base("iterated query", targetType)
 		{
-			return iteratedName;
+			this.iteratedName = iteratedName;
+		}
+
+		public virtual Ident IteratedName
+		{
+			get
+			{
+				return iteratedName;
+			}
 		}
 	}
-}
 
 }

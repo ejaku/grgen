@@ -7,15 +7,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.numeric
 {
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using LongType = de.unika.ipd.grgen.ir.type.basic.LongType;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using LongType = de.unika.ipd.grgen.ir.type.basic.LongType;
 
-public class LongMinExpr : BuiltinFunctionInvocationExpr
-{
-	public LongMinExpr()
-		: base("longmin expr", LongType.Type)
+	public class LongMinExpr : BuiltinFunctionInvocationExpr
 	{
+		public LongMinExpr()
+			: base("longmin expr", LongType.Type)
+		{
+		}
 	}
-}
 
 }

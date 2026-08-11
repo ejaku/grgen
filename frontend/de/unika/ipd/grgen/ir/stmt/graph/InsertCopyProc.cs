@@ -7,62 +7,62 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using System.Diagnostics;
+	using System.Diagnostics;
 
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class InsertCopyProc : BuiltinProcedureInvocationBase
-{
-	private readonly Expression graphExpr;
-	private readonly Expression nodeExpr;
-
-	private readonly Type returnType;
-
-	public InsertCopyProc(Expression graphExpr, Expression nodeExpr, Type returnType)
-		: base("insert copy procedure")
+	public class InsertCopyProc : BuiltinProcedureInvocationBase
 	{
-		this.graphExpr = graphExpr;
-		this.nodeExpr = nodeExpr;
-		this.returnType = returnType;
-	}
+		private readonly Expression graphExpr;
+		private readonly Expression nodeExpr;
 
-	public virtual Expression GraphExpr
-	{
-		get
+		private readonly Type returnType;
+
+		public InsertCopyProc(Expression graphExpr, Expression nodeExpr, Type returnType)
+			: base("insert copy procedure")
 		{
-			return graphExpr;
+			this.graphExpr = graphExpr;
+			this.nodeExpr = nodeExpr;
+			this.returnType = returnType;
+		}
+
+		public virtual Expression GraphExpr
+		{
+			get
+			{
+				return graphExpr;
+			}
+		}
+
+		public virtual Expression NodeExpr
+		{
+			get
+			{
+				return nodeExpr;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			graphExpr.CollectNeededEntities(needs);
+			nodeExpr.CollectNeededEntities(needs);
+		}
+
+		public override int ReturnArity()
+		{
+			return 1;
+		}
+
+		public override Type GetReturnType(int index)
+		{
+			Debug.Assert((index == 0));
+			return returnType;
 		}
 	}
-
-	public virtual Expression NodeExpr
-	{
-		get
-		{
-			return nodeExpr;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		graphExpr.CollectNeededEntities(needs);
-		nodeExpr.CollectNeededEntities(needs);
-	}
-
-	public override int ReturnArity()
-	{
-		return 1;
-	}
-
-	public override Type GetReturnType(int index)
-	{
-		Debug.Assert((index == 0));
-		return returnType;
-	}
-}
 
 }

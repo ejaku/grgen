@@ -11,25 +11,25 @@
 
 namespace de.unika.ipd.grgen.ir.expr.deque
 {
-using ContainerFunctionMethodInvocationBaseExpr = de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-using DequeType = de.unika.ipd.grgen.ir.type.container.DequeType;
+	using ContainerFunctionMethodInvocationBaseExpr = de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using DequeType = de.unika.ipd.grgen.ir.type.container.DequeType;
 
-public abstract class DequeFunctionMethodInvocationBaseExpr : ContainerFunctionMethodInvocationBaseExpr
-{
-	protected internal DequeFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
-		: base(name, type, targetExpr)
+	public abstract class DequeFunctionMethodInvocationBaseExpr : ContainerFunctionMethodInvocationBaseExpr
 	{
-	}
-
-	public virtual DequeType TargetTypeExact
-	{
-		get
+		protected internal DequeFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
+			: base(name, type, targetExpr)
 		{
-			return (DequeType)TargetType;
+		}
+
+		public virtual DequeType TargetTypeExact
+		{
+			get
+			{
+				return (DequeType)TargetType;
+			}
 		}
 	}
-}
 
 }

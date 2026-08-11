@@ -7,25 +7,25 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/// <summary>
-/// Class for accessing the unique index, binding a pattern element
-/// </summary>
-public class UniqueLookup
-{
-	public Expression expr;
-
-	public UniqueLookup(Expression expr)
+	/// <summary>
+	/// Class for accessing the unique index, binding a pattern element
+	/// </summary>
+	public class UniqueLookup
 	{
-		this.expr = expr;
-	}
+		public Expression expr;
 
-	public virtual void CollectNeededEntities(NeededEntities needs)
-	{
-		expr.CollectNeededEntities(needs);
+		public UniqueLookup(Expression expr)
+		{
+			this.expr = expr;
+		}
+
+		public virtual void CollectNeededEntities(NeededEntities needs)
+		{
+			expr.CollectNeededEntities(needs);
+		}
 	}
-}
 
 }

@@ -11,35 +11,35 @@
 
 namespace de.unika.ipd.grgen.ir
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-public class ConstructorParam : IR
-{
-	private Entity entity;
-	private Expression defValue;
-
-	public ConstructorParam(Entity entity, Expression defValue)
-		: base("constructor param")
+	public class ConstructorParam : IR
 	{
-		this.entity = entity;
-		this.defValue = defValue;
-	}
+		private Entity entity;
+		private Expression defValue;
 
-	public virtual Entity Entity
-	{
-		get
+		public ConstructorParam(Entity entity, Expression defValue)
+			: base("constructor param")
 		{
-			return entity;
+			this.entity = entity;
+			this.defValue = defValue;
+		}
+
+		public virtual Entity Entity
+		{
+			get
+			{
+				return entity;
+			}
+		}
+
+		public virtual Expression DefValue
+		{
+			get
+			{
+				return defValue;
+			}
 		}
 	}
-
-	public virtual Expression DefValue
-	{
-		get
-		{
-			return defValue;
-		}
-	}
-}
 
 }

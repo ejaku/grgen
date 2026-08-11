@@ -7,46 +7,46 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class EdgeByUniqueExpr : BuiltinFunctionInvocationExpr
-{
-	private readonly Expression unique;
-	private readonly Expression edgeType;
-
-	public EdgeByUniqueExpr(Expression unique, Expression edgeType, Type type)
-		: base("edge by unique id expression", type)
+	public class EdgeByUniqueExpr : BuiltinFunctionInvocationExpr
 	{
-		this.unique = unique;
-		this.edgeType = edgeType;
-	}
+		private readonly Expression unique;
+		private readonly Expression edgeType;
 
-	public virtual Expression UniqueExpr
-	{
-		get
+		public EdgeByUniqueExpr(Expression unique, Expression edgeType, Type type)
+			: base("edge by unique id expression", type)
 		{
-			return unique;
+			this.unique = unique;
+			this.edgeType = edgeType;
+		}
+
+		public virtual Expression UniqueExpr
+		{
+			get
+			{
+				return unique;
+			}
+		}
+
+		public virtual Expression EdgeTypeExpr
+		{
+			get
+			{
+				return edgeType;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			unique.CollectNeededEntities(needs);
+			edgeType.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression EdgeTypeExpr
-	{
-		get
-		{
-			return edgeType;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		unique.CollectNeededEntities(needs);
-		edgeType.CollectNeededEntities(needs);
-	}
-}
 
 }

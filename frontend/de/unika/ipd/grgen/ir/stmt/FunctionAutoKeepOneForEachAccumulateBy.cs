@@ -10,67 +10,67 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class FunctionAutoKeepOneForEachAccumulateBy : EvalStatement
-{
-	protected internal Variable targetVar;
-
-	private Entity member;
-	private Variable accumulationMember;
-	private string accumulationMethod;
-
-	public FunctionAutoKeepOneForEachAccumulateBy(Variable targetVar, Entity member,
-			Variable accumulationMember, string accumulationMethod)
-		: base("function auto keep one for each accumulate by stmt")
+	public class FunctionAutoKeepOneForEachAccumulateBy : EvalStatement
 	{
-		this.targetVar = targetVar;
-		this.member = member;
-		this.accumulationMember = accumulationMember;
-		this.accumulationMethod = accumulationMethod;
-	}
+		protected internal Variable targetVar;
 
-	public virtual Entity Member
-	{
-		get
+		private Entity member;
+		private Variable accumulationMember;
+		private string accumulationMethod;
+
+		public FunctionAutoKeepOneForEachAccumulateBy(Variable targetVar, Entity member,
+				Variable accumulationMember, string accumulationMethod)
+			: base("function auto keep one for each accumulate by stmt")
 		{
-			return member;
+			this.targetVar = targetVar;
+			this.member = member;
+			this.accumulationMember = accumulationMember;
+			this.accumulationMethod = accumulationMethod;
+		}
+
+		public virtual Entity Member
+		{
+			get
+			{
+				return member;
+			}
+		}
+
+		public virtual Variable AccumulationMember
+		{
+			get
+			{
+				return accumulationMember;
+			}
+		}
+
+		public virtual string AccumulationMethod
+		{
+			get
+			{
+				return accumulationMethod;
+			}
+		}
+
+		public virtual Variable TargetVar
+		{
+			get
+			{
+				return targetVar;
+			}
+		}
+
+		public virtual ArrayType TargetType
+		{
+			get
+			{
+				return (ArrayType)targetVar.Type;
+			}
 		}
 	}
-
-	public virtual Variable AccumulationMember
-	{
-		get
-		{
-			return accumulationMember;
-		}
-	}
-
-	public virtual string AccumulationMethod
-	{
-		get
-		{
-			return accumulationMethod;
-		}
-	}
-
-	public virtual Variable TargetVar
-	{
-		get
-		{
-			return targetVar;
-		}
-	}
-
-	public virtual ArrayType TargetType
-	{
-		get
-		{
-			return (ArrayType)targetVar.Type;
-		}
-	}
-}
 
 }

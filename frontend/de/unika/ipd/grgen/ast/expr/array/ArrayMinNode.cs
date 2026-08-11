@@ -11,67 +11,67 @@
 
 namespace de.unika.ipd.grgen.ast.expr.array
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayMinExpr = de.unika.ipd.grgen.ir.expr.array.ArrayMinExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayMinExpr = de.unika.ipd.grgen.ir.expr.array.ArrayMinExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayMinNode : ArrayAccumulationMethodNode
-{
-	static ArrayMinNode()
+	public class ArrayMinNode : ArrayAccumulationMethodNode
 	{
-		SetClassName(typeof(ArrayMinNode), "array min");
-	}
-
-	public ArrayMinNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = TargetTypeExact;
-		if(!arrayType.valueType.IsAccumulatableType())
+		static ArrayMinNode()
 		{
-			targetExpr.ReportError("The array function method min can only be employed on an object of type array<" + TypeNode.AccumulatableTypesAsString + ">"
-					+ " (but is employed on an object of type " + arrayType.TypeName + ").");
-			return false;
+			SetClassName(typeof(ArrayMinNode), "array min");
 		}
-		return true;
-	}
 
-	public override TypeNode Type
-	{
-		get
+		public ArrayMinNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
 		{
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			// target type already checked during resolving into this node
 			ArrayTypeNode arrayType = TargetTypeExact;
-			return BasicTypeNode.GetArrayAccumulationResultType(arrayType.valueType);
+			if(!arrayType.valueType.IsAccumulatableType())
+			{
+				targetExpr.ReportError("The array function method min can only be employed on an object of type array<" + TypeNode.AccumulatableTypesAsString + ">"
+						+ " (but is employed on an object of type " + arrayType.TypeName + ").");
+				return false;
+			}
+			return true;
 		}
-	}
 
-	public override bool IsValidTargetTypeOfAccumulation(TypeNode type)
-	{
-		return type.IsAccumulationTargetType();
-	}
-
-	public override string ValidTargetTypesOfAccumulation
-	{
-		get
+		public override TypeNode Type
 		{
-			return TypeNode.AccumulationTargetTypesAsString;
+			get
+			{
+				ArrayTypeNode arrayType = TargetTypeExact;
+				return BasicTypeNode.GetArrayAccumulationResultType(arrayType.valueType);
+			}
+		}
+
+		public override bool IsValidTargetTypeOfAccumulation(TypeNode type)
+		{
+			return type.IsAccumulationTargetType();
+		}
+
+		public override string ValidTargetTypesOfAccumulation
+		{
+			get
+			{
+				return TypeNode.AccumulationTargetTypesAsString;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new ArrayMinExpr(targetExpr.CheckIR(typeof(Expression)));
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new ArrayMinExpr(targetExpr.CheckIR(typeof(Expression)));
-	}
-}
 
 }

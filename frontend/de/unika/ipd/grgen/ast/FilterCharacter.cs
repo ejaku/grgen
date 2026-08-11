@@ -11,18 +11,18 @@
 
 namespace de.unika.ipd.grgen.ast
 {
-using ActionDeclNode = de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
+	using ActionDeclNode = de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
 
-/// <summary>
-/// AST interface representing filters
-/// </summary>
-public interface FilterCharacter
-{
-	// returns the name of the filter (plain name without entity in case of an auto-generated filter)
-	string FilterName {get;}
+	/// <summary>
+	/// AST interface representing filters
+	/// </summary>
+	public interface FilterCharacter
+	{
+		// returns the name of the filter (plain name without entity in case of an auto-generated filter)
+		string FilterName {get;}
 
-	// returns the action the filter applies to
-	ActionDeclNode Action {get;}
-}
+		// returns the action the filter applies to
+		ActionDeclNode Action {get;}
+	}
 
 }

@@ -12,102 +12,102 @@
 namespace de.unika.ipd.grgen.ir.executable
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using NestingStatement = de.unika.ipd.grgen.ir.NestingStatement;
-using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-
-/// <summary>
-/// A procedure (has return types and parameters,
-/// is a top-level object that contains nested statements, and may be contained in a package).
-/// </summary>
-public class Procedure : ProcedureBase, ContainedInPackage, NestingStatement
-{
-	private string packageContainedIn;
+	using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using NestingStatement = de.unika.ipd.grgen.ir.NestingStatement;
+	using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
 	/// <summary>
-	/// A list of the parameters </summary>
-	private List<Entity> @params = new List<Entity>();
-
-	/// <summary>
-	/// A list of the parameter types, computed from the parameters </summary>
-	private List<Type> parameterTypes = null;
-
-	/// <summary>
-	/// The computation statements </summary>
-	private List<EvalStatement> procedureStatements = new List<EvalStatement>();
-
-	public Procedure(string name, Ident ident)
-		: base(name, ident)
+	/// A procedure (has return types and parameters,
+	/// is a top-level object that contains nested statements, and may be contained in a package).
+	/// </summary>
+	public class Procedure : ProcedureBase, ContainedInPackage, NestingStatement
 	{
-	}
+		private string packageContainedIn;
 
-	public virtual string PackageContainedIn
-	{
-		get
+		/// <summary>
+		/// A list of the parameters </summary>
+		private List<Entity> @params = new List<Entity>();
+
+		/// <summary>
+		/// A list of the parameter types, computed from the parameters </summary>
+		private List<Type> parameterTypes = null;
+
+		/// <summary>
+		/// The computation statements </summary>
+		private List<EvalStatement> procedureStatements = new List<EvalStatement>();
+
+		public Procedure(string name, Ident ident)
+			: base(name, ident)
 		{
-			return packageContainedIn;
 		}
-		set
+
+		public virtual string PackageContainedIn
 		{
-			this.packageContainedIn = value;
-		}
-	}
-
-
-	/// <summary>
-	/// Add a parameter to the procedure. </summary>
-	public virtual void AddParameter(Entity entity)
-	{
-		@params.Add(entity);
-	}
-
-	/// <summary>
-	/// Get all parameters of this procedure. </summary>
-	public virtual IList<Entity> Parameters
-	{
-		get
-		{
-			return @params.AsReadOnly();
-		}
-	}
-
-	/// <summary>
-	/// Add a computation statement to the procedure. </summary>
-	public virtual void AddStatement(EvalStatement eval)
-	{
-		procedureStatements.Add(eval);
-	}
-
-	/// <summary>
-	/// Get all computation statements of this procedure. </summary>
-	public virtual ICollection<EvalStatement> Statements
-	{
-		get
-		{
-			return procedureStatements.AsReadOnly();
-		}
-	}
-
-	/// <summary>
-	/// Get all parameter types of this procedure. </summary>
-	public override IList<Type> ParameterTypes
-	{
-		get
-		{
-			if(parameterTypes == null)
+			get
 			{
-				parameterTypes = new List<Type>();
-				foreach(Entity entity in Parameters)
-					parameterTypes.Add(entity.Type);
+				return packageContainedIn;
 			}
-			return parameterTypes.AsReadOnly();
+			set
+			{
+				this.packageContainedIn = value;
+			}
+		}
+
+
+		/// <summary>
+		/// Add a parameter to the procedure. </summary>
+		public virtual void AddParameter(Entity entity)
+		{
+			@params.Add(entity);
+		}
+
+		/// <summary>
+		/// Get all parameters of this procedure. </summary>
+		public virtual IList<Entity> Parameters
+		{
+			get
+			{
+				return @params.AsReadOnly();
+			}
+		}
+
+		/// <summary>
+		/// Add a computation statement to the procedure. </summary>
+		public virtual void AddStatement(EvalStatement eval)
+		{
+			procedureStatements.Add(eval);
+		}
+
+		/// <summary>
+		/// Get all computation statements of this procedure. </summary>
+		public virtual ICollection<EvalStatement> Statements
+		{
+			get
+			{
+				return procedureStatements.AsReadOnly();
+			}
+		}
+
+		/// <summary>
+		/// Get all parameter types of this procedure. </summary>
+		public override IList<Type> ParameterTypes
+		{
+			get
+			{
+				if(parameterTypes == null)
+				{
+					parameterTypes = new List<Type>();
+					foreach(Entity entity in Parameters)
+						parameterTypes.Add(entity.Type);
+				}
+				return parameterTypes.AsReadOnly();
+			}
 		}
 	}
-}
 
 }

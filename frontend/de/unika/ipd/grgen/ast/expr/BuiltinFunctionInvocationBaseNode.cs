@@ -11,22 +11,22 @@
 
 namespace de.unika.ipd.grgen.ast.expr
 {
-using FunctionOrBuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.invocation.FunctionOrBuiltinFunctionInvocationBaseNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using FunctionOrBuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.invocation.FunctionOrBuiltinFunctionInvocationBaseNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-/// <summary>
-/// base class for builtin function calls </summary>
-public abstract class BuiltinFunctionInvocationBaseNode : FunctionOrBuiltinFunctionInvocationBaseNode
-{
-	static BuiltinFunctionInvocationBaseNode()
+	/// <summary>
+	/// base class for builtin function calls </summary>
+	public abstract class BuiltinFunctionInvocationBaseNode : FunctionOrBuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(BuiltinFunctionInvocationBaseNode), "builtin function invocation base");
-	}
+		static BuiltinFunctionInvocationBaseNode()
+		{
+			SetClassName(typeof(BuiltinFunctionInvocationBaseNode), "builtin function invocation base");
+		}
 
-	public BuiltinFunctionInvocationBaseNode(Coords coords)
-		: base(coords)
-	{
+		public BuiltinFunctionInvocationBaseNode(Coords coords)
+			: base(coords)
+		{
+		}
 	}
-}
 
 }

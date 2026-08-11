@@ -11,14 +11,14 @@
 
 namespace de.unika.ipd.grgen.ir.executable
 {
-using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+	using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
 
-/// <summary>
-/// A match class filter (base type for auto-generated match class filters and match class filter functions).
-/// </summary>
-public interface MatchClassFilter
-{
-	DefinedMatchType MatchClass {get;}
-}
+	/// <summary>
+	/// A match class filter (base type for auto-generated match class filters and match class filter functions).
+	/// </summary>
+	public interface MatchClassFilter
+	{
+		DefinedMatchType MatchClass {get;}
+	}
 
 }

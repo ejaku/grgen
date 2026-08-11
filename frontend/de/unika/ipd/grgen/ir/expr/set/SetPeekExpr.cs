@@ -11,33 +11,33 @@
 
 namespace de.unika.ipd.grgen.ir.expr.set
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
 
-public class SetPeekExpr : SetFunctionMethodInvocationBaseExpr
-{
-	private Expression numberExpr;
-
-	public SetPeekExpr(Expression targetExpr, Expression numberExpr)
-		: base("set peek expr", ((SetType)(targetExpr.Type)).valueType, targetExpr)
+	public class SetPeekExpr : SetFunctionMethodInvocationBaseExpr
 	{
-		this.numberExpr = numberExpr;
-	}
+		private Expression numberExpr;
 
-	public virtual Expression NumberExpr
-	{
-		get
+		public SetPeekExpr(Expression targetExpr, Expression numberExpr)
+			: base("set peek expr", ((SetType)(targetExpr.Type)).valueType, targetExpr)
 		{
-			return numberExpr;
+			this.numberExpr = numberExpr;
+		}
+
+		public virtual Expression NumberExpr
+		{
+			get
+			{
+				return numberExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+			numberExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-		numberExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

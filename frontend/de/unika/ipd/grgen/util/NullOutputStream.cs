@@ -14,21 +14,21 @@
 namespace de.unika.ipd.grgen.util
 {
 
-using System;
-using System.IO;
+	using System;
+	using System.IO;
 
-public class NullOutputStream : Stream
-{
-	public static readonly Stream STREAM = new NullOutputStream();
-
-	public override void Write(int p1)
+	public class NullOutputStream : Stream
 	{
-		Console.WriteLine("write to null stream");
-	}
+		public static readonly Stream STREAM = new NullOutputStream();
 
-	private NullOutputStream()
-	{
+		public override void Write(int p1)
+		{
+			Console.WriteLine("write to null stream");
+		}
+
+		private NullOutputStream()
+		{
+		}
 	}
-}
 
 }

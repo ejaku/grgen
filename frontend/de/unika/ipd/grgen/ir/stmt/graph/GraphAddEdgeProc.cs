@@ -7,76 +7,76 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using System.Diagnostics;
+	using System.Diagnostics;
 
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class GraphAddEdgeProc : BuiltinProcedureInvocationBase
-{
-	private readonly Expression sourceNode;
-	private readonly Expression targetNode;
-	private readonly Expression edgeType;
-
-	private readonly Type returnType;
-
-	public GraphAddEdgeProc(Expression edgeType,
-			Expression sourceNode,
-			Expression targetNode,
-			Type returnType)
-		: base("graph add edge procedure")
+	public class GraphAddEdgeProc : BuiltinProcedureInvocationBase
 	{
-		this.edgeType = edgeType;
-		this.sourceNode = sourceNode;
-		this.targetNode = targetNode;
-		this.returnType = returnType;
-	}
+		private readonly Expression sourceNode;
+		private readonly Expression targetNode;
+		private readonly Expression edgeType;
 
-	public virtual Expression EdgeTypeExpr
-	{
-		get
+		private readonly Type returnType;
+
+		public GraphAddEdgeProc(Expression edgeType,
+				Expression sourceNode,
+				Expression targetNode,
+				Type returnType)
+			: base("graph add edge procedure")
 		{
-			return edgeType;
+			this.edgeType = edgeType;
+			this.sourceNode = sourceNode;
+			this.targetNode = targetNode;
+			this.returnType = returnType;
+		}
+
+		public virtual Expression EdgeTypeExpr
+		{
+			get
+			{
+				return edgeType;
+			}
+		}
+
+		public virtual Expression SourceNodeExpr
+		{
+			get
+			{
+				return sourceNode;
+			}
+		}
+
+		public virtual Expression TargetNodeExpr
+		{
+			get
+			{
+				return targetNode;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			edgeType.CollectNeededEntities(needs);
+			sourceNode.CollectNeededEntities(needs);
+			targetNode.CollectNeededEntities(needs);
+		}
+
+		public override int ReturnArity()
+		{
+			return 1;
+		}
+
+		public override Type GetReturnType(int index)
+		{
+			Debug.Assert((index == 0));
+			return returnType;
 		}
 	}
-
-	public virtual Expression SourceNodeExpr
-	{
-		get
-		{
-			return sourceNode;
-		}
-	}
-
-	public virtual Expression TargetNodeExpr
-	{
-		get
-		{
-			return targetNode;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		edgeType.CollectNeededEntities(needs);
-		sourceNode.CollectNeededEntities(needs);
-		targetNode.CollectNeededEntities(needs);
-	}
-
-	public override int ReturnArity()
-	{
-		return 1;
-	}
-
-	public override Type GetReturnType(int index)
-	{
-		Debug.Assert((index == 0));
-		return returnType;
-	}
-}
 
 }

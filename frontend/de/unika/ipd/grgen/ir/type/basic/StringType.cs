@@ -11,34 +11,34 @@
 
 namespace de.unika.ipd.grgen.ir.type.basic
 {
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using de.unika.ipd.grgen.ir;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using de.unika.ipd.grgen.ir;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A string type.
-/// </summary>
-public class StringType : PrimitiveType
-{
-	/// <param name="ident"> The name of the string type. </param>
-	public StringType(Ident ident)
-		: base("string type", ident)
+	/// <summary>
+	/// A string type.
+	/// </summary>
+	public class StringType : PrimitiveType
 	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_STRING;
-	}
-
-	public static Type Type
-	{
-		get
+		/// <param name="ident"> The name of the string type. </param>
+		public StringType(Ident ident)
+			: base("string type", ident)
 		{
-			return BasicTypeNode.stringType.CheckIR(typeof(Type));
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_STRING;
+		}
+
+		public static Type Type
+		{
+			get
+			{
+				return BasicTypeNode.stringType.CheckIR(typeof(Type));
+			}
 		}
 	}
-}
 
 }

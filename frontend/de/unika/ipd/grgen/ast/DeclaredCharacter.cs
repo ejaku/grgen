@@ -11,18 +11,18 @@
 
 namespace de.unika.ipd.grgen.ast
 {
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
 
-/// <summary>
-/// Something that has been declared.
-/// </summary>
-public interface DeclaredCharacter
-{
 	/// <summary>
-	/// Get the declaration of this declaration character.
-	/// @return
+	/// Something that has been declared.
 	/// </summary>
-	DeclNode Decl {get;}
-}
+	public interface DeclaredCharacter
+	{
+		/// <summary>
+		/// Get the declaration of this declaration character.
+		/// @return
+		/// </summary>
+		DeclNode Decl {get;}
+	}
 
 }

@@ -7,21 +7,21 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using GraphType = de.unika.ipd.grgen.ir.type.basic.GraphType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using GraphType = de.unika.ipd.grgen.ir.type.basic.GraphType;
 
-public class ThisExpr : Expression
-{
-	public ThisExpr()
-		: base("this", GraphType.Type)
+	public class ThisExpr : Expression
 	{
-	}
+		public ThisExpr()
+			: base("this", GraphType.Type)
+		{
+		}
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+		}
 	}
-}
 
 }

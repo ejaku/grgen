@@ -11,61 +11,61 @@
 
 namespace de.unika.ipd.grgen.util
 {
-using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
-using Reporter = de.unika.ipd.grgen.util.report.Reporter;
-
-/// <summary>
-/// Base class for all grgen facilities.
-/// This class defines basic facilities and behaviour for all grgen classes.
-/// </summary>
-public class Base : Id
-{
-	/// <summary>
-	/// static id counter </summary>
-	private static long currId = 1;
+	using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
+	using Reporter = de.unika.ipd.grgen.util.report.Reporter;
 
 	/// <summary>
-	/// The id of this object </summary>
-	private string id;
-
-	/// <summary>
-	/// constants for debug reporting </summary>
-	public const int NOTE = 4;
-
-	/// <summary>
-	/// The debug reporter for debugging </summary>
-	public static Reporter debug;
-
-	/// <summary>
-	/// The error reporter for error reporting </summary>
-	public static ErrorReporter error;
-
-	/// <summary>
-	/// Set the reporting facilities of the base class </summary>
-	/// <param name="debug"> The debug reporter </param>
-	/// <param name="error"> The error reporter </param>
-	public static void SetReporters(Reporter debug, ErrorReporter error)
-	{
-		Base.debug = debug;
-		Base.error = error;
-	}
-
-	/// <summary>
-	/// Get a new ID for this object.
+	/// Base class for all grgen facilities.
+	/// This class defines basic facilities and behaviour for all grgen classes.
 	/// </summary>
-	public Base()
+	public class Base : Id
 	{
-		id = "" + currId++;
-	}
+		/// <summary>
+		/// static id counter </summary>
+		private static long currId = 1;
 
-	/// <seealso cref="de.unika.ipd.grgen.util.ID.getId()"/>
-	public virtual string Id
-	{
-		get
+		/// <summary>
+		/// The id of this object </summary>
+		private string id;
+
+		/// <summary>
+		/// constants for debug reporting </summary>
+		public const int NOTE = 4;
+
+		/// <summary>
+		/// The debug reporter for debugging </summary>
+		public static Reporter debug;
+
+		/// <summary>
+		/// The error reporter for error reporting </summary>
+		public static ErrorReporter error;
+
+		/// <summary>
+		/// Set the reporting facilities of the base class </summary>
+		/// <param name="debug"> The debug reporter </param>
+		/// <param name="error"> The error reporter </param>
+		public static void SetReporters(Reporter debug, ErrorReporter error)
 		{
-			return id;
+			Base.debug = debug;
+			Base.error = error;
+		}
+
+		/// <summary>
+		/// Get a new ID for this object.
+		/// </summary>
+		public Base()
+		{
+			id = "" + currId++;
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.ID.getId()"/>
+		public virtual string Id
+		{
+			get
+			{
+				return id;
+			}
 		}
 	}
-}
 
 }

@@ -11,36 +11,36 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/// <summary>
-/// Represents a lock statement in the IR.
-/// </summary>
-public class LockStatement : BlockNestingStatement
-{
-	private Expression lockObjectExpr;
-
-	public LockStatement(Expression lockObjectExpr)
-		: base("lock statement")
+	/// <summary>
+	/// Represents a lock statement in the IR.
+	/// </summary>
+	public class LockStatement : BlockNestingStatement
 	{
-		this.lockObjectExpr = lockObjectExpr;
-	}
+		private Expression lockObjectExpr;
 
-	public virtual Expression LockObjectExpr
-	{
-		get
+		public LockStatement(Expression lockObjectExpr)
+			: base("lock statement")
 		{
-			return lockObjectExpr;
+			this.lockObjectExpr = lockObjectExpr;
+		}
+
+		public virtual Expression LockObjectExpr
+		{
+			get
+			{
+				return lockObjectExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			lockObjectExpr.CollectNeededEntities(needs);
+			foreach(EvalStatement lockedStatement in statements)
+				lockedStatement.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		lockObjectExpr.CollectNeededEntities(needs);
-		foreach(EvalStatement lockedStatement in statements)
-			lockedStatement.CollectNeededEntities(needs);
-	}
-}
 
 }

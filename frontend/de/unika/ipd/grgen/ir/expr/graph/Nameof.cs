@@ -7,38 +7,38 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class Nameof : Expression
-{
-	/// <summary>
-	/// The entity whose name we want to know. </summary>
-	private readonly Expression namedEntity;
-
-	public Nameof(Expression entity, Type type)
-		: base("nameof", type)
+	public class Nameof : Expression
 	{
-		this.namedEntity = entity;
-	}
+		/// <summary>
+		/// The entity whose name we want to know. </summary>
+		private readonly Expression namedEntity;
 
-	public virtual Expression NamedEntity
-	{
-		get
+		public Nameof(Expression entity, Type type)
+			: base("nameof", type)
 		{
-			return namedEntity;
+			this.namedEntity = entity;
+		}
+
+		public virtual Expression NamedEntity
+		{
+			get
+			{
+				return namedEntity;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+
+			if(namedEntity != null)
+				namedEntity.CollectNeededEntities(needs);
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-
-		if(namedEntity != null)
-			namedEntity.CollectNeededEntities(needs);
-	}
-}
 
 }

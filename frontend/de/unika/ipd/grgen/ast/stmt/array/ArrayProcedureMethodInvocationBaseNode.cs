@@ -11,36 +11,36 @@
 
 namespace de.unika.ipd.grgen.ast.stmt.array
 {
-using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
-using ContainerProcedureMethodInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
-using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+	using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+	using ContainerProcedureMethodInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
+	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ArrayProcedureMethodInvocationBaseNode : ContainerProcedureMethodInvocationBaseNode
-{
-	static ArrayProcedureMethodInvocationBaseNode()
+	public abstract class ArrayProcedureMethodInvocationBaseNode : ContainerProcedureMethodInvocationBaseNode
 	{
-		SetClassName(typeof(ArrayProcedureMethodInvocationBaseNode), "array procedure method invocation base");
-	}
-
-	protected internal ArrayProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
-		: base(coords, target)
-	{
-	}
-
-	protected internal ArrayProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
-		: base(coords, targetVar)
-	{
-	}
-
-	protected internal virtual ArrayTypeNode TargetTypeExact
-	{
-		get
+		static ArrayProcedureMethodInvocationBaseNode()
 		{
-			return (ArrayTypeNode)TargetType;
+			SetClassName(typeof(ArrayProcedureMethodInvocationBaseNode), "array procedure method invocation base");
+		}
+
+		protected internal ArrayProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
+			: base(coords, target)
+		{
+		}
+
+		protected internal ArrayProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
+			: base(coords, targetVar)
+		{
+		}
+
+		protected internal virtual ArrayTypeNode TargetTypeExact
+		{
+			get
+			{
+				return (ArrayTypeNode)TargetType;
+			}
 		}
 	}
-}
 
 }

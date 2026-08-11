@@ -11,33 +11,33 @@
 
 namespace de.unika.ipd.grgen.ir.expr.@string
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
 
-public class StringToLower : BuiltinFunctionInvocationExpr
-{
-	private Expression stringExpr;
-
-	public StringToLower(Expression stringExpr)
-		: base("string toLower", StringType.Type)
+	public class StringToLower : BuiltinFunctionInvocationExpr
 	{
-		this.stringExpr = stringExpr;
-	}
+		private Expression stringExpr;
 
-	public virtual Expression StringExpr
-	{
-		get
+		public StringToLower(Expression stringExpr)
+			: base("string toLower", StringType.Type)
 		{
-			return stringExpr;
+			this.stringExpr = stringExpr;
+		}
+
+		public virtual Expression StringExpr
+		{
+			get
+			{
+				return stringExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			stringExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		stringExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

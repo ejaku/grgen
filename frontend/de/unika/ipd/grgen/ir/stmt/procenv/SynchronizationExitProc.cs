@@ -11,32 +11,32 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class SynchronizationExitProc : BuiltinProcedureInvocationBase
-{
-	private Expression criticalSectionObjectExpr;
-
-	public SynchronizationExitProc(Expression criticalSectionObjectExpr)
-		: base("synchronization exit procedure")
+	public class SynchronizationExitProc : BuiltinProcedureInvocationBase
 	{
-		this.criticalSectionObjectExpr = criticalSectionObjectExpr;
-	}
+		private Expression criticalSectionObjectExpr;
 
-	public virtual Expression CriticalSectionObject
-	{
-		get
+		public SynchronizationExitProc(Expression criticalSectionObjectExpr)
+			: base("synchronization exit procedure")
 		{
-			return criticalSectionObjectExpr;
+			this.criticalSectionObjectExpr = criticalSectionObjectExpr;
+		}
+
+		public virtual Expression CriticalSectionObject
+		{
+			get
+			{
+				return criticalSectionObjectExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			criticalSectionObjectExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		criticalSectionObjectExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -10,66 +10,66 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ast
 {
-using Symbol = de.unika.ipd.grgen.parser.Symbol;
-
-/// <summary>
-/// AST node that represents an Identifier that may be defined in two different symbol tables.
-/// </summary>
-public class AmbiguousIdentNode : IdentNode
-{
-	static AmbiguousIdentNode()
-	{
-		SetClassName(typeof(AmbiguousIdentNode), "ambig identifier");
-	}
+	using Symbol = de.unika.ipd.grgen.parser.Symbol;
 
 	/// <summary>
-	/// Occurrence of the identifier. </summary>
-	protected internal Symbol.Occurrence otherOcc;
-
-	/// <summary>
-	/// Make a new identifier node at a symbol's occurrence. </summary>
-	/// <param name="occ"> The occurrence of the symbol. </param>
-	public AmbiguousIdentNode(Symbol.Occurrence occ, Symbol.Occurrence otherOcc)
-		: base(occ)
+	/// AST node that represents an Identifier that may be defined in two different symbol tables.
+	/// </summary>
+	public class AmbiguousIdentNode : IdentNode
 	{
-		this.otherOcc = otherOcc;
-	}
-
-	/// <summary>
-	/// Get the symbol definition of this identifier </summary>
-	/// <seealso cref="Symbol.Definition"/>
-	/// <returns> The symbol definition. </returns>
-	public override Symbol.Definition SymDef
-	{
-		get
+		static AmbiguousIdentNode()
 		{
-			if(occ.Definition == null)
+			SetClassName(typeof(AmbiguousIdentNode), "ambig identifier");
+		}
+
+		/// <summary>
+		/// Occurrence of the identifier. </summary>
+		protected internal Symbol.Occurrence otherOcc;
+
+		/// <summary>
+		/// Make a new identifier node at a symbol's occurrence. </summary>
+		/// <param name="occ"> The occurrence of the symbol. </param>
+		public AmbiguousIdentNode(Symbol.Occurrence occ, Symbol.Occurrence otherOcc)
+			: base(occ)
+		{
+			this.otherOcc = otherOcc;
+		}
+
+		/// <summary>
+		/// Get the symbol definition of this identifier </summary>
+		/// <seealso cref="Symbol.Definition"/>
+		/// <returns> The symbol definition. </returns>
+		public override Symbol.Definition SymDef
+		{
+			get
 			{
-				// I don't now why this is needed, it feels like a hack, but it works
-				Symbol.Definition def = occ.Scope.GetCurrDef(Symbol);
-				if(def.IsValid())
-					SymDef = def;
-				else
+				if(occ.Definition == null)
 				{
-					def = otherOcc.Scope.GetCurrDef(OtherSymbol);
+					// I don't now why this is needed, it feels like a hack, but it works
+					Symbol.Definition def = occ.Scope.GetCurrDef(Symbol);
 					if(def.IsValid())
 						SymDef = def;
+					else
+					{
+						def = otherOcc.Scope.GetCurrDef(OtherSymbol);
+						if(def.IsValid())
+							SymDef = def;
+					}
 				}
+				return occ.Definition;
 			}
-			return occ.Definition;
 		}
-	}
 
-	/// <summary>
-	/// Get the symbol of the identifier. </summary>
-	/// <returns> The symbol. </returns>
-	public virtual Symbol OtherSymbol
-	{
-		get
+		/// <summary>
+		/// Get the symbol of the identifier. </summary>
+		/// <returns> The symbol. </returns>
+		public virtual Symbol OtherSymbol
 		{
-			return otherOcc.Symbol;
+			get
+			{
+				return otherOcc.Symbol;
+			}
 		}
 	}
-}
 
 }

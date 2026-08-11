@@ -7,40 +7,40 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-using Direction = de.unika.ipd.grgen.util.Direction;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Direction = de.unika.ipd.grgen.util.Direction;
 
-public class IsAdjacentNodeExpr : NeighborhoodQueryExpr
-{
-	private readonly Expression endNodeExpr;
-
-	public IsAdjacentNodeExpr(Expression startNodeExpression, Expression endNodeExpression,
-			Expression incidentEdgeTypeExpr, Direction direction,
-			Expression adjacentNodeTypeExpr, Type type)
-		: base("is adjacent node expression", type, startNodeExpression, incidentEdgeTypeExpr, direction, adjacentNodeTypeExpr)
+	public class IsAdjacentNodeExpr : NeighborhoodQueryExpr
 	{
-		this.endNodeExpr = endNodeExpression;
-	}
+		private readonly Expression endNodeExpr;
 
-	public virtual Expression EndNodeExpr
-	{
-		get
+		public IsAdjacentNodeExpr(Expression startNodeExpression, Expression endNodeExpression,
+				Expression incidentEdgeTypeExpr, Direction direction,
+				Expression adjacentNodeTypeExpr, Type type)
+			: base("is adjacent node expression", type, startNodeExpression, incidentEdgeTypeExpr, direction, adjacentNodeTypeExpr)
 		{
-			return endNodeExpr;
+			this.endNodeExpr = endNodeExpression;
+		}
+
+		public virtual Expression EndNodeExpr
+		{
+			get
+			{
+				return endNodeExpr;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			startNodeExpr.CollectNeededEntities(needs);
+			endNodeExpr.CollectNeededEntities(needs);
+			incidentEdgeTypeExpr.CollectNeededEntities(needs);
+			adjacentNodeTypeExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		startNodeExpr.CollectNeededEntities(needs);
-		endNodeExpr.CollectNeededEntities(needs);
-		incidentEdgeTypeExpr.CollectNeededEntities(needs);
-		adjacentNodeTypeExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -11,65 +11,65 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using de.unika.ipd.grgen.ir;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using de.unika.ipd.grgen.ir;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-/// <summary>
-/// Represents an accumulation yielding of a container variable in the IR.
-/// </summary>
-public class ContainerAccumulationYield : BlockNestingStatement
-{
-	private Variable iterationVar;
-	private Variable indexVar;
-	private Variable containerVar;
-
-	public ContainerAccumulationYield(Variable iterationVar, Variable indexVar,
-			Variable containerVar)
-		: base("container accumulation yield")
+	/// <summary>
+	/// Represents an accumulation yielding of a container variable in the IR.
+	/// </summary>
+	public class ContainerAccumulationYield : BlockNestingStatement
 	{
-		this.iterationVar = iterationVar;
-		this.indexVar = indexVar;
-		this.containerVar = containerVar;
-	}
+		private Variable iterationVar;
+		private Variable indexVar;
+		private Variable containerVar;
 
-	public virtual Variable IterationVar
-	{
-		get
+		public ContainerAccumulationYield(Variable iterationVar, Variable indexVar,
+				Variable containerVar)
+			: base("container accumulation yield")
 		{
-			return iterationVar;
+			this.iterationVar = iterationVar;
+			this.indexVar = indexVar;
+			this.containerVar = containerVar;
 		}
-	}
 
-	public virtual Variable IndexVar
-	{
-		get
+		public virtual Variable IterationVar
 		{
-			return indexVar;
+			get
+			{
+				return iterationVar;
+			}
 		}
-	}
 
-	public virtual Variable Container
-	{
-		get
+		public virtual Variable IndexVar
 		{
-			return containerVar;
+			get
+			{
+				return indexVar;
+			}
 		}
-	}
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(!IsGlobalVariable(containerVar))
-			needs.Add(containerVar);
-		foreach(EvalStatement accumulationStatement in statements)
-			accumulationStatement.CollectNeededEntities(needs);
-		if(needs.variables != null)
-			needs.variables.Remove(iterationVar);
-		if(indexVar != null)
+		public virtual Variable Container
 		{
+			get
+			{
+				return containerVar;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(!IsGlobalVariable(containerVar))
+				needs.Add(containerVar);
+			foreach(EvalStatement accumulationStatement in statements)
+				accumulationStatement.CollectNeededEntities(needs);
 			if(needs.variables != null)
-				needs.variables.Remove(indexVar);
+				needs.variables.Remove(iterationVar);
+			if(indexVar != null)
+			{
+				if(needs.variables != null)
+					needs.variables.Remove(indexVar);
+			}
 		}
 	}
-}
 
 }

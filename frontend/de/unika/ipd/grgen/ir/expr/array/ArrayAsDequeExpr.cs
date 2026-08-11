@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class ArrayAsDequeExpr : ArrayFunctionMethodInvocationBaseExpr
-{
-	public ArrayAsDequeExpr(Expression targetExpr, Type targetType)
-		: base("array as deque expression", targetType, targetExpr)
+	public class ArrayAsDequeExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
+		public ArrayAsDequeExpr(Expression targetExpr, Type targetType)
+			: base("array as deque expression", targetType, targetExpr)
+		{
+		}
 	}
-}
 
 }

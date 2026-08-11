@@ -11,40 +11,40 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.invocation
 {
-using ExternalProcedure = de.unika.ipd.grgen.ir.executable.ExternalProcedure;
-using ProcedureBase = de.unika.ipd.grgen.ir.executable.ProcedureBase;
+	using ExternalProcedure = de.unika.ipd.grgen.ir.executable.ExternalProcedure;
+	using ProcedureBase = de.unika.ipd.grgen.ir.executable.ProcedureBase;
 
-/// <summary>
-/// An external procedure invocation.
-/// </summary>
-public class ExternalProcedureInvocation : ProcedureInvocationBase
-{
 	/// <summary>
-	/// The procedure of the procedure invocation expression. </summary>
-	protected internal ExternalProcedure externalProcedure;
-
-	public ExternalProcedureInvocation(ExternalProcedure externalProcedure)
-		: base("external procedure invocation")
+	/// An external procedure invocation.
+	/// </summary>
+	public class ExternalProcedureInvocation : ProcedureInvocationBase
 	{
+		/// <summary>
+		/// The procedure of the procedure invocation expression. </summary>
+		protected internal ExternalProcedure externalProcedure;
 
-		this.externalProcedure = externalProcedure;
-	}
-
-	public override ProcedureBase ProcedureBase
-	{
-		get
+		public ExternalProcedureInvocation(ExternalProcedure externalProcedure)
+			: base("external procedure invocation")
 		{
-			return externalProcedure;
+
+			this.externalProcedure = externalProcedure;
+		}
+
+		public override ProcedureBase ProcedureBase
+		{
+			get
+			{
+				return externalProcedure;
+			}
+		}
+
+		public virtual ExternalProcedure ExternalProc
+		{
+			get
+			{
+				return externalProcedure;
+			}
 		}
 	}
-
-	public virtual ExternalProcedure ExternalProc
-	{
-		get
-		{
-			return externalProcedure;
-		}
-	}
-}
 
 }

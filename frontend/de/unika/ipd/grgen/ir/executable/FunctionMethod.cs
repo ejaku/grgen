@@ -11,35 +11,35 @@
 
 namespace de.unika.ipd.grgen.ir.executable
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A function method.
-/// </summary>
-public class FunctionMethod : Function
-{
 	/// <summary>
-	/// The owner of the function method. </summary>
-	protected internal Type owner = null;
-
-	public FunctionMethod(string name, Ident ident, Type retType)
-		: base(name, ident, retType)
+	/// A function method.
+	/// </summary>
+	public class FunctionMethod : Function
 	{
-	}
+		/// <summary>
+		/// The owner of the function method. </summary>
+		protected internal Type owner = null;
 
-	public virtual Type Owner
-	{
-		get
+		public FunctionMethod(string name, Ident ident, Type retType)
+			: base(name, ident, retType)
 		{
-			return owner;
 		}
-		set
-		{
-			owner = value;
-		}
-	}
 
-}
+		public virtual Type Owner
+		{
+			get
+			{
+				return owner;
+			}
+			set
+			{
+				owner = value;
+			}
+		}
+
+	}
 
 }

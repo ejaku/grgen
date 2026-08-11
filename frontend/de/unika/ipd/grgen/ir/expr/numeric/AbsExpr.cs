@@ -7,32 +7,32 @@
 
 namespace de.unika.ipd.grgen.ir.expr.numeric
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 
-public class AbsExpr : BuiltinFunctionInvocationExpr
-{
-	private Expression expr;
-
-	public AbsExpr(Expression expr)
-		: base("abs expr", expr.Type)
+	public class AbsExpr : BuiltinFunctionInvocationExpr
 	{
-		this.expr = expr;
-	}
+		private Expression expr;
 
-	public virtual Expression Expr
-	{
-		get
+		public AbsExpr(Expression expr)
+			: base("abs expr", expr.Type)
 		{
-			return expr;
+			this.expr = expr;
+		}
+
+		public virtual Expression Expr
+		{
+			get
+			{
+				return expr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			expr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		expr.CollectNeededEntities(needs);
-	}
-}
 
 }

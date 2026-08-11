@@ -12,84 +12,84 @@
 namespace de.unika.ipd.grgen.ir.expr.map
 {
 
-using System.Collections.Generic;
-using System.Diagnostics;
+	using System.Collections.Generic;
+	using System.Diagnostics;
 
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ExpressionPair = de.unika.ipd.grgen.ir.expr.ExpressionPair;
-using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ExpressionPair = de.unika.ipd.grgen.ir.expr.ExpressionPair;
+	using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
 
-public class MapInit : Expression
-{
-	private ICollection<ExpressionPair> mapItems;
-	private Entity member;
-	private MapType mapType;
-	private bool isConst;
-
-	public MapInit(ICollection<ExpressionPair> mapItems, Entity member, MapType mapType, bool isConst)
-		: base("map init", member != null ? member.Type : mapType)
+	public class MapInit : Expression
 	{
-		this.mapItems = mapItems;
-		this.member = member;
-		this.mapType = mapType;
-		this.isConst = isConst;
-	}
+		private ICollection<ExpressionPair> mapItems;
+		private Entity member;
+		private MapType mapType;
+		private bool isConst;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.Add(this);
-		foreach(ExpressionPair mapItem in mapItems)
-			mapItem.CollectNeededEntities(needs);
-	}
-
-	public virtual ICollection<ExpressionPair> MapItems
-	{
-		get
+		public MapInit(ICollection<ExpressionPair> mapItems, Entity member, MapType mapType, bool isConst)
+			: base("map init", member != null ? member.Type : mapType)
 		{
-			return mapItems;
+			this.mapItems = mapItems;
+			this.member = member;
+			this.mapType = mapType;
+			this.isConst = isConst;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.Add(this);
+			foreach(ExpressionPair mapItem in mapItems)
+				mapItem.CollectNeededEntities(needs);
+		}
+
+		public virtual ICollection<ExpressionPair> MapItems
+		{
+			get
+			{
+				return mapItems;
+			}
+		}
+
+		public virtual Entity Member
+		{
+			set
+			{
+				Debug.Assert((member == null && value != null));
+				member = value;
+			}
+			get
+			{
+				return member;
+			}
+		}
+
+
+		public virtual MapType MapType
+		{
+			get
+			{
+				return mapType;
+			}
+		}
+
+		public virtual void ForceNotConstant()
+		{
+			isConst = false;
+		}
+
+		public virtual bool IsConstant()
+		{
+			return isConst;
+		}
+
+		public virtual string AnonymousMapName
+		{
+			get
+			{
+				return "anonymous_map_" + Id;
+			}
 		}
 	}
-
-	public virtual Entity Member
-	{
-		set
-		{
-			Debug.Assert((member == null && value != null));
-			member = value;
-		}
-		get
-		{
-			return member;
-		}
-	}
-
-
-	public virtual MapType MapType
-	{
-		get
-		{
-			return mapType;
-		}
-	}
-
-	public virtual void ForceNotConstant()
-	{
-		isConst = false;
-	}
-
-	public virtual bool IsConstant()
-	{
-		return isConst;
-	}
-
-	public virtual string AnonymousMapName
-	{
-		get
-		{
-			return "anonymous_map_" + Id;
-		}
-	}
-}
 
 }

@@ -12,74 +12,74 @@
 namespace de.unika.ipd.grgen.ir.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-
-/// <summary>
-/// Represents a compound assignment var changed statement in the IR.
-/// </summary>
-public class CompoundAssignmentVarChanged : CompoundAssignmentVar
-{
-	/// <summary>
-	/// The change assignment. </summary>
-	private Qualification changedTarget;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
 	/// <summary>
-	/// The operation of the change assignment </summary>
-	private CompoundAssignmentType changedOperation;
-
-	public CompoundAssignmentVarChanged(Variable target,
-			CompoundAssignmentType compoundAssignmentType, Expression expr,
-			CompoundAssignmentType changedAssignmentType, Qualification changedTarget)
-		: base(target, compoundAssignmentType, expr)
+	/// Represents a compound assignment var changed statement in the IR.
+	/// </summary>
+	public class CompoundAssignmentVarChanged : CompoundAssignmentVar
 	{
-		this.changedOperation = changedAssignmentType;
-		this.changedTarget = changedTarget;
-	}
+		/// <summary>
+		/// The change assignment. </summary>
+		private Qualification changedTarget;
 
-	public virtual Qualification ChangedTarget
-	{
-		get
+		/// <summary>
+		/// The operation of the change assignment </summary>
+		private CompoundAssignmentType changedOperation;
+
+		public CompoundAssignmentVarChanged(Variable target,
+				CompoundAssignmentType compoundAssignmentType, Expression expr,
+				CompoundAssignmentType changedAssignmentType, Qualification changedTarget)
+			: base(target, compoundAssignmentType, expr)
 		{
-			return changedTarget;
+			this.changedOperation = changedAssignmentType;
+			this.changedTarget = changedTarget;
+		}
+
+		public virtual Qualification ChangedTarget
+		{
+			get
+			{
+				return changedTarget;
+			}
+		}
+
+		public virtual CompoundAssignmentType ChangedOperation
+		{
+			get
+			{
+				return changedOperation;
+			}
+		}
+
+		public override string ToString()
+		{
+			return base.ToString()
+					+ (changedOperation == CompoundAssignmentType.UNION ?
+							" |> " : changedOperation == CompoundAssignmentType.INTERSECTION ? " &> " : " => ")
+					+ changedTarget.ToString();
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+
+			Entity entity = changedTarget.Owner;
+			if(!IsGlobalVariable(entity))
+				needs.Add((GraphEntity)entity);
+
+			// Temporarily do not collect variables for changed target
+			HashSet<Variable> varSet = needs.variables;
+			needs.variables = null;
+			changedTarget.CollectNeededEntities(needs);
+			needs.variables = varSet;
 		}
 	}
-
-	public virtual CompoundAssignmentType ChangedOperation
-	{
-		get
-		{
-			return changedOperation;
-		}
-	}
-
-	public override string ToString()
-	{
-		return base.ToString()
-				+ (changedOperation == CompoundAssignmentType.UNION ?
-						" |> " : changedOperation == CompoundAssignmentType.INTERSECTION ? " &> " : " => ")
-				+ changedTarget.ToString();
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-
-		Entity entity = changedTarget.Owner;
-		if(!IsGlobalVariable(entity))
-			needs.Add((GraphEntity)entity);
-
-		// Temporarily do not collect variables for changed target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		changedTarget.CollectNeededEntities(needs);
-		needs.variables = varSet;
-	}
-}
 
 }

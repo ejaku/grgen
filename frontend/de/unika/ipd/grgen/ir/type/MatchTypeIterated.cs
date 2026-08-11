@@ -11,30 +11,30 @@
 
 namespace de.unika.ipd.grgen.ir.type
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Rule = de.unika.ipd.grgen.ir.executable.Rule;
 
-public class MatchTypeIterated : MatchType
-{
-	private Rule iterated;
-
-	public MatchTypeIterated(Ident iteratedIdent)
-		: base(iteratedIdent)
+	public class MatchTypeIterated : MatchType
 	{
-	}
+		private Rule iterated;
 
-	public virtual Rule Iterated
-	{
-		set
+		public MatchTypeIterated(Ident iteratedIdent)
+			: base(iteratedIdent)
 		{
-			this.iterated = value;
 		}
-		get
-		{
-			return iterated;
-		}
-	}
 
-}
+		public virtual Rule Iterated
+		{
+			set
+			{
+				this.iterated = value;
+			}
+			get
+			{
+				return iterated;
+			}
+		}
+
+	}
 
 }

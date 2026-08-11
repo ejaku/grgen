@@ -11,36 +11,36 @@
 
 namespace de.unika.ipd.grgen.ast.stmt.set
 {
-using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
-using ContainerProcedureMethodInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
-using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+	using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+	using ContainerProcedureMethodInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
+	using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class SetProcedureMethodInvocationBaseNode : ContainerProcedureMethodInvocationBaseNode
-{
-	static SetProcedureMethodInvocationBaseNode()
+	public abstract class SetProcedureMethodInvocationBaseNode : ContainerProcedureMethodInvocationBaseNode
 	{
-		SetClassName(typeof(SetProcedureMethodInvocationBaseNode), "set procedure method invocation base");
-	}
-
-	protected internal SetProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
-		: base(coords, target)
-	{
-	}
-
-	protected internal SetProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
-		: base(coords, targetVar)
-	{
-	}
-
-	protected internal virtual SetTypeNode TargetTypeExact
-	{
-		get
+		static SetProcedureMethodInvocationBaseNode()
 		{
-			return (SetTypeNode)TargetType;
+			SetClassName(typeof(SetProcedureMethodInvocationBaseNode), "set procedure method invocation base");
+		}
+
+		protected internal SetProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
+			: base(coords, target)
+		{
+		}
+
+		protected internal SetProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
+			: base(coords, targetVar)
+		{
+		}
+
+		protected internal virtual SetTypeNode TargetTypeExact
+		{
+			get
+			{
+				return (SetTypeNode)TargetType;
+			}
 		}
 	}
-}
 
 }

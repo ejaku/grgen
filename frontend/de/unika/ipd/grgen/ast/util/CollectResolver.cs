@@ -7,41 +7,41 @@
 
 namespace de.unika.ipd.grgen.ast.util
 {
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using de.unika.ipd.grgen.ast;
-
-/// <summary>
-/// A resolver, that resolves a source AST CollectNode into a target AST CollectNode of type T,
-/// by using a given resolver.
-/// </summary>
-public class CollectResolver<T> where T : de.unika.ipd.grgen.ast.BaseNode
-{
-	private Resolver<T> resolver;
-
-	public CollectResolver(Resolver<T> resolver)
-	{
-		this.resolver = resolver;
-	}
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using de.unika.ipd.grgen.ast;
 
 	/// <summary>
-	/// resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
-	///  returns null if n's declaration or n can't be cast to R 
+	/// A resolver, that resolves a source AST CollectNode into a target AST CollectNode of type T,
+	/// by using a given resolver.
 	/// </summary>
-	public virtual CollectNode<T> Resolve<T1>(CollectNode<T1> collect, BaseNode parent) where T1 : de.unika.ipd.grgen.ast.BaseNode
+	public class CollectResolver<T> where T : de.unika.ipd.grgen.ast.BaseNode
 	{
-		CollectNode<T> res = new CollectNode<T>();
-		res.Coords = collect.Coords;
+		private Resolver<T> resolver;
 
-		foreach(BaseNode child in collect.ChildrenExact)
+		public CollectResolver(Resolver<T> resolver)
 		{
-			T resolved = resolver.Resolve(child, collect);
-			if(resolved == null)
-				return null;
-			res.AddChild(resolved);
+			this.resolver = resolver;
 		}
-		parent.BecomeParent(res);
-		return res;
+
+		/// <summary>
+		/// resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
+		///  returns null if n's declaration or n can't be cast to R 
+		/// </summary>
+		public virtual CollectNode<T> Resolve<T1>(CollectNode<T1> collect, BaseNode parent) where T1 : de.unika.ipd.grgen.ast.BaseNode
+		{
+			CollectNode<T> res = new CollectNode<T>();
+			res.Coords = collect.Coords;
+
+			foreach(BaseNode child in collect.ChildrenExact)
+			{
+				T resolved = resolver.Resolve(child, collect);
+				if(resolved == null)
+					return null;
+				res.AddChild(resolved);
+			}
+			parent.BecomeParent(res);
+			return res;
+		}
 	}
-}
 
 }

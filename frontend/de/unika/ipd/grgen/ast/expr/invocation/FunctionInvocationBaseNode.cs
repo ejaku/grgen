@@ -11,65 +11,65 @@
 
 namespace de.unika.ipd.grgen.ast.expr.invocation
 {
-using de.unika.ipd.grgen.ast;
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using FunctionOrOperatorDeclBaseNode = de.unika.ipd.grgen.ast.decl.executable.FunctionOrOperatorDeclBaseNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using FunctionOrOperatorDeclBaseNode = de.unika.ipd.grgen.ast.decl.executable.FunctionOrOperatorDeclBaseNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class FunctionInvocationBaseNode : FunctionOrBuiltinFunctionInvocationBaseNode
-{
-	static FunctionInvocationBaseNode()
+	public abstract class FunctionInvocationBaseNode : FunctionOrBuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(FunctionInvocationBaseNode), "function invocation base");
-	}
-
-	protected internal CollectNode<ExprNode> arguments;
-
-	public FunctionInvocationBaseNode(Coords coords, CollectNode<ExprNode> arguments)
-		: base(coords)
-	{
-		this.arguments = BecomeParent(arguments);
-	}
-
-	/// <summary>
-	/// Check whether the usage adheres to the signature of the declaration </summary>
-	protected internal virtual bool CheckSignatureAdhered(FunctionOrOperatorDeclBaseNode fb, IdentNode unresolved, bool isMethod)
-	{
-		// check if the number of parameters are correct
-		int expected = fb.ParameterTypes.Count;
-		int actual = arguments.ChildrenExact.Count;
-		if(expected != actual)
+		static FunctionInvocationBaseNode()
 		{
-			unresolved.ReportError("The function " + (isMethod ? "method " : "") + fb.ToStringWithDeclarationCoords()
-					+ " expects " + expected + " arguments (given are " + actual + " arguments).");
-			return false;
+			SetClassName(typeof(FunctionInvocationBaseNode), "function invocation base");
 		}
 
-		// check if the types of the parameters are correct
-		bool res = true;
-		for(int i = 0; i < arguments.Size(); ++i)
-		{
-			ExprNode actualParameter = arguments.Get(i);
-			TypeNode actualParameterType = actualParameter.Type;
-			TypeNode formalParameterType = fb.ParameterTypes[i];
+		protected internal CollectNode<ExprNode> arguments;
 
-			if(!actualParameterType.IsCompatibleTo(formalParameterType))
+		public FunctionInvocationBaseNode(Coords coords, CollectNode<ExprNode> arguments)
+			: base(coords)
+		{
+			this.arguments = BecomeParent(arguments);
+		}
+
+		/// <summary>
+		/// Check whether the usage adheres to the signature of the declaration </summary>
+		protected internal virtual bool CheckSignatureAdhered(FunctionOrOperatorDeclBaseNode fb, IdentNode unresolved, bool isMethod)
+		{
+			// check if the number of parameters are correct
+			int expected = fb.ParameterTypes.Count;
+			int actual = arguments.ChildrenExact.Count;
+			if(expected != actual)
 			{
-				res = false;
-				string exprTypeName = actualParameterType.TypeName;
-				string paramTypeName = formalParameterType.TypeName;
-				unresolved.ReportError("Cannot convert " + (i + 1) + ". argument from " + exprTypeName
-						+ " to the expected " + paramTypeName + " (when calling function " + (isMethod ? "method " : "") + fb.ToStringWithDeclarationCoords() + ")"
-						+ actualParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
-						+ formalParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
-						+ ".");
+				unresolved.ReportError("The function " + (isMethod ? "method " : "") + fb.ToStringWithDeclarationCoords()
+						+ " expects " + expected + " arguments (given are " + actual + " arguments).");
+				return false;
 			}
-		}
 
-		return res;
+			// check if the types of the parameters are correct
+			bool res = true;
+			for(int i = 0; i < arguments.Size(); ++i)
+			{
+				ExprNode actualParameter = arguments.Get(i);
+				TypeNode actualParameterType = actualParameter.Type;
+				TypeNode formalParameterType = fb.ParameterTypes[i];
+
+				if(!actualParameterType.IsCompatibleTo(formalParameterType))
+				{
+					res = false;
+					string exprTypeName = actualParameterType.TypeName;
+					string paramTypeName = formalParameterType.TypeName;
+					unresolved.ReportError("Cannot convert " + (i + 1) + ". argument from " + exprTypeName
+							+ " to the expected " + paramTypeName + " (when calling function " + (isMethod ? "method " : "") + fb.ToStringWithDeclarationCoords() + ")"
+							+ actualParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
+							+ formalParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
+							+ ".");
+				}
+			}
+
+			return res;
+		}
 	}
-}
 
 }

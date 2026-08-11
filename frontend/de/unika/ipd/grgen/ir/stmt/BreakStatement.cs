@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-/// <summary>
-/// Represents a break statement in the IR.
-/// </summary>
-public class BreakStatement : EvalStatement
-{
-	public BreakStatement()
-		: base("break statement")
+	/// <summary>
+	/// Represents a break statement in the IR.
+	/// </summary>
+	public class BreakStatement : EvalStatement
 	{
+		public BreakStatement()
+			: base("break statement")
+		{
+		}
 	}
-}
 
 }

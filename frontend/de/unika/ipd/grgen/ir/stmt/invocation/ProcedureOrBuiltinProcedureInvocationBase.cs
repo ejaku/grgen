@@ -11,27 +11,27 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.invocation
 {
-using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-
-/// <summary>
-/// A base class for procedure or builtin procedure invocations.
-/// </summary>
-public abstract class ProcedureOrBuiltinProcedureInvocationBase : EvalStatement
-{
-	protected internal ProcedureOrBuiltinProcedureInvocationBase(string name)
-		: base(name)
-	{
-	}
-
-	/// <returns> The number of return arguments. </returns>
-	public abstract int ReturnArity();
+	using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
 	/// <summary>
-	/// Get the ith return type. </summary>
-	/// <param name="index"> The index of the return type </param>
-	/// <returns> The return type, if <code>index</code> was valid, <code>null</code> if not. </returns>
-	public abstract Type GetReturnType(int index);
-}
+	/// A base class for procedure or builtin procedure invocations.
+	/// </summary>
+	public abstract class ProcedureOrBuiltinProcedureInvocationBase : EvalStatement
+	{
+		protected internal ProcedureOrBuiltinProcedureInvocationBase(string name)
+			: base(name)
+		{
+		}
+
+		/// <returns> The number of return arguments. </returns>
+		public abstract int ReturnArity();
+
+		/// <summary>
+		/// Get the ith return type. </summary>
+		/// <param name="index"> The index of the return type </param>
+		/// <returns> The return type, if <code>index</code> was valid, <code>null</code> if not. </returns>
+		public abstract Type GetReturnType(int index);
+	}
 
 }

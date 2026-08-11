@@ -14,23 +14,23 @@
 namespace de.unika.ipd.grgen
 {
 
-using System.IO;
+	using System.IO;
 
-using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
+	using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
-public interface Sys
-{
-	File ModelPath {get;}
+	public interface Sys
+	{
+		File ModelPath {get;}
 
-	ErrorReporter ErrorReporter {get;}
+		ErrorReporter ErrorReporter {get;}
 
-	Stream CreateDebugFile(File file);
+		Stream CreateDebugFile(File file);
 
-	bool MayFireEvents();
+		bool MayFireEvents();
 
-	bool MayFireDebugEvents();
+		bool MayFireDebugEvents();
 
-	bool EmitProfilingInstrumentation();
-}
+		bool EmitProfilingInstrumentation();
+	}
 
 }

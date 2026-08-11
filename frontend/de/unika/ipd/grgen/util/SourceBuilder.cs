@@ -12,103 +12,103 @@
 
 namespace de.unika.ipd.grgen.util
 {
-public class SourceBuilder
-{
-	public SourceBuilder()
+	public class SourceBuilder
 	{
-		stringBuilder = new System.Text.StringBuilder(16);
-		indentationLevel = 0;
-	}
-
-	public virtual SourceBuilder Indent()
-	{
-		++indentationLevel;
-		return this;
-	}
-
-	public virtual SourceBuilder Unindent()
-	{
-		--indentationLevel;
-		return this;
-	}
-
-	public virtual SourceBuilder Append(string str)
-	{
-		stringBuilder.Append(str);
-		return this;
-	}
-
-	public virtual SourceBuilder AppendFront(string str)
-	{
-		for(int i = 0; i < indentationLevel; ++i)
-			stringBuilder.Append("\t");
-		stringBuilder.Append(str);
-		return this;
-	}
-
-	public virtual SourceBuilder AppendFrontIndented(string str)
-	{
-		for(int i = 0; i < indentationLevel + 1; ++i)
-			stringBuilder.Append("\t");
-		stringBuilder.Append(str);
-		return this;
-	}
-
-	public virtual SourceBuilder Append(bool b)
-	{
-		stringBuilder.Append(b);
-		return this;
-	}
-
-	public virtual string Indentation
-	{
-		get
+		public SourceBuilder()
 		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+			stringBuilder = new System.Text.StringBuilder(16);
+			indentationLevel = 0;
+		}
+
+		public virtual SourceBuilder Indent()
+		{
+			++indentationLevel;
+			return this;
+		}
+
+		public virtual SourceBuilder Unindent()
+		{
+			--indentationLevel;
+			return this;
+		}
+
+		public virtual SourceBuilder Append(string str)
+		{
+			stringBuilder.Append(str);
+			return this;
+		}
+
+		public virtual SourceBuilder AppendFront(string str)
+		{
 			for(int i = 0; i < indentationLevel; ++i)
-				sb.Append("\t");
-			return sb.ToString();
+				stringBuilder.Append("\t");
+			stringBuilder.Append(str);
+			return this;
 		}
-	}
 
-	public virtual System.Text.StringBuilder StringBuilder
-	{
-		get
+		public virtual SourceBuilder AppendFrontIndented(string str)
 		{
-			return stringBuilder;
+			for(int i = 0; i < indentationLevel + 1; ++i)
+				stringBuilder.Append("\t");
+			stringBuilder.Append(str);
+			return this;
 		}
-	}
 
-	public virtual int Length()
-	{
-		return stringBuilder.Length;
-	}
-
-	public virtual void Delete(int start, int end)
-	{
-		stringBuilder.Remove(start, end - start);
-	}
-
-	public override string ToString()
-	{
-		return stringBuilder.ToString();
-	}
-
-	public virtual int IndentationLevel
-	{
-		get
+		public virtual SourceBuilder Append(bool b)
 		{
-			return indentationLevel;
+			stringBuilder.Append(b);
+			return this;
 		}
-		set
+
+		public virtual string Indentation
 		{
-			this.indentationLevel = value;
+			get
+			{
+				System.Text.StringBuilder sb = new System.Text.StringBuilder();
+				for(int i = 0; i < indentationLevel; ++i)
+					sb.Append("\t");
+				return sb.ToString();
+			}
 		}
+
+		public virtual System.Text.StringBuilder StringBuilder
+		{
+			get
+			{
+				return stringBuilder;
+			}
+		}
+
+		public virtual int Length()
+		{
+			return stringBuilder.Length;
+		}
+
+		public virtual void Delete(int start, int end)
+		{
+			stringBuilder.Remove(start, end - start);
+		}
+
+		public override string ToString()
+		{
+			return stringBuilder.ToString();
+		}
+
+		public virtual int IndentationLevel
+		{
+			get
+			{
+				return indentationLevel;
+			}
+			set
+			{
+				this.indentationLevel = value;
+			}
+		}
+
+
+		private System.Text.StringBuilder stringBuilder;
+		private int indentationLevel;
 	}
-
-
-	private System.Text.StringBuilder stringBuilder;
-	private int indentationLevel;
-}
 
 }

@@ -11,83 +11,83 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-
-/// <summary>
-/// Represents a compound assignment var statement in the IR.
-/// </summary>
-public class CompoundAssignmentVar : EvalStatement
-{
-	public enum CompoundAssignmentType
-	{
-		NONE,
-		UNION,
-		INTERSECTION,
-		WITHOUT,
-		CONCATENATE,
-		ASSIGN
-	}
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
 	/// <summary>
-	/// The lhs of the assignment. </summary>
-	private Variable target;
-
-	/// <summary>
-	/// The operation of the compound assignment </summary>
-	private CompoundAssignmentType operation;
-
-	/// <summary>
-	/// The rhs of the assignment. </summary>
-	private Expression expr;
-
-	public CompoundAssignmentVar(Variable target, CompoundAssignmentType compoundAssignmentType, Expression expr)
-		: base("compound assignment var")
+	/// Represents a compound assignment var statement in the IR.
+	/// </summary>
+	public class CompoundAssignmentVar : EvalStatement
 	{
-		this.target = target;
-		this.operation = compoundAssignmentType;
-		this.expr = expr;
-	}
-
-	public virtual Variable Target
-	{
-		get
+		public enum CompoundAssignmentType
 		{
-			return target;
+			NONE,
+			UNION,
+			INTERSECTION,
+			WITHOUT,
+			CONCATENATE,
+			ASSIGN
+		}
+
+		/// <summary>
+		/// The lhs of the assignment. </summary>
+		private Variable target;
+
+		/// <summary>
+		/// The operation of the compound assignment </summary>
+		private CompoundAssignmentType operation;
+
+		/// <summary>
+		/// The rhs of the assignment. </summary>
+		private Expression expr;
+
+		public CompoundAssignmentVar(Variable target, CompoundAssignmentType compoundAssignmentType, Expression expr)
+			: base("compound assignment var")
+		{
+			this.target = target;
+			this.operation = compoundAssignmentType;
+			this.expr = expr;
+		}
+
+		public virtual Variable Target
+		{
+			get
+			{
+				return target;
+			}
+		}
+
+		public virtual Expression Expression
+		{
+			get
+			{
+				return expr;
+			}
+		}
+
+		public virtual CompoundAssignmentType Operation
+		{
+			get
+			{
+				return operation;
+			}
+		}
+
+		public override string ToString()
+		{
+			return Target + (operation == CompoundAssignmentType.UNION ?
+					" |= " : operation == CompoundAssignmentType.INTERSECTION ? " &= " : " \\= ")
+					+ Expression;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(!IsGlobalVariable(target))
+				needs.Add(target);
+
+			Expression.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression Expression
-	{
-		get
-		{
-			return expr;
-		}
-	}
-
-	public virtual CompoundAssignmentType Operation
-	{
-		get
-		{
-			return operation;
-		}
-	}
-
-	public override string ToString()
-	{
-		return Target + (operation == CompoundAssignmentType.UNION ?
-				" |= " : operation == CompoundAssignmentType.INTERSECTION ? " &= " : " \\= ")
-				+ Expression;
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(!IsGlobalVariable(target))
-			needs.Add(target);
-
-		Expression.CollectNeededEntities(needs);
-	}
-}
 
 }

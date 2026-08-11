@@ -8,43 +8,43 @@
 namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class EmitProc : BuiltinProcedureInvocationBase
-{
-	private ICollection<Expression> exprs;
-	private bool isDebug;
-
-	public EmitProc(ICollection<Expression> expressions, bool isDebug)
-		: base("emit procedure")
+	public class EmitProc : BuiltinProcedureInvocationBase
 	{
-		this.exprs = expressions;
-		this.isDebug = isDebug;
-	}
+		private ICollection<Expression> exprs;
+		private bool isDebug;
 
-	public virtual ICollection<Expression> Expressions
-	{
-		get
+		public EmitProc(ICollection<Expression> expressions, bool isDebug)
+			: base("emit procedure")
 		{
-			return exprs;
+			this.exprs = expressions;
+			this.isDebug = isDebug;
+		}
+
+		public virtual ICollection<Expression> Expressions
+		{
+			get
+			{
+				return exprs;
+			}
+		}
+
+		public virtual bool IsDebug()
+		{
+			return isDebug;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			foreach(Expression expr in exprs)
+				expr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual bool IsDebug()
-	{
-		return isDebug;
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		foreach(Expression expr in exprs)
-			expr.CollectNeededEntities(needs);
-	}
-}
 
 }

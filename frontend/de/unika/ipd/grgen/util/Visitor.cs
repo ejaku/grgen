@@ -11,12 +11,12 @@
 
 namespace de.unika.ipd.grgen.util
 {
-/// <summary>
-/// A Visitor
-/// </summary>
-public interface Visitor
-{
-	void Visit(Walkable n);
-}
+	/// <summary>
+	/// A Visitor
+	/// </summary>
+	public interface Visitor
+	{
+		void Visit(Walkable n);
+	}
 
 }

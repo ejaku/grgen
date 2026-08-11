@@ -11,44 +11,44 @@
 
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayCopyConstructor : Expression
-{
-	private Expression arrayToCopy;
-	private ArrayType arrayType;
-
-	public ArrayCopyConstructor(Expression arrayToCopy, ArrayType arrayType)
-		: base("array copy constructor", arrayType)
+	public class ArrayCopyConstructor : Expression
 	{
-		this.arrayToCopy = arrayToCopy;
-		this.arrayType = arrayType;
-	}
+		private Expression arrayToCopy;
+		private ArrayType arrayType;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.Add(this);
-		needs.NeedsGraph();
-		arrayToCopy.CollectNeededEntities(needs);
-	}
-
-	public virtual Expression ArrayToCopy
-	{
-		get
+		public ArrayCopyConstructor(Expression arrayToCopy, ArrayType arrayType)
+			: base("array copy constructor", arrayType)
 		{
-			return arrayToCopy;
+			this.arrayToCopy = arrayToCopy;
+			this.arrayType = arrayType;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.Add(this);
+			needs.NeedsGraph();
+			arrayToCopy.CollectNeededEntities(needs);
+		}
+
+		public virtual Expression ArrayToCopy
+		{
+			get
+			{
+				return arrayToCopy;
+			}
+		}
+
+		public virtual ArrayType ArrayType
+		{
+			get
+			{
+				return arrayType;
+			}
 		}
 	}
-
-	public virtual ArrayType ArrayType
-	{
-		get
-		{
-			return arrayType;
-		}
-	}
-}
 
 }

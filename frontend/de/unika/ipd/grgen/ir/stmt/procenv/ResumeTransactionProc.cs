@@ -11,20 +11,20 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class ResumeTransactionProc : BuiltinProcedureInvocationBase
-{
-	public ResumeTransactionProc()
-		: base("resume transaction procedure")
+	public class ResumeTransactionProc : BuiltinProcedureInvocationBase
 	{
-	}
+		public ResumeTransactionProc()
+			: base("resume transaction procedure")
+		{
+		}
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+		}
 	}
-}
 
 }

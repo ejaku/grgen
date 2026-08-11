@@ -12,40 +12,40 @@
 namespace de.unika.ipd.grgen.ir.pattern
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-public class SubpatternDependentReplacement : Identifiable, OrderedReplacement
-{
-	internal SubpatternUsage subpatternUsage;
-	internal IList<Expression> replConnections;
-
-	public SubpatternDependentReplacement(string name, Ident ident,
-			SubpatternUsage subpatternUsage, IList<Expression> replConnections)
-		: base(name, ident)
+	public class SubpatternDependentReplacement : Identifiable, OrderedReplacement
 	{
-		this.subpatternUsage = subpatternUsage;
-		this.replConnections = replConnections;
-	}
+		internal SubpatternUsage subpatternUsage;
+		internal IList<Expression> replConnections;
 
-	public virtual SubpatternUsage SubpatternUsage
-	{
-		get
+		public SubpatternDependentReplacement(string name, Ident ident,
+				SubpatternUsage subpatternUsage, IList<Expression> replConnections)
+			: base(name, ident)
 		{
-			return subpatternUsage;
+			this.subpatternUsage = subpatternUsage;
+			this.replConnections = replConnections;
+		}
+
+		public virtual SubpatternUsage SubpatternUsage
+		{
+			get
+			{
+				return subpatternUsage;
+			}
+		}
+
+		public virtual IList<Expression> ReplConnections
+		{
+			get
+			{
+				return replConnections;
+			}
 		}
 	}
-
-	public virtual IList<Expression> ReplConnections
-	{
-		get
-		{
-			return replConnections;
-		}
-	}
-}
 
 }

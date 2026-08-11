@@ -12,78 +12,78 @@
 namespace de.unika.ipd.grgen.ast.stmt.graph
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using VAllocProc = de.unika.ipd.grgen.ir.stmt.graph.VAllocProc;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+	using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using VAllocProc = de.unika.ipd.grgen.ir.stmt.graph.VAllocProc;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class VAllocProcNode : BuiltinProcedureInvocationBaseNode
-{
-	static VAllocProcNode()
+	public class VAllocProcNode : BuiltinProcedureInvocationBaseNode
 	{
-		SetClassName(typeof(VAllocProcNode), "valloc procedure");
-	}
-
-	internal IList<TypeNode> returnTypes;
-
-	public VAllocProcNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static VAllocProcNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			return children;
+			SetClassName(typeof(VAllocProcNode), "valloc procedure");
 		}
-	}
 
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		internal IList<TypeNode> returnTypes;
+
+		public VAllocProcNode(Coords coords)
+			: base(coords)
 		{
-			IList<string> childrenNames = new List<string>();
-			return childrenNames;
 		}
-	}
 
-	protected internal override bool CheckLocal()
-	{
-		return true;
-	}
-
-	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
-	{
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		VAllocProc vAlloc = new VAllocProc(BasicTypeNode.intType.GetIRType());
-		return vAlloc;
-	}
-
-	public override IList<TypeNode> Type
-	{
-		get
+		public override ICollection<BaseNode> Children
 		{
-			if(returnTypes == null)
+			get
 			{
-				returnTypes = new List<TypeNode>();
-				returnTypes.Add(BasicTypeNode.intType);
+				IList<BaseNode> children = new List<BaseNode>();
+				return children;
 			}
-			return returnTypes;
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			return true;
+		}
+
+		public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+		{
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			VAllocProc vAlloc = new VAllocProc(BasicTypeNode.intType.GetIRType());
+			return vAlloc;
+		}
+
+		public override IList<TypeNode> Type
+		{
+			get
+			{
+				if(returnTypes == null)
+				{
+					returnTypes = new List<TypeNode>();
+					returnTypes.Add(BasicTypeNode.intType);
+				}
+				return returnTypes;
+			}
 		}
 	}
-}
 
 }

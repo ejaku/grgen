@@ -11,67 +11,67 @@
 
 namespace de.unika.ipd.grgen.ast.expr.array
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayProdExpr = de.unika.ipd.grgen.ir.expr.array.ArrayProdExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayProdExpr = de.unika.ipd.grgen.ir.expr.array.ArrayProdExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayProdNode : ArrayAccumulationMethodNode
-{
-	static ArrayProdNode()
+	public class ArrayProdNode : ArrayAccumulationMethodNode
 	{
-		SetClassName(typeof(ArrayProdNode), "array prod");
-	}
-
-	public ArrayProdNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = TargetTypeExact;
-		if(!arrayType.valueType.IsAccumulatableType())
+		static ArrayProdNode()
 		{
-			targetExpr.ReportError("The array function method prod can only be employed on an object of type array<" + TypeNode.AccumulatableTypesAsString + ">"
-					+ " (but is employed on an object of type " + arrayType.TypeName + ").");
-			return false;
+			SetClassName(typeof(ArrayProdNode), "array prod");
 		}
-		return true;
-	}
 
-	public override TypeNode Type
-	{
-		get
+		public ArrayProdNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
 		{
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			// target type already checked during resolving into this node
 			ArrayTypeNode arrayType = TargetTypeExact;
-			return BasicTypeNode.GetArrayAccumulationResultType(arrayType.valueType);
+			if(!arrayType.valueType.IsAccumulatableType())
+			{
+				targetExpr.ReportError("The array function method prod can only be employed on an object of type array<" + TypeNode.AccumulatableTypesAsString + ">"
+						+ " (but is employed on an object of type " + arrayType.TypeName + ").");
+				return false;
+			}
+			return true;
 		}
-	}
 
-	public override bool IsValidTargetTypeOfAccumulation(TypeNode type)
-	{
-		return type.IsAccumulationTargetType();
-	}
-
-	public override string ValidTargetTypesOfAccumulation
-	{
-		get
+		public override TypeNode Type
 		{
-			return TypeNode.AccumulationTargetTypesAsString;
+			get
+			{
+				ArrayTypeNode arrayType = TargetTypeExact;
+				return BasicTypeNode.GetArrayAccumulationResultType(arrayType.valueType);
+			}
+		}
+
+		public override bool IsValidTargetTypeOfAccumulation(TypeNode type)
+		{
+			return type.IsAccumulationTargetType();
+		}
+
+		public override string ValidTargetTypesOfAccumulation
+		{
+			get
+			{
+				return TypeNode.AccumulationTargetTypesAsString;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new ArrayProdExpr(targetExpr.CheckIR(typeof(Expression)));
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new ArrayProdExpr(targetExpr.CheckIR(typeof(Expression)));
-	}
-}
 
 }

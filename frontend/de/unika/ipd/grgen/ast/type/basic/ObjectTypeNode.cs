@@ -13,53 +13,53 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using ObjectType = de.unika.ipd.grgen.ir.type.basic.ObjectType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using ObjectType = de.unika.ipd.grgen.ir.type.basic.ObjectType;
 
-public class ObjectTypeNode : BasicTypeNode
-{
-	static ObjectTypeNode()
+	public class ObjectTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(ObjectTypeNode), "object type");
-	}
-
-	/// <summary>
-	/// Singleton class representing the only constant value 'null' that
-	/// the basic type 'object' has.
-	/// </summary>
-	// TODO: No instance is ever used! Probably useless...
-	public class Value
-	{
-		public static Value NULL = new ValueAnonymousInnerClass();
-
-		private class ValueAnonymousInnerClass : Value
+		static ObjectTypeNode()
 		{
-			private readonly Value outerInstance;
+			SetClassName(typeof(ObjectTypeNode), "object type");
+		}
 
-			public override string ToString()
+		/// <summary>
+		/// Singleton class representing the only constant value 'null' that
+		/// the basic type 'object' has.
+		/// </summary>
+		// TODO: No instance is ever used! Probably useless...
+		public class Value
+		{
+			public static Value NULL = new ValueAnonymousInnerClass();
+
+			private class ValueAnonymousInnerClass : Value
 			{
-				return "Const null";
+				private readonly Value outerInstance;
+
+				public override string ToString()
+				{
+					return "Const null";
+				}
+			}
+
+			internal Value()
+			{
 			}
 		}
 
-		internal Value()
+		public ObjectTypeNode()
 		{
 		}
-	}
 
-	public ObjectTypeNode()
-	{
-	}
+		protected internal override IR ConstructIR()
+		{
+			return new ObjectType(Ident.IRIdent);
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new ObjectType(Ident.IRIdent);
+		public override string ToString()
+		{
+			return "object";
+		}
 	}
-
-	public override string ToString()
-	{
-		return "object";
-	}
-}
 
 }

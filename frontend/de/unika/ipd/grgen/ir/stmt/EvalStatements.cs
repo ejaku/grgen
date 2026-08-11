@@ -8,28 +8,28 @@
 namespace de.unika.ipd.grgen.ir.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ir;
+	using de.unika.ipd.grgen.ir;
 
-public class EvalStatements : IR
-{
-	public IList<EvalStatement> evalStatements = new List<EvalStatement>();
-
-	public EvalStatements(string name)
-		: base(name)
+	public class EvalStatements : IR
 	{
-	}
+		public IList<EvalStatement> evalStatements = new List<EvalStatement>();
 
-	/// <summary>
-	/// Method collectNeededEntities extracts the nodes, edges, and variables occurring in this Expression.
-	/// We don't collect global variables (::-prefixed), as no entities and no processing are needed for them at all, they are only accessed. </summary>
-	/// <param name="needs"> A NeededEntities instance aggregating the needed elements. </param>
-	public virtual void CollectNeededEntities(NeededEntities needs)
-	{
-		foreach(EvalStatement evalStatement in evalStatements)
-			evalStatement.CollectNeededEntities(needs);
+		public EvalStatements(string name)
+			: base(name)
+		{
+		}
+
+		/// <summary>
+		/// Method collectNeededEntities extracts the nodes, edges, and variables occurring in this Expression.
+		/// We don't collect global variables (::-prefixed), as no entities and no processing are needed for them at all, they are only accessed. </summary>
+		/// <param name="needs"> A NeededEntities instance aggregating the needed elements. </param>
+		public virtual void CollectNeededEntities(NeededEntities needs)
+		{
+			foreach(EvalStatement evalStatement in evalStatements)
+				evalStatement.CollectNeededEntities(needs);
+		}
 	}
-}
 
 }

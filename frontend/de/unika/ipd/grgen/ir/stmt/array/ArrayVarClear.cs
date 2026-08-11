@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.array
 {
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class ArrayVarClear : ContainerVarProcedureMethodInvocationBase
-{
-	public ArrayVarClear(Variable target)
-		: base("array var clear", target)
+	public class ArrayVarClear : ContainerVarProcedureMethodInvocationBase
 	{
+		public ArrayVarClear(Variable target)
+			: base("array var clear", target)
+		{
+		}
 	}
-}
 
 }

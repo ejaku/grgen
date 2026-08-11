@@ -10,31 +10,31 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ast.stmt.graph
 {
-using de.unika.ipd.grgen.ast;
-using IndexDeclNode = de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
-using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using IndexDeclNode = de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
+	using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+	using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-//deprecated, TODO: purge
-public abstract class ForIndexAccessNode : ForGraphQueryNode
-{
-	static ForIndexAccessNode()
+	//deprecated, TODO: purge
+	public abstract class ForIndexAccessNode : ForGraphQueryNode
 	{
-		SetClassName(typeof(ForIndexAccessNode), "for index access loop");
-	}
+		static ForIndexAccessNode()
+		{
+			SetClassName(typeof(ForIndexAccessNode), "for index access loop");
+		}
 
-	protected internal IdentNode indexUnresolved;
-	protected internal IndexDeclNode index;
+		protected internal IdentNode indexUnresolved;
+		protected internal IndexDeclNode index;
 
-	public ForIndexAccessNode(Coords coords, BaseNode iterationVariable, int context,
-			IdentNode index, PatternGraphLhsNode directlyNestingLHSGraph,
-			CollectNode<EvalStatementNode> loopedStatements)
-		: base(coords, iterationVariable, loopedStatements)
-	{
-		this.indexUnresolved = index;
-		BecomeParent(this.indexUnresolved);
+		public ForIndexAccessNode(Coords coords, BaseNode iterationVariable, int context,
+				IdentNode index, PatternGraphLhsNode directlyNestingLHSGraph,
+				CollectNode<EvalStatementNode> loopedStatements)
+			: base(coords, iterationVariable, loopedStatements)
+		{
+			this.indexUnresolved = index;
+			BecomeParent(this.indexUnresolved);
+		}
 	}
-}
 
 }

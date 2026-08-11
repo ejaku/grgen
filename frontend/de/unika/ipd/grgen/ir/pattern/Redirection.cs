@@ -11,29 +11,29 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
-using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+	using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+	using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
 
-/// <summary>
-/// A class representing redirections in rules. </summary>
-public class Redirection
-{
-	public readonly Node from;
-	public readonly Node to;
-	public readonly EdgeType edgeType;
-	public readonly NodeType nodeType;
-	public readonly bool incoming;
-
-	public Redirection(Node from, Node to, EdgeType edgeType,
-			NodeType nodeType, bool incoming)
+	/// <summary>
+	/// A class representing redirections in rules. </summary>
+	public class Redirection
 	{
+		public readonly Node from;
+		public readonly Node to;
+		public readonly EdgeType edgeType;
+		public readonly NodeType nodeType;
+		public readonly bool incoming;
 
-		this.from = from;
-		this.to = to;
-		this.edgeType = edgeType;
-		this.nodeType = nodeType;
-		this.incoming = incoming;
+		public Redirection(Node from, Node to, EdgeType edgeType,
+				NodeType nodeType, bool incoming)
+		{
+
+			this.from = from;
+			this.to = to;
+			this.edgeType = edgeType;
+			this.nodeType = nodeType;
+			this.incoming = incoming;
+		}
 	}
-}
 
 }

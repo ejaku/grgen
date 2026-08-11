@@ -7,22 +7,22 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Index = de.unika.ipd.grgen.ir.model.Index;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Index = de.unika.ipd.grgen.ir.model.Index;
 
-/// <summary>
-/// Base class for the different kinds of accessing an index, binding a pattern element
-/// </summary>
-public abstract class IndexAccess
-{
-	public Index index = null;
-
-	public IndexAccess(Index index)
+	/// <summary>
+	/// Base class for the different kinds of accessing an index, binding a pattern element
+	/// </summary>
+	public abstract class IndexAccess
 	{
-		this.index = index;
-	}
+		public Index index = null;
 
-	public abstract void CollectNeededEntities(NeededEntities needs);
-}
+		public IndexAccess(Index index)
+		{
+			this.index = index;
+		}
+
+		public abstract void CollectNeededEntities(NeededEntities needs);
+	}
 
 }

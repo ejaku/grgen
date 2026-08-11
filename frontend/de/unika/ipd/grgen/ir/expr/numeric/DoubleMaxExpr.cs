@@ -7,15 +7,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.numeric
 {
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using DoubleType = de.unika.ipd.grgen.ir.type.basic.DoubleType;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using DoubleType = de.unika.ipd.grgen.ir.type.basic.DoubleType;
 
-public class DoubleMaxExpr : BuiltinFunctionInvocationExpr
-{
-	public DoubleMaxExpr()
-		: base("doublemax expr", DoubleType.Type)
+	public class DoubleMaxExpr : BuiltinFunctionInvocationExpr
 	{
+		public DoubleMaxExpr()
+			: base("doublemax expr", DoubleType.Type)
+		{
+		}
 	}
-}
 
 }

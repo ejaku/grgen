@@ -12,34 +12,34 @@
 namespace de.unika.ipd.grgen.ir.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using NestingStatement = de.unika.ipd.grgen.ir.NestingStatement;
+	using NestingStatement = de.unika.ipd.grgen.ir.NestingStatement;
 
-/// <summary>
-/// Represents a block nesting statement in the IR (non top-level statement containing nested statements).
-/// </summary>
-public abstract class BlockNestingStatement : EvalStatement, NestingStatement
-{
-	protected internal List<EvalStatement> statements = new List<EvalStatement>();
-
-	protected internal BlockNestingStatement(string name)
-		: base(name)
+	/// <summary>
+	/// Represents a block nesting statement in the IR (non top-level statement containing nested statements).
+	/// </summary>
+	public abstract class BlockNestingStatement : EvalStatement, NestingStatement
 	{
-	}
+		protected internal List<EvalStatement> statements = new List<EvalStatement>();
 
-	public virtual void AddStatement(EvalStatement loopedStatement)
-	{
-		statements.Add(loopedStatement);
-	}
-
-	public virtual ICollection<EvalStatement> Statements
-	{
-		get
+		protected internal BlockNestingStatement(string name)
+			: base(name)
 		{
-			return statements.AsReadOnly();
+		}
+
+		public virtual void AddStatement(EvalStatement loopedStatement)
+		{
+			statements.Add(loopedStatement);
+		}
+
+		public virtual ICollection<EvalStatement> Statements
+		{
+			get
+			{
+				return statements.AsReadOnly();
+			}
 		}
 	}
-}
 
 }

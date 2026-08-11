@@ -10,15 +10,15 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayReverseExpr : ArrayFunctionMethodInvocationBaseExpr
-{
-	public ArrayReverseExpr(Expression targetExpr)
-		: base("array reverse expr", (ArrayType)targetExpr.Type, targetExpr)
+	public class ArrayReverseExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
+		public ArrayReverseExpr(Expression targetExpr)
+			: base("array reverse expr", (ArrayType)targetExpr.Type, targetExpr)
+		{
+		}
 	}
-}
 
 }

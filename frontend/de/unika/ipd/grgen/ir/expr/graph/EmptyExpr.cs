@@ -11,21 +11,21 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-public class EmptyExpr : BuiltinFunctionInvocationExpr
-{
-	public EmptyExpr()
-		: base("empty expr", BooleanType.Type)
+	public class EmptyExpr : BuiltinFunctionInvocationExpr
 	{
-	}
+		public EmptyExpr()
+			: base("empty expr", BooleanType.Type)
+		{
+		}
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+		}
 	}
-}
 
 }

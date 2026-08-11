@@ -7,9 +7,9 @@
 
 namespace de.unika.ipd.grgen.ir
 {
-public interface ContainedInPackage
-{
-	string PackageContainedIn {get;}
-}
+	public interface ContainedInPackage
+	{
+		string PackageContainedIn {get;}
+	}
 
 }

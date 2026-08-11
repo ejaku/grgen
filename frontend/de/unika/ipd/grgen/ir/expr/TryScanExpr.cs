@@ -7,44 +7,44 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using de.unika.ipd.grgen.ir;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class TryScanExpr : BuiltinFunctionInvocationExpr
-{
-	private readonly Expression stringExpr;
-	private readonly Type targetType;
-
-	public TryScanExpr(Expression stringExpr, Type targetType, Type type)
-		: base("tryscan expression", type)
+	public class TryScanExpr : BuiltinFunctionInvocationExpr
 	{
-		this.stringExpr = stringExpr;
-		this.targetType = targetType;
-	}
+		private readonly Expression stringExpr;
+		private readonly Type targetType;
 
-	public virtual Expression StringExpr
-	{
-		get
+		public TryScanExpr(Expression stringExpr, Type targetType, Type type)
+			: base("tryscan expression", type)
 		{
-			return stringExpr;
+			this.stringExpr = stringExpr;
+			this.targetType = targetType;
+		}
+
+		public virtual Expression StringExpr
+		{
+			get
+			{
+				return stringExpr;
+			}
+		}
+
+		public virtual Type TargetType
+		{
+			get
+			{
+				return targetType;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			stringExpr.CollectNeededEntities(needs);
+			needs.NeedsGraph();
 		}
 	}
-
-	public virtual Type TargetType
-	{
-		get
-		{
-			return targetType;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		stringExpr.CollectNeededEntities(needs);
-		needs.NeedsGraph();
-	}
-}
 
 }

@@ -11,31 +11,31 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using de.unika.ipd.grgen.ir;
-using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+	using de.unika.ipd.grgen.ir;
+	using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
 
-public class MatchInit : Expression
-{
-	private DefinedMatchType matchType;
-
-	public MatchInit(DefinedMatchType matchType)
-		: base("match init", matchType)
+	public class MatchInit : Expression
 	{
-		this.matchType = matchType;
-	}
+		private DefinedMatchType matchType;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.Add(this);
-	}
-
-	public virtual DefinedMatchType MatchType
-	{
-		get
+		public MatchInit(DefinedMatchType matchType)
+			: base("match init", matchType)
 		{
-			return matchType;
+			this.matchType = matchType;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.Add(this);
+		}
+
+		public virtual DefinedMatchType MatchType
+		{
+			get
+			{
+				return matchType;
+			}
 		}
 	}
-}
 
 }

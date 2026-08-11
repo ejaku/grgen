@@ -7,28 +7,28 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-/// <summary>
-/// The boolean basic type.
-/// </summary>
-public class BooleanTypeNode : BasicTypeNode
-{
-	static BooleanTypeNode()
+	/// <summary>
+	/// The boolean basic type.
+	/// </summary>
+	public class BooleanTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(BooleanTypeNode), "boolean type");
-	}
+		static BooleanTypeNode()
+		{
+			SetClassName(typeof(BooleanTypeNode), "boolean type");
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new BooleanType(Ident.IRIdent);
-	}
+		protected internal override IR ConstructIR()
+		{
+			return new BooleanType(Ident.IRIdent);
+		}
 
-	public override string ToString()
-	{
-		return "boolean";
+		public override string ToString()
+		{
+			return "boolean";
+		}
 	}
-}
 
 }

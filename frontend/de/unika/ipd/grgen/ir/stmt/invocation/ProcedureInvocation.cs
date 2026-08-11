@@ -11,40 +11,40 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.invocation
 {
-using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
-using ProcedureBase = de.unika.ipd.grgen.ir.executable.ProcedureBase;
+	using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
+	using ProcedureBase = de.unika.ipd.grgen.ir.executable.ProcedureBase;
 
-/// <summary>
-/// A procedure invocation.
-/// </summary>
-public class ProcedureInvocation : ProcedureInvocationBase
-{
 	/// <summary>
-	/// The procedure of the procedure invocation. </summary>
-	protected internal Procedure procedure;
-
-	public ProcedureInvocation(Procedure procedure)
-		: base("procedure invocation")
+	/// A procedure invocation.
+	/// </summary>
+	public class ProcedureInvocation : ProcedureInvocationBase
 	{
+		/// <summary>
+		/// The procedure of the procedure invocation. </summary>
+		protected internal Procedure procedure;
 
-		this.procedure = procedure;
-	}
-
-	public override ProcedureBase ProcedureBase
-	{
-		get
+		public ProcedureInvocation(Procedure procedure)
+			: base("procedure invocation")
 		{
-			return procedure;
+
+			this.procedure = procedure;
+		}
+
+		public override ProcedureBase ProcedureBase
+		{
+			get
+			{
+				return procedure;
+			}
+		}
+
+		public virtual Procedure Procedure
+		{
+			get
+			{
+				return procedure;
+			}
 		}
 	}
-
-	public virtual Procedure Procedure
-	{
-		get
-		{
-			return procedure;
-		}
-	}
-}
 
 }

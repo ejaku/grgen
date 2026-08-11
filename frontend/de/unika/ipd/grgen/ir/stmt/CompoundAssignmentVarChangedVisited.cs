@@ -11,63 +11,63 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Visited = de.unika.ipd.grgen.ir.expr.graph.Visited;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-
-/// <summary>
-/// Represents a compound assignment var changed visited statement in the IR.
-/// </summary>
-public class CompoundAssignmentVarChangedVisited : CompoundAssignmentVar
-{
-	/// <summary>
-	/// The change assignment. </summary>
-	private Visited changedTarget;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Visited = de.unika.ipd.grgen.ir.expr.graph.Visited;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
 	/// <summary>
-	/// The operation of the change assignment </summary>
-	private CompoundAssignmentType changedOperation;
-
-	public CompoundAssignmentVarChangedVisited(Variable target,
-			CompoundAssignmentType compoundAssignmentType, Expression expr,
-			CompoundAssignmentType changedAssignmentType, Visited changedTarget)
-		: base(target, compoundAssignmentType, expr)
+	/// Represents a compound assignment var changed visited statement in the IR.
+	/// </summary>
+	public class CompoundAssignmentVarChangedVisited : CompoundAssignmentVar
 	{
-		this.changedOperation = changedAssignmentType;
-		this.changedTarget = changedTarget;
-	}
+		/// <summary>
+		/// The change assignment. </summary>
+		private Visited changedTarget;
 
-	public virtual Visited ChangedTarget
-	{
-		get
+		/// <summary>
+		/// The operation of the change assignment </summary>
+		private CompoundAssignmentType changedOperation;
+
+		public CompoundAssignmentVarChangedVisited(Variable target,
+				CompoundAssignmentType compoundAssignmentType, Expression expr,
+				CompoundAssignmentType changedAssignmentType, Visited changedTarget)
+			: base(target, compoundAssignmentType, expr)
 		{
-			return changedTarget;
+			this.changedOperation = changedAssignmentType;
+			this.changedTarget = changedTarget;
+		}
+
+		public virtual Visited ChangedTarget
+		{
+			get
+			{
+				return changedTarget;
+			}
+		}
+
+		public virtual CompoundAssignmentType ChangedOperation
+		{
+			get
+			{
+				return changedOperation;
+			}
+		}
+
+		public override string ToString()
+		{
+			return base.ToString()
+					+ (changedOperation == CompoundAssignmentType.UNION ?
+							" |> " : changedOperation == CompoundAssignmentType.INTERSECTION ? " &> " : " => ")
+					+ changedTarget.ToString();
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+
+			changedTarget.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual CompoundAssignmentType ChangedOperation
-	{
-		get
-		{
-			return changedOperation;
-		}
-	}
-
-	public override string ToString()
-	{
-		return base.ToString()
-				+ (changedOperation == CompoundAssignmentType.UNION ?
-						" |> " : changedOperation == CompoundAssignmentType.INTERSECTION ? " &> " : " => ")
-				+ changedTarget.ToString();
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-
-		changedTarget.CollectNeededEntities(needs);
-	}
-}
 
 }

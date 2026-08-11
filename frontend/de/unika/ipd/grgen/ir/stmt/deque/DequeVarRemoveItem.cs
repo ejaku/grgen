@@ -11,36 +11,36 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.deque
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class DequeVarRemoveItem : ContainerVarProcedureMethodInvocationBase
-{
-	internal Expression indexExpr;
-
-	public DequeVarRemoveItem(Variable target, Expression indexExpr)
-		: base("deque var remove item", target)
+	public class DequeVarRemoveItem : ContainerVarProcedureMethodInvocationBase
 	{
-		this.indexExpr = indexExpr;
-	}
+		internal Expression indexExpr;
 
-	public virtual Expression IndexExpr
-	{
-		get
+		public DequeVarRemoveItem(Variable target, Expression indexExpr)
+			: base("deque var remove item", target)
 		{
-			return indexExpr;
+			this.indexExpr = indexExpr;
+		}
+
+		public virtual Expression IndexExpr
+		{
+			get
+			{
+				return indexExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+
+			if(indexExpr != null)
+				indexExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-
-		if(indexExpr != null)
-			indexExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

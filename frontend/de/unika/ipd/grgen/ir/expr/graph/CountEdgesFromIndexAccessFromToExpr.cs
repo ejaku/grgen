@@ -7,34 +7,34 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class CountEdgesFromIndexAccessFromToExpr : EdgesFromIndexAccessExpr
-{
-	private readonly IndexAccessOrdering indexAccess;
-
-	public CountEdgesFromIndexAccessFromToExpr(IndexAccessOrdering indexAccess, Type type)
-		: base(indexAccess.index, type)
+	public class CountEdgesFromIndexAccessFromToExpr : EdgesFromIndexAccessExpr
 	{
-		this.indexAccess = indexAccess;
-	}
+		private readonly IndexAccessOrdering indexAccess;
 
-	public virtual IndexAccessOrdering IndexAccessOrdering
-	{
-		get
+		public CountEdgesFromIndexAccessFromToExpr(IndexAccessOrdering indexAccess, Type type)
+			: base(indexAccess.index, type)
 		{
-			return indexAccess;
+			this.indexAccess = indexAccess;
+		}
+
+		public virtual IndexAccessOrdering IndexAccessOrdering
+		{
+			get
+			{
+				return indexAccess;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			indexAccess.CollectNeededEntities(needs);
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		indexAccess.CollectNeededEntities(needs);
-	}
-}
 
 }

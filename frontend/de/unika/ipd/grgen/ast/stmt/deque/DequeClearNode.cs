@@ -11,39 +11,39 @@
 
 namespace de.unika.ipd.grgen.ast.stmt.deque
 {
-using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using DequeClear = de.unika.ipd.grgen.ir.stmt.deque.DequeClear;
-using DequeVarClear = de.unika.ipd.grgen.ir.stmt.deque.DequeVarClear;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+	using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using DequeClear = de.unika.ipd.grgen.ir.stmt.deque.DequeClear;
+	using DequeVarClear = de.unika.ipd.grgen.ir.stmt.deque.DequeVarClear;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class DequeClearNode : DequeProcedureMethodInvocationBaseNode
-{
-	static DequeClearNode()
+	public class DequeClearNode : DequeProcedureMethodInvocationBaseNode
 	{
-		SetClassName(typeof(DequeClearNode), "deque clear statement");
-	}
+		static DequeClearNode()
+		{
+			SetClassName(typeof(DequeClearNode), "deque clear statement");
+		}
 
-	public DequeClearNode(Coords coords, QualIdentNode target)
-		: base(coords, target)
-	{
-	}
+		public DequeClearNode(Coords coords, QualIdentNode target)
+			: base(coords, target)
+		{
+		}
 
-	public DequeClearNode(Coords coords, VarDeclNode targetVar)
-		: base(coords, targetVar)
-	{
-	}
+		public DequeClearNode(Coords coords, VarDeclNode targetVar)
+			: base(coords, targetVar)
+		{
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		if(target != null)
-			return new DequeClear(target.CheckIR(typeof(Qualification)));
-		else
-			return new DequeVarClear(targetVar.CheckIR(typeof(Variable)));
+		protected internal override IR ConstructIR()
+		{
+			if(target != null)
+				return new DequeClear(target.CheckIR(typeof(Qualification)));
+			else
+				return new DequeVarClear(targetVar.CheckIR(typeof(Variable)));
+		}
 	}
-}
 
 }

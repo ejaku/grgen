@@ -12,93 +12,93 @@
 namespace de.unika.ipd.grgen.ast.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using ContainerTypeNode = de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+	using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using ContainerTypeNode = de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ContainerProcedureMethodInvocationBaseNode : BuiltinProcedureInvocationBaseNode
-{
-	static ContainerProcedureMethodInvocationBaseNode()
+	public abstract class ContainerProcedureMethodInvocationBaseNode : BuiltinProcedureInvocationBaseNode
 	{
-		SetClassName(typeof(ContainerProcedureMethodInvocationBaseNode), "container procedure method invocation base");
-	}
-
-	protected internal QualIdentNode target;
-	protected internal VarDeclNode targetVar;
-
-	protected internal ContainerProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
-		: base(coords)
-	{
-		this.target = BecomeParent(target);
-	}
-
-	protected internal ContainerProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
-		: base(coords)
-	{
-		this.targetVar = BecomeParent(targetVar);
-	}
-
-	protected internal virtual ContainerTypeNode TargetType
-	{
-		get
+		static ContainerProcedureMethodInvocationBaseNode()
 		{
-			if(target != null)
+			SetClassName(typeof(ContainerProcedureMethodInvocationBaseNode), "container procedure method invocation base");
+		}
+
+		protected internal QualIdentNode target;
+		protected internal VarDeclNode targetVar;
+
+		protected internal ContainerProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
+			: base(coords)
+		{
+			this.target = BecomeParent(target);
+		}
+
+		protected internal ContainerProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
+			: base(coords)
+		{
+			this.targetVar = BecomeParent(targetVar);
+		}
+
+		protected internal virtual ContainerTypeNode TargetType
+		{
+			get
 			{
-				TypeNode targetType = target.Decl.DeclType;
-				return (ContainerTypeNode)targetType;
+				if(target != null)
+				{
+					TypeNode targetType = target.Decl.DeclType;
+					return (ContainerTypeNode)targetType;
+				}
+				else
+				{
+					TypeNode targetType = targetVar.DeclType;
+					return (ContainerTypeNode)targetType;
+				}
 			}
-			else
+		}
+
+		protected internal virtual BaseNode ValidTarget
+		{
+			get
 			{
-				TypeNode targetType = targetVar.DeclType;
-				return (ContainerTypeNode)targetType;
+				return target != null ? (BaseNode)target : (BaseNode)targetVar;
 			}
 		}
-	}
 
-	protected internal virtual BaseNode ValidTarget
-	{
-		get
+		public override ICollection<BaseNode> Children
 		{
-			return target != null ? (BaseNode)target : (BaseNode)targetVar;
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(ValidTarget);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("target");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			// target type already checked during resolving into this node
+			return true;
+		}
+
+		public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+		{
+			return true;
 		}
 	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
-		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(ValidTarget);
-			return children;
-		}
-	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("target");
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		return true;
-	}
-
-	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
-	{
-		return true;
-	}
-}
 
 }

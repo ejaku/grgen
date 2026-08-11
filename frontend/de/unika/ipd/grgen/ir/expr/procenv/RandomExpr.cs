@@ -7,35 +7,35 @@
 
 namespace de.unika.ipd.grgen.ir.expr.procenv
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using DoubleType = de.unika.ipd.grgen.ir.type.basic.DoubleType;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using DoubleType = de.unika.ipd.grgen.ir.type.basic.DoubleType;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class RandomExpr : BuiltinFunctionInvocationExpr
-{
-	private Expression numExpr;
-
-	public RandomExpr(Expression numExpr)
-		: base("random", numExpr == null ? DoubleType.Type : IntType.Type)
+	public class RandomExpr : BuiltinFunctionInvocationExpr
 	{
-		this.numExpr = numExpr;
-	}
+		private Expression numExpr;
 
-	public virtual Expression NumExpr
-	{
-		get
+		public RandomExpr(Expression numExpr)
+			: base("random", numExpr == null ? DoubleType.Type : IntType.Type)
 		{
-			return numExpr;
+			this.numExpr = numExpr;
+		}
+
+		public virtual Expression NumExpr
+		{
+			get
+			{
+				return numExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(numExpr != null)
+				numExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(numExpr != null)
-			numExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

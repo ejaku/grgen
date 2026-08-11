@@ -12,20 +12,20 @@
 namespace de.unika.ipd.grgen.util
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
 
-/// <summary>
-/// Something you can walk on. This means, that there are children to visit.
-/// </summary>
-public interface Walkable
-{
 	/// <summary>
-	/// Get the children of this object
-	/// Note: BaseNode implements Walkable </summary>
-	/// <returns> The children </returns>
-	ICollection<BaseNode> WalkableChildren {get;}
-}
+	/// Something you can walk on. This means, that there are children to visit.
+	/// </summary>
+	public interface Walkable
+	{
+		/// <summary>
+		/// Get the children of this object
+		/// Note: BaseNode implements Walkable </summary>
+		/// <returns> The children </returns>
+		ICollection<BaseNode> WalkableChildren {get;}
+	}
 
 }

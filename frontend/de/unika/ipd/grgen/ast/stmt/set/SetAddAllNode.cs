@@ -12,69 +12,69 @@
 namespace de.unika.ipd.grgen.ast.stmt.set
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using SetVarAddAll = de.unika.ipd.grgen.ir.stmt.set.SetVarAddAll;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using SetVarAddAll = de.unika.ipd.grgen.ir.stmt.set.SetVarAddAll;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class SetAddAllNode : SetProcedureMethodInvocationBaseNode
-{
-	static SetAddAllNode()
+	public class SetAddAllNode : SetProcedureMethodInvocationBaseNode
 	{
-		SetClassName(typeof(SetAddAllNode), "set add all statement");
-	}
-
-	private ExprNode valueExpr;
-
-	public SetAddAllNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr)
-		: base(coords, targetVar)
-	{
-		this.valueExpr = BecomeParent(valueExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static SetAddAllNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(ValidTarget);
-			children.Add(valueExpr);
-			return children;
+			SetClassName(typeof(SetAddAllNode), "set add all statement");
+		}
+
+		private ExprNode valueExpr;
+
+		public SetAddAllNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr)
+			: base(coords, targetVar)
+		{
+			this.valueExpr = BecomeParent(valueExpr);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(ValidTarget);
+				children.Add(valueExpr);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("target");
+				childrenNames.Add("valueExpr");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			// target type already checked during resolving into this node
+			SetTypeNode targetType = TargetTypeExact;
+			bool success = true;
+			success &= CheckType(valueExpr, targetType, "set add all statement", "value");
+			return success;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			valueExpr = valueExpr.Evaluate();
+			return new SetVarAddAll(targetVar.CheckIR(typeof(Variable)), valueExpr.CheckIR(typeof(Expression)));
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("target");
-			childrenNames.Add("valueExpr");
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		SetTypeNode targetType = TargetTypeExact;
-		bool success = true;
-		success &= CheckType(valueExpr, targetType, "set add all statement", "value");
-		return success;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		valueExpr = valueExpr.Evaluate();
-		return new SetVarAddAll(targetVar.CheckIR(typeof(Variable)), valueExpr.CheckIR(typeof(Expression)));
-	}
-}
 
 }

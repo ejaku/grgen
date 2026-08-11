@@ -12,134 +12,134 @@
 namespace de.unika.ipd.grgen.ast.expr
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ContainerSingleElementInitNode : ContainerInitNode
-{
-	static ContainerSingleElementInitNode()
+	public abstract class ContainerSingleElementInitNode : ContainerInitNode
 	{
-		SetClassName(typeof(ContainerSingleElementInitNode), "container single element init");
-	}
-
-	protected internal CollectNode<ExprNode> containerItems = new CollectNode<ExprNode>();
-
-
-	public ContainerSingleElementInitNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	public virtual void AddItem(ExprNode item)
-	{
-		containerItems.AddChild(item);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static ContainerSingleElementInitNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(containerItems);
-			return children;
+			SetClassName(typeof(ContainerSingleElementInitNode), "container single element init");
 		}
-	}
 
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		protected internal CollectNode<ExprNode> containerItems = new CollectNode<ExprNode>();
+
+
+		public ContainerSingleElementInitNode(Coords coords)
+			: base(coords)
 		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("containerItems");
-			return childrenNames;
 		}
-	}
 
-	protected internal virtual bool CheckContainerItems()
-	{
-		bool success = true;
-
-		TypeNode containerElementType = ContainerType.ElementType;
-		foreach(ExprNode item in containerItems.ChildrenExact)
+		public virtual void AddItem(ExprNode item)
 		{
-			if(item.Type != containerElementType)
+			containerItems.AddChild(item);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
 			{
-				if(!IsInitInModel())
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(containerItems);
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("containerItems");
+				return childrenNames;
+			}
+		}
+
+		protected internal virtual bool CheckContainerItems()
+		{
+			bool success = true;
+
+			TypeNode containerElementType = ContainerType.ElementType;
+			foreach(ExprNode item in containerItems.ChildrenExact)
+			{
+				if(item.Type != containerElementType)
 				{
-					ExprNode oldValueExpr = item;
-					ExprNode newValueExpr = item.AdjustType(containerElementType, Coords);
-					containerItems.Replace(oldValueExpr, newValueExpr);
-					if(newValueExpr == ConstNode.Invalid)
+					if(!IsInitInModel())
+					{
+						ExprNode oldValueExpr = item;
+						ExprNode newValueExpr = item.AdjustType(containerElementType, Coords);
+						containerItems.Replace(oldValueExpr, newValueExpr);
+						if(newValueExpr == ConstNode.Invalid)
+						{
+							success = false;
+							oldValueExpr.ReportError("The value type " + oldValueExpr.Type.ToStringWithDeclarationCoords()
+									+ " of the initializer does not fit to the value type " + containerElementType.ToStringWithDeclarationCoords()
+									+ " of the container (" + ContainerType.TypeName + ").");
+						}
+					}
+					else
 					{
 						success = false;
-						oldValueExpr.ReportError("The value type " + oldValueExpr.Type.ToStringWithDeclarationCoords()
+						item.ReportError("The value type " + item.Type.ToStringWithDeclarationCoords()
 								+ " of the initializer does not fit to the value type " + containerElementType.ToStringWithDeclarationCoords()
-								+ " of the container (" + ContainerType.TypeName + ").");
+								+ " of the container (" + ContainerType.TypeName
+								+ " -- all items must be of exactly the same type).");
 					}
 				}
-				else
+			}
+
+			return success;
+		}
+
+		/// <summary>
+		/// Checks whether the container only contains constants. </summary>
+		/// <returns> True, if all container items are constant. </returns>
+		public virtual bool IsConstant()
+		{
+			foreach(ExprNode item in containerItems.ChildrenExact)
+			{
+				if(!(item is ConstNode || IsEnumValue(item)))
+					return false;
+			}
+			return true;
+		}
+
+		public virtual bool Contains(ConstNode node)
+		{
+			foreach(ExprNode item in containerItems.ChildrenExact)
+			{
+				if(item is ConstNode)
 				{
-					success = false;
-					item.ReportError("The value type " + item.Type.ToStringWithDeclarationCoords()
-							+ " of the initializer does not fit to the value type " + containerElementType.ToStringWithDeclarationCoords()
-							+ " of the container (" + ContainerType.TypeName
-							+ " -- all items must be of exactly the same type).");
+					ConstNode itemConst = (ConstNode)item;
+					if(node.Value.Equals(itemConst.Value))
+						return true;
 				}
 			}
+			return false;
 		}
 
-		return success;
-	}
-
-	/// <summary>
-	/// Checks whether the container only contains constants. </summary>
-	/// <returns> True, if all container items are constant. </returns>
-	public virtual bool IsConstant()
-	{
-		foreach(ExprNode item in containerItems.ChildrenExact)
+		protected internal virtual CollectNode<ExprNode> Items
 		{
-			if(!(item is ConstNode || IsEnumValue(item)))
-				return false;
-		}
-		return true;
-	}
-
-	public virtual bool Contains(ConstNode node)
-	{
-		foreach(ExprNode item in containerItems.ChildrenExact)
-		{
-			if(item is ConstNode)
+			get
 			{
-				ConstNode itemConst = (ConstNode)item;
-				if(node.Value.Equals(itemConst.Value))
-					return true;
+				return containerItems;
 			}
 		}
-		return false;
-	}
 
-	protected internal virtual CollectNode<ExprNode> Items
-	{
-		get
+		protected internal virtual IList<Expression> ConstructItems()
 		{
-			return containerItems;
+			IList<Expression> items = new List<Expression>();
+			foreach(ExprNode item in containerItems.ChildrenExact)
+			{
+				item = item.Evaluate();
+				items.Add(item.CheckIR(typeof(Expression)));
+			}
+			return items;
 		}
 	}
-
-	protected internal virtual IList<Expression> ConstructItems()
-	{
-		IList<Expression> items = new List<Expression>();
-		foreach(ExprNode item in containerItems.ChildrenExact)
-		{
-			item = item.Evaluate();
-			items.Add(item.CheckIR(typeof(Expression)));
-		}
-		return items;
-	}
-}
 
 }

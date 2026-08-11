@@ -12,41 +12,41 @@
 namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using DebugEmitProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugEmitProc;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using DebugEmitProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugEmitProc;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class DebugEmitProcNode : DebugProcNode
-{
-	static DebugEmitProcNode()
+	public class DebugEmitProcNode : DebugProcNode
 	{
-		SetClassName(typeof(DebugEmitProcNode), "debug emit procedure");
-	}
-
-	public DebugEmitProcNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	protected internal override string ShortSignature()
-	{
-		return "Debug::emit()";
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		IList<Expression> expressions = new List<Expression>();
-		foreach(ExprNode expr in exprs.GetChildrenExact())
+		static DebugEmitProcNode()
 		{
-			ExprNode exprEvaluated = expr.Evaluate();
-			expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+			SetClassName(typeof(DebugEmitProcNode), "debug emit procedure");
 		}
-		return new DebugEmitProc(expressions);
+
+		public DebugEmitProcNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		protected internal override string ShortSignature()
+		{
+			return "Debug::emit()";
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			IList<Expression> expressions = new List<Expression>();
+			foreach(ExprNode expr in exprs.GetChildrenExact())
+			{
+				ExprNode exprEvaluated = expr.Evaluate();
+				expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+			}
+			return new DebugEmitProc(expressions);
+		}
 	}
-}
 
 }

@@ -7,30 +7,30 @@
 
 namespace de.unika.ipd.grgen.ast.expr
 {
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class InvalidConstNode : ConstNode
-{
-	static InvalidConstNode()
+	public class InvalidConstNode : ConstNode
 	{
-		SetClassName(typeof(InvalidConstNode), "invalid const");
-	}
+		static InvalidConstNode()
+		{
+			SetClassName(typeof(InvalidConstNode), "invalid const");
+		}
 
-	public InvalidConstNode(Coords coords, string name, object value)
-		: base(coords, name, value)
-	{
-	}
+		public InvalidConstNode(Coords coords, string name, object value)
+			: base(coords, name, value)
+		{
+		}
 
-	protected internal override ConstNode DoCastTo(TypeNode type)
-	{
-		return this;
-	}
+		protected internal override ConstNode DoCastTo(TypeNode type)
+		{
+			return this;
+		}
 
-	public override string ToString()
-	{
-		return "invalid const";
+		public override string ToString()
+		{
+			return "invalid const";
+		}
 	}
-}
 
 }

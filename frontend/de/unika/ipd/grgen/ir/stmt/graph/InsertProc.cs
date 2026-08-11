@@ -7,34 +7,34 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class InsertProc : BuiltinProcedureInvocationBase
-{
-	private readonly Expression graphExpr;
-
-	public InsertProc(Expression graphExpr)
-		: base("insert procedure")
+	public class InsertProc : BuiltinProcedureInvocationBase
 	{
-		this.graphExpr = graphExpr;
-	}
+		private readonly Expression graphExpr;
 
-	public virtual Expression GraphExpr
-	{
-		get
+		public InsertProc(Expression graphExpr)
+			: base("insert procedure")
 		{
-			return graphExpr;
+			this.graphExpr = graphExpr;
+		}
+
+		public virtual Expression GraphExpr
+		{
+			get
+			{
+				return graphExpr;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			graphExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		graphExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

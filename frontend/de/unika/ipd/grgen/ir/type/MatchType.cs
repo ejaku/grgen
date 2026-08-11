@@ -11,51 +11,51 @@
 
 namespace de.unika.ipd.grgen.ir.type
 {
-using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+	using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Rule = de.unika.ipd.grgen.ir.executable.Rule;
 
-public class MatchType : Type, ContainedInPackage
-{
-	private string packageContainedIn;
-	private Rule action;
-
-	public MatchType(Ident ident)
-		: base("match type", ident)
+	public class MatchType : Type, ContainedInPackage
 	{
-	}
+		private string packageContainedIn;
+		private Rule action;
 
-	public virtual Rule Action
-	{
-		set
+		public MatchType(Ident ident)
+			: base("match type", ident)
 		{
-			this.action = value;
 		}
-		get
+
+		public virtual Rule Action
 		{
-			return action;
+			set
+			{
+				this.action = value;
+			}
+			get
+			{
+				return action;
+			}
+		}
+
+		public virtual string PackageContainedIn
+		{
+			get
+			{
+				return packageContainedIn;
+			}
+			set
+			{
+				this.packageContainedIn = value;
+			}
+		}
+
+
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_MATCH;
 		}
 	}
-
-	public virtual string PackageContainedIn
-	{
-		get
-		{
-			return packageContainedIn;
-		}
-		set
-		{
-			this.packageContainedIn = value;
-		}
-	}
-
-
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_MATCH;
-	}
-}
 
 }

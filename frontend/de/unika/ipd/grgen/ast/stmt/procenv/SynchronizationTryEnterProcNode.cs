@@ -12,95 +12,95 @@
 namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using SynchronizationTryEnterProc = de.unika.ipd.grgen.ir.stmt.procenv.SynchronizationTryEnterProc;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+	using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using SynchronizationTryEnterProc = de.unika.ipd.grgen.ir.stmt.procenv.SynchronizationTryEnterProc;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class SynchronizationTryEnterProcNode : BuiltinProcedureInvocationBaseNode
-{
-	static SynchronizationTryEnterProcNode()
+	public class SynchronizationTryEnterProcNode : BuiltinProcedureInvocationBaseNode
 	{
-		SetClassName(typeof(SynchronizationTryEnterProcNode), "synchronization try enter procedure");
-	}
-
-	private ExprNode criticalSectionObjectExpr;
-
-	internal IList<TypeNode> returnTypes;
-
-	public SynchronizationTryEnterProcNode(Coords coords, ExprNode criticalSectionObjectExpr)
-		: base(coords)
-	{
-
-		this.criticalSectionObjectExpr = BecomeParent(criticalSectionObjectExpr);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static SynchronizationTryEnterProcNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(criticalSectionObjectExpr);
-			return children;
+			SetClassName(typeof(SynchronizationTryEnterProcNode), "synchronization try enter procedure");
 		}
-	}
 
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		private ExprNode criticalSectionObjectExpr;
+
+		internal IList<TypeNode> returnTypes;
+
+		public SynchronizationTryEnterProcNode(Coords coords, ExprNode criticalSectionObjectExpr)
+			: base(coords)
 		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("criticalSectionObjectExpr");
-			return childrenNames;
+
+			this.criticalSectionObjectExpr = BecomeParent(criticalSectionObjectExpr);
 		}
-	}
 
-	protected internal override bool CheckLocal()
-	{
-		TypeNode criticalSectionObjectExprType = criticalSectionObjectExpr.Type;
-		if(!criticalSectionObjectExprType.IsLockableType())
+		public override ICollection<BaseNode> Children
 		{
-			criticalSectionObjectExpr.ReportError("The Synchronization::tryenter procedure expects as argument (criticalSectionObject)"
-					+ " a value that is not of basic type (with exception of type object)"
-					+ " (but is given a value of type " + criticalSectionObjectExprType.ToStringWithDeclarationCoords() + ").");
-			return false;
-		}
-		return true;
-	}
-
-	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
-	{
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		criticalSectionObjectExpr = criticalSectionObjectExpr.Evaluate();
-		SynchronizationTryEnterProc tryEnter = new SynchronizationTryEnterProc(BasicTypeNode.booleanType.GetIRType(), criticalSectionObjectExpr.CheckIR(typeof(Expression)));
-		return tryEnter;
-	}
-
-	public override IList<TypeNode> Type
-	{
-		get
-		{
-			if(returnTypes == null)
+			get
 			{
-				returnTypes = new List<TypeNode>();
-				returnTypes.Add(BasicTypeNode.booleanType);
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(criticalSectionObjectExpr);
+				return children;
 			}
-			return returnTypes;
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("criticalSectionObjectExpr");
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			TypeNode criticalSectionObjectExprType = criticalSectionObjectExpr.Type;
+			if(!criticalSectionObjectExprType.IsLockableType())
+			{
+				criticalSectionObjectExpr.ReportError("The Synchronization::tryenter procedure expects as argument (criticalSectionObject)"
+						+ " a value that is not of basic type (with exception of type object)"
+						+ " (but is given a value of type " + criticalSectionObjectExprType.ToStringWithDeclarationCoords() + ").");
+				return false;
+			}
+			return true;
+		}
+
+		public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+		{
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			criticalSectionObjectExpr = criticalSectionObjectExpr.Evaluate();
+			SynchronizationTryEnterProc tryEnter = new SynchronizationTryEnterProc(BasicTypeNode.booleanType.GetIRType(), criticalSectionObjectExpr.CheckIR(typeof(Expression)));
+			return tryEnter;
+		}
+
+		public override IList<TypeNode> Type
+		{
+			get
+			{
+				if(returnTypes == null)
+				{
+					returnTypes = new List<TypeNode>();
+					returnTypes.Add(BasicTypeNode.booleanType);
+				}
+				return returnTypes;
+			}
 		}
 	}
-}
 
 }

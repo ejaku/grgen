@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.deque
 {
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
 
-public class DequeVarClear : ContainerVarProcedureMethodInvocationBase
-{
-	public DequeVarClear(Variable target)
-		: base("deque var clear", target)
+	public class DequeVarClear : ContainerVarProcedureMethodInvocationBase
 	{
+		public DequeVarClear(Variable target)
+			: base("deque var clear", target)
+		{
+		}
 	}
-}
 
 }

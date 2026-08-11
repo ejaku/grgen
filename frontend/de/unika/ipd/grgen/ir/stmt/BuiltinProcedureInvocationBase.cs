@@ -11,28 +11,28 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using ProcedureOrBuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using ProcedureOrBuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A base class for builtin procedure invocations.
-/// </summary>
-public abstract class BuiltinProcedureInvocationBase : ProcedureOrBuiltinProcedureInvocationBase
-{
-	protected internal BuiltinProcedureInvocationBase(string name)
-		: base(name)
+	/// <summary>
+	/// A base class for builtin procedure invocations.
+	/// </summary>
+	public abstract class BuiltinProcedureInvocationBase : ProcedureOrBuiltinProcedureInvocationBase
 	{
-	}
+		protected internal BuiltinProcedureInvocationBase(string name)
+			: base(name)
+		{
+		}
 
-	public override int ReturnArity()
-	{
-		return 0;
-	}
+		public override int ReturnArity()
+		{
+			return 0;
+		}
 
-	public override Type GetReturnType(int index)
-	{
-		return null;
+		public override Type GetReturnType(int index)
+		{
+			return null;
+		}
 	}
-}
 
 }

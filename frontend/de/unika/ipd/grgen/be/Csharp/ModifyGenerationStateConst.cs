@@ -13,74 +13,74 @@
 namespace de.unika.ipd.grgen.be.Csharp
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ir;
-using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
-using Node = de.unika.ipd.grgen.ir.pattern.Node;
-using SubpatternUsage = de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using de.unika.ipd.grgen.ir;
+	using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+	using Node = de.unika.ipd.grgen.ir.pattern.Node;
+	using SubpatternUsage = de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-public interface ModifyGenerationStateConst : ExpressionGenerationState
-{
-	string Name {get;}
+	public interface ModifyGenerationStateConst : ExpressionGenerationState
+	{
+		string Name {get;}
 
-	ICollection<Node> CommonNodes {get;}
+		ICollection<Node> CommonNodes {get;}
 
-	ICollection<Edge> CommonEdges {get;}
+		ICollection<Edge> CommonEdges {get;}
 
-	ICollection<SubpatternUsage> CommonSubpatternUsages {get;}
+		ICollection<SubpatternUsage> CommonSubpatternUsages {get;}
 
-	ICollection<Node> NewNodes {get;}
+		ICollection<Node> NewNodes {get;}
 
-	ICollection<Edge> NewEdges {get;}
+		ICollection<Edge> NewEdges {get;}
 
-	ICollection<SubpatternUsage> NewSubpatternUsages {get;}
+		ICollection<SubpatternUsage> NewSubpatternUsages {get;}
 
-	ICollection<Node> DelNodes {get;}
+		ICollection<Node> DelNodes {get;}
 
-	ICollection<Edge> DelEdges {get;}
+		ICollection<Edge> DelEdges {get;}
 
-	bool IsDeleted(Entity entity);
+		bool IsDeleted(Entity entity);
 
-	ICollection<SubpatternUsage> DelSubpatternUsages {get;}
+		ICollection<SubpatternUsage> DelSubpatternUsages {get;}
 
-	ICollection<Node> YieldedNodes {get;}
+		ICollection<Node> YieldedNodes {get;}
 
-	ICollection<Edge> YieldedEdges {get;}
+		ICollection<Edge> YieldedEdges {get;}
 
-	ICollection<Variable> YieldedVariables {get;}
+		ICollection<Variable> YieldedVariables {get;}
 
-	ICollection<Node> NewOrRetypedNodes {get;}
+		ICollection<Node> NewOrRetypedNodes {get;}
 
-	ICollection<Edge> NewOrRetypedEdges {get;}
+		ICollection<Edge> NewOrRetypedEdges {get;}
 
-	ICollection<GraphEntity> AccessViaInterface {get;}
+		ICollection<GraphEntity> AccessViaInterface {get;}
 
-	IDictionary<GraphEntity, HashSet<Entity>> NeededAttributes {get;}
+		IDictionary<GraphEntity, HashSet<Entity>> NeededAttributes {get;}
 
-	IDictionary<GraphEntity, HashSet<Entity>> AttributesStoredBeforeDelete {get;}
+		IDictionary<GraphEntity, HashSet<Entity>> AttributesStoredBeforeDelete {get;}
 
-	ICollection<Variable> NeededVariables {get;}
+		ICollection<Variable> NeededVariables {get;}
 
-	ICollection<Node> NodesNeededAsElements {get;}
+		ICollection<Node> NodesNeededAsElements {get;}
 
-	ICollection<Edge> EdgesNeededAsElements {get;}
+		ICollection<Edge> EdgesNeededAsElements {get;}
 
-	ICollection<Node> NodesNeededAsAttributes {get;}
+		ICollection<Node> NodesNeededAsAttributes {get;}
 
-	ICollection<Edge> EdgesNeededAsAttributes {get;}
+		ICollection<Edge> EdgesNeededAsAttributes {get;}
 
-	ICollection<Node> NodesNeededAsTypes {get;}
+		ICollection<Node> NodesNeededAsTypes {get;}
 
-	ICollection<Edge> EdgesNeededAsTypes {get;}
+		ICollection<Edge> EdgesNeededAsTypes {get;}
 
-	IDictionary<GraphEntity, HashSet<Entity>> ForceAttributeToVar {get;}
+		IDictionary<GraphEntity, HashSet<Entity>> ForceAttributeToVar {get;}
 
-	string MatchClassName {get;}
+		string MatchClassName {get;}
 
-	string PackagePrefix {get;}
-}
+		string PackagePrefix {get;}
+	}
 
 }

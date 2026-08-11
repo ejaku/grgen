@@ -11,52 +11,52 @@
 
 namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 
-/// <summary>
-/// AST node for an iterated pattern with explicitly specified min and max bounds on the matches, maybe including replacements.
-/// </summary>
-public class IteratedMinMaxDeclNode : IteratedDeclNode
-{
-	static IteratedMinMaxDeclNode()
+	/// <summary>
+	/// AST node for an iterated pattern with explicitly specified min and max bounds on the matches, maybe including replacements.
+	/// </summary>
+	public class IteratedMinMaxDeclNode : IteratedDeclNode
 	{
-		SetClassName(typeof(IteratedMinMaxDeclNode), "iterated minmax");
-	}
-
-	private int minMatches;
-	private int maxMatches;
-
-	public IteratedMinMaxDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right, int minMatches, int maxMatches)
-		: base(id, left, right)
-	{
-		this.minMatches = minMatches;
-		this.maxMatches = maxMatches;
-	}
-
-	protected internal override int MinMatches
-	{
-		get
+		static IteratedMinMaxDeclNode()
 		{
-			return minMatches;
+			SetClassName(typeof(IteratedMinMaxDeclNode), "iterated minmax");
+		}
+
+		private int minMatches;
+		private int maxMatches;
+
+		public IteratedMinMaxDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right, int minMatches, int maxMatches)
+			: base(id, left, right)
+		{
+			this.minMatches = minMatches;
+			this.maxMatches = maxMatches;
+		}
+
+		protected internal override int MinMatches
+		{
+			get
+			{
+				return minMatches;
+			}
+		}
+
+		protected internal override int MaxMatches
+		{
+			get
+			{
+				return maxMatches;
+			}
+		}
+
+		public static string KindStr
+		{
+			get
+			{
+				return "iterated-minmax";
+			}
 		}
 	}
-
-	protected internal override int MaxMatches
-	{
-		get
-		{
-			return maxMatches;
-		}
-	}
-
-	public static string KindStr
-	{
-		get
-		{
-			return "iterated-minmax";
-		}
-	}
-}
 
 }

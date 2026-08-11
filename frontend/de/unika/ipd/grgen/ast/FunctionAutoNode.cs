@@ -7,35 +7,35 @@
 
 namespace de.unika.ipd.grgen.ast
 {
-using FunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
-using Function = de.unika.ipd.grgen.ir.executable.Function;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using FunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+	using Function = de.unika.ipd.grgen.ir.executable.Function;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-/// <summary>
-/// AST node that represents a function auto node
-/// </summary>
-public abstract class FunctionAutoNode : BaseNode
-{
-	static FunctionAutoNode()
+	/// <summary>
+	/// AST node that represents a function auto node
+	/// </summary>
+	public abstract class FunctionAutoNode : BaseNode
 	{
-		SetClassName(typeof(FunctionAutoNode), "function auto");
+		static FunctionAutoNode()
+		{
+			SetClassName(typeof(FunctionAutoNode), "function auto");
+		}
+
+		protected internal string function;
+
+		public FunctionAutoNode(Coords coords, string function)
+			: base(coords)
+		{
+			this.function = function;
+		}
+
+		public abstract bool ResolveLocalBypass();
+
+		public abstract bool CheckLocalBypass();
+
+		public abstract bool CheckLocal(FunctionDeclNode functionDecl);
+
+		public abstract void GetStatements(FunctionDeclNode functionDecl, Function function);
 	}
-
-	protected internal string function;
-
-	public FunctionAutoNode(Coords coords, string function)
-		: base(coords)
-	{
-		this.function = function;
-	}
-
-	public abstract bool ResolveLocalBypass();
-
-	public abstract bool CheckLocalBypass();
-
-	public abstract bool CheckLocal(FunctionDeclNode functionDecl);
-
-	public abstract void GetStatements(FunctionDeclNode functionDecl, Function function);
-}
 
 }

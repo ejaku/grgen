@@ -11,21 +11,21 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class SizeExpr : BuiltinFunctionInvocationExpr
-{
-	public SizeExpr()
-		: base("size expr", IntType.Type)
+	public class SizeExpr : BuiltinFunctionInvocationExpr
 	{
-	}
+		public SizeExpr()
+			: base("size expr", IntType.Type)
+		{
+		}
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+		}
 	}
-}
 
 }

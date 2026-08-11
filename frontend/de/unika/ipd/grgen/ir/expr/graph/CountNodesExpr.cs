@@ -7,35 +7,35 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class CountNodesExpr : BuiltinFunctionInvocationExpr
-{
-	private readonly Expression nodeType;
-
-	public CountNodesExpr(Expression nodeType)
-		: base("count nodes expression", IntType.Type)
+	public class CountNodesExpr : BuiltinFunctionInvocationExpr
 	{
-		this.nodeType = nodeType;
-	}
+		private readonly Expression nodeType;
 
-	public virtual Expression NodeTypeExpr
-	{
-		get
+		public CountNodesExpr(Expression nodeType)
+			: base("count nodes expression", IntType.Type)
 		{
-			return nodeType;
+			this.nodeType = nodeType;
+		}
+
+		public virtual Expression NodeTypeExpr
+		{
+			get
+			{
+				return nodeType;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			nodeType.CollectNeededEntities(needs);
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		nodeType.CollectNeededEntities(needs);
-	}
-}
 
 }

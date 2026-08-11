@@ -11,54 +11,54 @@
 
 namespace de.unika.ipd.grgen.ast.expr.set
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using SetMaxExpr = de.unika.ipd.grgen.ir.expr.set.SetMaxExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using SetMaxExpr = de.unika.ipd.grgen.ir.expr.set.SetMaxExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class SetMaxNode : SetFunctionMethodInvocationBaseExprNode
-{
-	static SetMaxNode()
+	public class SetMaxNode : SetFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(SetMaxNode), "set max");
-	}
-
-	public SetMaxNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		// target type already checked during resolving into this node
-		SetTypeNode setType = TargetTypeExact;
-		if(!setType.valueType.IsAccumulatableType())
+		static SetMaxNode()
 		{
-			targetExpr.ReportError("The set function method max can only be employed on an object of type set<" + TypeNode.AccumulatableTypesAsString + ">"
-					+ " (but is employed on an object of type " + setType.TypeName + ").");
-			return false;
+			SetClassName(typeof(SetMaxNode), "set max");
 		}
-		return true;
-	}
 
-	public override TypeNode Type
-	{
-		get
+		public SetMaxNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
 		{
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			// target type already checked during resolving into this node
 			SetTypeNode setType = TargetTypeExact;
-			return BasicTypeNode.GetArrayAccumulationResultType(setType.valueType);
+			if(!setType.valueType.IsAccumulatableType())
+			{
+				targetExpr.ReportError("The set function method max can only be employed on an object of type set<" + TypeNode.AccumulatableTypesAsString + ">"
+						+ " (but is employed on an object of type " + setType.TypeName + ").");
+				return false;
+			}
+			return true;
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				SetTypeNode setType = TargetTypeExact;
+				return BasicTypeNode.GetArrayAccumulationResultType(setType.valueType);
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new SetMaxExpr(targetExpr.CheckIR(typeof(Expression)));
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new SetMaxExpr(targetExpr.CheckIR(typeof(Expression)));
-	}
-}
 
 }

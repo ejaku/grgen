@@ -11,37 +11,37 @@
 
 namespace de.unika.ipd.grgen.ir.executable
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// An external function method.
-/// </summary>
-public class ExternalFunctionMethod : ExternalFunction
-{
 	/// <summary>
-	/// The owner of the function method. </summary>
-	protected internal Type owner = null;
-
-	/// <param name="name"> The name of the external function. </param>
-	/// <param name="ident"> The identifier that identifies this object. </param>
-	public ExternalFunctionMethod(string name, Ident ident, Type retType)
-		: base(name, ident, retType)
+	/// An external function method.
+	/// </summary>
+	public class ExternalFunctionMethod : ExternalFunction
 	{
-	}
+		/// <summary>
+		/// The owner of the function method. </summary>
+		protected internal Type owner = null;
 
-	public virtual Type Owner
-	{
-		get
+		/// <param name="name"> The name of the external function. </param>
+		/// <param name="ident"> The identifier that identifies this object. </param>
+		public ExternalFunctionMethod(string name, Ident ident, Type retType)
+			: base(name, ident, retType)
 		{
-			return owner;
 		}
-		set
-		{
-			owner = value;
-		}
-	}
 
-}
+		public virtual Type Owner
+		{
+			get
+			{
+				return owner;
+			}
+			set
+			{
+				owner = value;
+			}
+		}
+
+	}
 
 }

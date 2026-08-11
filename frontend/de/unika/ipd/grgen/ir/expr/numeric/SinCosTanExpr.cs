@@ -11,49 +11,49 @@
 
 namespace de.unika.ipd.grgen.ir.expr.numeric
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 
-public class SinCosTanExpr : BuiltinFunctionInvocationExpr
-{
-	public enum TrigonometryFunctionType
+	public class SinCosTanExpr : BuiltinFunctionInvocationExpr
 	{
-		sin,
-		cos,
-		tan
-	}
-
-	private TrigonometryFunctionType which;
-	private Expression expr;
-
-	public SinCosTanExpr(TrigonometryFunctionType which, Expression expr)
-		: base("sin cos tan expr", expr.Type)
-	{
-		this.which = which;
-		this.expr = expr;
-	}
-
-	public virtual TrigonometryFunctionType Which
-	{
-		get
+		public enum TrigonometryFunctionType
 		{
-			return which;
+			sin,
+			cos,
+			tan
+		}
+
+		private TrigonometryFunctionType which;
+		private Expression expr;
+
+		public SinCosTanExpr(TrigonometryFunctionType which, Expression expr)
+			: base("sin cos tan expr", expr.Type)
+		{
+			this.which = which;
+			this.expr = expr;
+		}
+
+		public virtual TrigonometryFunctionType Which
+		{
+			get
+			{
+				return which;
+			}
+		}
+
+		public virtual Expression Expr
+		{
+			get
+			{
+				return expr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			expr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression Expr
-	{
-		get
-		{
-			return expr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		expr.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -11,34 +11,34 @@
 
 namespace de.unika.ipd.grgen.util.report
 {
-/// <summary>
-/// A reporter that eats every thing up
-/// </summary>
-public class NullReporter : Reporter
-{
-	/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.entering(String)"/>
-	public virtual void Entering(string s)
+	/// <summary>
+	/// A reporter that eats every thing up
+	/// </summary>
+	public class NullReporter : Reporter
 	{
-		// nothing to do
-	}
+		/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.entering(String)"/>
+		public virtual void Entering(string s)
+		{
+			// nothing to do
+		}
 
-	/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.leaving()"/>
-	public virtual void Leaving()
-	{
-		// nothing to do
-	}
+		/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.leaving()"/>
+		public virtual void Leaving()
+		{
+			// nothing to do
+		}
 
-	/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)"/>
-	public override void Report(int channel, Location loc, string msg)
-	{
-		// nothing to do
-	}
+		/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)"/>
+		public override void Report(int channel, Location loc, string msg)
+		{
+			// nothing to do
+		}
 
-	/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.report(int, java.lang.String)"/>
-	public override void Report(int channel, string msg)
-	{
-		// nothing to do
+		/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.report(int, java.lang.String)"/>
+		public override void Report(int channel, string msg)
+		{
+			// nothing to do
+		}
 	}
-}
 
 }

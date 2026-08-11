@@ -11,44 +11,44 @@
 
 namespace de.unika.ipd.grgen.ir.model.type
 {
-using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-
-/// <summary>
-/// IR class that represents node types.
-/// </summary>
-public class NodeType : InheritanceType, ContainedInPackage
-{
-	private string packageContainedIn;
+	using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
 
 	/// <summary>
-	/// Make a new node type. </summary>
-	/// <param name="ident"> The identifier that declares this type. </param>
-	/// <param name="modifiers"> The modifiers for this type. </param>
-	/// <param name="externalName"> The name of the external implementation of this type or null. </param>
-	public NodeType(Ident ident, int modifiers, string externalName)
-		: base("node type", ident, modifiers, externalName)
+	/// IR class that represents node types.
+	/// </summary>
+	public class NodeType : InheritanceType, ContainedInPackage
 	{
-	}
+		private string packageContainedIn;
 
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_NODE;
-	}
-
-	public virtual string PackageContainedIn
-	{
-		get
+		/// <summary>
+		/// Make a new node type. </summary>
+		/// <param name="ident"> The identifier that declares this type. </param>
+		/// <param name="modifiers"> The modifiers for this type. </param>
+		/// <param name="externalName"> The name of the external implementation of this type or null. </param>
+		public NodeType(Ident ident, int modifiers, string externalName)
+			: base("node type", ident, modifiers, externalName)
 		{
-			return packageContainedIn;
 		}
-		set
-		{
-			this.packageContainedIn = value;
-		}
-	}
 
-}
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_NODE;
+		}
+
+		public virtual string PackageContainedIn
+		{
+			get
+			{
+				return packageContainedIn;
+			}
+			set
+			{
+				this.packageContainedIn = value;
+			}
+		}
+
+	}
 
 }

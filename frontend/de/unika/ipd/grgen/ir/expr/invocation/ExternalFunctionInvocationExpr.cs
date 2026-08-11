@@ -11,32 +11,32 @@
 
 namespace de.unika.ipd.grgen.ir.expr.invocation
 {
-using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// An external function invocation is an expression.
-/// </summary>
-public class ExternalFunctionInvocationExpr : FunctionInvocationBaseExpr
-{
 	/// <summary>
-	/// The function of the function invocation expression. </summary>
-	protected internal ExternalFunction externalFunction;
-
-	public ExternalFunctionInvocationExpr(Type type, ExternalFunction externalFunction)
-		: base("external function invocation expr", type)
+	/// An external function invocation is an expression.
+	/// </summary>
+	public class ExternalFunctionInvocationExpr : FunctionInvocationBaseExpr
 	{
+		/// <summary>
+		/// The function of the function invocation expression. </summary>
+		protected internal ExternalFunction externalFunction;
 
-		this.externalFunction = externalFunction;
-	}
-
-	public virtual ExternalFunction ExternalFunc
-	{
-		get
+		public ExternalFunctionInvocationExpr(Type type, ExternalFunction externalFunction)
+			: base("external function invocation expr", type)
 		{
-			return externalFunction;
+
+			this.externalFunction = externalFunction;
+		}
+
+		public virtual ExternalFunction ExternalFunc
+		{
+			get
+			{
+				return externalFunction;
+			}
 		}
 	}
-}
 
 }

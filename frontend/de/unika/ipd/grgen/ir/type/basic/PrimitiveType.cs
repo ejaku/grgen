@@ -11,21 +11,21 @@
 
 namespace de.unika.ipd.grgen.ir.type.basic
 {
-using de.unika.ipd.grgen.ir;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A Primitive type.
-/// </summary>
-public class PrimitiveType : Type
-{
 	/// <summary>
-	/// Make a new primitive type. </summary>
-	/// <param name="name"> Name of the primitive type. </param>
-	public PrimitiveType(string name, Ident ident)
-		: base(name, ident)
+	/// A Primitive type.
+	/// </summary>
+	public class PrimitiveType : Type
 	{
+		/// <summary>
+		/// Make a new primitive type. </summary>
+		/// <param name="name"> Name of the primitive type. </param>
+		public PrimitiveType(string name, Ident ident)
+			: base(name, ident)
+		{
+		}
 	}
-}
 
 }

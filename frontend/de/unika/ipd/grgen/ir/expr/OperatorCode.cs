@@ -7,34 +7,34 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-public enum OperatorCode
-{
-	COND,
-	LOG_OR,
-	LOG_AND,
-	BIT_OR,
-	BIT_XOR,
-	BIT_AND,
-	EQ,
-	NE,
-	LT,
-	LE,
-	GT,
-	GE,
-	SHL,
-	SHR,
-	BIT_SHR,
-	ADD,
-	SUB,
-	MUL,
-	DIV,
-	MOD,
-	LOG_NOT,
-	BIT_NOT,
-	NEG,
-	IN,
-	EXCEPT,
-	SE
-}
+	public enum OperatorCode
+	{
+		COND,
+		LOG_OR,
+		LOG_AND,
+		BIT_OR,
+		BIT_XOR,
+		BIT_AND,
+		EQ,
+		NE,
+		LT,
+		LE,
+		GT,
+		GE,
+		SHL,
+		SHR,
+		BIT_SHR,
+		ADD,
+		SUB,
+		MUL,
+		DIV,
+		MOD,
+		LOG_NOT,
+		BIT_NOT,
+		NEG,
+		IN,
+		EXCEPT,
+		SE
+	}
 
 }

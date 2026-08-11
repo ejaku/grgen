@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-/// <summary>
-/// Represents a return statement of a filter function in the IR.
-/// </summary>
-public class ReturnStatementFilter : EvalStatement
-{
-	public ReturnStatementFilter()
-		: base("return statement filter")
+	/// <summary>
+	/// Represents a return statement of a filter function in the IR.
+	/// </summary>
+	public class ReturnStatementFilter : EvalStatement
 	{
+		public ReturnStatementFilter()
+			: base("return statement filter")
+		{
+		}
 	}
-}
 
 }

@@ -12,56 +12,56 @@
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Visited = de.unika.ipd.grgen.ir.expr.graph.Visited;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-using AssignmentBase = de.unika.ipd.grgen.ir.stmt.AssignmentBase;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Visited = de.unika.ipd.grgen.ir.expr.graph.Visited;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using AssignmentBase = de.unika.ipd.grgen.ir.stmt.AssignmentBase;
 
-/// <summary>
-/// Represents an assignment statement in the IR.
-/// </summary>
-public class AssignmentVisited : AssignmentBase
-{
 	/// <summary>
-	/// The lhs of the assignment. </summary>
-	private Visited target;
-
-	public AssignmentVisited(Visited target, Expression expr)
-		: base("assignment visited")
+	/// Represents an assignment statement in the IR.
+	/// </summary>
+	public class AssignmentVisited : AssignmentBase
 	{
-		this.target = target;
-		this.expr = expr;
-	}
+		/// <summary>
+		/// The lhs of the assignment. </summary>
+		private Visited target;
 
-	public virtual Visited Target
-	{
-		get
+		public AssignmentVisited(Visited target, Expression expr)
+			: base("assignment visited")
 		{
-			return target;
+			this.target = target;
+			this.expr = expr;
+		}
+
+		public virtual Visited Target
+		{
+			get
+			{
+				return target;
+			}
+		}
+
+		public override string ToString()
+		{
+			return Target + " = " + Expression;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			target.Entity.CollectNeededEntities(needs);
+			target.VisitorID.CollectNeededEntities(needs);
+
+			// Temporarily do not collect variables for target
+			HashSet<Variable> varSet = needs.variables;
+			needs.variables = null;
+			target.CollectNeededEntities(needs);
+			needs.variables = varSet;
+
+			Expression.CollectNeededEntities(needs);
 		}
 	}
-
-	public override string ToString()
-	{
-		return Target + " = " + Expression;
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		target.Entity.CollectNeededEntities(needs);
-		target.VisitorID.CollectNeededEntities(needs);
-
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.CollectNeededEntities(needs);
-		needs.variables = varSet;
-
-		Expression.CollectNeededEntities(needs);
-	}
-}
 
 }

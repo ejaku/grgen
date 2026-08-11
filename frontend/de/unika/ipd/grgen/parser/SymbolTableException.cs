@@ -13,24 +13,24 @@
 
 namespace de.unika.ipd.grgen.parser
 {
-using System;
+	using System;
 
-/// <summary>
-/// A symbol table exception.
-/// </summary>
-public class SymbolTableException : Exception
-{
-	private const long serialVersionUID = -7291849597287733435L;
-
-	public SymbolTableException(string text)
-		: base(text)
+	/// <summary>
+	/// A symbol table exception.
+	/// </summary>
+	public class SymbolTableException : Exception
 	{
-	}
+		private const long serialVersionUID = -7291849597287733435L;
 
-	public SymbolTableException(Coords coords, string text)
-		: this(coords + ": " + text)
-	{
+		public SymbolTableException(string text)
+			: base(text)
+		{
+		}
+
+		public SymbolTableException(Coords coords, string text)
+			: this(coords + ": " + text)
+		{
+		}
 	}
-}
 
 }

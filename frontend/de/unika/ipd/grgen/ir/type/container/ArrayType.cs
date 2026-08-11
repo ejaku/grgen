@@ -11,50 +11,50 @@
 
 namespace de.unika.ipd.grgen.ir.type.container
 {
-using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class ArrayType : ContainerType
-{
-	public Type valueType;
-
-	public ArrayType(Type valueType)
-		: base("array type")
+	public class ArrayType : ContainerType
 	{
-		this.valueType = valueType;
-	}
+		public Type valueType;
 
-	public virtual Type ValueType
-	{
-		get
+		public ArrayType(Type valueType)
+			: base("array type")
 		{
-			return valueType;
+			this.valueType = valueType;
+		}
+
+		public virtual Type ValueType
+		{
+			get
+			{
+				return valueType;
+			}
+		}
+
+		public override string ToString()
+		{
+			return "array<" + valueType + ">";
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_ARRAY;
+		}
+
+		public override Type ElementType
+		{
+			get
+			{
+				return valueType;
+			}
+		}
+
+		public override bool ContainsBaseInternalObjectType()
+		{
+			return valueType is BaseInternalObjectType;
 		}
 	}
-
-	public override string ToString()
-	{
-		return "array<" + valueType + ">";
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_ARRAY;
-	}
-
-	public override Type ElementType
-	{
-		get
-		{
-			return valueType;
-		}
-	}
-
-	public override bool ContainsBaseInternalObjectType()
-	{
-		return valueType is BaseInternalObjectType;
-	}
-}
 
 }

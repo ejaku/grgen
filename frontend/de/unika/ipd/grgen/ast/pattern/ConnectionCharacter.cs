@@ -12,46 +12,46 @@
 namespace de.unika.ipd.grgen.ast.pattern
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+	using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+	using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-/// <summary>
-/// Something that looks like a connection. </summary>
-/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionNode"/>
-public abstract class ConnectionCharacter : BaseNode
-{
-	protected internal ConnectionCharacter(Coords coords)
-		: base(coords)
+	/// <summary>
+	/// Something that looks like a connection. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionNode"/>
+	public abstract class ConnectionCharacter : BaseNode
 	{
+		protected internal ConnectionCharacter(Coords coords)
+			: base(coords)
+		{
+		}
+
+		/// <summary>
+		/// Add all nodes of this connection to a set. </summary>
+		/// <param name="set"> The set. </param>
+		public abstract void AddNodes(ISet<NodeDeclNode> set);
+
+		/// <summary>
+		/// Add all edges of this connection to a set. </summary>
+		/// <param name="set"> The set. </param>
+		public abstract void AddEdge(ISet<EdgeDeclNode> set);
+
+		public abstract EdgeDeclNode Edge {get;}
+
+		public abstract NodeDeclNode Src {get;set;}
+
+
+		public abstract NodeDeclNode Tgt {get;set;}
+
+
+		/// <summary>
+		/// Add this connection character to an IR pattern graph. </summary>
+		/// <param name="patternGraph"> The IR pattern graph. </param>
+		public abstract void AddToGraph(PatternGraphBase patternGraph);
 	}
-
-	/// <summary>
-	/// Add all nodes of this connection to a set. </summary>
-	/// <param name="set"> The set. </param>
-	public abstract void AddNodes(ISet<NodeDeclNode> set);
-
-	/// <summary>
-	/// Add all edges of this connection to a set. </summary>
-	/// <param name="set"> The set. </param>
-	public abstract void AddEdge(ISet<EdgeDeclNode> set);
-
-	public abstract EdgeDeclNode Edge {get;}
-
-	public abstract NodeDeclNode Src {get;set;}
-
-
-	public abstract NodeDeclNode Tgt {get;set;}
-
-
-	/// <summary>
-	/// Add this connection character to an IR pattern graph. </summary>
-	/// <param name="patternGraph"> The IR pattern graph. </param>
-	public abstract void AddToGraph(PatternGraphBase patternGraph);
-}
 
 }

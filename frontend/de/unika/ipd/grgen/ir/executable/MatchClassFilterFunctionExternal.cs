@@ -11,17 +11,17 @@
 
 namespace de.unika.ipd.grgen.ir.executable
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
 
-/// <summary>
-/// An external match class filter function.
-/// </summary>
-public class MatchClassFilterFunctionExternal : MatchClassFilterFunction
-{
-	public MatchClassFilterFunctionExternal(string name, Ident ident)
-		: base(name, ident)
+	/// <summary>
+	/// An external match class filter function.
+	/// </summary>
+	public class MatchClassFilterFunctionExternal : MatchClassFilterFunction
 	{
+		public MatchClassFilterFunctionExternal(string name, Ident ident)
+			: base(name, ident)
+		{
+		}
 	}
-}
 
 }

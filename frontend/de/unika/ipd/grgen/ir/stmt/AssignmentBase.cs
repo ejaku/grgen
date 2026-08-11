@@ -7,34 +7,34 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/// <summary>
-/// Gives access to the expression of an assignment statement in the IR.
-/// </summary>
-public abstract class AssignmentBase : EvalStatement
-{
 	/// <summary>
-	/// The rhs of the assignment. </summary>
-	protected internal Expression expr;
-
-	public AssignmentBase(string name)
-		: base(name)
+	/// Gives access to the expression of an assignment statement in the IR.
+	/// </summary>
+	public abstract class AssignmentBase : EvalStatement
 	{
-	}
+		/// <summary>
+		/// The rhs of the assignment. </summary>
+		protected internal Expression expr;
 
-	public virtual Expression Expression
-	{
-		get
+		public AssignmentBase(string name)
+			: base(name)
 		{
-			return expr;
 		}
-		set
-		{
-			this.expr = value;
-		}
-	}
 
-}
+		public virtual Expression Expression
+		{
+			get
+			{
+				return expr;
+			}
+			set
+			{
+				this.expr = value;
+			}
+		}
+
+	}
 
 }

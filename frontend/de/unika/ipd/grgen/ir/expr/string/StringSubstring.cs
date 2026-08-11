@@ -11,56 +11,56 @@
 
 namespace de.unika.ipd.grgen.ir.expr.@string
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
 
-public class StringSubstring : BuiltinFunctionInvocationExpr
-{
-	private Expression stringExpr;
-	private Expression startExpr;
-	private Expression lengthExpr;
-
-	public StringSubstring(Expression stringExpr, Expression startExpr, Expression lengthExpr)
-		: base("string substring", StringType.Type)
+	public class StringSubstring : BuiltinFunctionInvocationExpr
 	{
-		this.stringExpr = stringExpr;
-		this.startExpr = startExpr;
-		this.lengthExpr = lengthExpr;
-	}
+		private Expression stringExpr;
+		private Expression startExpr;
+		private Expression lengthExpr;
 
-	public virtual Expression StringExpr
-	{
-		get
+		public StringSubstring(Expression stringExpr, Expression startExpr, Expression lengthExpr)
+			: base("string substring", StringType.Type)
 		{
-			return stringExpr;
+			this.stringExpr = stringExpr;
+			this.startExpr = startExpr;
+			this.lengthExpr = lengthExpr;
+		}
+
+		public virtual Expression StringExpr
+		{
+			get
+			{
+				return stringExpr;
+			}
+		}
+
+		public virtual Expression StartExpr
+		{
+			get
+			{
+				return startExpr;
+			}
+		}
+
+		public virtual Expression LengthExpr
+		{
+			get
+			{
+				return lengthExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			stringExpr.CollectNeededEntities(needs);
+			startExpr.CollectNeededEntities(needs);
+			if(lengthExpr != null)
+				lengthExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression StartExpr
-	{
-		get
-		{
-			return startExpr;
-		}
-	}
-
-	public virtual Expression LengthExpr
-	{
-		get
-		{
-			return lengthExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		stringExpr.CollectNeededEntities(needs);
-		startExpr.CollectNeededEntities(needs);
-		if(lengthExpr != null)
-			lengthExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

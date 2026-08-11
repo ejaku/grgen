@@ -7,28 +7,28 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
 
-/// <summary>
-/// The string basic type.
-/// </summary>
-public class StringTypeNode : BasicTypeNode
-{
-	static StringTypeNode()
+	/// <summary>
+	/// The string basic type.
+	/// </summary>
+	public class StringTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(StringTypeNode), "string type");
-	}
+		static StringTypeNode()
+		{
+			SetClassName(typeof(StringTypeNode), "string type");
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new StringType(Ident.IRIdent);
-	}
+		protected internal override IR ConstructIR()
+		{
+			return new StringType(Ident.IRIdent);
+		}
 
-	public override string ToString()
-	{
-		return "string";
+		public override string ToString()
+		{
+			return "string";
+		}
 	}
-}
 
 }

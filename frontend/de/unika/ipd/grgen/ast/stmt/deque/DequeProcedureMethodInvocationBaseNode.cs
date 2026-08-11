@@ -11,36 +11,36 @@
 
 namespace de.unika.ipd.grgen.ast.stmt.deque
 {
-using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
-using ContainerProcedureMethodInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
-using DequeTypeNode = de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+	using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+	using ContainerProcedureMethodInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
+	using DequeTypeNode = de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class DequeProcedureMethodInvocationBaseNode : ContainerProcedureMethodInvocationBaseNode
-{
-	static DequeProcedureMethodInvocationBaseNode()
+	public abstract class DequeProcedureMethodInvocationBaseNode : ContainerProcedureMethodInvocationBaseNode
 	{
-		SetClassName(typeof(DequeProcedureMethodInvocationBaseNode), "deque procedure method invocation base");
-	}
-
-	protected internal DequeProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
-		: base(coords, target)
-	{
-	}
-
-	protected internal DequeProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
-		: base(coords, targetVar)
-	{
-	}
-
-	protected internal virtual DequeTypeNode TargetTypeExact
-	{
-		get
+		static DequeProcedureMethodInvocationBaseNode()
 		{
-			return (DequeTypeNode)TargetType;
+			SetClassName(typeof(DequeProcedureMethodInvocationBaseNode), "deque procedure method invocation base");
+		}
+
+		protected internal DequeProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
+			: base(coords, target)
+		{
+		}
+
+		protected internal DequeProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
+			: base(coords, targetVar)
+		{
+		}
+
+		protected internal virtual DequeTypeNode TargetTypeExact
+		{
+			get
+			{
+				return (DequeTypeNode)TargetType;
+			}
 		}
 	}
-}
 
 }

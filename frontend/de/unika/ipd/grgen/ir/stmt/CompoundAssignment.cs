@@ -11,104 +11,104 @@
 namespace de.unika.ipd.grgen.ir.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-
-/// <summary>
-/// Represents a compound assignment statement in the IR.
-/// </summary>
-public class CompoundAssignment : EvalStatement
-{
-	public enum CompoundAssignmentType
-	{
-		NONE,
-		UNION,
-		INTERSECTION,
-		WITHOUT,
-		CONCATENATE,
-		ASSIGN
-	}
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
 	/// <summary>
-	/// The lhs of the assignment. </summary>
-	private Qualification target;
-
-	/// <summary>
-	/// The operation of the compound assignment </summary>
-	private CompoundAssignmentType operation;
-
-	/// <summary>
-	/// The rhs of the assignment. </summary>
-	private Expression expr;
-
-	public CompoundAssignment(Qualification target, CompoundAssignmentType compoundAssignmentType, Expression expr)
-		: base("compound assignment")
+	/// Represents a compound assignment statement in the IR.
+	/// </summary>
+	public class CompoundAssignment : EvalStatement
 	{
-		this.target = target;
-		this.operation = compoundAssignmentType;
-		this.expr = expr;
-	}
-
-	public virtual Qualification Target
-	{
-		get
+		public enum CompoundAssignmentType
 		{
-			return target;
+			NONE,
+			UNION,
+			INTERSECTION,
+			WITHOUT,
+			CONCATENATE,
+			ASSIGN
+		}
+
+		/// <summary>
+		/// The lhs of the assignment. </summary>
+		private Qualification target;
+
+		/// <summary>
+		/// The operation of the compound assignment </summary>
+		private CompoundAssignmentType operation;
+
+		/// <summary>
+		/// The rhs of the assignment. </summary>
+		private Expression expr;
+
+		public CompoundAssignment(Qualification target, CompoundAssignmentType compoundAssignmentType, Expression expr)
+			: base("compound assignment")
+		{
+			this.target = target;
+			this.operation = compoundAssignmentType;
+			this.expr = expr;
+		}
+
+		public virtual Qualification Target
+		{
+			get
+			{
+				return target;
+			}
+		}
+
+		public virtual Expression Expression
+		{
+			get
+			{
+				return expr;
+			}
+		}
+
+		public virtual CompoundAssignmentType Operation
+		{
+			get
+			{
+				return operation;
+			}
+		}
+
+		public override string ToString()
+		{
+			string res = Target.ToString();
+			if(operation == CompoundAssignmentType.UNION)
+				res += " |= ";
+			else if(operation == CompoundAssignmentType.INTERSECTION)
+				res += " &= ";
+			else if(operation == CompoundAssignmentType.WITHOUT)
+				res += " \\= ";
+			else if(operation == CompoundAssignmentType.CONCATENATE)
+				res += " += ";
+			else
+				res += " = ";
+			res += Expression.ToString();
+			return res;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			Entity entity = target.Owner;
+			if(!IsGlobalVariable(entity))
+				needs.Add((GraphEntity)entity);
+
+			// Temporarily do not collect variables for target
+			HashSet<Variable> varSet = needs.variables;
+			needs.variables = null;
+			target.CollectNeededEntities(needs);
+			needs.variables = varSet;
+
+			Expression.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression Expression
-	{
-		get
-		{
-			return expr;
-		}
-	}
-
-	public virtual CompoundAssignmentType Operation
-	{
-		get
-		{
-			return operation;
-		}
-	}
-
-	public override string ToString()
-	{
-		string res = Target.ToString();
-		if(operation == CompoundAssignmentType.UNION)
-			res += " |= ";
-		else if(operation == CompoundAssignmentType.INTERSECTION)
-			res += " &= ";
-		else if(operation == CompoundAssignmentType.WITHOUT)
-			res += " \\= ";
-		else if(operation == CompoundAssignmentType.CONCATENATE)
-			res += " += ";
-		else
-			res += " = ";
-		res += Expression.ToString();
-		return res;
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		Entity entity = target.Owner;
-		if(!IsGlobalVariable(entity))
-			needs.Add((GraphEntity)entity);
-
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.CollectNeededEntities(needs);
-		needs.variables = varSet;
-
-		Expression.CollectNeededEntities(needs);
-	}
-}
 
 }

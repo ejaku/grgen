@@ -11,33 +11,33 @@
 
 namespace de.unika.ipd.grgen.ast.expr
 {
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using ContainerTypeNode = de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using ContainerTypeNode = de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ContainerFunctionMethodInvocationBaseExprNode : BuiltinFunctionInvocationBaseNode
-{
-	static ContainerFunctionMethodInvocationBaseExprNode()
+	public abstract class ContainerFunctionMethodInvocationBaseExprNode : BuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(ContainerFunctionMethodInvocationBaseExprNode), "container function method invocation base expression");
-	}
-
-	protected internal ExprNode targetExpr;
-
-	public ContainerFunctionMethodInvocationBaseExprNode(Coords coords, ExprNode targetExpr)
-		: base(coords)
-	{
-		this.targetExpr = BecomeParent(targetExpr);
-	}
-
-	protected internal virtual ContainerTypeNode TargetType
-	{
-		get
+		static ContainerFunctionMethodInvocationBaseExprNode()
 		{
-			TypeNode targetType = targetExpr.Type;
-			return (ContainerTypeNode)targetType;
+			SetClassName(typeof(ContainerFunctionMethodInvocationBaseExprNode), "container function method invocation base expression");
+		}
+
+		protected internal ExprNode targetExpr;
+
+		public ContainerFunctionMethodInvocationBaseExprNode(Coords coords, ExprNode targetExpr)
+			: base(coords)
+		{
+			this.targetExpr = BecomeParent(targetExpr);
+		}
+
+		protected internal virtual ContainerTypeNode TargetType
+		{
+			get
+			{
+				TypeNode targetType = targetExpr.Type;
+				return (ContainerTypeNode)targetType;
+			}
 		}
 	}
-}
 
 }

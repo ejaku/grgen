@@ -11,38 +11,38 @@
 
 namespace de.unika.ipd.grgen.ast.expr.array
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using ArrayReverseExpr = de.unika.ipd.grgen.ir.expr.array.ArrayReverseExpr;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using ArrayReverseExpr = de.unika.ipd.grgen.ir.expr.array.ArrayReverseExpr;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayReverseNode : ArrayFunctionMethodInvocationBaseExprNode
-{
-	static ArrayReverseNode()
+	public class ArrayReverseNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(ArrayReverseNode), "array reverse");
-	}
-
-	public ArrayReverseNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	public override TypeNode Type
-	{
-		get
+		static ArrayReverseNode()
 		{
-			return TargetType;
+			SetClassName(typeof(ArrayReverseNode), "array reverse");
+		}
+
+		public ArrayReverseNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
+		{
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return TargetType;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new ArrayReverseExpr(targetExpr.CheckIR(typeof(Expression)));
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new ArrayReverseExpr(targetExpr.CheckIR(typeof(Expression)));
-	}
-}
 
 }

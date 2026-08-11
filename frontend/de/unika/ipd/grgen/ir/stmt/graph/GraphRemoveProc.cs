@@ -7,33 +7,33 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class GraphRemoveProc : BuiltinProcedureInvocationBase
-{
-	private Expression entity;
-
-	public GraphRemoveProc(Expression entity)
-		: base("graph remove procedure")
+	public class GraphRemoveProc : BuiltinProcedureInvocationBase
 	{
-		this.entity = entity;
-	}
+		private Expression entity;
 
-	public virtual Expression Entity
-	{
-		get
+		public GraphRemoveProc(Expression entity)
+			: base("graph remove procedure")
 		{
-			return entity;
+			this.entity = entity;
+		}
+
+		public virtual Expression Entity
+		{
+			get
+			{
+				return entity;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			entity.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		entity.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -11,12 +11,12 @@
 
 namespace de.unika.ipd.grgen.ir
 {
-/// <summary>
-/// Something that is owned by another IR structure.
-/// </summary>
-public interface Owned
-{
-	IR Owner {get;}
-}
+	/// <summary>
+	/// Something that is owned by another IR structure.
+	/// </summary>
+	public interface Owned
+	{
+		IR Owner {get;}
+	}
 
 }

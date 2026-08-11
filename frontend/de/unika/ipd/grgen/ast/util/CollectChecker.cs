@@ -11,45 +11,45 @@
 
 namespace de.unika.ipd.grgen.ast.util
 {
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using CollectBaseNode = de.unika.ipd.grgen.ast.CollectBaseNode;
-using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
-
-/// <summary>
-/// A checker that checks if the node is a collection node
-/// and if so applies a contained child checker to all the children
-/// </summary>
-public class CollectChecker : Checker
-{
-	/// <summary>
-	/// The checker to apply to the children of the collect node to be checked by this checker </summary>
-	private Checker childChecker;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using CollectBaseNode = de.unika.ipd.grgen.ast.CollectBaseNode;
+	using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
 	/// <summary>
-	/// Create checker with the checker to apply to the children </summary>
-	public CollectChecker(Checker childChecker)
+	/// A checker that checks if the node is a collection node
+	/// and if so applies a contained child checker to all the children
+	/// </summary>
+	public class CollectChecker : Checker
 	{
-		this.childChecker = childChecker;
-	}
+		/// <summary>
+		/// The checker to apply to the children of the collect node to be checked by this checker </summary>
+		private Checker childChecker;
 
-	/// <summary>
-	/// Check if the node is a collect node and if so apply the child checker to all children. </summary>
-	///  <seealso cref="de.unika.ipd.grgen.ast.check.Checker.check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter) "/>
-	public virtual bool Check(BaseNode bn, ErrorReporter reporter)
-	{
-		if(bn is CollectBaseNode)
+		/// <summary>
+		/// Create checker with the checker to apply to the children </summary>
+		public CollectChecker(Checker childChecker)
 		{
-			bool result = true;
-			foreach(BaseNode child in bn.Children)
-				result = childChecker.Check(child, reporter) && result;
-			return result;
+			this.childChecker = childChecker;
 		}
-		else
+
+		/// <summary>
+		/// Check if the node is a collect node and if so apply the child checker to all children. </summary>
+		///  <seealso cref="de.unika.ipd.grgen.ast.check.Checker.check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter) "/>
+		public virtual bool Check(BaseNode bn, ErrorReporter reporter)
 		{
-			bn.ReportError("Not a collect node."); // TODO: WTF? why report to the node??
-			return false;
+			if(bn is CollectBaseNode)
+			{
+				bool result = true;
+				foreach(BaseNode child in bn.Children)
+					result = childChecker.Check(child, reporter) && result;
+				return result;
+			}
+			else
+			{
+				bn.ReportError("Not a collect node."); // TODO: WTF? why report to the node??
+				return false;
+			}
 		}
 	}
-}
 
 }

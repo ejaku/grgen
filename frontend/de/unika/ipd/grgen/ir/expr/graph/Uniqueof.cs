@@ -7,40 +7,40 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-using GraphType = de.unika.ipd.grgen.ir.type.basic.GraphType;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using GraphType = de.unika.ipd.grgen.ir.type.basic.GraphType;
 
-public class Uniqueof : BuiltinFunctionInvocationExpr
-{
-	/// <summary>
-	/// The entity whose unique id we want to know. </summary>
-	private readonly Expression entity;
-
-	public Uniqueof(Expression entity, Type type)
-		: base("uniqueof", type)
+	public class Uniqueof : BuiltinFunctionInvocationExpr
 	{
-		this.entity = entity;
-	}
+		/// <summary>
+		/// The entity whose unique id we want to know. </summary>
+		private readonly Expression entity;
 
-	public virtual Expression Entity
-	{
-		get
+		public Uniqueof(Expression entity, Type type)
+			: base("uniqueof", type)
 		{
-			return entity;
+			this.entity = entity;
+		}
+
+		public virtual Expression Entity
+		{
+			get
+			{
+				return entity;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(entity == null || entity.Type is GraphType)
+				needs.NeedsGraph();
+			if(entity != null)
+				entity.CollectNeededEntities(needs);
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(entity == null || entity.Type is GraphType)
-			needs.NeedsGraph();
-		if(entity != null)
-			entity.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -7,40 +7,40 @@
 
 namespace de.unika.ipd.grgen.ast.util
 {
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
 
-public class Pair<R, S> where R : de.unika.ipd.grgen.ast.BaseNode where S : de.unika.ipd.grgen.ast.BaseNode
-{
-	public R fst = null;
-	public S snd = null;
-
-	public override int GetHashCode()
+	public class Pair<R, S> where R : de.unika.ipd.grgen.ast.BaseNode where S : de.unika.ipd.grgen.ast.BaseNode
 	{
-		return fst.GetHashCode() * 31 + snd.GetHashCode();
-	}
+		public R fst = null;
+		public S snd = null;
 
-	public override bool Equals(object that)
-	{
-		if(that == null)
-			return false;
-		if(this == that)
-			return true;
-// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-// ORIGINAL LINE: if(!(that instanceof Pair<?,?>))
-		if(!(that is Pair<object, object>))
-			return false;
-		try
+		public override int GetHashCode()
 		{
-// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
-// ORIGINAL LINE: @SuppressWarnings("unchecked") Pair<R,S> that_ = (Pair<R,S>)that;
-			Pair<R, S> that_ = (Pair<R, S>)that;
-			return fst.Equals(that_.fst) && snd.Equals(that_.snd);
+			return fst.GetHashCode() * 31 + snd.GetHashCode();
 		}
-		catch(System.InvalidCastException)
+
+		public override bool Equals(object that)
 		{
-			return false;
+			if(that == null)
+				return false;
+			if(this == that)
+				return true;
+	// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
+	// ORIGINAL LINE: if(!(that instanceof Pair<?,?>))
+			if(!(that is Pair<object, object>))
+				return false;
+			try
+			{
+	// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
+	// ORIGINAL LINE: @SuppressWarnings("unchecked") Pair<R,S> that_ = (Pair<R,S>)that;
+				Pair<R, S> that_ = (Pair<R, S>)that;
+				return fst.Equals(that_.fst) && snd.Equals(that_.snd);
+			}
+			catch(System.InvalidCastException)
+			{
+				return false;
+			}
 		}
 	}
-}
 
 }

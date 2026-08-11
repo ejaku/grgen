@@ -8,38 +8,38 @@
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ir;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class EdgesFromIndexAccessMultipleFromToExpr : BuiltinFunctionInvocationExpr
-{
-	private readonly IList<IndexAccessOrdering> indexAccesses;
-
-	public EdgesFromIndexAccessMultipleFromToExpr(IList<IndexAccessOrdering> indexAccesses, Type type)
-		: base("edges from index access multiple expression", type)
+	public class EdgesFromIndexAccessMultipleFromToExpr : BuiltinFunctionInvocationExpr
 	{
-		this.indexAccesses = indexAccesses;
-	}
+		private readonly IList<IndexAccessOrdering> indexAccesses;
 
-	public virtual IList<IndexAccessOrdering> IndexAccesses
-	{
-		get
+		public EdgesFromIndexAccessMultipleFromToExpr(IList<IndexAccessOrdering> indexAccesses, Type type)
+			: base("edges from index access multiple expression", type)
 		{
-			return indexAccesses;
+			this.indexAccesses = indexAccesses;
+		}
+
+		public virtual IList<IndexAccessOrdering> IndexAccesses
+		{
+			get
+			{
+				return indexAccesses;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			foreach(IndexAccessOrdering indexAccess in indexAccesses)
+				indexAccess.CollectNeededEntities(needs);
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		foreach(IndexAccessOrdering indexAccess in indexAccesses)
-			indexAccess.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -12,44 +12,44 @@
 namespace de.unika.ipd.grgen.ir.executable
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-
-/// <summary>
-/// A function base.
-/// </summary>
-public abstract class FunctionBase : Identifiable
-{
-	/// <summary>
-	/// The return-parameter type </summary>
-	protected internal Type retType = null;
-
-	/// <param name="name"> The name of the function. </param>
-	/// <param name="ident"> The identifier that identifies this object. </param>
-	/// <param name="retType"> The return type of this function. </param>
-	public FunctionBase(string name, Ident ident, Type retType)
-		: base(name, ident)
-	{
-
-		this.retType = retType;
-	}
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
 	/// <summary>
-	/// Get the return type of this external function. </summary>
-	public virtual Type ReturnType
+	/// A function base.
+	/// </summary>
+	public abstract class FunctionBase : Identifiable
 	{
-		get
+		/// <summary>
+		/// The return-parameter type </summary>
+		protected internal Type retType = null;
+
+		/// <param name="name"> The name of the function. </param>
+		/// <param name="ident"> The identifier that identifies this object. </param>
+		/// <param name="retType"> The return type of this function. </param>
+		public FunctionBase(string name, Ident ident, Type retType)
+			: base(name, ident)
 		{
-			return retType;
-		}
-	}
 
-	/// <summary>
-	/// Get all parameter types of this function. </summary>
-	public abstract IList<Type> ParameterTypes {get;}
-}
+			this.retType = retType;
+		}
+
+		/// <summary>
+		/// Get the return type of this external function. </summary>
+		public virtual Type ReturnType
+		{
+			get
+			{
+				return retType;
+			}
+		}
+
+		/// <summary>
+		/// Get all parameter types of this function. </summary>
+		public abstract IList<Type> ParameterTypes {get;}
+	}
 
 }

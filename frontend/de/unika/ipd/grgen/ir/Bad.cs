@@ -11,32 +11,32 @@
 
 namespace de.unika.ipd.grgen.ir
 {
-/// <summary>
-/// A bad IR element.
-/// This used in case of an error.
-/// </summary>
-public class Bad : IR
-{
-	private static readonly IR bad = new Bad();
-
-	private Bad()
-		: base("bad")
+	/// <summary>
+	/// A bad IR element.
+	/// This used in case of an error.
+	/// </summary>
+	public class Bad : IR
 	{
-	}
+		private static readonly IR bad = new Bad();
 
-	/// <returns> A bad ir object. </returns>
-	public static IR BadObject
-	{
-		get
+		private Bad()
+			: base("bad")
 		{
-			return bad;
+		}
+
+		/// <returns> A bad ir object. </returns>
+		public static IR BadObject
+		{
+			get
+			{
+				return bad;
+			}
+		}
+
+		public override bool IsBad()
+		{
+			return true;
 		}
 	}
-
-	public override bool IsBad()
-	{
-		return true;
-	}
-}
 
 }

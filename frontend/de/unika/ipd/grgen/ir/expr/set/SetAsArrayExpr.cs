@@ -11,15 +11,15 @@
 
 namespace de.unika.ipd.grgen.ir.expr.set
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class SetAsArrayExpr : SetFunctionMethodInvocationBaseExpr
-{
-	public SetAsArrayExpr(Expression targetExpr, Type targetType)
-		: base("set as array expression", targetType, targetExpr)
+	public class SetAsArrayExpr : SetFunctionMethodInvocationBaseExpr
 	{
+		public SetAsArrayExpr(Expression targetExpr, Type targetType)
+			: base("set as array expression", targetType, targetExpr)
+		{
+		}
 	}
-}
 
 }

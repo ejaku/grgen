@@ -11,49 +11,49 @@
 
 namespace de.unika.ipd.grgen.ir.expr.numeric
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 
-public class ArcSinCosTanExpr : BuiltinFunctionInvocationExpr
-{
-	public enum ArcusTrigonometryFunctionType
+	public class ArcSinCosTanExpr : BuiltinFunctionInvocationExpr
 	{
-		arcsin,
-		arccos,
-		arctan
-	}
-
-	private ArcusTrigonometryFunctionType which;
-	private Expression expr;
-
-	public ArcSinCosTanExpr(ArcusTrigonometryFunctionType which, Expression expr)
-		: base("arc sin cos tan expr", expr.Type)
-	{
-		this.which = which;
-		this.expr = expr;
-	}
-
-	public virtual ArcusTrigonometryFunctionType Which
-	{
-		get
+		public enum ArcusTrigonometryFunctionType
 		{
-			return which;
+			arcsin,
+			arccos,
+			arctan
+		}
+
+		private ArcusTrigonometryFunctionType which;
+		private Expression expr;
+
+		public ArcSinCosTanExpr(ArcusTrigonometryFunctionType which, Expression expr)
+			: base("arc sin cos tan expr", expr.Type)
+		{
+			this.which = which;
+			this.expr = expr;
+		}
+
+		public virtual ArcusTrigonometryFunctionType Which
+		{
+			get
+			{
+				return which;
+			}
+		}
+
+		public virtual Expression Expr
+		{
+			get
+			{
+				return expr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			expr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression Expr
-	{
-		get
-		{
-			return expr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		expr.CollectNeededEntities(needs);
-	}
-}
 
 }

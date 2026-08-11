@@ -12,51 +12,51 @@
 namespace de.unika.ipd.grgen.ir.pattern
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
-using Rule = de.unika.ipd.grgen.ir.executable.Rule;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+	using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-public class SubpatternUsage : Identifiable
-{
-	public Rule subpatternAction;
-	public IList<Expression> subpatternConnections;
-	internal IList<Expression> subpatternYields;
-
-	public SubpatternUsage(string name, Ident ident, Rule subpatternAction,
-			IList<Expression> connections, IList<Expression> yields)
-		: base(name, ident)
+	public class SubpatternUsage : Identifiable
 	{
-		this.subpatternAction = subpatternAction;
-		this.subpatternConnections = connections;
-		this.subpatternYields = yields;
-	}
+		public Rule subpatternAction;
+		public IList<Expression> subpatternConnections;
+		internal IList<Expression> subpatternYields;
 
-	public virtual Rule SubpatternAction
-	{
-		get
+		public SubpatternUsage(string name, Ident ident, Rule subpatternAction,
+				IList<Expression> connections, IList<Expression> yields)
+			: base(name, ident)
 		{
-			return subpatternAction;
+			this.subpatternAction = subpatternAction;
+			this.subpatternConnections = connections;
+			this.subpatternYields = yields;
+		}
+
+		public virtual Rule SubpatternAction
+		{
+			get
+			{
+				return subpatternAction;
+			}
+		}
+
+		public virtual IList<Expression> SubpatternConnections
+		{
+			get
+			{
+				return subpatternConnections;
+			}
+		}
+
+		public virtual IList<Expression> SubpatternYields
+		{
+			get
+			{
+				return subpatternYields;
+			}
 		}
 	}
-
-	public virtual IList<Expression> SubpatternConnections
-	{
-		get
-		{
-			return subpatternConnections;
-		}
-	}
-
-	public virtual IList<Expression> SubpatternYields
-	{
-		get
-		{
-			return subpatternYields;
-		}
-	}
-}
 
 }

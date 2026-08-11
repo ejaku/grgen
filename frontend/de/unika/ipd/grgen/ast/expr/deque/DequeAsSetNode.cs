@@ -11,48 +11,48 @@
 
 namespace de.unika.ipd.grgen.ast.expr.deque
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using DequeAsSetExpr = de.unika.ipd.grgen.ir.expr.deque.DequeAsSetExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using DequeAsSetExpr = de.unika.ipd.grgen.ir.expr.deque.DequeAsSetExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class DequeAsSetNode : DequeFunctionMethodInvocationBaseExprNode
-{
-	static DequeAsSetNode()
+	public class DequeAsSetNode : DequeFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(DequeAsSetNode), "deque as set expression");
-	}
-
-	private SetTypeNode setTypeNode;
-
-	public DequeAsSetNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	protected internal override bool ResolveLocal()
-	{
-		// target type already checked during resolving into this node
-		setTypeNode = new SetTypeNode(TargetTypeExact.valueTypeUnresolved);
-		return setTypeNode.Resolve();
-	}
-
-	public override TypeNode Type
-	{
-		get
+		static DequeAsSetNode()
 		{
-			return setTypeNode;
+			SetClassName(typeof(DequeAsSetNode), "deque as set expression");
+		}
+
+		private SetTypeNode setTypeNode;
+
+		public DequeAsSetNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
+		{
+		}
+
+		protected internal override bool ResolveLocal()
+		{
+			// target type already checked during resolving into this node
+			setTypeNode = new SetTypeNode(TargetTypeExact.valueTypeUnresolved);
+			return setTypeNode.Resolve();
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return setTypeNode;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new DequeAsSetExpr(targetExpr.CheckIR(typeof(Expression)), Type.IRType);
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new DequeAsSetExpr(targetExpr.CheckIR(typeof(Expression)), Type.IRType);
-	}
-}
 
 }

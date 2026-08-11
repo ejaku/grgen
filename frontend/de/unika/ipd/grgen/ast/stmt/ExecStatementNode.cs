@@ -12,108 +12,108 @@
 namespace de.unika.ipd.grgen.ast.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using Exec = de.unika.ipd.grgen.ir.Exec;
-using IR = de.unika.ipd.grgen.ir.IR;
-using ExecStatement = de.unika.ipd.grgen.ir.stmt.ExecStatement;
-
-/// <summary>
-/// AST node representing an embedded exec statement.
-/// </summary>
-public class ExecStatementNode : EvalStatementNode
-{
-	static ExecStatementNode()
-	{
-		SetClassName(typeof(ExecStatementNode), "ExecStatement");
-	}
-
-	internal ExecNode exec;
-
-	public int context;
-
-	public ExecStatementNode(ExecNode exec, int context)
-		: base(exec.Coords)
-	{
-		this.exec = exec;
-		BecomeParent(this.exec);
-		this.context = context;
-	}
+	using de.unika.ipd.grgen.ast;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using Exec = de.unika.ipd.grgen.ir.Exec;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using ExecStatement = de.unika.ipd.grgen.ir.stmt.ExecStatement;
 
 	/// <summary>
-	/// returns children of this node </summary>
-	public override ICollection<BaseNode> Children
+	/// AST node representing an embedded exec statement.
+	/// </summary>
+	public class ExecStatementNode : EvalStatementNode
 	{
-		get
+		static ExecStatementNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(exec);
-			return children;
+			SetClassName(typeof(ExecStatementNode), "ExecStatement");
 		}
-	}
 
-	/// <summary>
-	/// returns names of the children, same order as in getChildren </summary>
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		internal ExecNode exec;
+
+		public int context;
+
+		public ExecStatementNode(ExecNode exec, int context)
+			: base(exec.Coords)
 		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("exec");
-			return childrenNames;
+			this.exec = exec;
+			BecomeParent(this.exec);
+			this.context = context;
 		}
-	}
 
-	protected internal override bool ResolveLocal()
-	{
-		return true;
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		if((context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION)
+		/// <summary>
+		/// returns children of this node </summary>
+		public override ICollection<BaseNode> Children
 		{
-			if((context & BaseNode.CONTEXT_METHOD) == BaseNode.CONTEXT_METHOD)
+			get
 			{
-				ReportError("An exec is not allowed in a method.");
-				return false;
-			}
-			else if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION)
-			{
-				ReportError("An exec is not allowed in a function.");
-				return false;
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(exec);
+				return children;
 			}
 		}
-		return true;
-	}
 
-	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
-	{
-		return true;
-	}
-
-	public override bool NoExecStatement(bool inEvalHereContext)
-	{
-		if(inEvalHereContext)
+		/// <summary>
+		/// returns names of the children, same order as in getChildren </summary>
+		public override ICollection<string> ChildrenNames
 		{
-			ReportError("An exec inside an evalhere is forbidden"
-					+ " (you may move it outside the evalhere, but note that it is then executed at the end of rewriting).");
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("exec");
+				return childrenNames;
+			}
 		}
-		else
-		{
-			ReportError("An exec inside an eval is forbidden in an alternative or iterated -- move it outside of the eval"
-					+ " (so it becomes a deferred exec, executed at the end of rewriting, on the by-then current graph and the local entities valid at the end of its local rewriting).");
-		}
-		return false;
-	}
 
-	protected internal override IR ConstructIR()
-	{
-		ExecStatement ws = new ExecStatement(exec.CheckIR(typeof(Exec)));
-		return ws;
+		protected internal override bool ResolveLocal()
+		{
+			return true;
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			if((context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION)
+			{
+				if((context & BaseNode.CONTEXT_METHOD) == BaseNode.CONTEXT_METHOD)
+				{
+					ReportError("An exec is not allowed in a method.");
+					return false;
+				}
+				else if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION)
+				{
+					ReportError("An exec is not allowed in a function.");
+					return false;
+				}
+			}
+			return true;
+		}
+
+		public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+		{
+			return true;
+		}
+
+		public override bool NoExecStatement(bool inEvalHereContext)
+		{
+			if(inEvalHereContext)
+			{
+				ReportError("An exec inside an evalhere is forbidden"
+						+ " (you may move it outside the evalhere, but note that it is then executed at the end of rewriting).");
+			}
+			else
+			{
+				ReportError("An exec inside an eval is forbidden in an alternative or iterated -- move it outside of the eval"
+						+ " (so it becomes a deferred exec, executed at the end of rewriting, on the by-then current graph and the local entities valid at the end of its local rewriting).");
+			}
+			return false;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			ExecStatement ws = new ExecStatement(exec.CheckIR(typeof(Exec)));
+			return ws;
+		}
 	}
-}
 
 }

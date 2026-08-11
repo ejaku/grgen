@@ -7,33 +7,33 @@
 
 namespace de.unika.ipd.grgen.ir.type.basic
 {
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// A graph type.
-/// </summary>
-public class GraphType : PrimitiveType
-{
-	public GraphType(Ident ident)
-		: base("graph type", ident)
+	/// <summary>
+	/// A graph type.
+	/// </summary>
+	public class GraphType : PrimitiveType
 	{
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_GRAPH;
-	}
-
-	public static Type Type
-	{
-		get
+		public GraphType(Ident ident)
+			: base("graph type", ident)
 		{
-			return BasicTypeNode.graphType.CheckIR(typeof(Type));
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_GRAPH;
+		}
+
+		public static Type Type
+		{
+			get
+			{
+				return BasicTypeNode.graphType.CheckIR(typeof(Type));
+			}
 		}
 	}
-}
 
 }

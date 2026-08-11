@@ -11,48 +11,48 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using de.unika.ipd.grgen.ir;
-using Rule = de.unika.ipd.grgen.ir.executable.Rule;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using de.unika.ipd.grgen.ir;
+	using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-/// <summary>
-/// Represents an accumulation yielding of an iterated match def variable in the IR.
-/// </summary>
-public class IteratedAccumulationYield : BlockNestingStatement
-{
-	private Variable iterationVar;
-	private Rule iterated;
-
-	public IteratedAccumulationYield(Variable accumulationVar, Rule iterated)
-		: base("iterated accumulation yield")
+	/// <summary>
+	/// Represents an accumulation yielding of an iterated match def variable in the IR.
+	/// </summary>
+	public class IteratedAccumulationYield : BlockNestingStatement
 	{
-		this.iterationVar = accumulationVar;
-		this.iterated = iterated;
-	}
+		private Variable iterationVar;
+		private Rule iterated;
 
-	public virtual Variable IterationVar
-	{
-		get
+		public IteratedAccumulationYield(Variable accumulationVar, Rule iterated)
+			: base("iterated accumulation yield")
 		{
-			return iterationVar;
+			this.iterationVar = accumulationVar;
+			this.iterated = iterated;
+		}
+
+		public virtual Variable IterationVar
+		{
+			get
+			{
+				return iterationVar;
+			}
+		}
+
+		public virtual Rule Iterated
+		{
+			get
+			{
+				return iterated;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			foreach(EvalStatement accumulationStatement in statements)
+				accumulationStatement.CollectNeededEntities(needs);
+			if(needs.variables != null)
+				needs.variables.Remove(iterationVar);
 		}
 	}
-
-	public virtual Rule Iterated
-	{
-		get
-		{
-			return iterated;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		foreach(EvalStatement accumulationStatement in statements)
-			accumulationStatement.CollectNeededEntities(needs);
-		if(needs.variables != null)
-			needs.variables.Remove(iterationVar);
-	}
-}
 
 }

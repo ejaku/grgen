@@ -12,61 +12,61 @@
 namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using DebugHighlightProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugHighlightProc;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using DebugHighlightProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugHighlightProc;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class DebugHighlightProcNode : DebugProcNode
-{
-	static DebugHighlightProcNode()
+	public class DebugHighlightProcNode : DebugProcNode
 	{
-		SetClassName(typeof(DebugHighlightProcNode), "debug highlight procedure");
-	}
-
-	public DebugHighlightProcNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		int paramNum = 0;
-		foreach(ExprNode expr in exprs.GetChildrenExact())
+		static DebugHighlightProcNode()
 		{
-			TypeNode exprType = expr.Type;
-			if(paramNum % 2 == 0 && !(exprType.Equals(BasicTypeNode.stringType)))
+			SetClassName(typeof(DebugHighlightProcNode), "debug highlight procedure");
+		}
+
+		public DebugHighlightProcNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			int paramNum = 0;
+			foreach(ExprNode expr in exprs.GetChildrenExact())
 			{
-				ReportError("The " + ShortSignature() + " procedure expects as " + paramNum + ". argument"
-						+ " a value of type string (a message followed by a sequence of (value, annotation for the value)* must be given)"
-						+ " (but is given a value of type " + exprType.ToStringWithDeclarationCoords() + ").");
-				return false;
+				TypeNode exprType = expr.Type;
+				if(paramNum % 2 == 0 && !(exprType.Equals(BasicTypeNode.stringType)))
+				{
+					ReportError("The " + ShortSignature() + " procedure expects as " + paramNum + ". argument"
+							+ " a value of type string (a message followed by a sequence of (value, annotation for the value)* must be given)"
+							+ " (but is given a value of type " + exprType.ToStringWithDeclarationCoords() + ").");
+					return false;
+				}
+				++paramNum;
 			}
-			++paramNum;
+			return true;
 		}
-		return true;
-	}
 
-	protected internal override string ShortSignature()
-	{
-		return "Debug::highlight()";
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		IList<Expression> expressions = new List<Expression>();
-		foreach(ExprNode expr in exprs.GetChildrenExact())
+		protected internal override string ShortSignature()
 		{
-			ExprNode exprEvaluated = expr.Evaluate();
-			expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+			return "Debug::highlight()";
 		}
-		return new DebugHighlightProc(expressions);
+
+		protected internal override IR ConstructIR()
+		{
+			IList<Expression> expressions = new List<Expression>();
+			foreach(ExprNode expr in exprs.GetChildrenExact())
+			{
+				ExprNode exprEvaluated = expr.Evaluate();
+				expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+			}
+			return new DebugHighlightProc(expressions);
+		}
 	}
-}
 
 }

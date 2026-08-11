@@ -7,38 +7,38 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-/// <summary>
-/// Class for the different kinds of indexes available for accessing a storage for binding a pattern element
-/// </summary>
-public class StorageAccessIndex
-{
-	//public Variable indexVariable = null;
-	//public Qualification indexAttribute = null;
-	public GraphEntity indexGraphEntity = null;
-	//public GraphEntity indexGlobalVariable = null;
-
-	//public StorageAccessIndex(Variable indexVariable) {
-	//	this.indexVariable = indexVariable;
-	//}
-
-	//public StorageAccessIndex(Qualification indexAttribute) {
-	//	this.indexAttribute = indexAttribute;
-	//}
-
-	public StorageAccessIndex(GraphEntity indexGraphEntityOrGlobalVariable)
+	/// <summary>
+	/// Class for the different kinds of indexes available for accessing a storage for binding a pattern element
+	/// </summary>
+	public class StorageAccessIndex
 	{
-		PatternGraphLhs directlyNestingLHSGraph;
-		if(indexGraphEntityOrGlobalVariable is Node)
-			directlyNestingLHSGraph = ((Node)indexGraphEntityOrGlobalVariable).directlyNestingLHSGraph;
-		else
-			directlyNestingLHSGraph = ((Edge)indexGraphEntityOrGlobalVariable).directlyNestingLHSGraph;
-		if(directlyNestingLHSGraph != null)
-			this.indexGraphEntity = indexGraphEntityOrGlobalVariable;
-		else
+		//public Variable indexVariable = null;
+		//public Qualification indexAttribute = null;
+		public GraphEntity indexGraphEntity = null;
+		//public GraphEntity indexGlobalVariable = null;
+
+		//public StorageAccessIndex(Variable indexVariable) {
+		//	this.indexVariable = indexVariable;
+		//}
+
+		//public StorageAccessIndex(Qualification indexAttribute) {
+		//	this.indexAttribute = indexAttribute;
+		//}
+
+		public StorageAccessIndex(GraphEntity indexGraphEntityOrGlobalVariable)
 		{
-			//this.indexGlobalVariable = indexGraphEntityOrGlobalVariable;
+			PatternGraphLhs directlyNestingLHSGraph;
+			if(indexGraphEntityOrGlobalVariable is Node)
+				directlyNestingLHSGraph = ((Node)indexGraphEntityOrGlobalVariable).directlyNestingLHSGraph;
+			else
+				directlyNestingLHSGraph = ((Edge)indexGraphEntityOrGlobalVariable).directlyNestingLHSGraph;
+			if(directlyNestingLHSGraph != null)
+				this.indexGraphEntity = indexGraphEntityOrGlobalVariable;
+			else
+			{
+				//this.indexGlobalVariable = indexGraphEntityOrGlobalVariable;
+			}
 		}
 	}
-}
 
 }

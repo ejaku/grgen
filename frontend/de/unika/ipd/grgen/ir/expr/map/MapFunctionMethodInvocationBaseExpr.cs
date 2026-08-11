@@ -11,25 +11,25 @@
 
 namespace de.unika.ipd.grgen.ir.expr.map
 {
-using ContainerFunctionMethodInvocationBaseExpr = de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
+	using ContainerFunctionMethodInvocationBaseExpr = de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
 
-public abstract class MapFunctionMethodInvocationBaseExpr : ContainerFunctionMethodInvocationBaseExpr
-{
-	protected internal MapFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
-		: base(name, type, targetExpr)
+	public abstract class MapFunctionMethodInvocationBaseExpr : ContainerFunctionMethodInvocationBaseExpr
 	{
-	}
-
-	public virtual MapType TargetTypeExact
-	{
-		get
+		protected internal MapFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
+			: base(name, type, targetExpr)
 		{
-			return (MapType)TargetType;
+		}
+
+		public virtual MapType TargetTypeExact
+		{
+			get
+			{
+				return (MapType)TargetType;
+			}
 		}
 	}
-}
 
 }

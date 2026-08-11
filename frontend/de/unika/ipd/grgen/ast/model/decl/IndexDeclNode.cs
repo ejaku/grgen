@@ -11,37 +11,37 @@
 
 namespace de.unika.ipd.grgen.ast.model.decl
 {
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 
-/// <summary>
-/// AST node base base class representing index declarations (attribute index and incidence index being its specializations)
-/// </summary>
-public abstract class IndexDeclNode : DeclNode
-{
-	static IndexDeclNode()
+	/// <summary>
+	/// AST node base base class representing index declarations (attribute index and incidence index being its specializations)
+	/// </summary>
+	public abstract class IndexDeclNode : DeclNode
 	{
-		SetClassName(typeof(IndexDeclNode), "index declaration");
-	}
-
-	public IndexDeclNode(IdentNode id, TypeNode indexType)
-		: base(id, indexType)
-	{
-	}
-
-	public abstract InheritanceTypeNode Type {get;}
-
-	public abstract TypeNode ExpectedAccessType {get;}
-
-	public static string KindStr
-	{
-		get
+		static IndexDeclNode()
 		{
-			return "index";
+			SetClassName(typeof(IndexDeclNode), "index declaration");
+		}
+
+		public IndexDeclNode(IdentNode id, TypeNode indexType)
+			: base(id, indexType)
+		{
+		}
+
+		public abstract InheritanceTypeNode Type {get;}
+
+		public abstract TypeNode ExpectedAccessType {get;}
+
+		public static string KindStr
+		{
+			get
+			{
+				return "index";
+			}
 		}
 	}
-}
 
 }

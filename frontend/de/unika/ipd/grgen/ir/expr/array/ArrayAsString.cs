@@ -10,33 +10,33 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
 
-public class ArrayAsString : ArrayFunctionMethodInvocationBaseExpr
-{
-	private Expression valueExpr;
-
-	public ArrayAsString(Expression targetExpr, Expression valueExpr)
-		: base("array asString expr", StringType.Type, targetExpr)
+	public class ArrayAsString : ArrayFunctionMethodInvocationBaseExpr
 	{
-		this.valueExpr = valueExpr;
-	}
+		private Expression valueExpr;
 
-	public virtual Expression ValueExpr
-	{
-		get
+		public ArrayAsString(Expression targetExpr, Expression valueExpr)
+			: base("array asString expr", StringType.Type, targetExpr)
 		{
-			return valueExpr;
+			this.valueExpr = valueExpr;
+		}
+
+		public virtual Expression ValueExpr
+		{
+			get
+			{
+				return valueExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+			valueExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-		valueExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

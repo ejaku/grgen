@@ -12,64 +12,64 @@
 namespace de.unika.ipd.grgen.ir.expr
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ir;
-using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
-using InternalObjectType = de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+	using de.unika.ipd.grgen.ir;
+	using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
+	using InternalObjectType = de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 
-public class InternalObjectInit : Expression
-{
-	private BaseInternalObjectType objectType;
-
-	public IList<AttributeInitialization> attributeInitializations = new List<AttributeInitialization>();
-
-	public InternalObjectInit(BaseInternalObjectType objectType)
-		: base("internal object init", objectType)
+	public class InternalObjectInit : Expression
 	{
-		this.objectType = objectType;
-	}
+		private BaseInternalObjectType objectType;
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.Add(this);
-		if(objectType is InternalObjectType)
-			needs.NeedsGraph();
-		foreach(Expression attributeInitializationExpression in AttributeInitializationExpressions)
-			attributeInitializationExpression.CollectNeededEntities(needs);
-	}
+		public IList<AttributeInitialization> attributeInitializations = new List<AttributeInitialization>();
 
-	public virtual void AddAttributeInitialization(AttributeInitialization ai)
-	{
-		this.attributeInitializations.Add(ai);
-	}
-
-	public virtual ICollection<Expression> AttributeInitializationExpressions
-	{
-		get
+		public InternalObjectInit(BaseInternalObjectType objectType)
+			: base("internal object init", objectType)
 		{
-			IList<Expression> expressions = new List<Expression>();
-			foreach(AttributeInitialization attributeInitialization in attributeInitializations)
-				expressions.Add(attributeInitialization.expr);
-			return expressions;
+			this.objectType = objectType;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.Add(this);
+			if(objectType is InternalObjectType)
+				needs.NeedsGraph();
+			foreach(Expression attributeInitializationExpression in AttributeInitializationExpressions)
+				attributeInitializationExpression.CollectNeededEntities(needs);
+		}
+
+		public virtual void AddAttributeInitialization(AttributeInitialization ai)
+		{
+			this.attributeInitializations.Add(ai);
+		}
+
+		public virtual ICollection<Expression> AttributeInitializationExpressions
+		{
+			get
+			{
+				IList<Expression> expressions = new List<Expression>();
+				foreach(AttributeInitialization attributeInitialization in attributeInitializations)
+					expressions.Add(attributeInitialization.expr);
+				return expressions;
+			}
+		}
+
+		public virtual BaseInternalObjectType BaseInternalObjectType
+		{
+			get
+			{
+				return objectType;
+			}
+		}
+
+		public virtual string AnonymousInternalObjectInitName
+		{
+			get
+			{
+				return "internal_object_init_" + Id;
+			}
 		}
 	}
-
-	public virtual BaseInternalObjectType BaseInternalObjectType
-	{
-		get
-		{
-			return objectType;
-		}
-	}
-
-	public virtual string AnonymousInternalObjectInitName
-	{
-		get
-		{
-			return "internal_object_init_" + Id;
-		}
-	}
-}
 
 }

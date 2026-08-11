@@ -14,225 +14,225 @@
 namespace de.unika.ipd.grgen.util
 {
 
-/// <summary>
-/// A VCG Graph dumper
-/// </summary>
-public class VCGDumper : GraphDumper
-{
 	/// <summary>
-	/// where to put the graph to </summary>
-	private PrintStream ps;
-
-	/// <summary>
-	/// Index in the vcg colormap for user defined colors </summary>
-	private int currSetColor;
-
-	/// <summary>
-	/// Prefix for the nodes. </summary>
-	private static string prefix = "n";
-
-	private static Dictionary<Color, string> colorMap;
-	private static Dictionary<int, string> shapeMap;
-	private static Dictionary<int, string> lineStyleMap;
-
-	static VCGDumper()
-	{
-		colorMap = new Dictionary<Color, string>();
-		shapeMap = new Dictionary<int, string>();
-		lineStyleMap = new Dictionary<int, string>();
-
-		colorMap[Color.BLACK] = "black";
-		colorMap[Color.BLUE] = "lightblue";
-		colorMap[Color.CYAN] = "cyan";
-		colorMap[Color.GRAY] = "lightgrey";
-		colorMap[Color.DARK_GRAY] = "darkgrey";
-		colorMap[Color.MAGENTA] = "magenta";
-		colorMap[Color.ORANGE] = "orange";
-		colorMap[Color.GREEN] = "green";
-		colorMap[Color.RED] = "red";
-		colorMap[Color.PINK] = "pink";
-		colorMap[Color.YELLOW] = "yellow";
-		colorMap[Color.WHITE] = "white";
-
-		shapeMap[new int?(GraphDumper.BOX)] = "box";
-		shapeMap[new int?(GraphDumper.RHOMB)] = "rhomb";
-		shapeMap[new int?(GraphDumper.ELLIPSE)] = "ellipse";
-		shapeMap[new int?(GraphDumper.TRIANGLE)] = "triangle";
-
-		lineStyleMap[new int?(GraphDumper.SOLID)] = "continuous";
-		lineStyleMap[new int?(GraphDumper.DASHED)] = "dashed";
-		lineStyleMap[new int?(GraphDumper.DOTTED)] = "dotted";
-	}
-
-	/// <summary>
-	/// Make a string usable for output.
-	/// This escapes anything that has to be escaped. </summary>
-	/// <param name="s"> The input string. </param>
-	/// <returns> A string ready for dumping. </returns>
-	private static string EscapeString(string s)
-	{
-		return s.ReplaceAll("\"", "\\\\\"");
-	}
-
-	/// <summary>
-	/// Make a new VCG dumper. </summary>
-	/// <param name="ps"> The print stream to dump the graph to. </param>
-	public VCGDumper(PrintStream ps)
-	{
-		this.ps = ps;
-		this.currSetColor = 32;
-	}
-
-	/// <summary>
-	/// Dump graph preamble.
+	/// A VCG Graph dumper
 	/// </summary>
-	public virtual void Begin()
+	public class VCGDumper : GraphDumper
 	{
-		ps.Println("graph:{\nlate_edge_labels:yes\ndisplay_edge_labels:yes\n"
-				+ "manhattan_edges:yes\nport_sharing:no\n");
-	}
+		/// <summary>
+		/// where to put the graph to </summary>
+		private PrintStream ps;
 
-	/// <summary>
-	/// Dump epilog. </summary>
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumper.finish()"/>
-	public virtual void Finish()
-	{
-		ps.Println("}");
-		ps.Flush();
-		ps.close();
-	}
+		/// <summary>
+		/// Index in the vcg colormap for user defined colors </summary>
+		private int currSetColor;
 
-	/// <summary>
-	/// Get a VCG color for a Java color. </summary>
-	/// <param name="col"> The Java color. </param>
-	/// <returns> The VCG color. </returns>
-	private string GetColor(Color col)
-	{
-		string res;
+		/// <summary>
+		/// Prefix for the nodes. </summary>
+		private static string prefix = "n";
 
-		if(colorMap.ContainsKey(col))
-			res = colorMap[col];
-		else if(currSetColor < 256)
+		private static Dictionary<Color, string> colorMap;
+		private static Dictionary<int, string> shapeMap;
+		private static Dictionary<int, string> lineStyleMap;
+
+		static VCGDumper()
 		{
-			// Get the current index and increment it
-			int index = currSetColor++;
+			colorMap = new Dictionary<Color, string>();
+			shapeMap = new Dictionary<int, string>();
+			lineStyleMap = new Dictionary<int, string>();
 
-			// Convert it to a string and put in the color map
-			res = index.ToString();
-			colorMap[col] = res;
+			colorMap[Color.BLACK] = "black";
+			colorMap[Color.BLUE] = "lightblue";
+			colorMap[Color.CYAN] = "cyan";
+			colorMap[Color.GRAY] = "lightgrey";
+			colorMap[Color.DARK_GRAY] = "darkgrey";
+			colorMap[Color.MAGENTA] = "magenta";
+			colorMap[Color.ORANGE] = "orange";
+			colorMap[Color.GREEN] = "green";
+			colorMap[Color.RED] = "red";
+			colorMap[Color.PINK] = "pink";
+			colorMap[Color.YELLOW] = "yellow";
+			colorMap[Color.WHITE] = "white";
 
-			// issue a vcg colormap statement
-			ps.Println("colorentry " + index + ": " +
-					col.GetRed() + " " + col.GetGreen() + " " + col.GetBlue());
+			shapeMap[new int?(GraphDumper.BOX)] = "box";
+			shapeMap[new int?(GraphDumper.RHOMB)] = "rhomb";
+			shapeMap[new int?(GraphDumper.ELLIPSE)] = "ellipse";
+			shapeMap[new int?(GraphDumper.TRIANGLE)] = "triangle";
+
+			lineStyleMap[new int?(GraphDumper.SOLID)] = "continuous";
+			lineStyleMap[new int?(GraphDumper.DASHED)] = "dashed";
+			lineStyleMap[new int?(GraphDumper.DOTTED)] = "dotted";
 		}
-		else
-			res = "white";
 
-		return res;
-	}
-
-	private static string Prefix
-	{
-		get
+		/// <summary>
+		/// Make a string usable for output.
+		/// This escapes anything that has to be escaped. </summary>
+		/// <param name="s"> The input string. </param>
+		/// <returns> A string ready for dumping. </returns>
+		private static string EscapeString(string s)
 		{
-			return prefix;
+			return s.ReplaceAll("\"", "\\\\\"");
 		}
-	}
 
-	/// <summary>
-	/// Make a VCG string from the node's attributes. </summary>
-	/// <param name="d"> The node to dump. </param>
-	/// <returns> VCG statements describing the node. </returns>
-	private string GetNodeAttributes(GraphDumpable d)
-	{
-		string col = GetColor(d.NodeColor);
-		int? shp = new int?(d.NodeShape);
-
-		string info = d.NodeInfo;
-		if(!string.ReferenceEquals(info, null))
-			info = EscapeString(info);
-
-		string label = EscapeString(d.NodeLabel);
-
-		string s = "title:\"" + Prefix + d.NodeId
-				+ "\" label:\"" + label + "\"";
-
-		if(!string.ReferenceEquals(info, null))
-			s += " info1:\"" + info + "\"";
-		s += " color:" + col;
-		if(shapeMap.ContainsKey(shp))
-			s += " shape:" + shapeMap[shp];
-
-		return s;
-	}
-
-	public virtual void Node(GraphDumpable d)
-	{
-		ps.Println("node:{" + GetNodeAttributes(d) + "}");
-	}
-
-	public virtual void Edge(GraphDumpable from, GraphDumpable to, string label,
-			int style, Color color)
-	{
-		if(from != null && to != null)
+		/// <summary>
+		/// Make a new VCG dumper. </summary>
+		/// <param name="ps"> The print stream to dump the graph to. </param>
+		public VCGDumper(PrintStream ps)
 		{
-			string col = GetColor(color);
+			this.ps = ps;
+			this.currSetColor = 32;
+		}
 
-			string s = "edge:{sourcename:\"" + Prefix + from.NodeId
-					+ "\" targetname:\"" + Prefix + to.NodeId + "\"";
+		/// <summary>
+		/// Dump graph preamble.
+		/// </summary>
+		public virtual void Begin()
+		{
+			ps.Println("graph:{\nlate_edge_labels:yes\ndisplay_edge_labels:yes\n"
+					+ "manhattan_edges:yes\nport_sharing:no\n");
+		}
 
-			if(!string.ReferenceEquals(label, null))
-				s += " label:\"" + EscapeString(label) + "\"";
+		/// <summary>
+		/// Dump epilog. </summary>
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumper.finish()"/>
+		public virtual void Finish()
+		{
+			ps.Println("}");
+			ps.Flush();
+			ps.close();
+		}
 
+		/// <summary>
+		/// Get a VCG color for a Java color. </summary>
+		/// <param name="col"> The Java color. </param>
+		/// <returns> The VCG color. </returns>
+		private string GetColor(Color col)
+		{
+			string res;
+
+			if(colorMap.ContainsKey(col))
+				res = colorMap[col];
+			else if(currSetColor < 256)
+			{
+				// Get the current index and increment it
+				int index = currSetColor++;
+
+				// Convert it to a string and put in the color map
+				res = index.ToString();
+				colorMap[col] = res;
+
+				// issue a vcg colormap statement
+				ps.Println("colorentry " + index + ": " +
+						col.GetRed() + " " + col.GetGreen() + " " + col.GetBlue());
+			}
+			else
+				res = "white";
+
+			return res;
+		}
+
+		private static string Prefix
+		{
+			get
+			{
+				return prefix;
+			}
+		}
+
+		/// <summary>
+		/// Make a VCG string from the node's attributes. </summary>
+		/// <param name="d"> The node to dump. </param>
+		/// <returns> VCG statements describing the node. </returns>
+		private string GetNodeAttributes(GraphDumpable d)
+		{
+			string col = GetColor(d.NodeColor);
+			int? shp = new int?(d.NodeShape);
+
+			string info = d.NodeInfo;
+			if(!string.ReferenceEquals(info, null))
+				info = EscapeString(info);
+
+			string label = EscapeString(d.NodeLabel);
+
+			string s = "title:\"" + Prefix + d.NodeId
+					+ "\" label:\"" + label + "\"";
+
+			if(!string.ReferenceEquals(info, null))
+				s += " info1:\"" + info + "\"";
 			s += " color:" + col;
+			if(shapeMap.ContainsKey(shp))
+				s += " shape:" + shapeMap[shp];
 
-			if(style != GraphDumper.DEFAULT)
-				s += " linestyle:" + lineStyleMap[new int?(style)];
+			return s;
+		}
 
-			s += "}";
+		public virtual void Node(GraphDumpable d)
+		{
+			ps.Println("node:{" + GetNodeAttributes(d) + "}");
+		}
 
-			ps.Println(s);
+		public virtual void Edge(GraphDumpable from, GraphDumpable to, string label,
+				int style, Color color)
+		{
+			if(from != null && to != null)
+			{
+				string col = GetColor(color);
+
+				string s = "edge:{sourcename:\"" + Prefix + from.NodeId
+						+ "\" targetname:\"" + Prefix + to.NodeId + "\"";
+
+				if(!string.ReferenceEquals(label, null))
+					s += " label:\"" + EscapeString(label) + "\"";
+
+				s += " color:" + col;
+
+				if(style != GraphDumper.DEFAULT)
+					s += " linestyle:" + lineStyleMap[new int?(style)];
+
+				s += "}";
+
+				ps.Println(s);
+			}
+		}
+
+		public virtual void Edge(GraphDumpable from, GraphDumpable to, string label, int style)
+		{
+			Edge(from, to, label, style, Color.BLACK);
+		}
+
+		public virtual void Edge(GraphDumpable from, GraphDumpable to, string label)
+		{
+			Edge(from, to, label, GraphDumper.DEFAULT, Color.BLACK);
+		}
+
+		public virtual void Edge(GraphDumpable from, GraphDumpable to)
+		{
+			Edge(from, to, null, GraphDumper.DEFAULT, Color.BLACK);
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumper.beginSubgraph(java.lang.String)"/>
+		public virtual void BeginSubgraph(GraphDumpable d)
+		{
+			ps.Println("graph:{" + GetNodeAttributes(d)
+					+ " status:clustered");
+		}
+
+		public virtual void BeginSubgraph(string title)
+		{
+			ps.Print("graph:{title:\"");
+			ps.Print(title);
+			ps.Println('\"');
+			ps.Print("  label:\"");
+			ps.Print(title);
+			ps.Println('\"');
+			ps.Println("  status:clustered");
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumper.endSubgraph()"/>
+		public virtual void EndSubgraph()
+		{
+			ps.Println("}\n");
 		}
 	}
-
-	public virtual void Edge(GraphDumpable from, GraphDumpable to, string label, int style)
-	{
-		Edge(from, to, label, style, Color.BLACK);
-	}
-
-	public virtual void Edge(GraphDumpable from, GraphDumpable to, string label)
-	{
-		Edge(from, to, label, GraphDumper.DEFAULT, Color.BLACK);
-	}
-
-	public virtual void Edge(GraphDumpable from, GraphDumpable to)
-	{
-		Edge(from, to, null, GraphDumper.DEFAULT, Color.BLACK);
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumper.beginSubgraph(java.lang.String)"/>
-	public virtual void BeginSubgraph(GraphDumpable d)
-	{
-		ps.Println("graph:{" + GetNodeAttributes(d)
-				+ " status:clustered");
-	}
-
-	public virtual void BeginSubgraph(string title)
-	{
-		ps.Print("graph:{title:\"");
-		ps.Print(title);
-		ps.Println('\"');
-		ps.Print("  label:\"");
-		ps.Print(title);
-		ps.Println('\"');
-		ps.Println("  status:clustered");
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumper.endSubgraph()"/>
-	public virtual void EndSubgraph()
-	{
-		ps.Println("}\n");
-	}
-}
 
 }

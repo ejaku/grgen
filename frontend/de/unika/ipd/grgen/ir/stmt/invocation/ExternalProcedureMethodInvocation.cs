@@ -11,96 +11,96 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.invocation
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using ExternalProcedure = de.unika.ipd.grgen.ir.executable.ExternalProcedure;
-using ProcedureBase = de.unika.ipd.grgen.ir.executable.ProcedureBase;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
-
-/// <summary>
-/// An external procedure method invocation.
-/// </summary>
-public class ExternalProcedureMethodInvocation : ProcedureInvocationBase
-{
-	/// <summary>
-	/// The owner of the procedure method. </summary>
-	private Qualification ownerQual;
-	private Variable ownerVar;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using ExternalProcedure = de.unika.ipd.grgen.ir.executable.ExternalProcedure;
+	using ProcedureBase = de.unika.ipd.grgen.ir.executable.ProcedureBase;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
 	/// <summary>
-	/// The procedure of the procedure method invocation expression. </summary>
-	protected internal ExternalProcedure externalProcedure;
-
-	public ExternalProcedureMethodInvocation(Qualification ownerQual, ExternalProcedure externalProcedure)
-		: base("external procedure method invocation")
+	/// An external procedure method invocation.
+	/// </summary>
+	public class ExternalProcedureMethodInvocation : ProcedureInvocationBase
 	{
+		/// <summary>
+		/// The owner of the procedure method. </summary>
+		private Qualification ownerQual;
+		private Variable ownerVar;
 
-		this.ownerQual = ownerQual;
-		this.externalProcedure = externalProcedure;
-	}
+		/// <summary>
+		/// The procedure of the procedure method invocation expression. </summary>
+		protected internal ExternalProcedure externalProcedure;
 
-	public ExternalProcedureMethodInvocation(Variable ownerVar, ExternalProcedure externalProcedure)
-		: base("external procedure method invocation")
-	{
-
-		this.ownerVar = ownerVar;
-		this.externalProcedure = externalProcedure;
-	}
-
-	public virtual Qualification OwnerQual
-	{
-		get
+		public ExternalProcedureMethodInvocation(Qualification ownerQual, ExternalProcedure externalProcedure)
+			: base("external procedure method invocation")
 		{
-			return ownerQual;
+
+			this.ownerQual = ownerQual;
+			this.externalProcedure = externalProcedure;
 		}
-	}
 
-	public virtual Variable OwnerVar
-	{
-		get
+		public ExternalProcedureMethodInvocation(Variable ownerVar, ExternalProcedure externalProcedure)
+			: base("external procedure method invocation")
 		{
-			return ownerVar;
+
+			this.ownerVar = ownerVar;
+			this.externalProcedure = externalProcedure;
 		}
-	}
 
-	public override ProcedureBase ProcedureBase
-	{
-		get
+		public virtual Qualification OwnerQual
 		{
-			return externalProcedure;
-		}
-	}
-
-	public virtual ExternalProcedure ExternalProc
-	{
-		get
-		{
-			return externalProcedure;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(ownerQual != null)
-		{
-			ownerQual.CollectNeededEntities(needs);
-			if(ownerQual.Owner != null)
+			get
 			{
-				if(ownerQual.Owner is GraphEntity)
-					needs.Add((GraphEntity)ownerQual.Owner);
+				return ownerQual;
 			}
 		}
-		else
+
+		public virtual Variable OwnerVar
 		{
-			if(!IsGlobalVariable(ownerVar))
-				needs.Add(ownerVar);
+			get
+			{
+				return ownerVar;
+			}
 		}
-		foreach(Expression child in WalkableChildren)
-			child.CollectNeededEntities(needs);
+
+		public override ProcedureBase ProcedureBase
+		{
+			get
+			{
+				return externalProcedure;
+			}
+		}
+
+		public virtual ExternalProcedure ExternalProc
+		{
+			get
+			{
+				return externalProcedure;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(ownerQual != null)
+			{
+				ownerQual.CollectNeededEntities(needs);
+				if(ownerQual.Owner != null)
+				{
+					if(ownerQual.Owner is GraphEntity)
+						needs.Add((GraphEntity)ownerQual.Owner);
+				}
+			}
+			else
+			{
+				if(!IsGlobalVariable(ownerVar))
+					needs.Add(ownerVar);
+			}
+			foreach(Expression child in WalkableChildren)
+				child.CollectNeededEntities(needs);
+		}
 	}
-}
 
 }

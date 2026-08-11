@@ -11,39 +11,39 @@
 
 namespace de.unika.ipd.grgen.ast.expr.deque
 {
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using DequeSizeExpr = de.unika.ipd.grgen.ir.expr.deque.DequeSizeExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using DequeSizeExpr = de.unika.ipd.grgen.ir.expr.deque.DequeSizeExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class DequeSizeNode : DequeFunctionMethodInvocationBaseExprNode
-{
-	static DequeSizeNode()
+	public class DequeSizeNode : DequeFunctionMethodInvocationBaseExprNode
 	{
-		SetClassName(typeof(DequeSizeNode), "deque size expression");
-	}
-
-	public DequeSizeNode(Coords coords, ExprNode targetExpr)
-		: base(coords, targetExpr)
-	{
-	}
-
-	public override TypeNode Type
-	{
-		get
+		static DequeSizeNode()
 		{
-			return BasicTypeNode.intType;
+			SetClassName(typeof(DequeSizeNode), "deque size expression");
+		}
+
+		public DequeSizeNode(Coords coords, ExprNode targetExpr)
+			: base(coords, targetExpr)
+		{
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.intType;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			targetExpr = targetExpr.Evaluate();
+			return new DequeSizeExpr(targetExpr.CheckIR(typeof(Expression)));
 		}
 	}
-
-	protected internal override IR ConstructIR()
-	{
-		targetExpr = targetExpr.Evaluate();
-		return new DequeSizeExpr(targetExpr.CheckIR(typeof(Expression)));
-	}
-}
 
 }

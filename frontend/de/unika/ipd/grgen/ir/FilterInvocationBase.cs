@@ -11,25 +11,25 @@
 
 namespace de.unika.ipd.grgen.ir
 {
-using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+	using Rule = de.unika.ipd.grgen.ir.executable.Rule;
 
-public class FilterInvocationBase : Identifiable
-{
-	protected internal Rule iteratedAction;
-
-	public FilterInvocationBase(string name, Ident ident, Rule iteratedAction)
-		: base(name, ident)
+	public class FilterInvocationBase : Identifiable
 	{
-		this.iteratedAction = iteratedAction;
-	}
+		protected internal Rule iteratedAction;
 
-	public virtual Rule IteratedAction
-	{
-		get
+		public FilterInvocationBase(string name, Ident ident, Rule iteratedAction)
+			: base(name, ident)
 		{
-			return iteratedAction;
+			this.iteratedAction = iteratedAction;
+		}
+
+		public virtual Rule IteratedAction
+		{
+			get
+			{
+				return iteratedAction;
+			}
 		}
 	}
-}
 
 }

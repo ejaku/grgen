@@ -8,84 +8,84 @@
 namespace de.unika.ipd.grgen.ast.expr
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using Coords = de.unika.ipd.grgen.parser.Coords;
-
-/// <summary>
-/// representing invalid expressions.
-/// </summary>
-public class InvalidExprNode : ExprNode
-{
-	static InvalidExprNode()
-	{
-		SetClassName(typeof(InvalidExprNode), "invalid expression");
-	}
-
-	public InvalidExprNode()
-		: base(Coords.Invalid)
-	{
-	}
+	using de.unika.ipd.grgen.ast;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
 	/// <summary>
-	/// returns children of this node </summary>
-	public override ICollection<BaseNode> Children
+	/// representing invalid expressions.
+	/// </summary>
+	public class InvalidExprNode : ExprNode
 	{
-		get
+		static InvalidExprNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			// no children
-			return children;
+			SetClassName(typeof(InvalidExprNode), "invalid expression");
 		}
-	}
 
-	/// <summary>
-	/// returns names of the children, same order as in getChildren </summary>
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		public InvalidExprNode()
+			: base(Coords.Invalid)
 		{
-			IList<string> childrenNames = new List<string>();
-			// no children
-			return childrenNames;
 		}
-	}
 
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
-	protected internal override bool ResolveLocal()
-	{
-		return true;
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
-	protected internal override bool CheckLocal()
-	{
-		return true;
-	}
-
-	public override TypeNode Type
-	{
-		get
+		/// <summary>
+		/// returns children of this node </summary>
+		public override ICollection<BaseNode> Children
 		{
-			return BasicTypeNode.errorType;
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				// no children
+				return children;
+			}
 		}
-	}
 
-	public override string ToString()
-	{
-		return "invalid expression";
-	}
+		/// <summary>
+		/// returns names of the children, same order as in getChildren </summary>
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				// no children
+				return childrenNames;
+			}
+		}
 
-	public static string KindStr
-	{
-		get
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+		protected internal override bool ResolveLocal()
+		{
+			return true;
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+		protected internal override bool CheckLocal()
+		{
+			return true;
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.errorType;
+			}
+		}
+
+		public override string ToString()
 		{
 			return "invalid expression";
 		}
+
+		public static string KindStr
+		{
+			get
+			{
+				return "invalid expression";
+			}
+		}
 	}
-}
 
 }

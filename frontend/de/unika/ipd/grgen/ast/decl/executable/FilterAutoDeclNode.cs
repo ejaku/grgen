@@ -11,39 +11,39 @@
 
 namespace de.unika.ipd.grgen.ast.decl.executable
 {
-using System.Diagnostics;
+	using System.Diagnostics;
 
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using FilterFunctionTypeNode = de.unika.ipd.grgen.ast.type.executable.FilterFunctionTypeNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using FilterFunctionTypeNode = de.unika.ipd.grgen.ast.type.executable.FilterFunctionTypeNode;
 
-/// <summary>
-/// AST node class representing auto-supplied and auto-generated filter declarations
-/// </summary>
-public abstract class FilterAutoDeclNode : DeclNode
-{
-	static FilterAutoDeclNode()
+	/// <summary>
+	/// AST node class representing auto-supplied and auto-generated filter declarations
+	/// </summary>
+	public abstract class FilterAutoDeclNode : DeclNode
 	{
-		SetClassName(typeof(FilterAutoDeclNode), "auto filter");
-	}
-
-	internal static readonly FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode(); // dummy type
-
-	public FilterAutoDeclNode(IdentNode ident)
-		: base(ident, filterFunctionType)
-	{
-	}
-
-	public override TypeNode DeclType
-	{
-		get
+		static FilterAutoDeclNode()
 		{
-			Debug.Assert(IsResolved());
+			SetClassName(typeof(FilterAutoDeclNode), "auto filter");
+		}
 
-			return filterFunctionType;
+		internal static readonly FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode(); // dummy type
+
+		public FilterAutoDeclNode(IdentNode ident)
+			: base(ident, filterFunctionType)
+		{
+		}
+
+		public override TypeNode DeclType
+		{
+			get
+			{
+				Debug.Assert(IsResolved());
+
+				return filterFunctionType;
+			}
 		}
 	}
-}
 
 }

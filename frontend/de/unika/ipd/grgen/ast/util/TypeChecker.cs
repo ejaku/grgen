@@ -11,103 +11,103 @@
 
 namespace de.unika.ipd.grgen.ast.util
 {
-using System;
-using System.Text;
+	using System;
+	using System.Text;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
-
-/// <summary>
-/// A checker that checks whether the declared type of the AST declaration node is one of the specified types
-/// </summary>
-public class TypeChecker : Checker
-{
-	/// <summary>
-	/// The types the declaration type is to be checked against </summary>
-	private Type[] validTypes;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
 	/// <summary>
-	/// Create checker with one type to check the declared type of the AST declaration node against </summary>
-	public TypeChecker(Type[] types)
+	/// A checker that checks whether the declared type of the AST declaration node is one of the specified types
+	/// </summary>
+	public class TypeChecker : Checker
 	{
-		this.validTypes = types;
-	}
+		/// <summary>
+		/// The types the declaration type is to be checked against </summary>
+		private Type[] validTypes;
 
-	/// <summary>
-	/// Create checker with the types to check the declared type of the AST declaration node against </summary>
-	public TypeChecker(Type type)
-		: this(new Type[] { type })
-	{
-	}
-
-	/// <summary>
-	/// Check if node is an instance of DeclNode
-	/// if so check whether the declaration has the right type </summary>
-	/// <seealso cref="de.unika.ipd.grgen.ast.check.Checker.check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)"/>
-	public virtual bool Check(BaseNode bn, ErrorReporter reporter)
-	{
-		bool res = (bn is DeclNode);
-
-		if(!res)
-			bn.ReportError("Not a " + BaseNode.GetClassName(typeof(DeclNode)));
-		else
+		/// <summary>
+		/// Create checker with one type to check the declared type of the AST declaration node against </summary>
+		public TypeChecker(Type[] types)
 		{
-			TypeNode type = ((DeclNode)bn).DeclType;
+			this.validTypes = types;
+		}
 
-			res = false;
-			foreach(Type c in this.validTypes)
-			{
-				if(c.IsInstanceOfType(type))
-				{
-					res = true;
-					break;
-				}
-			}
+		/// <summary>
+		/// Create checker with the types to check the declared type of the AST declaration node against </summary>
+		public TypeChecker(Type type)
+			: this(new Type[] { type })
+		{
+		}
+
+		/// <summary>
+		/// Check if node is an instance of DeclNode
+		/// if so check whether the declaration has the right type </summary>
+		/// <seealso cref="de.unika.ipd.grgen.ast.check.Checker.check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)"/>
+		public virtual bool Check(BaseNode bn, ErrorReporter reporter)
+		{
+			bool res = (bn is DeclNode);
 
 			if(!res)
-				((DeclNode)bn).Ident.ReportError(GetErrorMsg(validTypes, bn));
+				bn.ReportError("Not a " + BaseNode.GetClassName(typeof(DeclNode)));
+			else
+			{
+				TypeNode type = ((DeclNode)bn).DeclType;
 
+				res = false;
+				foreach(Type c in this.validTypes)
+				{
+					if(c.IsInstanceOfType(type))
+					{
+						res = true;
+						break;
+					}
+				}
+
+				if(!res)
+					((DeclNode)bn).Ident.ReportError(GetErrorMsg(validTypes, bn));
+
+			}
+
+			return res;
 		}
 
-		return res;
-	}
-
-	protected internal static string GetExpection(Type cls)
-	{
-		string res = "";
-
-		try
+		protected internal static string GetExpection(Type cls)
 		{
-			res = (string)cls.GetMethod("getKindStr").Invoke(null);
+			string res = "";
+
+			try
+			{
+				res = (string)cls.GetMethod("getKindStr").Invoke(null);
+			}
+			catch(Exception)
+			{
+				res = "<invalid>";
+			}
+
+			return res;
 		}
-		catch(Exception)
+
+		protected internal static string GetExpectionList(Type[] classes)
 		{
-			res = "<invalid>";
+			StringBuilder list = new StringBuilder();
+			for(int i = 0; i < classes.Length; i++)
+			{
+				list.Append(GetExpection(classes[i]));
+				if(i < classes.Length - 2)
+					list.Append(", ");
+				else if(i == classes.Length - 2)
+					list.Append(" or ");
+			}
+			return list.ToString();
 		}
 
-		return res;
-	}
-
-	protected internal static string GetExpectionList(Type[] classes)
-	{
-		StringBuilder list = new StringBuilder();
-		for(int i = 0; i < classes.Length; i++)
+		protected internal static string GetErrorMsg(Type[] classes, BaseNode bn)
 		{
-			list.Append(GetExpection(classes[i]));
-			if(i < classes.Length - 2)
-				list.Append(", ");
-			else if(i == classes.Length - 2)
-				list.Append(" or ");
+			return "expected a " + GetExpectionList(classes);
 		}
-		return list.ToString();
 	}
-
-	protected internal static string GetErrorMsg(Type[] classes, BaseNode bn)
-	{
-		return "expected a " + GetExpectionList(classes);
-	}
-}
 
 }

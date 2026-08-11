@@ -10,51 +10,51 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.expr.deque
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class DequeIndexOfExpr : DequeFunctionMethodInvocationBaseExpr
-{
-	private Expression valueExpr;
-	private Expression startIndexExpr;
-
-	public DequeIndexOfExpr(Expression targetExpr, Expression valueExpr)
-		: base("deque indexOf expr", IntType.Type, targetExpr)
+	public class DequeIndexOfExpr : DequeFunctionMethodInvocationBaseExpr
 	{
-		this.valueExpr = valueExpr;
-	}
+		private Expression valueExpr;
+		private Expression startIndexExpr;
 
-	public DequeIndexOfExpr(Expression targetExpr, Expression valueExpr, Expression startIndexExpr)
-		: base("deque indexOf expr", IntType.Type, targetExpr)
-	{
-		this.valueExpr = valueExpr;
-		this.startIndexExpr = startIndexExpr;
-	}
-
-	public virtual Expression ValueExpr
-	{
-		get
+		public DequeIndexOfExpr(Expression targetExpr, Expression valueExpr)
+			: base("deque indexOf expr", IntType.Type, targetExpr)
 		{
-			return valueExpr;
+			this.valueExpr = valueExpr;
+		}
+
+		public DequeIndexOfExpr(Expression targetExpr, Expression valueExpr, Expression startIndexExpr)
+			: base("deque indexOf expr", IntType.Type, targetExpr)
+		{
+			this.valueExpr = valueExpr;
+			this.startIndexExpr = startIndexExpr;
+		}
+
+		public virtual Expression ValueExpr
+		{
+			get
+			{
+				return valueExpr;
+			}
+		}
+
+		public virtual Expression StartIndexExpr
+		{
+			get
+			{
+				return startIndexExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			base.CollectNeededEntities(needs);
+			valueExpr.CollectNeededEntities(needs);
+			if(startIndexExpr != null)
+				startIndexExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression StartIndexExpr
-	{
-		get
-		{
-			return startIndexExpr;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		base.CollectNeededEntities(needs);
-		valueExpr.CollectNeededEntities(needs);
-		if(startIndexExpr != null)
-			startIndexExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

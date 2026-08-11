@@ -11,32 +11,32 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class DeleteFileProc : BuiltinProcedureInvocationBase
-{
-	private Expression pathExpr;
-
-	public DeleteFileProc(Expression pathExpr)
-		: base("deleteFile procedure")
+	public class DeleteFileProc : BuiltinProcedureInvocationBase
 	{
-		this.pathExpr = pathExpr;
-	}
+		private Expression pathExpr;
 
-	public virtual Expression PathExpr
-	{
-		get
+		public DeleteFileProc(Expression pathExpr)
+			: base("deleteFile procedure")
 		{
-			return pathExpr;
+			this.pathExpr = pathExpr;
+		}
+
+		public virtual Expression PathExpr
+		{
+			get
+			{
+				return pathExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			pathExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		pathExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

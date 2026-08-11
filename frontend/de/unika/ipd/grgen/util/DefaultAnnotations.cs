@@ -12,63 +12,63 @@
 namespace de.unika.ipd.grgen.util
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-/// <summary>
-/// Default annotations implementation.
-/// </summary>
-public class DefaultAnnotations : Annotations
-{
-	private readonly IDictionary<string, object> annots = new Dictionary<string, object>();
-
-	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.containsKey(java.lang.String) "/>
-	public virtual bool ContainsKey(string key)
+	/// <summary>
+	/// Default annotations implementation.
+	/// </summary>
+	public class DefaultAnnotations : Annotations
 	{
-		return annots.ContainsKey(key);
-	}
+		private readonly IDictionary<string, object> annots = new Dictionary<string, object>();
 
-	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.get(java.lang.String) "/>
-	public virtual object Get(string key)
-	{
-		return annots[key];
-	}
+		/// <seealso cref="de.unika.ipd.grgen.util.Annotations.containsKey(java.lang.String) "/>
+		public virtual bool ContainsKey(string key)
+		{
+			return annots.ContainsKey(key);
+		}
 
-	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isBoolean(java.lang.String) "/>
-	public virtual bool IsBoolean(string key)
-	{
-		return ContainsKey(key) && Get(key) is bool?;
-	}
+		/// <seealso cref="de.unika.ipd.grgen.util.Annotations.get(java.lang.String) "/>
+		public virtual object Get(string key)
+		{
+			return annots[key];
+		}
 
-	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isInteger(java.lang.String) "/>
-	public virtual bool IsInteger(string key)
-	{
-		return ContainsKey(key) && Get(key) is int?;
-	}
+		/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isBoolean(java.lang.String) "/>
+		public virtual bool IsBoolean(string key)
+		{
+			return ContainsKey(key) && Get(key) is bool?;
+		}
 
-	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isString(java.lang.String) "/>
-	public virtual bool IsString(string key)
-	{
-		return ContainsKey(key) && Get(key) is string;
-	}
+		/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isInteger(java.lang.String) "/>
+		public virtual bool IsInteger(string key)
+		{
+			return ContainsKey(key) && Get(key) is int?;
+		}
 
-	public virtual bool IsFlagSet(string key)
-	{
-		if(!ContainsKey(key))
-			return false;
-		object val = Get(key);
-		return val is bool? && ((bool?)val).Value;
-	}
+		/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isString(java.lang.String) "/>
+		public virtual bool IsString(string key)
+		{
+			return ContainsKey(key) && Get(key) is string;
+		}
 
-	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.put(java.lang.String, java.lang.Object) "/>
-	public virtual void Put(string key, object value)
-	{
-		annots[key] = value;
-	}
+		public virtual bool IsFlagSet(string key)
+		{
+			if(!ContainsKey(key))
+				return false;
+			object val = Get(key);
+			return val is bool? && ((bool?)val).Value;
+		}
 
-	public virtual ISet<string> KeySet()
-	{
-		return annots.Keys;
+		/// <seealso cref="de.unika.ipd.grgen.util.Annotations.put(java.lang.String, java.lang.Object) "/>
+		public virtual void Put(string key, object value)
+		{
+			annots[key] = value;
+		}
+
+		public virtual ISet<string> KeySet()
+		{
+			return annots.Keys;
+		}
 	}
-}
 
 }

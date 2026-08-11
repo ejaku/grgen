@@ -11,27 +11,27 @@
 
 namespace de.unika.ipd.grgen.ir.model.type
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
 
-/// <summary>
-/// IR class that represents (internal non-node/edge) transient object types (i.e. classes).
-/// </summary>
-public class InternalTransientObjectType : BaseInternalObjectType
-{
 	/// <summary>
-	/// Make a new (internal) transient object type. </summary>
-	/// <param name="ident"> The identifier that declares this type. </param>
-	/// <param name="modifiers"> The modifiers for this type. </param>
-	public InternalTransientObjectType(Ident ident, int modifiers)
-		: base("internal transient object type", ident, modifiers)
+	/// IR class that represents (internal non-node/edge) transient object types (i.e. classes).
+	/// </summary>
+	public class InternalTransientObjectType : BaseInternalObjectType
 	{
-	}
+		/// <summary>
+		/// Make a new (internal) transient object type. </summary>
+		/// <param name="ident"> The identifier that declares this type. </param>
+		/// <param name="modifiers"> The modifiers for this type. </param>
+		public InternalTransientObjectType(Ident ident, int modifiers)
+			: base("internal transient object type", ident, modifiers)
+		{
+		}
 
-	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
-	public override TypeClass Classify()
-	{
-		return TypeClass.IS_INTERNAL_TRANSIENT_CLASS_OBJECT;
+		/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+		public override TypeClass Classify()
+		{
+			return TypeClass.IS_INTERNAL_TRANSIENT_CLASS_OBJECT;
+		}
 	}
-}
 
 }

@@ -8,18 +8,18 @@
 namespace de.unika.ipd.grgen.ir.pattern
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using IR = de.unika.ipd.grgen.ir.IR;
+	using IR = de.unika.ipd.grgen.ir.IR;
 
-public class OrderedReplacements : IR
-{
-	public IList<OrderedReplacement> orderedReplacements = new List<OrderedReplacement>();
-
-	public OrderedReplacements(string name)
-		: base(name)
+	public class OrderedReplacements : IR
 	{
+		public IList<OrderedReplacement> orderedReplacements = new List<OrderedReplacement>();
+
+		public OrderedReplacements(string name)
+			: base(name)
+		{
+		}
 	}
-}
 
 }

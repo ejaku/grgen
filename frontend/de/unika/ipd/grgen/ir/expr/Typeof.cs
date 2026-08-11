@@ -7,49 +7,49 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using de.unika.ipd.grgen.ir;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using de.unika.ipd.grgen.ir;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-public class Typeof : Expression
-{
-	/// <summary>
-	/// The entity whose type we want to know. </summary>
-	private readonly Entity entity;
-
-	public Typeof(Entity entity)
-		: base("typeof", entity.Type)
+	public class Typeof : Expression
 	{
-		this.entity = entity;
-	}
+		/// <summary>
+		/// The entity whose type we want to know. </summary>
+		private readonly Entity entity;
 
-	public virtual Entity Entity
-	{
-		get
+		public Typeof(Entity entity)
+			: base("typeof", entity.Type)
 		{
-			return entity;
+			this.entity = entity;
+		}
+
+		public virtual Entity Entity
+		{
+			get
+			{
+				return entity;
+			}
+		}
+
+		public override string NodeLabel
+		{
+			get
+			{
+				return "typeof<" + entity + ">";
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(!IsGlobalVariable(entity))
+			{
+				if(entity is GraphEntity)
+					needs.Add((GraphEntity)entity);
+				else
+					needs.Add((Variable)entity);
+			}
 		}
 	}
-
-	public override string NodeLabel
-	{
-		get
-		{
-			return "typeof<" + entity + ">";
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(!IsGlobalVariable(entity))
-		{
-			if(entity is GraphEntity)
-				needs.Add((GraphEntity)entity);
-			else
-				needs.Add((Variable)entity);
-		}
-	}
-}
 
 }

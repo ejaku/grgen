@@ -11,42 +11,42 @@
 
 namespace de.unika.ipd.grgen.ir
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-
-/// <summary>
-/// A exec variable expression node.
-/// </summary>
-public class ExecVariableExpression : Expression
-{
-	private ExecVariable var;
-
-	public ExecVariableExpression(ExecVariable var)
-		: base("exec variable", var.Type)
-	{
-		this.var = var;
-	}
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
 	/// <summary>
-	/// Returns the exec variable of this exec variable expression. </summary>
-	public virtual ExecVariable Variable
+	/// A exec variable expression node.
+	/// </summary>
+	public class ExecVariableExpression : Expression
 	{
-		get
+		private ExecVariable var;
+
+		public ExecVariableExpression(ExecVariable var)
+			: base("exec variable", var.Type)
 		{
-			return var;
+			this.var = var;
+		}
+
+		/// <summary>
+		/// Returns the exec variable of this exec variable expression. </summary>
+		public virtual ExecVariable Variable
+		{
+			get
+			{
+				return var;
+			}
+		}
+
+		public override bool Equals(object other)
+		{
+			if(!(other is ExecVariableExpression))
+				return false;
+			return var == ((ExecVariableExpression)other).Variable;
+		}
+
+		public override int GetHashCode()
+		{
+			return var.GetHashCode();
 		}
 	}
-
-	public override bool Equals(object other)
-	{
-		if(!(other is ExecVariableExpression))
-			return false;
-		return var == ((ExecVariableExpression)other).Variable;
-	}
-
-	public override int GetHashCode()
-	{
-		return var.GetHashCode();
-	}
-}
 
 }

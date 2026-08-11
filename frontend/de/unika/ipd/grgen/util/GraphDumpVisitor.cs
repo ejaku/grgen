@@ -11,45 +11,45 @@
 
 namespace de.unika.ipd.grgen.util
 {
-/// <summary>
-/// A visitor that dumps graphs
-/// Every object that is visited must implement Walkable and GraphDumpable </summary>
-/// <seealso cref="GraphDumpable"/>
-/// <seealso cref="Walkable"/>
-public class GraphDumpVisitor : Base, Visitor
-{
-	protected internal GraphDumper dumper;
-
-	public GraphDumpVisitor(GraphDumper dumper)
+	/// <summary>
+	/// A visitor that dumps graphs
+	/// Every object that is visited must implement Walkable and GraphDumpable </summary>
+	/// <seealso cref="GraphDumpable"/>
+	/// <seealso cref="Walkable"/>
+	public class GraphDumpVisitor : Base, Visitor
 	{
-		this.dumper = dumper;
-	}
+		protected internal GraphDumper dumper;
 
-	public GraphDumpVisitor()
-	{
-	}
-
-	public virtual GraphDumper Dumper
-	{
-		set
+		public GraphDumpVisitor(GraphDumper dumper)
 		{
-			this.dumper = value;
+			this.dumper = dumper;
+		}
+
+		public GraphDumpVisitor()
+		{
+		}
+
+		public virtual GraphDumper Dumper
+		{
+			set
+			{
+				this.dumper = value;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.Visitor.visit(de.unika.ipd.grgen.ast.BaseNode)"/>
+		public virtual void Visit(Walkable n)
+		{
+			GraphDumpable gd = (GraphDumpable)n;
+			dumper.Node(gd);
+
+			int i = 0;
+			foreach(GraphDumpable target in n.WalkableChildren)
+			{
+				dumper.Edge(gd, target, gd.GetEdgeLabel(i));
+				i++;
+			}
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.Visitor.visit(de.unika.ipd.grgen.ast.BaseNode)"/>
-	public virtual void Visit(Walkable n)
-	{
-		GraphDumpable gd = (GraphDumpable)n;
-		dumper.Node(gd);
-
-		int i = 0;
-		foreach(GraphDumpable target in n.WalkableChildren)
-		{
-			dumper.Edge(gd, target, gd.GetEdgeLabel(i));
-			i++;
-		}
-	}
-}
 
 }

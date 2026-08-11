@@ -7,54 +7,54 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class GraphRedirectSourceProc : BuiltinProcedureInvocationBase
-{
-	private Expression edge;
-	private Expression newSource;
-	private Expression oldSourceName; // optional
-
-	public GraphRedirectSourceProc(Expression edge, Expression newSource, Expression oldSourceName)
-		: base("graph redirect source procedure")
+	public class GraphRedirectSourceProc : BuiltinProcedureInvocationBase
 	{
-		this.edge = edge;
-		this.newSource = newSource;
-		this.oldSourceName = oldSourceName;
-	}
+		private Expression edge;
+		private Expression newSource;
+		private Expression oldSourceName; // optional
 
-	public virtual Expression Edge
-	{
-		get
+		public GraphRedirectSourceProc(Expression edge, Expression newSource, Expression oldSourceName)
+			: base("graph redirect source procedure")
 		{
-			return edge;
+			this.edge = edge;
+			this.newSource = newSource;
+			this.oldSourceName = oldSourceName;
+		}
+
+		public virtual Expression Edge
+		{
+			get
+			{
+				return edge;
+			}
+		}
+
+		public virtual Expression NewSource
+		{
+			get
+			{
+				return newSource;
+			}
+		}
+
+		public virtual Expression OldSourceName
+		{
+			get
+			{
+				return oldSourceName;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			edge.CollectNeededEntities(needs);
+			newSource.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression NewSource
-	{
-		get
-		{
-			return newSource;
-		}
-	}
-
-	public virtual Expression OldSourceName
-	{
-		get
-		{
-			return oldSourceName;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		edge.CollectNeededEntities(needs);
-		newSource.CollectNeededEntities(needs);
-	}
-}
 
 }

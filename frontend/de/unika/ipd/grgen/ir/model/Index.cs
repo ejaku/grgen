@@ -11,20 +11,20 @@
 
 namespace de.unika.ipd.grgen.ir.model
 {
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
 
-/// <summary>
-/// An index, base class for attribute index and incidence index.
-/// </summary>
-public abstract class Index : Identifiable
-{
-	/// <param name="name"> The name of the attribute index. </param>
-	/// <param name="ident"> The identifier that identifies this object. </param>
-	public Index(string name, Ident ident)
-		: base(name, ident)
+	/// <summary>
+	/// An index, base class for attribute index and incidence index.
+	/// </summary>
+	public abstract class Index : Identifiable
 	{
+		/// <param name="name"> The name of the attribute index. </param>
+		/// <param name="ident"> The identifier that identifies this object. </param>
+		public Index(string name, Ident ident)
+			: base(name, ident)
+		{
+		}
 	}
-}
 
 }

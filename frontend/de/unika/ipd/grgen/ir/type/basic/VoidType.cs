@@ -11,37 +11,37 @@
 
 namespace de.unika.ipd.grgen.ir.type.basic
 {
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using de.unika.ipd.grgen.ir;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using de.unika.ipd.grgen.ir;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-/// <summary>
-/// The void type.
-/// </summary>
-public class VoidType : PrimitiveType
-{
-	public VoidType(Ident ident)
-		: base("void type", ident)
+	/// <summary>
+	/// The void type.
+	/// </summary>
+	public class VoidType : PrimitiveType
 	{
-	}
-
-	public override bool IsVoid()
-	{
-		return true;
-	}
-
-	public override bool IsEqual(Type t)
-	{
-		return t.IsVoid();
-	}
-
-	public static Type Type
-	{
-		get
+		public VoidType(Ident ident)
+			: base("void type", ident)
 		{
-			return BasicTypeNode.voidType.CheckIR(typeof(Type));
+		}
+
+		public override bool IsVoid()
+		{
+			return true;
+		}
+
+		public override bool IsEqual(Type t)
+		{
+			return t.IsVoid();
+		}
+
+		public static Type Type
+		{
+			get
+			{
+				return BasicTypeNode.voidType.CheckIR(typeof(Type));
+			}
 		}
 	}
-}
 
 }

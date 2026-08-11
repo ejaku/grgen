@@ -11,46 +11,46 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
 
-/// <summary>
-/// Represents an assignment statement in the IR.
-/// </summary>
-public class AssignmentGraphEntity : AssignmentBase
-{
 	/// <summary>
-	/// The lhs of the assignment. </summary>
-	private GraphEntity target;
-
-	public AssignmentGraphEntity(GraphEntity target, Expression expr)
-		: base("assignment graph entity")
+	/// Represents an assignment statement in the IR.
+	/// </summary>
+	public class AssignmentGraphEntity : AssignmentBase
 	{
-		this.target = target;
-		this.expr = expr;
-	}
+		/// <summary>
+		/// The lhs of the assignment. </summary>
+		private GraphEntity target;
 
-	public virtual GraphEntity Target
-	{
-		get
+		public AssignmentGraphEntity(GraphEntity target, Expression expr)
+			: base("assignment graph entity")
 		{
-			return target;
+			this.target = target;
+			this.expr = expr;
+		}
+
+		public virtual GraphEntity Target
+		{
+			get
+			{
+				return target;
+			}
+		}
+
+		public override string ToString()
+		{
+			return Target + " = " + Expression;
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(!IsGlobalVariable(target))
+				needs.Add(target);
+
+			Expression.CollectNeededEntities(needs);
 		}
 	}
-
-	public override string ToString()
-	{
-		return Target + " = " + Expression;
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(!IsGlobalVariable(target))
-			needs.Add(target);
-
-		Expression.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -8,49 +8,49 @@
 namespace de.unika.ipd.grgen.ast.expr.graph
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using IR = de.unika.ipd.grgen.ir.IR;
-using EdgesFromIndexAccessMultipleFromToExpr = de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessMultipleFromToExpr;
-using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using EdgesFromIndexAccessMultipleFromToExpr = de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessMultipleFromToExpr;
+	using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-/// <summary>
-/// A node yielding the edges from multiple indices (by accessing a range from a certain value to a certain value, each time).
-/// </summary>
-public class EdgesFromIndexAccessMultipleFromToExprNode : FromIndexAccessMultipleFromToExprNode
-{
-	static EdgesFromIndexAccessMultipleFromToExprNode()
+	/// <summary>
+	/// A node yielding the edges from multiple indices (by accessing a range from a certain value to a certain value, each time).
+	/// </summary>
+	public class EdgesFromIndexAccessMultipleFromToExprNode : FromIndexAccessMultipleFromToExprNode
 	{
-		SetClassName(typeof(EdgesFromIndexAccessMultipleFromToExprNode), "edges from index access multiple from to expr");
-	}
-
-	public EdgesFromIndexAccessMultipleFromToExprNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	protected internal override IdentNode Root
-	{
-		get
+		static EdgesFromIndexAccessMultipleFromToExprNode()
 		{
-			return EdgeRoot;
+			SetClassName(typeof(EdgesFromIndexAccessMultipleFromToExprNode), "edges from index access multiple from to expr");
+		}
+
+		public EdgesFromIndexAccessMultipleFromToExprNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		protected internal override IdentNode Root
+		{
+			get
+			{
+				return EdgeRoot;
+			}
+		}
+
+		protected internal override string ShortSignature()
+		{
+			return "edgesFromIndexMultipleFromTo" + "(" + ArgumentsPart() + ")";
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			IList<IndexAccessOrdering> indexAccesses = new List<IndexAccessOrdering>();
+			foreach(FromIndexAccessFromToPartExprNode indexAccessExpr in indexAccessExprs.ChildrenExact)
+				indexAccesses.Add(indexAccessExpr.ConstructIRPart());
+			return new EdgesFromIndexAccessMultipleFromToExpr(indexAccesses, Type.IRType);
 		}
 	}
-
-	protected internal override string ShortSignature()
-	{
-		return "edgesFromIndexMultipleFromTo" + "(" + ArgumentsPart() + ")";
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		IList<IndexAccessOrdering> indexAccesses = new List<IndexAccessOrdering>();
-		foreach(FromIndexAccessFromToPartExprNode indexAccessExpr in indexAccessExprs.ChildrenExact)
-			indexAccesses.Add(indexAccessExpr.ConstructIRPart());
-		return new EdgesFromIndexAccessMultipleFromToExpr(indexAccesses, Type.IRType);
-	}
-}
 
 }

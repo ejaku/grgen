@@ -11,135 +11,135 @@
 
 namespace de.unika.ipd.grgen.ast.util
 {
-using System;
-using System.Collections.Generic;
+	using System;
+	using System.Collections.Generic;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
-using InvalidDeclNode = de.unika.ipd.grgen.ast.decl.InvalidDeclNode;
-using MatcherDeclNode = de.unika.ipd.grgen.ast.decl.executable.MatcherDeclNode;
-using FilterFunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FilterFunctionDeclNode;
-using FunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
-using ProcedureDeclNode = de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
-using SequenceDeclNode = de.unika.ipd.grgen.ast.decl.executable.SequenceDeclNode;
-using EnumTypeNode = de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
-using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-using Base = de.unika.ipd.grgen.util.Base;
-using Util = de.unika.ipd.grgen.util.Util;
-
-/// <summary>
-/// A resolver, that resolves a declaration node from an identifier.
-/// </summary>
-public class MemberResolver<T> : Base
-{
-	// for error message
-	private BaseNode orginalNode;
-
-	private BaseNode unresolvedNode;
-	private T resolvedNode;
-	private IList<Type> triedClasses = new List<Type>();
-	private int validClasses;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+	using InvalidDeclNode = de.unika.ipd.grgen.ast.decl.InvalidDeclNode;
+	using MatcherDeclNode = de.unika.ipd.grgen.ast.decl.executable.MatcherDeclNode;
+	using FilterFunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FilterFunctionDeclNode;
+	using FunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+	using ProcedureDeclNode = de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
+	using SequenceDeclNode = de.unika.ipd.grgen.ast.decl.executable.SequenceDeclNode;
+	using EnumTypeNode = de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
+	using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+	using Base = de.unika.ipd.grgen.util.Base;
+	using Util = de.unika.ipd.grgen.util.Util;
 
 	/// <summary>
-	/// Tries to resolve the given BaseNode.
-	/// @returns True, if the BaseNode was resolved.
-	///          False, when an error occurred (the error is reported).
+	/// A resolver, that resolves a declaration node from an identifier.
 	/// </summary>
-	public virtual bool Resolve(BaseNode bn)
+	public class MemberResolver<T> : Base
 	{
-		triedClasses.Clear();
-		validClasses = 0;
+		// for error message
+		private BaseNode orginalNode;
 
-		orginalNode = bn;
-		if(!(orginalNode is IdentNode))
+		private BaseNode unresolvedNode;
+		private T resolvedNode;
+		private IList<Type> triedClasses = new List<Type>();
+		private int validClasses;
+
+		/// <summary>
+		/// Tries to resolve the given BaseNode.
+		/// @returns True, if the BaseNode was resolved.
+		///          False, when an error occurred (the error is reported).
+		/// </summary>
+		public virtual bool Resolve(BaseNode bn)
 		{
-			unresolvedNode = orginalNode;
+			triedClasses.Clear();
+			validClasses = 0;
+
+			orginalNode = bn;
+			if(!(orginalNode is IdentNode))
+			{
+				unresolvedNode = orginalNode;
+				return true;
+			}
+
+			IdentNode identNode = (IdentNode)orginalNode;
+			unresolvedNode = identNode.Decl;
+
+			if(unresolvedNode is InvalidDeclNode)
+			{
+				DeclNode scopeDecl = identNode.Scope.Ident.Decl;
+				if(scopeDecl is MatcherDeclNode || scopeDecl is SequenceDeclNode
+						|| scopeDecl is ProcedureDeclNode || scopeDecl is FunctionDeclNode
+						|| scopeDecl is FilterFunctionDeclNode || scopeDecl is InvalidDeclNode)
+				{
+					identNode.ReportError("Undefined identifier " + identNode + ".");
+					return false;
+				}
+				else
+				{
+					if(scopeDecl.DeclType is EnumTypeNode)
+					{
+						identNode.ReportError("Resolving failure, see error messages before; unexpected enum member "
+								+ identNode.ToString() + " of " + scopeDecl.DeclType.ToStringWithDeclarationCoords() + ".");
+						return false;
+					}
+					InheritanceTypeNode typeNode = (InheritanceTypeNode)scopeDecl.DeclType;
+					IDictionary<string, DeclNode> allMembers = typeNode.AllMembers;
+					unresolvedNode = allMembers[identNode.ToString()];
+					if(unresolvedNode == null)
+					{
+						identNode.ReportError("Undefined member " + identNode
+								+ " of " + typeNode.ToStringWithDeclarationCoords() + ".");
+						return false;
+					}
+				}
+			}
 			return true;
 		}
 
-		IdentNode identNode = (IdentNode)orginalNode;
-		unresolvedNode = identNode.Decl;
-
-		if(unresolvedNode is InvalidDeclNode)
+		public virtual T Result
 		{
-			DeclNode scopeDecl = identNode.Scope.Ident.Decl;
-			if(scopeDecl is MatcherDeclNode || scopeDecl is SequenceDeclNode
-					|| scopeDecl is ProcedureDeclNode || scopeDecl is FunctionDeclNode
-					|| scopeDecl is FilterFunctionDeclNode || scopeDecl is InvalidDeclNode)
+			get
 			{
-				identNode.ReportError("Undefined identifier " + identNode + ".");
-				return false;
-			}
-			else
-			{
-				if(scopeDecl.DeclType is EnumTypeNode)
-				{
-					identNode.ReportError("Resolving failure, see error messages before; unexpected enum member "
-							+ identNode.ToString() + " of " + scopeDecl.DeclType.ToStringWithDeclarationCoords() + ".");
-					return false;
-				}
-				InheritanceTypeNode typeNode = (InheritanceTypeNode)scopeDecl.DeclType;
-				IDictionary<string, DeclNode> allMembers = typeNode.AllMembers;
-				unresolvedNode = allMembers[identNode.ToString()];
-				if(unresolvedNode == null)
-				{
-					identNode.ReportError("Undefined member " + identNode
-							+ " of " + typeNode.ToStringWithDeclarationCoords() + ".");
-					return false;
-				}
+				return resolvedNode;
 			}
 		}
-		return true;
-	}
 
-	public virtual T Result
-	{
-		get
+		/// <summary>
+		/// Returns the last resolved BaseNode, if it has the given type.
+		/// Otherwise it returns null.
+		/// </summary>
+		public virtual S GetResult<S>(Type cls) where S : T
 		{
-			return resolvedNode;
-		}
-	}
+			triedClasses.Add(cls);
+			if(cls.IsInstanceOfType(unresolvedNode))
+			{
+				validClasses++;
+				resolvedNode = cls.Cast(unresolvedNode);
+				return cls.Cast(unresolvedNode);
+			}
 
-	/// <summary>
-	/// Returns the last resolved BaseNode, if it has the given type.
-	/// Otherwise it returns null.
-	/// </summary>
-	public virtual S GetResult<S>(Type cls) where S : T
-	{
-		triedClasses.Add(cls);
-		if(cls.IsInstanceOfType(unresolvedNode))
-		{
-			validClasses++;
-			resolvedNode = cls.Cast(unresolvedNode);
-			return cls.Cast(unresolvedNode);
+			return default(S);
 		}
 
-		return default(S);
-	}
+		/// <summary>
+		/// Reports an error with all failed classes for the last resolved BaseNode.
+		/// </summary>
+		public virtual void Failed()
+		{
+			Type[] classes = new Type[triedClasses.Count];
+			orginalNode.ReportError(orginalNode + " is a " + orginalNode.Kind + " but a "
+					+ Util.GetStrListWithOr(triedClasses.ToArray(classes), typeof(BaseNode), "getKindStr")
+					+ " is expected.");
+		}
 
-	/// <summary>
-	/// Reports an error with all failed classes for the last resolved BaseNode.
-	/// </summary>
-	public virtual void Failed()
-	{
-		Type[] classes = new Type[triedClasses.Count];
-		orginalNode.ReportError(orginalNode + " is a " + orginalNode.Kind + " but a "
-				+ Util.GetStrListWithOr(triedClasses.ToArray(classes), typeof(BaseNode), "getKindStr")
-				+ " is expected.");
+		/// <summary>
+		/// Returns true, if exactly one valid result was returned for the last resolved BaseNode.
+		/// Otherwise it reports an error with all expected classes.
+		/// </summary>
+		public virtual bool Finish()
+		{
+			if(validClasses == 1)
+				return true;
+			Failed();
+			return false;
+		}
 	}
-
-	/// <summary>
-	/// Returns true, if exactly one valid result was returned for the last resolved BaseNode.
-	/// Otherwise it reports an error with all expected classes.
-	/// </summary>
-	public virtual bool Finish()
-	{
-		if(validClasses == 1)
-			return true;
-		Failed();
-		return false;
-	}
-}
 
 }

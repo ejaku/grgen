@@ -11,40 +11,40 @@
 
 namespace de.unika.ipd.grgen.util
 {
-/// <summary>
-/// A visitor that returns a boolean value.
-/// They are occurring rather often, so they're an own class.
-/// </summary>
-public abstract class BooleanResultVisitor : ResultVisitor<bool>
-{
-	public abstract void visit(Walkable n);
-	private bool result;
-
 	/// <summary>
-	/// Make a new one. </summary>
-	/// <param name="def"> The value, the result is initialized. </param>
-	public BooleanResultVisitor(bool init)
+	/// A visitor that returns a boolean value.
+	/// They are occurring rather often, so they're an own class.
+	/// </summary>
+	public abstract class BooleanResultVisitor : ResultVisitor<bool>
 	{
-		result = init;
-	}
+		public abstract void visit(Walkable n);
+		private bool result;
 
-	protected internal virtual bool Result
-	{
-		set
+		/// <summary>
+		/// Make a new one. </summary>
+		/// <param name="def"> The value, the result is initialized. </param>
+		public BooleanResultVisitor(bool init)
 		{
-			result = value;
+			result = init;
 		}
-		get
+
+		protected internal virtual bool Result
 		{
-			return new bool?(result);
+			set
+			{
+				result = value;
+			}
+			get
+			{
+				return new bool?(result);
+			}
+		}
+
+
+		public virtual bool BooleanResult()
+		{
+			return result;
 		}
 	}
-
-
-	public virtual bool BooleanResult()
-	{
-		return result;
-	}
-}
 
 }

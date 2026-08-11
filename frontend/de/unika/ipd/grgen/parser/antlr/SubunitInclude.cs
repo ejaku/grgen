@@ -7,33 +7,33 @@
 
 namespace de.unika.ipd.grgen.parser.antlr
 {
-using org.antlr.runtime;
+	using org.antlr.runtime;
 
-/// <summary>
-/// An entry of the stack of subunits,
-/// may contain an #include statement for a file
-/// or a using statement for a model file
-/// </summary>
-public class SubunitInclude
-{
-	public SubunitInclude(GrGenParser parser)
+	/// <summary>
+	/// An entry of the stack of subunits,
+	/// may contain an #include statement for a file
+	/// or a using statement for a model file
+	/// </summary>
+	public class SubunitInclude
 	{
-		this.parser = parser;
+		public SubunitInclude(GrGenParser parser)
+		{
+			this.parser = parser;
+		}
+
+		public SubunitInclude(CharStream charStream, int marking)
+		{
+			this.charStream = charStream;
+			this.marking = marking;
+		}
+
+		// in case of a model include the parser is != null
+		public GrGenParser parser;
+
+		// in case of a plain include the char stream is != null, 
+		// and the marking gives the position where lexing the including file was interrupted
+		public CharStream charStream;
+		public int marking;
 	}
-
-	public SubunitInclude(CharStream charStream, int marking)
-	{
-		this.charStream = charStream;
-		this.marking = marking;
-	}
-
-	// in case of a model include the parser is != null
-	public GrGenParser parser;
-
-	// in case of a plain include the char stream is != null, 
-	// and the marking gives the position where lexing the including file was interrupted
-	public CharStream charStream;
-	public int marking;
-}
 
 }

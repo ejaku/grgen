@@ -7,30 +7,30 @@
 
 namespace de.unika.ipd.grgen.ir.pattern
 {
-using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
 
-/// <summary>
-/// Class for the different kinds of storages available for binding a pattern element by accessing
-/// </summary>
-public class StorageAccess
-{
-	public Variable storageVariable = null;
-	public Qualification storageAttribute = null;
-	//public GraphEntity storageGlobalVariable = null;
-
-	public StorageAccess(Variable storageVariable)
+	/// <summary>
+	/// Class for the different kinds of storages available for binding a pattern element by accessing
+	/// </summary>
+	public class StorageAccess
 	{
-		this.storageVariable = storageVariable;
-	}
+		public Variable storageVariable = null;
+		public Qualification storageAttribute = null;
+		//public GraphEntity storageGlobalVariable = null;
 
-	public StorageAccess(Qualification storageAttribute)
-	{
-		this.storageAttribute = storageAttribute;
-	}
+		public StorageAccess(Variable storageVariable)
+		{
+			this.storageVariable = storageVariable;
+		}
 
-	//	public StorageAccess(GraphEntity storageGlobalVariable) {
-	//		this.storageGlobalVariable = storageGlobalVariable;
-	//	}
-}
+		public StorageAccess(Qualification storageAttribute)
+		{
+			this.storageAttribute = storageAttribute;
+		}
+
+		//	public StorageAccess(GraphEntity storageGlobalVariable) {
+		//		this.storageGlobalVariable = storageGlobalVariable;
+		//	}
+	}
 
 }

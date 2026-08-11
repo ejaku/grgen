@@ -12,120 +12,120 @@
 namespace de.unika.ipd.grgen.ast.type.container
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
-using OperatorDeclNode = de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
-using OperatorEvaluator = de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using de.unika.ipd.grgen.ast.util;
-using de.unika.ipd.grgen.ast.util;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Type = de.unika.ipd.grgen.ir.type.Type;
-using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+	using de.unika.ipd.grgen.ast;
+	using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+	using OperatorDeclNode = de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+	using OperatorEvaluator = de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using de.unika.ipd.grgen.ast.util;
+	using de.unika.ipd.grgen.ast.util;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
 
-public class ArrayTypeNode : ContainerTypeNode
-{
-	static ArrayTypeNode()
+	public class ArrayTypeNode : ContainerTypeNode
 	{
-		SetClassName(typeof(ArrayTypeNode), "array type");
-	}
-
-	public override string TypeName
-	{
-		get
+		static ArrayTypeNode()
 		{
-			return "array<" + valueTypeUnresolved.ToString() + ">";
+			SetClassName(typeof(ArrayTypeNode), "array type");
+		}
+
+		public override string TypeName
+		{
+			get
+			{
+				return "array<" + valueTypeUnresolved.ToString() + ">";
+			}
+		}
+
+		public IdentNode valueTypeUnresolved;
+		public TypeNode valueType;
+
+		// the array type node instances are created in ParserEnvironment as needed
+		public ArrayTypeNode(IdentNode valueTypeIdent)
+		{
+			valueTypeUnresolved = BecomeParent(valueTypeIdent);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				// no children
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				// no children
+				return childrenNames;
+			}
+		}
+
+		private static readonly DeclarationTypeResolver<TypeNode> typeResolver =
+				new DeclarationTypeResolver<TypeNode>(typeof(TypeNode));
+
+		protected internal override bool ResolveLocal()
+		{
+			if(valueTypeUnresolved is PackageIdentNode)
+				Resolver.ResolveOwner((PackageIdentNode)valueTypeUnresolved);
+			else
+				FixupDefinition(valueTypeUnresolved, valueTypeUnresolved.Scope);
+			valueType = typeResolver.Resolve(valueTypeUnresolved, this);
+
+			if(valueType == null)
+				return false;
+
+			OperatorDeclNode.MakeBinOp(Operator.IN, BasicTypeNode.booleanType,
+					valueType, this, OperatorEvaluator.arrayEvaluator);
+			OperatorDeclNode.MakeBinOp(Operator.INDEX, valueType,
+					this, BasicTypeNode.intType, OperatorEvaluator.arrayEvaluator);
+
+			OperatorDeclNode.MakeBinOp(Operator.EQ, BasicTypeNode.booleanType,
+					this, this, OperatorEvaluator.arrayEvaluator);
+			OperatorDeclNode.MakeBinOp(Operator.NE, BasicTypeNode.booleanType,
+					this, this, OperatorEvaluator.arrayEvaluator);
+			OperatorDeclNode.MakeBinOp(Operator.SE, BasicTypeNode.booleanType,
+					this, this, OperatorEvaluator.arrayEvaluator);
+
+			OperatorDeclNode.MakeBinOp(Operator.GT, BasicTypeNode.booleanType,
+					this, this, OperatorEvaluator.arrayEvaluator);
+			OperatorDeclNode.MakeBinOp(Operator.GE, BasicTypeNode.booleanType,
+					this, this, OperatorEvaluator.arrayEvaluator);
+			OperatorDeclNode.MakeBinOp(Operator.LT, BasicTypeNode.booleanType,
+					this, this, OperatorEvaluator.arrayEvaluator);
+			OperatorDeclNode.MakeBinOp(Operator.LE, BasicTypeNode.booleanType,
+					this, this, OperatorEvaluator.arrayEvaluator);
+
+			OperatorDeclNode.MakeBinOp(Operator.ADD, this, this, this,
+					OperatorEvaluator.arrayEvaluator);
+
+			TypeNode.AddCompatibility(this, BasicTypeNode.stringType);
+
+			return true;
+		}
+
+		public override TypeNode ElementType
+		{
+			get
+			{
+				return valueType;
+			}
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			Type vt = valueType.IRType;
+			return new ArrayType(vt);
 		}
 	}
-
-	public IdentNode valueTypeUnresolved;
-	public TypeNode valueType;
-
-	// the array type node instances are created in ParserEnvironment as needed
-	public ArrayTypeNode(IdentNode valueTypeIdent)
-	{
-		valueTypeUnresolved = BecomeParent(valueTypeIdent);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
-		{
-			IList<BaseNode> children = new List<BaseNode>();
-			// no children
-			return children;
-		}
-	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			// no children
-			return childrenNames;
-		}
-	}
-
-	private static readonly DeclarationTypeResolver<TypeNode> typeResolver =
-			new DeclarationTypeResolver<TypeNode>(typeof(TypeNode));
-
-	protected internal override bool ResolveLocal()
-	{
-		if(valueTypeUnresolved is PackageIdentNode)
-			Resolver.ResolveOwner((PackageIdentNode)valueTypeUnresolved);
-		else
-			FixupDefinition(valueTypeUnresolved, valueTypeUnresolved.Scope);
-		valueType = typeResolver.Resolve(valueTypeUnresolved, this);
-
-		if(valueType == null)
-			return false;
-
-		OperatorDeclNode.MakeBinOp(Operator.IN, BasicTypeNode.booleanType,
-				valueType, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.MakeBinOp(Operator.INDEX, valueType,
-				this, BasicTypeNode.intType, OperatorEvaluator.arrayEvaluator);
-
-		OperatorDeclNode.MakeBinOp(Operator.EQ, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.MakeBinOp(Operator.NE, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.MakeBinOp(Operator.SE, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.arrayEvaluator);
-
-		OperatorDeclNode.MakeBinOp(Operator.GT, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.MakeBinOp(Operator.GE, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.MakeBinOp(Operator.LT, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.arrayEvaluator);
-		OperatorDeclNode.MakeBinOp(Operator.LE, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.arrayEvaluator);
-
-		OperatorDeclNode.MakeBinOp(Operator.ADD, this, this, this,
-				OperatorEvaluator.arrayEvaluator);
-
-		TypeNode.AddCompatibility(this, BasicTypeNode.stringType);
-
-		return true;
-	}
-
-	public override TypeNode ElementType
-	{
-		get
-		{
-			return valueType;
-		}
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		Type vt = valueType.IRType;
-		return new ArrayType(vt);
-	}
-}
 
 }

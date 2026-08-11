@@ -12,178 +12,178 @@
 namespace de.unika.ipd.grgen.ast.pattern
 {
 
-using System.Collections.Generic;
-using System.Diagnostics;
+	using System.Collections.Generic;
+	using System.Diagnostics;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-using Checker = de.unika.ipd.grgen.ast.util.Checker;
-using de.unika.ipd.grgen.ast.util;
-using TypeChecker = de.unika.ipd.grgen.ast.util.TypeChecker;
-using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
-
-/// <summary>
-/// AST node representing nodes
-/// that occur without any edge connection to the rest of the graph.
-/// children: NODE:NodeDeclNode|IdentNode
-/// </summary>
-public class SingleNodeConnNode : ConnectionCharacter
-{
-	static SingleNodeConnNode()
-	{
-		SetClassName(typeof(SingleNodeConnNode), "single node");
-	}
-
-	private NodeDeclNode node;
-	public BaseNode nodeUnresolved;
-
-	public SingleNodeConnNode(BaseNode node)
-		: base(node.Coords)
-	{
-		this.nodeUnresolved = node;
-		BecomeParent(this.nodeUnresolved);
-	}
-
-	public SingleNodeConnNode(NodeDeclNode node, BaseNode parent)
-		: this(node)
-	{
-		parent.BecomeParent(this);
-
-		Resolve();
-		Check();
-	}
-
-	public virtual SingleNodeConnNode CloneForAuto(PatternGraphLhsNode parent)
-	{
-		return new SingleNodeConnNode(this.node.CloneForAuto(parent), parent);
-	}
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+	using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+	using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+	using Checker = de.unika.ipd.grgen.ast.util.Checker;
+	using de.unika.ipd.grgen.ast.util;
+	using TypeChecker = de.unika.ipd.grgen.ast.util.TypeChecker;
+	using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 
 	/// <summary>
-	/// returns children of this node </summary>
-	public override ICollection<BaseNode> Children
+	/// AST node representing nodes
+	/// that occur without any edge connection to the rest of the graph.
+	/// children: NODE:NodeDeclNode|IdentNode
+	/// </summary>
+	public class SingleNodeConnNode : ConnectionCharacter
 	{
-		get
+		static SingleNodeConnNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(GetValidVersion(nodeUnresolved, node));
-			return children;
+			SetClassName(typeof(SingleNodeConnNode), "single node");
 		}
-	}
 
-	/// <summary>
-	/// returns names of the children, same order as in getChildren </summary>
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		private NodeDeclNode node;
+		public BaseNode nodeUnresolved;
+
+		public SingleNodeConnNode(BaseNode node)
+			: base(node.Coords)
 		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("node");
-			return childrenNames;
+			this.nodeUnresolved = node;
+			BecomeParent(this.nodeUnresolved);
 		}
-	}
 
-	private static readonly DeclarationResolver<NodeDeclNode> nodeResolver =
-			new DeclarationResolver<NodeDeclNode>(typeof(NodeDeclNode)); // optional
+		public SingleNodeConnNode(NodeDeclNode node, BaseNode parent)
+			: this(node)
+		{
+			parent.BecomeParent(this);
 
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
-	protected internal override bool ResolveLocal()
-	{
-		bool res = FixupDefinition(nodeUnresolved, nodeUnresolved.Scope);
-		if(!res)
-			return false;
+			Resolve();
+			Check();
+		}
 
-		node = nodeResolver.Resolve(nodeUnresolved, this);
-		return node != null;
-	}
+		public virtual SingleNodeConnNode CloneForAuto(PatternGraphLhsNode parent)
+		{
+			return new SingleNodeConnNode(this.node.CloneForAuto(parent), parent);
+		}
 
-	/// <summary>
-	/// Get the node child of this node. </summary>
-	/// <returns> The node child.  </returns>
-	public virtual NodeDeclNode Node
-	{
-		get
+		/// <summary>
+		/// returns children of this node </summary>
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(GetValidVersion(nodeUnresolved, node));
+				return children;
+			}
+		}
+
+		/// <summary>
+		/// returns names of the children, same order as in getChildren </summary>
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("node");
+				return childrenNames;
+			}
+		}
+
+		private static readonly DeclarationResolver<NodeDeclNode> nodeResolver =
+				new DeclarationResolver<NodeDeclNode>(typeof(NodeDeclNode)); // optional
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+		protected internal override bool ResolveLocal()
+		{
+			bool res = FixupDefinition(nodeUnresolved, nodeUnresolved.Scope);
+			if(!res)
+				return false;
+
+			node = nodeResolver.Resolve(nodeUnresolved, this);
+			return node != null;
+		}
+
+		/// <summary>
+		/// Get the node child of this node. </summary>
+		/// <returns> The node child.  </returns>
+		public virtual NodeDeclNode Node
+		{
+			get
+			{
+				Debug.Assert(IsResolved());
+
+				return node;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionCharacter.addToGraph(de.unika.ipd.grgen.ir.pattern.PatternGraphBase) "/>
+		public override void AddToGraph(PatternGraphBase patternGraph)
 		{
 			Debug.Assert(IsResolved());
 
-			return node;
+			patternGraph.AddSingleNode(node.IRNode);
 		}
-	}
 
-	/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionCharacter.addToGraph(de.unika.ipd.grgen.ir.pattern.PatternGraphBase) "/>
-	public override void AddToGraph(PatternGraphBase patternGraph)
-	{
-		Debug.Assert(IsResolved());
+		private static Checker nodeChecker = new TypeChecker(typeof(NodeTypeNode));
 
-		patternGraph.AddSingleNode(node.IRNode);
-	}
-
-	private static Checker nodeChecker = new TypeChecker(typeof(NodeTypeNode));
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
-	protected internal override bool CheckLocal()
-	{
-		return nodeChecker.Check(node, error);
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionCharacter.addEdge(java.util.Set) "/>
-	public override void AddEdge(ISet<EdgeDeclNode> set)
-	{
-		// no edge available
-	}
-
-	public override EdgeDeclNode Edge
-	{
-		get
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+		protected internal override bool CheckLocal()
 		{
-			return null;
+			return nodeChecker.Check(node, error);
 		}
-	}
 
-	public override NodeDeclNode Src
-	{
-		get
+		/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionCharacter.addEdge(java.util.Set) "/>
+		public override void AddEdge(ISet<EdgeDeclNode> set)
+		{
+			// no edge available
+		}
+
+		public override EdgeDeclNode Edge
+		{
+			get
+			{
+				return null;
+			}
+		}
+
+		public override NodeDeclNode Src
+		{
+			get
+			{
+				Debug.Assert(IsResolved());
+
+				return node;
+			}
+			set
+			{
+				// no edge available a source could be set
+			}
+		}
+
+
+		public override NodeDeclNode Tgt
+		{
+			get
+			{
+				return null;
+			}
+			set
+			{
+				// no edge available a target could be set
+			}
+		}
+
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionCharacter.addNodes(java.util.Set) "/>
+		public override void AddNodes(ISet<NodeDeclNode> set)
 		{
 			Debug.Assert(IsResolved());
 
-			return node;
+			set.Add(node);
 		}
-		set
+
+		public static string KindStr
 		{
-			// no edge available a source could be set
+			get
+			{
+				return "single node connection";
+			}
 		}
 	}
-
-
-	public override NodeDeclNode Tgt
-	{
-		get
-		{
-			return null;
-		}
-		set
-		{
-			// no edge available a target could be set
-		}
-	}
-
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionCharacter.addNodes(java.util.Set) "/>
-	public override void AddNodes(ISet<NodeDeclNode> set)
-	{
-		Debug.Assert(IsResolved());
-
-		set.Add(node);
-	}
-
-	public static string KindStr
-	{
-		get
-		{
-			return "single node connection";
-		}
-	}
-}
 
 }

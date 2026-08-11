@@ -11,39 +11,39 @@
 
 namespace de.unika.ipd.grgen.ir.expr
 {
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class Constant : Expression
-{
-	/// <summary>
-	/// The value of the constant. </summary>
-	public object value;
-
-	/// <param name="type"> The type of the constant. </param>
-	/// <param name="value"> The value of the constant. </param>
-	public Constant(Type type, object value)
-		: base("constant", type)
+	public class Constant : Expression
 	{
-		this.value = value;
-	}
+		/// <summary>
+		/// The value of the constant. </summary>
+		public object value;
 
-	/// <returns> The value of the constant. </returns>
-	public virtual object Value
-	{
-		get
+		/// <param name="type"> The type of the constant. </param>
+		/// <param name="value"> The value of the constant. </param>
+		public Constant(Type type, object value)
+			: base("constant", type)
 		{
-			return value;
+			this.value = value;
+		}
+
+		/// <returns> The value of the constant. </returns>
+		public virtual object Value
+		{
+			get
+			{
+				return value;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel() "/>
+		public override string NodeLabel
+		{
+			get
+			{
+				return Name + " " + value;
+			}
 		}
 	}
-
-	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel() "/>
-	public override string NodeLabel
-	{
-		get
-		{
-			return Name + " " + value;
-		}
-	}
-}
 
 }

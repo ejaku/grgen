@@ -11,21 +11,21 @@
 
 namespace de.unika.ipd.grgen.be
 {
-/// <summary>
-/// A type model that uses IDs.
-/// </summary>
-public interface IDTypeModel : TypeID
-{
+	/// <summary>
+	/// A type model that uses IDs.
+	/// </summary>
+	public interface IDTypeModel : TypeID
+	{
 
-	string GetTypeName(bool forNode, int obj);
+		string GetTypeName(bool forNode, int obj);
 
-	int[] GetSuperTypes(bool forNode, int obj);
+		int[] GetSuperTypes(bool forNode, int obj);
 
-	int[] GetSubTypes(bool forNode, int obj);
+		int[] GetSubTypes(bool forNode, int obj);
 
-	int GetRootType(bool forNode);
+		int GetRootType(bool forNode);
 
-	int[] GetIDs(bool forNode);
-}
+		int[] GetIDs(bool forNode);
+	}
 
 }

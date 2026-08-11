@@ -8,43 +8,43 @@
 namespace de.unika.ipd.grgen.ast.type
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-
-/// <summary>
-/// Type of iterated node declaration.
-/// </summary>
-public class IteratedTypeNode : TypeNode
-{
-	static IteratedTypeNode()
-	{
-		SetClassName(typeof(IteratedTypeNode), "iterated type");
-	}
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
 
 	/// <summary>
-	/// returns children of this node </summary>
-	public override ICollection<BaseNode> Children
+	/// Type of iterated node declaration.
+	/// </summary>
+	public class IteratedTypeNode : TypeNode
 	{
-		get
+		static IteratedTypeNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			// no children
-			return children;
+			SetClassName(typeof(IteratedTypeNode), "iterated type");
 		}
-	}
 
-	/// <summary>
-	/// returns names of the children, same order as in getChildren </summary>
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		/// <summary>
+		/// returns children of this node </summary>
+		public override ICollection<BaseNode> Children
 		{
-			IList<string> childrenNames = new List<string>();
-			// no children
-			return childrenNames;
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				// no children
+				return children;
+			}
+		}
+
+		/// <summary>
+		/// returns names of the children, same order as in getChildren </summary>
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				// no children
+				return childrenNames;
+			}
 		}
 	}
-}
 
 }

@@ -12,72 +12,72 @@
 namespace de.unika.ipd.grgen.ast.pattern
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
-using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
-using AlternativeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
-using de.unika.ipd.grgen.ast.util;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Alternative = de.unika.ipd.grgen.ir.pattern.Alternative;
-using AlternativeReplacement = de.unika.ipd.grgen.ir.pattern.AlternativeReplacement;
+	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+	using AlternativeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
+	using de.unika.ipd.grgen.ast.util;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Alternative = de.unika.ipd.grgen.ir.pattern.Alternative;
+	using AlternativeReplacement = de.unika.ipd.grgen.ir.pattern.AlternativeReplacement;
 
-public class AlternativeReplNode : OrderedReplacementNode
-{
-	static AlternativeReplNode()
+	public class AlternativeReplNode : OrderedReplacementNode
 	{
-		SetClassName(typeof(AlternativeReplNode), "alternative repl node");
-	}
-
-	private IdentNode alternativeUnresolved;
-	private AlternativeDeclNode alternative;
-
-	public AlternativeReplNode(IdentNode n)
-	{
-		this.alternativeUnresolved = n;
-		BecomeParent(this.alternativeUnresolved);
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static AlternativeReplNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			children.Add(GetValidVersion(alternativeUnresolved, alternative));
-			return children;
+			SetClassName(typeof(AlternativeReplNode), "alternative repl node");
+		}
+
+		private IdentNode alternativeUnresolved;
+		private AlternativeDeclNode alternative;
+
+		public AlternativeReplNode(IdentNode n)
+		{
+			this.alternativeUnresolved = n;
+			BecomeParent(this.alternativeUnresolved);
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				children.Add(GetValidVersion(alternativeUnresolved, alternative));
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				childrenNames.Add("alternative");
+				return childrenNames;
+			}
+		}
+
+		private static readonly DeclarationResolver<AlternativeDeclNode> alternativeResolver =
+			new DeclarationResolver<AlternativeDeclNode>(typeof(AlternativeDeclNode));
+
+		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+		protected internal override bool ResolveLocal()
+		{
+			alternative = alternativeResolver.Resolve(alternativeUnresolved, this);
+			return alternative != null;
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			return new AlternativeReplacement("alternative replacement", alternativeUnresolved.IRIdent,
+					alternative.CheckIR(typeof(Alternative)));
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			childrenNames.Add("alternative");
-			return childrenNames;
-		}
-	}
-
-	private static readonly DeclarationResolver<AlternativeDeclNode> alternativeResolver =
-		new DeclarationResolver<AlternativeDeclNode>(typeof(AlternativeDeclNode));
-
-	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
-	protected internal override bool ResolveLocal()
-	{
-		alternative = alternativeResolver.Resolve(alternativeUnresolved, this);
-		return alternative != null;
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		return new AlternativeReplacement("alternative replacement", alternativeUnresolved.IRIdent,
-				alternative.CheckIR(typeof(Alternative)));
-	}
-}
 
 }

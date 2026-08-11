@@ -12,61 +12,61 @@
 namespace de.unika.ipd.grgen.ir.stmt
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-
-/// <summary>
-/// Represents an exec statement embedded within a computation in the IR.
-/// </summary>
-public class ExecStatement : EvalStatement
-{
-	private Exec exec;
-
-	public ExecStatement(Exec exec)
-		: base("exec statement")
-	{
-		this.exec = exec;
-	}
-
-	public virtual Exec Exec
-	{
-		get
-		{
-			return exec;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		foreach(Expression arg in Exec.GetArguments())
-			arg.CollectNeededEntities(needs);
-	}
-
-	public virtual ISet<Entity> GetNeededEntities(bool forComputation)
-	{
-		return exec.GetNeededEntities(forComputation);
-	}
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
 	/// <summary>
-	/// Returns XGRS as an String </summary>
-	public virtual string XGRSString
+	/// Represents an exec statement embedded within a computation in the IR.
+	/// </summary>
+	public class ExecStatement : EvalStatement
 	{
-		get
-		{
-			return exec.XGRSString;
-		}
-	}
+		private Exec exec;
 
-	public virtual int LineNr
-	{
-		get
+		public ExecStatement(Exec exec)
+			: base("exec statement")
 		{
-			return exec.LineNr;
+			this.exec = exec;
+		}
+
+		public virtual Exec Exec
+		{
+			get
+			{
+				return exec;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			foreach(Expression arg in Exec.GetArguments())
+				arg.CollectNeededEntities(needs);
+		}
+
+		public virtual ISet<Entity> GetNeededEntities(bool forComputation)
+		{
+			return exec.GetNeededEntities(forComputation);
+		}
+
+		/// <summary>
+		/// Returns XGRS as an String </summary>
+		public virtual string XGRSString
+		{
+			get
+			{
+				return exec.XGRSString;
+			}
+		}
+
+		public virtual int LineNr
+		{
+			get
+			{
+				return exec.LineNr;
+			}
 		}
 	}
-}
 
 }

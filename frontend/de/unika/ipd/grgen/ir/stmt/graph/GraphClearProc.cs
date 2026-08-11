@@ -11,20 +11,20 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class GraphClearProc : BuiltinProcedureInvocationBase
-{
-	public GraphClearProc()
-		: base("graph clear procedure")
+	public class GraphClearProc : BuiltinProcedureInvocationBase
 	{
-	}
+		public GraphClearProc()
+			: base("graph clear procedure")
+		{
+		}
 
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+		}
 	}
-}
 
 }

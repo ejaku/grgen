@@ -11,37 +11,37 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/// <summary>
-/// Represents a case statement of a switch statement in the IR.
-/// </summary>
-public class CaseStatement : BlockNestingStatement
-{
-	private Expression caseConstantExpr; // null for the "else" (aka default) case
-
-	public CaseStatement(Expression caseConstExpr)
-		: base("case statement")
+	/// <summary>
+	/// Represents a case statement of a switch statement in the IR.
+	/// </summary>
+	public class CaseStatement : BlockNestingStatement
 	{
-		this.caseConstantExpr = caseConstExpr;
-	}
+		private Expression caseConstantExpr; // null for the "else" (aka default) case
 
-	public virtual Expression CaseConstantExpr
-	{
-		get
+		public CaseStatement(Expression caseConstExpr)
+			: base("case statement")
 		{
-			return caseConstantExpr;
+			this.caseConstantExpr = caseConstExpr;
+		}
+
+		public virtual Expression CaseConstantExpr
+		{
+			get
+			{
+				return caseConstantExpr;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			if(caseConstantExpr != null)
+				caseConstantExpr.CollectNeededEntities(needs);
+			foreach(EvalStatement statement in statements)
+				statement.CollectNeededEntities(needs);
 		}
 	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		if(caseConstantExpr != null)
-			caseConstantExpr.CollectNeededEntities(needs);
-		foreach(EvalStatement statement in statements)
-			statement.CollectNeededEntities(needs);
-	}
-}
 
 }

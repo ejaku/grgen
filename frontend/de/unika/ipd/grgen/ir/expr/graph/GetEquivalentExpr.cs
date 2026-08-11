@@ -7,55 +7,55 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class GetEquivalentExpr : BuiltinFunctionInvocationExpr
-{
-	private readonly Expression subgraphExpr;
-	private readonly Expression setExpr;
-	private readonly bool includingAttributes;
-
-	public GetEquivalentExpr(Expression subgraphExpr, Expression setExpr, bool includingAttributes, Type type)
-		: base("get equivalent expression", type)
+	public class GetEquivalentExpr : BuiltinFunctionInvocationExpr
 	{
-		this.subgraphExpr = subgraphExpr;
-		this.setExpr = setExpr;
-		this.includingAttributes = includingAttributes;
-	}
+		private readonly Expression subgraphExpr;
+		private readonly Expression setExpr;
+		private readonly bool includingAttributes;
 
-	public virtual Expression SubgraphExpr
-	{
-		get
+		public GetEquivalentExpr(Expression subgraphExpr, Expression setExpr, bool includingAttributes, Type type)
+			: base("get equivalent expression", type)
 		{
-			return subgraphExpr;
+			this.subgraphExpr = subgraphExpr;
+			this.setExpr = setExpr;
+			this.includingAttributes = includingAttributes;
+		}
+
+		public virtual Expression SubgraphExpr
+		{
+			get
+			{
+				return subgraphExpr;
+			}
+		}
+
+		public virtual Expression SetExpr
+		{
+			get
+			{
+				return setExpr;
+			}
+		}
+
+		public virtual bool IncludingAttributes
+		{
+			get
+			{
+				return includingAttributes;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			subgraphExpr.CollectNeededEntities(needs);
+			setExpr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression SetExpr
-	{
-		get
-		{
-			return setExpr;
-		}
-	}
-
-	public virtual bool IncludingAttributes
-	{
-		get
-		{
-			return includingAttributes;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		subgraphExpr.CollectNeededEntities(needs);
-		setExpr.CollectNeededEntities(needs);
-	}
-}
 
 }

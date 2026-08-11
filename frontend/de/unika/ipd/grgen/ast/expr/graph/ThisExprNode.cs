@@ -8,63 +8,63 @@
 namespace de.unika.ipd.grgen.ast.expr.graph
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using ThisExpr = de.unika.ipd.grgen.ir.expr.graph.ThisExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using ThisExpr = de.unika.ipd.grgen.ir.expr.graph.ThisExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class ThisExprNode : ExprNode
-{
-	static ThisExprNode()
+	public class ThisExprNode : ExprNode
 	{
-		SetClassName(typeof(ThisExprNode), "this");
-	}
-
-	public ThisExprNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static ThisExprNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			return children;
+			SetClassName(typeof(ThisExprNode), "this");
+		}
+
+		public ThisExprNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			return new ThisExpr();
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.graphType;
+			}
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		return new ThisExpr();
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return BasicTypeNode.graphType;
-		}
-	}
-}
 
 }

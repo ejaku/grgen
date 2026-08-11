@@ -8,63 +8,63 @@
 namespace de.unika.ipd.grgen.ast.expr.numeric
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-using IR = de.unika.ipd.grgen.ir.IR;
-using FloatMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.FloatMaxExpr;
-using Coords = de.unika.ipd.grgen.parser.Coords;
+	using de.unika.ipd.grgen.ast;
+	using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using FloatMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.FloatMaxExpr;
+	using Coords = de.unika.ipd.grgen.parser.Coords;
 
-public class FloatMaxExprNode : BuiltinFunctionInvocationBaseNode
-{
-	static FloatMaxExprNode()
+	public class FloatMaxExprNode : BuiltinFunctionInvocationBaseNode
 	{
-		SetClassName(typeof(FloatMaxExprNode), "floatmax expr");
-	}
-
-	public FloatMaxExprNode(Coords coords)
-		: base(coords)
-	{
-	}
-
-	public override ICollection<BaseNode> Children
-	{
-		get
+		static FloatMaxExprNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			return children;
+			SetClassName(typeof(FloatMaxExprNode), "floatmax expr");
+		}
+
+		public FloatMaxExprNode(Coords coords)
+			: base(coords)
+		{
+		}
+
+		public override ICollection<BaseNode> Children
+		{
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				return children;
+			}
+		}
+
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				return childrenNames;
+			}
+		}
+
+		protected internal override bool CheckLocal()
+		{
+			return true;
+		}
+
+		protected internal override IR ConstructIR()
+		{
+			return new FloatMaxExpr();
+		}
+
+		public override TypeNode Type
+		{
+			get
+			{
+				return BasicTypeNode.floatType;
+			}
 		}
 	}
-
-	public override ICollection<string> ChildrenNames
-	{
-		get
-		{
-			IList<string> childrenNames = new List<string>();
-			return childrenNames;
-		}
-	}
-
-	protected internal override bool CheckLocal()
-	{
-		return true;
-	}
-
-	protected internal override IR ConstructIR()
-	{
-		return new FloatMaxExpr();
-	}
-
-	public override TypeNode Type
-	{
-		get
-		{
-			return BasicTypeNode.floatType;
-		}
-	}
-}
 
 }

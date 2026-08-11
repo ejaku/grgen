@@ -11,37 +11,37 @@
 
 namespace de.unika.ipd.grgen.ir.model.type
 {
-using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-
-/// <summary>
-/// IR class that represents a base for internal (non-node/edge) object types (i.e. classes).
-/// </summary>
-public class BaseInternalObjectType : InheritanceType, ContainedInPackage
-{
-	private string packageContainedIn;
+	using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
 
 	/// <summary>
-	/// Make a new base internal object type. </summary>
-	/// <param name="ident"> The identifier that declares this type. </param>
-	/// <param name="modifiers"> The modifiers for this type. </param>
-	public BaseInternalObjectType(string name, Ident ident, int modifiers)
-		: base(name, ident, modifiers, null)
+	/// IR class that represents a base for internal (non-node/edge) object types (i.e. classes).
+	/// </summary>
+	public class BaseInternalObjectType : InheritanceType, ContainedInPackage
 	{
-	}
+		private string packageContainedIn;
 
-	public virtual string PackageContainedIn
-	{
-		get
+		/// <summary>
+		/// Make a new base internal object type. </summary>
+		/// <param name="ident"> The identifier that declares this type. </param>
+		/// <param name="modifiers"> The modifiers for this type. </param>
+		public BaseInternalObjectType(string name, Ident ident, int modifiers)
+			: base(name, ident, modifiers, null)
 		{
-			return packageContainedIn;
 		}
-		set
-		{
-			this.packageContainedIn = value;
-		}
-	}
 
-}
+		public virtual string PackageContainedIn
+		{
+			get
+			{
+				return packageContainedIn;
+			}
+			set
+			{
+				this.packageContainedIn = value;
+			}
+		}
+
+	}
 
 }

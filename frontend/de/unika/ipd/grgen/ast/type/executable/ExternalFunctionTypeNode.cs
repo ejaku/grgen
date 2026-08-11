@@ -8,44 +8,44 @@
 namespace de.unika.ipd.grgen.ast.type.executable
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using de.unika.ipd.grgen.ast;
-using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
-
-/// <summary>
-/// Type of external function node declaration.
-/// </summary>
-public class ExternalFunctionTypeNode : TypeNode
-{
-	static ExternalFunctionTypeNode()
-	{
-		SetClassName(typeof(ExternalFunctionTypeNode), "external function type");
-	}
+	using de.unika.ipd.grgen.ast;
+	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 
 	/// <summary>
-	/// returns children of this node </summary>
-	public override ICollection<BaseNode> Children
+	/// Type of external function node declaration.
+	/// </summary>
+	public class ExternalFunctionTypeNode : TypeNode
 	{
-		get
+		static ExternalFunctionTypeNode()
 		{
-			IList<BaseNode> children = new List<BaseNode>();
-			// no children
-			return children;
+			SetClassName(typeof(ExternalFunctionTypeNode), "external function type");
 		}
-	}
 
-	/// <summary>
-	/// returns names of the children, same order as in getChildren </summary>
-	public override ICollection<string> ChildrenNames
-	{
-		get
+		/// <summary>
+		/// returns children of this node </summary>
+		public override ICollection<BaseNode> Children
 		{
-			IList<string> childrenNames = new List<string>();
-			// no children
-			return childrenNames;
+			get
+			{
+				IList<BaseNode> children = new List<BaseNode>();
+				// no children
+				return children;
+			}
+		}
+
+		/// <summary>
+		/// returns names of the children, same order as in getChildren </summary>
+		public override ICollection<string> ChildrenNames
+		{
+			get
+			{
+				IList<string> childrenNames = new List<string>();
+				// no children
+				return childrenNames;
+			}
 		}
 	}
-}
 
 }

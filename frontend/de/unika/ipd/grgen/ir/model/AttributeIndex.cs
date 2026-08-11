@@ -11,26 +11,26 @@
 
 namespace de.unika.ipd.grgen.ir.model
 {
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using Ident = de.unika.ipd.grgen.ir.Ident;
-using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using Ident = de.unika.ipd.grgen.ir.Ident;
+	using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
-/// <summary>
-/// An attribute index.
-/// </summary>
-public class AttributeIndex : Index
-{
-	public InheritanceType type;
-	public Entity entity;
-
-	/// <param name="name"> The name of the attribute index. </param>
-	/// <param name="ident"> The identifier that identifies this object. </param>
-	public AttributeIndex(string name, Ident ident, InheritanceType type, Entity entity)
-		: base(name, ident)
+	/// <summary>
+	/// An attribute index.
+	/// </summary>
+	public class AttributeIndex : Index
 	{
-		this.type = type;
-		this.entity = entity;
+		public InheritanceType type;
+		public Entity entity;
+
+		/// <param name="name"> The name of the attribute index. </param>
+		/// <param name="ident"> The identifier that identifies this object. </param>
+		public AttributeIndex(string name, Ident ident, InheritanceType type, Entity entity)
+			: base(name, ident)
+		{
+			this.type = type;
+			this.entity = entity;
+		}
 	}
-}
 
 }

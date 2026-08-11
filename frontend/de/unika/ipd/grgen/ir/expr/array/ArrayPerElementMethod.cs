@@ -10,12 +10,12 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.expr.array
 {
-using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-public interface ArrayPerElementMethod
-{
-	Variable IndexVar {get;}
-	Variable ElementVar {get;}
-}
+	public interface ArrayPerElementMethod
+	{
+		Variable IndexVar {get;}
+		Variable ElementVar {get;}
+	}
 
 }

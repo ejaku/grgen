@@ -11,47 +11,47 @@
 
 namespace de.unika.ipd.grgen.ir.model
 {
-using Entity = de.unika.ipd.grgen.ir.Entity;
-using IR = de.unika.ipd.grgen.ir.IR;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-public class MemberInit : IR
-{
-	/// <summary>
-	/// The lhs of the assignment. </summary>
-	private Entity member;
-
-	/// <summary>
-	/// The rhs of the assignment. </summary>
-	private Expression expr;
-
-	public MemberInit(Entity member, Expression expr)
-		: base("memberinit")
+	public class MemberInit : IR
 	{
-		this.member = member;
-		this.expr = expr;
-	}
+		/// <summary>
+		/// The lhs of the assignment. </summary>
+		private Entity member;
 
-	public virtual Entity Member
-	{
-		get
+		/// <summary>
+		/// The rhs of the assignment. </summary>
+		private Expression expr;
+
+		public MemberInit(Entity member, Expression expr)
+			: base("memberinit")
 		{
-			return member;
+			this.member = member;
+			this.expr = expr;
+		}
+
+		public virtual Entity Member
+		{
+			get
+			{
+				return member;
+			}
+		}
+
+		public virtual Expression Expression
+		{
+			get
+			{
+				return expr;
+			}
+		}
+
+		public override string ToString()
+		{
+			return Member + " = " + Expression;
 		}
 	}
-
-	public virtual Expression Expression
-	{
-		get
-		{
-			return expr;
-		}
-	}
-
-	public override string ToString()
-	{
-		return Member + " = " + Expression;
-	}
-}
 
 }

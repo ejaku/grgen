@@ -7,76 +7,76 @@
 
 namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class GraphRedirectSourceAndTargetProc : BuiltinProcedureInvocationBase
-{
-	private Expression edge;
-	private Expression newSource;
-	private Expression newTarget;
-	private Expression oldSourceName; // optional
-	private Expression oldTargetName; // optional
-
-	public GraphRedirectSourceAndTargetProc(Expression edge, Expression newSource, Expression newTarget,
-			Expression oldSourceName, Expression oldTargetName)
-		: base("graph redirect source and target procedure")
+	public class GraphRedirectSourceAndTargetProc : BuiltinProcedureInvocationBase
 	{
-		this.edge = edge;
-		this.newSource = newSource;
-		this.newTarget = newTarget;
-		this.oldSourceName = oldSourceName;
-		this.oldTargetName = oldTargetName;
-	}
+		private Expression edge;
+		private Expression newSource;
+		private Expression newTarget;
+		private Expression oldSourceName; // optional
+		private Expression oldTargetName; // optional
 
-	public virtual Expression Edge
-	{
-		get
+		public GraphRedirectSourceAndTargetProc(Expression edge, Expression newSource, Expression newTarget,
+				Expression oldSourceName, Expression oldTargetName)
+			: base("graph redirect source and target procedure")
 		{
-			return edge;
+			this.edge = edge;
+			this.newSource = newSource;
+			this.newTarget = newTarget;
+			this.oldSourceName = oldSourceName;
+			this.oldTargetName = oldTargetName;
+		}
+
+		public virtual Expression Edge
+		{
+			get
+			{
+				return edge;
+			}
+		}
+
+		public virtual Expression NewSource
+		{
+			get
+			{
+				return newSource;
+			}
+		}
+
+		public virtual Expression NewTarget
+		{
+			get
+			{
+				return newTarget;
+			}
+		}
+
+		public virtual Expression OldSourceName
+		{
+			get
+			{
+				return oldSourceName;
+			}
+		}
+
+		public virtual Expression OldTargetName
+		{
+			get
+			{
+				return oldTargetName;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			edge.CollectNeededEntities(needs);
+			newSource.CollectNeededEntities(needs);
+			newTarget.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression NewSource
-	{
-		get
-		{
-			return newSource;
-		}
-	}
-
-	public virtual Expression NewTarget
-	{
-		get
-		{
-			return newTarget;
-		}
-	}
-
-	public virtual Expression OldSourceName
-	{
-		get
-		{
-			return oldSourceName;
-		}
-	}
-
-	public virtual Expression OldTargetName
-	{
-		get
-		{
-			return oldTargetName;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		edge.CollectNeededEntities(needs);
-		newSource.CollectNeededEntities(needs);
-		newTarget.CollectNeededEntities(needs);
-	}
-}
 
 }

@@ -12,28 +12,28 @@
 namespace de.unika.ipd.grgen.ir.model
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
-using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
-using InternalObjectType = de.unika.ipd.grgen.ir.model.type.InternalObjectType;
-using InternalTransientObjectType = de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
-using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+	using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+	using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
+	using InternalObjectType = de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+	using InternalTransientObjectType = de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
+	using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
 
-/// <summary>
-/// A type bearing nodes, edges, and enums.
-/// </summary>
-public interface NodeEdgeEnumBearer
-{
-	ICollection<NodeType> NodeTypes {get;}
+	/// <summary>
+	/// A type bearing nodes, edges, and enums.
+	/// </summary>
+	public interface NodeEdgeEnumBearer
+	{
+		ICollection<NodeType> NodeTypes {get;}
 
-	ICollection<EdgeType> EdgeTypes {get;}
+		ICollection<EdgeType> EdgeTypes {get;}
 
-	ICollection<InternalObjectType> ObjectTypes {get;}
+		ICollection<InternalObjectType> ObjectTypes {get;}
 
-	ICollection<InternalTransientObjectType> TransientObjectTypes {get;}
+		ICollection<InternalTransientObjectType> TransientObjectTypes {get;}
 
-	ICollection<EnumType> EnumTypes {get;}
-}
+		ICollection<EnumType> EnumTypes {get;}
+	}
 
 }

@@ -11,39 +11,39 @@
 
 namespace de.unika.ipd.grgen.ir.stmt
 {
-using de.unika.ipd.grgen.ir;
-using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+	using de.unika.ipd.grgen.ir;
+	using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
 
-/// <summary>
-/// Represents a declaration of a local variable of graph element type in the IR.
-/// </summary>
-public class DefDeclGraphEntityStatement : EvalStatement
-{
-	private GraphEntity target;
-
-	public DefDeclGraphEntityStatement(GraphEntity target)
-		: base("def decl graph entity")
+	/// <summary>
+	/// Represents a declaration of a local variable of graph element type in the IR.
+	/// </summary>
+	public class DefDeclGraphEntityStatement : EvalStatement
 	{
-		this.target = target;
-	}
+		private GraphEntity target;
 
-	public virtual GraphEntity Target
-	{
-		get
+		public DefDeclGraphEntityStatement(GraphEntity target)
+			: base("def decl graph entity")
 		{
-			return target;
+			this.target = target;
+		}
+
+		public virtual GraphEntity Target
+		{
+			get
+			{
+				return target;
+			}
+		}
+
+		public override string ToString()
+		{
+			return target.Ident.ToString();
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			//needs.add(target); needed?
 		}
 	}
-
-	public override string ToString()
-	{
-		return target.Ident.ToString();
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		//needs.add(target); needed?
-	}
-}
 
 }

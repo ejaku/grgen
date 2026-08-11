@@ -7,28 +7,28 @@
 
 namespace de.unika.ipd.grgen.ast.type.basic
 {
-using IR = de.unika.ipd.grgen.ir.IR;
-using ShortType = de.unika.ipd.grgen.ir.type.basic.ShortType;
+	using IR = de.unika.ipd.grgen.ir.IR;
+	using ShortType = de.unika.ipd.grgen.ir.type.basic.ShortType;
 
-/// <summary>
-/// The short basic type.
-/// </summary>
-public class ShortTypeNode : BasicTypeNode
-{
-	static ShortTypeNode()
+	/// <summary>
+	/// The short basic type.
+	/// </summary>
+	public class ShortTypeNode : BasicTypeNode
 	{
-		SetClassName(typeof(ShortTypeNode), "short type");
-	}
+		static ShortTypeNode()
+		{
+			SetClassName(typeof(ShortTypeNode), "short type");
+		}
 
-	protected internal override IR ConstructIR()
-	{
-		return new ShortType(Ident.IRIdent);
-	}
+		protected internal override IR ConstructIR()
+		{
+			return new ShortType(Ident.IRIdent);
+		}
 
-	public override string ToString()
-	{
-		return "short";
+		public override string ToString()
+		{
+			return "short";
+		}
 	}
-}
 
 }

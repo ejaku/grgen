@@ -8,46 +8,46 @@
 namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
 
-using System.Collections.Generic;
+	using System.Collections.Generic;
 
-using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+	using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-public class DebugEmitProc : BuiltinProcedureInvocationBase
-{
-	private ICollection<Expression> exprs;
-
-	public DebugEmitProc(ICollection<Expression> expressions)
-		: base("debug emit procedure")
+	public class DebugEmitProc : BuiltinProcedureInvocationBase
 	{
-		this.exprs = expressions;
-	}
+		private ICollection<Expression> exprs;
 
-	public virtual Expression FirstExpression
-	{
-		get
+		public DebugEmitProc(ICollection<Expression> expressions)
+			: base("debug emit procedure")
 		{
+			this.exprs = expressions;
+		}
+
+		public virtual Expression FirstExpression
+		{
+			get
+			{
+				foreach(Expression expr in exprs)
+					return expr;
+				return null;
+			}
+		}
+
+		public virtual ICollection<Expression> Expressions
+		{
+			get
+			{
+				return exprs;
+			}
+		}
+
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
 			foreach(Expression expr in exprs)
-				return expr;
-			return null;
+				expr.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual ICollection<Expression> Expressions
-	{
-		get
-		{
-			return exprs;
-		}
-	}
-
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		foreach(Expression expr in exprs)
-			expr.CollectNeededEntities(needs);
-	}
-}
 
 }

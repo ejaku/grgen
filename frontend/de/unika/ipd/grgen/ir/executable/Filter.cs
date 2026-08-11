@@ -11,12 +11,12 @@
 
 namespace de.unika.ipd.grgen.ir.executable
 {
-/// <summary>
-/// A filter (base type for auto-generated filters and filter functions (internal and external)).
-/// </summary>
-public interface Filter
-{
-	Rule Action {get;}
-}
+	/// <summary>
+	/// A filter (base type for auto-generated filters and filter functions (internal and external)).
+	/// </summary>
+	public interface Filter
+	{
+		Rule Action {get;}
+	}
 
 }

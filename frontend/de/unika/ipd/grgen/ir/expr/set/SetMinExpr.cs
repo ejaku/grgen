@@ -10,15 +10,15 @@
 /// </summary>
 namespace de.unika.ipd.grgen.ir.expr.set
 {
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
 
-public class SetMinExpr : SetFunctionMethodInvocationBaseExpr
-{
-	public SetMinExpr(Expression targetExpr)
-		: base("set min expr", ((SetType)(targetExpr.Type)).valueType, targetExpr)
+	public class SetMinExpr : SetFunctionMethodInvocationBaseExpr
 	{
+		public SetMinExpr(Expression targetExpr)
+			: base("set min expr", ((SetType)(targetExpr.Type)).valueType, targetExpr)
+		{
+		}
 	}
-}
 
 }

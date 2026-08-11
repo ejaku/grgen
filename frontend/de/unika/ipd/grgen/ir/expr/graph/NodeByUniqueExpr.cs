@@ -7,46 +7,46 @@
 
 namespace de.unika.ipd.grgen.ir.expr.graph
 {
-using de.unika.ipd.grgen.ir;
-using Expression = de.unika.ipd.grgen.ir.expr.Expression;
-using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-using Type = de.unika.ipd.grgen.ir.type.Type;
+	using de.unika.ipd.grgen.ir;
+	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+	using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+	using Type = de.unika.ipd.grgen.ir.type.Type;
 
-public class NodeByUniqueExpr : BuiltinFunctionInvocationExpr
-{
-	private readonly Expression unique;
-	private readonly Expression nodeType;
-
-	public NodeByUniqueExpr(Expression unique, Expression nodeType, Type type)
-		: base("node by unique id expression", type)
+	public class NodeByUniqueExpr : BuiltinFunctionInvocationExpr
 	{
-		this.unique = unique;
-		this.nodeType = nodeType;
-	}
+		private readonly Expression unique;
+		private readonly Expression nodeType;
 
-	public virtual Expression UniqueExpr
-	{
-		get
+		public NodeByUniqueExpr(Expression unique, Expression nodeType, Type type)
+			: base("node by unique id expression", type)
 		{
-			return unique;
+			this.unique = unique;
+			this.nodeType = nodeType;
+		}
+
+		public virtual Expression UniqueExpr
+		{
+			get
+			{
+				return unique;
+			}
+		}
+
+		public virtual Expression NodeTypeExpr
+		{
+			get
+			{
+				return nodeType;
+			}
+		}
+
+		/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+		public override void CollectNeededEntities(NeededEntities needs)
+		{
+			needs.NeedsGraph();
+			unique.CollectNeededEntities(needs);
+			nodeType.CollectNeededEntities(needs);
 		}
 	}
-
-	public virtual Expression NodeTypeExpr
-	{
-		get
-		{
-			return nodeType;
-		}
-	}
-
-	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
-	public override void CollectNeededEntities(NeededEntities needs)
-	{
-		needs.NeedsGraph();
-		unique.CollectNeededEntities(needs);
-		nodeType.CollectNeededEntities(needs);
-	}
-}
 
 }
