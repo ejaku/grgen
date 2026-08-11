@@ -113,7 +113,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			get
 			{
 				Debug.Assert(IsResolved());
-				DeclNode curr = GetValidResolvedVersion(typeEdgeDecl, typeTypeDecl);
+				DeclNode curr = GetValidResolvedVersion<DeclNode>(typeEdgeDecl, typeTypeDecl);
 				TypeNode type = curr.DeclType;
 				//assert curr.getDeclType() != null;
 				return (EdgeTypeNode)type;
@@ -233,7 +233,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			WarnOnTypeofOfRhsEdges();
 
 			return base.CheckLocal()
-					& typeChecker.Check(GetValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error);
+					& typeChecker.Check(GetValidResolvedVersion<DeclNode>(typeEdgeDecl, typeTypeDecl), error);
 		}
 
 		/// <summary>

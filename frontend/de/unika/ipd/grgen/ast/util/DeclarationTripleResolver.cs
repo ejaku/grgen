@@ -49,7 +49,7 @@ namespace de.unika.ipd.grgen.ast.util
 				triple = Resolve((IdentNode)bn);
 				if(triple != null)
 				{
-					Debug.Assert((triple.first == null ? 0, 1)
+					Debug.Assert((triple.first == null ? 0 : 1)
 							+ (triple.second == null ? 0 : 1)
 							+ (triple.third == null ? 0 : 1) == 1);
 					parent.BecomeParent(triple.first);
@@ -68,7 +68,7 @@ namespace de.unika.ipd.grgen.ast.util
 				triple.third = clsT.Cast(bn);
 			if(triple.first != null || triple.second != null || triple.third != null)
 			{
-				Debug.Assert((triple.first == null ? 0, 1)
+				Debug.Assert((triple.first == null ? 0 : 1)
 						+ (triple.second == null ? 0 : 1)
 						+ (triple.third == null ? 0 : 1) == 1);
 

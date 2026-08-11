@@ -51,7 +51,7 @@ namespace de.unika.ipd.grgen.ast.util
 				quadruple = Resolve((IdentNode)bn);
 				if(quadruple != null)
 				{
-					Debug.Assert((quadruple.first == null ? 0, 1)
+					Debug.Assert((quadruple.first == null ? 0 : 1)
 							+ (quadruple.second == null ? 0 : 1)
 							+ (quadruple.third == null ? 0 : 1)
 							+ (quadruple.fourth == null ? 0 : 1) == 1);
@@ -74,7 +74,7 @@ namespace de.unika.ipd.grgen.ast.util
 				quadruple.fourth = clsU.Cast(bn);
 			if(quadruple.first != null || quadruple.second != null || quadruple.third != null || quadruple.fourth != null)
 			{
-				Debug.Assert((quadruple.first == null ? 0, 1)
+				Debug.Assert((quadruple.first == null ? 0 : 1)
 						+ (quadruple.second == null ? 0 : 1)
 						+ (quadruple.third == null ? 0 : 1)
 						+ (quadruple.fourth == null ? 0 : 1) == 1);

@@ -20,7 +20,7 @@ namespace de.unika.ipd.grgen.ir.expr
 		private ProcedureBase procedure;
 		private string projectedValueVarName;
 
-		public ProjectionExpr(int index, ProcedureBase procedure, Type type)^
+		public ProjectionExpr(int index, ProcedureBase procedure, Type type)
 			: base("projection expr", type)
 		{
 			this.index = index;

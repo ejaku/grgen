@@ -102,7 +102,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			get
 			{
 				Debug.Assert(IsResolved());
-				DeclNode curr = GetValidResolvedVersion(typeNodeDecl, typeTypeDecl);
+				DeclNode curr = GetValidResolvedVersion<DeclNode>(typeNodeDecl, typeTypeDecl);
 				TypeNode type = curr.DeclType;
 				//assert type != null;
 				return (NodeTypeNode)type;
@@ -226,7 +226,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			WarnOnTypeofOfRhsNodes();
 
 			return base.CheckLocal()
-				& typeChecker.Check(GetValidResolvedVersion(typeNodeDecl, typeTypeDecl), error);
+				& typeChecker.Check(GetValidResolvedVersion<DeclNode>(typeNodeDecl, typeTypeDecl), error);
 		}
 
 		/// <summary>
