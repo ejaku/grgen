@@ -131,7 +131,7 @@ namespace de.unika.ipd.grgen.ast.expr
 			}
 			else if(owner is VarDeclNode)
 			{
-				member = Resolver.ResolveMember(ownerType, memberUnresolved);
+				member = Resolver<BaseNode>.ResolveMember(ownerType, memberUnresolved);
 				if(member == null)
 					successfullyResolved = false;
 			}

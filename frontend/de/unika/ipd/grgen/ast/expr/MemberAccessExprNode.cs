@@ -110,7 +110,7 @@ namespace de.unika.ipd.grgen.ast.expr
 				return true;
 			}
 
-			member = Resolver.ResolveMember(ownerType, memberIdent);
+			member = Resolver<BaseNode>.ResolveMember(ownerType, memberIdent);
 
 			return member != null;
 		}

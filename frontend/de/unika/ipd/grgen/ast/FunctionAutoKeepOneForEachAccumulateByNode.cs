@@ -111,7 +111,7 @@ namespace de.unika.ipd.grgen.ast
 			}
 
 			TypeNode valueType = arrayType.valueType;
-			member = Resolver.ResolveMember(valueType, attribute);
+			member = Resolver<BaseNode>.ResolveMember(valueType, attribute);
 			if(member == null)
 				return false;
 
@@ -123,7 +123,7 @@ namespace de.unika.ipd.grgen.ast
 				return false;
 			}
 
-			accumulationMember = Resolver.ResolveMember(valueType, accumulationAttribute);
+			accumulationMember = Resolver<BaseNode>.ResolveMember(valueType, accumulationAttribute);
 			if(accumulationMember == null)
 				return false;
 

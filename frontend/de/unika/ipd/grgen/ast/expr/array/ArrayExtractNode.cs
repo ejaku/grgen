@@ -69,7 +69,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 
 			TypeNode valueType = arrayType.valueType;
 
-			member = Resolver.ResolveMember(valueType, attribute);
+			member = Resolver<BaseNode>.ResolveMember(valueType, attribute);
 			if(member == null)
 				return false;
 

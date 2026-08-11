@@ -96,7 +96,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 				return false;
 			}
 
-			member = Resolver.ResolveMember(arrayType.valueType, attribute);
+			member = Resolver<BaseNode>.ResolveMember(arrayType.valueType, attribute);
 			if(member == null)
 				return false;
 
