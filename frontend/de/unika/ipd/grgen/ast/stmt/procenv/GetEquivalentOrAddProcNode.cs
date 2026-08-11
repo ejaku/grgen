@@ -117,7 +117,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 		{
 			subgraphExpr = subgraphExpr.Evaluate();
 			subgraphArrayExpr = subgraphArrayExpr.Evaluate();
-			GetEquivalentOrAddProc getEquivalentOrAdd = new GetEquivalentOrAddProc(BasicTypeNode.graphType.GetIRType(),
+			GetEquivalentOrAddProc getEquivalentOrAdd = new GetEquivalentOrAddProc(BasicTypeNode.graphType.IRType,
 					subgraphExpr.CheckIR<Expression>(typeof(Expression)),
 					subgraphArrayExpr.CheckIR<Expression>(typeof(Expression)),
 					includingAttributes);

@@ -37,7 +37,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 		protected internal override bool CheckLocal()
 		{
 			int paramNum = 0;
-			foreach(ExprNode expr in exprs.GetChildrenExact())
+			foreach(ExprNode expr in exprs.ChildrenExact)
 			{
 				TypeNode exprType = expr.Type;
 				if(paramNum % 2 == 0 && !(exprType.Equals(BasicTypeNode.stringType)))
@@ -60,7 +60,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 		protected internal override IR ConstructIR()
 		{
 			IList<Expression> expressions = new List<Expression>();
-			foreach(ExprNode expr in exprs.GetChildrenExact())
+			foreach(ExprNode expr in exprs.ChildrenExact)
 			{
 				ExprNode exprEvaluated = expr.Evaluate();
 				expressions.Add(exprEvaluated.CheckIR<Expression>(typeof(Expression)));

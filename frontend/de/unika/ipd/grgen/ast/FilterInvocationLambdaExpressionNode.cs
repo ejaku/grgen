@@ -161,7 +161,7 @@ namespace de.unika.ipd.grgen.ast
 					initExpr != null ? initExpr.CheckIR<Expression>(typeof(Expression)) : null,
 					arrayAccessVar != null ? arrayAccessVar.CheckIR<Variable>(typeof(Variable)) : null,
 					previousAccumulationAccessVar != null ? previousAccumulationAccessVar.CheckIR<Variable>(typeof(Variable)) : null,
-					indexVar != null ? indexVar.CheckIR(typeof(Variable)) : null, elementVar.CheckIR<Variable>(typeof(Variable)),
+					indexVar != null ? indexVar.CheckIR<Variable>(typeof(Variable)) : null, elementVar.CheckIR<Variable>(typeof(Variable)),
 					lambdaExpr.CheckIR<Expression>(typeof(Expression)));
 			return filterInvocation;
 		}

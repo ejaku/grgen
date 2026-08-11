@@ -220,7 +220,7 @@ namespace de.unika.ipd.grgen.ast.expr
 				if(children[1].Type is SetTypeNode)
 				{
 					SetInitNode initNode = (SetInitNode)children[1];
-					foreach(ExprNode item in initNode.Items.GetChildrenExact())
+					foreach(ExprNode item in initNode.Items.ChildrenExact)
 					{
 						SetAddItem addItem = new SetAddItem(qual,
 								item.CheckIR<Expression>(typeof(Expression)));
@@ -234,7 +234,7 @@ namespace de.unika.ipd.grgen.ast.expr
 				else
 				{ //if(children.get(1).getType() instanceof MapTypeNode)
 					MapInitNode initNode = (MapInitNode)children[1];
-					foreach(ExprPairNode item in initNode.Items.GetChildrenExact())
+					foreach(ExprPairNode item in initNode.Items.ChildrenExact)
 					{
 						MapAddItem addItem = new MapAddItem(qual,
 								item.keyExpr.CheckIR<Expression>(typeof(Expression)), item.valueExpr.CheckIR<Expression>(typeof(Expression)));
@@ -253,7 +253,7 @@ namespace de.unika.ipd.grgen.ast.expr
 					SetInitNode initNode = (SetInitNode)children[1];
 					if(children[0].Type is MapTypeNode)
 					{ // handle map \ set
-						foreach(ExprNode item in initNode.Items.GetChildrenExact())
+						foreach(ExprNode item in initNode.Items.ChildrenExact)
 						{
 							MapRemoveItem remItem = new MapRemoveItem(qual,
 									item.CheckIR<Expression>(typeof(Expression)));
@@ -266,7 +266,7 @@ namespace de.unika.ipd.grgen.ast.expr
 					}
 					else
 					{ // handle normal case set \ set
-						foreach(ExprNode item in initNode.Items.GetChildrenExact())
+						foreach(ExprNode item in initNode.Items.ChildrenExact)
 						{
 							SetRemoveItem remItem = new SetRemoveItem(qual,
 									item.CheckIR<Expression>(typeof(Expression)));
@@ -281,7 +281,7 @@ namespace de.unika.ipd.grgen.ast.expr
 				else
 				{ //if(children.get(1).getType() instanceof MapTypeNode)
 					MapInitNode initNode = (MapInitNode)children[1];
-					foreach(ExprPairNode item in initNode.Items.GetChildrenExact())
+					foreach(ExprPairNode item in initNode.Items.ChildrenExact)
 					{
 						MapRemoveItem remItem = new MapRemoveItem(qual,
 								item.keyExpr.CheckIR<Expression>(typeof(Expression)));

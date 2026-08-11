@@ -135,7 +135,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 				Expression e1 = new Typeof(elem);
 				Expression e2 = new Typeof(elem.Typeof);
 
-				Operator op = new Operator(BasicTypeNode.booleanType.GetIRPrimitiveType(), OperatorCode.GE);
+				Operator op = new Operator(BasicTypeNode.booleanType.IRPrimitiveType, OperatorCode.GE);
 				op.AddOperand(e1);
 				op.AddOperand(e2);
 

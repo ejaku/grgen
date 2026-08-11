@@ -108,11 +108,11 @@ namespace de.unika.ipd.grgen.ast.expr
 			if(!memberResolver.Resolve(declUnresolved))
 				return false;
 
-			memberResolver.GetResult(typeof(MemberDeclNode));
-			memberResolver.GetResult(typeof(EnumExprNode));
-			memberResolver.GetResult(typeof(VarDeclNode));
-			memberResolver.GetResult(typeof(ExecVarDeclNode));
-			memberResolver.GetResult(typeof(ConstraintDeclNode));
+			memberResolver.GetResult<MemberDeclNode>(typeof(MemberDeclNode));
+			memberResolver.GetResult<EnumExprNode>(typeof(EnumExprNode));
+			memberResolver.GetResult<VarDeclNode>(typeof(VarDeclNode));
+			memberResolver.GetResult<ExecVarDeclNode>(typeof(ExecVarDeclNode));
+			memberResolver.GetResult<ConstraintDeclNode>(typeof(ConstraintDeclNode));
 			decl = memberResolver.Result;
 
 			return memberResolver.Finish();

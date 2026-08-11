@@ -627,9 +627,9 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 					continue;
 
 				ExecNode exec = (ExecNode)imperativeStatement;
-				foreach(CallActionNode callAction in exec.callActions.GetChildrenExact())
+				foreach(CallActionNode callAction in exec.callActions.ChildrenExact)
 				{
-					foreach(ExprNode arg in callAction.@params.GetChildrenExact())
+					foreach(ExprNode arg in callAction.@params.ChildrenExact)
 					{
 						HashSet<ConstraintDeclNode> potentiallyResultingElements = new HashSet<ConstraintDeclNode>();
 						arg.GetPotentiallyResultingElements(potentiallyResultingElements);

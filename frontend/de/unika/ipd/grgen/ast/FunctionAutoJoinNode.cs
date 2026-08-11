@@ -312,7 +312,7 @@ namespace de.unika.ipd.grgen.ast
 			ISet<string> sharedNames = GetNamesOfCommonEntities(leftMatchType, rightMatchType);
 			if(joinFunction.Equals("natural"))
 			{
-				Expression condition = new Constant(BasicTypeNode.booleanType.GetIRType(), true);
+				Expression condition = new Constant(BasicTypeNode.booleanType.IRType, true);
 				foreach(string sharedName in sharedNames)
 				{
 					DeclNode leftMemberDecl = leftMatchType.TryGetMember(sharedName);
@@ -321,11 +321,11 @@ namespace de.unika.ipd.grgen.ast
 					DeclNode rightMemberDecl = rightMatchType.TryGetMember(sharedName);
 					Entity rightMember = rightMemberDecl.CheckIR<Entity>(typeof(Entity));
 
-					Operator opEqual = new Operator(BasicTypeNode.booleanType.GetIRType(), OperatorCode.EQ);
+					Operator opEqual = new Operator(BasicTypeNode.booleanType.IRType, OperatorCode.EQ);
 					opEqual.AddOperand(new MatchAccess(new VariableExpression(leftIterationVar), leftMember));
 					opEqual.AddOperand(new MatchAccess(new VariableExpression(rightIterationVar), rightMember));
 
-					Operator opAnd = new Operator(BasicTypeNode.booleanType.GetIRType(), OperatorCode.LOG_AND);
+					Operator opAnd = new Operator(BasicTypeNode.booleanType.IRType, OperatorCode.LOG_AND);
 					opAnd.AddOperand(condition);
 					opAnd.AddOperand(opEqual);
 

@@ -41,7 +41,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
 		protected internal override bool ResolveLocal()
 		{
-			mapTypeNode = new MapTypeNode(GetNodeRoot(adjacentTypeExpr), BasicTypeNode.intType.GetIdent());
+			mapTypeNode = new MapTypeNode(GetNodeRoot(adjacentTypeExpr), BasicTypeNode.intType.Ident);
 			return mapTypeNode.Resolve();
 		}
 

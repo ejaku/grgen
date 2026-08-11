@@ -816,7 +816,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 		{
 			if(expr is BoolConstNode)
 			{
-				if(((bool?)((BoolConstNode)expr).GetValue()).Value)
+				if(((bool?)((BoolConstNode)expr).Value).Value)
 					expr.ReportWarning("The if condition is always true.");
 				else
 					expr.ReportWarning("The if condition is always false, thus the pattern will never match.");

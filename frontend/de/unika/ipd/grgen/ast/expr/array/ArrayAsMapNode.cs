@@ -37,7 +37,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		protected internal override bool ResolveLocal()
 		{
 			// target type already checked during resolving into this node
-			mapTypeNode = new MapTypeNode(BasicTypeNode.intType.GetIdent(),
+			mapTypeNode = new MapTypeNode(BasicTypeNode.intType.Ident,
 					TargetTypeExact.valueTypeUnresolved);
 			return mapTypeNode.Resolve();
 		}

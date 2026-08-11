@@ -300,7 +300,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 			mappingExpr = mappingExpr.Evaluate();
 			return new ArrayMapStartWithAccumulateByExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
 					initArrayAccessVar != null ? initArrayAccessVar.CheckIR<Variable>(typeof(Variable)) : null,
-					initExpr.CheckIR(typeof(Expression)), arrayAccessVar != null ? arrayAccessVar.CheckIR<Variable>(typeof(Variable)) : null,
+					initExpr.CheckIR<Expression>(typeof(Expression)), arrayAccessVar != null ? arrayAccessVar.CheckIR<Variable>(typeof(Variable)) : null,
 					previousAccumulationAccessVar != null ? previousAccumulationAccessVar.CheckIR<Variable>(typeof(Variable)) : null,
 					indexVar != null ? indexVar.CheckIR<Variable>(typeof(Variable)) : null,
 					elementVar.CheckIR<Variable>(typeof(Variable)),

@@ -40,7 +40,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 		protected internal override IR ConstructIR()
 		{
 			IList<Expression> expressions = new List<Expression>();
-			foreach(ExprNode expr in exprs.GetChildrenExact())
+			foreach(ExprNode expr in exprs.ChildrenExact)
 			{
 				ExprNode exprEvaluated = expr.Evaluate();
 				expressions.Add(exprEvaluated.CheckIR<Expression>(typeof(Expression)));
