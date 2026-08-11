@@ -32,7 +32,7 @@ public class StringEndsWith : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return stringExpr;
+			return stringExpr;
 		}
 	}
 
@@ -40,7 +40,7 @@ public class StringEndsWith : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return stringToSearchForExpr;
+			return stringToSearchForExpr;
 		}
 	}
 

@@ -51,12 +51,12 @@ public class StringReplaceNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(stringExpr);
-		children.Add(startExpr);
-		children.Add(lengthExpr);
-		children.Add(replaceStrExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(stringExpr);
+			children.Add(startExpr);
+			children.Add(lengthExpr);
+			children.Add(replaceStrExpr);
+			return children;
 		}
 	}
 
@@ -64,12 +64,12 @@ public class StringReplaceNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("string");
-		childrenNames.Add("start");
-		childrenNames.Add("length");
-		childrenNames.Add("replaceStrExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("string");
+			childrenNames.Add("start");
+			childrenNames.Add("length");
+			childrenNames.Add("replaceStrExpr");
+			return childrenNames;
 		}
 	}
 
@@ -118,7 +118,7 @@ public class StringReplaceNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.stringType;
+			return BasicTypeNode.stringType;
 		}
 	}
 }

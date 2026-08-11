@@ -68,15 +68,15 @@ public class ForIndexAccessOrderingYieldNode : ForIndexAccessNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
-		children.Add(GetValidVersion(indexUnresolved, index));
-		if(expr != null)
-			children.Add(expr);
-		if(expr2 != null)
-			children.Add(expr2);
-		children.Add(statements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
+			children.Add(GetValidVersion(indexUnresolved, index));
+			if(expr != null)
+				children.Add(expr);
+			if(expr2 != null)
+				children.Add(expr2);
+			children.Add(statements);
+			return children;
 		}
 	}
 
@@ -86,15 +86,15 @@ public class ForIndexAccessOrderingYieldNode : ForIndexAccessNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterVar");
-		childrenNames.Add("index");
-		if(expr != null)
-			childrenNames.Add("expression");
-		if(expr2 != null)
-			childrenNames.Add("expression2");
-		childrenNames.Add("loopedStatements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterVar");
+			childrenNames.Add("index");
+			if(expr != null)
+				childrenNames.Add("expression");
+			if(expr2 != null)
+				childrenNames.Add("expression2");
+			childrenNames.Add("loopedStatements");
+			return childrenNames;
 		}
 	}
 

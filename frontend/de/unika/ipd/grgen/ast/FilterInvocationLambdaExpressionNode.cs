@@ -83,21 +83,21 @@ public class FilterInvocationLambdaExpressionNode : FilterInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iteratedUnresolved, iterated));
-		if(initArrayAccessVar != null)
-			children.Add(initArrayAccessVar);
-		if(initExpr != null)
-			children.Add(initExpr);
-		if(arrayAccessVar != null)
-			children.Add(arrayAccessVar);
-		if(previousAccumulationAccessVar != null)
-			children.Add(previousAccumulationAccessVar);
-		if(indexVar != null)
-			children.Add(indexVar);
-		children.Add(elementVar);
-		children.Add(lambdaExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iteratedUnresolved, iterated));
+			if(initArrayAccessVar != null)
+				children.Add(initArrayAccessVar);
+			if(initExpr != null)
+				children.Add(initExpr);
+			if(arrayAccessVar != null)
+				children.Add(arrayAccessVar);
+			if(previousAccumulationAccessVar != null)
+				children.Add(previousAccumulationAccessVar);
+			if(indexVar != null)
+				children.Add(indexVar);
+			children.Add(elementVar);
+			children.Add(lambdaExpr);
+			return children;
 		}
 	}
 
@@ -105,21 +105,21 @@ public class FilterInvocationLambdaExpressionNode : FilterInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterated");
-		if(initArrayAccessVar != null)
-			childrenNames.Add("initArrayAccessVar");
-		if(initExpr != null)
-			childrenNames.Add("initExpr");
-		if(arrayAccessVar != null)
-			childrenNames.Add("arrayAccessVar");
-		if(previousAccumulationAccessVar != null)
-			childrenNames.Add("previousAccumulationAccessVar");
-		if(indexVar != null)
-			childrenNames.Add("indexVar");
-		childrenNames.Add("elementVar");
-		childrenNames.Add("lambdaExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterated");
+			if(initArrayAccessVar != null)
+				childrenNames.Add("initArrayAccessVar");
+			if(initExpr != null)
+				childrenNames.Add("initExpr");
+			if(arrayAccessVar != null)
+				childrenNames.Add("arrayAccessVar");
+			if(previousAccumulationAccessVar != null)
+				childrenNames.Add("previousAccumulationAccessVar");
+			if(indexVar != null)
+				childrenNames.Add("indexVar");
+			childrenNames.Add("elementVar");
+			childrenNames.Add("lambdaExpr");
+			return childrenNames;
 		}
 	}
 

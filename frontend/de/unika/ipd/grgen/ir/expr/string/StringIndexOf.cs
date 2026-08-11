@@ -41,7 +41,7 @@ public class StringIndexOf : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return stringExpr;
+			return stringExpr;
 		}
 	}
 
@@ -49,7 +49,7 @@ public class StringIndexOf : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return stringToSearchForExpr;
+			return stringToSearchForExpr;
 		}
 	}
 
@@ -57,7 +57,7 @@ public class StringIndexOf : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return startIndexExpr;
+			return startIndexExpr;
 		}
 	}
 

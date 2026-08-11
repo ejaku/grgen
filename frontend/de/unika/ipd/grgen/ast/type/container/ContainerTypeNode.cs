@@ -25,7 +25,7 @@ public abstract class ContainerTypeNode : DeclaredTypeNode
 	{
 		get
 		{
-		return TypeName;
+			return TypeName;
 		}
 	}
 

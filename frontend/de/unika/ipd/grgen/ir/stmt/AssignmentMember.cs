@@ -35,7 +35,7 @@ public class AssignmentMember : AssignmentBase
 	{
 		get
 		{
-		return target;
+			return target;
 		}
 	}
 

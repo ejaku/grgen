@@ -29,7 +29,7 @@ public class CommitTransactionProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return transactionIdExpr;
+			return transactionIdExpr;
 		}
 	}
 

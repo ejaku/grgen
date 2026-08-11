@@ -51,7 +51,7 @@ public class EdgesFromIndexAccessFromToAsArrayExprNode : FromIndexAccessFromToEx
 	{
 		get
 		{
-		return EdgeRoot;
+			return EdgeRoot;
 		}
 	}
 
@@ -64,7 +64,7 @@ public class EdgesFromIndexAccessFromToAsArrayExprNode : FromIndexAccessFromToEx
 	{
 		get
 		{
-		return arrayTypeNode;
+			return arrayTypeNode;
 		}
 	}
 

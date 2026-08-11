@@ -47,7 +47,7 @@ public abstract class DeclNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		return invalidDecl;
+			return invalidDecl;
 		}
 	}
 
@@ -77,7 +77,7 @@ public abstract class DeclNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		return ident;
+			return ident;
 		}
 	}
 
@@ -89,7 +89,7 @@ public abstract class DeclNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		return this;
+			return this;
 		}
 	}
 
@@ -98,7 +98,7 @@ public abstract class DeclNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		return Color.BLUE;
+			return Color.BLUE;
 		}
 	}
 
@@ -136,7 +136,7 @@ public abstract class DeclNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		return CheckIR(typeof(Entity));
+			return CheckIR(typeof(Entity));
 		}
 	}
 
@@ -144,7 +144,7 @@ public abstract class DeclNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		return "declaration";
+			return "declaration";
 		}
 	}
 

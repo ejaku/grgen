@@ -29,11 +29,11 @@ public class MatchType : Type, ContainedInPackage
 	{
 		set
 		{
-		this.action = value;
+			this.action = value;
 		}
 		get
 		{
-		return action;
+			return action;
 		}
 	}
 
@@ -41,11 +41,11 @@ public class MatchType : Type, ContainedInPackage
 	{
 		get
 		{
-		return packageContainedIn;
+			return packageContainedIn;
 		}
 		set
 		{
-		this.packageContainedIn = value;
+			this.packageContainedIn = value;
 		}
 	}
 

@@ -41,10 +41,10 @@ public class ExprPairNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(keyExpr);
-		children.Add(valueExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(keyExpr);
+			children.Add(valueExpr);
+			return children;
 		}
 	}
 
@@ -52,10 +52,10 @@ public class ExprPairNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("keyExpr");
-		childrenNames.Add("valueExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("keyExpr");
+			childrenNames.Add("valueExpr");
+			return childrenNames;
 		}
 	}
 
@@ -81,7 +81,7 @@ public class ExprPairNode : BaseNode
 	{
 		get
 		{
-		return CheckIR(typeof(ExpressionPair));
+			return CheckIR(typeof(ExpressionPair));
 		}
 	}
 

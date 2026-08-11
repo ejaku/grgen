@@ -34,7 +34,7 @@ public class GraphAddCopyNodeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return oldNode;
+			return oldNode;
 		}
 	}
 
@@ -60,7 +60,7 @@ public class GraphAddCopyNodeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return deep;
+			return deep;
 		}
 	}
 }

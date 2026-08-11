@@ -34,7 +34,7 @@ public class ProcedureInvocation : ProcedureInvocationBase
 	{
 		get
 		{
-		return procedure;
+			return procedure;
 		}
 	}
 
@@ -42,7 +42,7 @@ public class ProcedureInvocation : ProcedureInvocationBase
 	{
 		get
 		{
-		return procedure;
+			return procedure;
 		}
 	}
 }

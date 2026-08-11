@@ -100,14 +100,14 @@ public class ArrayInitNode : ContainerSingleElementInitNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		if(lhs != null)
-		{
-			TypeNode type = lhs.DeclType;
-			return (ArrayTypeNode)type;
-		}
-		else
-			return arrayType;
+			Debug.Assert((IsResolved()));
+			if(lhs != null)
+			{
+				TypeNode type = lhs.DeclType;
+				return (ArrayTypeNode)type;
+			}
+			else
+				return arrayType;
 		}
 	}
 
@@ -138,7 +138,7 @@ public class ArrayInitNode : ContainerSingleElementInitNode
 	{
 		get
 		{
-		return CheckIR(typeof(ArrayInit));
+			return CheckIR(typeof(ArrayInit));
 		}
 	}
 
@@ -146,7 +146,7 @@ public class ArrayInitNode : ContainerSingleElementInitNode
 	{
 		get
 		{
-		return "array initialization";
+			return "array initialization";
 		}
 	}
 }

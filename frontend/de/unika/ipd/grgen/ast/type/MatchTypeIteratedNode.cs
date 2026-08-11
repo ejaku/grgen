@@ -93,7 +93,7 @@ public class MatchTypeIteratedNode : MatchTypeNode
 	{
 		get
 		{
-		return "match<" + topLevelMatcherUnresolved.ToString() + "." + iteratedUnresolved.ToString() + "> type";
+			return "match<" + topLevelMatcherUnresolved.ToString() + "." + iteratedUnresolved.ToString() + "> type";
 		}
 	}
 
@@ -101,10 +101,10 @@ public class MatchTypeIteratedNode : MatchTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		//children.add(getValidVersion(topLevelMatcherUnresolved, topLevelMatcher));
-		//children.add(getValidVersion(iteratedUnresolved, iterated));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			//children.add(getValidVersion(topLevelMatcherUnresolved, topLevelMatcher));
+			//children.add(getValidVersion(iteratedUnresolved, iterated));
+			return children;
 		}
 	}
 
@@ -112,10 +112,10 @@ public class MatchTypeIteratedNode : MatchTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		//childrenNames.add("topLevelMatcher");
-		//childrenNames.add("iterated");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			//childrenNames.add("topLevelMatcher");
+			//childrenNames.add("iterated");
+			return childrenNames;
 		}
 	}
 
@@ -145,8 +145,8 @@ public class MatchTypeIteratedNode : MatchTypeNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return topLevelMatcher;
+			Debug.Assert((IsResolved()));
+			return topLevelMatcher;
 		}
 	}
 
@@ -154,8 +154,8 @@ public class MatchTypeIteratedNode : MatchTypeNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return iterated;
+			Debug.Assert((IsResolved()));
+			return iterated;
 		}
 	}
 
@@ -174,7 +174,7 @@ public class MatchTypeIteratedNode : MatchTypeNode
 	{
 		get
 		{
-		return iterated.pattern.Entities;
+			return iterated.pattern.Entities;
 		}
 	}
 
@@ -184,7 +184,7 @@ public class MatchTypeIteratedNode : MatchTypeNode
 	{
 		get
 		{
-		return CheckIR(typeof(MatchTypeIterated));
+			return CheckIR(typeof(MatchTypeIterated));
 		}
 	}
 

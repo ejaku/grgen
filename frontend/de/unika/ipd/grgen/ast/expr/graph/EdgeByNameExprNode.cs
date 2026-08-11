@@ -49,10 +49,10 @@ public class EdgeByNameExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(name);
-		children.Add(edgeType);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(name);
+			children.Add(edgeType);
+			return children;
 		}
 	}
 
@@ -62,10 +62,10 @@ public class EdgeByNameExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("name");
-		childrenNames.Add("edgeType");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("name");
+			childrenNames.Add("edgeType");
+			return childrenNames;
 		}
 	}
 
@@ -105,7 +105,7 @@ public class EdgeByNameExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return edgeType.Type;
+			return edgeType.Type;
 		}
 	}
 }

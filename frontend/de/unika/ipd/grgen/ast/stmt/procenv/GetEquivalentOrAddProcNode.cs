@@ -56,10 +56,10 @@ public class GetEquivalentOrAddProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(subgraphExpr);
-		children.Add(subgraphArrayExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(subgraphExpr);
+			children.Add(subgraphArrayExpr);
+			return children;
 		}
 	}
 
@@ -67,10 +67,10 @@ public class GetEquivalentOrAddProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("subgraphExpr");
-		childrenNames.Add("subgraphArrayExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("subgraphExpr");
+			childrenNames.Add("subgraphArrayExpr");
+			return childrenNames;
 		}
 	}
 
@@ -128,12 +128,12 @@ public class GetEquivalentOrAddProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		if(returnTypes == null)
-		{
-			returnTypes = new List<TypeNode>();
-			returnTypes.Add(BasicTypeNode.graphType);
-		}
-		return returnTypes;
+			if(returnTypes == null)
+			{
+				returnTypes = new List<TypeNode>();
+				returnTypes.Add(BasicTypeNode.graphType);
+			}
+			return returnTypes;
 		}
 	}
 }

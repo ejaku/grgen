@@ -157,7 +157,7 @@ public class UnitNode : BaseNode
 	{
 		get
 		{
-		return stdModel;
+			return stdModel;
 		}
 	}
 
@@ -178,7 +178,7 @@ public class UnitNode : BaseNode
 	{
 		get
 		{
-		return models.Get(0); // see comment above, there should be only/exactly one model when resolving starts, with flags combined from all models, when the CSharp backend is targeted
+			return models.Get(0); // see comment above, there should be only/exactly one model when resolving starts, with flags combined from all models, when the CSharp backend is targeted
 		}
 	}
 
@@ -188,20 +188,20 @@ public class UnitNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(models);
-		children.Add(GetValidVersionCollectNode(subpatternsUnresolved, subpatterns));
-		children.Add(GetValidVersionCollectNode(actionsUnresolved, actions));
-		children.Add(GetValidVersionCollectNode(matchTypesUnresolved, matchTypes));
-		children.Add(GetValidVersionCollectNode(filterFunctionsUnresolved, filterFunctions));
-		children.Add(GetValidVersionCollectNode(matchClassesUnresolved, matchClassDecls));
-		children.Add(GetValidVersionCollectNode(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
-		children.Add(GetValidVersionCollectNode(matchTypesIteratedUnresolved, matchTypesIterated));
-		children.Add(GetValidVersionCollectNode(functionsUnresolved, functions));
-		children.Add(GetValidVersionCollectNode(proceduresUnresolved, procedures));
-		children.Add(GetValidVersionCollectNode(sequencesUnresolved, sequences));
-		children.Add(GetValidVersionCollectNode(packagesUnresolved, packages));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(models);
+			children.Add(GetValidVersionCollectNode(subpatternsUnresolved, subpatterns));
+			children.Add(GetValidVersionCollectNode(actionsUnresolved, actions));
+			children.Add(GetValidVersionCollectNode(matchTypesUnresolved, matchTypes));
+			children.Add(GetValidVersionCollectNode(filterFunctionsUnresolved, filterFunctions));
+			children.Add(GetValidVersionCollectNode(matchClassesUnresolved, matchClassDecls));
+			children.Add(GetValidVersionCollectNode(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
+			children.Add(GetValidVersionCollectNode(matchTypesIteratedUnresolved, matchTypesIterated));
+			children.Add(GetValidVersionCollectNode(functionsUnresolved, functions));
+			children.Add(GetValidVersionCollectNode(proceduresUnresolved, procedures));
+			children.Add(GetValidVersionCollectNode(sequencesUnresolved, sequences));
+			children.Add(GetValidVersionCollectNode(packagesUnresolved, packages));
+			return children;
 		}
 	}
 
@@ -211,20 +211,20 @@ public class UnitNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("models");
-		childrenNames.Add("subpatterns");
-		childrenNames.Add("actions");
-		childrenNames.Add("match types");
-		childrenNames.Add("filter functions");
-		childrenNames.Add("match classes");
-		childrenNames.Add("match class filter functions");
-		childrenNames.Add("match types iterated");
-		childrenNames.Add("functions");
-		childrenNames.Add("procedures");
-		childrenNames.Add("sequences");
-		childrenNames.Add("packages");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("models");
+			childrenNames.Add("subpatterns");
+			childrenNames.Add("actions");
+			childrenNames.Add("match types");
+			childrenNames.Add("filter functions");
+			childrenNames.Add("match classes");
+			childrenNames.Add("match class filter functions");
+			childrenNames.Add("match types iterated");
+			childrenNames.Add("functions");
+			childrenNames.Add("procedures");
+			childrenNames.Add("sequences");
+			childrenNames.Add("packages");
+			return childrenNames;
 		}
 	}
 
@@ -414,7 +414,7 @@ public class UnitNode : BaseNode
 	{
 		get
 		{
-		return CheckIR(typeof(Unit));
+			return CheckIR(typeof(Unit));
 		}
 	}
 
@@ -494,13 +494,13 @@ public class UnitNode : BaseNode
 	{
 		get
 		{
-		return UnitNode.root;
+			return UnitNode.root;
 		}
 		set
 		{
-		if(UnitNode.root != null)
-			throw new Exception("Internal error, change of root node");
-		UnitNode.root = value;
+			if(UnitNode.root != null)
+				throw new Exception("Internal error, change of root node");
+			UnitNode.root = value;
 		}
 	}
 

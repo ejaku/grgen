@@ -42,7 +42,7 @@ public class ArbitraryEdgeTypeNode : EdgeTypeNode
 	{
 		set
 		{
-		value.Directedness = EdgeType.DirectednessKind.Arbitrary;
+			value.Directedness = EdgeType.DirectednessKind.Arbitrary;
 		}
 	}
 
@@ -50,7 +50,7 @@ public class ArbitraryEdgeTypeNode : EdgeTypeNode
 	{
 		get
 		{
-		return "arbitrary edge class";
+			return "arbitrary edge class";
 		}
 	}
 }

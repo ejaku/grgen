@@ -49,13 +49,13 @@ public abstract class FromIndexAccessFromToExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(indexUnresolved, index));
-		if(fromExpr != null)
-			children.Add(fromExpr);
-		if(toExpr != null)
-			children.Add(toExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(indexUnresolved, index));
+			if(fromExpr != null)
+				children.Add(fromExpr);
+			if(toExpr != null)
+				children.Add(toExpr);
+			return children;
 		}
 	}
 
@@ -65,13 +65,13 @@ public abstract class FromIndexAccessFromToExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("index");
-		if(fromExpr != null)
-			childrenNames.Add("fromExpr");
-		if(toExpr != null)
-			childrenNames.Add("toExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("index");
+			if(fromExpr != null)
+				childrenNames.Add("fromExpr");
+			if(toExpr != null)
+				childrenNames.Add("toExpr");
+			return childrenNames;
 		}
 	}
 

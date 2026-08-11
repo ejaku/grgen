@@ -93,10 +93,10 @@ public class CastNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(typeUnresolved, type));
-		children.Add(expr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(typeUnresolved, type));
+			children.Add(expr);
+			return children;
 		}
 	}
 
@@ -106,10 +106,10 @@ public class CastNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("type");
-		childrenNames.Add("expr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("type");
+			childrenNames.Add("expr");
+			return childrenNames;
 		}
 	}
 
@@ -210,9 +210,9 @@ public class CastNode : ExprNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 

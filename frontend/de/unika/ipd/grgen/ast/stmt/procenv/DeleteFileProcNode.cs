@@ -46,9 +46,9 @@ public class DeleteFileProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(pathExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(pathExpr);
+			return children;
 		}
 	}
 
@@ -56,9 +56,9 @@ public class DeleteFileProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("path");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("path");
+			return childrenNames;
 		}
 	}
 

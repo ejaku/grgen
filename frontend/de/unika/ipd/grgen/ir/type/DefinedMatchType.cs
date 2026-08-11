@@ -39,11 +39,11 @@ public class DefinedMatchType : CompoundType, ContainedInPackage
 	{
 		get
 		{
-		return packageContainedIn;
+			return packageContainedIn;
 		}
 		set
 		{
-		this.packageContainedIn = value;
+			this.packageContainedIn = value;
 		}
 	}
 
@@ -57,7 +57,7 @@ public class DefinedMatchType : CompoundType, ContainedInPackage
 	{
 		get
 		{
-		return matchClassFilters.AsReadOnly();
+			return matchClassFilters.AsReadOnly();
 		}
 	}
 
@@ -65,7 +65,7 @@ public class DefinedMatchType : CompoundType, ContainedInPackage
 	{
 		get
 		{
-		return pattern;
+			return pattern;
 		}
 	}
 
@@ -73,7 +73,7 @@ public class DefinedMatchType : CompoundType, ContainedInPackage
 	{
 		get
 		{
-		return pattern.Nodes;
+			return pattern.Nodes;
 		}
 	}
 
@@ -81,7 +81,7 @@ public class DefinedMatchType : CompoundType, ContainedInPackage
 	{
 		get
 		{
-		return pattern.Edges;
+			return pattern.Edges;
 		}
 	}
 
@@ -89,7 +89,7 @@ public class DefinedMatchType : CompoundType, ContainedInPackage
 	{
 		get
 		{
-		return pattern.Vars;
+			return pattern.Vars;
 		}
 	}
 

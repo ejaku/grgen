@@ -38,7 +38,7 @@ public abstract class SetProcedureMethodInvocationBaseNode : ContainerProcedureM
 	{
 		get
 		{
-		return (SetTypeNode)TargetType;
+			return (SetTypeNode)TargetType;
 		}
 	}
 }

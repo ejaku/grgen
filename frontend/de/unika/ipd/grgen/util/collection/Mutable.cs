@@ -20,11 +20,11 @@ public class Mutable<T>
 	{
 		get
 		{
-		return value;
+			return value;
 		}
 		set
 		{
-		this.value = value;
+			this.value = value;
 		}
 	}
 

@@ -51,9 +51,9 @@ public class TotallyHomNode : BaseNode
 	{
 		set
 		{
-		Debug.Assert((this.entityUnresolved == null));
-		BecomeParent(value);
-		this.entityUnresolved = value;
+			Debug.Assert((this.entityUnresolved == null));
+			BecomeParent(value);
+			this.entityUnresolved = value;
 
 		}
 	}
@@ -71,10 +71,10 @@ public class TotallyHomNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(entityUnresolved, node, edge));
-		((List<BaseNode>)children).AddRange(GetValidVersionList(childrenUnresolved, childrenNode, childrenEdge));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(entityUnresolved, node, edge));
+			((List<BaseNode>)children).AddRange(GetValidVersionList(childrenUnresolved, childrenNode, childrenEdge));
+			return children;
 		}
 	}
 
@@ -84,10 +84,10 @@ public class TotallyHomNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("totally homomorph entity");
-		// nameless isomorph children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("totally homomorph entity");
+			// nameless isomorph children
+			return childrenNames;
 		}
 	}
 
@@ -187,7 +187,7 @@ public class TotallyHomNode : BaseNode
 	{
 		get
 		{
-		return Color.PINK;
+			return Color.PINK;
 		}
 	}
 }

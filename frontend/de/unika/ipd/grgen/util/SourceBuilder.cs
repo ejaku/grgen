@@ -64,10 +64,10 @@ public class SourceBuilder
 	{
 		get
 		{
-		System.Text.StringBuilder sb = new System.Text.StringBuilder();
-		for(int i = 0; i < indentationLevel; ++i)
-			sb.Append("\t");
-		return sb.ToString();
+			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+			for(int i = 0; i < indentationLevel; ++i)
+				sb.Append("\t");
+			return sb.ToString();
 		}
 	}
 
@@ -75,7 +75,7 @@ public class SourceBuilder
 	{
 		get
 		{
-		return stringBuilder;
+			return stringBuilder;
 		}
 	}
 
@@ -98,11 +98,11 @@ public class SourceBuilder
 	{
 		get
 		{
-		return indentationLevel;
+			return indentationLevel;
 		}
 		set
 		{
-		this.indentationLevel = value;
+			this.indentationLevel = value;
 		}
 	}
 

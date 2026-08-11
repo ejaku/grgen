@@ -28,7 +28,7 @@ public class IsInEdgesFromIndexAccessSameExpr : EdgesFromIndexAccessExpr
 	{
 		get
 		{
-		return candidateExpr;
+			return candidateExpr;
 		}
 	}
 
@@ -36,7 +36,7 @@ public class IsInEdgesFromIndexAccessSameExpr : EdgesFromIndexAccessExpr
 	{
 		get
 		{
-		return indexAccess;
+			return indexAccess;
 		}
 	}
 

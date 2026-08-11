@@ -46,9 +46,9 @@ public class CountNodesExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(nodeType);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(nodeType);
+			return children;
 		}
 	}
 
@@ -58,9 +58,9 @@ public class CountNodesExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("node type");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("node type");
+			return childrenNames;
 		}
 	}
 
@@ -92,7 +92,7 @@ public class CountNodesExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 }

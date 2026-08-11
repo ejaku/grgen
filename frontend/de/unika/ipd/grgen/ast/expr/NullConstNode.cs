@@ -57,7 +57,7 @@ public class NullConstNode : ConstNode
 	{
 		get
 		{
-		return type;
+			return type;
 		}
 	}
 

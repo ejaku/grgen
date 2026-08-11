@@ -45,7 +45,7 @@ public class ConnAssert : IR
 	{
 		get
 		{
-		return srcType;
+			return srcType;
 		}
 	}
 
@@ -53,7 +53,7 @@ public class ConnAssert : IR
 	{
 		get
 		{
-		return tgtType;
+			return tgtType;
 		}
 	}
 
@@ -61,7 +61,7 @@ public class ConnAssert : IR
 	{
 		get
 		{
-		return srcLower;
+			return srcLower;
 		}
 	}
 
@@ -69,7 +69,7 @@ public class ConnAssert : IR
 	{
 		get
 		{
-		return srcUpper;
+			return srcUpper;
 		}
 	}
 
@@ -77,7 +77,7 @@ public class ConnAssert : IR
 	{
 		get
 		{
-		return tgtLower;
+			return tgtLower;
 		}
 	}
 
@@ -85,7 +85,7 @@ public class ConnAssert : IR
 	{
 		get
 		{
-		return tgtUpper;
+			return tgtUpper;
 		}
 	}
 
@@ -93,7 +93,7 @@ public class ConnAssert : IR
 	{
 		get
 		{
-		return bothDirections;
+			return bothDirections;
 		}
 	}
 

@@ -48,10 +48,10 @@ public class InternalObjectInit : Expression
 	{
 		get
 		{
-		IList<Expression> expressions = new List<Expression>();
-		foreach(AttributeInitialization attributeInitialization in attributeInitializations)
-			expressions.Add(attributeInitialization.expr);
-		return expressions;
+			IList<Expression> expressions = new List<Expression>();
+			foreach(AttributeInitialization attributeInitialization in attributeInitializations)
+				expressions.Add(attributeInitialization.expr);
+			return expressions;
 		}
 	}
 
@@ -59,7 +59,7 @@ public class InternalObjectInit : Expression
 	{
 		get
 		{
-		return objectType;
+			return objectType;
 		}
 	}
 
@@ -67,7 +67,7 @@ public class InternalObjectInit : Expression
 	{
 		get
 		{
-		return "internal_object_init_" + Id;
+			return "internal_object_init_" + Id;
 		}
 	}
 }

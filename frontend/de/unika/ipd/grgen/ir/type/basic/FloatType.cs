@@ -31,7 +31,7 @@ public class FloatType : PrimitiveType
 	{
 		get
 		{
-		return BasicTypeNode.floatType.CheckIR(typeof(Type));
+			return BasicTypeNode.floatType.CheckIR(typeof(Type));
 		}
 	}
 }

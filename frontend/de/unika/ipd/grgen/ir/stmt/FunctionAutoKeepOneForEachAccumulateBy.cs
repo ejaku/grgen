@@ -36,7 +36,7 @@ public class FunctionAutoKeepOneForEachAccumulateBy : EvalStatement
 	{
 		get
 		{
-		return member;
+			return member;
 		}
 	}
 
@@ -44,7 +44,7 @@ public class FunctionAutoKeepOneForEachAccumulateBy : EvalStatement
 	{
 		get
 		{
-		return accumulationMember;
+			return accumulationMember;
 		}
 	}
 
@@ -52,7 +52,7 @@ public class FunctionAutoKeepOneForEachAccumulateBy : EvalStatement
 	{
 		get
 		{
-		return accumulationMethod;
+			return accumulationMethod;
 		}
 	}
 
@@ -60,7 +60,7 @@ public class FunctionAutoKeepOneForEachAccumulateBy : EvalStatement
 	{
 		get
 		{
-		return targetVar;
+			return targetVar;
 		}
 	}
 
@@ -68,7 +68,7 @@ public class FunctionAutoKeepOneForEachAccumulateBy : EvalStatement
 	{
 		get
 		{
-		return (ArrayType)targetVar.Type;
+			return (ArrayType)targetVar.Type;
 		}
 	}
 }

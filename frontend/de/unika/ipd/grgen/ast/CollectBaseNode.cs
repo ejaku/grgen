@@ -17,7 +17,7 @@ public abstract class CollectBaseNode : BaseNode
 	{
 		get
 		{
-		return Color.GRAY;
+			return Color.GRAY;
 		}
 	}
 

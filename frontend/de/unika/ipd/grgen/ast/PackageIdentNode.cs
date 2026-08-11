@@ -53,9 +53,9 @@ public class PackageIdentNode : IdentNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		// no children
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			// no children
+			return children;
 		}
 	}
 
@@ -65,9 +65,9 @@ public class PackageIdentNode : IdentNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// no children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// no children
+			return childrenNames;
 		}
 	}
 
@@ -82,18 +82,18 @@ public class PackageIdentNode : IdentNode
 	{
 		get
 		{
-		if(owningPackage.Definition == null
-			|| !owningPackage.Definition.IsValid())
-		{
-			Symbol.Definition def = owningPackage.Scope.GetCurrDef(OwnerSymbol);
-			if(def.IsValid())
-				OwnerSymDef = def;
-		}
-		return owningPackage.Definition;
+			if(owningPackage.Definition == null
+				|| !owningPackage.Definition.IsValid())
+			{
+				Symbol.Definition def = owningPackage.Scope.GetCurrDef(OwnerSymbol);
+				if(def.IsValid())
+					OwnerSymDef = def;
+			}
+			return owningPackage.Definition;
 		}
 		set
 		{
-		owningPackage.Definition = value;
+			owningPackage.Definition = value;
 		}
 	}
 
@@ -102,17 +102,17 @@ public class PackageIdentNode : IdentNode
 	{
 		get
 		{
-		Symbol.Definition def = OwnerSymDef;
+			Symbol.Definition def = OwnerSymDef;
 
-		if(def.IsValid())
-		{
-			if(def.Node == this)
-				return decl;
+			if(def.IsValid())
+			{
+				if(def.Node == this)
+					return decl;
+				else
+					return def.Node.Decl;
+			}
 			else
-				return def.Node.Decl;
-		}
-		else
-			return DeclNode.GetInvalid(this);
+				return DeclNode.GetInvalid(this);
 		}
 	}
 
@@ -120,7 +120,7 @@ public class PackageIdentNode : IdentNode
 	{
 		get
 		{
-		return owningPackage.Symbol;
+			return owningPackage.Symbol;
 		}
 	}
 
@@ -128,10 +128,10 @@ public class PackageIdentNode : IdentNode
 	{
 		get
 		{
-		Resolver.ResolveOwner(this);
-		if(OwnerSymbol.ToString().Equals("global"))
-			FixupDefinition(this, Scope.Root, true);
-		return base.Decl;
+			Resolver.ResolveOwner(this);
+			if(OwnerSymbol.ToString().Equals("global"))
+				FixupDefinition(this, Scope.Root, true);
+			return base.Decl;
 		}
 	}
 
@@ -144,7 +144,7 @@ public class PackageIdentNode : IdentNode
 	{
 		get
 		{
-		return "package-prefixed identifier";
+			return "package-prefixed identifier";
 		}
 	}
 

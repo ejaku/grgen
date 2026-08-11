@@ -77,12 +77,12 @@ public abstract class ActionDeclNode : TopLevelMatcherDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersionCollectNode(returnFormalParametersUnresolved, returnFormalParameters));
-		children.Add(pattern);
-		children.Add(GetValidVersionCollectNode(implementedMatchTypesUnresolved, implementedMatchTypes));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersionCollectNode(returnFormalParametersUnresolved, returnFormalParameters));
+			children.Add(pattern);
+			children.Add(GetValidVersionCollectNode(implementedMatchTypesUnresolved, implementedMatchTypes));
+			return children;
 		}
 	}
 
@@ -92,12 +92,12 @@ public abstract class ActionDeclNode : TopLevelMatcherDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("ret");
-		childrenNames.Add("pattern");
-		childrenNames.Add("implementedMatchTypes");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("ret");
+			childrenNames.Add("pattern");
+			childrenNames.Add("implementedMatchTypes");
+			return childrenNames;
 		}
 	}
 
@@ -412,7 +412,7 @@ public abstract class ActionDeclNode : TopLevelMatcherDeclNode
 	{
 		get
 		{
-		return implementedMatchTypes.ChildrenExact;
+			return implementedMatchTypes.ChildrenExact;
 		}
 	}
 
@@ -444,7 +444,7 @@ public abstract class ActionDeclNode : TopLevelMatcherDeclNode
 	{
 		get
 		{
-		return "action";
+			return "action";
 		}
 	}
 }

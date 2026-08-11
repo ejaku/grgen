@@ -33,7 +33,7 @@ public class MultipleDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return 1;
+			return 1;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class MultipleDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return 0;
+			return 0;
 		}
 	}
 
@@ -49,7 +49,7 @@ public class MultipleDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return "multiple";
+			return "multiple";
 		}
 	}
 }

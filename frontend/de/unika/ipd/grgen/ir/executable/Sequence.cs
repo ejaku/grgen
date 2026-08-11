@@ -42,11 +42,11 @@ public class Sequence : Identifiable, ContainedInPackage
 	{
 		get
 		{
-		return packageContainedIn;
+			return packageContainedIn;
 		}
 		set
 		{
-		this.packageContainedIn = value;
+			this.packageContainedIn = value;
 		}
 	}
 
@@ -55,7 +55,7 @@ public class Sequence : Identifiable, ContainedInPackage
 	{
 		get
 		{
-		return exec;
+			return exec;
 		}
 	}
 
@@ -68,7 +68,7 @@ public class Sequence : Identifiable, ContainedInPackage
 	{
 		get
 		{
-		return inParams.AsReadOnly();
+			return inParams.AsReadOnly();
 		}
 	}
 
@@ -81,7 +81,7 @@ public class Sequence : Identifiable, ContainedInPackage
 	{
 		get
 		{
-		return outParams.AsReadOnly();
+			return outParams.AsReadOnly();
 		}
 	}
 }

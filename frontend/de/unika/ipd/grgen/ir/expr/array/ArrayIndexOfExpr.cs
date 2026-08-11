@@ -36,7 +36,7 @@ public class ArrayIndexOfExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return valueExpr;
+			return valueExpr;
 		}
 	}
 
@@ -44,7 +44,7 @@ public class ArrayIndexOfExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return startIndexExpr;
+			return startIndexExpr;
 		}
 	}
 

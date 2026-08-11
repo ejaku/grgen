@@ -56,12 +56,12 @@ public class StringIndexOfNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(stringExpr);
-		children.Add(stringToSearchForExpr);
-		if(startIndexExpr != null)
-			children.Add(startIndexExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(stringExpr);
+			children.Add(stringToSearchForExpr);
+			if(startIndexExpr != null)
+				children.Add(startIndexExpr);
+			return children;
 		}
 	}
 
@@ -69,12 +69,12 @@ public class StringIndexOfNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("string");
-		childrenNames.Add("stringToSearchFor");
-		if(startIndexExpr != null)
-			childrenNames.Add("startIndex");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("string");
+			childrenNames.Add("stringToSearchFor");
+			if(startIndexExpr != null)
+				childrenNames.Add("startIndex");
+			return childrenNames;
 		}
 	}
 
@@ -124,7 +124,7 @@ public class StringIndexOfNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 }

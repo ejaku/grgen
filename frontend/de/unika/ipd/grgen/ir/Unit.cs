@@ -91,7 +91,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return models.AsReadOnly();
+			return models.AsReadOnly();
 		}
 	}
 
@@ -106,7 +106,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return subpatternRules.AsReadOnly();
+			return subpatternRules.AsReadOnly();
 		}
 	}
 
@@ -121,7 +121,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return actionRules.AsReadOnly();
+			return actionRules.AsReadOnly();
 		}
 	}
 
@@ -136,7 +136,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return filterFunctions.AsReadOnly();
+			return filterFunctions.AsReadOnly();
 		}
 	}
 
@@ -151,7 +151,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return matchClasses.AsReadOnly();
+			return matchClasses.AsReadOnly();
 		}
 	}
 
@@ -166,7 +166,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return matchClassFilterFunctions.AsReadOnly();
+			return matchClassFilterFunctions.AsReadOnly();
 		}
 	}
 
@@ -181,7 +181,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return functions.AsReadOnly();
+			return functions.AsReadOnly();
 		}
 	}
 
@@ -196,7 +196,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return procedures.AsReadOnly();
+			return procedures.AsReadOnly();
 		}
 	}
 
@@ -211,7 +211,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return sequences.AsReadOnly();
+			return sequences.AsReadOnly();
 		}
 	}
 
@@ -226,7 +226,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return packages.AsReadOnly();
+			return packages.AsReadOnly();
 		}
 	}
 
@@ -234,7 +234,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return models[0];
+			return models[0];
 		}
 	}
 
@@ -242,7 +242,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return models[0].Ident.ToString();
+			return models[0].Ident.ToString();
 		}
 	}
 
@@ -251,7 +251,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return unitName;
+			return unitName;
 		}
 	}
 
@@ -260,7 +260,7 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		return filename;
+			return filename;
 		}
 	}
 
@@ -315,10 +315,10 @@ public class Unit : IR, ActionsBearer
 	{
 		get
 		{
-		if(!digestValid)
-			BuildDigest();
+			if(!digestValid)
+				BuildDigest();
 
-		return digest;
+			return digest;
 		}
 	}
 

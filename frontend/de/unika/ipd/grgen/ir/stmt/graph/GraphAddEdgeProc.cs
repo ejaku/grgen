@@ -38,7 +38,7 @@ public class GraphAddEdgeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return edgeType;
+			return edgeType;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class GraphAddEdgeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return sourceNode;
+			return sourceNode;
 		}
 	}
 
@@ -54,7 +54,7 @@ public class GraphAddEdgeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return targetNode;
+			return targetNode;
 		}
 	}
 

@@ -71,11 +71,11 @@ public class ForFunctionNode : ForGraphQueryNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
-		children.Add(ValidFunction);
-		children.Add(statements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
+			children.Add(ValidFunction);
+			children.Add(statements);
+			return children;
 		}
 	}
 
@@ -85,11 +85,11 @@ public class ForFunctionNode : ForGraphQueryNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterationVariable");
-		childrenNames.Add("function");
-		childrenNames.Add("loopedStatements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterationVariable");
+			childrenNames.Add("function");
+			childrenNames.Add("loopedStatements");
+			return childrenNames;
 		}
 	}
 
@@ -181,7 +181,7 @@ public class ForFunctionNode : ForGraphQueryNode
 	{
 		get
 		{
-		return function != null ? (FunctionOrBuiltinFunctionInvocationBaseNode)function : (FunctionOrBuiltinFunctionInvocationBaseNode)indexFunction;
+			return function != null ? (FunctionOrBuiltinFunctionInvocationBaseNode)function : (FunctionOrBuiltinFunctionInvocationBaseNode)indexFunction;
 		}
 	}
 

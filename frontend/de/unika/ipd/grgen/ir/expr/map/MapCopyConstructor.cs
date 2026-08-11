@@ -38,7 +38,7 @@ public class MapCopyConstructor : Expression
 	{
 		get
 		{
-		return mapToCopy;
+			return mapToCopy;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class MapCopyConstructor : Expression
 	{
 		get
 		{
-		return mapType;
+			return mapType;
 		}
 	}
 }

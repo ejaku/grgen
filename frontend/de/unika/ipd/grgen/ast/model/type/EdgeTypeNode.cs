@@ -90,11 +90,11 @@ public abstract class EdgeTypeNode : InheritanceTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(extendUnresolved, extend));
-		children.Add(GetValidVersionCollectNode(bodyUnresolved, body));
-		children.Add(cas);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(extendUnresolved, extend));
+			children.Add(GetValidVersionCollectNode(bodyUnresolved, body));
+			children.Add(cas);
+			return children;
 		}
 	}
 
@@ -104,11 +104,11 @@ public abstract class EdgeTypeNode : InheritanceTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("extends");
-		childrenNames.Add("body");
-		childrenNames.Add("cas");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("extends");
+			childrenNames.Add("body");
+			childrenNames.Add("cas");
+			return childrenNames;
 		}
 	}
 
@@ -181,38 +181,38 @@ public abstract class EdgeTypeNode : InheritanceTypeNode
 	{
 		get
 		{
-		// return connection assertions to copy to prevent iterator from becoming stale, copied after iteration 
-		IList<ConnAssertNode> connAssertsToCopy = new List<ConnAssertNode>();
-		IList<ConnAssertNode> connAssertsToDelete = new List<ConnAssertNode>();
-		bool alreadyCopiedExtends = false;
-		foreach(ConnAssertNode ca in cas.ChildrenExact)
-		{
-			if(ca.copyExtends)
+			// return connection assertions to copy to prevent iterator from becoming stale, copied after iteration 
+			IList<ConnAssertNode> connAssertsToCopy = new List<ConnAssertNode>();
+			IList<ConnAssertNode> connAssertsToDelete = new List<ConnAssertNode>();
+			bool alreadyCopiedExtends = false;
+			foreach(ConnAssertNode ca in cas.ChildrenExact)
 			{
-				if(alreadyCopiedExtends)
-					ReportWarning("more than one copy extends only causes double work without benefit");
-
-				foreach(EdgeTypeNode parent in extend.ChildrenExact)
+				if(ca.copyExtends)
 				{
-					foreach(ConnAssertNode caToCopy in parent.cas.ChildrenExact)
+					if(alreadyCopiedExtends)
+						ReportWarning("more than one copy extends only causes double work without benefit");
+
+					foreach(EdgeTypeNode parent in extend.ChildrenExact)
 					{
-						if(caToCopy.copyExtends)
+						foreach(ConnAssertNode caToCopy in parent.cas.ChildrenExact)
 						{
-							ReportError("Internal error: copy extends in parent while copying connection assertions from parent.");
-							Debug.Assert(false);
+							if(caToCopy.copyExtends)
+							{
+								ReportError("Internal error: copy extends in parent while copying connection assertions from parent.");
+								Debug.Assert(false);
+							}
+							connAssertsToCopy.Add(caToCopy);
 						}
-						connAssertsToCopy.Add(caToCopy);
 					}
+
+					connAssertsToDelete.Add(ca);
+					alreadyCopiedExtends = true;
 				}
-
-				connAssertsToDelete.Add(ca);
-				alreadyCopiedExtends = true;
 			}
-		}
 
-		cas.ChildrenExact.RemoveAll(connAssertsToDelete);
+			cas.ChildrenExact.RemoveAll(connAssertsToDelete);
 
-		return connAssertsToCopy;
+			return connAssertsToCopy;
 		}
 	}
 
@@ -223,7 +223,7 @@ public abstract class EdgeTypeNode : InheritanceTypeNode
 	{
 		get
 		{
-		return CheckIR(typeof(EdgeType));
+			return CheckIR(typeof(EdgeType));
 		}
 	}
 
@@ -231,7 +231,7 @@ public abstract class EdgeTypeNode : InheritanceTypeNode
 	{
 		get
 		{
-		return "edge class";
+			return "edge class";
 		}
 	}
 
@@ -252,9 +252,9 @@ public abstract class EdgeTypeNode : InheritanceTypeNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return new List<InheritanceTypeNode>(extend.ChildrenExact);
+			return new List<InheritanceTypeNode>(extend.ChildrenExact);
 		}
 	}
 

@@ -50,7 +50,7 @@ public class DumpVisitor : GraphDumpVisitor
 		{
 			get
 			{
-			return prefix + GraphDumpable.GetNodeId();
+				return prefix + GraphDumpable.GetNodeId();
 			}
 		}
 

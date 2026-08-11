@@ -28,7 +28,7 @@ public class ArrayKeepOneForEachBy : ArrayFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return member;
+			return member;
 		}
 	}
 }

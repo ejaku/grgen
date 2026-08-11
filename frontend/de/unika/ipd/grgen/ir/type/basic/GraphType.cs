@@ -31,7 +31,7 @@ public class GraphType : PrimitiveType
 	{
 		get
 		{
-		return BasicTypeNode.graphType.CheckIR(typeof(Type));
+			return BasicTypeNode.graphType.CheckIR(typeof(Type));
 		}
 	}
 }

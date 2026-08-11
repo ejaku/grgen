@@ -44,9 +44,9 @@ public class UntypedFunctionMethodInvocationExprNode : FunctionInvocationBaseNod
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(arguments);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(arguments);
+			return children;
 		}
 	}
 
@@ -54,9 +54,9 @@ public class UntypedFunctionMethodInvocationExprNode : FunctionInvocationBaseNod
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("arguments");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("arguments");
+			return childrenNames;
 		}
 	}
 
@@ -74,8 +74,8 @@ public class UntypedFunctionMethodInvocationExprNode : FunctionInvocationBaseNod
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return BasicTypeNode.untypedType;
+			Debug.Assert(IsResolved());
+			return BasicTypeNode.untypedType;
 		}
 	}
 

@@ -42,7 +42,7 @@ public class DirectedEdgeTypeNode : EdgeTypeNode
 	{
 		set
 		{
-		value.Directedness = EdgeType.DirectednessKind.Directed;
+			value.Directedness = EdgeType.DirectednessKind.Directed;
 		}
 	}
 
@@ -50,7 +50,7 @@ public class DirectedEdgeTypeNode : EdgeTypeNode
 	{
 		get
 		{
-		return "directed edge class";
+			return "directed edge class";
 		}
 	}
 }

@@ -39,7 +39,7 @@ public abstract class IndexDeclNode : DeclNode
 	{
 		get
 		{
-		return "index";
+			return "index";
 		}
 	}
 }

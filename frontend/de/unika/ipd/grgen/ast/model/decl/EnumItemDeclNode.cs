@@ -63,11 +63,11 @@ public class EnumItemDeclNode : MemberDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		children.Add(value);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			children.Add(value);
+			return children;
 		}
 	}
 
@@ -77,11 +77,11 @@ public class EnumItemDeclNode : MemberDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("value");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("value");
+			return childrenNames;
 		}
 	}
 
@@ -188,9 +188,9 @@ public class EnumItemDeclNode : MemberDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 
@@ -198,18 +198,18 @@ public class EnumItemDeclNode : MemberDeclNode
 	{
 		get
 		{
-		if(constValue != null)
+			if(constValue != null)
+				return constValue;
+
+			if(!(value is ConstNode))
+				return value;
+
+			object obj = ((ConstNode)value).Value;
+			int v = ((int?)obj).Value;
+			debug.Report(NOTE, "result: " + value);
+
+			constValue = new EnumConstNode(Coords, Ident, v);
 			return constValue;
-
-		if(!(value is ConstNode))
-			return value;
-
-		object obj = ((ConstNode)value).Value;
-		int v = ((int?)obj).Value;
-		debug.Report(NOTE, "result: " + value);
-
-		constValue = new EnumConstNode(Coords, Ident, v);
-		return constValue;
 		}
 	}
 
@@ -217,7 +217,7 @@ public class EnumItemDeclNode : MemberDeclNode
 	{
 		get
 		{
-		return CheckIR(typeof(EnumItem));
+			return CheckIR(typeof(EnumItem));
 		}
 	}
 
@@ -233,7 +233,7 @@ public class EnumItemDeclNode : MemberDeclNode
 	{
 		get
 		{
-		return "enum item";
+			return "enum item";
 		}
 	}
 }

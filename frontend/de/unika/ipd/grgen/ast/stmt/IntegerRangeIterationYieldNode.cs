@@ -61,12 +61,12 @@ public class IntegerRangeIterationYieldNode : NestingStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
-		children.Add(leftExpr);
-		children.Add(rightExpr);
-		children.Add(statements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
+			children.Add(leftExpr);
+			children.Add(rightExpr);
+			children.Add(statements);
+			return children;
 		}
 	}
 
@@ -76,12 +76,12 @@ public class IntegerRangeIterationYieldNode : NestingStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterationVariable");
-		childrenNames.Add("left");
-		childrenNames.Add("right");
-		childrenNames.Add("accumulationStatements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterationVariable");
+			childrenNames.Add("left");
+			childrenNames.Add("right");
+			childrenNames.Add("accumulationStatements");
+			return childrenNames;
 		}
 	}
 

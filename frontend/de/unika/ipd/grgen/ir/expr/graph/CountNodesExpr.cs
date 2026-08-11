@@ -26,7 +26,7 @@ public class CountNodesExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return nodeType;
+			return nodeType;
 		}
 	}
 

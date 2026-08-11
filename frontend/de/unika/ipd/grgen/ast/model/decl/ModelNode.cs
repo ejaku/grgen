@@ -124,16 +124,16 @@ public class ModelNode : DeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		children.Add(GetValidVersionCollectNode(packagesUnresolved, packages));
-		children.Add(GetValidVersionCollectNode(declsUnresolved, decls));
-		children.Add(GetValidVersionCollectNode(externalFuncDeclsUnresolved, externalFuncDecls));
-		children.Add(GetValidVersionCollectNode(externalProcDeclsUnresolved, externalProcDecls));
-		children.Add(GetValidVersionCollectNode(indicesUnresolved, indices));
-		children.Add(usedModels);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			children.Add(GetValidVersionCollectNode(packagesUnresolved, packages));
+			children.Add(GetValidVersionCollectNode(declsUnresolved, decls));
+			children.Add(GetValidVersionCollectNode(externalFuncDeclsUnresolved, externalFuncDecls));
+			children.Add(GetValidVersionCollectNode(externalProcDeclsUnresolved, externalProcDecls));
+			children.Add(GetValidVersionCollectNode(indicesUnresolved, indices));
+			children.Add(usedModels);
+			return children;
 		}
 	}
 
@@ -143,16 +143,16 @@ public class ModelNode : DeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("packages");
-		childrenNames.Add("decls");
-		childrenNames.Add("externalFuncDecls");
-		childrenNames.Add("externalProcDecls");
-		childrenNames.Add("indices");
-		childrenNames.Add("usedModels");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("packages");
+			childrenNames.Add("decls");
+			childrenNames.Add("externalFuncDecls");
+			childrenNames.Add("externalProcDecls");
+			childrenNames.Add("indices");
+			childrenNames.Add("usedModels");
+			return childrenNames;
 		}
 	}
 
@@ -273,7 +273,7 @@ public class ModelNode : DeclNode
 	{
 		get
 		{
-		return decls;
+			return decls;
 		}
 	}
 
@@ -281,7 +281,7 @@ public class ModelNode : DeclNode
 	{
 		get
 		{
-		return indices;
+			return indices;
 		}
 	}
 
@@ -289,7 +289,7 @@ public class ModelNode : DeclNode
 	{
 		get
 		{
-		return usedModels;
+			return usedModels;
 		}
 	}
 
@@ -297,7 +297,7 @@ public class ModelNode : DeclNode
 	{
 		get
 		{
-		return packages;
+			return packages;
 		}
 	}
 
@@ -308,7 +308,7 @@ public class ModelNode : DeclNode
 	{
 		get
 		{
-		return CheckIR(typeof(Model));
+			return CheckIR(typeof(Model));
 		}
 	}
 
@@ -412,9 +412,9 @@ public class ModelNode : DeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 }

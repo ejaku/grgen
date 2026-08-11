@@ -28,9 +28,9 @@ public class DebugHaltProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		foreach(Expression expr in exprs)
-			return expr;
-		return null;
+			foreach(Expression expr in exprs)
+				return expr;
+			return null;
 		}
 	}
 
@@ -38,7 +38,7 @@ public class DebugHaltProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return exprs;
+			return exprs;
 		}
 	}
 

@@ -46,10 +46,10 @@ public class StringStartsWithNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(stringExpr);
-		children.Add(stringToSearchForExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(stringExpr);
+			children.Add(stringToSearchForExpr);
+			return children;
 		}
 	}
 
@@ -57,10 +57,10 @@ public class StringStartsWithNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("string");
-		childrenNames.Add("stringToSearchFor");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("string");
+			childrenNames.Add("stringToSearchFor");
+			return childrenNames;
 		}
 	}
 
@@ -93,7 +93,7 @@ public class StringStartsWithNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 }

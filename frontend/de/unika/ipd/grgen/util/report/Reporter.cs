@@ -48,7 +48,7 @@ public abstract class Reporter
 	{
 		set
 		{
-		this.mask = value;
+			this.mask = value;
 		}
 	}
 

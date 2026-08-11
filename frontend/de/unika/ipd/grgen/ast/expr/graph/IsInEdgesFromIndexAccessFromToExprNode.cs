@@ -46,14 +46,14 @@ public class IsInEdgesFromIndexAccessFromToExprNode : FromIndexAccessFromToExprN
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(candidateExpr);
-		children.Add(GetValidVersion(indexUnresolved, index));
-		if(fromExpr != null)
-			children.Add(fromExpr);
-		if(toExpr != null)
-			children.Add(toExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(candidateExpr);
+			children.Add(GetValidVersion(indexUnresolved, index));
+			if(fromExpr != null)
+				children.Add(fromExpr);
+			if(toExpr != null)
+				children.Add(toExpr);
+			return children;
 		}
 	}
 
@@ -63,14 +63,14 @@ public class IsInEdgesFromIndexAccessFromToExprNode : FromIndexAccessFromToExprN
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("candidateExpr");
-		childrenNames.Add("index");
-		if(fromExpr != null)
-			childrenNames.Add("fromExpr");
-		if(toExpr != null)
-			childrenNames.Add("toExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("candidateExpr");
+			childrenNames.Add("index");
+			if(fromExpr != null)
+				childrenNames.Add("fromExpr");
+			if(toExpr != null)
+				childrenNames.Add("toExpr");
+			return childrenNames;
 		}
 	}
 
@@ -107,7 +107,7 @@ public class IsInEdgesFromIndexAccessFromToExprNode : FromIndexAccessFromToExprN
 	{
 		get
 		{
-		return EdgeRoot;
+			return EdgeRoot;
 		}
 	}
 
@@ -120,7 +120,7 @@ public class IsInEdgesFromIndexAccessFromToExprNode : FromIndexAccessFromToExprN
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 

@@ -36,7 +36,7 @@ public class MapEmptyNode : MapFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 

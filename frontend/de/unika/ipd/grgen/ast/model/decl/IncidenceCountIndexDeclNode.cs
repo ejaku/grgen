@@ -76,12 +76,12 @@ public class IncidenceCountIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(startNodeTypeUnresolved, startNodeType));
-		children.Add(GetValidVersion(incidentEdgeTypeUnresolved, incidentEdgeType));
-		children.Add(GetValidVersion(adjacentNodeTypeUnresolved, adjacentNodeType));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(startNodeTypeUnresolved, startNodeType));
+			children.Add(GetValidVersion(incidentEdgeTypeUnresolved, incidentEdgeType));
+			children.Add(GetValidVersion(adjacentNodeTypeUnresolved, adjacentNodeType));
+			return children;
 		}
 	}
 
@@ -91,12 +91,12 @@ public class IncidenceCountIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("startNodeType");
-		childrenNames.Add("incidentEdgeType");
-		childrenNames.Add("adjacentNodeType");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("startNodeType");
+			childrenNames.Add("incidentEdgeType");
+			childrenNames.Add("adjacentNodeType");
+			return childrenNames;
 		}
 	}
 
@@ -175,9 +175,9 @@ public class IncidenceCountIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return incidenceCountIndexType;
+			return incidenceCountIndexType;
 		}
 	}
 
@@ -185,9 +185,9 @@ public class IncidenceCountIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return startNodeType;
+			return startNodeType;
 		}
 	}
 
@@ -195,9 +195,9 @@ public class IncidenceCountIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return IntTypeNode.intType;
+			return IntTypeNode.intType;
 		}
 	}
 
@@ -214,7 +214,7 @@ public class IncidenceCountIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		return "incidence count index";
+			return "incidence count index";
 		}
 	}
 }

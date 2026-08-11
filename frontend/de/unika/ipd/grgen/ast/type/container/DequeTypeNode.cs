@@ -37,7 +37,7 @@ public class DequeTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		return "deque<" + valueTypeUnresolved.ToString() + ">";
+			return "deque<" + valueTypeUnresolved.ToString() + ">";
 		}
 	}
 
@@ -54,9 +54,9 @@ public class DequeTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		// no children
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			// no children
+			return children;
 		}
 	}
 
@@ -64,9 +64,9 @@ public class DequeTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// no children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// no children
+			return childrenNames;
 		}
 	}
 
@@ -117,7 +117,7 @@ public class DequeTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		return valueType;
+			return valueType;
 		}
 	}
 

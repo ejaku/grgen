@@ -33,7 +33,7 @@ public class MatchInit : Expression
 	{
 		get
 		{
-		return matchType;
+			return matchType;
 		}
 	}
 }

@@ -38,7 +38,7 @@ public abstract class MapProcedureMethodInvocationBaseNode : ContainerProcedureM
 	{
 		get
 		{
-		return (MapTypeNode)TargetType;
+			return (MapTypeNode)TargetType;
 		}
 	}
 }

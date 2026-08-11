@@ -98,19 +98,19 @@ public abstract class InheritanceTypeNode : CompoundTypeNode, MemberAccessor
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		if(allSubTypes == null)
-		{
-			allSubTypes = new HashSet<InheritanceTypeNode>();
-
-			foreach(InheritanceTypeNode type in directSubTypes)
+			if(allSubTypes == null)
 			{
-				allSubTypes.AddAll(type.AllSubTypes);
-				allSubTypes.Add(type);
+				allSubTypes = new HashSet<InheritanceTypeNode>();
+
+				foreach(InheritanceTypeNode type in directSubTypes)
+				{
+					allSubTypes.AddAll(type.AllSubTypes);
+					allSubTypes.Add(type);
+				}
 			}
-		}
-		return allSubTypes;
+			return allSubTypes;
 		}
 	}
 
@@ -126,17 +126,17 @@ public abstract class InheritanceTypeNode : CompoundTypeNode, MemberAccessor
 	{
 		get
 		{
-		if(allSuperTypes == null)
-		{
-			allSuperTypes = new HashSet<InheritanceTypeNode>();
-
-			foreach(InheritanceTypeNode type in DirectSuperTypes)
+			if(allSuperTypes == null)
 			{
-				allSuperTypes.AddAll(type.AllSuperTypes);
-				allSuperTypes.Add(type);
+				allSuperTypes = new HashSet<InheritanceTypeNode>();
+
+				foreach(InheritanceTypeNode type in DirectSuperTypes)
+				{
+					allSuperTypes.AddAll(type.AllSuperTypes);
+					allSuperTypes.Add(type);
+				}
 			}
-		}
-		return allSuperTypes;
+			return allSuperTypes;
 		}
 	}
 
@@ -162,7 +162,7 @@ public abstract class InheritanceTypeNode : CompoundTypeNode, MemberAccessor
 	{
 		get
 		{
-		return body;
+			return body;
 		}
 	}
 
@@ -257,7 +257,7 @@ public abstract class InheritanceTypeNode : CompoundTypeNode, MemberAccessor
 	{
 		get
 		{
-		return InheritanceIRType;
+			return InheritanceIRType;
 		}
 	}
 
@@ -265,7 +265,7 @@ public abstract class InheritanceTypeNode : CompoundTypeNode, MemberAccessor
 	{
 		get
 		{
-		return CheckIR(typeof(InheritanceType));
+			return CheckIR(typeof(InheritanceType));
 		}
 	}
 
@@ -299,7 +299,7 @@ public abstract class InheritanceTypeNode : CompoundTypeNode, MemberAccessor
 	{
 		set
 		{
-		this.modifiers = value;
+			this.modifiers = value;
 		}
 	}
 
@@ -317,7 +317,7 @@ public abstract class InheritanceTypeNode : CompoundTypeNode, MemberAccessor
 	{
 		get
 		{
-		return (IsAbstract() ? InheritanceType.ABSTRACT : 0) | (IsConst() ? InheritanceType.CONST : 0);
+			return (IsAbstract() ? InheritanceType.ABSTRACT : 0) | (IsConst() ? InheritanceType.CONST : 0);
 		}
 	}
 
@@ -325,11 +325,11 @@ public abstract class InheritanceTypeNode : CompoundTypeNode, MemberAccessor
 	{
 		set
 		{
-		externalName = value;
+			externalName = value;
 		}
 		get
 		{
-		return externalName;
+			return externalName;
 		}
 	}
 
@@ -463,17 +463,17 @@ public abstract class InheritanceTypeNode : CompoundTypeNode, MemberAccessor
 	{
 		get
 		{
-		if(allMembers == null)
-		{
-			allMembers = new LinkedHashMap<string, DeclNode>();
+			if(allMembers == null)
+			{
+				allMembers = new LinkedHashMap<string, DeclNode>();
 
-			foreach(InheritanceTypeNode superType in DirectSuperTypes)
-				allMembers.PutAll(superType.AllMembers);
+				foreach(InheritanceTypeNode superType in DirectSuperTypes)
+					allMembers.PutAll(superType.AllMembers);
 
-			GetMembers(allMembers);
-		}
+				GetMembers(allMembers);
+			}
 
-		return allMembers;
+			return allMembers;
 		}
 	}
 

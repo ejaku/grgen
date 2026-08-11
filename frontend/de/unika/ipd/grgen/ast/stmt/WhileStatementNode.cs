@@ -52,10 +52,10 @@ public class WhileStatementNode : NestingStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(conditionExpr);
-		children.Add(statements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(conditionExpr);
+			children.Add(statements);
+			return children;
 		}
 	}
 
@@ -65,10 +65,10 @@ public class WhileStatementNode : NestingStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("condition");
-		childrenNames.Add("loopedStatements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("condition");
+			childrenNames.Add("loopedStatements");
+			return childrenNames;
 		}
 	}
 

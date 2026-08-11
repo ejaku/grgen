@@ -45,7 +45,7 @@ public class CountNodesFromIndexAccessFromToExprNode : FromIndexAccessFromToExpr
 	{
 		get
 		{
-		return NodeRoot;
+			return NodeRoot;
 		}
 	}
 
@@ -58,7 +58,7 @@ public class CountNodesFromIndexAccessFromToExprNode : FromIndexAccessFromToExpr
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 

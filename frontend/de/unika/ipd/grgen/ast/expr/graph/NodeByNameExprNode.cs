@@ -49,10 +49,10 @@ public class NodeByNameExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(name);
-		children.Add(nodeType);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(name);
+			children.Add(nodeType);
+			return children;
 		}
 	}
 
@@ -62,10 +62,10 @@ public class NodeByNameExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("name");
-		childrenNames.Add("nodeType");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("name");
+			childrenNames.Add("nodeType");
+			return childrenNames;
 		}
 	}
 
@@ -105,7 +105,7 @@ public class NodeByNameExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return nodeType.Type;
+			return nodeType.Type;
 		}
 	}
 }

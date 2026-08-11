@@ -30,7 +30,7 @@ public class DequeVarRemoveItem : ContainerVarProcedureMethodInvocationBase
 	{
 		get
 		{
-		return indexExpr;
+			return indexExpr;
 		}
 	}
 

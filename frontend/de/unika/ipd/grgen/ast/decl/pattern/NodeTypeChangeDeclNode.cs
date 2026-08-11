@@ -62,13 +62,13 @@ public class NodeTypeChangeDeclNode : NodeDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
-		children.Add(constraints);
-		children.Add(GetValidVersion(oldUnresolved, old));
-		children.Add(GetValidVersionCollectNode(mergeesUnresolved, mergees));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
+			children.Add(constraints);
+			children.Add(GetValidVersion(oldUnresolved, old));
+			children.Add(GetValidVersionCollectNode(mergeesUnresolved, mergees));
+			return children;
 		}
 	}
 
@@ -78,13 +78,13 @@ public class NodeTypeChangeDeclNode : NodeDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("constraints");
-		childrenNames.Add("old");
-		childrenNames.Add("mergees");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("constraints");
+			childrenNames.Add("old");
+			childrenNames.Add("mergees");
+			return childrenNames;
 		}
 	}
 
@@ -111,9 +111,9 @@ public class NodeTypeChangeDeclNode : NodeDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return old;
+			return old;
 		}
 	}
 
@@ -122,9 +122,9 @@ public class NodeTypeChangeDeclNode : NodeDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return mergees.ChildrenExact;
+			return mergees.ChildrenExact;
 		}
 	}
 

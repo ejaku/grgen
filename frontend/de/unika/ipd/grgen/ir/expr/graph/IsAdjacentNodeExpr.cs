@@ -28,7 +28,7 @@ public class IsAdjacentNodeExpr : NeighborhoodQueryExpr
 	{
 		get
 		{
-		return endNodeExpr;
+			return endNodeExpr;
 		}
 	}
 

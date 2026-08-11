@@ -33,7 +33,7 @@ public class GraphRetypeNodeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return node;
+			return node;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class GraphRetypeNodeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return newNodeType;
+			return newNodeType;
 		}
 	}
 

@@ -47,7 +47,7 @@ public class EnumExpression : Constant
 	{
 		get
 		{
-		return item;
+			return item;
 		}
 	}
 
@@ -56,7 +56,7 @@ public class EnumExpression : Constant
 	{
 		get
 		{
-		return item + " " + Value;
+			return item + " " + Value;
 		}
 	}
 }

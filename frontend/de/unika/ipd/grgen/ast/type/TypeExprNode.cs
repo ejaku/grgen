@@ -43,7 +43,7 @@ public abstract class TypeExprNode : BaseNode
 	{
 		get
 		{
-		return EMPTY;
+			return EMPTY;
 		}
 	}
 
@@ -58,7 +58,7 @@ public abstract class TypeExprNode : BaseNode
 	{
 		get
 		{
-		return Color.CYAN;
+			return Color.CYAN;
 		}
 	}
 
@@ -66,7 +66,7 @@ public abstract class TypeExprNode : BaseNode
 	{
 		get
 		{
-		return "type expr " + op;
+			return "type expr " + op;
 		}
 	}
 }

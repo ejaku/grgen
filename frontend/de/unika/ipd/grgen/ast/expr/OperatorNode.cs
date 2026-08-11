@@ -143,10 +143,10 @@ public abstract class OperatorNode : ExprNode
 	{
 		get
 		{
-		if(operatorDecl == null)
-			operatorDecl = ComputeOperator();
+			if(operatorDecl == null)
+				operatorDecl = ComputeOperator();
 
-		return operatorDecl;
+			return operatorDecl;
 		}
 	}
 
@@ -154,7 +154,7 @@ public abstract class OperatorNode : ExprNode
 	{
 		get
 		{
-		return @operator;
+			return @operator;
 		}
 	}
 
@@ -168,7 +168,7 @@ public abstract class OperatorNode : ExprNode
 	{
 		get
 		{
-		return OperatorDecl.ResultType;
+			return OperatorDecl.ResultType;
 		}
 	}
 }

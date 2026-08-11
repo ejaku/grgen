@@ -60,12 +60,12 @@ public class DequeAddItemNode : DequeProcedureMethodInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ValidTarget);
-		children.Add(valueExpr);
-		if(indexExpr != null)
-			children.Add(indexExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ValidTarget);
+			children.Add(valueExpr);
+			if(indexExpr != null)
+				children.Add(indexExpr);
+			return children;
 		}
 	}
 
@@ -73,12 +73,12 @@ public class DequeAddItemNode : DequeProcedureMethodInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("target");
-		childrenNames.Add("valueExpr");
-		if(indexExpr != null)
-			childrenNames.Add("indexExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("target");
+			childrenNames.Add("valueExpr");
+			if(indexExpr != null)
+				childrenNames.Add("indexExpr");
+			return childrenNames;
 		}
 	}
 

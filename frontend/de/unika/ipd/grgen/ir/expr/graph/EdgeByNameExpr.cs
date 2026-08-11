@@ -28,7 +28,7 @@ public class EdgeByNameExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return name;
+			return name;
 		}
 	}
 
@@ -36,7 +36,7 @@ public class EdgeByNameExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return edgeType;
+			return edgeType;
 		}
 	}
 

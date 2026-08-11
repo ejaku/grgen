@@ -63,7 +63,7 @@ public class IsReachableEdgeExprNode : IsInEdgeNeighborhoodQueryExprNode
 	{
 		get
 		{
-		return BooleanTypeNode.booleanType;
+			return BooleanTypeNode.booleanType;
 		}
 	}
 }

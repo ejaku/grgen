@@ -60,11 +60,11 @@ public class IteratedAccumulationYieldNode : NestingStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
-		children.Add(GetValidVersion(iteratedUnresolved, iterated));
-		children.Add(statements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
+			children.Add(GetValidVersion(iteratedUnresolved, iterated));
+			children.Add(statements);
+			return children;
 		}
 	}
 
@@ -74,11 +74,11 @@ public class IteratedAccumulationYieldNode : NestingStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterationVariable");
-		childrenNames.Add("iterated");
-		childrenNames.Add("accumulationStatements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterationVariable");
+			childrenNames.Add("iterated");
+			childrenNames.Add("accumulationStatements");
+			return childrenNames;
 		}
 	}
 

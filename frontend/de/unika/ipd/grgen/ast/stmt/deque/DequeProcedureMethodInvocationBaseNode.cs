@@ -38,7 +38,7 @@ public abstract class DequeProcedureMethodInvocationBaseNode : ContainerProcedur
 	{
 		get
 		{
-		return (DequeTypeNode)TargetType;
+			return (DequeTypeNode)TargetType;
 		}
 	}
 }

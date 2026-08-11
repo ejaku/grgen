@@ -49,11 +49,11 @@ public abstract class MatchClassFilterFunction : Identifiable, MatchClassFilter,
 	{
 		set
 		{
-		this.matchClass = value;
+			this.matchClass = value;
 		}
 		get
 		{
-		return matchClass;
+			return matchClass;
 		}
 	}
 
@@ -62,11 +62,11 @@ public abstract class MatchClassFilterFunction : Identifiable, MatchClassFilter,
 	{
 		get
 		{
-		return packageContainedIn;
+			return packageContainedIn;
 		}
 		set
 		{
-		this.packageContainedIn = value;
+			this.packageContainedIn = value;
 		}
 	}
 
@@ -75,7 +75,7 @@ public abstract class MatchClassFilterFunction : Identifiable, MatchClassFilter,
 	{
 		get
 		{
-		return Ident.ToString();
+			return Ident.ToString();
 		}
 	}
 
@@ -92,7 +92,7 @@ public abstract class MatchClassFilterFunction : Identifiable, MatchClassFilter,
 	{
 		get
 		{
-		return @params.AsReadOnly();
+			return @params.AsReadOnly();
 		}
 	}
 
@@ -102,13 +102,13 @@ public abstract class MatchClassFilterFunction : Identifiable, MatchClassFilter,
 	{
 		get
 		{
-		if(parameterTypes == null)
-		{
-			parameterTypes = new List<Type>();
-			foreach(Entity entity in Parameters)
-				parameterTypes.Add(entity.Type);
-		}
-		return parameterTypes.AsReadOnly();
+			if(parameterTypes == null)
+			{
+				parameterTypes = new List<Type>();
+				foreach(Entity entity in Parameters)
+					parameterTypes.Add(entity.Type);
+			}
+			return parameterTypes.AsReadOnly();
 		}
 	}
 }

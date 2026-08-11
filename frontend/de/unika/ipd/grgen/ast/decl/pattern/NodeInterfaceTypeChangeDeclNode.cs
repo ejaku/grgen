@@ -50,12 +50,12 @@ public class NodeInterfaceTypeChangeDeclNode : NodeDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
-		children.Add(constraints);
-		children.Add(GetValidVersion(interfaceTypeUnresolved, interfaceType));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
+			children.Add(constraints);
+			children.Add(GetValidVersion(interfaceTypeUnresolved, interfaceType));
+			return children;
 		}
 	}
 
@@ -65,12 +65,12 @@ public class NodeInterfaceTypeChangeDeclNode : NodeDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("constraints");
-		childrenNames.Add("interfaceType");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("constraints");
+			childrenNames.Add("interfaceType");
+			return childrenNames;
 		}
 	}
 

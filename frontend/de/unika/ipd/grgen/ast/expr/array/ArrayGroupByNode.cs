@@ -73,7 +73,7 @@ public class ArrayGroupByNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return TargetType;
+			return TargetType;
 		}
 	}
 
@@ -81,9 +81,9 @@ public class ArrayGroupByNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		if(member != null)
-			return member.DeclType;
-		return null;
+			if(member != null)
+				return member.DeclType;
+			return null;
 		}
 	}
 

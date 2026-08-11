@@ -41,12 +41,12 @@ public abstract class MatchNodeFromByStorageDeclNode : NodeDeclNode
 	{
 		get
 		{
-		if(storage != null)
-			return storage.DeclType;
-		else if(storageGlobalVariable != null)
-			return storageGlobalVariable.DeclType;
-		else
-			return storageAttribute.Decl.DeclType;
+			if(storage != null)
+				return storage.DeclType;
+			else if(storageGlobalVariable != null)
+				return storageGlobalVariable.DeclType;
+			else
+				return storageAttribute.Decl.DeclType;
 		}
 	}
 
@@ -54,12 +54,12 @@ public abstract class MatchNodeFromByStorageDeclNode : NodeDeclNode
 	{
 		get
 		{
-		if(storage != null)
-			return storage.ToString();
-		else if(storageGlobalVariable != null)
-			return storageGlobalVariable.ToString();
-		else
-			return storageAttribute.ToString();
+			if(storage != null)
+				return storage.ToString();
+			else if(storageGlobalVariable != null)
+				return storageGlobalVariable.ToString();
+			else
+				return storageAttribute.ToString();
 		}
 	}
 }

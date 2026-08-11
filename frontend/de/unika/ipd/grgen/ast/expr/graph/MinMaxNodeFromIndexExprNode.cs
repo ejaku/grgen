@@ -41,9 +41,9 @@ public class MinMaxNodeFromIndexExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(indexUnresolved, index));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(indexUnresolved, index));
+			return children;
 		}
 	}
 
@@ -53,9 +53,9 @@ public class MinMaxNodeFromIndexExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("index");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("index");
+			return childrenNames;
 		}
 	}
 
@@ -75,7 +75,7 @@ public class MinMaxNodeFromIndexExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		return NodeRoot;
+			return NodeRoot;
 		}
 	}
 
@@ -88,7 +88,7 @@ public class MinMaxNodeFromIndexExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		return Root.Decl.GetDeclType();
+			return Root.Decl.GetDeclType();
 		}
 	}
 

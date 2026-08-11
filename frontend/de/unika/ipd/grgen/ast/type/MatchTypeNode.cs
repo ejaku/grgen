@@ -30,7 +30,7 @@ public abstract class MatchTypeNode : DeclaredTypeNode, MemberAccessor
 	{
 		get
 		{
-		return TypeName;
+			return TypeName;
 		}
 	}
 
@@ -43,14 +43,14 @@ public abstract class MatchTypeNode : DeclaredTypeNode, MemberAccessor
 	{
 		get
 		{
-		ISet<string> set = new HashSet<string>();
-		foreach(DeclNode entity in Entities)
-		{
-			string name = entity.ident.ToString();
-			if(!name.StartsWith("$", StringComparison.Ordinal))
-				set.Add(name);
-		}
-		return set;
+			ISet<string> set = new HashSet<string>();
+			foreach(DeclNode entity in Entities)
+			{
+				string name = entity.ident.ToString();
+				if(!name.StartsWith("$", StringComparison.Ordinal))
+					set.Add(name);
+			}
+			return set;
 		}
 	}
 }

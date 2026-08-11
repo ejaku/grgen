@@ -51,10 +51,10 @@ public class LockStatementNode : NestingStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(lockObjectExpr);
-		children.Add(statements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(lockObjectExpr);
+			children.Add(statements);
+			return children;
 		}
 	}
 
@@ -64,10 +64,10 @@ public class LockStatementNode : NestingStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("lockObject");
-		childrenNames.Add("lockedStatements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("lockObject");
+			childrenNames.Add("lockedStatements");
+			return childrenNames;
 		}
 	}
 

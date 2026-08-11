@@ -42,7 +42,7 @@ public class Operator : Expression
 	{
 		get
 		{
-		return opCode;
+			return opCode;
 		}
 	}
 
@@ -77,8 +77,8 @@ public class Operator : Expression
 	{
 		get
 		{
-		return Type.Ident + " " + opCode.ToString().ToLower()
-				+ "(" + opCode + ")";
+			return Type.Ident + " " + opCode.ToString().ToLower()
+					+ "(" + opCode + ")";
 		}
 	}
 
@@ -86,7 +86,7 @@ public class Operator : Expression
 	{
 		get
 		{
-		return operands;
+			return operands;
 		}
 	}
 

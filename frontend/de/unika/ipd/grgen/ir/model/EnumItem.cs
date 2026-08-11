@@ -40,7 +40,7 @@ public class EnumItem : Identifiable
 	{
 		get
 		{
-		return id;
+			return id;
 		}
 	}
 
@@ -57,7 +57,7 @@ public class EnumItem : Identifiable
 	{
 		get
 		{
-		return value;
+			return value;
 		}
 	}
 
@@ -66,10 +66,10 @@ public class EnumItem : Identifiable
 	{
 		get
 		{
-		ISet<IR> res = new HashSet<IR>();
-		res.Add(id);
-		res.Add(value);
-		return res;
+			ISet<IR> res = new HashSet<IR>();
+			res.Add(id);
+			res.Add(value);
+			return res;
 		}
 	}
 }

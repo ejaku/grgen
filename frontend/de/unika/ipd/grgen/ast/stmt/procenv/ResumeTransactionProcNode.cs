@@ -38,8 +38,8 @@ public class ResumeTransactionProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			return children;
 		}
 	}
 
@@ -47,8 +47,8 @@ public class ResumeTransactionProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			return childrenNames;
 		}
 	}
 

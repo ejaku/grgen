@@ -31,7 +31,7 @@ public class GraphAddNodeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return nodeType;
+			return nodeType;
 		}
 	}
 

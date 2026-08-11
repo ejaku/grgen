@@ -30,7 +30,7 @@ public class EmptyLocation : Location
 	{
 		get
 		{
-		return "<nowhere>";
+			return "<nowhere>";
 		}
 	}
 
@@ -49,7 +49,7 @@ public class EmptyLocation : Location
 	{
 		get
 		{
-		return EMPTY;
+			return EMPTY;
 		}
 	}
 }

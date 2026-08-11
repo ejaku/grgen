@@ -74,13 +74,13 @@ public class MatchClassFilterFunctionDeclNode : DeclNode, MatchClassFilterCharac
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		if(evalStatements != null)
-			children.Add(evalStatements);
-		children.Add(paramsUnresolved);
-		children.Add(matchTypeUnresolved);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			if(evalStatements != null)
+				children.Add(evalStatements);
+			children.Add(paramsUnresolved);
+			children.Add(matchTypeUnresolved);
+			return children;
 		}
 	}
 
@@ -90,13 +90,13 @@ public class MatchClassFilterFunctionDeclNode : DeclNode, MatchClassFilterCharac
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		if(evalStatements != null)
-			childrenNames.Add("evals");
-		childrenNames.Add("params");
-		childrenNames.Add("matchType");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			if(evalStatements != null)
+				childrenNames.Add("evals");
+			childrenNames.Add("params");
+			childrenNames.Add("matchType");
+			return childrenNames;
 		}
 	}
 
@@ -141,7 +141,7 @@ public class MatchClassFilterFunctionDeclNode : DeclNode, MatchClassFilterCharac
 	{
 		get
 		{
-		return Ident.ToString();
+			return Ident.ToString();
 		}
 	}
 
@@ -149,7 +149,7 @@ public class MatchClassFilterFunctionDeclNode : DeclNode, MatchClassFilterCharac
 	{
 		get
 		{
-		return matchType;
+			return matchType;
 		}
 	}
 
@@ -159,7 +159,7 @@ public class MatchClassFilterFunctionDeclNode : DeclNode, MatchClassFilterCharac
 	{
 		get
 		{
-		return CheckIR(typeof(MatchClassFilterFunction));
+			return CheckIR(typeof(MatchClassFilterFunction));
 		}
 	}
 
@@ -167,9 +167,9 @@ public class MatchClassFilterFunctionDeclNode : DeclNode, MatchClassFilterCharac
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return filterFunctionType;
+			return filterFunctionType;
 		}
 	}
 
@@ -177,13 +177,13 @@ public class MatchClassFilterFunctionDeclNode : DeclNode, MatchClassFilterCharac
 	{
 		get
 		{
-		Debug.Assert(IsChecked());
+			Debug.Assert(IsChecked());
 
-		IList<TypeNode> types = new List<TypeNode>();
-		foreach(DeclNode decl in @params.ChildrenExact)
-			types.Add(decl.DeclType);
+			IList<TypeNode> types = new List<TypeNode>();
+			foreach(DeclNode decl in @params.ChildrenExact)
+				types.Add(decl.DeclType);
 
-		return types;
+			return types;
 		}
 	}
 
@@ -225,7 +225,7 @@ public class MatchClassFilterFunctionDeclNode : DeclNode, MatchClassFilterCharac
 	{
 		get
 		{
-		return "match class filter function";
+			return "match class filter function";
 		}
 	}
 }

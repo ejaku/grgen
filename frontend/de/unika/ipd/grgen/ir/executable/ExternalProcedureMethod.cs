@@ -34,11 +34,11 @@ public class ExternalProcedureMethod : ExternalProcedure
 	{
 		get
 		{
-		return owner;
+			return owner;
 		}
 		set
 		{
-		owner = value;
+			owner = value;
 		}
 	}
 

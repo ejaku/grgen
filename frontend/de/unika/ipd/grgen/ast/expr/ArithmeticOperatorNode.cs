@@ -101,7 +101,7 @@ public class ArithmeticOperatorNode : OperatorNode
 	{
 		get
 		{
-		return new List<BaseNode>(children);
+			return new List<BaseNode>(children);
 		}
 	}
 
@@ -109,7 +109,7 @@ public class ArithmeticOperatorNode : OperatorNode
 	{
 		get
 		{
-		return children;
+			return children;
 		}
 	}
 
@@ -117,7 +117,7 @@ public class ArithmeticOperatorNode : OperatorNode
 	{
 		get
 		{
-		return children;
+			return children;
 		}
 	}
 
@@ -127,9 +127,9 @@ public class ArithmeticOperatorNode : OperatorNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// nameless children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// nameless children
+			return childrenNames;
 		}
 	}
 

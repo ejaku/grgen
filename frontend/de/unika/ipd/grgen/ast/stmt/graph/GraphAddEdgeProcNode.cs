@@ -56,11 +56,11 @@ public class GraphAddEdgeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(edgeType);
-		children.Add(sourceNode);
-		children.Add(targetNode);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(edgeType);
+			children.Add(sourceNode);
+			children.Add(targetNode);
+			return children;
 		}
 	}
 
@@ -70,11 +70,11 @@ public class GraphAddEdgeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("edge type");
-		childrenNames.Add("source node");
-		childrenNames.Add("target node");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("edge type");
+			childrenNames.Add("source node");
+			childrenNames.Add("target node");
+			return childrenNames;
 		}
 	}
 
@@ -128,12 +128,12 @@ public class GraphAddEdgeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		if(returnTypes == null)
-		{
-			returnTypes = new List<TypeNode>();
-			returnTypes.Add(edgeType.Type);
-		}
-		return returnTypes;
+			if(returnTypes == null)
+			{
+				returnTypes = new List<TypeNode>();
+				returnTypes.Add(edgeType.Type);
+			}
+			return returnTypes;
 		}
 	}
 }

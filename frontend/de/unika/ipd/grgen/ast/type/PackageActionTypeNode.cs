@@ -119,18 +119,18 @@ public class PackageActionTypeNode : CompoundTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(subpatternsUnresolved, subpatterns));
-		children.Add(GetValidVersionCollectNode(actionsUnresolved, actions));
-		children.Add(GetValidVersionCollectNode(matchTypesUnresolved, matchTypes));
-		children.Add(GetValidVersionCollectNode(filterFunctionsUnresolved, filterFunctions));
-		children.Add(GetValidVersionCollectNode(matchClassesUnresolved, matchClassDecls));
-		children.Add(GetValidVersionCollectNode(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
-		children.Add(GetValidVersionCollectNode(matchTypesIteratedUnresolved, matchTypesIterated));
-		children.Add(GetValidVersionCollectNode(functionsUnresolved, functions));
-		children.Add(GetValidVersionCollectNode(proceduresUnresolved, procedures));
-		children.Add(GetValidVersionCollectNode(sequencesUnresolved, sequences));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(subpatternsUnresolved, subpatterns));
+			children.Add(GetValidVersionCollectNode(actionsUnresolved, actions));
+			children.Add(GetValidVersionCollectNode(matchTypesUnresolved, matchTypes));
+			children.Add(GetValidVersionCollectNode(filterFunctionsUnresolved, filterFunctions));
+			children.Add(GetValidVersionCollectNode(matchClassesUnresolved, matchClassDecls));
+			children.Add(GetValidVersionCollectNode(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
+			children.Add(GetValidVersionCollectNode(matchTypesIteratedUnresolved, matchTypesIterated));
+			children.Add(GetValidVersionCollectNode(functionsUnresolved, functions));
+			children.Add(GetValidVersionCollectNode(proceduresUnresolved, procedures));
+			children.Add(GetValidVersionCollectNode(sequencesUnresolved, sequences));
+			return children;
 		}
 	}
 
@@ -140,18 +140,18 @@ public class PackageActionTypeNode : CompoundTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("subpatterns");
-		childrenNames.Add("actions");
-		childrenNames.Add("match types");
-		childrenNames.Add("filter functions");
-		childrenNames.Add("match classes");
-		childrenNames.Add("match class filter functions");
-		childrenNames.Add("match types iterated");
-		childrenNames.Add("functions");
-		childrenNames.Add("procedures");
-		childrenNames.Add("sequences");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("subpatterns");
+			childrenNames.Add("actions");
+			childrenNames.Add("match types");
+			childrenNames.Add("filter functions");
+			childrenNames.Add("match classes");
+			childrenNames.Add("match class filter functions");
+			childrenNames.Add("match types iterated");
+			childrenNames.Add("functions");
+			childrenNames.Add("procedures");
+			childrenNames.Add("sequences");
+			return childrenNames;
 		}
 	}
 
@@ -253,7 +253,7 @@ public class PackageActionTypeNode : CompoundTypeNode
 	{
 		get
 		{
-		return CheckIR(typeof(PackageActionType));
+			return CheckIR(typeof(PackageActionType));
 		}
 	}
 
@@ -346,7 +346,7 @@ public class PackageActionTypeNode : CompoundTypeNode
 	{
 		get
 		{
-		return "package";
+			return "package";
 		}
 	}
 }

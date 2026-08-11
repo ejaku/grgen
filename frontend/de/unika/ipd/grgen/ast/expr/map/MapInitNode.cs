@@ -64,9 +64,9 @@ public class MapInitNode : ContainerInitNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(mapItems);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(mapItems);
+			return children;
 		}
 	}
 
@@ -74,9 +74,9 @@ public class MapInitNode : ContainerInitNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("mapItems");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("mapItems");
+			return childrenNames;
 		}
 	}
 
@@ -236,14 +236,14 @@ public class MapInitNode : ContainerInitNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		if(lhs != null)
-		{
-			TypeNode type = lhs.DeclType;
-			return (MapTypeNode)type;
-		}
-		else
-			return mapType;
+			Debug.Assert((IsResolved()));
+			if(lhs != null)
+			{
+				TypeNode type = lhs.DeclType;
+				return (MapTypeNode)type;
+			}
+			else
+				return mapType;
 		}
 	}
 
@@ -256,7 +256,7 @@ public class MapInitNode : ContainerInitNode
 	{
 		get
 		{
-		return mapItems;
+			return mapItems;
 		}
 	}
 
@@ -274,7 +274,7 @@ public class MapInitNode : ContainerInitNode
 	{
 		get
 		{
-		return CheckIR(typeof(MapInit));
+			return CheckIR(typeof(MapInit));
 		}
 	}
 
@@ -282,7 +282,7 @@ public class MapInitNode : ContainerInitNode
 	{
 		get
 		{
-		return "map initialization";
+			return "map initialization";
 		}
 	}
 }

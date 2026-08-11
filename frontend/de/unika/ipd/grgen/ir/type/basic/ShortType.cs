@@ -31,7 +31,7 @@ public class ShortType : PrimitiveType
 	{
 		get
 		{
-		return BasicTypeNode.shortType.CheckIR(typeof(Type));
+			return BasicTypeNode.shortType.CheckIR(typeof(Type));
 		}
 	}
 }

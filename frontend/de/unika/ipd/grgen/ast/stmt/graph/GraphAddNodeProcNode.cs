@@ -49,9 +49,9 @@ public class GraphAddNodeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(nodeType);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(nodeType);
+			return children;
 		}
 	}
 
@@ -61,9 +61,9 @@ public class GraphAddNodeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("node type");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("node type");
+			return childrenNames;
 		}
 	}
 
@@ -98,12 +98,12 @@ public class GraphAddNodeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		if(returnTypes == null)
-		{
-			returnTypes = new List<TypeNode>();
-			returnTypes.Add(nodeType.Type);
-		}
-		return returnTypes;
+			if(returnTypes == null)
+			{
+				returnTypes = new List<TypeNode>();
+				returnTypes.Add(nodeType.Type);
+			}
+			return returnTypes;
 		}
 	}
 }

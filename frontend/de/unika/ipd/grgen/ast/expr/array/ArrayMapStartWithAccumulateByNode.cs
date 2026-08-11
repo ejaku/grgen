@@ -76,19 +76,19 @@ public class ArrayMapStartWithAccumulateByNode : ArrayFunctionMethodInvocationBa
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		if(initArrayAccessVar != null)
-			children.Add(initArrayAccessVar);
-		children.Add(initExpr);
-		if(arrayAccessVar != null)
-			children.Add(arrayAccessVar);
-		children.Add(previousAccumulationAccessVar);
-		if(indexVar != null)
-			children.Add(indexVar);
-		children.Add(elementVar);
-		children.Add(mappingExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			if(initArrayAccessVar != null)
+				children.Add(initArrayAccessVar);
+			children.Add(initExpr);
+			if(arrayAccessVar != null)
+				children.Add(arrayAccessVar);
+			children.Add(previousAccumulationAccessVar);
+			if(indexVar != null)
+				children.Add(indexVar);
+			children.Add(elementVar);
+			children.Add(mappingExpr);
+			return children;
 		}
 	}
 
@@ -96,19 +96,19 @@ public class ArrayMapStartWithAccumulateByNode : ArrayFunctionMethodInvocationBa
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		if(initArrayAccessVar != null)
-			childrenNames.Add("initArrayAccessVar");
-		childrenNames.Add("initExpr");
-		if(arrayAccessVar != null)
-			childrenNames.Add("arrayAccessVar");
-		childrenNames.Add("previousAccumulationAccessVar");
-		if(indexVar != null)
-			childrenNames.Add("indexVar");
-		childrenNames.Add("elementVar");
-		childrenNames.Add("mappingExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			if(initArrayAccessVar != null)
+				childrenNames.Add("initArrayAccessVar");
+			childrenNames.Add("initExpr");
+			if(arrayAccessVar != null)
+				childrenNames.Add("arrayAccessVar");
+			childrenNames.Add("previousAccumulationAccessVar");
+			if(indexVar != null)
+				childrenNames.Add("indexVar");
+			childrenNames.Add("elementVar");
+			childrenNames.Add("mappingExpr");
+			return childrenNames;
 		}
 	}
 
@@ -289,8 +289,8 @@ public class ArrayMapStartWithAccumulateByNode : ArrayFunctionMethodInvocationBa
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return resultArrayType;
+			Debug.Assert((IsResolved()));
+			return resultArrayType;
 		}
 	}
 

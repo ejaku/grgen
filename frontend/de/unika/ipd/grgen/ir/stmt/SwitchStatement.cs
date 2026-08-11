@@ -40,7 +40,7 @@ public class SwitchStatement : EvalStatement
 	{
 		get
 		{
-		return switchExpr;
+			return switchExpr;
 		}
 	}
 
@@ -48,7 +48,7 @@ public class SwitchStatement : EvalStatement
 	{
 		get
 		{
-		return statements.AsReadOnly();
+			return statements.AsReadOnly();
 		}
 	}
 

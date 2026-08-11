@@ -35,7 +35,7 @@ public class SetSizeNode : SetFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 

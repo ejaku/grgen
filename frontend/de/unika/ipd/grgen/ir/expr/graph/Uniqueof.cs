@@ -29,7 +29,7 @@ public class Uniqueof : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return entity;
+			return entity;
 		}
 	}
 

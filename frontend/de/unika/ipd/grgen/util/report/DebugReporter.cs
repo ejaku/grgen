@@ -49,8 +49,8 @@ public class DebugReporter : Reporter
 	{
 		set
 		{
-		pattern = Pattern.Compile(value);
-		matcher = pattern.Matcher("");
+			pattern = Pattern.Compile(value);
+			matcher = pattern.Matcher("");
 		}
 	}
 
@@ -65,7 +65,7 @@ public class DebugReporter : Reporter
 	{
 		set
 		{
-		inclusive = value;
+			inclusive = value;
 		}
 	}
 
@@ -73,7 +73,7 @@ public class DebugReporter : Reporter
 	{
 		set
 		{
-		enableStackTrace = value;
+			enableStackTrace = value;
 		}
 	}
 

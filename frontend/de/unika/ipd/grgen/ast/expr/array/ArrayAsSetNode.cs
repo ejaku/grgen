@@ -44,7 +44,7 @@ public class ArrayAsSetNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return setTypeNode;
+			return setTypeNode;
 		}
 	}
 

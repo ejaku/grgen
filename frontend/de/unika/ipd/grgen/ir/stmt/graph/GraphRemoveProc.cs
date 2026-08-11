@@ -25,7 +25,7 @@ public class GraphRemoveProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return entity;
+			return entity;
 		}
 	}
 

@@ -31,7 +31,7 @@ public class DoubleType : PrimitiveType
 	{
 		get
 		{
-		return BasicTypeNode.doubleType.CheckIR(typeof(Type));
+			return BasicTypeNode.doubleType.CheckIR(typeof(Type));
 		}
 	}
 }

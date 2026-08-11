@@ -52,10 +52,10 @@ public class SourceExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(edge);
-		children.Add(GetValidVersion(nodeTypeUnresolved, nodeType));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(edge);
+			children.Add(GetValidVersion(nodeTypeUnresolved, nodeType));
+			return children;
 		}
 	}
 
@@ -65,10 +65,10 @@ public class SourceExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("edge");
-		childrenNames.Add("nodeType");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("edge");
+			childrenNames.Add("nodeType");
+			return childrenNames;
 		}
 	}
 
@@ -104,7 +104,7 @@ public class SourceExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return nodeType;
+			return nodeType;
 		}
 	}
 }

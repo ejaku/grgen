@@ -33,7 +33,7 @@ public class GraphRetypeEdgeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return edge;
+			return edge;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class GraphRetypeEdgeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return newEdgeType;
+			return newEdgeType;
 		}
 	}
 

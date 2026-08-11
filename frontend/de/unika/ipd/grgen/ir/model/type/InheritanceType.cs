@@ -98,7 +98,7 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		return typeID;
+			return typeID;
 		}
 	}
 
@@ -113,11 +113,11 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		return inheritanceTypeID;
+			return inheritanceTypeID;
 		}
 		set
 		{
-		this.inheritanceTypeID = value;
+			this.inheritanceTypeID = value;
 		}
 	}
 
@@ -144,7 +144,7 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(directSuperTypes);
+			return Collections.UnmodifiableSet(directSuperTypes);
 		}
 	}
 
@@ -153,17 +153,17 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		if(allSuperTypes == null)
-		{
-			allSuperTypes = new LinkedHashSet<InheritanceType>();
-
-			foreach(InheritanceType type in directSuperTypes)
+			if(allSuperTypes == null)
 			{
-				allSuperTypes.AddAll(type.AllSuperTypes);
-				allSuperTypes.Add(type);
+				allSuperTypes = new LinkedHashSet<InheritanceType>();
+
+				foreach(InheritanceType type in directSuperTypes)
+				{
+					allSuperTypes.AddAll(type.AllSuperTypes);
+					allSuperTypes.Add(type);
+				}
 			}
-		}
-		return Collections.UnmodifiableSet(allSuperTypes);
+			return Collections.UnmodifiableSet(allSuperTypes);
 		}
 	}
 
@@ -172,18 +172,18 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		if(allSubTypes == null)
-		{
-			allSubTypes = new LinkedHashSet<InheritanceType>();
-			allSubTypes.Add(this);
-
-			foreach(InheritanceType type in directSubTypes)
+			if(allSubTypes == null)
 			{
-				allSubTypes.AddAll(type.AllSubTypes);
-				allSubTypes.Add(type);
+				allSubTypes = new LinkedHashSet<InheritanceType>();
+				allSubTypes.Add(this);
+
+				foreach(InheritanceType type in directSubTypes)
+				{
+					allSubTypes.AddAll(type.AllSubTypes);
+					allSubTypes.Add(type);
+				}
 			}
-		}
-		return Collections.UnmodifiableSet(allSubTypes);
+			return Collections.UnmodifiableSet(allSubTypes);
 		}
 	}
 
@@ -193,7 +193,7 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(directSubTypes);
+			return Collections.UnmodifiableSet(directSubTypes);
 		}
 	}
 
@@ -253,20 +253,20 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		if(allMembers == null)
-		{
-			allMembers = new LinkedHashMap<string, Entity>();
-			overridingMembers = new LinkedHashMap<Entity, Entity>();
+			if(allMembers == null)
+			{
+				allMembers = new LinkedHashMap<string, Entity>();
+				overridingMembers = new LinkedHashMap<Entity, Entity>();
 
-			// add the members of the super types
-			foreach(InheritanceType superType in AllSuperTypes)
-				AddMembers(superType);
+				// add the members of the super types
+				foreach(InheritanceType superType in AllSuperTypes)
+					AddMembers(superType);
 
-			// add members of the current type
-			AddMembers(this);
-		}
+				// add members of the current type
+				AddMembers(this);
+			}
 
-		return allMembers.Values;
+			return allMembers.Values;
 		}
 	}
 
@@ -274,19 +274,19 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		if(allFunctionMethods == null)
-		{
-			allFunctionMethods = new LinkedHashMap<string, FunctionMethod>();
+			if(allFunctionMethods == null)
+			{
+				allFunctionMethods = new LinkedHashMap<string, FunctionMethod>();
 
-			// add the members of the super types
-			foreach(InheritanceType superType in AllSuperTypes)
-				AddFunctionMethods(superType);
+				// add the members of the super types
+				foreach(InheritanceType superType in AllSuperTypes)
+					AddFunctionMethods(superType);
 
-			// add members of the current type
-			AddFunctionMethods(this);
-		}
+				// add members of the current type
+				AddFunctionMethods(this);
+			}
 
-		return allFunctionMethods.Values;
+			return allFunctionMethods.Values;
 		}
 	}
 
@@ -294,10 +294,10 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		if(allFunctionMethods == null)
-			AllFunctionMethods;
+			if(allFunctionMethods == null)
+				AllFunctionMethods;
 
-		return allFunctionMethods;
+			return allFunctionMethods;
 		}
 	}
 
@@ -305,19 +305,19 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		if(allProcedureMethods == null)
-		{
-			allProcedureMethods = new LinkedHashMap<string, ProcedureMethod>();
+			if(allProcedureMethods == null)
+			{
+				allProcedureMethods = new LinkedHashMap<string, ProcedureMethod>();
 
-			// add the members of the super types
-			foreach(InheritanceType superType in AllSuperTypes)
-				AddProcedureMethods(superType);
+				// add the members of the super types
+				foreach(InheritanceType superType in AllSuperTypes)
+					AddProcedureMethods(superType);
 
-			// add members of the current type
-			AddProcedureMethods(this);
-		}
+				// add members of the current type
+				AddProcedureMethods(this);
+			}
 
-		return allProcedureMethods.Values;
+			return allProcedureMethods.Values;
 		}
 	}
 
@@ -325,10 +325,10 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		if(allProcedureMethods == null)
-			AllProcedureMethods;
+			if(allProcedureMethods == null)
+				AllProcedureMethods;
 
-		return allProcedureMethods;
+			return allProcedureMethods;
 		}
 	}
 
@@ -370,7 +370,7 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		return constructors.AsReadOnly();
+			return constructors.AsReadOnly();
 		}
 	}
 
@@ -386,7 +386,7 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		return memberInitializers.AsReadOnly();
+			return memberInitializers.AsReadOnly();
 		}
 	}
 
@@ -399,7 +399,7 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		return mapInitializers.AsReadOnly();
+			return mapInitializers.AsReadOnly();
 		}
 	}
 
@@ -412,7 +412,7 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		return setInitializers.AsReadOnly();
+			return setInitializers.AsReadOnly();
 		}
 	}
 
@@ -425,7 +425,7 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		return arrayInitializers.AsReadOnly();
+			return arrayInitializers.AsReadOnly();
 		}
 	}
 
@@ -438,7 +438,7 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		return dequeInitializers.AsReadOnly();
+			return dequeInitializers.AsReadOnly();
 		}
 	}
 
@@ -494,18 +494,18 @@ public abstract class InheritanceType : CompoundType
 		get
 		{
 
-		if(maxDist == -1)
-		{
-			maxDist = 0;
-
-			foreach(InheritanceType inh in directSuperTypes)
+			if(maxDist == -1)
 			{
-				int dist = inh.MaxDist + 1;
-				maxDist = dist > maxDist ? dist : maxDist;
-			}
-		}
+				maxDist = 0;
 
-		return maxDist;
+				foreach(InheritanceType inh in directSuperTypes)
+				{
+					int dist = inh.MaxDist + 1;
+					maxDist = dist > maxDist ? dist : maxDist;
+				}
+			}
+
+			return maxDist;
 		}
 	}
 
@@ -513,7 +513,7 @@ public abstract class InheritanceType : CompoundType
 	{
 		get
 		{
-		return externalName;
+			return externalName;
 		}
 	}
 

@@ -31,7 +31,7 @@ public class IntConstNode : ConstNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 

@@ -77,9 +77,9 @@ public class FunctionAutoJoinNode : FunctionAutoNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(argumentsUnresolved, arguments));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(argumentsUnresolved, arguments));
+			return children;
 		}
 	}
 
@@ -89,9 +89,9 @@ public class FunctionAutoJoinNode : FunctionAutoNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("arguments");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("arguments");
+			return childrenNames;
 		}
 	}
 

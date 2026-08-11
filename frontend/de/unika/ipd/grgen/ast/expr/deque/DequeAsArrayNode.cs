@@ -44,7 +44,7 @@ public class DequeAsArrayNode : DequeFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return arrayTypeNode;
+			return arrayTypeNode;
 		}
 	}
 

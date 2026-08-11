@@ -65,7 +65,7 @@ public class IncidentEdgeExprNode : NeighborhoodQueryExprNode
 	{
 		get
 		{
-		return setTypeNode;
+			return setTypeNode;
 		}
 	}
 }

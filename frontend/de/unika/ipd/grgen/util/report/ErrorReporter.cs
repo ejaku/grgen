@@ -100,7 +100,7 @@ public class ErrorReporter : Reporter
 	{
 		get
 		{
-		return errCount;
+			return errCount;
 		}
 	}
 
@@ -112,7 +112,7 @@ public class ErrorReporter : Reporter
 	{
 		get
 		{
-		return warnCount;
+			return warnCount;
 		}
 	}
 

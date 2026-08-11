@@ -103,10 +103,10 @@ public class AssignNode : EvalStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(lhsUnresolved, lhsQual, lhsVar, lhsGraphElement));
-		children.Add(rhs);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(lhsUnresolved, lhsQual, lhsVar, lhsGraphElement));
+			children.Add(rhs);
+			return children;
 		}
 	}
 
@@ -116,10 +116,10 @@ public class AssignNode : EvalStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("lhs");
-		childrenNames.Add("rhs");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("lhs");
+			childrenNames.Add("rhs");
+			return childrenNames;
 		}
 	}
 

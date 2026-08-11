@@ -29,7 +29,7 @@ public class GraphMergeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return target;
+			return target;
 		}
 	}
 
@@ -37,7 +37,7 @@ public class GraphMergeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return source;
+			return source;
 		}
 	}
 
@@ -45,7 +45,7 @@ public class GraphMergeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return sourceName;
+			return sourceName;
 		}
 	}
 

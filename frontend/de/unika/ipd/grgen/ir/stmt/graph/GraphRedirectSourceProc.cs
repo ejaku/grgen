@@ -29,7 +29,7 @@ public class GraphRedirectSourceProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return edge;
+			return edge;
 		}
 	}
 
@@ -37,7 +37,7 @@ public class GraphRedirectSourceProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return newSource;
+			return newSource;
 		}
 	}
 
@@ -45,7 +45,7 @@ public class GraphRedirectSourceProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return oldSourceName;
+			return oldSourceName;
 		}
 	}
 

@@ -46,9 +46,9 @@ public class ExistsFileExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(pathExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(pathExpr);
+			return children;
 		}
 	}
 
@@ -58,9 +58,9 @@ public class ExistsFileExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("pathExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("pathExpr");
+			return childrenNames;
 		}
 	}
 
@@ -92,7 +92,7 @@ public class ExistsFileExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 }

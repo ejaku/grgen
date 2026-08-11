@@ -28,7 +28,7 @@ public class IsInNodesFromIndexAccessFromToExpr : NodesFromIndexAccessExpr
 	{
 		get
 		{
-		return candidateExpr;
+			return candidateExpr;
 		}
 	}
 
@@ -36,7 +36,7 @@ public class IsInNodesFromIndexAccessFromToExpr : NodesFromIndexAccessExpr
 	{
 		get
 		{
-		return indexAccess;
+			return indexAccess;
 		}
 	}
 

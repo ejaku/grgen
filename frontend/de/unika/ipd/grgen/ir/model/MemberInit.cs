@@ -36,7 +36,7 @@ public class MemberInit : IR
 	{
 		get
 		{
-		return member;
+			return member;
 		}
 	}
 
@@ -44,7 +44,7 @@ public class MemberInit : IR
 	{
 		get
 		{
-		return expr;
+			return expr;
 		}
 	}
 

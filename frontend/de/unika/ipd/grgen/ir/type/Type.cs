@@ -138,7 +138,7 @@ public abstract class Type : Identifiable
 	{
 		get
 		{
-		return COMPARATOR;
+			return COMPARATOR;
 		}
 	}
 

@@ -51,9 +51,9 @@ public class MapCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(mapToCopy);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(mapToCopy);
+			return children;
 		}
 	}
 
@@ -61,9 +61,9 @@ public class MapCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("mapToCopy");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("mapToCopy");
+			return childrenNames;
 		}
 	}
 
@@ -107,8 +107,8 @@ public class MapCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return mapType;
+			Debug.Assert((IsResolved()));
+			return mapType;
 		}
 	}
 
@@ -122,7 +122,7 @@ public class MapCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		return "map copy constructor";
+			return "map copy constructor";
 		}
 	}
 }

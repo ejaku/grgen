@@ -60,11 +60,11 @@ public class ProcedureMethodInvocationNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(ownerUnresolved, owner));
-		children.Add(GetValidVersion(procedureUnresolved, procedureDecl));
-		children.Add(arguments);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(ownerUnresolved, owner));
+			children.Add(GetValidVersion(procedureUnresolved, procedureDecl));
+			children.Add(arguments);
+			return children;
 		}
 	}
 
@@ -72,11 +72,11 @@ public class ProcedureMethodInvocationNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("owner");
-		childrenNames.Add("procedure");
-		childrenNames.Add("arguments");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("owner");
+			childrenNames.Add("procedure");
+			childrenNames.Add("arguments");
+			return childrenNames;
 		}
 	}
 
@@ -162,8 +162,8 @@ public class ProcedureMethodInvocationNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return procedureDecl.ResultTypes;
+			Debug.Assert(IsResolved());
+			return procedureDecl.ResultTypes;
 		}
 	}
 
@@ -171,7 +171,7 @@ public class ProcedureMethodInvocationNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		return procedureDecl.resultTypesCollectNode.Size();
+			return procedureDecl.resultTypesCollectNode.Size();
 		}
 	}
 

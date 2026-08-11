@@ -184,13 +184,13 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		Type cls = this.GetType();
-		string name = GetClassName(cls);
+			Type cls = this.GetType();
+			string name = GetClassName(cls);
 
-		if(verboseErrorMsg)
-			name += " <" + Id + "," + StripPackageFromClasssName(cls) + ">";
+			if(verboseErrorMsg)
+				name += " <" + Id + "," + StripPackageFromClasssName(cls) + ">";
 
-		return name;
+			return name;
 		}
 	}
 
@@ -201,16 +201,16 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		string res = "<unknown>";
-		try
-		{
-			res = (string)this.GetType().GetMethod("getKindStr").Invoke(null);
-		}
-		catch(Exception e)
-		{
-			Debug.Assert(false, e.ToString());
-		}
-		return res;
+			string res = "<unknown>";
+			try
+			{
+				res = (string)this.GetType().GetMethod("getKindStr").Invoke(null);
+			}
+			catch(Exception e)
+			{
+				Debug.Assert(false, e.ToString());
+			}
+			return res;
 		}
 	}
 
@@ -224,7 +224,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return "base node";
+			return "base node";
 		}
 	}
 
@@ -235,7 +235,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return NULL;
+			return NULL;
 		}
 	}
 
@@ -257,7 +257,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		set
 		{
-		verboseErrorMsg = value;
+			verboseErrorMsg = value;
 		}
 	}
 
@@ -288,11 +288,11 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return coords;
+			return coords;
 		}
 		set
 		{
-		this.coords = value;
+			this.coords = value;
 		}
 	}
 
@@ -301,7 +301,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return coords.AtCoords;
+			return coords.AtCoords;
 		}
 	}
 
@@ -314,7 +314,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return coords.GetDeclarationCoords(false);
+			return coords.GetDeclarationCoords(false);
 		}
 	}
 
@@ -372,7 +372,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return scope;
+			return scope;
 		}
 	}
 
@@ -385,7 +385,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		set
 		{
-		currScope = value;
+			currScope = value;
 		}
 	}
 
@@ -408,7 +408,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return Children;
+			return Children;
 		}
 	}
 
@@ -604,7 +604,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(parents);
+			return Collections.UnmodifiableSet(parents);
 		}
 	}
 
@@ -765,8 +765,8 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		Debug.Assert(IsChecked(), this.ToString());
-		return checkResult;
+			Debug.Assert(IsChecked(), this.ToString());
+			return checkResult;
 		}
 	}
 
@@ -909,9 +909,9 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		if(irObject == null)
-			IR = ConstructIR();
-		return irObject;
+			if(irObject == null)
+				IR = ConstructIR();
+			return irObject;
 		}
 		set // Set the IR object for this AST node. This method ensures that, you cannot set two different IR object.
 		{
@@ -970,7 +970,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return Color.WHITE;
+			return Color.WHITE;
 		}
 	}
 
@@ -979,7 +979,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return Id;
+			return Id;
 		}
 	}
 
@@ -988,8 +988,8 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		string extra = ExtraNodeInfo();
-		return "ID: " + Id + (!string.ReferenceEquals(extra, null) ? "\n" + extra : "");
+			string extra = ExtraNodeInfo();
+			return "ID: " + Id + (!string.ReferenceEquals(extra, null) ? "\n" + extra : "");
 		}
 	}
 
@@ -998,7 +998,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return this.Name;
+			return this.Name;
 		}
 	}
 
@@ -1007,7 +1007,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return GraphDumper.DEFAULT;
+			return GraphDumper.DEFAULT;
 		}
 	}
 
@@ -1052,7 +1052,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return FindType("Node");
+			return FindType("Node");
 		}
 	}
 
@@ -1060,7 +1060,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return FindType("AEdge");
+			return FindType("AEdge");
 		}
 	}
 
@@ -1068,7 +1068,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return FindType("Edge");
+			return FindType("Edge");
 		}
 	}
 
@@ -1076,7 +1076,7 @@ public abstract class BaseNode : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return FindType("UEdge");
+			return FindType("UEdge");
 		}
 	}
 }

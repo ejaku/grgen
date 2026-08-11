@@ -76,11 +76,11 @@ public class Node : GraphEntity
 	{
 		set
 		{
-		this.maybeNull = value;
+			this.maybeNull = value;
 		}
 		get
 		{
-		return maybeNull;
+			return maybeNull;
 		}
 	}
 
@@ -90,7 +90,7 @@ public class Node : GraphEntity
 	{
 		get
 		{
-		return type;
+			return type;
 		}
 	}
 
@@ -119,12 +119,12 @@ public class Node : GraphEntity
 	{
 		set
 		{
-		Debug.Assert(this.pointOfDefinition == null && value != null);
-		this.pointOfDefinition = value;
+			Debug.Assert(this.pointOfDefinition == null && value != null);
+			this.pointOfDefinition = value;
 		}
 		get
 		{
-		return pointOfDefinition;
+			return pointOfDefinition;
 		}
 	}
 
@@ -133,7 +133,7 @@ public class Node : GraphEntity
 	{
 		get
 		{
-		return "node";
+			return "node";
 		}
 	}
 }

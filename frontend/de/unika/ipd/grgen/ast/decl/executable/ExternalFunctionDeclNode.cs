@@ -60,11 +60,11 @@ public class ExternalFunctionDeclNode : FunctionDeclBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersionCollectNode(parameterTypesUnresolved, parameterTypesCollectNode));
-		children.Add(GetValidVersion(resultUnresolved, resultType));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersionCollectNode(parameterTypesUnresolved, parameterTypesCollectNode));
+			children.Add(GetValidVersion(resultUnresolved, resultType));
+			return children;
 		}
 	}
 
@@ -74,11 +74,11 @@ public class ExternalFunctionDeclNode : FunctionDeclBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("paramTypes");
-		childrenNames.Add("ret");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("paramTypes");
+			childrenNames.Add("ret");
+			return childrenNames;
 		}
 	}
 
@@ -105,8 +105,8 @@ public class ExternalFunctionDeclNode : FunctionDeclBaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return externalFunctionType;
+			Debug.Assert(IsResolved());
+			return externalFunctionType;
 		}
 	}
 
@@ -124,7 +124,7 @@ public class ExternalFunctionDeclNode : FunctionDeclBaseNode
 	{
 		get
 		{
-		return "external function";
+			return "external function";
 		}
 	}
 }

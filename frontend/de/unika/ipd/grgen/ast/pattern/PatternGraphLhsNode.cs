@@ -100,18 +100,18 @@ public class PatternGraphLhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		if(invalid == null)
-			invalid = new PatternGraphLhsNode("invalid", Coords.Invalid,
-					null, null,
-					null, null,
-					null, null,
-					null, null,
-					null,
-					null,
-					null, null,
-					null, null,
-					0, BaseNode.CONTEXT_COMPUTATION);
-		return invalid;
+			if(invalid == null)
+				invalid = new PatternGraphLhsNode("invalid", Coords.Invalid,
+						null, null,
+						null, null,
+						null, null,
+						null, null,
+						null,
+						null,
+						null, null,
+						null, null,
+						0, BaseNode.CONTEXT_COMPUTATION);
+			return invalid;
 		}
 	}
 
@@ -165,23 +165,23 @@ public class PatternGraphLhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(connectionsUnresolved, connections));
-		children.Add(@params);
-		children.Add(defVariablesToBeYieldedTo);
-		children.Add(subpatterns);
-		children.Add(alts);
-		children.Add(iters);
-		children.Add(negs);
-		children.Add(idpts);
-		children.Add(returns);
-		children.Add(yields);
-		children.Add(conditions);
-		children.Add(homs);
-		children.Add(totallyHoms);
-		children.Add(exacts);
-		children.Add(induceds);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(connectionsUnresolved, connections));
+			children.Add(@params);
+			children.Add(defVariablesToBeYieldedTo);
+			children.Add(subpatterns);
+			children.Add(alts);
+			children.Add(iters);
+			children.Add(negs);
+			children.Add(idpts);
+			children.Add(returns);
+			children.Add(yields);
+			children.Add(conditions);
+			children.Add(homs);
+			children.Add(totallyHoms);
+			children.Add(exacts);
+			children.Add(induceds);
+			return children;
 		}
 	}
 
@@ -191,23 +191,23 @@ public class PatternGraphLhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("connections");
-		childrenNames.Add("params");
-		childrenNames.Add("defVariablesToBeYieldedTo");
-		childrenNames.Add("subpatterns");
-		childrenNames.Add("alternatives");
-		childrenNames.Add("iters");
-		childrenNames.Add("negatives");
-		childrenNames.Add("independents");
-		childrenNames.Add("return");
-		childrenNames.Add("yields");
-		childrenNames.Add("conditions");
-		childrenNames.Add("homs");
-		childrenNames.Add("totallyHoms");
-		childrenNames.Add("exacts");
-		childrenNames.Add("induceds");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("connections");
+			childrenNames.Add("params");
+			childrenNames.Add("defVariablesToBeYieldedTo");
+			childrenNames.Add("subpatterns");
+			childrenNames.Add("alternatives");
+			childrenNames.Add("iters");
+			childrenNames.Add("negatives");
+			childrenNames.Add("independents");
+			childrenNames.Add("return");
+			childrenNames.Add("yields");
+			childrenNames.Add("conditions");
+			childrenNames.Add("homs");
+			childrenNames.Add("totallyHoms");
+			childrenNames.Add("exacts");
+			childrenNames.Add("induceds");
+			return childrenNames;
 		}
 	}
 
@@ -246,20 +246,20 @@ public class PatternGraphLhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		LinkedHashSet<NodeDeclNode> tempNodes = new LinkedHashSet<NodeDeclNode>();
+			LinkedHashSet<NodeDeclNode> tempNodes = new LinkedHashSet<NodeDeclNode>();
 
-		foreach(ConnectionCharacter connection in connections.ChildrenExact)
-			connection.AddNodes(tempNodes);
+			foreach(ConnectionCharacter connection in connections.ChildrenExact)
+				connection.AddNodes(tempNodes);
 
-		foreach(HomNode hom in homs.ChildrenExact)
-		{
-			foreach(NodeDeclNode homNode in hom.HomNodes)
-				tempNodes.Add(homNode);
-		}
+			foreach(HomNode hom in homs.ChildrenExact)
+			{
+				foreach(NodeDeclNode homNode in hom.HomNodes)
+					tempNodes.Add(homNode);
+			}
 
-		return tempNodes;
+			return tempNodes;
 		}
 	}
 
@@ -267,20 +267,20 @@ public class PatternGraphLhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		LinkedHashSet<EdgeDeclNode> tempEdges = new LinkedHashSet<EdgeDeclNode>();
+			LinkedHashSet<EdgeDeclNode> tempEdges = new LinkedHashSet<EdgeDeclNode>();
 
-		foreach(ConnectionCharacter connection in connections.ChildrenExact)
-			connection.AddEdge(tempEdges);
+			foreach(ConnectionCharacter connection in connections.ChildrenExact)
+				connection.AddEdge(tempEdges);
 
-		foreach(HomNode hom in homs.ChildrenExact)
-		{
-			foreach(EdgeDeclNode homEdge in hom.HomEdges)
-				tempEdges.Add(homEdge);
-		}
+			foreach(HomNode hom in homs.ChildrenExact)
+			{
+				foreach(EdgeDeclNode homEdge in hom.HomEdges)
+					tempEdges.Add(homEdge);
+			}
 
-		return tempEdges;
+			return tempEdges;
 		}
 	}
 
@@ -337,19 +337,19 @@ public class PatternGraphLhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		foreach(BaseNode parent in Parents)
-		{
-			if(!(parent is CollectBaseNode))
-				continue;
-
-			foreach(BaseNode grandParent in parent.Parents)
+			foreach(BaseNode parent in Parents)
 			{
-				if(grandParent is PatternGraphLhsNode)
-					return (PatternGraphLhsNode)grandParent;
-			}
-		}
+				if(!(parent is CollectBaseNode))
+					continue;
 
-		return null;
+				foreach(BaseNode grandParent in parent.Parents)
+				{
+					if(grandParent is PatternGraphLhsNode)
+						return (PatternGraphLhsNode)grandParent;
+				}
+			}
+
+			return null;
 		}
 	}
 
@@ -393,9 +393,9 @@ public class PatternGraphLhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		if(homStorage == null)
-			homStorage = new HomStorage(this);
-		return homStorage.Homs;
+			if(homStorage == null)
+				homStorage = new HomStorage(this);
+			return homStorage.Homs;
 		}
 	}
 
@@ -709,7 +709,7 @@ public class PatternGraphLhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		return CheckIR(typeof(PatternGraphLhs));
+			return CheckIR(typeof(PatternGraphLhs));
 		}
 	}
 
@@ -719,13 +719,13 @@ public class PatternGraphLhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		foreach(BaseNode parent in Parents)
-		{
-			if(parent is RuleDeclNode)
-				return (RuleDeclNode)parent;
-		}
-		Debug.Assert(false);
-		return null;
+			foreach(BaseNode parent in Parents)
+			{
+				if(parent is RuleDeclNode)
+					return (RuleDeclNode)parent;
+			}
+			Debug.Assert(false);
+			return null;
 		}
 	}
 
@@ -827,12 +827,12 @@ public class PatternGraphLhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		ICollection<EvalStatements> ret = new List<EvalStatements>();
+			ICollection<EvalStatements> ret = new List<EvalStatements>();
 
-		foreach(EvalStatementsNode evalStatements in yields.ChildrenExact)
-			ret.Add(evalStatements.CheckIR(typeof(EvalStatements)));
+			foreach(EvalStatementsNode evalStatements in yields.ChildrenExact)
+				ret.Add(evalStatements.CheckIR(typeof(EvalStatements)));
 
-		return ret;
+			return ret;
 		}
 	}
 }

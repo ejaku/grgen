@@ -35,7 +35,7 @@ public class SubpatternDependentReplacement : Identifiable, OrderedReplacement
 	{
 		get
 		{
-		return subpatternUsage;
+			return subpatternUsage;
 		}
 	}
 
@@ -43,7 +43,7 @@ public class SubpatternDependentReplacement : Identifiable, OrderedReplacement
 	{
 		get
 		{
-		return replConnections;
+			return replConnections;
 		}
 	}
 }

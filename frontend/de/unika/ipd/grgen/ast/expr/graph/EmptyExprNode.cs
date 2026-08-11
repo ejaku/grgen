@@ -38,8 +38,8 @@ public class EmptyExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			return children;
 		}
 	}
 
@@ -47,8 +47,8 @@ public class EmptyExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			return childrenNames;
 		}
 	}
 
@@ -66,7 +66,7 @@ public class EmptyExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 }

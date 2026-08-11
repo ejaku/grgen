@@ -51,7 +51,7 @@ public class NodesFromIndexAccessFromToAsArrayExprNode : FromIndexAccessFromToEx
 	{
 		get
 		{
-		return NodeRoot;
+			return NodeRoot;
 		}
 	}
 
@@ -64,7 +64,7 @@ public class NodesFromIndexAccessFromToAsArrayExprNode : FromIndexAccessFromToEx
 	{
 		get
 		{
-		return arrayTypeNode;
+			return arrayTypeNode;
 		}
 	}
 

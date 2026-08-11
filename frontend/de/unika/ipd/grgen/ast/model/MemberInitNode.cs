@@ -67,10 +67,10 @@ public class MemberInitNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(lhsUnresolved, lhs));
-		children.Add(rhs);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(lhsUnresolved, lhs));
+			children.Add(rhs);
+			return children;
 		}
 	}
 
@@ -80,10 +80,10 @@ public class MemberInitNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("lhs");
-		childrenNames.Add("rhs");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("lhs");
+			childrenNames.Add("rhs");
+			return childrenNames;
 		}
 	}
 
@@ -162,7 +162,7 @@ public class MemberInitNode : BaseNode
 	{
 		get
 		{
-		return "member initialization";
+			return "member initialization";
 		}
 	}
 }

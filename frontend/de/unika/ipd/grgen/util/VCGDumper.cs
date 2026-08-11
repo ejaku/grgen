@@ -135,7 +135,7 @@ public class VCGDumper : GraphDumper
 	{
 		get
 		{
-		return prefix;
+			return prefix;
 		}
 	}
 

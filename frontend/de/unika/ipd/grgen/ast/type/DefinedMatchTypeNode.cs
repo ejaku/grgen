@@ -67,7 +67,7 @@ public class DefinedMatchTypeNode : MatchTypeNode
 	{
 		get
 		{
-		return "match<class " + Ident.ToString() + ">";
+			return "match<class " + Ident.ToString() + ">";
 		}
 	}
 
@@ -80,12 +80,12 @@ public class DefinedMatchTypeNode : MatchTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		if(pattern != null)
-			children.Add(pattern);
-		if(auto != null)
-			children.Add(auto);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			if(pattern != null)
+				children.Add(pattern);
+			if(auto != null)
+				children.Add(auto);
+			return children;
 		}
 	}
 
@@ -93,12 +93,12 @@ public class DefinedMatchTypeNode : MatchTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		if(pattern != null)
-			childrenNames.Add("pattern");
-		if(auto != null)
-			childrenNames.Add("auto");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			if(pattern != null)
+				childrenNames.Add("pattern");
+			if(auto != null)
+				childrenNames.Add("auto");
+			return childrenNames;
 		}
 	}
 
@@ -306,13 +306,13 @@ public class DefinedMatchTypeNode : MatchTypeNode
 	{
 		get
 		{
-		ISet<NodeDeclNode> nodes = new HashSet<NodeDeclNode>();
-		foreach(NodeDeclNode node in pattern.Nodes)
-		{
-			if(!(node is DummyNodeDeclNode))
-				nodes.Add(node);
-		}
-		return Collections.UnmodifiableSet(nodes);
+			ISet<NodeDeclNode> nodes = new HashSet<NodeDeclNode>();
+			foreach(NodeDeclNode node in pattern.Nodes)
+			{
+				if(!(node is DummyNodeDeclNode))
+					nodes.Add(node);
+			}
+			return Collections.UnmodifiableSet(nodes);
 		}
 	}
 
@@ -320,7 +320,7 @@ public class DefinedMatchTypeNode : MatchTypeNode
 	{
 		get
 		{
-		return pattern.Edges;
+			return pattern.Edges;
 		}
 	}
 
@@ -328,15 +328,15 @@ public class DefinedMatchTypeNode : MatchTypeNode
 	{
 		get
 		{
-		ISet<VarDeclNode> vars = new HashSet<VarDeclNode>(pattern.DefVariablesToBeYieldedTo.ChildrenExact);
-		foreach(DeclNode varCand in pattern.ParamDecls)
-		{
-			if(!(varCand is VarDeclNode))
-				continue;
-			VarDeclNode var = (VarDeclNode)varCand;
-			vars.Add(var);
-		}
-		return Collections.UnmodifiableSet(vars);
+			ISet<VarDeclNode> vars = new HashSet<VarDeclNode>(pattern.DefVariablesToBeYieldedTo.ChildrenExact);
+			foreach(DeclNode varCand in pattern.ParamDecls)
+			{
+				if(!(varCand is VarDeclNode))
+					continue;
+				VarDeclNode var = (VarDeclNode)varCand;
+				vars.Add(var);
+			}
+			return Collections.UnmodifiableSet(vars);
 		}
 	}
 
@@ -344,7 +344,7 @@ public class DefinedMatchTypeNode : MatchTypeNode
 	{
 		get
 		{
-		return pattern.Entities;
+			return pattern.Entities;
 		}
 	}
 
@@ -354,7 +354,7 @@ public class DefinedMatchTypeNode : MatchTypeNode
 	{
 		get
 		{
-		return CheckIR(typeof(DefinedMatchType));
+			return CheckIR(typeof(DefinedMatchType));
 		}
 	}
 

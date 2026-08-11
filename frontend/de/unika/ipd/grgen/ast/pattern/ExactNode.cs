@@ -49,7 +49,7 @@ public class ExactNode : BaseNode
 	{
 		get
 		{
-		return GetValidVersionList(childrenUnresolved, children);
+			return GetValidVersionList(childrenUnresolved, children);
 		}
 	}
 
@@ -59,9 +59,9 @@ public class ExactNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// nameless children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// nameless children
+			return childrenNames;
 		}
 	}
 
@@ -98,7 +98,7 @@ public class ExactNode : BaseNode
 	{
 		get
 		{
-		return children;
+			return children;
 		}
 	}
 
@@ -106,7 +106,7 @@ public class ExactNode : BaseNode
 	{
 		get
 		{
-		return Color.PINK;
+			return Color.PINK;
 		}
 	}
 }

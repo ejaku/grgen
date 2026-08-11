@@ -28,7 +28,7 @@ public class IsIncidentEdgeExpr : NeighborhoodQueryExpr
 	{
 		get
 		{
-		return endEdgeExpr;
+			return endEdgeExpr;
 		}
 	}
 

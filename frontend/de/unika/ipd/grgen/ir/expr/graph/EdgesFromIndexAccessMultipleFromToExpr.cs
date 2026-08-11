@@ -29,7 +29,7 @@ public class EdgesFromIndexAccessMultipleFromToExpr : BuiltinFunctionInvocationE
 	{
 		get
 		{
-		return indexAccesses;
+			return indexAccesses;
 		}
 	}
 

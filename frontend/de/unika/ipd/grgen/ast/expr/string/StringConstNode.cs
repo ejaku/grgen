@@ -30,7 +30,7 @@ public class StringConstNode : ConstNode
 	{
 		get
 		{
-		return BasicTypeNode.stringType;
+			return BasicTypeNode.stringType;
 		}
 	}
 

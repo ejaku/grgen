@@ -48,7 +48,7 @@ public class EdgesFromIndexAccessFromToExprNode : FromIndexAccessFromToExprNode
 	{
 		get
 		{
-		return EdgeRoot;
+			return EdgeRoot;
 		}
 	}
 
@@ -61,7 +61,7 @@ public class EdgesFromIndexAccessFromToExprNode : FromIndexAccessFromToExprNode
 	{
 		get
 		{
-		return setTypeNode;
+			return setTypeNode;
 		}
 	}
 

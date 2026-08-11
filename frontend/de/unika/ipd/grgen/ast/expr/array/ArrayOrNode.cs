@@ -49,7 +49,7 @@ public class ArrayOrNode : ArrayAccumulationMethodNode
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 
@@ -62,7 +62,7 @@ public class ArrayOrNode : ArrayAccumulationMethodNode
 	{
 		get
 		{
-		return "boolean";
+			return "boolean";
 		}
 	}
 

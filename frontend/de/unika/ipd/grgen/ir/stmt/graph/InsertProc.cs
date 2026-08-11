@@ -25,7 +25,7 @@ public class InsertProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return graphExpr;
+			return graphExpr;
 		}
 	}
 

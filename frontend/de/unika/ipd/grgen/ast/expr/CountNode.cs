@@ -46,9 +46,9 @@ public class CountNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iteratedUnresolved, iterated));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iteratedUnresolved, iterated));
+			return children;
 		}
 	}
 
@@ -58,9 +58,9 @@ public class CountNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterated");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterated");
+			return childrenNames;
 		}
 	}
 
@@ -92,7 +92,7 @@ public class CountNode : ExprNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 

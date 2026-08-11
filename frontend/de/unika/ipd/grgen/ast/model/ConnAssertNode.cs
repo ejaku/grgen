@@ -81,15 +81,15 @@ public class ConnAssertNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		if(!copyExtends)
-		{
-			children.Add(GetValidVersion(srcUnresolved, src));
-			children.Add(srcRange);
-			children.Add(GetValidVersion(tgtUnresolved, tgt));
-			children.Add(tgtRange);
-		}
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			if(!copyExtends)
+			{
+				children.Add(GetValidVersion(srcUnresolved, src));
+				children.Add(srcRange);
+				children.Add(GetValidVersion(tgtUnresolved, tgt));
+				children.Add(tgtRange);
+			}
+			return children;
 		}
 	}
 
@@ -99,15 +99,15 @@ public class ConnAssertNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		if(!copyExtends)
-		{
-			childrenNames.Add("src");
-			childrenNames.Add("src range");
-			childrenNames.Add("tgt");
-			childrenNames.Add("tgt range");
-		}
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			if(!copyExtends)
+			{
+				childrenNames.Add("src");
+				childrenNames.Add("src range");
+				childrenNames.Add("tgt");
+				childrenNames.Add("tgt range");
+			}
+			return childrenNames;
 		}
 	}
 

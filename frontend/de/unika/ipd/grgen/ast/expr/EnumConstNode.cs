@@ -72,7 +72,7 @@ public class EnumConstNode : ConstNode
 	{
 		get
 		{
-		return BasicTypeNode.enumItemType;
+			return BasicTypeNode.enumItemType;
 		}
 	}
 
@@ -80,7 +80,7 @@ public class EnumConstNode : ConstNode
 	{
 		get
 		{
-		return CheckIR(typeof(EnumExpression));
+			return CheckIR(typeof(EnumExpression));
 		}
 	}
 

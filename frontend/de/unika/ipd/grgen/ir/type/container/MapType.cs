@@ -30,7 +30,7 @@ public class MapType : ContainerType
 	{
 		get
 		{
-		return keyType;
+			return keyType;
 		}
 	}
 
@@ -38,7 +38,7 @@ public class MapType : ContainerType
 	{
 		get
 		{
-		return valueType;
+			return valueType;
 		}
 	}
 
@@ -57,7 +57,7 @@ public class MapType : ContainerType
 	{
 		get
 		{
-		return keyType;
+			return keyType;
 		}
 	}
 

@@ -57,10 +57,10 @@ public class TypeDeclNode : DeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			return children;
 		}
 	}
 
@@ -70,10 +70,10 @@ public class TypeDeclNode : DeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			return childrenNames;
 		}
 	}
 
@@ -182,7 +182,7 @@ public class TypeDeclNode : DeclNode
 	{
 		get
 		{
-		return "type";
+			return "type";
 		}
 	}
 
@@ -190,9 +190,9 @@ public class TypeDeclNode : DeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 }

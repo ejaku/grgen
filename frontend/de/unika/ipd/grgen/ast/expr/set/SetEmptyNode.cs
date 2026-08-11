@@ -35,7 +35,7 @@ public class SetEmptyNode : SetFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 

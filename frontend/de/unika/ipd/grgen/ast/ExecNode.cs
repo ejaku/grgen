@@ -132,7 +132,7 @@ public class ExecNode : BaseNode
 	{
 		get
 		{
-		return sb.ToString();
+			return sb.ToString();
 		}
 	}
 
@@ -197,13 +197,13 @@ public class ExecNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> res = new List<BaseNode>();
-		res.Add(multiCallActions);
-		res.Add(callActions);
-		res.Add(varDecls);
-		res.Add(GetValidVersionCollectNode(usageUnresolved, usage));
-		res.Add(GetValidVersionCollectNode(writeUsageUnresolved, writeUsage));
-		return res;
+			IList<BaseNode> res = new List<BaseNode>();
+			res.Add(multiCallActions);
+			res.Add(callActions);
+			res.Add(varDecls);
+			res.Add(GetValidVersionCollectNode(usageUnresolved, usage));
+			res.Add(GetValidVersionCollectNode(writeUsageUnresolved, writeUsage));
+			return res;
 		}
 	}
 
@@ -213,13 +213,13 @@ public class ExecNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("multi call actions");
-		childrenNames.Add("call actions");
-		childrenNames.Add("var decls");
-		childrenNames.Add("graph element usage outside of a call");
-		childrenNames.Add("writing graph element usage (outside of a call)");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("multi call actions");
+			childrenNames.Add("call actions");
+			childrenNames.Add("var decls");
+			childrenNames.Add("graph element usage outside of a call");
+			childrenNames.Add("writing graph element usage (outside of a call)");
+			return childrenNames;
 		}
 	}
 
@@ -382,7 +382,7 @@ public class ExecNode : BaseNode
 	{
 		get
 		{
-		return Color.PINK;
+			return Color.PINK;
 		}
 	}
 

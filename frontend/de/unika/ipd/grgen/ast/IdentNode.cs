@@ -53,7 +53,7 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		return INVALID;
+			return INVALID;
 		}
 	}
 
@@ -81,9 +81,9 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		// no children
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			// no children
+			return children;
 		}
 	}
 
@@ -93,9 +93,9 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// no children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// no children
+			return childrenNames;
 		}
 	}
 
@@ -121,18 +121,18 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		if(occ.Definition == null)
-		{
-			// I don't now why this is needed, it feels like a hack, but it works
-			Symbol.Definition def = occ.Scope.GetCurrDef(Symbol);
-			if(def.IsValid())
-				SymDef = def;
-		}
-		return occ.Definition;
+			if(occ.Definition == null)
+			{
+				// I don't now why this is needed, it feels like a hack, but it works
+				Symbol.Definition def = occ.Scope.GetCurrDef(Symbol);
+				if(def.IsValid())
+					SymDef = def;
+			}
+			return occ.Definition;
 		}
 		set
 		{
-		occ.Definition = value;
+			occ.Definition = value;
 		}
 	}
 
@@ -158,17 +158,17 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		Symbol.Definition def = SymDef;
+			Symbol.Definition def = SymDef;
 
-		if(def.IsValid())
-		{
-			if(def.Node == this)
-				return decl;
+			if(def.IsValid())
+			{
+				if(def.Node == this)
+					return decl;
+				else
+					return def.Node.Decl;
+			}
 			else
-				return def.Node.Decl;
-		}
-		else
-			return DeclNode.GetInvalid(this);
+				return DeclNode.GetInvalid(this);
 		}
 	}
 
@@ -179,7 +179,7 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		return occ.Symbol;
+			return occ.Symbol;
 		}
 	}
 
@@ -187,7 +187,7 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		return ToString();
+			return ToString();
 		}
 	}
 
@@ -204,7 +204,7 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		return "identifier";
+			return "identifier";
 		}
 	}
 
@@ -213,7 +213,7 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		return Color.ORANGE;
+			return Color.ORANGE;
 		}
 	}
 
@@ -232,7 +232,7 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		return occ;
+			return occ;
 		}
 	}
 
@@ -244,7 +244,7 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		return CheckIR(typeof(Ident));
+			return CheckIR(typeof(Ident));
 		}
 	}
 
@@ -264,7 +264,7 @@ public class IdentNode : BaseNode, DeclaredCharacter, Annotated
 	{
 		get
 		{
-		return annotations;
+			return annotations;
 		}
 		set // Set annotations for this ident node.
 		{

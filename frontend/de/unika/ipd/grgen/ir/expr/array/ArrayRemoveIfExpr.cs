@@ -38,7 +38,7 @@ public class ArrayRemoveIfExpr : ArrayFunctionMethodInvocationBaseExpr, ArrayPer
 	{
 		get
 		{
-		return arrayAccessVar;
+			return arrayAccessVar;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class ArrayRemoveIfExpr : ArrayFunctionMethodInvocationBaseExpr, ArrayPer
 	{
 		get
 		{
-		return indexVar;
+			return indexVar;
 		}
 	}
 
@@ -54,7 +54,7 @@ public class ArrayRemoveIfExpr : ArrayFunctionMethodInvocationBaseExpr, ArrayPer
 	{
 		get
 		{
-		return elementVar;
+			return elementVar;
 		}
 	}
 
@@ -62,7 +62,7 @@ public class ArrayRemoveIfExpr : ArrayFunctionMethodInvocationBaseExpr, ArrayPer
 	{
 		get
 		{
-		return conditionExpr;
+			return conditionExpr;
 		}
 	}
 

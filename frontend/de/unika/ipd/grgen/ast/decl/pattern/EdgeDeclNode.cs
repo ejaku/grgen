@@ -92,7 +92,7 @@ public class EdgeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		return DeclInhType;
+			return DeclInhType;
 		}
 	}
 
@@ -100,7 +100,7 @@ public class EdgeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		return DeclEdgeType;
+			return DeclEdgeType;
 		}
 	}
 
@@ -112,11 +112,11 @@ public class EdgeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		DeclNode curr = GetValidResolvedVersion(typeEdgeDecl, typeTypeDecl);
-		TypeNode type = curr.DeclType;
-		//assert curr.getDeclType() != null;
-		return (EdgeTypeNode)type;
+			Debug.Assert(IsResolved());
+			DeclNode curr = GetValidResolvedVersion(typeEdgeDecl, typeTypeDecl);
+			TypeNode type = curr.DeclType;
+			//assert curr.getDeclType() != null;
+			return (EdgeTypeNode)type;
 		}
 	}
 
@@ -126,14 +126,14 @@ public class EdgeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
-		children.Add(constraints);
-		children.Add(nameOrAttributeInits);
-		if(initialization != null)
-			children.Add(initialization);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
+			children.Add(constraints);
+			children.Add(nameOrAttributeInits);
+			if(initialization != null)
+				children.Add(initialization);
+			return children;
 		}
 	}
 
@@ -143,14 +143,14 @@ public class EdgeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("constraints");
-		childrenNames.Add("nameOrAttributeInits");
-		if(initialization != null)
-			childrenNames.Add("initialization expression");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("constraints");
+			childrenNames.Add("nameOrAttributeInits");
+			if(initialization != null)
+				childrenNames.Add("initialization expression");
+			return childrenNames;
 		}
 	}
 
@@ -249,7 +249,7 @@ public class EdgeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		return Color.YELLOW;
+			return Color.YELLOW;
 		}
 	}
 
@@ -260,7 +260,7 @@ public class EdgeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		return CheckIR(typeof(Edge));
+			return CheckIR(typeof(Edge));
 		}
 	}
 
@@ -313,7 +313,7 @@ public class EdgeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		return "edge";
+			return "edge";
 		}
 	}
 }

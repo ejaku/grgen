@@ -58,10 +58,10 @@ public class ProcedureOrExternalProcedureInvocationNode : ProcedureInvocationBas
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(procedureOrExternalProcedureUnresolved, procedureDecl, externalProcedureDecl));
-		children.Add(arguments);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(procedureOrExternalProcedureUnresolved, procedureDecl, externalProcedureDecl));
+			children.Add(arguments);
+			return children;
 		}
 	}
 
@@ -69,10 +69,10 @@ public class ProcedureOrExternalProcedureInvocationNode : ProcedureInvocationBas
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("procedure or external procedure");
-		childrenNames.Add("arguments");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("procedure or external procedure");
+			childrenNames.Add("arguments");
+			return childrenNames;
 		}
 	}
 
@@ -124,8 +124,8 @@ public class ProcedureOrExternalProcedureInvocationNode : ProcedureInvocationBas
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return procedureDecl != null ? procedureDecl.ResultTypes : externalProcedureDecl.ResultTypes;
+			Debug.Assert(IsResolved());
+			return procedureDecl != null ? procedureDecl.ResultTypes : externalProcedureDecl.ResultTypes;
 		}
 	}
 
@@ -133,10 +133,10 @@ public class ProcedureOrExternalProcedureInvocationNode : ProcedureInvocationBas
 	{
 		get
 		{
-		if(procedureDecl != null)
-			return procedureDecl.resultTypesCollectNode.Size();
-		else
-			return externalProcedureDecl.resultTypesCollectNode.Size();
+			if(procedureDecl != null)
+				return procedureDecl.resultTypesCollectNode.Size();
+			else
+				return externalProcedureDecl.resultTypesCollectNode.Size();
 		}
 	}
 
@@ -144,7 +144,7 @@ public class ProcedureOrExternalProcedureInvocationNode : ProcedureInvocationBas
 	{
 		get
 		{
-		return procedureOrExternalProcedureUnresolved;
+			return procedureOrExternalProcedureUnresolved;
 		}
 	}
 

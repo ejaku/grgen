@@ -87,17 +87,17 @@ public class PatternGraphRhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(connectionsUnresolved, connections));
-		children.Add(@params);
-		children.Add(defVariablesToBeYieldedTo);
-		children.Add(subpatterns);
-		children.Add(subpatternRepls);
-		children.Add(orderedReplacements);
-		children.Add(evals);
-		children.Add(returns);
-		children.Add(imperativeStmts);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(connectionsUnresolved, connections));
+			children.Add(@params);
+			children.Add(defVariablesToBeYieldedTo);
+			children.Add(subpatterns);
+			children.Add(subpatternRepls);
+			children.Add(orderedReplacements);
+			children.Add(evals);
+			children.Add(returns);
+			children.Add(imperativeStmts);
+			return children;
 		}
 	}
 
@@ -107,17 +107,17 @@ public class PatternGraphRhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("connections");
-		childrenNames.Add("params");
-		childrenNames.Add("defVariablesToBeYieldedTo");
-		childrenNames.Add("subpatterns");
-		childrenNames.Add("subpatternReplacements");
-		childrenNames.Add("orderedReplacements");
-		childrenNames.Add("evals");
-		childrenNames.Add("returns");
-		childrenNames.Add("imperativeStmts");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("connections");
+			childrenNames.Add("params");
+			childrenNames.Add("defVariablesToBeYieldedTo");
+			childrenNames.Add("subpatterns");
+			childrenNames.Add("subpatternReplacements");
+			childrenNames.Add("orderedReplacements");
+			childrenNames.Add("evals");
+			childrenNames.Add("returns");
+			childrenNames.Add("imperativeStmts");
+			return childrenNames;
 		}
 	}
 
@@ -271,7 +271,7 @@ public class PatternGraphRhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		return CheckIR(typeof(PatternGraphRhs));
+			return CheckIR(typeof(PatternGraphRhs));
 		}
 	}
 
@@ -344,12 +344,12 @@ public class PatternGraphRhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		ICollection<OrderedReplacements> ret = new List<OrderedReplacements>();
+			ICollection<OrderedReplacements> ret = new List<OrderedReplacements>();
 
-		foreach(OrderedReplacementsNode orderedRepls in orderedReplacements.ChildrenExact)
-			ret.Add(orderedRepls.CheckIR(typeof(OrderedReplacements)));
+			foreach(OrderedReplacementsNode orderedRepls in orderedReplacements.ChildrenExact)
+				ret.Add(orderedRepls.CheckIR(typeof(OrderedReplacements)));
 
-		return ret;
+			return ret;
 		}
 	}
 
@@ -357,12 +357,12 @@ public class PatternGraphRhsNode : PatternGraphBaseNode
 	{
 		get
 		{
-		ICollection<EvalStatements> ret = new List<EvalStatements>();
+			ICollection<EvalStatements> ret = new List<EvalStatements>();
 
-		foreach(EvalStatementsNode evalStatements in evals.ChildrenExact)
-			ret.Add(evalStatements.CheckIR(typeof(EvalStatements)));
+			foreach(EvalStatementsNode evalStatements in evals.ChildrenExact)
+				ret.Add(evalStatements.CheckIR(typeof(EvalStatements)));
 
-		return ret;
+			return ret;
 		}
 	}
 }

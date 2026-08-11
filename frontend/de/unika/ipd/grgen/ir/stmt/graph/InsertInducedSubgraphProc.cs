@@ -33,7 +33,7 @@ public class InsertInducedSubgraphProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return nodeSetExpr;
+			return nodeSetExpr;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class InsertInducedSubgraphProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return nodeExpr;
+			return nodeExpr;
 		}
 	}
 

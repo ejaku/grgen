@@ -47,9 +47,9 @@ public class InsertProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(graphExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(graphExpr);
+			return children;
 		}
 	}
 
@@ -59,9 +59,9 @@ public class InsertProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("graphExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("graphExpr");
+			return childrenNames;
 		}
 	}
 

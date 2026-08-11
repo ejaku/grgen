@@ -49,11 +49,11 @@ public class CaseStatementNode : NestingStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		if(caseConstantExpr != null)
-			children.Add(caseConstantExpr);
-		children.Add(statements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			if(caseConstantExpr != null)
+				children.Add(caseConstantExpr);
+			children.Add(statements);
+			return children;
 		}
 	}
 
@@ -63,11 +63,11 @@ public class CaseStatementNode : NestingStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		if(caseConstantExpr != null)
-			childrenNames.Add("caseConstant");
-		childrenNames.Add("statements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			if(caseConstantExpr != null)
+				childrenNames.Add("caseConstant");
+			childrenNames.Add("statements");
+			return childrenNames;
 		}
 	}
 

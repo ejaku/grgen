@@ -66,10 +66,10 @@ public class QualIdentNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(ownerUnresolved, owner));
-		children.Add(GetValidVersion(memberUnresolved, member));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(ownerUnresolved, owner));
+			children.Add(GetValidVersion(memberUnresolved, member));
+			return children;
 		}
 	}
 
@@ -79,10 +79,10 @@ public class QualIdentNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("owner");
-		childrenNames.Add("member");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("owner");
+			childrenNames.Add("member");
+			return childrenNames;
 		}
 	}
 
@@ -155,7 +155,7 @@ public class QualIdentNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		return MemberDecl;
+			return MemberDecl;
 		}
 	}
 
@@ -163,9 +163,9 @@ public class QualIdentNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return member is MemberDeclNode ? (MemberDeclNode)member : null;
+			return member is MemberDeclNode ? (MemberDeclNode)member : null;
 		}
 	}
 
@@ -173,9 +173,9 @@ public class QualIdentNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return owner;
+			return owner;
 		}
 	}
 
@@ -197,9 +197,9 @@ public class QualIdentNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return member;
+			return member;
 		}
 	}
 
@@ -214,7 +214,7 @@ public class QualIdentNode : BaseNode, DeclaredCharacter
 	{
 		get
 		{
-		return "qualified identifier";
+			return "qualified identifier";
 		}
 	}
 

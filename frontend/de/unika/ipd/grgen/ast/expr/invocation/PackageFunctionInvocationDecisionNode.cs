@@ -82,12 +82,12 @@ public class PackageFunctionInvocationDecisionNode : FunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
-		children.Add(arguments);
-		if(IsResolved())
-			children.Add(result);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
+			children.Add(arguments);
+			if(IsResolved())
+				children.Add(result);
+			return children;
 		}
 	}
 
@@ -95,12 +95,12 @@ public class PackageFunctionInvocationDecisionNode : FunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		//childrenNames.add("methodIdent");
-		childrenNames.Add("params");
-		if(IsResolved())
-			childrenNames.Add("result");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			//childrenNames.add("methodIdent");
+			childrenNames.Add("params");
+			if(IsResolved())
+				childrenNames.Add("result");
+			return childrenNames;
 		}
 	}
 
@@ -433,7 +433,7 @@ public class PackageFunctionInvocationDecisionNode : FunctionInvocationBaseNode
 	{
 		get
 		{
-		return result.Type;
+			return result.Type;
 		}
 	}
 
@@ -441,7 +441,7 @@ public class PackageFunctionInvocationDecisionNode : FunctionInvocationBaseNode
 	{
 		get
 		{
-		return result;
+			return result;
 		}
 	}
 

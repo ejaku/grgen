@@ -44,7 +44,7 @@ public class DequeAsSetNode : DequeFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return setTypeNode;
+			return setTypeNode;
 		}
 	}
 

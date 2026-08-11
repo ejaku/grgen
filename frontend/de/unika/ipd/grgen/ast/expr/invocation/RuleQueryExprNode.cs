@@ -45,10 +45,10 @@ public class RuleQueryExprNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(callAction);
-		children.Add(GetValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(callAction);
+			children.Add(GetValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
+			return children;
 		}
 	}
 
@@ -56,10 +56,10 @@ public class RuleQueryExprNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("callAction");
-		childrenNames.Add("arrayOfMatchType");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("callAction");
+			childrenNames.Add("arrayOfMatchType");
+			return childrenNames;
 		}
 	}
 
@@ -79,7 +79,7 @@ public class RuleQueryExprNode : ExprNode
 	{
 		get
 		{
-		return callAction;
+			return callAction;
 		}
 	}
 
@@ -92,7 +92,7 @@ public class RuleQueryExprNode : ExprNode
 	{
 		get
 		{
-		return arrayOfMatchType;
+			return arrayOfMatchType;
 		}
 	}
 }

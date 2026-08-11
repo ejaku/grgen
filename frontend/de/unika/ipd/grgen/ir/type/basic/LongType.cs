@@ -31,7 +31,7 @@ public class LongType : PrimitiveType
 	{
 		get
 		{
-		return BasicTypeNode.longType.CheckIR(typeof(Type));
+			return BasicTypeNode.longType.CheckIR(typeof(Type));
 		}
 	}
 }

@@ -52,9 +52,9 @@ public class CopyExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(sourceExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(sourceExpr);
+			return children;
 		}
 	}
 
@@ -64,9 +64,9 @@ public class CopyExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("source expression");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("source expression");
+			return childrenNames;
 		}
 	}
 
@@ -121,15 +121,15 @@ public class CopyExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		if(sourceExpr.Type is MatchTypeNode
-				|| sourceExpr.Type is ContainerTypeNode
-				|| sourceExpr.Type is InternalObjectTypeNode
-				|| sourceExpr.Type is InternalTransientObjectTypeNode
-				|| sourceExpr.Type is ExternalObjectTypeNode
-				|| sourceExpr.Type is ObjectTypeNode)
-			return sourceExpr.Type;
-		else
-			return BasicTypeNode.graphType;
+			if(sourceExpr.Type is MatchTypeNode
+					|| sourceExpr.Type is ContainerTypeNode
+					|| sourceExpr.Type is InternalObjectTypeNode
+					|| sourceExpr.Type is InternalTransientObjectTypeNode
+					|| sourceExpr.Type is ExternalObjectTypeNode
+					|| sourceExpr.Type is ObjectTypeNode)
+				return sourceExpr.Type;
+			else
+				return BasicTypeNode.graphType;
 		}
 	}
 }

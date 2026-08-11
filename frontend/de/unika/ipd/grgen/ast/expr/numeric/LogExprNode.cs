@@ -53,11 +53,11 @@ public class LogExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(leftExpr);
-		if(rightExpr != null)
-			children.Add(rightExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(leftExpr);
+			if(rightExpr != null)
+				children.Add(rightExpr);
+			return children;
 		}
 	}
 
@@ -65,11 +65,11 @@ public class LogExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("left");
-		if(rightExpr != null)
-			childrenNames.Add("right");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("left");
+			if(rightExpr != null)
+				childrenNames.Add("right");
+			return childrenNames;
 		}
 	}
 
@@ -106,7 +106,7 @@ public class LogExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.doubleType;
+			return BasicTypeNode.doubleType;
 		}
 	}
 }

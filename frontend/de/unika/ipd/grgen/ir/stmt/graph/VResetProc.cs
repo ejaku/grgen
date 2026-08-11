@@ -29,7 +29,7 @@ public class VResetProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return visFlagExpr;
+			return visFlagExpr;
 		}
 	}
 

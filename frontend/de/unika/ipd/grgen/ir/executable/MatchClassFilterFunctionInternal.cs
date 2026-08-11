@@ -46,7 +46,7 @@ public class MatchClassFilterFunctionInternal : MatchClassFilterFunction, Nestin
 	{
 		get
 		{
-		return computationStatements.AsReadOnly();
+			return computationStatements.AsReadOnly();
 		}
 	}
 }

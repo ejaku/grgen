@@ -50,12 +50,12 @@ public class MatchEdgeByIndexAccessMultipleDeclNode : EdgeDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
-		children.Add(constraints);
-		children.Add(indexAccessParts);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
+			children.Add(constraints);
+			children.Add(indexAccessParts);
+			return children;
 		}
 	}
 
@@ -65,12 +65,12 @@ public class MatchEdgeByIndexAccessMultipleDeclNode : EdgeDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("constraints");
-		childrenNames.Add("indexAccessParts");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("constraints");
+			childrenNames.Add("indexAccessParts");
+			return childrenNames;
 		}
 	}
 

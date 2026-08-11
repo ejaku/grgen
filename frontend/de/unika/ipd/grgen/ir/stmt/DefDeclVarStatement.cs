@@ -30,7 +30,7 @@ public class DefDeclVarStatement : EvalStatement
 	{
 		get
 		{
-		return target;
+			return target;
 		}
 	}
 

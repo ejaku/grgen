@@ -37,7 +37,7 @@ public class SetTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		return "set<" + valueTypeUnresolved.ToString() + ">";
+			return "set<" + valueTypeUnresolved.ToString() + ">";
 		}
 	}
 
@@ -54,9 +54,9 @@ public class SetTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		// no children
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			// no children
+			return children;
 		}
 	}
 
@@ -64,9 +64,9 @@ public class SetTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// no children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// no children
+			return childrenNames;
 		}
 	}
 
@@ -119,7 +119,7 @@ public class SetTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		return valueType;
+			return valueType;
 		}
 	}
 

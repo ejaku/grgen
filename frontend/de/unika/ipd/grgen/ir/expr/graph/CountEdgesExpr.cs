@@ -26,7 +26,7 @@ public class CountEdgesExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return edgeType;
+			return edgeType;
 		}
 	}
 

@@ -51,10 +51,10 @@ public class AttributeInitializationNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(attributeUnresolved, attribute));
-		children.Add(initialization);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(attributeUnresolved, attribute));
+			children.Add(initialization);
+			return children;
 		}
 	}
 
@@ -62,10 +62,10 @@ public class AttributeInitializationNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("attribute");
-		childrenNames.Add("initialization");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("attribute");
+			childrenNames.Add("initialization");
+			return childrenNames;
 		}
 	}
 

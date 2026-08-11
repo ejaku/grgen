@@ -28,7 +28,7 @@ public class Graphof : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return entity;
+			return entity;
 		}
 	}
 

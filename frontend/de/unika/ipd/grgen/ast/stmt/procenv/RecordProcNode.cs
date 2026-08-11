@@ -44,9 +44,9 @@ public class RecordProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(exprToRecord);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(exprToRecord);
+			return children;
 		}
 	}
 
@@ -54,9 +54,9 @@ public class RecordProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("exprToRecord");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("exprToRecord");
+			return childrenNames;
 		}
 	}
 

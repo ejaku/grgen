@@ -48,16 +48,16 @@ public abstract class ContainerProcedureMethodInvocationBaseNode : BuiltinProced
 	{
 		get
 		{
-		if(target != null)
-		{
-			TypeNode targetType = target.Decl.DeclType;
-			return (ContainerTypeNode)targetType;
-		}
-		else
-		{
-			TypeNode targetType = targetVar.DeclType;
-			return (ContainerTypeNode)targetType;
-		}
+			if(target != null)
+			{
+				TypeNode targetType = target.Decl.DeclType;
+				return (ContainerTypeNode)targetType;
+			}
+			else
+			{
+				TypeNode targetType = targetVar.DeclType;
+				return (ContainerTypeNode)targetType;
+			}
 		}
 	}
 
@@ -65,7 +65,7 @@ public abstract class ContainerProcedureMethodInvocationBaseNode : BuiltinProced
 	{
 		get
 		{
-		return target != null ? (BaseNode)target : (BaseNode)targetVar;
+			return target != null ? (BaseNode)target : (BaseNode)targetVar;
 		}
 	}
 
@@ -73,9 +73,9 @@ public abstract class ContainerProcedureMethodInvocationBaseNode : BuiltinProced
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ValidTarget);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ValidTarget);
+			return children;
 		}
 	}
 
@@ -83,9 +83,9 @@ public abstract class ContainerProcedureMethodInvocationBaseNode : BuiltinProced
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("target");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("target");
+			return childrenNames;
 		}
 	}
 

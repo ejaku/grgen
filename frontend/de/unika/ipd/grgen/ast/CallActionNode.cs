@@ -88,12 +88,12 @@ public class CallActionNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(actionUnresolved, action, sequence, boolVar));
-		children.Add(GetValidVersionCollectNode(paramsUnresolved, @params));
-		children.Add(GetValidVersionCollectNode(returnsUnresolved, returns));
-		children.Add(GetValidVersionCollectNode(filterFunctionsUnresolved, filterFunctions));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(actionUnresolved, action, sequence, boolVar));
+			children.Add(GetValidVersionCollectNode(paramsUnresolved, @params));
+			children.Add(GetValidVersionCollectNode(returnsUnresolved, returns));
+			children.Add(GetValidVersionCollectNode(filterFunctionsUnresolved, filterFunctions));
+			return children;
 		}
 	}
 
@@ -103,12 +103,12 @@ public class CallActionNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("action");
-		childrenNames.Add("params");
-		childrenNames.Add("returns");
-		childrenNames.Add("filter");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("action");
+			childrenNames.Add("params");
+			childrenNames.Add("returns");
+			childrenNames.Add("filter");
+			return childrenNames;
 		}
 	}
 
@@ -120,8 +120,8 @@ public class CallActionNode : BaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return @params;
+			Debug.Assert(IsResolved());
+			return @params;
 		}
 	}
 
@@ -129,7 +129,7 @@ public class CallActionNode : BaseNode
 	{
 		get
 		{
-		return action;
+			return action;
 		}
 	}
 

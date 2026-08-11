@@ -51,9 +51,9 @@ public class FilterAutoSuppliedDeclNode : FilterAutoDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(actionUnresolved, action, iterated));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(actionUnresolved, action, iterated));
+			return children;
 		}
 	}
 
@@ -63,9 +63,9 @@ public class FilterAutoSuppliedDeclNode : FilterAutoDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("actionOrIterated");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("actionOrIterated");
+			return childrenNames;
 		}
 	}
 
@@ -112,7 +112,7 @@ public class FilterAutoSuppliedDeclNode : FilterAutoDeclNode
 	{
 		get
 		{
-		return "auto supplied filter";
+			return "auto supplied filter";
 		}
 	}
 }

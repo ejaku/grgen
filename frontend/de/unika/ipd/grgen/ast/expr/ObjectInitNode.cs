@@ -55,9 +55,9 @@ public class ObjectInitNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(attributeInits);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(attributeInits);
+			return children;
 		}
 	}
 
@@ -67,9 +67,9 @@ public class ObjectInitNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("attributeInits");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("attributeInits");
+			return childrenNames;
 		}
 	}
 
@@ -91,7 +91,7 @@ public class ObjectInitNode : ExprNode
 	{
 		get
 		{
-		return ObjectType;
+			return ObjectType;
 		}
 	}
 
@@ -99,8 +99,8 @@ public class ObjectInitNode : ExprNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return objectType;
+			Debug.Assert((IsResolved()));
+			return objectType;
 		}
 	}
 
@@ -123,7 +123,7 @@ public class ObjectInitNode : ExprNode
 	{
 		get
 		{
-		return CheckIR(typeof(InternalObjectInit));
+			return CheckIR(typeof(InternalObjectInit));
 		}
 	}
 
@@ -131,7 +131,7 @@ public class ObjectInitNode : ExprNode
 	{
 		get
 		{
-		return "internal (transient) object initialization";
+			return "internal (transient) object initialization";
 		}
 	}
 }

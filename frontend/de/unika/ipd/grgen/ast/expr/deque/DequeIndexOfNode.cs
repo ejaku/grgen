@@ -52,12 +52,12 @@ public class DequeIndexOfNode : DequeFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		children.Add(valueExpr);
-		if(startIndexExpr != null)
-			children.Add(startIndexExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			children.Add(valueExpr);
+			if(startIndexExpr != null)
+				children.Add(startIndexExpr);
+			return children;
 		}
 	}
 
@@ -65,12 +65,12 @@ public class DequeIndexOfNode : DequeFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		childrenNames.Add("valueExpr");
-		if(startIndexExpr != null)
-			childrenNames.Add("startIndex");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			childrenNames.Add("valueExpr");
+			if(startIndexExpr != null)
+				childrenNames.Add("startIndex");
+			return childrenNames;
 		}
 	}
 
@@ -103,7 +103,7 @@ public class DequeIndexOfNode : DequeFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 

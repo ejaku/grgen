@@ -69,12 +69,12 @@ public class ModifyDeclNode : RhsDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		children.Add(patternGraph);
-		children.Add(GetValidVersionCollectNode(deletesUnresolved, deletes));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			children.Add(patternGraph);
+			children.Add(GetValidVersionCollectNode(deletesUnresolved, deletes));
+			return children;
 		}
 	}
 
@@ -84,12 +84,12 @@ public class ModifyDeclNode : RhsDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("right");
-		childrenNames.Add("delete");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("right");
+			childrenNames.Add("delete");
+			return childrenNames;
 		}
 	}
 

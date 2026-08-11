@@ -54,9 +54,9 @@ public class SinCosTanExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(argumentExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(argumentExpr);
+			return children;
 		}
 	}
 
@@ -64,9 +64,9 @@ public class SinCosTanExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("arg");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("arg");
+			return childrenNames;
 		}
 	}
 
@@ -89,17 +89,17 @@ public class SinCosTanExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		switch(which)
-		{
-		case de.unika.ipd.grgen.ast.expr.numeric.SinCosTanExprNode.TrigonometryFunctionType.sin:
-			return SinCosTanExpr.TrigonometryFunctionType.sin;
-		case de.unika.ipd.grgen.ast.expr.numeric.SinCosTanExprNode.TrigonometryFunctionType.cos:
-			return SinCosTanExpr.TrigonometryFunctionType.cos;
-		case de.unika.ipd.grgen.ast.expr.numeric.SinCosTanExprNode.TrigonometryFunctionType.tan:
-			return SinCosTanExpr.TrigonometryFunctionType.tan;
-		default:
-			throw new Exception("internal compiler error");
-		}
+			switch(which)
+			{
+			case de.unika.ipd.grgen.ast.expr.numeric.SinCosTanExprNode.TrigonometryFunctionType.sin:
+				return SinCosTanExpr.TrigonometryFunctionType.sin;
+			case de.unika.ipd.grgen.ast.expr.numeric.SinCosTanExprNode.TrigonometryFunctionType.cos:
+				return SinCosTanExpr.TrigonometryFunctionType.cos;
+			case de.unika.ipd.grgen.ast.expr.numeric.SinCosTanExprNode.TrigonometryFunctionType.tan:
+				return SinCosTanExpr.TrigonometryFunctionType.tan;
+			default:
+				throw new Exception("internal compiler error");
+			}
 		}
 	}
 
@@ -107,7 +107,7 @@ public class SinCosTanExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return argumentExpr.Type;
+			return argumentExpr.Type;
 		}
 	}
 }

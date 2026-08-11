@@ -53,7 +53,7 @@ public class ExternalProcedureMethodInvocation : ProcedureInvocationBase
 	{
 		get
 		{
-		return ownerQual;
+			return ownerQual;
 		}
 	}
 
@@ -61,7 +61,7 @@ public class ExternalProcedureMethodInvocation : ProcedureInvocationBase
 	{
 		get
 		{
-		return ownerVar;
+			return ownerVar;
 		}
 	}
 
@@ -69,7 +69,7 @@ public class ExternalProcedureMethodInvocation : ProcedureInvocationBase
 	{
 		get
 		{
-		return externalProcedure;
+			return externalProcedure;
 		}
 	}
 
@@ -77,7 +77,7 @@ public class ExternalProcedureMethodInvocation : ProcedureInvocationBase
 	{
 		get
 		{
-		return externalProcedure;
+			return externalProcedure;
 		}
 	}
 

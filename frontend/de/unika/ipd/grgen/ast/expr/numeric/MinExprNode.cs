@@ -45,10 +45,10 @@ public class MinExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(leftExpr);
-		children.Add(rightExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(leftExpr);
+			children.Add(rightExpr);
+			return children;
 		}
 	}
 
@@ -56,10 +56,10 @@ public class MinExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("left");
-		childrenNames.Add("right");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("left");
+			childrenNames.Add("right");
+			return childrenNames;
 		}
 	}
 
@@ -97,7 +97,7 @@ public class MinExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return leftExpr.Type;
+			return leftExpr.Type;
 		}
 	}
 }

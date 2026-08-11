@@ -41,7 +41,7 @@ public class SymbolTable
 	{
 		get
 		{
-		return INVALID;
+			return INVALID;
 		}
 	}
 
@@ -75,7 +75,7 @@ public class SymbolTable
 	{
 		get
 		{
-		return name;
+			return name;
 		}
 	}
 
@@ -153,7 +153,7 @@ public class SymbolTable
 	{
 		get
 		{
-		return id;
+			return id;
 		}
 	}
 }

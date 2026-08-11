@@ -46,8 +46,8 @@ public class MatchInitNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			return children;
 		}
 	}
 
@@ -57,8 +57,8 @@ public class MatchInitNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			return childrenNames;
 		}
 	}
 
@@ -80,7 +80,7 @@ public class MatchInitNode : ExprNode
 	{
 		get
 		{
-		return MatchType;
+			return MatchType;
 		}
 	}
 
@@ -88,8 +88,8 @@ public class MatchInitNode : ExprNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return matchType;
+			Debug.Assert((IsResolved()));
+			return matchType;
 		}
 	}
 
@@ -103,7 +103,7 @@ public class MatchInitNode : ExprNode
 	{
 		get
 		{
-		return CheckIR(typeof(MatchInit));
+			return CheckIR(typeof(MatchInit));
 		}
 	}
 
@@ -111,7 +111,7 @@ public class MatchInitNode : ExprNode
 	{
 		get
 		{
-		return "match initialization";
+			return "match initialization";
 		}
 	}
 }

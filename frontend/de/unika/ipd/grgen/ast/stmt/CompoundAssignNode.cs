@@ -87,15 +87,15 @@ public class CompoundAssignNode : EvalStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(targetUnresolved, targetQual, targetVar));
-		children.Add(valueExpr);
-		if(targetChangedUnresolved != null)
-		{
-			children.Add(GetValidVersion(targetChangedUnresolved,
-					targetChangedQual, targetChangedVar, targetChangedVis));
-		}
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(targetUnresolved, targetQual, targetVar));
+			children.Add(valueExpr);
+			if(targetChangedUnresolved != null)
+			{
+				children.Add(GetValidVersion(targetChangedUnresolved,
+						targetChangedQual, targetChangedVar, targetChangedVis));
+			}
+			return children;
 		}
 	}
 
@@ -103,12 +103,12 @@ public class CompoundAssignNode : EvalStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("target");
-		childrenNames.Add("valueExpr");
-		if(targetChangedUnresolved != null)
-			childrenNames.Add("targetChanged");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("target");
+			childrenNames.Add("valueExpr");
+			if(targetChangedUnresolved != null)
+				childrenNames.Add("targetChanged");
+			return childrenNames;
 		}
 	}
 
@@ -116,7 +116,7 @@ public class CompoundAssignNode : EvalStatementNode
 	{
 		get
 		{
-		return targetQual != null ? (BaseNode)targetQual : (BaseNode)targetVar;
+			return targetQual != null ? (BaseNode)targetQual : (BaseNode)targetVar;
 		}
 	}
 

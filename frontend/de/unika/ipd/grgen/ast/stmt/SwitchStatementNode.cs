@@ -55,10 +55,10 @@ public class SwitchStatementNode : EvalStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(switchExpr);
-		children.Add(cases);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(switchExpr);
+			children.Add(cases);
+			return children;
 		}
 	}
 
@@ -68,10 +68,10 @@ public class SwitchStatementNode : EvalStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("switchExpr");
-		childrenNames.Add("cases");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("switchExpr");
+			childrenNames.Add("cases");
+			return childrenNames;
 		}
 	}
 

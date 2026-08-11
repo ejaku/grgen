@@ -78,11 +78,11 @@ public class IndexFunctionInvocationDecisionNode : FunctionOrBuiltinFunctionInvo
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(arguments);
-		if(IsResolved())
-			children.Add(result);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(arguments);
+			if(IsResolved())
+				children.Add(result);
+			return children;
 		}
 	}
 
@@ -90,11 +90,11 @@ public class IndexFunctionInvocationDecisionNode : FunctionOrBuiltinFunctionInvo
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("params");
-		if(IsResolved())
-			childrenNames.Add("result");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("params");
+			if(IsResolved())
+				childrenNames.Add("result");
+			return childrenNames;
 		}
 	}
 
@@ -598,7 +598,7 @@ public class IndexFunctionInvocationDecisionNode : FunctionOrBuiltinFunctionInvo
 	{
 		get
 		{
-		return result.Type;
+			return result.Type;
 		}
 	}
 
@@ -606,7 +606,7 @@ public class IndexFunctionInvocationDecisionNode : FunctionOrBuiltinFunctionInvo
 	{
 		get
 		{
-		return result;
+			return result;
 		}
 	}
 

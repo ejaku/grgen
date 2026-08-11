@@ -48,10 +48,10 @@ public class UniqueofExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		if(entity != null)
-			children.Add(entity);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			if(entity != null)
+				children.Add(entity);
+			return children;
 		}
 	}
 
@@ -61,10 +61,10 @@ public class UniqueofExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		if(entity != null)
-			childrenNames.Add("entity");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			if(entity != null)
+				childrenNames.Add("entity");
+			return childrenNames;
 		}
 	}
 
@@ -122,10 +122,10 @@ public class UniqueofExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		if(entity != null && entity.Type is InternalObjectTypeNode)
-			return BasicTypeNode.longType;
-		else
-			return BasicTypeNode.intType;
+			if(entity != null && entity.Type is InternalObjectTypeNode)
+				return BasicTypeNode.longType;
+			else
+				return BasicTypeNode.intType;
 		}
 	}
 }

@@ -53,11 +53,11 @@ public class EdgeType : InheritanceType, ContainedInPackage
 	{
 		get
 		{
-		return directedness;
+			return directedness;
 		}
 		set
 		{
-		directedness = value;
+			directedness = value;
 		}
 	}
 
@@ -100,7 +100,7 @@ public class EdgeType : InheritanceType, ContainedInPackage
 	{
 		get
 		{
-		return connectionAsserts.AsReadOnly();
+			return connectionAsserts.AsReadOnly();
 		}
 	}
 
@@ -136,11 +136,11 @@ public class EdgeType : InheritanceType, ContainedInPackage
 	{
 		get
 		{
-		return packageContainedIn;
+			return packageContainedIn;
 		}
 		set
 		{
-		this.packageContainedIn = value;
+			this.packageContainedIn = value;
 		}
 	}
 

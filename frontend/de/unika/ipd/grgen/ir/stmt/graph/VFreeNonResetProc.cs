@@ -29,7 +29,7 @@ public class VFreeNonResetProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return visFlagExpr;
+			return visFlagExpr;
 		}
 	}
 

@@ -30,7 +30,7 @@ public class ResolvingEnvironment
 	{
 		get
 		{
-		return coords;
+			return coords;
 		}
 	}
 
@@ -38,7 +38,7 @@ public class ResolvingEnvironment
 	{
 		get
 		{
-		return env;
+			return env;
 		}
 	}
 

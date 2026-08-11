@@ -38,7 +38,7 @@ public abstract class ArrayProcedureMethodInvocationBaseNode : ContainerProcedur
 	{
 		get
 		{
-		return (ArrayTypeNode)TargetType;
+			return (ArrayTypeNode)TargetType;
 		}
 	}
 }

@@ -36,7 +36,7 @@ public class BooleanType : PrimitiveType
 	{
 		get
 		{
-		return BasicTypeNode.booleanType.CheckIR(typeof(Type));
+			return BasicTypeNode.booleanType.CheckIR(typeof(Type));
 		}
 	}
 }

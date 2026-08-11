@@ -61,7 +61,7 @@ public class IdentExprNode : DeclExprNode
 	{
 		get
 		{
-		return (IdentNode)declUnresolved;
+			return (IdentNode)declUnresolved;
 		}
 	}
 
@@ -69,9 +69,9 @@ public class IdentExprNode : DeclExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			return childrenNames;
 		}
 	}
 

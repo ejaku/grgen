@@ -38,7 +38,7 @@ public class DequeCopyConstructor : Expression
 	{
 		get
 		{
-		return dequeToCopy;
+			return dequeToCopy;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class DequeCopyConstructor : Expression
 	{
 		get
 		{
-		return dequeType;
+			return dequeType;
 		}
 	}
 }

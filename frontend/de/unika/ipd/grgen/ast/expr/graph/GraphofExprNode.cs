@@ -47,9 +47,9 @@ public class GraphofExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(entity);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(entity);
+			return children;
 		}
 	}
 
@@ -59,9 +59,9 @@ public class GraphofExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("entity");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("entity");
+			return childrenNames;
 		}
 	}
 
@@ -94,7 +94,7 @@ public class GraphofExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.graphType;
+			return BasicTypeNode.graphType;
 		}
 	}
 }

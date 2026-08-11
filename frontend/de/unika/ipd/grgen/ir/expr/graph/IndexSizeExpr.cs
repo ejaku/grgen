@@ -26,7 +26,7 @@ public class IndexSizeExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return index;
+			return index;
 		}
 	}
 

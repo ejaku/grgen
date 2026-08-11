@@ -30,7 +30,7 @@ public class ArrayVarRemoveItem : ContainerVarProcedureMethodInvocationBase
 	{
 		get
 		{
-		return indexExpr;
+			return indexExpr;
 		}
 	}
 

@@ -44,7 +44,7 @@ public class MapDomainNode : MapFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return setTypeNode;
+			return setTypeNode;
 		}
 	}
 

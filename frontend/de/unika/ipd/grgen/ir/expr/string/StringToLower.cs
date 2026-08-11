@@ -30,7 +30,7 @@ public class StringToLower : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return stringExpr;
+			return stringExpr;
 		}
 	}
 

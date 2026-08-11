@@ -36,9 +36,9 @@ public class ErrorNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		// no children
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			// no children
+			return children;
 		}
 	}
 
@@ -48,9 +48,9 @@ public class ErrorNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// no children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// no children
+			return childrenNames;
 		}
 	}
 
@@ -70,7 +70,7 @@ public class ErrorNode : BaseNode
 	{
 		get
 		{
-		return Color.RED;
+			return Color.RED;
 		}
 	}
 
@@ -78,7 +78,7 @@ public class ErrorNode : BaseNode
 	{
 		get
 		{
-		return "Error";
+			return "Error";
 		}
 	}
 

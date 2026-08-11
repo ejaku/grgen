@@ -53,12 +53,12 @@ public class GraphRedirectSourceProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(edgeExpr);
-		children.Add(newSourceExpr);
-		if(oldSourceNameExpr != null)
-			children.Add(oldSourceNameExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(edgeExpr);
+			children.Add(newSourceExpr);
+			if(oldSourceNameExpr != null)
+				children.Add(oldSourceNameExpr);
+			return children;
 		}
 	}
 
@@ -66,12 +66,12 @@ public class GraphRedirectSourceProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("edge");
-		childrenNames.Add("newSource");
-		if(oldSourceNameExpr != null)
-			childrenNames.Add("oldSourceName");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("edge");
+			childrenNames.Add("newSource");
+			if(oldSourceNameExpr != null)
+				childrenNames.Add("oldSourceName");
+			return childrenNames;
 		}
 	}
 

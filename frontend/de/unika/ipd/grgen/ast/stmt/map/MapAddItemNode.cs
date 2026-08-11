@@ -57,11 +57,11 @@ public class MapAddItemNode : MapProcedureMethodInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ValidTarget);
-		children.Add(keyExpr);
-		children.Add(valueExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ValidTarget);
+			children.Add(keyExpr);
+			children.Add(valueExpr);
+			return children;
 		}
 	}
 
@@ -69,11 +69,11 @@ public class MapAddItemNode : MapProcedureMethodInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("target");
-		childrenNames.Add("keyExpr");
-		childrenNames.Add("valueExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("target");
+			childrenNames.Add("keyExpr");
+			childrenNames.Add("valueExpr");
+			return childrenNames;
 		}
 	}
 

@@ -56,9 +56,9 @@ public class TypeofNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl, entityVarDecl));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl, entityVarDecl));
+			return children;
 		}
 	}
 
@@ -68,9 +68,9 @@ public class TypeofNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("entity");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("entity");
+			return childrenNames;
 		}
 	}
 
@@ -119,9 +119,9 @@ public class TypeofNode : ExprNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return GetValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl);
+			return GetValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl);
 		}
 	}
 
@@ -129,7 +129,7 @@ public class TypeofNode : ExprNode
 	{
 		get
 		{
-		return BasicTypeNode.typeType;
+			return BasicTypeNode.typeType;
 		}
 	}
 

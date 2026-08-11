@@ -47,7 +47,7 @@ public class FromIndexAccessFromToPartExprNode : FromIndexAccessFromToExprNode
 	{
 		get
 		{
-		return wholeExpr.Root;
+			return wholeExpr.Root;
 		}
 	}
 
@@ -76,7 +76,7 @@ public class FromIndexAccessFromToPartExprNode : FromIndexAccessFromToExprNode
 	{
 		get
 		{
-		throw new Exception("Not implemented! Only used as part class.");
+			throw new Exception("Not implemented! Only used as part class.");
 		}
 	}
 }

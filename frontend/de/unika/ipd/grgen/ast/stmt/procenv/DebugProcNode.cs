@@ -48,9 +48,9 @@ public abstract class DebugProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(exprs);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(exprs);
+			return children;
 		}
 	}
 
@@ -58,9 +58,9 @@ public abstract class DebugProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("exprs");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("exprs");
+			return childrenNames;
 		}
 	}
 

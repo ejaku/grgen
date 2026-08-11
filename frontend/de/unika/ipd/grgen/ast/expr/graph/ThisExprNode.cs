@@ -34,8 +34,8 @@ public class ThisExprNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			return children;
 		}
 	}
 
@@ -43,8 +43,8 @@ public class ThisExprNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			return childrenNames;
 		}
 	}
 
@@ -62,7 +62,7 @@ public class ThisExprNode : ExprNode
 	{
 		get
 		{
-		return BasicTypeNode.graphType;
+			return BasicTypeNode.graphType;
 		}
 	}
 }

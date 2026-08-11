@@ -37,7 +37,7 @@ public class PowExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return leftExpr;
+			return leftExpr;
 		}
 	}
 
@@ -45,7 +45,7 @@ public class PowExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return rightExpr;
+			return rightExpr;
 		}
 	}
 

@@ -43,9 +43,9 @@ public abstract class ContainerSingleElementInitNode : ContainerInitNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(containerItems);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(containerItems);
+			return children;
 		}
 	}
 
@@ -53,9 +53,9 @@ public abstract class ContainerSingleElementInitNode : ContainerInitNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("containerItems");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("containerItems");
+			return childrenNames;
 		}
 	}
 
@@ -126,7 +126,7 @@ public abstract class ContainerSingleElementInitNode : ContainerInitNode
 	{
 		get
 		{
-		return containerItems;
+			return containerItems;
 		}
 	}
 

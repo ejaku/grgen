@@ -50,7 +50,7 @@ public class CollectNode<T> : CollectBaseNode where T : BaseNode
 	{
 		get
 		{
-		return new List<BaseNode>(children);
+			return new List<BaseNode>(children);
 		}
 	}
 
@@ -58,7 +58,7 @@ public class CollectNode<T> : CollectBaseNode where T : BaseNode
 	{
 		get
 		{
-		return children;
+			return children;
 		}
 	}
 
@@ -66,7 +66,7 @@ public class CollectNode<T> : CollectBaseNode where T : BaseNode
 	{
 		get
 		{
-		return children;
+			return children;
 		}
 	}
 
@@ -98,9 +98,9 @@ public class CollectNode<T> : CollectBaseNode where T : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// nameless children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// nameless children
+			return childrenNames;
 		}
 	}
 

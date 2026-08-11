@@ -88,9 +88,9 @@ public class EnumTypeNode : CompoundTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(elements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(elements);
+			return children;
 		}
 	}
 
@@ -100,9 +100,9 @@ public class EnumTypeNode : CompoundTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("elements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("elements");
+			return childrenNames;
 		}
 	}
 
@@ -131,7 +131,7 @@ public class EnumTypeNode : CompoundTypeNode
 	{
 		get
 		{
-		return "enum";
+			return "enum";
 		}
 	}
 }

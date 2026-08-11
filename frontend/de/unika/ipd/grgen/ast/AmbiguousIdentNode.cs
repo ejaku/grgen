@@ -43,20 +43,20 @@ public class AmbiguousIdentNode : IdentNode
 	{
 		get
 		{
-		if(occ.Definition == null)
-		{
-			// I don't now why this is needed, it feels like a hack, but it works
-			Symbol.Definition def = occ.Scope.GetCurrDef(Symbol);
-			if(def.IsValid())
-				SymDef = def;
-			else
+			if(occ.Definition == null)
 			{
-				def = otherOcc.Scope.GetCurrDef(OtherSymbol);
+				// I don't now why this is needed, it feels like a hack, but it works
+				Symbol.Definition def = occ.Scope.GetCurrDef(Symbol);
 				if(def.IsValid())
 					SymDef = def;
+				else
+				{
+					def = otherOcc.Scope.GetCurrDef(OtherSymbol);
+					if(def.IsValid())
+						SymDef = def;
+				}
 			}
-		}
-		return occ.Definition;
+			return occ.Definition;
 		}
 	}
 
@@ -67,7 +67,7 @@ public class AmbiguousIdentNode : IdentNode
 	{
 		get
 		{
-		return otherOcc.Symbol;
+			return otherOcc.Symbol;
 		}
 	}
 }

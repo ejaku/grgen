@@ -47,10 +47,10 @@ public class VisitedNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(visitorIDExpr);
-		children.Add(entityExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(visitorIDExpr);
+			children.Add(entityExpr);
+			return children;
 		}
 	}
 
@@ -58,10 +58,10 @@ public class VisitedNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("visitorID");
-		childrenNames.Add("entity");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("visitorID");
+			childrenNames.Add("entity");
+			return childrenNames;
 		}
 	}
 
@@ -102,7 +102,7 @@ public class VisitedNode : ExprNode
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 }

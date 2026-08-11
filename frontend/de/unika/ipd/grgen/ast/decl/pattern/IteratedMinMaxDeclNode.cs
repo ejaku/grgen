@@ -38,7 +38,7 @@ public class IteratedMinMaxDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return minMatches;
+			return minMatches;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class IteratedMinMaxDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return maxMatches;
+			return maxMatches;
 		}
 	}
 
@@ -54,7 +54,7 @@ public class IteratedMinMaxDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return "iterated-minmax";
+			return "iterated-minmax";
 		}
 	}
 }

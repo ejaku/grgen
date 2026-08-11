@@ -29,7 +29,7 @@ public class SetPeekExpr : SetFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return numberExpr;
+			return numberExpr;
 		}
 	}
 

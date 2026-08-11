@@ -65,7 +65,7 @@ public class Scope
 	{
 		get
 		{
-		return INVALID;
+			return INVALID;
 		}
 	}
 
@@ -297,7 +297,7 @@ public class Scope
 	{
 		get
 		{
-		return parent;
+			return parent;
 		}
 	}
 
@@ -305,10 +305,10 @@ public class Scope
 	{
 		get
 		{
-		Scope curScope = this;
-		while(!curScope.IsRoot())
-			curScope = curScope.Parent;
-		return curScope;
+			Scope curScope = this;
+			while(!curScope.IsRoot())
+				curScope = curScope.Parent;
+			return curScope;
 		}
 	}
 
@@ -316,9 +316,9 @@ public class Scope
 	{
 		get
 		{
-		if(ident == null)
-			return "<ROOT>";
-		return ident.ToString();
+			if(ident == null)
+				return "<ROOT>";
+			return ident.ToString();
 		}
 	}
 
@@ -329,7 +329,7 @@ public class Scope
 	{
 		get
 		{
-		return ident;
+			return ident;
 		}
 	}
 
@@ -337,10 +337,10 @@ public class Scope
 	{
 		get
 		{
-		string res = "";
-		if(!IsRoot())
-			res = res + parent + ".";
-		return res + Name;
+			string res = "";
+			if(!IsRoot())
+				res = res + parent + ".";
+			return res + Name;
 		}
 	}
 

@@ -73,12 +73,12 @@ public class FunctionDeclNode : FunctionDeclBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(evalStatements);
-		children.Add(parametersUnresolved);
-		children.Add(GetValidVersion(resultUnresolved, resultType));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(evalStatements);
+			children.Add(parametersUnresolved);
+			children.Add(GetValidVersion(resultUnresolved, resultType));
+			return children;
 		}
 	}
 
@@ -88,12 +88,12 @@ public class FunctionDeclNode : FunctionDeclBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("evals");
-		childrenNames.Add("params");
-		childrenNames.Add("ret");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("evals");
+			childrenNames.Add("params");
+			childrenNames.Add("ret");
+			return childrenNames;
 		}
 	}
 
@@ -154,7 +154,7 @@ public class FunctionDeclNode : FunctionDeclBaseNode
 	{
 		get
 		{
-		return CheckIR(typeof(Function));
+			return CheckIR(typeof(Function));
 		}
 	}
 
@@ -162,8 +162,8 @@ public class FunctionDeclNode : FunctionDeclBaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return functionType;
+			Debug.Assert(IsResolved());
+			return functionType;
 		}
 	}
 
@@ -201,7 +201,7 @@ public class FunctionDeclNode : FunctionDeclBaseNode
 	{
 		get
 		{
-		return "function";
+			return "function";
 		}
 	}
 }

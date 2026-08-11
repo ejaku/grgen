@@ -98,14 +98,14 @@ public class SetInitNode : ContainerSingleElementInitNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		if(lhs != null)
-		{
-			TypeNode type = lhs.DeclType;
-			return (SetTypeNode)type;
-		}
-		else
-			return setType;
+			Debug.Assert((IsResolved()));
+			if(lhs != null)
+			{
+				TypeNode type = lhs.DeclType;
+				return (SetTypeNode)type;
+			}
+			else
+				return setType;
 		}
 	}
 
@@ -126,7 +126,7 @@ public class SetInitNode : ContainerSingleElementInitNode
 	{
 		get
 		{
-		return CheckIR(typeof(SetInit));
+			return CheckIR(typeof(SetInit));
 		}
 	}
 
@@ -134,7 +134,7 @@ public class SetInitNode : ContainerSingleElementInitNode
 	{
 		get
 		{
-		return "set initialization";
+			return "set initialization";
 		}
 	}
 }

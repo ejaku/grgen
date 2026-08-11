@@ -46,7 +46,7 @@ public class ForIndexAccessEquality : EvalStatement
 	{
 		get
 		{
-		return iterationVar;
+			return iterationVar;
 		}
 	}
 
@@ -54,7 +54,7 @@ public class ForIndexAccessEquality : EvalStatement
 	{
 		get
 		{
-		return iae;
+			return iae;
 		}
 	}
 
@@ -62,7 +62,7 @@ public class ForIndexAccessEquality : EvalStatement
 	{
 		get
 		{
-		return statements.AsReadOnly();
+			return statements.AsReadOnly();
 		}
 	}
 

@@ -50,9 +50,9 @@ public class PackageTypeNode : CompoundTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(declsUnresolved, decls));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(declsUnresolved, decls));
+			return children;
 		}
 	}
 
@@ -62,9 +62,9 @@ public class PackageTypeNode : CompoundTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("decls");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("decls");
+			return childrenNames;
 		}
 	}
 
@@ -82,7 +82,7 @@ public class PackageTypeNode : CompoundTypeNode
 	{
 		get
 		{
-		return decls;
+			return decls;
 		}
 	}
 
@@ -105,7 +105,7 @@ public class PackageTypeNode : CompoundTypeNode
 	{
 		get
 		{
-		return "package";
+			return "package";
 		}
 	}
 }

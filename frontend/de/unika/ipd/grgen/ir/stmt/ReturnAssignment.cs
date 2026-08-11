@@ -40,7 +40,7 @@ public class ReturnAssignment : EvalStatement
 	{
 		get
 		{
-		return procedureInvocation;
+			return procedureInvocation;
 		}
 	}
 
@@ -48,7 +48,7 @@ public class ReturnAssignment : EvalStatement
 	{
 		get
 		{
-		return targets;
+			return targets;
 		}
 	}
 

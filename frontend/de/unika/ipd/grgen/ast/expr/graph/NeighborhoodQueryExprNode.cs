@@ -60,11 +60,11 @@ public abstract class NeighborhoodQueryExprNode : BuiltinFunctionInvocationBaseN
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(startNodeExpr);
-		children.Add(incidentTypeExpr);
-		children.Add(adjacentTypeExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(startNodeExpr);
+			children.Add(incidentTypeExpr);
+			children.Add(adjacentTypeExpr);
+			return children;
 		}
 	}
 
@@ -74,11 +74,11 @@ public abstract class NeighborhoodQueryExprNode : BuiltinFunctionInvocationBaseN
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("start node expr");
-		childrenNames.Add("incident type expr");
-		childrenNames.Add("adjacent type expr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("start node expr");
+			childrenNames.Add("incident type expr");
+			childrenNames.Add("adjacent type expr");
+			return childrenNames;
 		}
 	}
 

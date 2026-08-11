@@ -51,10 +51,10 @@ public class CountIncidenceFromIndexExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(indexUnresolved, index));
-		children.Add(keyExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(indexUnresolved, index));
+			children.Add(keyExpr);
+			return children;
 		}
 	}
 
@@ -62,10 +62,10 @@ public class CountIncidenceFromIndexExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("index");
-		childrenNames.Add("keyExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("index");
+			childrenNames.Add("keyExpr");
+			return childrenNames;
 		}
 	}
 
@@ -115,7 +115,7 @@ public class CountIncidenceFromIndexExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return IntTypeNode.intType;
+			return IntTypeNode.intType;
 		}
 	}
 

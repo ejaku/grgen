@@ -54,10 +54,10 @@ public class DoWhileStatementNode : NestingStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(statements);
-		children.Add(conditionExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(statements);
+			children.Add(conditionExpr);
+			return children;
 		}
 	}
 
@@ -67,10 +67,10 @@ public class DoWhileStatementNode : NestingStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("loopedStatements");
-		childrenNames.Add("condition");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("loopedStatements");
+			childrenNames.Add("condition");
+			return childrenNames;
 		}
 	}
 

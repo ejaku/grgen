@@ -33,7 +33,7 @@ public class OptionalDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return 0;
+			return 0;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class OptionalDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return 1;
+			return 1;
 		}
 	}
 
@@ -49,7 +49,7 @@ public class OptionalDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return "optional";
+			return "optional";
 		}
 	}
 }

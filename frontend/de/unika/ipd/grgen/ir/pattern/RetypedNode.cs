@@ -37,11 +37,11 @@ public class RetypedNode : Node, Retyped
 	{
 		get
 		{
-		return oldNode;
+			return oldNode;
 		}
 		set
 		{
-		this.oldNode = (Node)value;
+			this.oldNode = (Node)value;
 		}
 	}
 
@@ -52,11 +52,11 @@ public class RetypedNode : Node, Retyped
 	{
 		get
 		{
-		return oldNode;
+			return oldNode;
 		}
 		set
 		{
-		this.oldNode = value;
+			this.oldNode = value;
 		}
 	}
 
@@ -75,7 +75,7 @@ public class RetypedNode : Node, Retyped
 	{
 		get
 		{
-		return mergees.AsReadOnly();
+			return mergees.AsReadOnly();
 		}
 	}
 
@@ -83,10 +83,10 @@ public class RetypedNode : Node, Retyped
 	{
 		get
 		{
-		int depLevel = oldNode.DependencyLevel;
-		foreach(Node mergee in mergees)
-			depLevel = Math.Max(depLevel, mergee.DependencyLevel);
-		return depLevel;
+			int depLevel = oldNode.DependencyLevel;
+			foreach(Node mergee in mergees)
+				depLevel = Math.Max(depLevel, mergee.DependencyLevel);
+			return depLevel;
 		}
 	}
 }

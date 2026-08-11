@@ -31,7 +31,7 @@ public class Cast : Expression
 	{
 		get
 		{
-		return "Cast to " + type;
+			return "Cast to " + type;
 		}
 	}
 
@@ -39,7 +39,7 @@ public class Cast : Expression
 	{
 		get
 		{
-		return expr;
+			return expr;
 		}
 	}
 
@@ -47,9 +47,9 @@ public class Cast : Expression
 	{
 		get
 		{
-		IList<Expression> vec = new List<Expression>();
-		vec.Add(expr);
-		return vec;
+			IList<Expression> vec = new List<Expression>();
+			vec.Add(expr);
+			return vec;
 		}
 	}
 

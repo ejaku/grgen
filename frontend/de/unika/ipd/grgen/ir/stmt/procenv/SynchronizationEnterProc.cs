@@ -29,7 +29,7 @@ public class SynchronizationEnterProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return criticalSectionObjectExpr;
+			return criticalSectionObjectExpr;
 		}
 	}
 

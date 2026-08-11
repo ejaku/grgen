@@ -25,7 +25,7 @@ public class NodesFromIndexAccessSameExpr : NodesFromIndexAccessExpr
 	{
 		get
 		{
-		return indexAccess;
+			return indexAccess;
 		}
 	}
 

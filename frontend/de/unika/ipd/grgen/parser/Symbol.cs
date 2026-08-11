@@ -69,7 +69,7 @@ public class Symbol
 		{
 			get
 			{
-			return symbol;
+				return symbol;
 			}
 		}
 
@@ -80,7 +80,7 @@ public class Symbol
 		{
 			get
 			{
-			return coords;
+				return coords;
 			}
 		}
 
@@ -91,7 +91,7 @@ public class Symbol
 		{
 			get
 			{
-			return scope;
+				return scope;
 			}
 		}
 
@@ -102,11 +102,11 @@ public class Symbol
 		{
 			get
 			{
-			return def;
+				return def;
 			}
 			set
 			{
-			this.def = value;
+				this.def = value;
 			}
 		}
 
@@ -142,7 +142,7 @@ public class Symbol
 		{
 			get
 			{
-			return INVALID;
+				return INVALID;
 			}
 		}
 
@@ -178,7 +178,7 @@ public class Symbol
 		{
 			get
 			{
-			return node;
+				return node;
 			}
 			set // Set an AST node for this definition. An AST ident node.
 			{
@@ -227,7 +227,7 @@ public class Symbol
 	{
 		get
 		{
-		return symbolTable;
+			return symbolTable;
 		}
 	}
 
@@ -261,7 +261,7 @@ public class Symbol
 	{
 		get
 		{
-		return /*text != null ? */text/* : "<invalid>"*/;
+			return /*text != null ? */text/* : "<invalid>"*/;
 		}
 	}
 
@@ -286,7 +286,7 @@ public class Symbol
 	{
 		get
 		{
-		return definitions;
+			return definitions;
 		}
 	}
 

@@ -61,13 +61,13 @@ public class AlternativeCaseDeclNode : NestedMatcherDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		children.Add(pattern);
-		if(right != null)
-			children.Add(right);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			children.Add(pattern);
+			if(right != null)
+				children.Add(right);
+			return children;
 		}
 	}
 
@@ -77,13 +77,13 @@ public class AlternativeCaseDeclNode : NestedMatcherDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("pattern");
-		if(right != null)
-			childrenNames.Add("right");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("pattern");
+			if(right != null)
+				childrenNames.Add("right");
+			return childrenNames;
 		}
 	}
 
@@ -136,9 +136,9 @@ public class AlternativeCaseDeclNode : NestedMatcherDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 
@@ -146,7 +146,7 @@ public class AlternativeCaseDeclNode : NestedMatcherDeclNode
 	{
 		get
 		{
-		return "alternative case";
+			return "alternative case";
 		}
 	}
 }

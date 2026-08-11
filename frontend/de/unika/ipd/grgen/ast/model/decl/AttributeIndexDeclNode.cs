@@ -60,11 +60,11 @@ public class AttributeIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		children.Add(GetValidVersion(memberUnresolved, member));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			children.Add(GetValidVersion(memberUnresolved, member));
+			return children;
 		}
 	}
 
@@ -74,11 +74,11 @@ public class AttributeIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("member");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("member");
+			return childrenNames;
 		}
 	}
 
@@ -123,9 +123,9 @@ public class AttributeIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return attributeIndexType;
+			return attributeIndexType;
 		}
 	}
 
@@ -133,9 +133,9 @@ public class AttributeIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 
@@ -143,9 +143,9 @@ public class AttributeIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return member.DeclType;
+			return member.DeclType;
 		}
 	}
 
@@ -160,7 +160,7 @@ public class AttributeIndexDeclNode : IndexDeclNode
 	{
 		get
 		{
-		return "attribute index";
+			return "attribute index";
 		}
 	}
 }

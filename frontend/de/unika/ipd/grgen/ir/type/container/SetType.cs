@@ -28,7 +28,7 @@ public class SetType : ContainerType
 	{
 		get
 		{
-		return valueType;
+			return valueType;
 		}
 	}
 
@@ -47,7 +47,7 @@ public class SetType : ContainerType
 	{
 		get
 		{
-		return valueType;
+			return valueType;
 		}
 	}
 

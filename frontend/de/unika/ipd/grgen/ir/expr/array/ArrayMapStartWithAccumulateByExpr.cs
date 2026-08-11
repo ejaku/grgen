@@ -42,7 +42,7 @@ public class ArrayMapStartWithAccumulateByExpr : ArrayFunctionMethodInvocationBa
 	{
 		get
 		{
-		return initArrayAccessVar;
+			return initArrayAccessVar;
 		}
 	}
 
@@ -50,7 +50,7 @@ public class ArrayMapStartWithAccumulateByExpr : ArrayFunctionMethodInvocationBa
 	{
 		get
 		{
-		return initExpr;
+			return initExpr;
 		}
 	}
 
@@ -58,7 +58,7 @@ public class ArrayMapStartWithAccumulateByExpr : ArrayFunctionMethodInvocationBa
 	{
 		get
 		{
-		return arrayAccessVar;
+			return arrayAccessVar;
 		}
 	}
 
@@ -66,7 +66,7 @@ public class ArrayMapStartWithAccumulateByExpr : ArrayFunctionMethodInvocationBa
 	{
 		get
 		{
-		return previousAccumulationAccessVar;
+			return previousAccumulationAccessVar;
 		}
 	}
 
@@ -74,7 +74,7 @@ public class ArrayMapStartWithAccumulateByExpr : ArrayFunctionMethodInvocationBa
 	{
 		get
 		{
-		return indexVar;
+			return indexVar;
 		}
 	}
 
@@ -82,7 +82,7 @@ public class ArrayMapStartWithAccumulateByExpr : ArrayFunctionMethodInvocationBa
 	{
 		get
 		{
-		return elementVar;
+			return elementVar;
 		}
 	}
 
@@ -90,7 +90,7 @@ public class ArrayMapStartWithAccumulateByExpr : ArrayFunctionMethodInvocationBa
 	{
 		get
 		{
-		return mappingExpr;
+			return mappingExpr;
 		}
 	}
 

@@ -46,7 +46,7 @@ public class SetInit : Expression
 	{
 		get
 		{
-		return setItems;
+			return setItems;
 		}
 	}
 
@@ -54,12 +54,12 @@ public class SetInit : Expression
 	{
 		set
 		{
-		Debug.Assert((member == null && value != null));
-		member = value;
+			Debug.Assert((member == null && value != null));
+			member = value;
 		}
 		get
 		{
-		return member;
+			return member;
 		}
 	}
 
@@ -68,7 +68,7 @@ public class SetInit : Expression
 	{
 		get
 		{
-		return setType;
+			return setType;
 		}
 	}
 
@@ -86,7 +86,7 @@ public class SetInit : Expression
 	{
 		get
 		{
-		return "anonymous_set_" + Id;
+			return "anonymous_set_" + Id;
 		}
 	}
 }

@@ -41,8 +41,8 @@ public class ProjectionExprNode : ExprNode
 	{
 		set
 		{
-		this.procedure = value;
-		BecomeParent(value);
+			this.procedure = value;
+			BecomeParent(value);
 		}
 	}
 
@@ -50,8 +50,8 @@ public class ProjectionExprNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			return children;
 		}
 	}
 
@@ -59,8 +59,8 @@ public class ProjectionExprNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			return childrenNames;
 		}
 	}
 
@@ -81,10 +81,10 @@ public class ProjectionExprNode : ExprNode
 	{
 		get
 		{
-		if(index >= procedure.Type.Count)
-			return BasicTypeNode.GetErrorType(IdentNode.Invalid);
+			if(index >= procedure.Type.Count)
+				return BasicTypeNode.GetErrorType(IdentNode.Invalid);
 
-		return procedure.Type[index];
+			return procedure.Type[index];
 		}
 	}
 }

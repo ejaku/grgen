@@ -60,7 +60,7 @@ public class OperatorEvaluator
 		{
 			get
 			{
-			return "Expression not evaluatable at " + coords.ToString();
+				return "Expression not evaluatable at " + coords.ToString();
 			}
 		}
 	}
@@ -84,7 +84,7 @@ public class OperatorEvaluator
 		{
 			get
 			{
-			return "Expression not constant or value has wrong type at " + coords.ToString();
+				return "Expression not constant or value has wrong type at " + coords.ToString();
 			}
 		}
 	}

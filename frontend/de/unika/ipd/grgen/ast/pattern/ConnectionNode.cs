@@ -112,11 +112,11 @@ public class ConnectionNode : ConnectionCharacter
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(leftUnresolved, left));
-		children.Add(GetValidVersion(edgeUnresolved, edge));
-		children.Add(GetValidVersion(rightUnresolved, right));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(leftUnresolved, left));
+			children.Add(GetValidVersion(edgeUnresolved, edge));
+			children.Add(GetValidVersion(rightUnresolved, right));
+			return children;
 		}
 	}
 
@@ -126,11 +126,11 @@ public class ConnectionNode : ConnectionCharacter
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("src");
-		childrenNames.Add("edge");
-		childrenNames.Add("tgt");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("src");
+			childrenNames.Add("edge");
+			childrenNames.Add("tgt");
+			return childrenNames;
 		}
 	}
 
@@ -361,7 +361,7 @@ public class ConnectionNode : ConnectionCharacter
 	{
 		get
 		{
-		return connectionKind;
+			return connectionKind;
 		}
 	}
 
@@ -369,7 +369,7 @@ public class ConnectionNode : ConnectionCharacter
 	{
 		get
 		{
-		return redirectionKind;
+			return redirectionKind;
 		}
 	}
 
@@ -377,7 +377,7 @@ public class ConnectionNode : ConnectionCharacter
 	{
 		get
 		{
-		return edge;
+			return edge;
 		}
 	}
 
@@ -385,13 +385,13 @@ public class ConnectionNode : ConnectionCharacter
 	{
 		get
 		{
-		return left;
+			return left;
 		}
 		set
 		{
-		Debug.Assert((value != null));
-		SwitchParenthood(left, value);
-		left = value;
+			Debug.Assert((value != null));
+			SwitchParenthood(left, value);
+			left = value;
 		}
 	}
 
@@ -400,13 +400,13 @@ public class ConnectionNode : ConnectionCharacter
 	{
 		get
 		{
-		return right;
+			return right;
 		}
 		set
 		{
-		Debug.Assert((value != null));
-		SwitchParenthood(right, value);
-		right = value;
+			Debug.Assert((value != null));
+			SwitchParenthood(right, value);
+			right = value;
 		}
 	}
 
@@ -424,7 +424,7 @@ public class ConnectionNode : ConnectionCharacter
 	{
 		get
 		{
-		return "connection node";
+			return "connection node";
 		}
 	}
 

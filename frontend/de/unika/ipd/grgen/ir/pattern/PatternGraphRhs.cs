@@ -60,7 +60,7 @@ public class PatternGraphRhs : PatternGraphBase
 	{
 		get
 		{
-		return deletedElements;
+			return deletedElements;
 		}
 	}
 
@@ -77,7 +77,7 @@ public class PatternGraphRhs : PatternGraphBase
 	{
 		get
 		{
-		return replParams.AsReadOnly();
+			return replParams.AsReadOnly();
 		}
 	}
 
@@ -95,7 +95,7 @@ public class PatternGraphRhs : PatternGraphBase
 	{
 		get
 		{
-		return orderedReplacements.AsReadOnly();
+			return orderedReplacements.AsReadOnly();
 		}
 	}
 
@@ -115,7 +115,7 @@ public class PatternGraphRhs : PatternGraphBase
 	{
 		get
 		{
-		return imperativeStmts.AsReadOnly();
+			return imperativeStmts.AsReadOnly();
 		}
 	}
 }

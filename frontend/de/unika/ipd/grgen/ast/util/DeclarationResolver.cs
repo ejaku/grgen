@@ -101,10 +101,10 @@ public class DeclarationResolver<R> : Resolver<R> where R : de.unika.ipd.grgen.a
 	{
 		get
 		{
-		if(cls != null)
-			return Util.GetStr(cls, typeof(BaseNode), "getKindStr");
-		else
-			return Util.GetStrListWithOr(classes, typeof(BaseNode), "getKindStr");
+			if(cls != null)
+				return Util.GetStr(cls, typeof(BaseNode), "getKindStr");
+			else
+				return Util.GetStrListWithOr(classes, typeof(BaseNode), "getKindStr");
 		}
 	}
 }

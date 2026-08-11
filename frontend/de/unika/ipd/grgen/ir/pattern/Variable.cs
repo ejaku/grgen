@@ -40,7 +40,7 @@ public class Variable : Entity
 	{
 		set
 		{
-		this.initialization = value;
+			this.initialization = value;
 		}
 	}
 
@@ -48,7 +48,7 @@ public class Variable : Entity
 	{
 		get
 		{
-		return "variable";
+			return "variable";
 		}
 	}
 }

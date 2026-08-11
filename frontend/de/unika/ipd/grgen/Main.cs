@@ -115,7 +115,7 @@ public class Main : Base, Sys
 	{
 		get
 		{
-		return modelPath;
+			return modelPath;
 		}
 	}
 
@@ -123,7 +123,7 @@ public class Main : Base, Sys
 	{
 		get
 		{
-		return errorReporter;
+			return errorReporter;
 		}
 	}
 

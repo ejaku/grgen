@@ -39,7 +39,7 @@ public class VoidType : PrimitiveType
 	{
 		get
 		{
-		return BasicTypeNode.voidType.CheckIR(typeof(Type));
+			return BasicTypeNode.voidType.CheckIR(typeof(Type));
 		}
 	}
 }

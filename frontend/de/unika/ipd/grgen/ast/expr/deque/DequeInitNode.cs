@@ -100,14 +100,14 @@ public class DequeInitNode : ContainerSingleElementInitNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		if(lhs != null)
-		{
-			TypeNode type = lhs.DeclType;
-			return (DequeTypeNode)type;
-		}
-		else
-			return dequeType;
+			Debug.Assert((IsResolved()));
+			if(lhs != null)
+			{
+				TypeNode type = lhs.DeclType;
+				return (DequeTypeNode)type;
+			}
+			else
+				return dequeType;
 		}
 	}
 
@@ -138,7 +138,7 @@ public class DequeInitNode : ContainerSingleElementInitNode
 	{
 		get
 		{
-		return CheckIR(typeof(DequeInit));
+			return CheckIR(typeof(DequeInit));
 		}
 	}
 
@@ -146,7 +146,7 @@ public class DequeInitNode : ContainerSingleElementInitNode
 	{
 		get
 		{
-		return "deque initialization";
+			return "deque initialization";
 		}
 	}
 }

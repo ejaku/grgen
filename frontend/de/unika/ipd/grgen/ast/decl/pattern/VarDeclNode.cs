@@ -110,7 +110,7 @@ public class VarDeclNode : DeclNode
 	{
 		set
 		{
-		this.initialization = value;
+			this.initialization = value;
 		}
 	}
 
@@ -120,12 +120,12 @@ public class VarDeclNode : DeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		if(initialization != null)
-			children.Add(initialization);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			if(initialization != null)
+				children.Add(initialization);
+			return children;
 		}
 	}
 
@@ -135,12 +135,12 @@ public class VarDeclNode : DeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		if(initialization != null)
-			childrenNames.Add("initialization expression");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			if(initialization != null)
+				childrenNames.Add("initialization expression");
+			return childrenNames;
 		}
 	}
 
@@ -201,9 +201,9 @@ public class VarDeclNode : DeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		//assert type != null;
-		return type;
+			Debug.Assert(IsResolved());
+			//assert type != null;
+			return type;
 		}
 	}
 
@@ -211,7 +211,7 @@ public class VarDeclNode : DeclNode
 	{
 		get
 		{
-		return "variable";
+			return "variable";
 		}
 	}
 
@@ -222,7 +222,7 @@ public class VarDeclNode : DeclNode
 	{
 		get
 		{
-		return CheckIR(typeof(Variable));
+			return CheckIR(typeof(Variable));
 		}
 	}
 

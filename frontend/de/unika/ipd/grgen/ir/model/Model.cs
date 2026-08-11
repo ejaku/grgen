@@ -110,7 +110,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return packages.AsReadOnly();
+			return packages.AsReadOnly();
 		}
 	}
 
@@ -144,7 +144,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(indices);
+			return Collections.UnmodifiableSet(indices);
 		}
 	}
 
@@ -157,7 +157,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(externalFuncs);
+			return Collections.UnmodifiableSet(externalFuncs);
 		}
 	}
 
@@ -170,7 +170,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(externalProcs);
+			return Collections.UnmodifiableSet(externalProcs);
 		}
 	}
 
@@ -179,7 +179,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return types.AsReadOnly();
+			return types.AsReadOnly();
 		}
 	}
 
@@ -187,7 +187,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(nodeTypes);
+			return Collections.UnmodifiableSet(nodeTypes);
 		}
 	}
 
@@ -195,21 +195,21 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		if(allNodeTypes == null)
-		{
-			List<NodeType> allNodeTypes = new List<NodeType>();
-			allNodeTypes.AddRange(NodeTypes);
-			foreach(PackageType pt in Packages)
-				allNodeTypes.AddRange(pt.NodeTypes);
-			int typeID = 0;
-			foreach(NodeType nt in allNodeTypes)
+			if(allNodeTypes == null)
 			{
-				nt.InheritanceTypeID = typeID;
-				++typeID;
+				List<NodeType> allNodeTypes = new List<NodeType>();
+				allNodeTypes.AddRange(NodeTypes);
+				foreach(PackageType pt in Packages)
+					allNodeTypes.AddRange(pt.NodeTypes);
+				int typeID = 0;
+				foreach(NodeType nt in allNodeTypes)
+				{
+					nt.InheritanceTypeID = typeID;
+					++typeID;
+				}
+				this.allNodeTypes = allNodeTypes;
 			}
-			this.allNodeTypes = allNodeTypes;
-		}
-		return allNodeTypes.AsReadOnly();
+			return allNodeTypes.AsReadOnly();
 		}
 	}
 
@@ -217,7 +217,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(edgeTypes);
+			return Collections.UnmodifiableSet(edgeTypes);
 		}
 	}
 
@@ -225,21 +225,21 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		if(allEdgeTypes == null)
-		{
-			List<EdgeType> allEdgeTypes = new List<EdgeType>();
-			allEdgeTypes.AddRange(EdgeTypes);
-			foreach(PackageType pt in Packages)
-				allEdgeTypes.AddRange(pt.EdgeTypes);
-			int typeID = 0;
-			foreach(EdgeType et in allEdgeTypes)
+			if(allEdgeTypes == null)
 			{
-				et.InheritanceTypeID = typeID;
-				++typeID;
+				List<EdgeType> allEdgeTypes = new List<EdgeType>();
+				allEdgeTypes.AddRange(EdgeTypes);
+				foreach(PackageType pt in Packages)
+					allEdgeTypes.AddRange(pt.EdgeTypes);
+				int typeID = 0;
+				foreach(EdgeType et in allEdgeTypes)
+				{
+					et.InheritanceTypeID = typeID;
+					++typeID;
+				}
+				this.allEdgeTypes = allEdgeTypes;
 			}
-			this.allEdgeTypes = allEdgeTypes;
-		}
-		return allEdgeTypes.AsReadOnly();
+			return allEdgeTypes.AsReadOnly();
 		}
 	}
 
@@ -247,14 +247,14 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		if(allGraphElementTypes == null)
-		{
-			List<InheritanceType> allNodeAndEdgeTypes = new List<InheritanceType>();
-			allNodeAndEdgeTypes.AddRange(AllNodeTypes);
-			allNodeAndEdgeTypes.AddRange(AllEdgeTypes);
-			this.allGraphElementTypes = allNodeAndEdgeTypes;
-		}
-		return allGraphElementTypes.AsReadOnly();
+			if(allGraphElementTypes == null)
+			{
+				List<InheritanceType> allNodeAndEdgeTypes = new List<InheritanceType>();
+				allNodeAndEdgeTypes.AddRange(AllNodeTypes);
+				allNodeAndEdgeTypes.AddRange(AllEdgeTypes);
+				this.allGraphElementTypes = allNodeAndEdgeTypes;
+			}
+			return allGraphElementTypes.AsReadOnly();
 		}
 	}
 
@@ -262,7 +262,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(objectTypes);
+			return Collections.UnmodifiableSet(objectTypes);
 		}
 	}
 
@@ -270,21 +270,21 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		if(allObjectTypes == null)
-		{
-			List<InternalObjectType> allObjectTypes = new List<InternalObjectType>();
-			allObjectTypes.AddRange(ObjectTypes);
-			foreach(PackageType pt in Packages)
-				allObjectTypes.AddRange(pt.ObjectTypes);
-			int typeID = 0;
-			foreach(InternalObjectType ot in allObjectTypes)
+			if(allObjectTypes == null)
 			{
-				ot.InheritanceTypeID = typeID;
-				++typeID;
+				List<InternalObjectType> allObjectTypes = new List<InternalObjectType>();
+				allObjectTypes.AddRange(ObjectTypes);
+				foreach(PackageType pt in Packages)
+					allObjectTypes.AddRange(pt.ObjectTypes);
+				int typeID = 0;
+				foreach(InternalObjectType ot in allObjectTypes)
+				{
+					ot.InheritanceTypeID = typeID;
+					++typeID;
+				}
+				this.allObjectTypes = allObjectTypes;
 			}
-			this.allObjectTypes = allObjectTypes;
-		}
-		return allObjectTypes.AsReadOnly();
+			return allObjectTypes.AsReadOnly();
 		}
 	}
 
@@ -292,7 +292,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(transientObjectTypes);
+			return Collections.UnmodifiableSet(transientObjectTypes);
 		}
 	}
 
@@ -300,21 +300,21 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		if(allTransientObjectTypes == null)
-		{
-			List<InternalTransientObjectType> allTransientObjectTypes = new List<InternalTransientObjectType>();
-			allTransientObjectTypes.AddRange(TransientObjectTypes);
-			foreach(PackageType pt in Packages)
-				allTransientObjectTypes.AddRange(pt.TransientObjectTypes);
-			int typeID = 0;
-			foreach(InternalTransientObjectType ot in allTransientObjectTypes)
+			if(allTransientObjectTypes == null)
 			{
-				ot.InheritanceTypeID = typeID;
-				++typeID;
+				List<InternalTransientObjectType> allTransientObjectTypes = new List<InternalTransientObjectType>();
+				allTransientObjectTypes.AddRange(TransientObjectTypes);
+				foreach(PackageType pt in Packages)
+					allTransientObjectTypes.AddRange(pt.TransientObjectTypes);
+				int typeID = 0;
+				foreach(InternalTransientObjectType ot in allTransientObjectTypes)
+				{
+					ot.InheritanceTypeID = typeID;
+					++typeID;
+				}
+				this.allTransientObjectTypes = allTransientObjectTypes;
 			}
-			this.allTransientObjectTypes = allTransientObjectTypes;
-		}
-		return allTransientObjectTypes.AsReadOnly();
+			return allTransientObjectTypes.AsReadOnly();
 		}
 	}
 
@@ -322,16 +322,16 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		if(allInheritanceTypes == null)
-		{
-			List<InheritanceType> allInheritanceTypes = new List<InheritanceType>();
-			allInheritanceTypes.AddRange(AllNodeTypes);
-			allInheritanceTypes.AddRange(AllEdgeTypes);
-			allInheritanceTypes.AddRange(AllObjectTypes);
-			allInheritanceTypes.AddRange(AllTransientObjectTypes);
-			this.allInheritanceTypes = allInheritanceTypes;
-		}
-		return allInheritanceTypes.AsReadOnly();
+			if(allInheritanceTypes == null)
+			{
+				List<InheritanceType> allInheritanceTypes = new List<InheritanceType>();
+				allInheritanceTypes.AddRange(AllNodeTypes);
+				allInheritanceTypes.AddRange(AllEdgeTypes);
+				allInheritanceTypes.AddRange(AllObjectTypes);
+				allInheritanceTypes.AddRange(AllTransientObjectTypes);
+				this.allInheritanceTypes = allInheritanceTypes;
+			}
+			return allInheritanceTypes.AsReadOnly();
 		}
 	}
 
@@ -339,7 +339,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(enumTypes);
+			return Collections.UnmodifiableSet(enumTypes);
 		}
 	}
 
@@ -347,7 +347,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(externalObjectTypes);
+			return Collections.UnmodifiableSet(externalObjectTypes);
 		}
 	}
 
@@ -355,7 +355,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return usedModels.AsReadOnly();
+			return usedModels.AsReadOnly();
 		}
 	}
 
@@ -433,7 +433,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return isoParallel;
+			return isoParallel;
 		}
 	}
 
@@ -441,7 +441,7 @@ public class Model : Identifiable, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return sequencesParallel;
+			return sequencesParallel;
 		}
 	}
 

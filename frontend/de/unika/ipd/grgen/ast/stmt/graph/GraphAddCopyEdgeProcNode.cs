@@ -59,11 +59,11 @@ public class GraphAddCopyEdgeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(oldEdge);
-		children.Add(sourceNode);
-		children.Add(targetNode);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(oldEdge);
+			children.Add(sourceNode);
+			children.Add(targetNode);
+			return children;
 		}
 	}
 
@@ -73,11 +73,11 @@ public class GraphAddCopyEdgeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("old edge");
-		childrenNames.Add("source node");
-		childrenNames.Add("target node");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("old edge");
+			childrenNames.Add("source node");
+			childrenNames.Add("target node");
+			return childrenNames;
 		}
 	}
 
@@ -131,12 +131,12 @@ public class GraphAddCopyEdgeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		if(returnTypes == null)
-		{
-			returnTypes = new List<TypeNode>();
-			returnTypes.Add(oldEdge.Type);
-		}
-		return returnTypes;
+			if(returnTypes == null)
+			{
+				returnTypes = new List<TypeNode>();
+				returnTypes.Add(oldEdge.Type);
+			}
+			return returnTypes;
 		}
 	}
 }

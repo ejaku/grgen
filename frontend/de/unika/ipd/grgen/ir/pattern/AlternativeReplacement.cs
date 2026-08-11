@@ -29,7 +29,7 @@ public class AlternativeReplacement : Identifiable, OrderedReplacement
 	{
 		get
 		{
-		return alternative;
+			return alternative;
 		}
 	}
 }

@@ -26,7 +26,7 @@ public class TargetExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return edge;
+			return edge;
 		}
 	}
 

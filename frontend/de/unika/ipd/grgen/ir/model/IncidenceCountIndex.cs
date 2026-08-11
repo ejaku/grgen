@@ -44,7 +44,7 @@ public class IncidenceCountIndex : Index
 	{
 		get
 		{
-		return startNodeType;
+			return startNodeType;
 		}
 	}
 
@@ -52,7 +52,7 @@ public class IncidenceCountIndex : Index
 	{
 		get
 		{
-		return incidentEdgeType;
+			return incidentEdgeType;
 		}
 	}
 
@@ -65,7 +65,7 @@ public class IncidenceCountIndex : Index
 	{
 		get
 		{
-		return adjacentNodeType;
+			return adjacentNodeType;
 		}
 	}
 }

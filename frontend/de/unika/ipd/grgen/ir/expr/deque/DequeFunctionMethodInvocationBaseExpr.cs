@@ -27,7 +27,7 @@ public abstract class DequeFunctionMethodInvocationBaseExpr : ContainerFunctionM
 	{
 		get
 		{
-		return (DequeType)TargetType;
+			return (DequeType)TargetType;
 		}
 	}
 }

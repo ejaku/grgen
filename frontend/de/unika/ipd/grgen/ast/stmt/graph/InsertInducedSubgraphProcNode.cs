@@ -53,10 +53,10 @@ public class InsertInducedSubgraphProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(nodeSetExpr);
-		children.Add(nodeExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(nodeSetExpr);
+			children.Add(nodeExpr);
+			return children;
 		}
 	}
 
@@ -66,10 +66,10 @@ public class InsertInducedSubgraphProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("nodeSetExpr");
-		childrenNames.Add("nodeExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("nodeSetExpr");
+			childrenNames.Add("nodeExpr");
+			return childrenNames;
 		}
 	}
 
@@ -122,12 +122,12 @@ public class InsertInducedSubgraphProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		if(returnTypes == null)
-		{
-			returnTypes = new List<TypeNode>();
-			returnTypes.Add(nodeExpr.Type);
-		}
-		return returnTypes;
+			if(returnTypes == null)
+			{
+				returnTypes = new List<TypeNode>();
+				returnTypes.Add(nodeExpr.Type);
+			}
+			return returnTypes;
 		}
 	}
 }

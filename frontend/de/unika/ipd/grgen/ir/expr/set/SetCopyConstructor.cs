@@ -38,7 +38,7 @@ public class SetCopyConstructor : Expression
 	{
 		get
 		{
-		return setToCopy;
+			return setToCopy;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class SetCopyConstructor : Expression
 	{
 		get
 		{
-		return setType;
+			return setType;
 		}
 	}
 }

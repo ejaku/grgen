@@ -46,7 +46,7 @@ public class FilterFunctionInternal : FilterFunction, NestingStatement
 	{
 		get
 		{
-		return computationStatements.AsReadOnly();
+			return computationStatements.AsReadOnly();
 		}
 	}
 }

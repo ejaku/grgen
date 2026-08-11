@@ -42,7 +42,7 @@ public class ConditionStatement : BlockNestingStatement
 	{
 		get
 		{
-		return conditionExpr;
+			return conditionExpr;
 		}
 	}
 
@@ -50,7 +50,7 @@ public class ConditionStatement : BlockNestingStatement
 	{
 		get
 		{
-		return falseCaseStatements != null ? falseCaseStatements.AsReadOnly() : null;
+			return falseCaseStatements != null ? falseCaseStatements.AsReadOnly() : null;
 		}
 	}
 

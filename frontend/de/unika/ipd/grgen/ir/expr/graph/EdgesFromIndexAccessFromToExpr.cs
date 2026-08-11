@@ -25,7 +25,7 @@ public class EdgesFromIndexAccessFromToExpr : EdgesFromIndexAccessExpr
 	{
 		get
 		{
-		return indexAccess;
+			return indexAccess;
 		}
 	}
 

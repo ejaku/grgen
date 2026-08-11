@@ -63,13 +63,13 @@ public class ContainerAccumulationYieldNode : NestingStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
-		if(iterationIndexUnresolved != null)
-			children.Add(GetValidVersion(iterationIndexUnresolved, iterationIndex));
-		children.Add(GetValidVersion(containerUnresolved, container));
-		children.Add(statements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
+			if(iterationIndexUnresolved != null)
+				children.Add(GetValidVersion(iterationIndexUnresolved, iterationIndex));
+			children.Add(GetValidVersion(containerUnresolved, container));
+			children.Add(statements);
+			return children;
 		}
 	}
 
@@ -79,13 +79,13 @@ public class ContainerAccumulationYieldNode : NestingStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterationVariable");
-		if(iterationIndexUnresolved != null)
-			childrenNames.Add("iterationIndex");
-		childrenNames.Add("container");
-		childrenNames.Add("accumulationStatements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterationVariable");
+			if(iterationIndexUnresolved != null)
+				childrenNames.Add("iterationIndex");
+			childrenNames.Add("container");
+			childrenNames.Add("accumulationStatements");
+			return childrenNames;
 		}
 	}
 

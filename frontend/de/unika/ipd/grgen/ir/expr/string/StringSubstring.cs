@@ -34,7 +34,7 @@ public class StringSubstring : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return stringExpr;
+			return stringExpr;
 		}
 	}
 
@@ -42,7 +42,7 @@ public class StringSubstring : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return startExpr;
+			return startExpr;
 		}
 	}
 
@@ -50,7 +50,7 @@ public class StringSubstring : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return lengthExpr;
+			return lengthExpr;
 		}
 	}
 

@@ -50,11 +50,11 @@ public class ConstructorParamNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(lhsUnresolved, lhs));
-		if(rhs != null)
-			children.Add(rhs);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(lhsUnresolved, lhs));
+			if(rhs != null)
+				children.Add(rhs);
+			return children;
 		}
 	}
 
@@ -62,11 +62,11 @@ public class ConstructorParamNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("lhs");
-		if(rhs != null)
-			childrenNames.Add("rhs");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("lhs");
+			if(rhs != null)
+				childrenNames.Add("rhs");
+			return childrenNames;
 		}
 	}
 

@@ -99,13 +99,13 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(connectionsUnresolved, connections));
-		children.Add(@params);
-		children.Add(defVariablesToBeYieldedTo);
-		children.Add(subpatterns);
-		children.Add(returns);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(connectionsUnresolved, connections));
+			children.Add(@params);
+			children.Add(defVariablesToBeYieldedTo);
+			children.Add(subpatterns);
+			children.Add(returns);
+			return children;
 		}
 	}
 
@@ -115,14 +115,14 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("connections");
-		childrenNames.Add("params");
-		childrenNames.Add("defVariablesToBeYieldedTo");
-		childrenNames.Add("subpatterns");
-		childrenNames.Add("orderedReplacements");
-		childrenNames.Add("returns");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("connections");
+			childrenNames.Add("params");
+			childrenNames.Add("defVariablesToBeYieldedTo");
+			childrenNames.Add("subpatterns");
+			childrenNames.Add("orderedReplacements");
+			childrenNames.Add("returns");
+			return childrenNames;
 		}
 	}
 
@@ -283,9 +283,9 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return connections.ChildrenExact;
+			return connections.ChildrenExact;
 		}
 	}
 
@@ -299,9 +299,9 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		if(nodes == null)
-			nodes = Collections.UnmodifiableSet(NodesImpl);
-		return nodes;
+			if(nodes == null)
+				nodes = Collections.UnmodifiableSet(NodesImpl);
+			return nodes;
 		}
 	}
 
@@ -309,14 +309,14 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		LinkedHashSet<NodeDeclNode> tempNodes = new LinkedHashSet<NodeDeclNode>();
+			LinkedHashSet<NodeDeclNode> tempNodes = new LinkedHashSet<NodeDeclNode>();
 
-		foreach(ConnectionCharacter connection in connections.ChildrenExact)
-			connection.AddNodes(tempNodes);
+			foreach(ConnectionCharacter connection in connections.ChildrenExact)
+				connection.AddNodes(tempNodes);
 
-		return tempNodes;
+			return tempNodes;
 		}
 	}
 
@@ -326,9 +326,9 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		if(edges == null)
-			edges = Collections.UnmodifiableSet(EdgesImpl);
-		return edges;
+			if(edges == null)
+				edges = Collections.UnmodifiableSet(EdgesImpl);
+			return edges;
 		}
 	}
 
@@ -336,14 +336,14 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		LinkedHashSet<EdgeDeclNode> tempEdges = new LinkedHashSet<EdgeDeclNode>();
+			LinkedHashSet<EdgeDeclNode> tempEdges = new LinkedHashSet<EdgeDeclNode>();
 
-		foreach(ConnectionCharacter connection in connections.ChildrenExact)
-			connection.AddEdge(tempEdges);
+			foreach(ConnectionCharacter connection in connections.ChildrenExact)
+				connection.AddEdge(tempEdges);
 
-		return tempEdges;
+			return tempEdges;
 		}
 	}
 
@@ -351,7 +351,7 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		return defVariablesToBeYieldedTo;
+			return defVariablesToBeYieldedTo;
 		}
 	}
 
@@ -361,9 +361,9 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		if(variables == null)
-			variables = Collections.UnmodifiableSet(VariablesImpl);
-		return variables;
+			if(variables == null)
+				variables = Collections.UnmodifiableSet(VariablesImpl);
+			return variables;
 		}
 	}
 
@@ -371,20 +371,20 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		LinkedHashSet<VarDeclNode> tempVariables = new LinkedHashSet<VarDeclNode>();
+			LinkedHashSet<VarDeclNode> tempVariables = new LinkedHashSet<VarDeclNode>();
 
-		foreach(BaseNode param in @params.ChildrenExact)
-		{
-			if(param is VarDeclNode)
-				tempVariables.Add((VarDeclNode)param);
-		}
+			foreach(BaseNode param in @params.ChildrenExact)
+			{
+				if(param is VarDeclNode)
+					tempVariables.Add((VarDeclNode)param);
+			}
 
-		foreach(VarDeclNode defVar in defVariablesToBeYieldedTo.ChildrenExact)
-			tempVariables.Add(defVar);
+			foreach(VarDeclNode defVar in defVariablesToBeYieldedTo.ChildrenExact)
+				tempVariables.Add(defVar);
 
-		return tempVariables;
+			return tempVariables;
 		}
 	}
 
@@ -392,15 +392,15 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		if(entities == null)
-		{
-			LinkedHashSet<DeclNode> tempEntities = new LinkedHashSet<DeclNode>();
-			tempEntities.AddAll(Nodes);
-			tempEntities.AddAll(Edges);
-			tempEntities.AddAll(Variables);
-			entities = Collections.UnmodifiableSet(tempEntities);
-		}
-		return entities;
+			if(entities == null)
+			{
+				LinkedHashSet<DeclNode> tempEntities = new LinkedHashSet<DeclNode>();
+				tempEntities.AddAll(Nodes);
+				tempEntities.AddAll(Edges);
+				tempEntities.AddAll(Variables);
+				entities = Collections.UnmodifiableSet(tempEntities);
+			}
+			return entities;
 		}
 	}
 
@@ -437,27 +437,27 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		IList<DeclNode> res = new List<DeclNode>();
+			IList<DeclNode> res = new List<DeclNode>();
 
-		foreach(BaseNode param in @params.ChildrenExact)
-		{
-			if(param is ConnectionNode)
+			foreach(BaseNode param in @params.ChildrenExact)
 			{
-				ConnectionNode conn = (ConnectionNode)param;
-				res.Add(conn.Edge.Decl);
+				if(param is ConnectionNode)
+				{
+					ConnectionNode conn = (ConnectionNode)param;
+					res.Add(conn.Edge.Decl);
+				}
+				else if(param is SingleNodeConnNode)
+				{
+					NodeDeclNode node = ((SingleNodeConnNode)param).Node;
+					res.Add(node);
+				}
+				else if(param is VarDeclNode)
+					res.Add((VarDeclNode)param);
+				else
+					throw new System.NotSupportedException("Unsupported parameter (" + param + ").");
 			}
-			else if(param is SingleNodeConnNode)
-			{
-				NodeDeclNode node = ((SingleNodeConnNode)param).Node;
-				res.Add(node);
-			}
-			else if(param is VarDeclNode)
-				res.Add((VarDeclNode)param);
-			else
-				throw new System.NotSupportedException("Unsupported parameter (" + param + ").");
-		}
 
-		return res;
+			return res;
 		}
 	}
 
@@ -465,14 +465,14 @@ public abstract class PatternGraphBaseNode : BaseNode
 	{
 		get
 		{
-		ISet<string> set = new HashSet<string>();
-		foreach(DeclNode entity in Entities)
-		{
-			string name = entity.ident.ToString();
-			if(!name.StartsWith("$", StringComparison.Ordinal))
-				set.Add(name);
-		}
-		return set;
+			ISet<string> set = new HashSet<string>();
+			foreach(DeclNode entity in Entities)
+			{
+				string name = entity.ident.ToString();
+				if(!name.StartsWith("$", StringComparison.Ordinal))
+					set.Add(name);
+			}
+			return set;
 		}
 	}
 }

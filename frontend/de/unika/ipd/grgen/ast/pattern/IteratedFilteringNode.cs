@@ -61,10 +61,10 @@ public class IteratedFilteringNode : EvalStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		//children.add(getValidVersion(iteratedUnresolved, iterated));
-		children.Add(filters);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			//children.add(getValidVersion(iteratedUnresolved, iterated));
+			children.Add(filters);
+			return children;
 		}
 	}
 
@@ -72,10 +72,10 @@ public class IteratedFilteringNode : EvalStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		//childrenNames.add("iterated");
-		childrenNames.Add("filters");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			//childrenNames.add("iterated");
+			childrenNames.Add("filters");
+			return childrenNames;
 		}
 	}
 

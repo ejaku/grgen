@@ -46,7 +46,7 @@ public class CompoundAssignmentVarChanged : CompoundAssignmentVar
 	{
 		get
 		{
-		return changedTarget;
+			return changedTarget;
 		}
 	}
 
@@ -54,7 +54,7 @@ public class CompoundAssignmentVarChanged : CompoundAssignmentVar
 	{
 		get
 		{
-		return changedOperation;
+			return changedOperation;
 		}
 	}
 

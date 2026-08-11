@@ -54,13 +54,13 @@ public class MatchNodeByStorageAccessDeclNode : MatchNodeFromByStorageDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
-		children.Add(constraints);
-		children.Add(GetValidVersion(storageUnresolved, storage, storageAttribute, storageGlobalVariable));
-		children.Add(GetValidVersion(accessorUnresolved, accessor));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
+			children.Add(constraints);
+			children.Add(GetValidVersion(storageUnresolved, storage, storageAttribute, storageGlobalVariable));
+			children.Add(GetValidVersion(accessorUnresolved, accessor));
+			return children;
 		}
 	}
 
@@ -70,13 +70,13 @@ public class MatchNodeByStorageAccessDeclNode : MatchNodeFromByStorageDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("constraints");
-		childrenNames.Add("storage");
-		childrenNames.Add("accessor");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("constraints");
+			childrenNames.Add("storage");
+			childrenNames.Add("accessor");
+			return childrenNames;
 		}
 	}
 

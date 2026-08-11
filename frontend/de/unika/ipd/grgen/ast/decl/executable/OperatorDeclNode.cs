@@ -358,8 +358,8 @@ public class OperatorDeclNode : FunctionOrOperatorDeclBaseNode
 	{
 		get
 		{
-		TypeNode[] array = new TypeNode[parameterTypes.Count];
-		return parameterTypes.ToArray(array);
+			TypeNode[] array = new TypeNode[parameterTypes.Count];
+			return parameterTypes.ToArray(array);
 		}
 	}
 
@@ -539,8 +539,8 @@ public class OperatorDeclNode : FunctionOrOperatorDeclBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			return children;
 		}
 	}
 
@@ -550,8 +550,8 @@ public class OperatorDeclNode : FunctionOrOperatorDeclBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			return childrenNames;
 		}
 	}
 
@@ -574,8 +574,8 @@ public class OperatorDeclNode : FunctionOrOperatorDeclBaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return operatorType;
+			Debug.Assert(IsResolved());
+			return operatorType;
 		}
 	}
 
@@ -603,7 +603,7 @@ public class OperatorDeclNode : FunctionOrOperatorDeclBaseNode
 	{
 		get
 		{
-		return @operator;
+			return @operator;
 		}
 	}
 

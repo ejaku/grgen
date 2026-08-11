@@ -28,7 +28,7 @@ public class EdgeByUniqueExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return unique;
+			return unique;
 		}
 	}
 
@@ -36,7 +36,7 @@ public class EdgeByUniqueExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return edgeType;
+			return edgeType;
 		}
 	}
 

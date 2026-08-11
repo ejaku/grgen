@@ -33,7 +33,7 @@ public class IteratedPureDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return 0;
+			return 0;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class IteratedPureDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return 0;
+			return 0;
 		}
 	}
 
@@ -49,7 +49,7 @@ public class IteratedPureDeclNode : IteratedDeclNode
 	{
 		get
 		{
-		return "iterated";
+			return "iterated";
 		}
 	}
 }

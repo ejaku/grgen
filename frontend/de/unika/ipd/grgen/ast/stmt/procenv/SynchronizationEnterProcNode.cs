@@ -45,9 +45,9 @@ public class SynchronizationEnterProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(criticalSectionObjectExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(criticalSectionObjectExpr);
+			return children;
 		}
 	}
 
@@ -55,9 +55,9 @@ public class SynchronizationEnterProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("criticalSectionObjectExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("criticalSectionObjectExpr");
+			return childrenNames;
 		}
 	}
 

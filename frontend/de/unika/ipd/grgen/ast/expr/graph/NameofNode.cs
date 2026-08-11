@@ -46,10 +46,10 @@ public class NameofNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		if(namedEntity != null)
-			children.Add(namedEntity);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			if(namedEntity != null)
+				children.Add(namedEntity);
+			return children;
 		}
 	}
 
@@ -59,10 +59,10 @@ public class NameofNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		if(namedEntity != null)
-			childrenNames.Add("named entity");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			if(namedEntity != null)
+				childrenNames.Add("named entity");
+			return childrenNames;
 		}
 	}
 
@@ -97,7 +97,7 @@ public class NameofNode : ExprNode
 	{
 		get
 		{
-		return BasicTypeNode.stringType;
+			return BasicTypeNode.stringType;
 		}
 	}
 }

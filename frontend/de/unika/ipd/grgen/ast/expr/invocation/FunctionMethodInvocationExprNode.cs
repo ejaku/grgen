@@ -59,11 +59,11 @@ public class FunctionMethodInvocationExprNode : FunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(ownerUnresolved, owner));
-		children.Add(GetValidVersion(functionUnresolved, functionDecl));
-		children.Add(arguments);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(ownerUnresolved, owner));
+			children.Add(GetValidVersion(functionUnresolved, functionDecl));
+			children.Add(arguments);
+			return children;
 		}
 	}
 
@@ -71,11 +71,11 @@ public class FunctionMethodInvocationExprNode : FunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("owner");
-		childrenNames.Add("function method");
-		childrenNames.Add("arguments");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("owner");
+			childrenNames.Add("function method");
+			childrenNames.Add("arguments");
+			return childrenNames;
 		}
 	}
 
@@ -148,8 +148,8 @@ public class FunctionMethodInvocationExprNode : FunctionInvocationBaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return functionDecl.ResultType;
+			Debug.Assert(IsResolved());
+			return functionDecl.ResultType;
 		}
 	}
 

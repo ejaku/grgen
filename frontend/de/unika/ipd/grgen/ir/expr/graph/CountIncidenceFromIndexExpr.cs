@@ -38,7 +38,7 @@ public class CountIncidenceFromIndexExpr : Expression
 	{
 		get
 		{
-		return index;
+			return index;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class CountIncidenceFromIndexExpr : Expression
 	{
 		get
 		{
-		return keyExpr;
+			return keyExpr;
 		}
 	}
 }

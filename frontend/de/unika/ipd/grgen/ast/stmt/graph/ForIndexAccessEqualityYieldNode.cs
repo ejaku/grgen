@@ -55,12 +55,12 @@ public class ForIndexAccessEqualityYieldNode : ForIndexAccessNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
-		children.Add(GetValidVersion(indexUnresolved, index));
-		children.Add(expr);
-		children.Add(statements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
+			children.Add(GetValidVersion(indexUnresolved, index));
+			children.Add(expr);
+			children.Add(statements);
+			return children;
 		}
 	}
 
@@ -70,12 +70,12 @@ public class ForIndexAccessEqualityYieldNode : ForIndexAccessNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterVar");
-		childrenNames.Add("index");
-		childrenNames.Add("expression");
-		childrenNames.Add("loopedStatements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterVar");
+			childrenNames.Add("index");
+			childrenNames.Add("expression");
+			childrenNames.Add("loopedStatements");
+			return childrenNames;
 		}
 	}
 

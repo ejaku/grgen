@@ -35,7 +35,7 @@ public class EdgesFromIndexAccessMultipleFromToExprNode : FromIndexAccessMultipl
 	{
 		get
 		{
-		return EdgeRoot;
+			return EdgeRoot;
 		}
 	}
 

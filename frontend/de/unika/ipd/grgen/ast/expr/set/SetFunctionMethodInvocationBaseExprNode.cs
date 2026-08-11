@@ -36,7 +36,7 @@ public abstract class SetFunctionMethodInvocationBaseExprNode : ContainerFunctio
 	{
 		get
 		{
-		return (SetTypeNode)TargetType;
+			return (SetTypeNode)TargetType;
 		}
 	}
 
@@ -44,9 +44,9 @@ public abstract class SetFunctionMethodInvocationBaseExprNode : ContainerFunctio
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			return children;
 		}
 	}
 
@@ -54,9 +54,9 @@ public abstract class SetFunctionMethodInvocationBaseExprNode : ContainerFunctio
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			return childrenNames;
 		}
 	}
 

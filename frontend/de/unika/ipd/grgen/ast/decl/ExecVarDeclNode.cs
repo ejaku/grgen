@@ -49,10 +49,10 @@ public class ExecVarDeclNode : DeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			return children;
 		}
 	}
 
@@ -62,10 +62,10 @@ public class ExecVarDeclNode : DeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			return childrenNames;
 		}
 	}
 
@@ -103,8 +103,8 @@ public class ExecVarDeclNode : DeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved(), this + " was not resolved");
-		return type;
+			Debug.Assert(IsResolved(), this + " was not resolved");
+			return type;
 		}
 	}
 
@@ -112,7 +112,7 @@ public class ExecVarDeclNode : DeclNode
 	{
 		get
 		{
-		return "exec variable";
+			return "exec variable";
 		}
 	}
 

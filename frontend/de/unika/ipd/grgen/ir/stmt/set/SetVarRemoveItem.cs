@@ -30,7 +30,7 @@ public class SetVarRemoveItem : ContainerVarProcedureMethodInvocationBase
 	{
 		get
 		{
-		return valueExpr;
+			return valueExpr;
 		}
 	}
 

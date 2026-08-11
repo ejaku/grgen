@@ -48,14 +48,14 @@ public class ComposedActionsBearer : ActionsBearer
 	{
 		get
 		{
-		if(subpatRules == null)
-		{
-			List<Rule> subpatRules = new List<Rule>(unit.SubpatternRules);
-			foreach(ActionsBearer p in unit.Packages)
-				subpatRules.AddRange(p.SubpatternRules);
-			this.subpatRules = subpatRules;
-		}
-		return subpatRules.AsReadOnly();
+			if(subpatRules == null)
+			{
+				List<Rule> subpatRules = new List<Rule>(unit.SubpatternRules);
+				foreach(ActionsBearer p in unit.Packages)
+					subpatRules.AddRange(p.SubpatternRules);
+				this.subpatRules = subpatRules;
+			}
+			return subpatRules.AsReadOnly();
 		}
 	}
 
@@ -63,14 +63,14 @@ public class ComposedActionsBearer : ActionsBearer
 	{
 		get
 		{
-		if(rules == null)
-		{
-			List<Rule> rules = new List<Rule>(unit.ActionRules);
-			foreach(ActionsBearer p in unit.Packages)
-				rules.AddRange(p.ActionRules);
-			this.rules = rules;
-		}
-		return rules.AsReadOnly();
+			if(rules == null)
+			{
+				List<Rule> rules = new List<Rule>(unit.ActionRules);
+				foreach(ActionsBearer p in unit.Packages)
+					rules.AddRange(p.ActionRules);
+				this.rules = rules;
+			}
+			return rules.AsReadOnly();
 		}
 	}
 
@@ -78,14 +78,14 @@ public class ComposedActionsBearer : ActionsBearer
 	{
 		get
 		{
-		if(filterFunctions == null)
-		{
-			List<FilterFunction> filterFunctions = new List<FilterFunction>(unit.FilterFunctions);
-			foreach(ActionsBearer p in unit.Packages)
-				filterFunctions.AddRange(p.FilterFunctions);
-			this.filterFunctions = filterFunctions;
-		}
-		return filterFunctions.AsReadOnly();
+			if(filterFunctions == null)
+			{
+				List<FilterFunction> filterFunctions = new List<FilterFunction>(unit.FilterFunctions);
+				foreach(ActionsBearer p in unit.Packages)
+					filterFunctions.AddRange(p.FilterFunctions);
+				this.filterFunctions = filterFunctions;
+			}
+			return filterFunctions.AsReadOnly();
 		}
 	}
 
@@ -93,14 +93,14 @@ public class ComposedActionsBearer : ActionsBearer
 	{
 		get
 		{
-		if(matchClasses == null)
-		{
-			List<DefinedMatchType> matchClasses = new List<DefinedMatchType>(unit.MatchClasses);
-			foreach(ActionsBearer p in unit.Packages)
-				matchClasses.AddRange(p.MatchClasses);
-			this.matchClasses = matchClasses;
-		}
-		return matchClasses.AsReadOnly();
+			if(matchClasses == null)
+			{
+				List<DefinedMatchType> matchClasses = new List<DefinedMatchType>(unit.MatchClasses);
+				foreach(ActionsBearer p in unit.Packages)
+					matchClasses.AddRange(p.MatchClasses);
+				this.matchClasses = matchClasses;
+			}
+			return matchClasses.AsReadOnly();
 		}
 	}
 
@@ -108,14 +108,14 @@ public class ComposedActionsBearer : ActionsBearer
 	{
 		get
 		{
-		if(matchClassFilterFunctions == null)
-		{
-			List<MatchClassFilterFunction> matchClassFilterFunctions = new List<MatchClassFilterFunction>(unit.MatchClassFilterFunctions);
-			foreach(ActionsBearer p in unit.Packages)
-				matchClassFilterFunctions.AddRange(p.MatchClassFilterFunctions);
-			this.matchClassFilterFunctions = matchClassFilterFunctions;
-		}
-		return matchClassFilterFunctions.AsReadOnly();
+			if(matchClassFilterFunctions == null)
+			{
+				List<MatchClassFilterFunction> matchClassFilterFunctions = new List<MatchClassFilterFunction>(unit.MatchClassFilterFunctions);
+				foreach(ActionsBearer p in unit.Packages)
+					matchClassFilterFunctions.AddRange(p.MatchClassFilterFunctions);
+				this.matchClassFilterFunctions = matchClassFilterFunctions;
+			}
+			return matchClassFilterFunctions.AsReadOnly();
 		}
 	}
 
@@ -123,14 +123,14 @@ public class ComposedActionsBearer : ActionsBearer
 	{
 		get
 		{
-		if(functions == null)
-		{
-			List<Function> functions = new List<Function>(unit.Functions);
-			foreach(ActionsBearer p in unit.Packages)
-				functions.AddRange(p.Functions);
-			this.functions = functions;
-		}
-		return functions.AsReadOnly();
+			if(functions == null)
+			{
+				List<Function> functions = new List<Function>(unit.Functions);
+				foreach(ActionsBearer p in unit.Packages)
+					functions.AddRange(p.Functions);
+				this.functions = functions;
+			}
+			return functions.AsReadOnly();
 		}
 	}
 
@@ -138,14 +138,14 @@ public class ComposedActionsBearer : ActionsBearer
 	{
 		get
 		{
-		if(procedures == null)
-		{
-			List<Procedure> procedures = new List<Procedure>(unit.Procedures);
-			foreach(ActionsBearer p in unit.Packages)
-				procedures.AddRange(p.Procedures);
-			this.procedures = procedures;
-		}
-		return procedures.AsReadOnly();
+			if(procedures == null)
+			{
+				List<Procedure> procedures = new List<Procedure>(unit.Procedures);
+				foreach(ActionsBearer p in unit.Packages)
+					procedures.AddRange(p.Procedures);
+				this.procedures = procedures;
+			}
+			return procedures.AsReadOnly();
 		}
 	}
 
@@ -153,14 +153,14 @@ public class ComposedActionsBearer : ActionsBearer
 	{
 		get
 		{
-		if(sequences == null)
-		{
-			List<Sequence> sequences = new List<Sequence>(unit.Sequences);
-			foreach(ActionsBearer p in unit.Packages)
-				sequences.AddRange(p.Sequences);
-			this.sequences = sequences;
-		}
-		return sequences.AsReadOnly();
+			if(sequences == null)
+			{
+				List<Sequence> sequences = new List<Sequence>(unit.Sequences);
+				foreach(ActionsBearer p in unit.Packages)
+					sequences.AddRange(p.Sequences);
+				this.sequences = sequences;
+			}
+			return sequences.AsReadOnly();
 		}
 	}
 }

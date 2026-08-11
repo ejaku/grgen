@@ -40,7 +40,7 @@ public class GetEquivalentOrAddProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return subgraphExpr;
+			return subgraphExpr;
 		}
 	}
 
@@ -48,7 +48,7 @@ public class GetEquivalentOrAddProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return arrayExpr;
+			return arrayExpr;
 		}
 	}
 
@@ -56,7 +56,7 @@ public class GetEquivalentOrAddProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return includingAttributes;
+			return includingAttributes;
 		}
 	}
 

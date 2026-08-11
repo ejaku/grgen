@@ -54,7 +54,7 @@ public abstract class TypeNode : BaseNode
 	{
 		get
 		{
-		return "type";
+			return "type";
 		}
 	}
 
@@ -123,7 +123,7 @@ public abstract class TypeNode : BaseNode
 	{
 		get
 		{
-		return Color.MAGENTA;
+			return Color.MAGENTA;
 		}
 	}
 
@@ -135,7 +135,7 @@ public abstract class TypeNode : BaseNode
 	{
 		get
 		{
-		return CheckIR(typeof(Type));
+			return CheckIR(typeof(Type));
 		}
 	}
 
@@ -175,14 +175,14 @@ public abstract class TypeNode : BaseNode
 	{
 		get
 		{
-		if(compatibleToTypes == null)
-		{
-			compatibleToTypes = new HashSet<TypeNode>();
-			DoGetCompatibleToTypes(compatibleToTypes);
-			compatibleToTypes.Add(this);
-			compatibleToTypes = Collections.UnmodifiableSet(compatibleToTypes);
-		}
-		return compatibleToTypes;
+			if(compatibleToTypes == null)
+			{
+				compatibleToTypes = new HashSet<TypeNode>();
+				DoGetCompatibleToTypes(compatibleToTypes);
+				compatibleToTypes.Add(this);
+				compatibleToTypes = Collections.UnmodifiableSet(compatibleToTypes);
+			}
+			return compatibleToTypes;
 		}
 	}
 
@@ -224,14 +224,14 @@ public abstract class TypeNode : BaseNode
 	{
 		get
 		{
-		if(castableToTypes == null)
-		{
-			castableToTypes = new HashSet<TypeNode>();
-			DoGetCastableToTypes(castableToTypes);
-			castableToTypes.AddAll(CompatibleToTypes);
-			castableToTypes = Collections.UnmodifiableSet(castableToTypes);
-		}
-		return castableToTypes;
+			if(castableToTypes == null)
+			{
+				castableToTypes = new HashSet<TypeNode>();
+				DoGetCastableToTypes(castableToTypes);
+				castableToTypes.AddAll(CompatibleToTypes);
+				castableToTypes = Collections.UnmodifiableSet(castableToTypes);
+			}
+			return castableToTypes;
 		}
 	}
 
@@ -305,7 +305,7 @@ public abstract class TypeNode : BaseNode
 	{
 		get
 		{
-		return OrderableTypesAsString + " or a node or edge class";
+			return OrderableTypesAsString + " or a node or edge class";
 		}
 	}
 
@@ -313,7 +313,7 @@ public abstract class TypeNode : BaseNode
 	{
 		get
 		{
-		return AccumulatableTypesAsString + ", string, boolean";
+			return AccumulatableTypesAsString + ", string, boolean";
 		}
 	}
 
@@ -321,7 +321,7 @@ public abstract class TypeNode : BaseNode
 	{
 		get
 		{
-		return NumericTypesAsString;
+			return NumericTypesAsString;
 		}
 	}
 
@@ -329,7 +329,7 @@ public abstract class TypeNode : BaseNode
 	{
 		get
 		{
-		return "int, long, float, double";
+			return "int, long, float, double";
 		}
 	}
 
@@ -337,7 +337,7 @@ public abstract class TypeNode : BaseNode
 	{
 		get
 		{
-		return "byte, short, int, long, float, double";
+			return "byte, short, int, long, float, double";
 		}
 	}
 
@@ -366,7 +366,7 @@ public abstract class TypeNode : BaseNode
 	{
 		get
 		{
-		return ToString();
+			return ToString();
 		}
 	}
 }

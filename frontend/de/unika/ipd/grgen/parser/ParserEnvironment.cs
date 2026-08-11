@@ -202,7 +202,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return stdModel;
+			return stdModel;
 		}
 	}
 
@@ -251,7 +251,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return currScope;
+			return currScope;
 		}
 	}
 
@@ -304,11 +304,11 @@ public abstract class ParserEnvironment : Base
 	{
 		set
 		{
-		this.packageId = value;
+			this.packageId = value;
 		}
 		get
 		{
-		return packageId;
+			return packageId;
 		}
 	}
 
@@ -317,11 +317,11 @@ public abstract class ParserEnvironment : Base
 	{
 		set
 		{
-		this.id = value;
+			this.id = value;
 		}
 		get
 		{
-		return id;
+			return id;
 		}
 	}
 
@@ -330,7 +330,7 @@ public abstract class ParserEnvironment : Base
 	{
 		set
 		{
-		this.matchTypeChilds = value;
+			this.matchTypeChilds = value;
 		}
 	}
 
@@ -360,7 +360,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return nodeRoot;
+			return nodeRoot;
 		}
 	}
 
@@ -371,7 +371,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return directedEdgeRoot;
+			return directedEdgeRoot;
 		}
 	}
 
@@ -382,7 +382,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return arbitraryEdgeRoot;
+			return arbitraryEdgeRoot;
 		}
 	}
 
@@ -393,7 +393,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return undirectedEdgeRoot;
+			return undirectedEdgeRoot;
 		}
 	}
 
@@ -401,7 +401,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return internalObjectRoot;
+			return internalObjectRoot;
 		}
 	}
 
@@ -409,7 +409,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return internalTransientObjectRoot;
+			return internalTransientObjectRoot;
 		}
 	}
 
@@ -417,7 +417,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return one;
+			return one;
 		}
 	}
 
@@ -425,7 +425,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return zero;
+			return zero;
 		}
 	}
 
@@ -433,7 +433,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return sys;
+			return sys;
 		}
 	}
 
@@ -470,7 +470,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return IdentNode.Invalid;
+			return IdentNode.Invalid;
 		}
 	}
 
@@ -478,7 +478,7 @@ public abstract class ParserEnvironment : Base
 	{
 		get
 		{
-		return Coords.Invalid;
+			return Coords.Invalid;
 		}
 	}
 

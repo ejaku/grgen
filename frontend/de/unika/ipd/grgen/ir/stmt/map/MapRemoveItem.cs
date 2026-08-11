@@ -30,7 +30,7 @@ public class MapRemoveItem : ContainerQualProcedureMethodInvocationBase
 	{
 		get
 		{
-		return keyExpr;
+			return keyExpr;
 		}
 	}
 

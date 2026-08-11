@@ -33,7 +33,7 @@ public class AssignmentIndexed : Assignment
 	{
 		get
 		{
-		return index;
+			return index;
 		}
 	}
 

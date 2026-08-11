@@ -55,11 +55,11 @@ public abstract class Identifiable : IR, Annotated, IComparable<Identifiable>
 	{
 		get
 		{
-		return ident;
+			return ident;
 		}
 		set
 		{
-		this.ident = value;
+			this.ident = value;
 		}
 	}
 
@@ -69,7 +69,7 @@ public abstract class Identifiable : IR, Annotated, IComparable<Identifiable>
 	{
 		get
 		{
-		return ToString();
+			return ToString();
 		}
 	}
 
@@ -77,7 +77,7 @@ public abstract class Identifiable : IR, Annotated, IComparable<Identifiable>
 	{
 		get
 		{
-		return ident.NodeInfo;
+			return ident.NodeInfo;
 		}
 	}
 
@@ -106,7 +106,7 @@ public abstract class Identifiable : IR, Annotated, IComparable<Identifiable>
 	{
 		get
 		{
-		return Ident.GetCustomAttributes(true);
+			return Ident.GetCustomAttributes(true);
 		}
 	}
 }

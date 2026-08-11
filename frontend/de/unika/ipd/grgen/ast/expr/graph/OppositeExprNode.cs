@@ -55,11 +55,11 @@ public class OppositeExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(edge);
-		children.Add(node);
-		children.Add(GetValidVersion(nodeTypeUnresolved, nodeType));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(edge);
+			children.Add(node);
+			children.Add(GetValidVersion(nodeTypeUnresolved, nodeType));
+			return children;
 		}
 	}
 
@@ -69,11 +69,11 @@ public class OppositeExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("edge");
-		childrenNames.Add("node");
-		childrenNames.Add("nodeType");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("edge");
+			childrenNames.Add("node");
+			childrenNames.Add("nodeType");
+			return childrenNames;
 		}
 	}
 
@@ -116,7 +116,7 @@ public class OppositeExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return nodeType;
+			return nodeType;
 		}
 	}
 }

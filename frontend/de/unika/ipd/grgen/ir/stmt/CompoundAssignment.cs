@@ -58,7 +58,7 @@ public class CompoundAssignment : EvalStatement
 	{
 		get
 		{
-		return target;
+			return target;
 		}
 	}
 
@@ -66,7 +66,7 @@ public class CompoundAssignment : EvalStatement
 	{
 		get
 		{
-		return expr;
+			return expr;
 		}
 	}
 
@@ -74,7 +74,7 @@ public class CompoundAssignment : EvalStatement
 	{
 		get
 		{
-		return operation;
+			return operation;
 		}
 	}
 

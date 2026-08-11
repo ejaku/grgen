@@ -27,7 +27,7 @@ public abstract class ArrayFunctionMethodInvocationBaseExpr : ContainerFunctionM
 	{
 		get
 		{
-		return (ArrayType)TargetType;
+			return (ArrayType)TargetType;
 		}
 	}
 }

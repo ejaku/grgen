@@ -184,9 +184,9 @@ public abstract class BasicTypeNode : DeclaredTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		// no children
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			// no children
+			return children;
 		}
 	}
 
@@ -196,9 +196,9 @@ public abstract class BasicTypeNode : DeclaredTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// no children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// no children
+			return childrenNames;
 		}
 	}
 
@@ -214,10 +214,10 @@ public abstract class BasicTypeNode : DeclaredTypeNode
 	{
 		get
 		{
-		if(!valueMap.ContainsKey(this))
-			return invalidValueType.GetType();
-		else
-			return valueMap[this];
+			if(!valueMap.ContainsKey(this))
+				return invalidValueType.GetType();
+			else
+				return valueMap[this];
 		}
 	}
 
@@ -225,7 +225,7 @@ public abstract class BasicTypeNode : DeclaredTypeNode
 	{
 		get
 		{
-		return "basic type";
+			return "basic type";
 		}
 	}
 

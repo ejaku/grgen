@@ -46,7 +46,7 @@ public class DequeInit : Expression
 	{
 		get
 		{
-		return dequeItems;
+			return dequeItems;
 		}
 	}
 
@@ -54,12 +54,12 @@ public class DequeInit : Expression
 	{
 		set
 		{
-		Debug.Assert((member == null && value != null));
-		member = value;
+			Debug.Assert((member == null && value != null));
+			member = value;
 		}
 		get
 		{
-		return member;
+			return member;
 		}
 	}
 
@@ -68,7 +68,7 @@ public class DequeInit : Expression
 	{
 		get
 		{
-		return dequeType;
+			return dequeType;
 		}
 	}
 
@@ -86,7 +86,7 @@ public class DequeInit : Expression
 	{
 		get
 		{
-		return "anonymous_deque_" + Id;
+			return "anonymous_deque_" + Id;
 		}
 	}
 }

@@ -33,7 +33,7 @@ public class MatchesAccumulationYield : BlockNestingStatement
 	{
 		get
 		{
-		return iterationVar;
+			return iterationVar;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class MatchesAccumulationYield : BlockNestingStatement
 	{
 		get
 		{
-		return matchesVar;
+			return matchesVar;
 		}
 	}
 

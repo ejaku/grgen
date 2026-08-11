@@ -34,7 +34,7 @@ public class ArrayShuffleNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return TargetType;
+			return TargetType;
 		}
 	}
 

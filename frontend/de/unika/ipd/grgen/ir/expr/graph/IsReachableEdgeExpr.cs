@@ -28,7 +28,7 @@ public class IsReachableEdgeExpr : NeighborhoodQueryExpr
 	{
 		get
 		{
-		return endEdgeExpr;
+			return endEdgeExpr;
 		}
 	}
 

@@ -30,7 +30,7 @@ public class BoolConstNode : ConstNode
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 

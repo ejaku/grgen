@@ -143,8 +143,8 @@ public class SearchPlanBackend : MoreInformationCollector, BackendFactory
 		{
 			get
 			{
-			offset++;
-			return MaxIndex;
+				offset++;
+				return MaxIndex;
 			}
 		}
 
@@ -164,7 +164,7 @@ public class SearchPlanBackend : MoreInformationCollector, BackendFactory
 		{
 			get
 			{
-			return (idMap.Size() + offset - 1);
+				return (idMap.Size() + offset - 1);
 			}
 		}
 	}
@@ -178,7 +178,7 @@ public class SearchPlanBackend : MoreInformationCollector, BackendFactory
 	{
 		get
 		{
-		return this;
+			return this;
 		}
 	}
 

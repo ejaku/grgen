@@ -57,13 +57,13 @@ public class IsBoundedReachableEdgeExprNode : NeighborhoodQueryExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(startNodeExpr);
-		children.Add(endEdgeExpr);
-		children.Add(depthExpr);
-		children.Add(incidentTypeExpr);
-		children.Add(adjacentTypeExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(startNodeExpr);
+			children.Add(endEdgeExpr);
+			children.Add(depthExpr);
+			children.Add(incidentTypeExpr);
+			children.Add(adjacentTypeExpr);
+			return children;
 		}
 	}
 
@@ -73,13 +73,13 @@ public class IsBoundedReachableEdgeExprNode : NeighborhoodQueryExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("start node expr");
-		childrenNames.Add("end edge expr");
-		childrenNames.Add("depth expr");
-		childrenNames.Add("incident type expr");
-		childrenNames.Add("adjacent type expr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("start node expr");
+			childrenNames.Add("end edge expr");
+			childrenNames.Add("depth expr");
+			childrenNames.Add("incident type expr");
+			childrenNames.Add("adjacent type expr");
+			return childrenNames;
 		}
 	}
 
@@ -148,7 +148,7 @@ public class IsBoundedReachableEdgeExprNode : NeighborhoodQueryExprNode
 	{
 		get
 		{
-		return BooleanTypeNode.booleanType;
+			return BooleanTypeNode.booleanType;
 		}
 	}
 }

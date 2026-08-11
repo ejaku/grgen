@@ -69,12 +69,12 @@ public class SequenceDeclNode : DeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(exec);
-		children.Add(inParams);
-		children.Add(outParams);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(exec);
+			children.Add(inParams);
+			children.Add(outParams);
+			return children;
 		}
 	}
 
@@ -84,12 +84,12 @@ public class SequenceDeclNode : DeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("exec");
-		childrenNames.Add("inParams");
-		childrenNames.Add("outParams");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("exec");
+			childrenNames.Add("inParams");
+			childrenNames.Add("outParams");
+			return childrenNames;
 		}
 	}
 
@@ -116,7 +116,7 @@ public class SequenceDeclNode : DeclNode
 	{
 		get
 		{
-		return CheckIR(typeof(Sequence));
+			return CheckIR(typeof(Sequence));
 		}
 	}
 
@@ -124,7 +124,7 @@ public class SequenceDeclNode : DeclNode
 	{
 		get
 		{
-		return new List<DeclNode>(inParams.ChildrenExact);
+			return new List<DeclNode>(inParams.ChildrenExact);
 		}
 	}
 
@@ -143,9 +143,9 @@ public class SequenceDeclNode : DeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 
@@ -153,7 +153,7 @@ public class SequenceDeclNode : DeclNode
 	{
 		get
 		{
-		return "sequence";
+			return "sequence";
 		}
 	}
 }

@@ -31,7 +31,7 @@ public class ByteType : PrimitiveType
 	{
 		get
 		{
-		return BasicTypeNode.byteType.CheckIR(typeof(Type));
+			return BasicTypeNode.byteType.CheckIR(typeof(Type));
 		}
 	}
 }

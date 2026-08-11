@@ -34,7 +34,7 @@ public class ExecStatement : EvalStatement
 	{
 		get
 		{
-		return exec;
+			return exec;
 		}
 	}
 
@@ -56,7 +56,7 @@ public class ExecStatement : EvalStatement
 	{
 		get
 		{
-		return exec.XGRSString;
+			return exec.XGRSString;
 		}
 	}
 
@@ -64,7 +64,7 @@ public class ExecStatement : EvalStatement
 	{
 		get
 		{
-		return exec.LineNr;
+			return exec.LineNr;
 		}
 	}
 }

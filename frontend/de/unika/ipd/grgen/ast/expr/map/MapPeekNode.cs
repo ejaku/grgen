@@ -42,10 +42,10 @@ public class MapPeekNode : MapFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		children.Add(numberExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			children.Add(numberExpr);
+			return children;
 		}
 	}
 
@@ -53,10 +53,10 @@ public class MapPeekNode : MapFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		childrenNames.Add("numberExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			childrenNames.Add("numberExpr");
+			return childrenNames;
 		}
 	}
 
@@ -76,7 +76,7 @@ public class MapPeekNode : MapFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return TargetTypeExact.keyType;
+			return TargetTypeExact.keyType;
 		}
 	}
 

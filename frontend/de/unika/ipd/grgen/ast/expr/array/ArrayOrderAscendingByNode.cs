@@ -73,7 +73,7 @@ public class ArrayOrderAscendingByNode : ArrayFunctionMethodInvocationBaseExprNo
 	{
 		get
 		{
-		return TargetType;
+			return TargetType;
 		}
 	}
 
@@ -81,9 +81,9 @@ public class ArrayOrderAscendingByNode : ArrayFunctionMethodInvocationBaseExprNo
 	{
 		get
 		{
-		if(member != null)
-			return member.DeclType;
-		return null;
+			if(member != null)
+				return member.DeclType;
+			return null;
 		}
 	}
 

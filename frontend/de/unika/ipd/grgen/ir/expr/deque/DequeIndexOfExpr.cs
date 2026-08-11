@@ -36,7 +36,7 @@ public class DequeIndexOfExpr : DequeFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return valueExpr;
+			return valueExpr;
 		}
 	}
 
@@ -44,7 +44,7 @@ public class DequeIndexOfExpr : DequeFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return startIndexExpr;
+			return startIndexExpr;
 		}
 	}
 

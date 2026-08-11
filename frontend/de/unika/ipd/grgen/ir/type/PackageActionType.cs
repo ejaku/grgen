@@ -64,7 +64,7 @@ public class PackageActionType : PrimitiveType, ActionsBearer
 	{
 		get
 		{
-		return subpatternRules.AsReadOnly();
+			return subpatternRules.AsReadOnly();
 		}
 	}
 
@@ -79,7 +79,7 @@ public class PackageActionType : PrimitiveType, ActionsBearer
 	{
 		get
 		{
-		return actionRules.AsReadOnly();
+			return actionRules.AsReadOnly();
 		}
 	}
 
@@ -94,7 +94,7 @@ public class PackageActionType : PrimitiveType, ActionsBearer
 	{
 		get
 		{
-		return filterFunctions.AsReadOnly();
+			return filterFunctions.AsReadOnly();
 		}
 	}
 
@@ -109,7 +109,7 @@ public class PackageActionType : PrimitiveType, ActionsBearer
 	{
 		get
 		{
-		return matchClasses.AsReadOnly();
+			return matchClasses.AsReadOnly();
 		}
 	}
 
@@ -124,7 +124,7 @@ public class PackageActionType : PrimitiveType, ActionsBearer
 	{
 		get
 		{
-		return matchClassFilterFunctions.AsReadOnly();
+			return matchClassFilterFunctions.AsReadOnly();
 		}
 	}
 
@@ -139,7 +139,7 @@ public class PackageActionType : PrimitiveType, ActionsBearer
 	{
 		get
 		{
-		return functions.AsReadOnly();
+			return functions.AsReadOnly();
 		}
 	}
 
@@ -154,7 +154,7 @@ public class PackageActionType : PrimitiveType, ActionsBearer
 	{
 		get
 		{
-		return procedures.AsReadOnly();
+			return procedures.AsReadOnly();
 		}
 	}
 
@@ -169,7 +169,7 @@ public class PackageActionType : PrimitiveType, ActionsBearer
 	{
 		get
 		{
-		return sequences.AsReadOnly();
+			return sequences.AsReadOnly();
 		}
 	}
 }

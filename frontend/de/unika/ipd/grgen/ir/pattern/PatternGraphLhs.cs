@@ -116,7 +116,7 @@ public class PatternGraphLhs : PatternGraphBase
 	{
 		get
 		{
-		return alts.AsReadOnly();
+			return alts.AsReadOnly();
 		}
 	}
 
@@ -129,7 +129,7 @@ public class PatternGraphLhs : PatternGraphBase
 	{
 		get
 		{
-		return iters.AsReadOnly();
+			return iters.AsReadOnly();
 		}
 	}
 
@@ -145,7 +145,7 @@ public class PatternGraphLhs : PatternGraphBase
 	{
 		get
 		{
-		return negs.AsReadOnly();
+			return negs.AsReadOnly();
 		}
 	}
 
@@ -161,7 +161,7 @@ public class PatternGraphLhs : PatternGraphBase
 	{
 		get
 		{
-		return idpts.AsReadOnly();
+			return idpts.AsReadOnly();
 		}
 	}
 
@@ -207,7 +207,7 @@ public class PatternGraphLhs : PatternGraphBase
 	{
 		set
 		{
-		iterationBreaking = value;
+			iterationBreaking = value;
 		}
 	}
 
@@ -222,7 +222,7 @@ public class PatternGraphLhs : PatternGraphBase
 	{
 		get
 		{
-		return conds.AsReadOnly();
+			return conds.AsReadOnly();
 		}
 	}
 
@@ -231,7 +231,7 @@ public class PatternGraphLhs : PatternGraphBase
 	{
 		get
 		{
-		return yields.AsReadOnly();
+			return yields.AsReadOnly();
 		}
 	}
 
@@ -241,12 +241,12 @@ public class PatternGraphLhs : PatternGraphBase
 	{
 		get
 		{
-		ISet<ICollection<GraphEntity>> homs = new LinkedHashSet<ICollection<GraphEntity>>();
-		foreach(ICollection<Edge> edges in homEdgesLists)
-			homs.Add(GetGraphEntities(edges));
-		foreach(ICollection<Node> nodes in homNodesLists)
-			homs.Add(GetGraphEntities(nodes));
-		return Collections.UnmodifiableSet(homs);
+			ISet<ICollection<GraphEntity>> homs = new LinkedHashSet<ICollection<GraphEntity>>();
+			foreach(ICollection<Edge> edges in homEdgesLists)
+				homs.Add(GetGraphEntities(edges));
+			foreach(ICollection<Node> nodes in homNodesLists)
+				homs.Add(GetGraphEntities(nodes));
+			return Collections.UnmodifiableSet(homs);
 		}
 	}
 

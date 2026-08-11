@@ -51,9 +51,9 @@ public class SingleGraphEntityNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(entityUnresolved);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(entityUnresolved);
+			return children;
 		}
 	}
 
@@ -61,9 +61,9 @@ public class SingleGraphEntityNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("entity");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("entity");
+			return childrenNames;
 		}
 	}
 
@@ -90,9 +90,9 @@ public class SingleGraphEntityNode : BaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return entitySubpattern;
+			return entitySubpattern;
 		}
 	}
 
@@ -100,9 +100,9 @@ public class SingleGraphEntityNode : BaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return entityNode;
+			return entityNode;
 		}
 	}
 
@@ -110,7 +110,7 @@ public class SingleGraphEntityNode : BaseNode
 	{
 		get
 		{
-		return "single graph entity";
+			return "single graph entity";
 		}
 	}
 }

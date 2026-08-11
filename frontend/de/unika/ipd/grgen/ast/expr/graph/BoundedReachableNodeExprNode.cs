@@ -67,7 +67,7 @@ public class BoundedReachableNodeExprNode : BoundedNeighborhoodQueryExprNode
 	{
 		get
 		{
-		return setTypeNode;
+			return setTypeNode;
 		}
 	}
 }

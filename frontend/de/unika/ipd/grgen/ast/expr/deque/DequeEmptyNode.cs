@@ -35,7 +35,7 @@ public class DequeEmptyNode : DequeFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 

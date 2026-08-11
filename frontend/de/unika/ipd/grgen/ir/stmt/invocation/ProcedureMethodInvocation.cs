@@ -44,7 +44,7 @@ public class ProcedureMethodInvocation : ProcedureInvocationBase
 	{
 		get
 		{
-		return owner;
+			return owner;
 		}
 	}
 
@@ -52,7 +52,7 @@ public class ProcedureMethodInvocation : ProcedureInvocationBase
 	{
 		get
 		{
-		return procedure;
+			return procedure;
 		}
 	}
 
@@ -60,7 +60,7 @@ public class ProcedureMethodInvocation : ProcedureInvocationBase
 	{
 		get
 		{
-		return procedure;
+			return procedure;
 		}
 	}
 

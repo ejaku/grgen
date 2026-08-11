@@ -30,7 +30,7 @@ public class IteratedReplacement : Identifiable, OrderedReplacement
 	{
 		get
 		{
-		return iterated;
+			return iterated;
 		}
 	}
 }

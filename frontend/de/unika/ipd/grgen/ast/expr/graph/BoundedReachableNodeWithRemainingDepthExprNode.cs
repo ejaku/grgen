@@ -68,7 +68,7 @@ public class BoundedReachableNodeWithRemainingDepthExprNode : BoundedNeighborhoo
 	{
 		get
 		{
-		return mapTypeNode;
+			return mapTypeNode;
 		}
 	}
 }

@@ -79,9 +79,9 @@ public class DeclExprNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add((BaseNode)decl);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add((BaseNode)decl);
+			return children;
 		}
 	}
 
@@ -91,9 +91,9 @@ public class DeclExprNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("decl");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("decl");
+			return childrenNames;
 		}
 	}
 
@@ -123,7 +123,7 @@ public class DeclExprNode : ExprNode
 	{
 		get
 		{
-		return decl.Decl.DeclType;
+			return decl.Decl.DeclType;
 		}
 	}
 
@@ -134,10 +134,10 @@ public class DeclExprNode : ExprNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		if(decl is ConstraintDeclNode)
-			return (ConstraintDeclNode)decl;
-		return null;
+			Debug.Assert(IsResolved());
+			if(decl is ConstraintDeclNode)
+				return (ConstraintDeclNode)decl;
+			return null;
 		}
 	}
 
@@ -147,8 +147,8 @@ public class DeclExprNode : ExprNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return (BaseNode)decl;
+			Debug.Assert(IsResolved());
+			return (BaseNode)decl;
 		}
 	}
 

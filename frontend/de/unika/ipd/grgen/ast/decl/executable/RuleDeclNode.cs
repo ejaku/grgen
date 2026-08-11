@@ -81,14 +81,14 @@ public class RuleDeclNode : ActionDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		children.Add(GetValidVersionCollectNode(returnFormalParametersUnresolved, returnFormalParameters));
-		children.Add(pattern);
-		children.Add(GetValidVersionCollectNode(implementedMatchTypesUnresolved, implementedMatchTypes));
-		children.Add(right);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			children.Add(GetValidVersionCollectNode(returnFormalParametersUnresolved, returnFormalParameters));
+			children.Add(pattern);
+			children.Add(GetValidVersionCollectNode(implementedMatchTypesUnresolved, implementedMatchTypes));
+			children.Add(right);
+			return children;
 		}
 	}
 
@@ -98,14 +98,14 @@ public class RuleDeclNode : ActionDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("ret");
-		childrenNames.Add("pattern");
-		childrenNames.Add("implementedMatchTypes");
-		childrenNames.Add("right");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("ret");
+			childrenNames.Add("pattern");
+			childrenNames.Add("implementedMatchTypes");
+			childrenNames.Add("right");
+			return childrenNames;
 		}
 	}
 
@@ -137,7 +137,7 @@ public class RuleDeclNode : ActionDeclNode
 	{
 		get
 		{
-		return right.GetElementsToDelete(pattern);
+			return right.GetElementsToDelete(pattern);
 		}
 	}
 
@@ -539,7 +539,7 @@ public class RuleDeclNode : ActionDeclNode
 	{
 		get
 		{
-		return "rule";
+			return "rule";
 		}
 	}
 
@@ -589,9 +589,9 @@ public class RuleDeclNode : ActionDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 }

@@ -73,7 +73,7 @@ public class Entity : Identifiable
 	{
 		get
 		{
-		return type;
+			return type;
 		}
 	}
 
@@ -82,7 +82,7 @@ public class Entity : Identifiable
 	{
 		get
 		{
-		return owner;
+			return owner;
 		}
 		set // Set the owner of the entity.  This function is just called from other IR classes.
 		{
@@ -132,7 +132,7 @@ public class Entity : Identifiable
 	{
 		get
 		{
-		return context;
+			return context;
 		}
 	}
 
@@ -140,12 +140,12 @@ public class Entity : Identifiable
 	{
 		set
 		{
-		Debug.Assert(isDefToBeYieldedTo);
-		patternGraphDefYieldedIsToBeDeleted = value;
+			Debug.Assert(isDefToBeYieldedTo);
+			patternGraphDefYieldedIsToBeDeleted = value;
 		}
 		get
 		{
-		return patternGraphDefYieldedIsToBeDeleted;
+			return patternGraphDefYieldedIsToBeDeleted;
 		}
 	}
 
@@ -154,7 +154,7 @@ public class Entity : Identifiable
 	{
 		get
 		{
-		return "entity";
+			return "entity";
 		}
 	}
 }

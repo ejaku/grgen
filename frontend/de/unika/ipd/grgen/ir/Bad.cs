@@ -29,7 +29,7 @@ public class Bad : IR
 	{
 		get
 		{
-		return bad;
+			return bad;
 		}
 	}
 

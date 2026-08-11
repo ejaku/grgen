@@ -33,7 +33,7 @@ public class InsertDefinedSubgraphProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return edgeSetExpr;
+			return edgeSetExpr;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class InsertDefinedSubgraphProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return edgeExpr;
+			return edgeExpr;
 		}
 	}
 

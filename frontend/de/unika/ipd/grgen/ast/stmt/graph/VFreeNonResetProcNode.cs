@@ -46,9 +46,9 @@ public class VFreeNonResetProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(visFlagExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(visFlagExpr);
+			return children;
 		}
 	}
 
@@ -56,9 +56,9 @@ public class VFreeNonResetProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("visFlagExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("visFlagExpr");
+			return childrenNames;
 		}
 	}
 

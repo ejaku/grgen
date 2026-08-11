@@ -34,11 +34,11 @@ public class FilterAutoSupplied : IR, Filter
 	{
 		set
 		{
-		this.action = value;
+			this.action = value;
 		}
 		get
 		{
-		return action;
+			return action;
 		}
 	}
 
@@ -47,7 +47,7 @@ public class FilterAutoSupplied : IR, Filter
 	{
 		get
 		{
-		return name;
+			return name;
 		}
 	}
 }

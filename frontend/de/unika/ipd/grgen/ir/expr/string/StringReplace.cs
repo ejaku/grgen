@@ -37,7 +37,7 @@ public class StringReplace : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return stringExpr;
+			return stringExpr;
 		}
 	}
 
@@ -45,7 +45,7 @@ public class StringReplace : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return startExpr;
+			return startExpr;
 		}
 	}
 
@@ -53,7 +53,7 @@ public class StringReplace : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return lengthExpr;
+			return lengthExpr;
 		}
 	}
 
@@ -61,7 +61,7 @@ public class StringReplace : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return replaceStrExpr;
+			return replaceStrExpr;
 		}
 	}
 

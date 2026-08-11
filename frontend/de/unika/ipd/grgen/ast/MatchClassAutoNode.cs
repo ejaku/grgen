@@ -80,9 +80,9 @@ public class MatchClassAutoNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(matchTypesUnresolved, matchTypes));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(matchTypesUnresolved, matchTypes));
+			return children;
 		}
 	}
 
@@ -92,9 +92,9 @@ public class MatchClassAutoNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("matchTypes");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("matchTypes");
+			return childrenNames;
 		}
 	}
 
@@ -130,27 +130,27 @@ public class MatchClassAutoNode : BaseNode
 	{
 		get
 		{
-		connections = new CollectNode<BaseNode>();
-		@params = new CollectNode<BaseNode>();
+			connections = new CollectNode<BaseNode>();
+			@params = new CollectNode<BaseNode>();
 
-		CollectNode<SubpatternUsageDeclNode> subpatterns = new CollectNode<SubpatternUsageDeclNode>();
-		CollectNode<SubpatternReplNode> subpatternRepls = new CollectNode<SubpatternReplNode>();
-		CollectNode<AlternativeDeclNode> alts = new CollectNode<AlternativeDeclNode>();
-		CollectNode<IteratedDeclNode> iters = new CollectNode<IteratedDeclNode>();
-		CollectNode<PatternGraphLhsNode> negs = new CollectNode<PatternGraphLhsNode>();
-		CollectNode<PatternGraphLhsNode> idpts = new CollectNode<PatternGraphLhsNode>();
-		CollectNode<ExprNode> conds = new CollectNode<ExprNode>();
-		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
-		CollectNode<HomNode> homs = new CollectNode<HomNode>();
-		CollectNode<TotallyHomNode> totallyhoms = new CollectNode<TotallyHomNode>();
-		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
-		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
-		PatternGraphLhsNode res = new PatternGraphLhsNode(nameOfGraph, coords,
-				connections, @params, subpatterns, subpatternRepls,
-				alts, iters, negs, idpts, conds,
-				returnz, homs, totallyhoms, exact, induced, modifiers, context);
+			CollectNode<SubpatternUsageDeclNode> subpatterns = new CollectNode<SubpatternUsageDeclNode>();
+			CollectNode<SubpatternReplNode> subpatternRepls = new CollectNode<SubpatternReplNode>();
+			CollectNode<AlternativeDeclNode> alts = new CollectNode<AlternativeDeclNode>();
+			CollectNode<IteratedDeclNode> iters = new CollectNode<IteratedDeclNode>();
+			CollectNode<PatternGraphLhsNode> negs = new CollectNode<PatternGraphLhsNode>();
+			CollectNode<PatternGraphLhsNode> idpts = new CollectNode<PatternGraphLhsNode>();
+			CollectNode<ExprNode> conds = new CollectNode<ExprNode>();
+			CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
+			CollectNode<HomNode> homs = new CollectNode<HomNode>();
+			CollectNode<TotallyHomNode> totallyhoms = new CollectNode<TotallyHomNode>();
+			CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
+			CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
+			PatternGraphLhsNode res = new PatternGraphLhsNode(nameOfGraph, coords,
+					connections, @params, subpatterns, subpatternRepls,
+					alts, iters, negs, idpts, conds,
+					returnz, homs, totallyhoms, exact, induced, modifiers, context);
 
-		return res;
+			return res;
 		}
 	}
 

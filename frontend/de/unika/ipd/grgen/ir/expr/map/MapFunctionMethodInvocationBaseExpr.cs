@@ -27,7 +27,7 @@ public abstract class MapFunctionMethodInvocationBaseExpr : ContainerFunctionMet
 	{
 		get
 		{
-		return (MapType)TargetType;
+			return (MapType)TargetType;
 		}
 	}
 }

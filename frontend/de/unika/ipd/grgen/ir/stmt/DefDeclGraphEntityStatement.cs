@@ -31,7 +31,7 @@ public class DefDeclGraphEntityStatement : EvalStatement
 	{
 		get
 		{
-		return target;
+			return target;
 		}
 	}
 

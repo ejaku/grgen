@@ -58,7 +58,7 @@ public class MapAsArrayNode : MapFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return arrayTypeNode;
+			return arrayTypeNode;
 		}
 	}
 

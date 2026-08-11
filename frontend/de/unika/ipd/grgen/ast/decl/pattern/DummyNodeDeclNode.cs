@@ -32,7 +32,7 @@ public class DummyNodeDeclNode : NodeDeclNode
 	{
 		get
 		{
-		return null;
+			return null;
 		}
 	}
 

@@ -31,7 +31,7 @@ public class MaxExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return leftExpr;
+			return leftExpr;
 		}
 	}
 
@@ -39,7 +39,7 @@ public class MaxExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return rightExpr;
+			return rightExpr;
 		}
 	}
 

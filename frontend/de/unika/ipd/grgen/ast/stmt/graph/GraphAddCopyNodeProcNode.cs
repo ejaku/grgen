@@ -52,9 +52,9 @@ public class GraphAddCopyNodeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(oldNode);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(oldNode);
+			return children;
 		}
 	}
 
@@ -64,9 +64,9 @@ public class GraphAddCopyNodeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("old node");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("old node");
+			return childrenNames;
 		}
 	}
 
@@ -101,12 +101,12 @@ public class GraphAddCopyNodeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		if(returnTypes == null)
-		{
-			returnTypes = new List<TypeNode>();
-			returnTypes.Add(oldNode.Type);
-		}
-		return returnTypes;
+			if(returnTypes == null)
+			{
+				returnTypes = new List<TypeNode>();
+				returnTypes.Add(oldNode.Type);
+			}
+			return returnTypes;
 		}
 	}
 }

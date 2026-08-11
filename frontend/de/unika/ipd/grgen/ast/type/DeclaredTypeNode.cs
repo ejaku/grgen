@@ -33,11 +33,11 @@ public abstract class DeclaredTypeNode : TypeNode
 	{
 		set
 		{
-		this.decl = value;
+			this.decl = value;
 		}
 		get
 		{
-		return decl;
+			return decl;
 		}
 	}
 
@@ -50,7 +50,7 @@ public abstract class DeclaredTypeNode : TypeNode
 	{
 		get
 		{
-		return decl != null ? decl.Ident : IdentNode.Invalid;
+			return decl != null ? decl.Ident : IdentNode.Invalid;
 		}
 	}
 
@@ -58,7 +58,7 @@ public abstract class DeclaredTypeNode : TypeNode
 	{
 		get
 		{
-		return CheckIR(typeof(PrimitiveType));
+			return CheckIR(typeof(PrimitiveType));
 		}
 	}
 
@@ -66,7 +66,7 @@ public abstract class DeclaredTypeNode : TypeNode
 	{
 		get
 		{
-		return Ident.ToString();
+			return Ident.ToString();
 		}
 	}
 }

@@ -27,7 +27,7 @@ public class Visited : Expression
 	{
 		get
 		{
-		return visitorID;
+			return visitorID;
 		}
 	}
 
@@ -35,7 +35,7 @@ public class Visited : Expression
 	{
 		get
 		{
-		return entity;
+			return entity;
 		}
 	}
 

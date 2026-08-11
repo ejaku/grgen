@@ -28,7 +28,7 @@ public class NodeByUniqueExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return unique;
+			return unique;
 		}
 	}
 
@@ -36,7 +36,7 @@ public class NodeByUniqueExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return nodeType;
+			return nodeType;
 		}
 	}
 

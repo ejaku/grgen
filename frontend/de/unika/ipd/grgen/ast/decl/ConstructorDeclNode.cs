@@ -49,7 +49,7 @@ public class ConstructorDeclNode : DeclNode
 	{
 		get
 		{
-		return constructorType;
+			return constructorType;
 		}
 	}
 
@@ -62,9 +62,9 @@ public class ConstructorDeclNode : DeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(parameters);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(parameters);
+			return children;
 		}
 	}
 
@@ -72,9 +72,9 @@ public class ConstructorDeclNode : DeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("parameters");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("parameters");
+			return childrenNames;
 		}
 	}
 
@@ -82,7 +82,7 @@ public class ConstructorDeclNode : DeclNode
 	{
 		get
 		{
-		return parameters;
+			return parameters;
 		}
 	}
 
@@ -95,7 +95,7 @@ public class ConstructorDeclNode : DeclNode
 	{
 		get
 		{
-		return "constructor";
+			return "constructor";
 		}
 	}
 
@@ -103,7 +103,7 @@ public class ConstructorDeclNode : DeclNode
 	{
 		get
 		{
-		return CheckIR(typeof(Constructor));
+			return CheckIR(typeof(Constructor));
 		}
 	}
 

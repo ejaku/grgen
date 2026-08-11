@@ -62,9 +62,9 @@ public class FunctionAutoKeepOneForEachAccumulateByNode : FunctionAutoNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		//children.add(targetExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			//children.add(targetExpr);
+			return children;
 		}
 	}
 
@@ -72,9 +72,9 @@ public class FunctionAutoKeepOneForEachAccumulateByNode : FunctionAutoNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		//childrenNames.add("targetExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			//childrenNames.add("targetExpr");
+			return childrenNames;
 		}
 	}
 
@@ -170,7 +170,7 @@ public class FunctionAutoKeepOneForEachAccumulateByNode : FunctionAutoNode
 	{
 		get
 		{
-		return TargetType;
+			return TargetType;
 		}
 	}
 
@@ -178,8 +178,8 @@ public class FunctionAutoKeepOneForEachAccumulateByNode : FunctionAutoNode
 	{
 		get
 		{
-		TypeNode targetType = targetVar.DeclType;
-		return (ArrayTypeNode)targetType;
+			TypeNode targetType = targetVar.DeclType;
+			return (ArrayTypeNode)targetType;
 		}
 	}
 
@@ -187,9 +187,9 @@ public class FunctionAutoKeepOneForEachAccumulateByNode : FunctionAutoNode
 	{
 		get
 		{
-		if(member != null)
-			return member.DeclType;
-		return null;
+			if(member != null)
+				return member.DeclType;
+			return null;
 		}
 	}
 
@@ -197,9 +197,9 @@ public class FunctionAutoKeepOneForEachAccumulateByNode : FunctionAutoNode
 	{
 		get
 		{
-		if(accumulationMember != null)
-			return accumulationMember.DeclType;
-		return null;
+			if(accumulationMember != null)
+				return accumulationMember.DeclType;
+			return null;
 		}
 	}
 

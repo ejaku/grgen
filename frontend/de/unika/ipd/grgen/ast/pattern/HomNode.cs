@@ -58,7 +58,7 @@ public class HomNode : BaseNode
 	{
 		get
 		{
-		return GetValidVersionList(childrenUnresolved, childrenNode, childrenEdge);
+			return GetValidVersionList(childrenUnresolved, childrenNode, childrenEdge);
 		}
 	}
 
@@ -68,9 +68,9 @@ public class HomNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// nameless children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// nameless children
+			return childrenNames;
 		}
 	}
 
@@ -78,7 +78,7 @@ public class HomNode : BaseNode
 	{
 		get
 		{
-		return childrenNode;
+			return childrenNode;
 		}
 	}
 
@@ -86,7 +86,7 @@ public class HomNode : BaseNode
 	{
 		get
 		{
-		return childrenEdge;
+			return childrenEdge;
 		}
 	}
 
@@ -170,7 +170,7 @@ public class HomNode : BaseNode
 	{
 		get
 		{
-		return Color.PINK;
+			return Color.PINK;
 		}
 	}
 }

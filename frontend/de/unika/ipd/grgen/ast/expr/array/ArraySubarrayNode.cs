@@ -44,11 +44,11 @@ public class ArraySubarrayNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		children.Add(startExpr);
-		children.Add(lengthExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			children.Add(startExpr);
+			children.Add(lengthExpr);
+			return children;
 		}
 	}
 
@@ -56,11 +56,11 @@ public class ArraySubarrayNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		childrenNames.Add("startExpr");
-		childrenNames.Add("lengthExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			childrenNames.Add("startExpr");
+			childrenNames.Add("lengthExpr");
+			return childrenNames;
 		}
 	}
 
@@ -86,7 +86,7 @@ public class ArraySubarrayNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return TargetType;
+			return TargetType;
 		}
 	}
 

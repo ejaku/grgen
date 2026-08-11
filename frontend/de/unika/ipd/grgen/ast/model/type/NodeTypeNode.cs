@@ -75,10 +75,10 @@ public class NodeTypeNode : InheritanceTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(extendUnresolved, extend));
-		children.Add(GetValidVersionCollectNode(bodyUnresolved, body));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(extendUnresolved, extend));
+			children.Add(GetValidVersionCollectNode(bodyUnresolved, body));
+			return children;
 		}
 	}
 
@@ -88,10 +88,10 @@ public class NodeTypeNode : InheritanceTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("extends");
-		childrenNames.Add("body");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("extends");
+			childrenNames.Add("body");
+			return childrenNames;
 		}
 	}
 
@@ -159,7 +159,7 @@ public class NodeTypeNode : InheritanceTypeNode
 	{
 		get
 		{
-		return CheckIR(typeof(NodeType));
+			return CheckIR(typeof(NodeType));
 		}
 	}
 
@@ -197,7 +197,7 @@ public class NodeTypeNode : InheritanceTypeNode
 	{
 		get
 		{
-		return "node class";
+			return "node class";
 		}
 	}
 
@@ -205,9 +205,9 @@ public class NodeTypeNode : InheritanceTypeNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return new List<InheritanceTypeNode>(extend.ChildrenExact);
+			return new List<InheritanceTypeNode>(extend.ChildrenExact);
 		}
 	}
 }

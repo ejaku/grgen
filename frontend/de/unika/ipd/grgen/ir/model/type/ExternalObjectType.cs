@@ -41,7 +41,7 @@ public class ExternalObjectType : InheritanceType
 	{
 		get
 		{
-		return externalFunctionMethods.AsReadOnly();
+			return externalFunctionMethods.AsReadOnly();
 		}
 	}
 
@@ -61,7 +61,7 @@ public class ExternalObjectType : InheritanceType
 	{
 		get
 		{
-		return externalProcedureMethods.AsReadOnly();
+			return externalProcedureMethods.AsReadOnly();
 		}
 	}
 
@@ -87,19 +87,19 @@ public class ExternalObjectType : InheritanceType
 	{
 		get
 		{
-		if(allExternalFunctionMethods == null)
-		{
-			allExternalFunctionMethods = new LinkedHashMap<string, ExternalFunctionMethod>();
+			if(allExternalFunctionMethods == null)
+			{
+				allExternalFunctionMethods = new LinkedHashMap<string, ExternalFunctionMethod>();
 
-			// add the members of the super types
-			foreach(InheritanceType superType in AllSuperTypes)
-				AddExternalFunctionMethods((ExternalObjectType)superType);
+				// add the members of the super types
+				foreach(InheritanceType superType in AllSuperTypes)
+					AddExternalFunctionMethods((ExternalObjectType)superType);
 
-			// add members of the current type
-			AddExternalFunctionMethods(this);
-		}
+				// add members of the current type
+				AddExternalFunctionMethods(this);
+			}
 
-		return allExternalFunctionMethods.Values;
+			return allExternalFunctionMethods.Values;
 		}
 	}
 
@@ -107,19 +107,19 @@ public class ExternalObjectType : InheritanceType
 	{
 		get
 		{
-		if(allExternalProcedureMethods == null)
-		{
-			allExternalProcedureMethods = new LinkedHashMap<string, ExternalProcedureMethod>();
+			if(allExternalProcedureMethods == null)
+			{
+				allExternalProcedureMethods = new LinkedHashMap<string, ExternalProcedureMethod>();
 
-			// add the members of the super types
-			foreach(InheritanceType superType in AllSuperTypes)
-				AddExternalProcedureMethods((ExternalObjectType)superType);
+				// add the members of the super types
+				foreach(InheritanceType superType in AllSuperTypes)
+					AddExternalProcedureMethods((ExternalObjectType)superType);
 
-			// add members of the current type
-			AddExternalProcedureMethods(this);
-		}
+				// add members of the current type
+				AddExternalProcedureMethods(this);
+			}
 
-		return allExternalProcedureMethods.Values;
+			return allExternalProcedureMethods.Values;
 		}
 	}
 

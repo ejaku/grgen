@@ -46,11 +46,11 @@ public class IsInNodesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(candidateExpr);
-		children.Add(GetValidVersion(indexUnresolved, index));
-		children.Add(expr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(candidateExpr);
+			children.Add(GetValidVersion(indexUnresolved, index));
+			children.Add(expr);
+			return children;
 		}
 	}
 
@@ -60,11 +60,11 @@ public class IsInNodesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("candidateExpr");
-		childrenNames.Add("index");
-		childrenNames.Add("expr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("candidateExpr");
+			childrenNames.Add("index");
+			childrenNames.Add("expr");
+			return childrenNames;
 		}
 	}
 
@@ -101,7 +101,7 @@ public class IsInNodesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
 	{
 		get
 		{
-		return NodeRoot;
+			return NodeRoot;
 		}
 	}
 
@@ -114,7 +114,7 @@ public class IsInNodesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 

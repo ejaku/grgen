@@ -56,11 +56,11 @@ public class ScanExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(stringExpr);
-		if(typeUnresolved != null)
-			children.Add(GetValidVersion(typeUnresolved, type));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(stringExpr);
+			if(typeUnresolved != null)
+				children.Add(GetValidVersion(typeUnresolved, type));
+			return children;
 		}
 	}
 
@@ -70,11 +70,11 @@ public class ScanExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("string expr");
-		if(typeUnresolved != null)
-			childrenNames.Add("type");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("string expr");
+			if(typeUnresolved != null)
+				childrenNames.Add("type");
+			return childrenNames;
 		}
 	}
 
@@ -165,10 +165,10 @@ public class ScanExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		if(type != null)
-			return type;
-		else
-			return BasicTypeNode.objectType;
+			if(type != null)
+				return type;
+			else
+				return BasicTypeNode.objectType;
 		}
 	}
 }

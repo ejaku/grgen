@@ -34,7 +34,7 @@ public class IteratedAccumulationYield : BlockNestingStatement
 	{
 		get
 		{
-		return iterationVar;
+			return iterationVar;
 		}
 	}
 
@@ -42,7 +42,7 @@ public class IteratedAccumulationYield : BlockNestingStatement
 	{
 		get
 		{
-		return iterated;
+			return iterated;
 		}
 	}
 

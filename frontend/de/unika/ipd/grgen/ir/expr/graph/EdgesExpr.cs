@@ -26,7 +26,7 @@ public class EdgesExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return edgeType;
+			return edgeType;
 		}
 	}
 

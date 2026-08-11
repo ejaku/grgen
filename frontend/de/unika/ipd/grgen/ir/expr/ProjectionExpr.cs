@@ -31,7 +31,7 @@ public class ProjectionExpr : Expression
 	{
 		get
 		{
-		return index;
+			return index;
 		}
 	}
 
@@ -39,7 +39,7 @@ public class ProjectionExpr : Expression
 	{
 		get
 		{
-		return procedure;
+			return procedure;
 		}
 	}
 
@@ -47,11 +47,11 @@ public class ProjectionExpr : Expression
 	{
 		get
 		{
-		return projectedValueVarName;
+			return projectedValueVarName;
 		}
 		set
 		{
-		this.projectedValueVarName = value;
+			this.projectedValueVarName = value;
 		}
 	}
 

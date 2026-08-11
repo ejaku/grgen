@@ -80,10 +80,10 @@ public class ReturnAssignmentNode : EvalStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ValidProcedure);
-		children.Add(targets);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ValidProcedure);
+			children.Add(targets);
+			return children;
 		}
 	}
 
@@ -93,10 +93,10 @@ public class ReturnAssignmentNode : EvalStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("lhs");
-		childrenNames.Add("rhs");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("lhs");
+			childrenNames.Add("rhs");
+			return childrenNames;
 		}
 	}
 
@@ -104,9 +104,9 @@ public class ReturnAssignmentNode : EvalStatementNode
 	{
 		get
 		{
-		return procedure != null ?
-				(ProcedureInvocationBaseNode)procedure :
-				builtinProcedure != null ? (ProcedureInvocationBaseNode)builtinProcedure : (ProcedureInvocationBaseNode)procedureMethod;
+			return procedure != null ?
+					(ProcedureInvocationBaseNode)procedure :
+					builtinProcedure != null ? (ProcedureInvocationBaseNode)builtinProcedure : (ProcedureInvocationBaseNode)procedureMethod;
 		}
 	}
 

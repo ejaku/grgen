@@ -42,7 +42,7 @@ public class GraphAddCopyEdgeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return oldEdge;
+			return oldEdge;
 		}
 	}
 
@@ -50,7 +50,7 @@ public class GraphAddCopyEdgeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return sourceNode;
+			return sourceNode;
 		}
 	}
 
@@ -58,7 +58,7 @@ public class GraphAddCopyEdgeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return targetNode;
+			return targetNode;
 		}
 	}
 
@@ -86,7 +86,7 @@ public class GraphAddCopyEdgeProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return deep;
+			return deep;
 		}
 	}
 }

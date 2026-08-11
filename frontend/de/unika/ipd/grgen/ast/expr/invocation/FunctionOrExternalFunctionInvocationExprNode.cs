@@ -56,10 +56,10 @@ public class FunctionOrExternalFunctionInvocationExprNode : FunctionInvocationBa
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(functionOrExternalFunctionUnresolved, functionDecl, externalFunctionDecl));
-		children.Add(arguments);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(functionOrExternalFunctionUnresolved, functionDecl, externalFunctionDecl));
+			children.Add(arguments);
+			return children;
 		}
 	}
 
@@ -67,10 +67,10 @@ public class FunctionOrExternalFunctionInvocationExprNode : FunctionInvocationBa
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("function or external function");
-		childrenNames.Add("arguments");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("function or external function");
+			childrenNames.Add("arguments");
+			return childrenNames;
 		}
 	}
 
@@ -107,8 +107,8 @@ public class FunctionOrExternalFunctionInvocationExprNode : FunctionInvocationBa
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return functionDecl != null ? functionDecl.ResultType : externalFunctionDecl.ResultType;
+			Debug.Assert(IsResolved());
+			return functionDecl != null ? functionDecl.ResultType : externalFunctionDecl.ResultType;
 		}
 	}
 

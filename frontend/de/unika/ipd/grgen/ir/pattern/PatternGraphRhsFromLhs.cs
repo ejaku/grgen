@@ -39,7 +39,7 @@ public class PatternGraphRhsFromLhs : PatternGraphRhs
 	{
 		get
 		{
-		return new HashSet<GraphEntity>();
+			return new HashSet<GraphEntity>();
 		}
 	}
 
@@ -56,7 +56,7 @@ public class PatternGraphRhsFromLhs : PatternGraphRhs
 	{
 		get
 		{
-		return (new List<Entity>()).AsReadOnly();
+			return (new List<Entity>()).AsReadOnly();
 		}
 	}
 
@@ -74,7 +74,7 @@ public class PatternGraphRhsFromLhs : PatternGraphRhs
 	{
 		get
 		{
-		return (new List<ImperativeStmt>()).AsReadOnly();
+			return (new List<ImperativeStmt>()).AsReadOnly();
 		}
 	}
 }

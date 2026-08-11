@@ -48,7 +48,7 @@ public class EnumType : PrimitiveType, ContainedInPackage
 	{
 		get
 		{
-		return items.AsReadOnly();
+			return items.AsReadOnly();
 		}
 	}
 
@@ -62,11 +62,11 @@ public class EnumType : PrimitiveType, ContainedInPackage
 	{
 		get
 		{
-		return packageContainedIn;
+			return packageContainedIn;
 		}
 		set
 		{
-		this.packageContainedIn = value;
+			this.packageContainedIn = value;
 		}
 	}
 

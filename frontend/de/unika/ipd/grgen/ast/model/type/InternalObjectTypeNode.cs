@@ -63,10 +63,10 @@ public class InternalObjectTypeNode : BaseInternalObjectTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(extendUnresolved, extend));
-		children.Add(GetValidVersionCollectNode(bodyUnresolved, body));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(extendUnresolved, extend));
+			children.Add(GetValidVersionCollectNode(bodyUnresolved, body));
+			return children;
 		}
 	}
 
@@ -76,10 +76,10 @@ public class InternalObjectTypeNode : BaseInternalObjectTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("extends");
-		childrenNames.Add("body");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("extends");
+			childrenNames.Add("body");
+			return childrenNames;
 		}
 	}
 
@@ -141,7 +141,7 @@ public class InternalObjectTypeNode : BaseInternalObjectTypeNode
 	{
 		get
 		{
-		return CheckIR(typeof(InternalObjectType));
+			return CheckIR(typeof(InternalObjectType));
 		}
 	}
 
@@ -179,7 +179,7 @@ public class InternalObjectTypeNode : BaseInternalObjectTypeNode
 	{
 		get
 		{
-		return "internal object class";
+			return "internal object class";
 		}
 	}
 
@@ -187,9 +187,9 @@ public class InternalObjectTypeNode : BaseInternalObjectTypeNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return new List<InheritanceTypeNode>(extend.ChildrenExact);
+			return new List<InheritanceTypeNode>(extend.ChildrenExact);
 		}
 	}
 }

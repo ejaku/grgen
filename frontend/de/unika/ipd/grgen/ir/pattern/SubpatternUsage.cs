@@ -38,7 +38,7 @@ public class SubpatternUsage : Identifiable
 	{
 		get
 		{
-		return subpatternAction;
+			return subpatternAction;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class SubpatternUsage : Identifiable
 	{
 		get
 		{
-		return subpatternConnections;
+			return subpatternConnections;
 		}
 	}
 
@@ -54,7 +54,7 @@ public class SubpatternUsage : Identifiable
 	{
 		get
 		{
-		return subpatternYields;
+			return subpatternYields;
 		}
 	}
 }

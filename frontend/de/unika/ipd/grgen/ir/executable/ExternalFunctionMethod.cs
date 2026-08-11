@@ -34,11 +34,11 @@ public class ExternalFunctionMethod : ExternalFunction
 	{
 		get
 		{
-		return owner;
+			return owner;
 		}
 		set
 		{
-		owner = value;
+			owner = value;
 		}
 	}
 

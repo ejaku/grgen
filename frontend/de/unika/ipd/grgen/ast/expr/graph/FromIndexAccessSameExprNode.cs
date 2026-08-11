@@ -40,10 +40,10 @@ public abstract class FromIndexAccessSameExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(indexUnresolved, index));
-		children.Add(expr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(indexUnresolved, index));
+			children.Add(expr);
+			return children;
 		}
 	}
 
@@ -53,10 +53,10 @@ public abstract class FromIndexAccessSameExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("index");
-		childrenNames.Add("expr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("index");
+			childrenNames.Add("expr");
+			return childrenNames;
 		}
 	}
 

@@ -35,7 +35,7 @@ public class AssignmentNameof : AssignmentBase
 	{
 		get
 		{
-		return target;
+			return target;
 		}
 	}
 

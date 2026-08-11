@@ -27,7 +27,7 @@ public class TryScanExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return stringExpr;
+			return stringExpr;
 		}
 	}
 
@@ -35,7 +35,7 @@ public class TryScanExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return targetType;
+			return targetType;
 		}
 	}
 

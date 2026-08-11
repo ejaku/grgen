@@ -50,11 +50,11 @@ public class FilterInvocationNode : FilterInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iteratedUnresolved, iterated));
-		//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
-		children.Add(arguments);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iteratedUnresolved, iterated));
+			//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
+			children.Add(arguments);
+			return children;
 		}
 	}
 
@@ -62,11 +62,11 @@ public class FilterInvocationNode : FilterInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterated");
-		//childrenNames.add("methodIdent");
-		childrenNames.Add("params");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterated");
+			//childrenNames.add("methodIdent");
+			childrenNames.Add("params");
+			return childrenNames;
 		}
 	}
 

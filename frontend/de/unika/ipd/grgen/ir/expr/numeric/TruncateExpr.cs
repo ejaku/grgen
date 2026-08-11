@@ -25,7 +25,7 @@ public class TruncateExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return expr;
+			return expr;
 		}
 	}
 

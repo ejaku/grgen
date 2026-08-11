@@ -47,9 +47,9 @@ public class DefinedSubgraphExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(edgeSetExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(edgeSetExpr);
+			return children;
 		}
 	}
 
@@ -59,9 +59,9 @@ public class DefinedSubgraphExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("edgeSetExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("edgeSetExpr");
+			return childrenNames;
 		}
 	}
 
@@ -109,7 +109,7 @@ public class DefinedSubgraphExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.graphType;
+			return BasicTypeNode.graphType;
 		}
 	}
 }

@@ -53,7 +53,7 @@ public class FilterInvocationLambdaExpression : FilterInvocationBase
 	{
 		get
 		{
-		return initArrayAccessVar;
+			return initArrayAccessVar;
 		}
 	}
 
@@ -61,7 +61,7 @@ public class FilterInvocationLambdaExpression : FilterInvocationBase
 	{
 		get
 		{
-		return initExpr;
+			return initExpr;
 		}
 	}
 
@@ -69,7 +69,7 @@ public class FilterInvocationLambdaExpression : FilterInvocationBase
 	{
 		get
 		{
-		return arrayAccessVar;
+			return arrayAccessVar;
 		}
 	}
 
@@ -77,7 +77,7 @@ public class FilterInvocationLambdaExpression : FilterInvocationBase
 	{
 		get
 		{
-		return previousAccumulationAccessVar;
+			return previousAccumulationAccessVar;
 		}
 	}
 
@@ -85,7 +85,7 @@ public class FilterInvocationLambdaExpression : FilterInvocationBase
 	{
 		get
 		{
-		return indexVar;
+			return indexVar;
 		}
 	}
 
@@ -93,7 +93,7 @@ public class FilterInvocationLambdaExpression : FilterInvocationBase
 	{
 		get
 		{
-		return elementVar;
+			return elementVar;
 		}
 	}
 
@@ -101,7 +101,7 @@ public class FilterInvocationLambdaExpression : FilterInvocationBase
 	{
 		get
 		{
-		return lambdaExpr;
+			return lambdaExpr;
 		}
 	}
 
@@ -109,7 +109,7 @@ public class FilterInvocationLambdaExpression : FilterInvocationBase
 	{
 		get
 		{
-		return plainName;
+			return plainName;
 		}
 	}
 
@@ -117,7 +117,7 @@ public class FilterInvocationLambdaExpression : FilterInvocationBase
 	{
 		get
 		{
-		return entity;
+			return entity;
 		}
 	}
 
@@ -125,7 +125,7 @@ public class FilterInvocationLambdaExpression : FilterInvocationBase
 	{
 		get
 		{
-		return entityType;
+			return entityType;
 		}
 	}
 

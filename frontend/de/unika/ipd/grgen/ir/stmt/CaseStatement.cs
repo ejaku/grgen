@@ -31,7 +31,7 @@ public class CaseStatement : BlockNestingStatement
 	{
 		get
 		{
-		return caseConstantExpr;
+			return caseConstantExpr;
 		}
 	}
 

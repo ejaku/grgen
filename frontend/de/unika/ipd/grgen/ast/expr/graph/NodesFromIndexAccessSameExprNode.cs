@@ -48,7 +48,7 @@ public class NodesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
 	{
 		get
 		{
-		return NodeRoot;
+			return NodeRoot;
 		}
 	}
 
@@ -61,7 +61,7 @@ public class NodesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
 	{
 		get
 		{
-		return setTypeNode;
+			return setTypeNode;
 		}
 	}
 

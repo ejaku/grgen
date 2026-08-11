@@ -33,7 +33,7 @@ public class GraphDumpableProxy : GraphDumpable
 	{
 		get
 		{
-		return gd;
+			return gd;
 		}
 	}
 
@@ -42,7 +42,7 @@ public class GraphDumpableProxy : GraphDumpable
 	{
 		get
 		{
-		return gd.NodeId;
+			return gd.NodeId;
 		}
 	}
 
@@ -51,7 +51,7 @@ public class GraphDumpableProxy : GraphDumpable
 	{
 		get
 		{
-		return gd.NodeColor;
+			return gd.NodeColor;
 		}
 	}
 
@@ -60,7 +60,7 @@ public class GraphDumpableProxy : GraphDumpable
 	{
 		get
 		{
-		return gd.NodeShape;
+			return gd.NodeShape;
 		}
 	}
 
@@ -69,7 +69,7 @@ public class GraphDumpableProxy : GraphDumpable
 	{
 		get
 		{
-		return gd.NodeLabel;
+			return gd.NodeLabel;
 		}
 	}
 
@@ -78,7 +78,7 @@ public class GraphDumpableProxy : GraphDumpable
 	{
 		get
 		{
-		return gd.NodeInfo;
+			return gd.NodeInfo;
 		}
 	}
 

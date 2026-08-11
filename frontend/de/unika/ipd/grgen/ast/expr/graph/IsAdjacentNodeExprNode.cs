@@ -63,7 +63,7 @@ public class IsAdjacentNodeExprNode : IsInNodeNeighborhoodQueryExprNode
 	{
 		get
 		{
-		return BooleanTypeNode.booleanType;
+			return BooleanTypeNode.booleanType;
 		}
 	}
 }

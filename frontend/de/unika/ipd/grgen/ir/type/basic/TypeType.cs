@@ -35,7 +35,7 @@ public class TypeType : PrimitiveType
 	{
 		get
 		{
-		return BasicTypeNode.typeType.CheckIR(typeof(Type));
+			return BasicTypeNode.typeType.CheckIR(typeof(Type));
 		}
 	}
 }

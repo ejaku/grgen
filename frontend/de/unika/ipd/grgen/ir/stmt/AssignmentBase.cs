@@ -27,11 +27,11 @@ public abstract class AssignmentBase : EvalStatement
 	{
 		get
 		{
-		return expr;
+			return expr;
 		}
 		set
 		{
-		this.expr = value;
+			this.expr = value;
 		}
 	}
 

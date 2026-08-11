@@ -42,7 +42,7 @@ public class UndirectedEdgeTypeNode : EdgeTypeNode
 	{
 		set
 		{
-		value.Directedness = EdgeType.DirectednessKind.Undirected;
+			value.Directedness = EdgeType.DirectednessKind.Undirected;
 		}
 	}
 
@@ -50,7 +50,7 @@ public class UndirectedEdgeTypeNode : EdgeTypeNode
 	{
 		get
 		{
-		return "undirected edge class";
+			return "undirected edge class";
 		}
 	}
 }

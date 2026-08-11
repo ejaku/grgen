@@ -55,15 +55,15 @@ public class MemberAccessExprNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		if(IsResolved() && ResolutionResult())
-		{
-			if(targetExpr.Type is MatchTypeNode)
-				return children; // behave like a nop in case we're a match access
-		}
-		children.Add(targetExpr);
-		children.Add(memberIdent);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			if(IsResolved() && ResolutionResult())
+			{
+				if(targetExpr.Type is MatchTypeNode)
+					return children; // behave like a nop in case we're a match access
+			}
+			children.Add(targetExpr);
+			children.Add(memberIdent);
+			return children;
 		}
 	}
 
@@ -71,10 +71,10 @@ public class MemberAccessExprNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		childrenNames.Add("memberIdent");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			childrenNames.Add("memberIdent");
+			return childrenNames;
 		}
 	}
 
@@ -124,7 +124,7 @@ public class MemberAccessExprNode : ExprNode
 	{
 		get
 		{
-		return targetExpr; // resulting from primary expression, most often an IdentExprNode
+			return targetExpr; // resulting from primary expression, most often an IdentExprNode
 		}
 	}
 
@@ -132,9 +132,9 @@ public class MemberAccessExprNode : ExprNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return member is MemberDeclNode ? (MemberDeclNode)member : null;
+			return member is MemberDeclNode ? (MemberDeclNode)member : null;
 		}
 	}
 
@@ -142,12 +142,12 @@ public class MemberAccessExprNode : ExprNode
 	{
 		get
 		{
-		TypeNode declType = null;
-		if(targetExpr.Type is MatchTypeNode)
-			declType = member.DeclType;
-		else
-			declType = member.Decl.GetDeclType(); // untyped exec var type in case owner is an untyped exec var
-		return declType;
+			TypeNode declType = null;
+			if(targetExpr.Type is MatchTypeNode)
+				declType = member.DeclType;
+			else
+				declType = member.Decl.GetDeclType(); // untyped exec var type in case owner is an untyped exec var
+			return declType;
 		}
 	}
 
@@ -178,7 +178,7 @@ public class MemberAccessExprNode : ExprNode
 	{
 		get
 		{
-		return "member";
+			return "member";
 		}
 	}
 }

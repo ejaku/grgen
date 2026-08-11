@@ -248,21 +248,21 @@ public class ModelGen : CSharpBase
 	{
 		get
 		{
-		if(stubsb == null)
-		{
-			stubsb = new SourceBuilder();
-			stubsb.AppendFront("// This file has been generated automatically by GrGen (www.grgen.net)\n"
-					+ "// Do not modify this file! Any changes will be lost!\n"
-					+ "// Rename this file or use a copy!\n"
-					+ "// Generated from \"" + be.unit.Filename + "\" on " + DateTime.Now + "\n"
-					+ "\n"
-					+ "using System;\n"
-					+ "using System.Collections.Generic;\n"
-					+ "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
-					+ "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
-					+ "using GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.Ident + ";\n");
-		}
-		return stubsb;
+			if(stubsb == null)
+			{
+				stubsb = new SourceBuilder();
+				stubsb.AppendFront("// This file has been generated automatically by GrGen (www.grgen.net)\n"
+						+ "// Do not modify this file! Any changes will be lost!\n"
+						+ "// Rename this file or use a copy!\n"
+						+ "// Generated from \"" + be.unit.Filename + "\" on " + DateTime.Now + "\n"
+						+ "\n"
+						+ "using System;\n"
+						+ "using System.Collections.Generic;\n"
+						+ "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
+						+ "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
+						+ "using GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.Ident + ";\n");
+			}
+			return stubsb;
 		}
 	}
 

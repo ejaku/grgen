@@ -28,7 +28,7 @@ public class ArrayGroupBy : ArrayFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return member;
+			return member;
 		}
 	}
 }

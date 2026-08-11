@@ -54,10 +54,10 @@ public class MapRemoveItemNode : MapProcedureMethodInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ValidTarget);
-		children.Add(keyExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ValidTarget);
+			children.Add(keyExpr);
+			return children;
 		}
 	}
 
@@ -65,10 +65,10 @@ public class MapRemoveItemNode : MapProcedureMethodInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("target");
-		childrenNames.Add("keyExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("target");
+			childrenNames.Add("keyExpr");
+			return childrenNames;
 		}
 	}
 

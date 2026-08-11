@@ -51,7 +51,7 @@ public class EmitNode : OrderedReplacementNode
 	{
 		get
 		{
-		return new List<BaseNode>(childrenUnresolved);
+			return new List<BaseNode>(childrenUnresolved);
 		}
 	}
 
@@ -61,9 +61,9 @@ public class EmitNode : OrderedReplacementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// nameless children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// nameless children
+			return childrenNames;
 		}
 	}
 
@@ -87,7 +87,7 @@ public class EmitNode : OrderedReplacementNode
 	{
 		get
 		{
-		return Color.PINK;
+			return Color.PINK;
 		}
 	}
 

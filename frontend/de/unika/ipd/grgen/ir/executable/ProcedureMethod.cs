@@ -32,11 +32,11 @@ public class ProcedureMethod : Procedure
 	{
 		get
 		{
-		return owner;
+			return owner;
 		}
 		set
 		{
-		owner = value;
+			owner = value;
 		}
 	}
 

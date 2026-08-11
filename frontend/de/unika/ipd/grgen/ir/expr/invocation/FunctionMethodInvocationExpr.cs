@@ -43,7 +43,7 @@ public class FunctionMethodInvocationExpr : FunctionInvocationBaseExpr
 	{
 		get
 		{
-		return owner;
+			return owner;
 		}
 	}
 
@@ -51,7 +51,7 @@ public class FunctionMethodInvocationExpr : FunctionInvocationBaseExpr
 	{
 		get
 		{
-		return function;
+			return function;
 		}
 	}
 

@@ -29,7 +29,7 @@ public class ConstructorParam : IR
 	{
 		get
 		{
-		return entity;
+			return entity;
 		}
 	}
 
@@ -37,7 +37,7 @@ public class ConstructorParam : IR
 	{
 		get
 		{
-		return defValue;
+			return defValue;
 		}
 	}
 }

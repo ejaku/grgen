@@ -60,7 +60,7 @@ public class CountIncidentEdgeExprNode : NeighborhoodQueryExprNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 }

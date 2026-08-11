@@ -32,7 +32,7 @@ public class Constant : Expression
 	{
 		get
 		{
-		return value;
+			return value;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class Constant : Expression
 	{
 		get
 		{
-		return Name + " " + value;
+			return Name + " " + value;
 		}
 	}
 }

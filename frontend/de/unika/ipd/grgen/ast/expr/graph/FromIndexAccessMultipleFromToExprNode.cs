@@ -50,9 +50,9 @@ public abstract class FromIndexAccessMultipleFromToExprNode : BuiltinFunctionInv
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(indexAccessExprs);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(indexAccessExprs);
+			return children;
 		}
 	}
 
@@ -62,9 +62,9 @@ public abstract class FromIndexAccessMultipleFromToExprNode : BuiltinFunctionInv
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("indexAccessExprs");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("indexAccessExprs");
+			return childrenNames;
 		}
 	}
 
@@ -155,7 +155,7 @@ public abstract class FromIndexAccessMultipleFromToExprNode : BuiltinFunctionInv
 	{
 		get
 		{
-		return setTypeNode;
+			return setTypeNode;
 		}
 	}
 }

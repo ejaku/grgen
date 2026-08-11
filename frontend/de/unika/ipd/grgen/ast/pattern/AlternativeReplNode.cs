@@ -42,9 +42,9 @@ public class AlternativeReplNode : OrderedReplacementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(alternativeUnresolved, alternative));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(alternativeUnresolved, alternative));
+			return children;
 		}
 	}
 
@@ -52,9 +52,9 @@ public class AlternativeReplNode : OrderedReplacementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("alternative");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("alternative");
+			return childrenNames;
 		}
 	}
 

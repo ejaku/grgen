@@ -35,7 +35,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return !string.ReferenceEquals(functionOrProcedureName, null) ? functionOrProcedureName : actionName;
+			return !string.ReferenceEquals(functionOrProcedureName, null) ? functionOrProcedureName : actionName;
 		}
 	}
 
@@ -43,7 +43,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(commonNodes);
+			return Collections.UnmodifiableSet(commonNodes);
 		}
 	}
 
@@ -51,7 +51,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(commonEdges);
+			return Collections.UnmodifiableSet(commonEdges);
 		}
 	}
 
@@ -59,7 +59,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(commonSubpatternUsages);
+			return Collections.UnmodifiableSet(commonSubpatternUsages);
 		}
 	}
 
@@ -67,7 +67,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(newNodes);
+			return Collections.UnmodifiableSet(newNodes);
 		}
 	}
 
@@ -75,7 +75,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(newEdges);
+			return Collections.UnmodifiableSet(newEdges);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(newSubpatternUsages);
+			return Collections.UnmodifiableSet(newSubpatternUsages);
 		}
 	}
 
@@ -91,7 +91,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(delNodes);
+			return Collections.UnmodifiableSet(delNodes);
 		}
 	}
 
@@ -99,7 +99,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(delEdges);
+			return Collections.UnmodifiableSet(delEdges);
 		}
 	}
 
@@ -117,7 +117,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(delSubpatternUsages);
+			return Collections.UnmodifiableSet(delSubpatternUsages);
 		}
 	}
 
@@ -125,7 +125,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(yieldedNodes);
+			return Collections.UnmodifiableSet(yieldedNodes);
 		}
 	}
 
@@ -133,7 +133,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(yieldedEdges);
+			return Collections.UnmodifiableSet(yieldedEdges);
 		}
 	}
 
@@ -141,7 +141,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(yieldedVariables);
+			return Collections.UnmodifiableSet(yieldedVariables);
 		}
 	}
 
@@ -149,7 +149,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(newOrRetypedNodes);
+			return Collections.UnmodifiableSet(newOrRetypedNodes);
 		}
 	}
 
@@ -157,7 +157,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(newOrRetypedEdges);
+			return Collections.UnmodifiableSet(newOrRetypedEdges);
 		}
 	}
 
@@ -165,7 +165,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(accessViaInterface);
+			return Collections.UnmodifiableSet(accessViaInterface);
 		}
 	}
 
@@ -173,7 +173,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableMap(neededAttributes);
+			return Collections.UnmodifiableMap(neededAttributes);
 		}
 	}
 
@@ -181,7 +181,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableMap(attributesStoredBeforeDelete);
+			return Collections.UnmodifiableMap(attributesStoredBeforeDelete);
 		}
 	}
 
@@ -189,7 +189,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(neededVariables);
+			return Collections.UnmodifiableSet(neededVariables);
 		}
 	}
 
@@ -197,7 +197,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(nodesNeededAsElements);
+			return Collections.UnmodifiableSet(nodesNeededAsElements);
 		}
 	}
 
@@ -205,7 +205,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(edgesNeededAsElements);
+			return Collections.UnmodifiableSet(edgesNeededAsElements);
 		}
 	}
 
@@ -213,7 +213,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(nodesNeededAsAttributes);
+			return Collections.UnmodifiableSet(nodesNeededAsAttributes);
 		}
 	}
 
@@ -221,7 +221,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(edgesNeededAsAttributes);
+			return Collections.UnmodifiableSet(edgesNeededAsAttributes);
 		}
 	}
 
@@ -229,7 +229,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(nodesNeededAsTypes);
+			return Collections.UnmodifiableSet(nodesNeededAsTypes);
 		}
 	}
 
@@ -237,7 +237,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(edgesNeededAsTypes);
+			return Collections.UnmodifiableSet(edgesNeededAsTypes);
 		}
 	}
 
@@ -245,7 +245,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableMap(forceAttributeToVar);
+			return Collections.UnmodifiableMap(forceAttributeToVar);
 		}
 	}
 
@@ -253,7 +253,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return matchClassName;
+			return matchClassName;
 		}
 	}
 
@@ -261,7 +261,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return packagePrefix;
+			return packagePrefix;
 		}
 	}
 
@@ -269,7 +269,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return Collections.UnmodifiableMap(mapExprToTempVar);
+			return Collections.UnmodifiableMap(mapExprToTempVar);
 		}
 	}
 
@@ -292,7 +292,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return model;
+			return model;
 		}
 	}
 
@@ -310,7 +310,7 @@ public class ModifyGenerationState : ModifyGenerationStateConst
 	{
 		get
 		{
-		return perElementMethodSourceBuilder;
+			return perElementMethodSourceBuilder;
 		}
 	}
 

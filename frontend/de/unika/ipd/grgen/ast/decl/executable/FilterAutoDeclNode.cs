@@ -39,9 +39,9 @@ public abstract class FilterAutoDeclNode : DeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return filterFunctionType;
+			return filterFunctionType;
 		}
 	}
 }

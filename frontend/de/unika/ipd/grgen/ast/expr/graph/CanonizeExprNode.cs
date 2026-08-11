@@ -40,9 +40,9 @@ public class CanonizeExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(graphExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(graphExpr);
+			return children;
 		}
 	}
 
@@ -50,9 +50,9 @@ public class CanonizeExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("graph");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("graph");
+			return childrenNames;
 		}
 	}
 
@@ -78,7 +78,7 @@ public class CanonizeExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.stringType;
+			return BasicTypeNode.stringType;
 		}
 	}
 }

@@ -40,9 +40,9 @@ public class SgnExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(argumentExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(argumentExpr);
+			return children;
 		}
 	}
 
@@ -50,9 +50,9 @@ public class SgnExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("arg");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("arg");
+			return childrenNames;
 		}
 	}
 
@@ -75,7 +75,7 @@ public class SgnExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return argumentExpr.Type;
+			return argumentExpr.Type;
 		}
 	}
 }

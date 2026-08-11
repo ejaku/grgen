@@ -46,10 +46,10 @@ public class InvalidDeclNode : DeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			return children;
 		}
 	}
 
@@ -59,10 +59,10 @@ public class InvalidDeclNode : DeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			return childrenNames;
 		}
 	}
 
@@ -86,7 +86,7 @@ public class InvalidDeclNode : DeclNode
 	{
 		get
 		{
-		return "undeclared identifier";
+			return "undeclared identifier";
 		}
 	}
 
@@ -99,9 +99,9 @@ public class InvalidDeclNode : DeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 }

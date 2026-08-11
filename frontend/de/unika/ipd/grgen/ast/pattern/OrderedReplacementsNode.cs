@@ -38,7 +38,7 @@ public class OrderedReplacementsNode : BaseNode
 	{
 		get
 		{
-		return orderedReplacements.Children;
+			return orderedReplacements.Children;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class OrderedReplacementsNode : BaseNode
 	{
 		get
 		{
-		return orderedReplacements.ChildrenExact;
+			return orderedReplacements.ChildrenExact;
 		}
 	}
 
@@ -54,10 +54,10 @@ public class OrderedReplacementsNode : BaseNode
 	{
 		get
 		{
-		IList<string> res = new List<string>();
-		for(int i = 0; i < Children.Count; ++i)
-			res.Add("eval" + i);
-		return res;
+			IList<string> res = new List<string>();
+			for(int i = 0; i < Children.Count; ++i)
+				res.Add("eval" + i);
+			return res;
 		}
 	}
 

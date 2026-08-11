@@ -49,9 +49,9 @@ public class RangeSpecNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		// no children
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			// no children
+			return children;
 		}
 	}
 
@@ -61,9 +61,9 @@ public class RangeSpecNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// no children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// no children
+			return childrenNames;
 		}
 	}
 
@@ -99,7 +99,7 @@ public class RangeSpecNode : BaseNode
 	{
 		get
 		{
-		return base.Name + " [" + lower + ":" + upper + "]";
+			return base.Name + " [" + lower + ":" + upper + "]";
 		}
 	}
 
@@ -108,7 +108,7 @@ public class RangeSpecNode : BaseNode
 	{
 		get
 		{
-		return lower;
+			return lower;
 		}
 	}
 
@@ -117,7 +117,7 @@ public class RangeSpecNode : BaseNode
 	{
 		get
 		{
-		return upper;
+			return upper;
 		}
 	}
 }

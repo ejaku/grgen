@@ -58,7 +58,7 @@ public class AlternativeDeclNode : DeclNode
 	{
 		get
 		{
-		return new List<BaseNode>(children);
+			return new List<BaseNode>(children);
 		}
 	}
 
@@ -66,7 +66,7 @@ public class AlternativeDeclNode : DeclNode
 	{
 		get
 		{
-		return children;
+			return children;
 		}
 	}
 
@@ -76,9 +76,9 @@ public class AlternativeDeclNode : DeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// nameless children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// nameless children
+			return childrenNames;
 		}
 	}
 
@@ -116,9 +116,9 @@ public class AlternativeDeclNode : DeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return alternativeType;
+			return alternativeType;
 		}
 	}
 }

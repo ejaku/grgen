@@ -48,10 +48,10 @@ public class IteratedQueryExprNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iteratedUnresolved, iterated));
-		children.Add(GetValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iteratedUnresolved, iterated));
+			children.Add(GetValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
+			return children;
 		}
 	}
 
@@ -59,10 +59,10 @@ public class IteratedQueryExprNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterated");
-		childrenNames.Add("arrayOfMatchType");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterated");
+			childrenNames.Add("arrayOfMatchType");
+			return childrenNames;
 		}
 	}
 
@@ -93,7 +93,7 @@ public class IteratedQueryExprNode : ExprNode
 	{
 		get
 		{
-		return arrayOfMatchType;
+			return arrayOfMatchType;
 		}
 	}
 

@@ -69,11 +69,11 @@ public class ExternalProcedureMethodInvocationNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ValidTarget);
-		children.Add(GetValidVersion(externalProcedureUnresolved, externalProcedureDecl));
-		children.Add(arguments);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ValidTarget);
+			children.Add(GetValidVersion(externalProcedureUnresolved, externalProcedureDecl));
+			children.Add(arguments);
+			return children;
 		}
 	}
 
@@ -81,11 +81,11 @@ public class ExternalProcedureMethodInvocationNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("target");
-		childrenNames.Add("external procedure");
-		childrenNames.Add("arguments");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("target");
+			childrenNames.Add("external procedure");
+			childrenNames.Add("arguments");
+			return childrenNames;
 		}
 	}
 
@@ -93,7 +93,7 @@ public class ExternalProcedureMethodInvocationNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		return targetQual != null ? (BaseNode)targetQual : (BaseNode)targetVar;
+			return targetQual != null ? (BaseNode)targetQual : (BaseNode)targetVar;
 		}
 	}
 
@@ -159,8 +159,8 @@ public class ExternalProcedureMethodInvocationNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return externalProcedureDecl.ResultTypes;
+			Debug.Assert(IsResolved());
+			return externalProcedureDecl.ResultTypes;
 		}
 	}
 
@@ -168,7 +168,7 @@ public class ExternalProcedureMethodInvocationNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		return externalProcedureDecl.resultTypesCollectNode.Size();
+			return externalProcedureDecl.resultTypesCollectNode.Size();
 		}
 	}
 

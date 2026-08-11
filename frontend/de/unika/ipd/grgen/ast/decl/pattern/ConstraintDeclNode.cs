@@ -81,7 +81,7 @@ public abstract class ConstraintDeclNode : DeclNode
 	{
 		set
 		{
-		this.initialization = value;
+			this.initialization = value;
 		}
 	}
 
@@ -201,7 +201,7 @@ public abstract class ConstraintDeclNode : DeclNode
 	{
 		get
 		{
-		return constraints.CheckIR(typeof(TypeExpr));
+			return constraints.CheckIR(typeof(TypeExpr));
 		}
 	}
 
@@ -225,7 +225,7 @@ public abstract class ConstraintDeclNode : DeclNode
 	{
 		get
 		{
-		return retypedElem;
+			return retypedElem;
 		}
 	}
 
@@ -235,7 +235,7 @@ public abstract class ConstraintDeclNode : DeclNode
 	{
 		get
 		{
-		return "node or edge";
+			return "node or edge";
 		}
 	}
 }

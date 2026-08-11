@@ -28,7 +28,7 @@ public class ArrayAsString : ArrayFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return valueExpr;
+			return valueExpr;
 		}
 	}
 

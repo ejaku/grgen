@@ -51,9 +51,9 @@ public class DequeCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(dequeToCopy);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(dequeToCopy);
+			return children;
 		}
 	}
 
@@ -61,9 +61,9 @@ public class DequeCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("dequeToCopy");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("dequeToCopy");
+			return childrenNames;
 		}
 	}
 
@@ -106,8 +106,8 @@ public class DequeCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return dequeType;
+			Debug.Assert((IsResolved()));
+			return dequeType;
 		}
 	}
 
@@ -121,7 +121,7 @@ public class DequeCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		return "deque copy constructor";
+			return "deque copy constructor";
 		}
 	}
 }

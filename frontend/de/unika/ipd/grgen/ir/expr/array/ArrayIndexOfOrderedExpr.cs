@@ -28,7 +28,7 @@ public class ArrayIndexOfOrderedExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return valueExpr;
+			return valueExpr;
 		}
 	}
 

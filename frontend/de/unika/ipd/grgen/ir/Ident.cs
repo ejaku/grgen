@@ -102,7 +102,7 @@ public class Ident : IR, IComparable<Ident>, Annotated
 	{
 		get
 		{
-		return def;
+			return def;
 		}
 	}
 
@@ -148,7 +148,7 @@ public class Ident : IR, IComparable<Ident>, Annotated
 	{
 		get
 		{
-		return base.NodeInfo + "\nCoords: " + def + "\nScope: " + scope.Path;
+			return base.NodeInfo + "\nCoords: " + def + "\nScope: " + scope.Path;
 		}
 	}
 
@@ -157,7 +157,7 @@ public class Ident : IR, IComparable<Ident>, Annotated
 	{
 		get
 		{
-		return Name + " " + text;
+			return Name + " " + text;
 		}
 	}
 
@@ -179,7 +179,7 @@ public class Ident : IR, IComparable<Ident>, Annotated
 	{
 		get
 		{
-		return scope;
+			return scope;
 		}
 	}
 
@@ -187,7 +187,7 @@ public class Ident : IR, IComparable<Ident>, Annotated
 	{
 		get
 		{
-		return symTab;
+			return symTab;
 		}
 	}
 
@@ -196,7 +196,7 @@ public class Ident : IR, IComparable<Ident>, Annotated
 	{
 		get
 		{
-		return annots;
+			return annots;
 		}
 	}
 }

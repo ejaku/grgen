@@ -48,11 +48,11 @@ public abstract class FilterFunction : Identifiable, Filter, ContainedInPackage
 	{
 		set
 		{
-		this.action = value;
+			this.action = value;
 		}
 		get
 		{
-		return action;
+			return action;
 		}
 	}
 
@@ -61,11 +61,11 @@ public abstract class FilterFunction : Identifiable, Filter, ContainedInPackage
 	{
 		get
 		{
-		return packageContainedIn;
+			return packageContainedIn;
 		}
 		set
 		{
-		this.packageContainedIn = value;
+			this.packageContainedIn = value;
 		}
 	}
 
@@ -74,7 +74,7 @@ public abstract class FilterFunction : Identifiable, Filter, ContainedInPackage
 	{
 		get
 		{
-		return Ident.ToString();
+			return Ident.ToString();
 		}
 	}
 
@@ -91,7 +91,7 @@ public abstract class FilterFunction : Identifiable, Filter, ContainedInPackage
 	{
 		get
 		{
-		return @params.AsReadOnly();
+			return @params.AsReadOnly();
 		}
 	}
 
@@ -101,13 +101,13 @@ public abstract class FilterFunction : Identifiable, Filter, ContainedInPackage
 	{
 		get
 		{
-		if(parameterTypes == null)
-		{
-			parameterTypes = new List<Type>();
-			foreach(Entity entity in Parameters)
-				parameterTypes.Add(entity.Type);
-		}
-		return parameterTypes.AsReadOnly();
+			if(parameterTypes == null)
+			{
+				parameterTypes = new List<Type>();
+				foreach(Entity entity in Parameters)
+					parameterTypes.Add(entity.Type);
+			}
+			return parameterTypes.AsReadOnly();
 		}
 	}
 }

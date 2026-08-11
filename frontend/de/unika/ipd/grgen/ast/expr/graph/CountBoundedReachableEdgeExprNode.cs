@@ -62,7 +62,7 @@ public class CountBoundedReachableEdgeExprNode : BoundedNeighborhoodQueryExprNod
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 }

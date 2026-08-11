@@ -33,7 +33,7 @@ public class ShortConstNode : ConstNode
 	{
 		get
 		{
-		return BasicTypeNode.shortType;
+			return BasicTypeNode.shortType;
 		}
 	}
 

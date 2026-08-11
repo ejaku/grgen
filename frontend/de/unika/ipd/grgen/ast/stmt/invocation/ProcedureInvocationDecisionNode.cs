@@ -74,12 +74,12 @@ public class ProcedureInvocationDecisionNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
-		children.Add(arguments);
-		if(IsResolved())
-			children.Add(result);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
+			children.Add(arguments);
+			if(IsResolved())
+				children.Add(result);
+			return children;
 		}
 	}
 
@@ -87,12 +87,12 @@ public class ProcedureInvocationDecisionNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		//childrenNames.add("methodIdent");
-		childrenNames.Add("params");
-		if(IsResolved())
-			childrenNames.Add("result");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			//childrenNames.add("methodIdent");
+			childrenNames.Add("params");
+			if(IsResolved())
+				childrenNames.Add("result");
+			return childrenNames;
 		}
 	}
 
@@ -417,7 +417,7 @@ public class ProcedureInvocationDecisionNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		return result;
+			return result;
 		}
 	}
 
@@ -425,7 +425,7 @@ public class ProcedureInvocationDecisionNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		return result.Type;
+			return result.Type;
 		}
 	}
 
@@ -433,7 +433,7 @@ public class ProcedureInvocationDecisionNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		return result.Type.Count;
+			return result.Type.Count;
 		}
 	}
 
@@ -441,7 +441,7 @@ public class ProcedureInvocationDecisionNode : ProcedureInvocationBaseNode
 	{
 		get
 		{
-		return procedureIdent.ToString();
+			return procedureIdent.ToString();
 		}
 	}
 

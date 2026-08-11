@@ -28,7 +28,7 @@ public class OppositeExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return edge;
+			return edge;
 		}
 	}
 
@@ -36,7 +36,7 @@ public class OppositeExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return node;
+			return node;
 		}
 	}
 

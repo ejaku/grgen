@@ -38,7 +38,7 @@ public class ArrayCopyConstructor : Expression
 	{
 		get
 		{
-		return arrayToCopy;
+			return arrayToCopy;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class ArrayCopyConstructor : Expression
 	{
 		get
 		{
-		return arrayType;
+			return arrayType;
 		}
 	}
 }

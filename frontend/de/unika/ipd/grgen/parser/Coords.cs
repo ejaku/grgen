@@ -23,7 +23,7 @@ public class Coords : Location
 	{
 		get
 		{
-		return INVALID;
+			return INVALID;
 		}
 	}
 
@@ -31,7 +31,7 @@ public class Coords : Location
 	{
 		get
 		{
-		return BUILTIN;
+			return BUILTIN;
 		}
 	}
 
@@ -91,7 +91,7 @@ public class Coords : Location
 	{
 		get
 		{
-		return " [at " + ToString() + "]";
+			return " [at " + ToString() + "]";
 		}
 	}
 
@@ -109,7 +109,7 @@ public class Coords : Location
 	{
 		get
 		{
-		return ToString();
+			return ToString();
 		}
 	}
 
@@ -149,7 +149,7 @@ public class Coords : Location
 	{
 		get
 		{
-		return line;
+			return line;
 		}
 	}
 
@@ -160,7 +160,7 @@ public class Coords : Location
 	{
 		get
 		{
-		return column;
+			return column;
 		}
 	}
 
@@ -171,7 +171,7 @@ public class Coords : Location
 	{
 		get
 		{
-		return filename;
+			return filename;
 		}
 	}
 

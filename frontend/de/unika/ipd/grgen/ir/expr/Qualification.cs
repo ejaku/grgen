@@ -51,7 +51,7 @@ public class Qualification : Expression
 	{
 		get
 		{
-		return owner;
+			return owner;
 		}
 	}
 
@@ -59,7 +59,7 @@ public class Qualification : Expression
 	{
 		get
 		{
-		return ownerExpr;
+			return ownerExpr;
 		}
 	}
 
@@ -67,7 +67,7 @@ public class Qualification : Expression
 	{
 		get
 		{
-		return member;
+			return member;
 		}
 	}
 
@@ -75,7 +75,7 @@ public class Qualification : Expression
 	{
 		get
 		{
-		return "<" + owner + ">.<" + member + ">";
+			return "<" + owner + ">.<" + member + ">";
 		}
 	}
 

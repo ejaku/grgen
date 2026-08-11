@@ -44,9 +44,9 @@ public class StringLengthNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(stringExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(stringExpr);
+			return children;
 		}
 	}
 
@@ -54,9 +54,9 @@ public class StringLengthNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("string");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("string");
+			return childrenNames;
 		}
 	}
 
@@ -81,7 +81,7 @@ public class StringLengthNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 }

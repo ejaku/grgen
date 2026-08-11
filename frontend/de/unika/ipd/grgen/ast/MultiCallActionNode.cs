@@ -51,10 +51,10 @@ public class MultiCallActionNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(actionCalls);
-		children.Add(GetValidVersionCollectNode(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(actionCalls);
+			children.Add(GetValidVersionCollectNode(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
+			return children;
 		}
 	}
 
@@ -64,10 +64,10 @@ public class MultiCallActionNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("actionCalls");
-		childrenNames.Add("matchClassFilter");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("actionCalls");
+			childrenNames.Add("matchClassFilter");
+			return childrenNames;
 		}
 	}
 

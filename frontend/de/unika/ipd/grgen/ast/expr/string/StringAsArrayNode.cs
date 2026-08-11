@@ -49,10 +49,10 @@ public class StringAsArrayNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(stringExpr);
-		children.Add(stringToSplitAtExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(stringExpr);
+			children.Add(stringToSplitAtExpr);
+			return children;
 		}
 	}
 
@@ -60,10 +60,10 @@ public class StringAsArrayNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("string");
-		childrenNames.Add("stringToSplitAt");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("string");
+			childrenNames.Add("stringToSplitAt");
+			return childrenNames;
 		}
 	}
 
@@ -103,7 +103,7 @@ public class StringAsArrayNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return arrayTypeNode;
+			return arrayTypeNode;
 		}
 	}
 }

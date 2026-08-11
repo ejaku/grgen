@@ -65,7 +65,7 @@ public class AdjacentNodeExprNode : NeighborhoodQueryExprNode
 	{
 		get
 		{
-		return setTypeNode;
+			return setTypeNode;
 		}
 	}
 }

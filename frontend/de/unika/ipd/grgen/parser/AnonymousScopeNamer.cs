@@ -55,7 +55,7 @@ public class AnonymousScopeNamer
 	{
 		get
 		{
-		return dummy;
+			return dummy;
 		}
 	}
 

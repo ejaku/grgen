@@ -55,9 +55,9 @@ public class SubpatternUsageDeclNode : DeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type.DeclType;
+			return type.DeclType;
 		}
 	}
 
@@ -65,9 +65,9 @@ public class SubpatternUsageDeclNode : DeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 
@@ -75,7 +75,7 @@ public class SubpatternUsageDeclNode : DeclNode
 	{
 		get
 		{
-		return context;
+			return context;
 		}
 	}
 
@@ -83,11 +83,11 @@ public class SubpatternUsageDeclNode : DeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		children.Add(connections);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			children.Add(connections);
+			return children;
 		}
 	}
 
@@ -95,11 +95,11 @@ public class SubpatternUsageDeclNode : DeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("connections");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("connections");
+			return childrenNames;
 		}
 	}
 

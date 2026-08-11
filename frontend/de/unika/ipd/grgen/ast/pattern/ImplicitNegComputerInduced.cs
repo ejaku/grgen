@@ -116,78 +116,78 @@ public class ImplicitNegComputerInduced
 	{
 		get
 		{
-		Debug.Assert(patternGraph.IsResolved());
+			Debug.Assert(patternGraph.IsResolved());
 
-		IList<PatternGraphLhs> implicitNegGraphs = new List<PatternGraphLhs>();
+			IList<PatternGraphLhs> implicitNegGraphs = new List<PatternGraphLhs>();
 
-		// add existing edges to the corresponding pattern graph
-		foreach(ConnectionCharacter connection in patternGraph.connections.ChildrenExact)
-		{
-			if(!(connection is ConnectionNode))
-				continue;
-
-			ConnectionNode cn = (ConnectionNode)connection;
-
-			Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>> key = new Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>>(
-					patternGraph.GetHomomorphic(cn.Src), patternGraph.GetHomomorphic(cn.Tgt));
-
-			ISet<ConnectionNode> edges = homNodePairsToEdges[key];
-			// edges == null if conn is a dangling edge or one of the nodes is not induced
-			if(edges != null)
+			// add existing edges to the corresponding pattern graph
+			foreach(ConnectionCharacter connection in patternGraph.connections.ChildrenExact)
 			{
-				edges.Add(cn);
-				homNodePairsToEdges[key] = edges;
-			}
-		}
+				if(!(connection is ConnectionNode))
+					continue;
 
-		TypeDeclNode edgeRoot = patternGraph.ArbitraryEdgeRootTypeDecl;
+				ConnectionNode cn = (ConnectionNode)connection;
 
-		foreach(Pair<NodeDeclNode, NodeDeclNode> pair in nodePairsRequiringNeg)
-		{
-			NodeDeclNode src = pair.first;
-			NodeDeclNode tgt = pair.second;
+				Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>> key = new Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>>(
+						patternGraph.GetHomomorphic(cn.Src), patternGraph.GetHomomorphic(cn.Tgt));
 
-			if(string.CompareOrdinal(src.Id, tgt.Id) > 0)
-				continue;
-
-			Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>> key = new Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>>(
-					patternGraph.GetHomomorphic(src), patternGraph.GetHomomorphic(tgt));
-			Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>> reverseKey = new Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>>(
-					patternGraph.GetHomomorphic(tgt), patternGraph.GetHomomorphic(src));
-
-			ISet<ConnectionNode> edgeSet = homNodePairsToEdges[key];
-			edgeSet.AddAll(homNodePairsToEdges[reverseKey]);
-
-			PatternGraphLhs neg = new PatternGraphLhs("implnegind_" + implicitNegCounter, 0);
-			++implicitNegCounter;
-			neg.DirectlyNestingLHSGraph = neg;
-
-			// add edges to the NAC
-			ISet<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
-			ISet<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
-			foreach(ConnectionNode connEdge in edgeSet)
-			{
-				connEdge.AddToGraph(neg);
-
-				allNegEdges.Add(connEdge.Edge);
-				allNegNodes.Add(connEdge.Src);
-				allNegNodes.Add(connEdge.Tgt);
+				ISet<ConnectionNode> edges = homNodePairsToEdges[key];
+				// edges == null if conn is a dangling edge or one of the nodes is not induced
+				if(edges != null)
+				{
+					edges.Add(cn);
+					homNodePairsToEdges[key] = edges;
+				}
 			}
 
-			AddInheritedHomSet(neg, allNegEdges, allNegNodes);
+			TypeDeclNode edgeRoot = patternGraph.ArbitraryEdgeRootTypeDecl;
 
-			// add another edge of type edgeRoot to the NAC
-			EdgeDeclNode edge = patternGraph.GetAnonymousEdgeDecl(edgeRoot, patternGraph.context);
+			foreach(Pair<NodeDeclNode, NodeDeclNode> pair in nodePairsRequiringNeg)
+			{
+				NodeDeclNode src = pair.first;
+				NodeDeclNode tgt = pair.second;
 
-			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt,
-					ConnectionKind.ARBITRARY, patternGraph);
+				if(string.CompareOrdinal(src.Id, tgt.Id) > 0)
+					continue;
 
-			conn.AddToGraph(neg);
+				Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>> key = new Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>>(
+						patternGraph.GetHomomorphic(src), patternGraph.GetHomomorphic(tgt));
+				Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>> reverseKey = new Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>>(
+						patternGraph.GetHomomorphic(tgt), patternGraph.GetHomomorphic(src));
 
-			implicitNegGraphs.Add(neg);
-		}
+				ISet<ConnectionNode> edgeSet = homNodePairsToEdges[key];
+				edgeSet.AddAll(homNodePairsToEdges[reverseKey]);
 
-		return implicitNegGraphs;
+				PatternGraphLhs neg = new PatternGraphLhs("implnegind_" + implicitNegCounter, 0);
+				++implicitNegCounter;
+				neg.DirectlyNestingLHSGraph = neg;
+
+				// add edges to the NAC
+				ISet<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
+				ISet<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
+				foreach(ConnectionNode connEdge in edgeSet)
+				{
+					connEdge.AddToGraph(neg);
+
+					allNegEdges.Add(connEdge.Edge);
+					allNegNodes.Add(connEdge.Src);
+					allNegNodes.Add(connEdge.Tgt);
+				}
+
+				AddInheritedHomSet(neg, allNegEdges, allNegNodes);
+
+				// add another edge of type edgeRoot to the NAC
+				EdgeDeclNode edge = patternGraph.GetAnonymousEdgeDecl(edgeRoot, patternGraph.context);
+
+				ConnectionCharacter conn = new ConnectionNode(src, edge, tgt,
+						ConnectionKind.ARBITRARY, patternGraph);
+
+				conn.AddToGraph(neg);
+
+				implicitNegGraphs.Add(neg);
+			}
+
+			return implicitNegGraphs;
 		}
 	}
 

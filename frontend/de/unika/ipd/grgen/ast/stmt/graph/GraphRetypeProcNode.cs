@@ -54,10 +54,10 @@ public class GraphRetypeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(entityExpr);
-		children.Add(entityTypeExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(entityExpr);
+			children.Add(entityTypeExpr);
+			return children;
 		}
 	}
 
@@ -67,10 +67,10 @@ public class GraphRetypeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("entity");
-		childrenNames.Add("new type");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("entity");
+			childrenNames.Add("new type");
+			return childrenNames;
 		}
 	}
 
@@ -117,12 +117,12 @@ public class GraphRetypeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		if(returnTypes == null)
-		{
-			returnTypes = new List<TypeNode>();
-			returnTypes.Add(entityTypeExpr.Type);
-		}
-		return returnTypes;
+			if(returnTypes == null)
+			{
+				returnTypes = new List<TypeNode>();
+				returnTypes.Add(entityTypeExpr.Type);
+			}
+			return returnTypes;
 		}
 	}
 }

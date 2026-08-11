@@ -47,7 +47,7 @@ public class ArrayGroupNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return TargetType;
+			return TargetType;
 		}
 	}
 

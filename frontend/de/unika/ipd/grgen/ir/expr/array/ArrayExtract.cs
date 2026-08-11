@@ -28,7 +28,7 @@ public class ArrayExtract : ArrayFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return member;
+			return member;
 		}
 	}
 }

@@ -54,10 +54,10 @@ public class SubpatternReplNode : OrderedReplacementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(subpatternUnresolved, subpattern));
-		children.Add(replConnections);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(subpatternUnresolved, subpattern));
+			children.Add(replConnections);
+			return children;
 		}
 	}
 
@@ -65,10 +65,10 @@ public class SubpatternReplNode : OrderedReplacementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("subpattern");
-		childrenNames.Add("replConnections");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("subpattern");
+			childrenNames.Add("replConnections");
+			return childrenNames;
 		}
 	}
 
@@ -259,7 +259,7 @@ public class SubpatternReplNode : OrderedReplacementNode
 	{
 		get
 		{
-		return subpatternUnresolved;
+			return subpatternUnresolved;
 		}
 	}
 

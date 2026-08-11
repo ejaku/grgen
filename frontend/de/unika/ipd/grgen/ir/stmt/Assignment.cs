@@ -48,7 +48,7 @@ public class Assignment : AssignmentBase
 	{
 		get
 		{
-		return target;
+			return target;
 		}
 	}
 

@@ -56,7 +56,7 @@ public abstract class PatternGraphBase : IR
 		{
 			get
 			{
-			return nodeId;
+				return nodeId;
 			}
 		}
 
@@ -64,7 +64,7 @@ public abstract class PatternGraphBase : IR
 		{
 			get
 			{
-			return node.NodeInfo;
+				return node.NodeInfo;
 			}
 		}
 
@@ -93,7 +93,7 @@ public abstract class PatternGraphBase : IR
 		{
 			get
 			{
-			return nodeId;
+				return nodeId;
 			}
 		}
 
@@ -101,7 +101,7 @@ public abstract class PatternGraphBase : IR
 		{
 			get
 			{
-			return GraphDumper.ELLIPSE;
+				return GraphDumper.ELLIPSE;
 			}
 		}
 
@@ -109,7 +109,7 @@ public abstract class PatternGraphBase : IR
 		{
 			get
 			{
-			return edge.NodeInfo;
+				return edge.NodeInfo;
 			}
 		}
 	}
@@ -172,8 +172,8 @@ public abstract class PatternGraphBase : IR
 	{
 		set
 		{
-		// This is for setting the value for a retyped node when it gets added
-		this.directlyNestingLHSGraph = value;
+			// This is for setting the value for a retyped node when it gets added
+			this.directlyNestingLHSGraph = value;
 		}
 	}
 
@@ -181,7 +181,7 @@ public abstract class PatternGraphBase : IR
 	{
 		get
 		{
-		return nameOfGraph;
+			return nameOfGraph;
 		}
 	}
 
@@ -193,7 +193,7 @@ public abstract class PatternGraphBase : IR
 	{
 		set
 		{
-		Name = "graph " + value;
+			Name = "graph " + value;
 		}
 	}
 
@@ -246,7 +246,7 @@ public abstract class PatternGraphBase : IR
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(nodes.Keys);
+			return Collections.UnmodifiableSet(nodes.Keys);
 		}
 	}
 
@@ -432,7 +432,7 @@ public abstract class PatternGraphBase : IR
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(edges.Keys);
+			return Collections.UnmodifiableSet(edges.Keys);
 		}
 	}
 
@@ -500,7 +500,7 @@ public abstract class PatternGraphBase : IR
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(vars);
+			return Collections.UnmodifiableSet(vars);
 		}
 	}
 
@@ -525,7 +525,7 @@ public abstract class PatternGraphBase : IR
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(subpatternUsages);
+			return Collections.UnmodifiableSet(subpatternUsages);
 		}
 	}
 

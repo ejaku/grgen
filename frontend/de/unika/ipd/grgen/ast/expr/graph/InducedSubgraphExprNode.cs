@@ -47,9 +47,9 @@ public class InducedSubgraphExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(nodeSetExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(nodeSetExpr);
+			return children;
 		}
 	}
 
@@ -59,9 +59,9 @@ public class InducedSubgraphExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("nodeSetExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("nodeSetExpr");
+			return childrenNames;
 		}
 	}
 
@@ -100,7 +100,7 @@ public class InducedSubgraphExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.graphType;
+			return BasicTypeNode.graphType;
 		}
 	}
 }

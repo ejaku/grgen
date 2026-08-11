@@ -73,7 +73,7 @@ public abstract class MatcherDeclNode : DeclNode
 	{
 		get
 		{
-		return CheckIR(typeof(Rule));
+			return CheckIR(typeof(Rule));
 		}
 	}
 

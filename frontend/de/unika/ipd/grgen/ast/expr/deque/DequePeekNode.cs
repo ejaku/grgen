@@ -47,11 +47,11 @@ public class DequePeekNode : DequeFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		if(numberExpr != null)
-			children.Add(numberExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			if(numberExpr != null)
+				children.Add(numberExpr);
+			return children;
 		}
 	}
 
@@ -59,11 +59,11 @@ public class DequePeekNode : DequeFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		if(numberExpr != null)
-			childrenNames.Add("numberExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			if(numberExpr != null)
+				childrenNames.Add("numberExpr");
+			return childrenNames;
 		}
 	}
 
@@ -83,7 +83,7 @@ public class DequePeekNode : DequeFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return TargetTypeExact.valueType;
+			return TargetTypeExact.valueType;
 		}
 	}
 

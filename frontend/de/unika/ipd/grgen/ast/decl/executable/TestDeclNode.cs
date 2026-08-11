@@ -60,13 +60,13 @@ public class TestDeclNode : ActionDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		children.Add(GetValidVersionCollectNode(returnFormalParametersUnresolved, returnFormalParameters));
-		children.Add(pattern);
-		children.Add(GetValidVersionCollectNode(implementedMatchTypesUnresolved, implementedMatchTypes));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			children.Add(GetValidVersionCollectNode(returnFormalParametersUnresolved, returnFormalParameters));
+			children.Add(pattern);
+			children.Add(GetValidVersionCollectNode(implementedMatchTypesUnresolved, implementedMatchTypes));
+			return children;
 		}
 	}
 
@@ -76,13 +76,13 @@ public class TestDeclNode : ActionDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("ret");
-		childrenNames.Add("pattern");
-		childrenNames.Add("implementedMatchTypes");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("ret");
+			childrenNames.Add("pattern");
+			childrenNames.Add("implementedMatchTypes");
+			return childrenNames;
 		}
 	}
 
@@ -120,9 +120,9 @@ public class TestDeclNode : ActionDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 
@@ -130,7 +130,7 @@ public class TestDeclNode : ActionDeclNode
 	{
 		get
 		{
-		return "test";
+			return "test";
 		}
 	}
 

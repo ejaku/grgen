@@ -106,7 +106,7 @@ public abstract class GraphEntity : Entity
 	{
 		get
 		{
-		return type;
+			return type;
 		}
 	}
 
@@ -124,11 +124,11 @@ public abstract class GraphEntity : Entity
 	{
 		set
 		{
-		this.constraints = value;
+			this.constraints = value;
 		}
 		get
 		{
-		return Collections.UnmodifiableSet(constraints);
+			return Collections.UnmodifiableSet(constraints);
 		}
 	}
 
@@ -138,7 +138,7 @@ public abstract class GraphEntity : Entity
 	{
 		get
 		{
-		return annotations;
+			return annotations;
 		}
 	}
 
@@ -204,7 +204,7 @@ public abstract class GraphEntity : Entity
 	{
 		get
 		{
-		return @typeof;
+			return @typeof;
 		}
 	}
 
@@ -216,7 +216,7 @@ public abstract class GraphEntity : Entity
 	{
 		get
 		{
-		return copyKind;
+			return copyKind;
 		}
 	}
 
@@ -230,11 +230,11 @@ public abstract class GraphEntity : Entity
 	{
 		set
 		{
-		parameterInterfaceType = value;
+			parameterInterfaceType = value;
 		}
 		get
 		{
-		return parameterInterfaceType;
+			return parameterInterfaceType;
 		}
 	}
 
@@ -243,7 +243,7 @@ public abstract class GraphEntity : Entity
 	{
 		set
 		{
-		this.storageAccess = value;
+			this.storageAccess = value;
 		}
 	}
 
@@ -251,7 +251,7 @@ public abstract class GraphEntity : Entity
 	{
 		set
 		{
-		this.storageAccessIndex = value;
+			this.storageAccessIndex = value;
 		}
 	}
 
@@ -259,7 +259,7 @@ public abstract class GraphEntity : Entity
 	{
 		set
 		{
-		this.indexAccess = value;
+			this.indexAccess = value;
 		}
 	}
 
@@ -272,7 +272,7 @@ public abstract class GraphEntity : Entity
 	{
 		set
 		{
-		this.nameMapAccess = value;
+			this.nameMapAccess = value;
 		}
 	}
 
@@ -280,7 +280,7 @@ public abstract class GraphEntity : Entity
 	{
 		set
 		{
-		this.uniqueIndexAccess = value;
+			this.uniqueIndexAccess = value;
 		}
 	}
 
@@ -288,7 +288,7 @@ public abstract class GraphEntity : Entity
 	{
 		set
 		{
-		this.initialization = value;
+			this.initialization = value;
 		}
 	}
 
@@ -311,12 +311,12 @@ public abstract class GraphEntity : Entity
 	{
 		get
 		{
-		foreach(NameOrAttributeInitialization nai in nameOrAttributeInitialization)
-		{
-			if(nai.attribute == null)
-				return nai;
-		}
-		return null;
+			foreach(NameOrAttributeInitialization nai in nameOrAttributeInitialization)
+			{
+				if(nai.attribute == null)
+					return nai;
+			}
+			return null;
 		}
 	}
 
@@ -339,7 +339,7 @@ public abstract class GraphEntity : Entity
 	{
 		get
 		{
-		return dependencyLevel;
+			return dependencyLevel;
 		}
 	}
 
@@ -347,8 +347,8 @@ public abstract class GraphEntity : Entity
 	{
 		get
 		{
-		return base.NodeInfo
-				+ "\nconstraints: " + GetConstraints();
+			return base.NodeInfo
+					+ "\nconstraints: " + GetConstraints();
 		}
 	}
 }

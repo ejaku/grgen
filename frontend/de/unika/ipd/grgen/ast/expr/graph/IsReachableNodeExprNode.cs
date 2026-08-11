@@ -65,7 +65,7 @@ public class IsReachableNodeExprNode : IsInNodeNeighborhoodQueryExprNode
 	{
 		get
 		{
-		return BooleanTypeNode.booleanType;
+			return BooleanTypeNode.booleanType;
 		}
 	}
 }

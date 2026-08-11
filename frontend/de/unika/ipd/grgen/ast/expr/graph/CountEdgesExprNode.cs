@@ -46,9 +46,9 @@ public class CountEdgesExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(edgeType);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(edgeType);
+			return children;
 		}
 	}
 
@@ -58,9 +58,9 @@ public class CountEdgesExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("edge type");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("edge type");
+			return childrenNames;
 		}
 	}
 
@@ -92,7 +92,7 @@ public class CountEdgesExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 }

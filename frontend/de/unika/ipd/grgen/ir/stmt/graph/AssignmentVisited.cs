@@ -40,7 +40,7 @@ public class AssignmentVisited : AssignmentBase
 	{
 		get
 		{
-		return target;
+			return target;
 		}
 	}
 

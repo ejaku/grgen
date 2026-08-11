@@ -49,10 +49,10 @@ public class EnumExprNode : QualIdentNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(ownerUnresolved, owner));
-		children.Add(GetValidVersion(memberUnresolved, member));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(ownerUnresolved, owner));
+			children.Add(GetValidVersion(memberUnresolved, member));
+			return children;
 		}
 	}
 	// TODO Missing getChildrenNames()...
@@ -88,9 +88,9 @@ public class EnumExprNode : QualIdentNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return member;
+			return member;
 		}
 	}
 
@@ -98,9 +98,9 @@ public class EnumExprNode : QualIdentNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return DeclNode.Invalid;
+			return DeclNode.Invalid;
 		}
 	}
 

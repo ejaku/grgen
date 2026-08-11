@@ -50,11 +50,11 @@ public class Function : FunctionBase, ContainedInPackage, NestingStatement
 	{
 		get
 		{
-		return packageContainedIn;
+			return packageContainedIn;
 		}
 		set
 		{
-		this.packageContainedIn = value;
+			this.packageContainedIn = value;
 		}
 	}
 
@@ -72,7 +72,7 @@ public class Function : FunctionBase, ContainedInPackage, NestingStatement
 	{
 		get
 		{
-		return @params.AsReadOnly();
+			return @params.AsReadOnly();
 		}
 	}
 
@@ -89,7 +89,7 @@ public class Function : FunctionBase, ContainedInPackage, NestingStatement
 	{
 		get
 		{
-		return computationStatements.AsReadOnly();
+			return computationStatements.AsReadOnly();
 		}
 	}
 
@@ -99,13 +99,13 @@ public class Function : FunctionBase, ContainedInPackage, NestingStatement
 	{
 		get
 		{
-		if(parameterTypes == null)
-		{
-			parameterTypes = new List<Type>();
-			foreach(Entity entity in Parameters)
-				parameterTypes.Add(entity.Type);
-		}
-		return parameterTypes.AsReadOnly();
+			if(parameterTypes == null)
+			{
+				parameterTypes = new List<Type>();
+				foreach(Entity entity in Parameters)
+					parameterTypes.Add(entity.Type);
+			}
+			return parameterTypes.AsReadOnly();
 		}
 	}
 }

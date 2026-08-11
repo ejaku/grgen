@@ -27,7 +27,7 @@ public class DoubleConstNode : ConstNode
 	{
 		get
 		{
-		return BasicTypeNode.doubleType;
+			return BasicTypeNode.doubleType;
 		}
 	}
 

@@ -62,13 +62,13 @@ public abstract class MatchingAction : Action
 	{
 		set
 		{
-		Debug.Assert((value != null));
-		this.pattern = value;
-		value.NameSuffix = "pattern";
+			Debug.Assert((value != null));
+			this.pattern = value;
+			value.NameSuffix = "pattern";
 		}
 		get
 		{
-		return pattern;
+			return pattern;
 		}
 	}
 
@@ -86,7 +86,7 @@ public abstract class MatchingAction : Action
 	{
 		get
 		{
-		return @params.AsReadOnly();
+			return @params.AsReadOnly();
 		}
 	}
 
@@ -103,7 +103,7 @@ public abstract class MatchingAction : Action
 	{
 		get
 		{
-		return defParams.AsReadOnly();
+			return defParams.AsReadOnly();
 		}
 	}
 
@@ -120,7 +120,7 @@ public abstract class MatchingAction : Action
 	{
 		get
 		{
-		return returns.AsReadOnly();
+			return returns.AsReadOnly();
 		}
 	}
 
@@ -137,7 +137,7 @@ public abstract class MatchingAction : Action
 	{
 		get
 		{
-		return filters.AsReadOnly();
+			return filters.AsReadOnly();
 		}
 	}
 }

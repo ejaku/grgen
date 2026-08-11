@@ -69,15 +69,15 @@ public class ArrayMapNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		if(arrayAccessVar != null)
-			children.Add(arrayAccessVar);
-		if(indexVar != null)
-			children.Add(indexVar);
-		children.Add(elementVar);
-		children.Add(mappingExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			if(arrayAccessVar != null)
+				children.Add(arrayAccessVar);
+			if(indexVar != null)
+				children.Add(indexVar);
+			children.Add(elementVar);
+			children.Add(mappingExpr);
+			return children;
 		}
 	}
 
@@ -85,15 +85,15 @@ public class ArrayMapNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		if(arrayAccessVar != null)
-			childrenNames.Add("arrayAccessVar");
-		if(indexVar != null)
-			childrenNames.Add("indexVar");
-		childrenNames.Add("elementVar");
-		childrenNames.Add("mappingExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			if(arrayAccessVar != null)
+				childrenNames.Add("arrayAccessVar");
+			if(indexVar != null)
+				childrenNames.Add("indexVar");
+			childrenNames.Add("elementVar");
+			childrenNames.Add("mappingExpr");
+			return childrenNames;
 		}
 	}
 
@@ -221,8 +221,8 @@ public class ArrayMapNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return resultArrayType;
+			Debug.Assert((IsResolved()));
+			return resultArrayType;
 		}
 	}
 

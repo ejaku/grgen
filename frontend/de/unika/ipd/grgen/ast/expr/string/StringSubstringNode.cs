@@ -57,12 +57,12 @@ public class StringSubstringNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(stringExpr);
-		children.Add(startExpr);
-		if(lengthExpr != null)
-			children.Add(lengthExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(stringExpr);
+			children.Add(startExpr);
+			if(lengthExpr != null)
+				children.Add(lengthExpr);
+			return children;
 		}
 	}
 
@@ -70,12 +70,12 @@ public class StringSubstringNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("string");
-		childrenNames.Add("start");
-		if(lengthExpr != null)
-			childrenNames.Add("length");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("string");
+			childrenNames.Add("start");
+			if(lengthExpr != null)
+				childrenNames.Add("length");
+			return childrenNames;
 		}
 	}
 
@@ -120,7 +120,7 @@ public class StringSubstringNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.stringType;
+			return BasicTypeNode.stringType;
 		}
 	}
 }

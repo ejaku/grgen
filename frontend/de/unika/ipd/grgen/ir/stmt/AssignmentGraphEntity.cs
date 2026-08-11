@@ -35,7 +35,7 @@ public class AssignmentGraphEntity : AssignmentBase
 	{
 		get
 		{
-		return target;
+			return target;
 		}
 	}
 

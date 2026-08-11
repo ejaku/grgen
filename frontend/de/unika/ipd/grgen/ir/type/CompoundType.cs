@@ -48,7 +48,7 @@ public abstract class CompoundType : Type
 	{
 		get
 		{
-		return members.AsReadOnly();
+			return members.AsReadOnly();
 		}
 	}
 
@@ -64,7 +64,7 @@ public abstract class CompoundType : Type
 	{
 		get
 		{
-		return functionMethods.AsReadOnly();
+			return functionMethods.AsReadOnly();
 		}
 	}
 
@@ -84,7 +84,7 @@ public abstract class CompoundType : Type
 	{
 		get
 		{
-		return procedureMethods.AsReadOnly();
+			return procedureMethods.AsReadOnly();
 		}
 	}
 

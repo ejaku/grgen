@@ -97,7 +97,7 @@ public class MemberResolver<T> : Base
 	{
 		get
 		{
-		return resolvedNode;
+			return resolvedNode;
 		}
 	}
 

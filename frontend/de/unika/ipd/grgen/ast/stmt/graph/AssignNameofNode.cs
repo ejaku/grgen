@@ -61,11 +61,11 @@ public class AssignNameofNode : EvalStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		if(lhs != null)
-			children.Add(lhs);
-		children.Add(rhs);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			if(lhs != null)
+				children.Add(lhs);
+			children.Add(rhs);
+			return children;
 		}
 	}
 
@@ -75,11 +75,11 @@ public class AssignNameofNode : EvalStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		if(lhs != null)
-			childrenNames.Add("lhs");
-		childrenNames.Add("rhs");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			if(lhs != null)
+				childrenNames.Add("lhs");
+			childrenNames.Add("rhs");
+			return childrenNames;
 		}
 	}
 

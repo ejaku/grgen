@@ -27,11 +27,11 @@ public class MatchTypeIterated : MatchType
 	{
 		set
 		{
-		this.iterated = value;
+			this.iterated = value;
 		}
 		get
 		{
-		return iterated;
+			return iterated;
 		}
 	}
 

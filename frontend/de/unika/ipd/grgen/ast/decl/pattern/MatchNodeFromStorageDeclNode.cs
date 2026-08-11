@@ -46,12 +46,12 @@ public class MatchNodeFromStorageDeclNode : MatchNodeFromByStorageDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
-		children.Add(constraints);
-		children.Add(GetValidVersion(storageUnresolved, storage, storageAttribute, storageGlobalVariable));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
+			children.Add(constraints);
+			children.Add(GetValidVersion(storageUnresolved, storage, storageAttribute, storageGlobalVariable));
+			return children;
 		}
 	}
 
@@ -61,12 +61,12 @@ public class MatchNodeFromStorageDeclNode : MatchNodeFromByStorageDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("constraints");
-		childrenNames.Add("storage");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("constraints");
+			childrenNames.Add("storage");
+			return childrenNames;
 		}
 	}
 

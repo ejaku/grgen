@@ -54,9 +54,9 @@ public class ArcSinCosTanExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(argumentExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(argumentExpr);
+			return children;
 		}
 	}
 
@@ -64,9 +64,9 @@ public class ArcSinCosTanExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("arg");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("arg");
+			return childrenNames;
 		}
 	}
 
@@ -89,17 +89,17 @@ public class ArcSinCosTanExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		switch(which)
-		{
-		case de.unika.ipd.grgen.ast.expr.numeric.ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arcsin:
-			return ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arcsin;
-		case de.unika.ipd.grgen.ast.expr.numeric.ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arccos:
-			return ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arccos;
-		case de.unika.ipd.grgen.ast.expr.numeric.ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arctan:
-			return ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arctan;
-		default:
-			throw new Exception("internal compiler error");
-		}
+			switch(which)
+			{
+			case de.unika.ipd.grgen.ast.expr.numeric.ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arcsin:
+				return ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arcsin;
+			case de.unika.ipd.grgen.ast.expr.numeric.ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arccos:
+				return ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arccos;
+			case de.unika.ipd.grgen.ast.expr.numeric.ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arctan:
+				return ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arctan;
+			default:
+				throw new Exception("internal compiler error");
+			}
 		}
 	}
 
@@ -107,7 +107,7 @@ public class ArcSinCosTanExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return argumentExpr.Type;
+			return argumentExpr.Type;
 		}
 	}
 }

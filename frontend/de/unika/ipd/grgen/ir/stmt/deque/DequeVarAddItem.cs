@@ -32,7 +32,7 @@ public class DequeVarAddItem : ContainerVarProcedureMethodInvocationBase
 	{
 		get
 		{
-		return valueExpr;
+			return valueExpr;
 		}
 	}
 
@@ -40,7 +40,7 @@ public class DequeVarAddItem : ContainerVarProcedureMethodInvocationBase
 	{
 		get
 		{
-		return indexExpr;
+			return indexExpr;
 		}
 	}
 

@@ -56,12 +56,12 @@ public class ConditionStatementNode : NestingStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(conditionExpr);
-		children.Add(statements);
-		if(falseCaseStatements != null)
-			children.Add(falseCaseStatements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(conditionExpr);
+			children.Add(statements);
+			if(falseCaseStatements != null)
+				children.Add(falseCaseStatements);
+			return children;
 		}
 	}
 
@@ -71,12 +71,12 @@ public class ConditionStatementNode : NestingStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("condition");
-		childrenNames.Add("trueCaseStatements");
-		if(falseCaseStatements != null)
-			childrenNames.Add("falseCaseStatements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("condition");
+			childrenNames.Add("trueCaseStatements");
+			if(falseCaseStatements != null)
+				childrenNames.Add("falseCaseStatements");
+			return childrenNames;
 		}
 	}
 

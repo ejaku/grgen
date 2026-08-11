@@ -52,9 +52,9 @@ public class MultiStatementNode : EvalStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(statements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(statements);
+			return children;
 		}
 	}
 
@@ -64,9 +64,9 @@ public class MultiStatementNode : EvalStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("statements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("statements");
+			return childrenNames;
 		}
 	}
 

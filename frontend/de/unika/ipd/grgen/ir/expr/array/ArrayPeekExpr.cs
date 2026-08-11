@@ -28,7 +28,7 @@ public class ArrayPeekExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return numberExpr;
+			return numberExpr;
 		}
 	}
 

@@ -52,10 +52,10 @@ public class MatchTypeQualIdentNode : BaseNode //implements DeclaredCharacter
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(ownerUnresolved, owner));
-		children.Add(GetValidVersion(memberUnresolved, (BaseNode)member));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(ownerUnresolved, owner));
+			children.Add(GetValidVersion(memberUnresolved, (BaseNode)member));
+			return children;
 		}
 	}
 
@@ -65,10 +65,10 @@ public class MatchTypeQualIdentNode : BaseNode //implements DeclaredCharacter
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("owner");
-		childrenNames.Add("member");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("owner");
+			childrenNames.Add("member");
+			return childrenNames;
 		}
 	}
 
@@ -132,8 +132,8 @@ public class MatchTypeQualIdentNode : BaseNode //implements DeclaredCharacter
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return owner;
+			Debug.Assert(IsResolved());
+			return owner;
 		}
 	}
 
@@ -141,8 +141,8 @@ public class MatchTypeQualIdentNode : BaseNode //implements DeclaredCharacter
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		return member;
+			Debug.Assert(IsResolved());
+			return member;
 		}
 	}
 
@@ -156,7 +156,7 @@ public class MatchTypeQualIdentNode : BaseNode //implements DeclaredCharacter
 	{
 		get
 		{
-		return "match class prefixed filter";
+			return "match class prefixed filter";
 		}
 	}
 }

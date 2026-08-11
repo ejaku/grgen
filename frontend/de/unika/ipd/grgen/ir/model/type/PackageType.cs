@@ -84,7 +84,7 @@ public class PackageType : PrimitiveType, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return types.AsReadOnly();
+			return types.AsReadOnly();
 		}
 	}
 
@@ -92,7 +92,7 @@ public class PackageType : PrimitiveType, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(nodeTypes);
+			return Collections.UnmodifiableSet(nodeTypes);
 		}
 	}
 
@@ -100,7 +100,7 @@ public class PackageType : PrimitiveType, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(edgeTypes);
+			return Collections.UnmodifiableSet(edgeTypes);
 		}
 	}
 
@@ -108,7 +108,7 @@ public class PackageType : PrimitiveType, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(objectTypes);
+			return Collections.UnmodifiableSet(objectTypes);
 		}
 	}
 
@@ -116,7 +116,7 @@ public class PackageType : PrimitiveType, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(transientObjectTypes);
+			return Collections.UnmodifiableSet(transientObjectTypes);
 		}
 	}
 
@@ -124,7 +124,7 @@ public class PackageType : PrimitiveType, NodeEdgeEnumBearer
 	{
 		get
 		{
-		return Collections.UnmodifiableSet(enumTypes);
+			return Collections.UnmodifiableSet(enumTypes);
 		}
 	}
 

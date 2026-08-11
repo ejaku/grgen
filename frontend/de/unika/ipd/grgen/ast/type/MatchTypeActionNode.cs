@@ -85,7 +85,7 @@ public class MatchTypeActionNode : MatchTypeNode
 	{
 		get
 		{
-		return "match<" + actionUnresolved.ToString() + ">";
+			return "match<" + actionUnresolved.ToString() + ">";
 		}
 	}
 
@@ -93,9 +93,9 @@ public class MatchTypeActionNode : MatchTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		//children.add(getValidVersion(actionUnresolved, action));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			//children.add(getValidVersion(actionUnresolved, action));
+			return children;
 		}
 	}
 
@@ -103,9 +103,9 @@ public class MatchTypeActionNode : MatchTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		//childrenNames.add("action");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			//childrenNames.add("action");
+			return childrenNames;
 		}
 	}
 
@@ -132,8 +132,8 @@ public class MatchTypeActionNode : MatchTypeNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return action;
+			Debug.Assert((IsResolved()));
+			return action;
 		}
 	}
 
@@ -152,7 +152,7 @@ public class MatchTypeActionNode : MatchTypeNode
 	{
 		get
 		{
-		return action.pattern.Entities;
+			return action.pattern.Entities;
 		}
 	}
 
@@ -162,7 +162,7 @@ public class MatchTypeActionNode : MatchTypeNode
 	{
 		get
 		{
-		return CheckIR(typeof(MatchType));
+			return CheckIR(typeof(MatchType));
 		}
 	}
 

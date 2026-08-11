@@ -45,7 +45,7 @@ public class ArrayOrderDescendingNode : ArrayFunctionMethodInvocationBaseExprNod
 	{
 		get
 		{
-		return TargetType;
+			return TargetType;
 		}
 	}
 

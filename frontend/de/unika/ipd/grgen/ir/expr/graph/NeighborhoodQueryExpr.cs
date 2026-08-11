@@ -35,7 +35,7 @@ public abstract class NeighborhoodQueryExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return startNodeExpr;
+			return startNodeExpr;
 		}
 	}
 
@@ -43,7 +43,7 @@ public abstract class NeighborhoodQueryExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return incidentEdgeTypeExpr;
+			return incidentEdgeTypeExpr;
 		}
 	}
 
@@ -56,7 +56,7 @@ public abstract class NeighborhoodQueryExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return adjacentNodeTypeExpr;
+			return adjacentNodeTypeExpr;
 		}
 	}
 }

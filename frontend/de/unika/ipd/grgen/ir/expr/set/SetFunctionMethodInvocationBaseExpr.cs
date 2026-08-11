@@ -27,7 +27,7 @@ public abstract class SetFunctionMethodInvocationBaseExpr : ContainerFunctionMet
 	{
 		get
 		{
-		return (SetType)TargetType;
+			return (SetType)TargetType;
 		}
 	}
 }

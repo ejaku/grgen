@@ -53,10 +53,10 @@ public class ArrayIndexOfOrderedByNode : ArrayFunctionMethodInvocationBaseExprNo
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		children.Add(valueExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			children.Add(valueExpr);
+			return children;
 		}
 	}
 
@@ -64,10 +64,10 @@ public class ArrayIndexOfOrderedByNode : ArrayFunctionMethodInvocationBaseExprNo
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		childrenNames.Add("valueExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			childrenNames.Add("valueExpr");
+			return childrenNames;
 		}
 	}
 
@@ -121,7 +121,7 @@ public class ArrayIndexOfOrderedByNode : ArrayFunctionMethodInvocationBaseExprNo
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 

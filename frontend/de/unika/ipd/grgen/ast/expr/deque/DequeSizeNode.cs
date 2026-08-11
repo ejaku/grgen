@@ -35,7 +35,7 @@ public class DequeSizeNode : DequeFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 

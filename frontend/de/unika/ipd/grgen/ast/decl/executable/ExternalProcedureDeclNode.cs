@@ -60,11 +60,11 @@ public class ExternalProcedureDeclNode : ProcedureDeclBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersionCollectNode(parameterTypesUnresolved, parameterTypesCollectNode));
-		children.Add(GetValidVersionCollectNode(resultsUnresolved, resultTypesCollectNode));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersionCollectNode(parameterTypesUnresolved, parameterTypesCollectNode));
+			children.Add(GetValidVersionCollectNode(resultsUnresolved, resultTypesCollectNode));
+			return children;
 		}
 	}
 
@@ -74,11 +74,11 @@ public class ExternalProcedureDeclNode : ProcedureDeclBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("paramTypes");
-		childrenNames.Add("ret");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("paramTypes");
+			childrenNames.Add("ret");
+			return childrenNames;
 		}
 	}
 
@@ -105,9 +105,9 @@ public class ExternalProcedureDeclNode : ProcedureDeclBaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return externalProcedureType;
+			return externalProcedureType;
 		}
 	}
 
@@ -127,7 +127,7 @@ public class ExternalProcedureDeclNode : ProcedureDeclBaseNode
 	{
 		get
 		{
-		return "external procedure";
+			return "external procedure";
 		}
 	}
 }

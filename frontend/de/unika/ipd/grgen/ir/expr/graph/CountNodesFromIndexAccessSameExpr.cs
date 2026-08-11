@@ -25,7 +25,7 @@ public class CountNodesFromIndexAccessSameExpr : NodesFromIndexAccessExpr
 	{
 		get
 		{
-		return indexAccess;
+			return indexAccess;
 		}
 	}
 

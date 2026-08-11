@@ -57,15 +57,15 @@ public class ArrayRemoveIfNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		if(arrayAccessVar != null)
-			children.Add(arrayAccessVar);
-		if(indexVar != null)
-			children.Add(indexVar);
-		children.Add(elementVar);
-		children.Add(conditionExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			if(arrayAccessVar != null)
+				children.Add(arrayAccessVar);
+			if(indexVar != null)
+				children.Add(indexVar);
+			children.Add(elementVar);
+			children.Add(conditionExpr);
+			return children;
 		}
 	}
 
@@ -73,15 +73,15 @@ public class ArrayRemoveIfNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		if(arrayAccessVar != null)
-			childrenNames.Add("arrayAccessVar");
-		if(indexVar != null)
-			childrenNames.Add("indexVar");
-		childrenNames.Add("elementVar");
-		childrenNames.Add("conditionExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			if(arrayAccessVar != null)
+				childrenNames.Add("arrayAccessVar");
+			if(indexVar != null)
+				childrenNames.Add("indexVar");
+			childrenNames.Add("elementVar");
+			childrenNames.Add("conditionExpr");
+			return childrenNames;
 		}
 	}
 
@@ -163,8 +163,8 @@ public class ArrayRemoveIfNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return TargetType;
+			Debug.Assert((IsResolved()));
+			return TargetType;
 		}
 	}
 

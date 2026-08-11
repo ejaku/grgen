@@ -39,9 +39,9 @@ public class IndexSizeExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(indexUnresolved, index));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(indexUnresolved, index));
+			return children;
 		}
 	}
 
@@ -51,9 +51,9 @@ public class IndexSizeExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("index");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("index");
+			return childrenNames;
 		}
 	}
 
@@ -73,7 +73,7 @@ public class IndexSizeExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		return null;
+			return null;
 		}
 	}
 
@@ -86,7 +86,7 @@ public class IndexSizeExprNode : FromIndexAccessExprNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 

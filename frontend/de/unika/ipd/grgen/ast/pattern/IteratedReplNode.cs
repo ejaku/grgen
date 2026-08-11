@@ -42,9 +42,9 @@ public class IteratedReplNode : OrderedReplacementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iteratedUnresolved, iterated));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iteratedUnresolved, iterated));
+			return children;
 		}
 	}
 
@@ -52,9 +52,9 @@ public class IteratedReplNode : OrderedReplacementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterated");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterated");
+			return childrenNames;
 		}
 	}
 

@@ -31,7 +31,7 @@ public class IsBoundedReachableNodeExpr : NeighborhoodQueryExpr
 	{
 		get
 		{
-		return endNodeExpr;
+			return endNodeExpr;
 		}
 	}
 
@@ -39,7 +39,7 @@ public class IsBoundedReachableNodeExpr : NeighborhoodQueryExpr
 	{
 		get
 		{
-		return depthExpr;
+			return depthExpr;
 		}
 	}
 

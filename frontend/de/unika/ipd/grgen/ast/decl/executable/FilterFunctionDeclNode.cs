@@ -72,13 +72,13 @@ public class FilterFunctionDeclNode : DeclNode, FilterCharacter
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		if(evalStatements != null)
-			children.Add(evalStatements);
-		children.Add(paramsUnresolved);
-		children.Add(actionUnresolved);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			if(evalStatements != null)
+				children.Add(evalStatements);
+			children.Add(paramsUnresolved);
+			children.Add(actionUnresolved);
+			return children;
 		}
 	}
 
@@ -88,13 +88,13 @@ public class FilterFunctionDeclNode : DeclNode, FilterCharacter
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		if(evalStatements != null)
-			childrenNames.Add("evals");
-		childrenNames.Add("params");
-		childrenNames.Add("action");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			if(evalStatements != null)
+				childrenNames.Add("evals");
+			childrenNames.Add("params");
+			childrenNames.Add("action");
+			return childrenNames;
 		}
 	}
 
@@ -139,7 +139,7 @@ public class FilterFunctionDeclNode : DeclNode, FilterCharacter
 	{
 		get
 		{
-		return Ident.ToString();
+			return Ident.ToString();
 		}
 	}
 
@@ -147,7 +147,7 @@ public class FilterFunctionDeclNode : DeclNode, FilterCharacter
 	{
 		get
 		{
-		return action;
+			return action;
 		}
 	}
 
@@ -157,7 +157,7 @@ public class FilterFunctionDeclNode : DeclNode, FilterCharacter
 	{
 		get
 		{
-		return CheckIR(typeof(FilterFunction));
+			return CheckIR(typeof(FilterFunction));
 		}
 	}
 
@@ -165,9 +165,9 @@ public class FilterFunctionDeclNode : DeclNode, FilterCharacter
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return filterFunctionType;
+			return filterFunctionType;
 		}
 	}
 
@@ -175,13 +175,13 @@ public class FilterFunctionDeclNode : DeclNode, FilterCharacter
 	{
 		get
 		{
-		Debug.Assert(IsChecked());
+			Debug.Assert(IsChecked());
 
-		IList<TypeNode> types = new List<TypeNode>();
-		foreach(DeclNode decl in @params.ChildrenExact)
-			types.Add(decl.DeclType);
+			IList<TypeNode> types = new List<TypeNode>();
+			foreach(DeclNode decl in @params.ChildrenExact)
+				types.Add(decl.DeclType);
 
-		return types;
+			return types;
 		}
 	}
 
@@ -222,7 +222,7 @@ public class FilterFunctionDeclNode : DeclNode, FilterCharacter
 	{
 		get
 		{
-		return "filter function";
+			return "filter function";
 		}
 	}
 }

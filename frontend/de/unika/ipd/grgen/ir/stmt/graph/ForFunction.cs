@@ -44,7 +44,7 @@ public class ForFunction : BlockNestingStatement
 	{
 		get
 		{
-		return iterationVar;
+			return iterationVar;
 		}
 	}
 
@@ -52,7 +52,7 @@ public class ForFunction : BlockNestingStatement
 	{
 		get
 		{
-		return function;
+			return function;
 		}
 	}
 
@@ -60,7 +60,7 @@ public class ForFunction : BlockNestingStatement
 	{
 		get
 		{
-		return statements;
+			return statements;
 		}
 	}
 

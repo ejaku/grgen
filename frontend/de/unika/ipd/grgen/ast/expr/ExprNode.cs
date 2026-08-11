@@ -59,7 +59,7 @@ public abstract class ExprNode : BaseNode
 	{
 		get
 		{
-		return INVALID;
+			return INVALID;
 		}
 	}
 
@@ -68,7 +68,7 @@ public abstract class ExprNode : BaseNode
 	{
 		get
 		{
-		return Color.PINK;
+			return Color.PINK;
 		}
 	}
 
@@ -205,7 +205,7 @@ public abstract class ExprNode : BaseNode
 	{
 		get
 		{
-		return EdgeTypeNode.arbitraryEdgeType.GetIdent();
+			return EdgeTypeNode.arbitraryEdgeType.GetIdent();
 		}
 	}
 
@@ -218,7 +218,7 @@ public abstract class ExprNode : BaseNode
 	{
 		get
 		{
-		return NodeTypeNode.nodeType.GetIdent();
+			return NodeTypeNode.nodeType.GetIdent();
 		}
 	}
 

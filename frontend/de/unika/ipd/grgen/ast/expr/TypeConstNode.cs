@@ -56,7 +56,7 @@ public class TypeConstNode : ConstNode
 	{
 		get
 		{
-		return BasicTypeNode.typeType;
+			return BasicTypeNode.typeType;
 		}
 	}
 
@@ -64,7 +64,7 @@ public class TypeConstNode : ConstNode
 	{
 		get
 		{
-		return id.Decl.GetDeclType();
+			return id.Decl.GetDeclType();
 		}
 	}
 }

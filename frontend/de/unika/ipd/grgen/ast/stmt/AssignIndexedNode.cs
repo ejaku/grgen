@@ -99,11 +99,11 @@ public class AssignIndexedNode : EvalStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(lhsUnresolved, lhsQual, lhsVar));
-		children.Add(rhs);
-		children.Add(index);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(lhsUnresolved, lhsQual, lhsVar));
+			children.Add(rhs);
+			children.Add(index);
+			return children;
 		}
 	}
 
@@ -113,11 +113,11 @@ public class AssignIndexedNode : EvalStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("lhs");
-		childrenNames.Add("rhs");
-		childrenNames.Add("index");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("lhs");
+			childrenNames.Add("rhs");
+			childrenNames.Add("index");
+			return childrenNames;
 		}
 	}
 

@@ -89,11 +89,11 @@ public class Edge : GraphEntity
 	{
 		set
 		{
-		this.maybeNull = value;
+			this.maybeNull = value;
 		}
 		get
 		{
-		return maybeNull;
+			return maybeNull;
 		}
 	}
 
@@ -103,7 +103,7 @@ public class Edge : GraphEntity
 	{
 		get
 		{
-		return type;
+			return type;
 		}
 	}
 
@@ -139,12 +139,12 @@ public class Edge : GraphEntity
 	{
 		set
 		{
-		Debug.Assert(this.pointOfDefinition == null && value != null);
-		this.pointOfDefinition = value;
+			Debug.Assert(this.pointOfDefinition == null && value != null);
+			this.pointOfDefinition = value;
 		}
 		get
 		{
-		return pointOfDefinition;
+			return pointOfDefinition;
 		}
 	}
 
@@ -181,7 +181,7 @@ public class Edge : GraphEntity
 	{
 		get
 		{
-		return "edge";
+			return "edge";
 		}
 	}
 }

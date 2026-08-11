@@ -35,9 +35,9 @@ public abstract class ArrayAccumulationMethodNode : ArrayFunctionMethodInvocatio
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			return children;
 		}
 	}
 
@@ -45,9 +45,9 @@ public abstract class ArrayAccumulationMethodNode : ArrayFunctionMethodInvocatio
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			return childrenNames;
 		}
 	}
 

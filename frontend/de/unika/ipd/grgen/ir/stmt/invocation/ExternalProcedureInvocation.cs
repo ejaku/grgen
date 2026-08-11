@@ -34,7 +34,7 @@ public class ExternalProcedureInvocation : ProcedureInvocationBase
 	{
 		get
 		{
-		return externalProcedure;
+			return externalProcedure;
 		}
 	}
 
@@ -42,7 +42,7 @@ public class ExternalProcedureInvocation : ProcedureInvocationBase
 	{
 		get
 		{
-		return externalProcedure;
+			return externalProcedure;
 		}
 	}
 }

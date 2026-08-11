@@ -45,7 +45,7 @@ public class CountEdgesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
 	{
 		get
 		{
-		return EdgeRoot;
+			return EdgeRoot;
 		}
 	}
 
@@ -58,7 +58,7 @@ public class CountEdgesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 

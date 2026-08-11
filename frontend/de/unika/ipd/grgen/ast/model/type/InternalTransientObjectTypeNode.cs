@@ -57,10 +57,10 @@ public class InternalTransientObjectTypeNode : BaseInternalObjectTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(extendUnresolved, extend));
-		children.Add(GetValidVersionCollectNode(bodyUnresolved, body));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(extendUnresolved, extend));
+			children.Add(GetValidVersionCollectNode(bodyUnresolved, body));
+			return children;
 		}
 	}
 
@@ -70,10 +70,10 @@ public class InternalTransientObjectTypeNode : BaseInternalObjectTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("extends");
-		childrenNames.Add("body");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("extends");
+			childrenNames.Add("body");
+			return childrenNames;
 		}
 	}
 
@@ -109,7 +109,7 @@ public class InternalTransientObjectTypeNode : BaseInternalObjectTypeNode
 	{
 		get
 		{
-		return CheckIR(typeof(InternalTransientObjectType));
+			return CheckIR(typeof(InternalTransientObjectType));
 		}
 	}
 
@@ -147,7 +147,7 @@ public class InternalTransientObjectTypeNode : BaseInternalObjectTypeNode
 	{
 		get
 		{
-		return "internal transient object class";
+			return "internal transient object class";
 		}
 	}
 
@@ -155,9 +155,9 @@ public class InternalTransientObjectTypeNode : BaseInternalObjectTypeNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return new List<InheritanceTypeNode>(extend.ChildrenExact);
+			return new List<InheritanceTypeNode>(extend.ChildrenExact);
 		}
 	}
 }

@@ -66,7 +66,7 @@ public abstract class DefaultGraphDumpable : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return Id;
+			return Id;
 		}
 	}
 
@@ -75,7 +75,7 @@ public abstract class DefaultGraphDumpable : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return color;
+			return color;
 		}
 	}
 
@@ -84,7 +84,7 @@ public abstract class DefaultGraphDumpable : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return shape;
+			return shape;
 		}
 	}
 
@@ -93,7 +93,7 @@ public abstract class DefaultGraphDumpable : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return label;
+			return label;
 		}
 	}
 
@@ -102,7 +102,7 @@ public abstract class DefaultGraphDumpable : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		return info;
+			return info;
 		}
 	}
 
@@ -117,8 +117,8 @@ public abstract class DefaultGraphDumpable : Base, GraphDumpable, Walkable
 	{
 		get
 		{
-		ICollection<BaseNode> empty = Collections.EmptySet();
-		return children == null ? empty : children;
+			ICollection<BaseNode> empty = Collections.EmptySet();
+			return children == null ? empty : children;
 		}
 	}
 }

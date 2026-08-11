@@ -93,8 +93,8 @@ public class ArrayExtractNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return extractedArrayType;
+			Debug.Assert((IsResolved()));
+			return extractedArrayType;
 		}
 	}
 
@@ -102,9 +102,9 @@ public class ArrayExtractNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		if(member != null)
-			return member.DeclType;
-		return null;
+			if(member != null)
+				return member.DeclType;
+			return null;
 		}
 	}
 

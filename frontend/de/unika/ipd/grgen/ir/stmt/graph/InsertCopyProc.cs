@@ -33,7 +33,7 @@ public class InsertCopyProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return graphExpr;
+			return graphExpr;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class InsertCopyProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return nodeExpr;
+			return nodeExpr;
 		}
 	}
 

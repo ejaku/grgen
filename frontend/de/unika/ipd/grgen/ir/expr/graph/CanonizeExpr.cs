@@ -26,7 +26,7 @@ public class CanonizeExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return graphExpr;
+			return graphExpr;
 		}
 	}
 

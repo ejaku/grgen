@@ -45,7 +45,7 @@ public class ForIndexAccessOrdering : EvalStatement
 	{
 		get
 		{
-		return iterationVar;
+			return iterationVar;
 		}
 	}
 
@@ -53,7 +53,7 @@ public class ForIndexAccessOrdering : EvalStatement
 	{
 		get
 		{
-		return iao;
+			return iao;
 		}
 	}
 
@@ -61,7 +61,7 @@ public class ForIndexAccessOrdering : EvalStatement
 	{
 		get
 		{
-		return statements.AsReadOnly();
+			return statements.AsReadOnly();
 		}
 	}
 

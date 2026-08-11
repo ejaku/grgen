@@ -31,7 +31,7 @@ public class LockStatement : BlockNestingStatement
 	{
 		get
 		{
-		return lockObjectExpr;
+			return lockObjectExpr;
 		}
 	}
 

@@ -38,7 +38,7 @@ public class SinCosTanExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return which;
+			return which;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class SinCosTanExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return expr;
+			return expr;
 		}
 	}
 

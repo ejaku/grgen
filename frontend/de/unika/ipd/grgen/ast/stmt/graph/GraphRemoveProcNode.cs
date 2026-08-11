@@ -44,9 +44,9 @@ public class GraphRemoveProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(entityExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(entityExpr);
+			return children;
 		}
 	}
 
@@ -54,9 +54,9 @@ public class GraphRemoveProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("entity");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("entity");
+			return childrenNames;
 		}
 	}
 

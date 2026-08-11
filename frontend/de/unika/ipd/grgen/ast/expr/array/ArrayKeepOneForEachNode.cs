@@ -45,7 +45,7 @@ public class ArrayKeepOneForEachNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return TargetType;
+			return TargetType;
 		}
 	}
 

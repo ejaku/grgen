@@ -85,7 +85,7 @@ public class CmdLineParser
 		{
 			get
 			{
-			return this.optionName;
+				return this.optionName;
 			}
 		}
 
@@ -113,7 +113,7 @@ public class CmdLineParser
 		{
 			get
 			{
-			return suboption;
+				return suboption;
 			}
 		}
 	}
@@ -141,7 +141,7 @@ public class CmdLineParser
 		{
 			get
 			{
-			return notflag;
+				return notflag;
 			}
 		}
 	}
@@ -177,7 +177,7 @@ public class CmdLineParser
 		{
 			get
 			{
-			return this.option;
+				return this.option;
 			}
 		}
 
@@ -186,7 +186,7 @@ public class CmdLineParser
 		{
 			get
 			{
-			return this.value;
+				return this.value;
 			}
 		}
 
@@ -231,7 +231,7 @@ public class CmdLineParser
 		{
 			get
 			{
-			return this.shortForm;
+				return this.shortForm;
 			}
 		}
 
@@ -239,7 +239,7 @@ public class CmdLineParser
 		{
 			get
 			{
-			return this.longForm;
+				return this.longForm;
 			}
 		}
 
@@ -285,7 +285,7 @@ public class CmdLineParser
 		{
 			get
 			{
-			return default(T);
+				return default(T);
 			}
 		}
 
@@ -318,7 +318,7 @@ public class CmdLineParser
 		{
 			get
 			{
-			return true;
+				return true;
 			}
 		}
 	}
@@ -577,7 +577,7 @@ public class CmdLineParser
 	{
 		get
 		{
-		return this.remainingArgs;
+			return this.remainingArgs;
 		}
 	}
 

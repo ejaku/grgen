@@ -49,8 +49,8 @@ public class SetMaxNode : SetFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		SetTypeNode setType = TargetTypeExact;
-		return BasicTypeNode.GetArrayAccumulationResultType(setType.valueType);
+			SetTypeNode setType = TargetTypeExact;
+			return BasicTypeNode.GetArrayAccumulationResultType(setType.valueType);
 		}
 	}
 

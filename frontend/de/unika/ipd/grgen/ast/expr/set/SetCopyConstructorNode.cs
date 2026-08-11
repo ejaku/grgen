@@ -51,9 +51,9 @@ public class SetCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(setToCopy);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(setToCopy);
+			return children;
 		}
 	}
 
@@ -61,9 +61,9 @@ public class SetCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("setToCopy");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("setToCopy");
+			return childrenNames;
 		}
 	}
 
@@ -106,8 +106,8 @@ public class SetCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return setType;
+			Debug.Assert((IsResolved()));
+			return setType;
 		}
 	}
 
@@ -121,7 +121,7 @@ public class SetCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		return "set copy constructor";
+			return "set copy constructor";
 		}
 	}
 }

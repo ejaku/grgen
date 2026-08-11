@@ -66,9 +66,9 @@ public class SingleNodeConnNode : ConnectionCharacter
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(nodeUnresolved, node));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(nodeUnresolved, node));
+			return children;
 		}
 	}
 
@@ -78,9 +78,9 @@ public class SingleNodeConnNode : ConnectionCharacter
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("node");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("node");
+			return childrenNames;
 		}
 	}
 
@@ -105,9 +105,9 @@ public class SingleNodeConnNode : ConnectionCharacter
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return node;
+			return node;
 		}
 	}
 
@@ -137,7 +137,7 @@ public class SingleNodeConnNode : ConnectionCharacter
 	{
 		get
 		{
-		return null;
+			return null;
 		}
 	}
 
@@ -145,13 +145,13 @@ public class SingleNodeConnNode : ConnectionCharacter
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return node;
+			return node;
 		}
 		set
 		{
-		// no edge available a source could be set
+			// no edge available a source could be set
 		}
 	}
 
@@ -160,11 +160,11 @@ public class SingleNodeConnNode : ConnectionCharacter
 	{
 		get
 		{
-		return null;
+			return null;
 		}
 		set
 		{
-		// no edge available a target could be set
+			// no edge available a target could be set
 		}
 	}
 
@@ -181,7 +181,7 @@ public class SingleNodeConnNode : ConnectionCharacter
 	{
 		get
 		{
-		return "single node connection";
+			return "single node connection";
 		}
 	}
 }

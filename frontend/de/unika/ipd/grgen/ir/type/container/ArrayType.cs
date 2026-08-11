@@ -28,7 +28,7 @@ public class ArrayType : ContainerType
 	{
 		get
 		{
-		return valueType;
+			return valueType;
 		}
 	}
 
@@ -47,7 +47,7 @@ public class ArrayType : ContainerType
 	{
 		get
 		{
-		return valueType;
+			return valueType;
 		}
 	}
 

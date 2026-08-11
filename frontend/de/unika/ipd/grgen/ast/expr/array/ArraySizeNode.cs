@@ -35,7 +35,7 @@ public class ArraySizeNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 

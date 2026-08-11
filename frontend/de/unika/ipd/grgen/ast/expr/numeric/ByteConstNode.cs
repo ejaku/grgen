@@ -33,7 +33,7 @@ public class ByteConstNode : ConstNode
 	{
 		get
 		{
-		return BasicTypeNode.byteType;
+			return BasicTypeNode.byteType;
 		}
 	}
 

@@ -49,7 +49,7 @@ public class InducedNode : BaseNode
 	{
 		get
 		{
-		return GetValidVersionList(childrenUnresolved, children);
+			return GetValidVersionList(childrenUnresolved, children);
 		}
 	}
 
@@ -59,9 +59,9 @@ public class InducedNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// nameless children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// nameless children
+			return childrenNames;
 		}
 	}
 
@@ -108,10 +108,10 @@ public class InducedNode : BaseNode
 	{
 		get
 		{
-		ISet<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
-		foreach(NodeDeclNode inducedNode in children)
-			nodes.Add(inducedNode);
-		return nodes;
+			ISet<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
+			foreach(NodeDeclNode inducedNode in children)
+				nodes.Add(inducedNode);
+			return nodes;
 		}
 	}
 
@@ -119,7 +119,7 @@ public class InducedNode : BaseNode
 	{
 		get
 		{
-		return Color.PINK;
+			return Color.PINK;
 		}
 	}
 }

@@ -39,9 +39,9 @@ public class AbsExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(argumentExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(argumentExpr);
+			return children;
 		}
 	}
 
@@ -49,9 +49,9 @@ public class AbsExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("arg");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("arg");
+			return childrenNames;
 		}
 	}
 
@@ -74,7 +74,7 @@ public class AbsExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return argumentExpr.Type;
+			return argumentExpr.Type;
 		}
 	}
 }

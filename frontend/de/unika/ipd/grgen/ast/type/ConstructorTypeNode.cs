@@ -34,7 +34,7 @@ public class ConstructorTypeNode : TypeNode
 	{
 		get
 		{
-		return emptyChildren;
+			return emptyChildren;
 		}
 	}
 
@@ -44,7 +44,7 @@ public class ConstructorTypeNode : TypeNode
 	{
 		get
 		{
-		return emptyChildrenNames;
+			return emptyChildrenNames;
 		}
 	}
 }

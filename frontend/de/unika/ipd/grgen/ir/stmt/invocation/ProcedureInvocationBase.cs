@@ -80,7 +80,7 @@ public abstract class ProcedureInvocationBase : ProcedureOrBuiltinProcedureInvoc
 	{
 		get
 		{
-		return arguments;
+			return arguments;
 		}
 	}
 

@@ -36,7 +36,7 @@ public class StringType : PrimitiveType
 	{
 		get
 		{
-		return BasicTypeNode.stringType.CheckIR(typeof(Type));
+			return BasicTypeNode.stringType.CheckIR(typeof(Type));
 		}
 	}
 }

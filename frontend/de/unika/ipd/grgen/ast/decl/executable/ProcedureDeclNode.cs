@@ -71,12 +71,12 @@ public class ProcedureDeclNode : ProcedureDeclBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(evalStatements);
-		children.Add(parametersUnresolved);
-		children.Add(GetValidVersionCollectNode(resultsUnresolved, resultTypesCollectNode));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(evalStatements);
+			children.Add(parametersUnresolved);
+			children.Add(GetValidVersionCollectNode(resultsUnresolved, resultTypesCollectNode));
+			return children;
 		}
 	}
 
@@ -86,12 +86,12 @@ public class ProcedureDeclNode : ProcedureDeclBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("evals");
-		childrenNames.Add("params");
-		childrenNames.Add("ret");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("evals");
+			childrenNames.Add("params");
+			childrenNames.Add("ret");
+			return childrenNames;
 		}
 	}
 
@@ -136,7 +136,7 @@ public class ProcedureDeclNode : ProcedureDeclBaseNode
 	{
 		get
 		{
-		return CheckIR(typeof(Procedure));
+			return CheckIR(typeof(Procedure));
 		}
 	}
 
@@ -144,9 +144,9 @@ public class ProcedureDeclNode : ProcedureDeclBaseNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return procedureType;
+			return procedureType;
 		}
 	}
 
@@ -182,7 +182,7 @@ public class ProcedureDeclNode : ProcedureDeclBaseNode
 	{
 		get
 		{
-		return "procedure";
+			return "procedure";
 		}
 	}
 }

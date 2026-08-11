@@ -65,7 +65,7 @@ public class ReachableEdgeExprNode : NeighborhoodQueryExprNode
 	{
 		get
 		{
-		return setTypeNode;
+			return setTypeNode;
 		}
 	}
 }

@@ -47,7 +47,7 @@ public class MapInit : Expression
 	{
 		get
 		{
-		return mapItems;
+			return mapItems;
 		}
 	}
 
@@ -55,12 +55,12 @@ public class MapInit : Expression
 	{
 		set
 		{
-		Debug.Assert((member == null && value != null));
-		member = value;
+			Debug.Assert((member == null && value != null));
+			member = value;
 		}
 		get
 		{
-		return member;
+			return member;
 		}
 	}
 
@@ -69,7 +69,7 @@ public class MapInit : Expression
 	{
 		get
 		{
-		return mapType;
+			return mapType;
 		}
 	}
 
@@ -87,7 +87,7 @@ public class MapInit : Expression
 	{
 		get
 		{
-		return "anonymous_map_" + Id;
+			return "anonymous_map_" + Id;
 		}
 	}
 }

@@ -45,7 +45,7 @@ public class Emit : IR, ImperativeStmt, OrderedReplacement
 	{
 		get
 		{
-		return arguments.AsReadOnly();
+			return arguments.AsReadOnly();
 		}
 	}
 

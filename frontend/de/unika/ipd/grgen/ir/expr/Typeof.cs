@@ -27,7 +27,7 @@ public class Typeof : Expression
 	{
 		get
 		{
-		return entity;
+			return entity;
 		}
 	}
 
@@ -35,7 +35,7 @@ public class Typeof : Expression
 	{
 		get
 		{
-		return "typeof<" + entity + ">";
+			return "typeof<" + entity + ">";
 		}
 	}
 

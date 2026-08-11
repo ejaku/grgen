@@ -36,7 +36,7 @@ public class ArrayMapExpr : ArrayFunctionMethodInvocationBaseExpr, ArrayPerEleme
 	{
 		get
 		{
-		return arrayAccessVar;
+			return arrayAccessVar;
 		}
 	}
 
@@ -44,7 +44,7 @@ public class ArrayMapExpr : ArrayFunctionMethodInvocationBaseExpr, ArrayPerEleme
 	{
 		get
 		{
-		return indexVar;
+			return indexVar;
 		}
 	}
 
@@ -52,7 +52,7 @@ public class ArrayMapExpr : ArrayFunctionMethodInvocationBaseExpr, ArrayPerEleme
 	{
 		get
 		{
-		return elementVar;
+			return elementVar;
 		}
 	}
 
@@ -60,7 +60,7 @@ public class ArrayMapExpr : ArrayFunctionMethodInvocationBaseExpr, ArrayPerEleme
 	{
 		get
 		{
-		return mappingExpr;
+			return mappingExpr;
 		}
 	}
 

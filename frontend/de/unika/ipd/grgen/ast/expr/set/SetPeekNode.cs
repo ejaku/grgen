@@ -42,10 +42,10 @@ public class SetPeekNode : SetFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		children.Add(numberExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			children.Add(numberExpr);
+			return children;
 		}
 	}
 
@@ -53,10 +53,10 @@ public class SetPeekNode : SetFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		childrenNames.Add("numberExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			childrenNames.Add("numberExpr");
+			return childrenNames;
 		}
 	}
 
@@ -76,7 +76,7 @@ public class SetPeekNode : SetFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return TargetTypeExact.valueType;
+			return TargetTypeExact.valueType;
 		}
 	}
 

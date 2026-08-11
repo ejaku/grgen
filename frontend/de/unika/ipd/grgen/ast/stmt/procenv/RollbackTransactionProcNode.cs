@@ -46,9 +46,9 @@ public class RollbackTransactionProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(transactionIdExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(transactionIdExpr);
+			return children;
 		}
 	}
 
@@ -56,9 +56,9 @@ public class RollbackTransactionProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("transactionIdExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("transactionIdExpr");
+			return childrenNames;
 		}
 	}
 

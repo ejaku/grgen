@@ -26,7 +26,7 @@ public class InducedSubgraphExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return setExpr;
+			return setExpr;
 		}
 	}
 

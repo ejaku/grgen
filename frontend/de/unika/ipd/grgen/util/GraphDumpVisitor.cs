@@ -33,7 +33,7 @@ public class GraphDumpVisitor : Base, Visitor
 	{
 		set
 		{
-		this.dumper = value;
+			this.dumper = value;
 		}
 	}
 

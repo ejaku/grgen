@@ -31,7 +31,7 @@ public class ArrayIndexOfOrderedByExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return member;
+			return member;
 		}
 	}
 
@@ -39,7 +39,7 @@ public class ArrayIndexOfOrderedByExpr : ArrayFunctionMethodInvocationBaseExpr
 	{
 		get
 		{
-		return valueExpr;
+			return valueExpr;
 		}
 	}
 

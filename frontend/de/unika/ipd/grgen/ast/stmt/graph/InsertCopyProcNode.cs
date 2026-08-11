@@ -53,10 +53,10 @@ public class InsertCopyProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(graphExpr);
-		children.Add(nodeExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(graphExpr);
+			children.Add(nodeExpr);
+			return children;
 		}
 	}
 
@@ -66,10 +66,10 @@ public class InsertCopyProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("nodeSetExpr");
-		childrenNames.Add("nodeExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("nodeSetExpr");
+			childrenNames.Add("nodeExpr");
+			return childrenNames;
 		}
 	}
 
@@ -113,12 +113,12 @@ public class InsertCopyProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		if(returnTypes == null)
-		{
-			returnTypes = new List<TypeNode>();
-			returnTypes.Add(nodeExpr.Type);
-		}
-		return returnTypes;
+			if(returnTypes == null)
+			{
+				returnTypes = new List<TypeNode>();
+				returnTypes.Add(nodeExpr.Type);
+			}
+			return returnTypes;
 		}
 	}
 }

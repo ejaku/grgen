@@ -38,7 +38,7 @@ public class IndexedAccessExpr : Expression
 	{
 		get
 		{
-		return targetExpr;
+			return targetExpr;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class IndexedAccessExpr : Expression
 	{
 		get
 		{
-		return (ContainerType)targetExpr.Type;
+			return (ContainerType)targetExpr.Type;
 		}
 	}
 
@@ -54,7 +54,7 @@ public class IndexedAccessExpr : Expression
 	{
 		get
 		{
-		return keyExpr;
+			return keyExpr;
 		}
 	}
 }

@@ -81,7 +81,7 @@ public class NodeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		return DeclInhType;
+			return DeclInhType;
 		}
 	}
 
@@ -89,7 +89,7 @@ public class NodeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		return DeclNodeType;
+			return DeclNodeType;
 		}
 	}
 
@@ -101,11 +101,11 @@ public class NodeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
-		DeclNode curr = GetValidResolvedVersion(typeNodeDecl, typeTypeDecl);
-		TypeNode type = curr.DeclType;
-		//assert type != null;
-		return (NodeTypeNode)type;
+			Debug.Assert(IsResolved());
+			DeclNode curr = GetValidResolvedVersion(typeNodeDecl, typeTypeDecl);
+			TypeNode type = curr.DeclType;
+			//assert type != null;
+			return (NodeTypeNode)type;
 		}
 	}
 
@@ -115,14 +115,14 @@ public class NodeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
-		children.Add(constraints);
-		children.Add(nameOrAttributeInits);
-		if(initialization != null)
-			children.Add(initialization);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
+			children.Add(constraints);
+			children.Add(nameOrAttributeInits);
+			if(initialization != null)
+				children.Add(initialization);
+			return children;
 		}
 	}
 
@@ -132,14 +132,14 @@ public class NodeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("constraints");
-		childrenNames.Add("nameOrAttributeInits");
-		if(initialization != null)
-			childrenNames.Add("initialization expression");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("constraints");
+			childrenNames.Add("nameOrAttributeInits");
+			if(initialization != null)
+				childrenNames.Add("initialization expression");
+			return childrenNames;
 		}
 	}
 
@@ -249,7 +249,7 @@ public class NodeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		return Color.GREEN;
+			return Color.GREEN;
 		}
 	}
 
@@ -260,7 +260,7 @@ public class NodeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		return CheckIR(typeof(Node));
+			return CheckIR(typeof(Node));
 		}
 	}
 
@@ -313,7 +313,7 @@ public class NodeDeclNode : ConstraintDeclNode
 	{
 		get
 		{
-		return "node";
+			return "node";
 		}
 	}
 }

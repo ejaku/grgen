@@ -51,9 +51,9 @@ public class ArrayCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(arrayToCopy);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(arrayToCopy);
+			return children;
 		}
 	}
 
@@ -61,9 +61,9 @@ public class ArrayCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("arrayToCopy");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("arrayToCopy");
+			return childrenNames;
 		}
 	}
 
@@ -106,8 +106,8 @@ public class ArrayCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		Debug.Assert((IsResolved()));
-		return arrayType;
+			Debug.Assert((IsResolved()));
+			return arrayType;
 		}
 	}
 
@@ -121,7 +121,7 @@ public class ArrayCopyConstructorNode : ExprNode
 	{
 		get
 		{
-		return "array copy constructor";
+			return "array copy constructor";
 		}
 	}
 }

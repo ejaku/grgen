@@ -36,7 +36,7 @@ public abstract class DequeFunctionMethodInvocationBaseExprNode : ContainerFunct
 	{
 		get
 		{
-		return (DequeTypeNode)TargetType;
+			return (DequeTypeNode)TargetType;
 		}
 	}
 
@@ -44,9 +44,9 @@ public abstract class DequeFunctionMethodInvocationBaseExprNode : ContainerFunct
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			return children;
 		}
 	}
 
@@ -54,9 +54,9 @@ public abstract class DequeFunctionMethodInvocationBaseExprNode : ContainerFunct
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			return childrenNames;
 		}
 	}
 

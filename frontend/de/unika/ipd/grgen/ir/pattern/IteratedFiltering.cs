@@ -44,7 +44,7 @@ public class IteratedFiltering : EvalStatement
 	{
 		get
 		{
-		return actionOrSubpattern;
+			return actionOrSubpattern;
 		}
 	}
 
@@ -52,7 +52,7 @@ public class IteratedFiltering : EvalStatement
 	{
 		get
 		{
-		return iterated;
+			return iterated;
 		}
 	}
 
@@ -60,7 +60,7 @@ public class IteratedFiltering : EvalStatement
 	{
 		get
 		{
-		return filterInvocations;
+			return filterInvocations;
 		}
 	}
 

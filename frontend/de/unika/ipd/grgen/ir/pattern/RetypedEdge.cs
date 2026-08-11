@@ -29,11 +29,11 @@ public class RetypedEdge : Edge, Retyped
 	{
 		get
 		{
-		return oldEdge;
+			return oldEdge;
 		}
 		set
 		{
-		this.oldEdge = (Edge)value;
+			this.oldEdge = (Edge)value;
 		}
 	}
 
@@ -44,11 +44,11 @@ public class RetypedEdge : Edge, Retyped
 	{
 		get
 		{
-		return oldEdge;
+			return oldEdge;
 		}
 		set
 		{
-		this.oldEdge = value;
+			this.oldEdge = value;
 		}
 	}
 

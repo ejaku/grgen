@@ -51,12 +51,12 @@ public class GraphMergeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		children.Add(sourceExpr);
-		if(sourceNameExpr != null)
-			children.Add(sourceNameExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			children.Add(sourceExpr);
+			if(sourceNameExpr != null)
+				children.Add(sourceNameExpr);
+			return children;
 		}
 	}
 
@@ -64,12 +64,12 @@ public class GraphMergeProcNode : BuiltinProcedureInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("target");
-		childrenNames.Add("source");
-		if(sourceNameExpr != null)
-			childrenNames.Add("sourceName");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("target");
+			childrenNames.Add("source");
+			if(sourceNameExpr != null)
+				childrenNames.Add("sourceName");
+			return childrenNames;
 		}
 	}
 

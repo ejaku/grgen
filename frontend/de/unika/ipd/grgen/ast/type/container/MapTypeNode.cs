@@ -37,7 +37,7 @@ public class MapTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		return "map<" + keyTypeUnresolved.ToString() + "," + valueTypeUnresolved.ToString() + ">";
+			return "map<" + keyTypeUnresolved.ToString() + "," + valueTypeUnresolved.ToString() + ">";
 		}
 	}
 
@@ -60,9 +60,9 @@ public class MapTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		// no children
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			// no children
+			return children;
 		}
 	}
 
@@ -70,9 +70,9 @@ public class MapTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// no children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// no children
+			return childrenNames;
 		}
 	}
 
@@ -137,7 +137,7 @@ public class MapTypeNode : ContainerTypeNode
 	{
 		get
 		{
-		return keyType;
+			return keyType;
 		}
 	}
 

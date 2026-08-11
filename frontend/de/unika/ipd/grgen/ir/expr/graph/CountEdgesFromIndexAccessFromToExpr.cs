@@ -25,7 +25,7 @@ public class CountEdgesFromIndexAccessFromToExpr : EdgesFromIndexAccessExpr
 	{
 		get
 		{
-		return indexAccess;
+			return indexAccess;
 		}
 	}
 

@@ -30,7 +30,7 @@ public class ArrayRemoveItem : ContainerQualProcedureMethodInvocationBase
 	{
 		get
 		{
-		return indexExpr;
+			return indexExpr;
 		}
 	}
 

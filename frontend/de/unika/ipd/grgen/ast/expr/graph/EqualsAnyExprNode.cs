@@ -53,10 +53,10 @@ public class EqualsAnyExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(subgraphExpr);
-		children.Add(subgraphSetExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(subgraphExpr);
+			children.Add(subgraphSetExpr);
+			return children;
 		}
 	}
 
@@ -66,10 +66,10 @@ public class EqualsAnyExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("subgraphExpr");
-		childrenNames.Add("subgraphSetExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("subgraphExpr");
+			childrenNames.Add("subgraphSetExpr");
+			return childrenNames;
 		}
 	}
 
@@ -117,7 +117,7 @@ public class EqualsAnyExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.booleanType;
+			return BasicTypeNode.booleanType;
 		}
 	}
 }

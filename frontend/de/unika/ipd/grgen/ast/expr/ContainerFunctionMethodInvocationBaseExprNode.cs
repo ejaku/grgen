@@ -34,8 +34,8 @@ public abstract class ContainerFunctionMethodInvocationBaseExprNode : BuiltinFun
 	{
 		get
 		{
-		TypeNode targetType = targetExpr.Type;
-		return (ContainerTypeNode)targetType;
+			TypeNode targetType = targetExpr.Type;
+			return (ContainerTypeNode)targetType;
 		}
 	}
 }

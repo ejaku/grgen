@@ -66,9 +66,9 @@ public class DefDeclStatementNode : EvalStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(defDeclUnresolved, defDeclVar, defDeclGraphElement));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(defDeclUnresolved, defDeclVar, defDeclGraphElement));
+			return children;
 		}
 	}
 
@@ -78,9 +78,9 @@ public class DefDeclStatementNode : EvalStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("defDecl");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("defDecl");
+			return childrenNames;
 		}
 	}
 
@@ -111,31 +111,31 @@ public class DefDeclStatementNode : EvalStatementNode
 	{
 		get
 		{
-		if(defDeclUnresolved == null)
-			return defDeclVar;
+			if(defDeclUnresolved == null)
+				return defDeclVar;
 
-		if(defDeclUnresolved is VarDeclNode)
-		{
-			defDeclVar = (VarDeclNode)defDeclUnresolved;
-			return defDeclVar;
-		}
-		else if(defDeclUnresolved is SingleNodeConnNode)
-		{
-			SingleNodeConnNode sncn = (SingleNodeConnNode)defDeclUnresolved;
-			defDeclGraphElement = (NodeDeclNode)sncn.nodeUnresolved;
-			return defDeclGraphElement;
-		}
-		else if(defDeclUnresolved is ConstraintDeclNode)
-		{
-			defDeclGraphElement = (ConstraintDeclNode)defDeclUnresolved;
-			return defDeclGraphElement;
-		}
-		else
-		{
-			ConnectionNode cn = (ConnectionNode)defDeclUnresolved;
-			defDeclGraphElement = ((EdgeDeclNode)cn.edgeUnresolved);
-			return defDeclGraphElement;
-		}
+			if(defDeclUnresolved is VarDeclNode)
+			{
+				defDeclVar = (VarDeclNode)defDeclUnresolved;
+				return defDeclVar;
+			}
+			else if(defDeclUnresolved is SingleNodeConnNode)
+			{
+				SingleNodeConnNode sncn = (SingleNodeConnNode)defDeclUnresolved;
+				defDeclGraphElement = (NodeDeclNode)sncn.nodeUnresolved;
+				return defDeclGraphElement;
+			}
+			else if(defDeclUnresolved is ConstraintDeclNode)
+			{
+				defDeclGraphElement = (ConstraintDeclNode)defDeclUnresolved;
+				return defDeclGraphElement;
+			}
+			else
+			{
+				ConnectionNode cn = (ConnectionNode)defDeclUnresolved;
+				defDeclGraphElement = ((EdgeDeclNode)cn.edgeUnresolved);
+				return defDeclGraphElement;
+			}
 		}
 	}
 

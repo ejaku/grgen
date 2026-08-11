@@ -153,11 +153,11 @@ public class Rule : MatchingAction, ContainedInPackage
 	{
 		get
 		{
-		return packageContainedIn;
+			return packageContainedIn;
 		}
 		set
 		{
-		this.packageContainedIn = value;
+			this.packageContainedIn = value;
 		}
 	}
 
@@ -172,7 +172,7 @@ public class Rule : MatchingAction, ContainedInPackage
 	{
 		get
 		{
-		return evalStatements.AsReadOnly();
+			return evalStatements.AsReadOnly();
 		}
 	}
 
@@ -189,9 +189,9 @@ public class Rule : MatchingAction, ContainedInPackage
 	{
 		get
 		{
-		ICollection<Node> common = new HashSet<Node>(pattern.Nodes);
-		common.RetainAll(right.Nodes);
-		return common;
+			ICollection<Node> common = new HashSet<Node>(pattern.Nodes);
+			common.RetainAll(right.Nodes);
+			return common;
 		}
 	}
 
@@ -201,9 +201,9 @@ public class Rule : MatchingAction, ContainedInPackage
 	{
 		get
 		{
-		ICollection<Edge> common = new HashSet<Edge>(pattern.Edges);
-		common.RetainAll(right.Edges);
-		return common;
+			ICollection<Edge> common = new HashSet<Edge>(pattern.Edges);
+			common.RetainAll(right.Edges);
+			return common;
 		}
 	}
 
@@ -212,9 +212,9 @@ public class Rule : MatchingAction, ContainedInPackage
 	{
 		get
 		{
-		ICollection<SubpatternUsage> common = new HashSet<SubpatternUsage>(pattern.SubpatternUsages);
-		common.RetainAll(right.SubpatternUsages);
-		return common;
+			ICollection<SubpatternUsage> common = new HashSet<SubpatternUsage>(pattern.SubpatternUsages);
+			common.RetainAll(right.SubpatternUsages);
+			return common;
 		}
 	}
 
@@ -223,7 +223,7 @@ public class Rule : MatchingAction, ContainedInPackage
 	{
 		get
 		{
-		return pattern;
+			return pattern;
 		}
 	}
 
@@ -232,7 +232,7 @@ public class Rule : MatchingAction, ContainedInPackage
 	{
 		get
 		{
-		return right;
+			return right;
 		}
 	}
 
@@ -240,7 +240,7 @@ public class Rule : MatchingAction, ContainedInPackage
 	{
 		get
 		{
-		return implementedMatchClasses.AsReadOnly();
+			return implementedMatchClasses.AsReadOnly();
 		}
 	}
 
@@ -254,7 +254,7 @@ public class Rule : MatchingAction, ContainedInPackage
 	{
 		get
 		{
-		return minMatches;
+			return minMatches;
 		}
 	}
 
@@ -263,7 +263,7 @@ public class Rule : MatchingAction, ContainedInPackage
 	{
 		get
 		{
-		return maxMatches;
+			return maxMatches;
 		}
 	}
 

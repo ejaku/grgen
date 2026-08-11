@@ -32,7 +32,7 @@ public class MapVarAddItem : ContainerVarProcedureMethodInvocationBase
 	{
 		get
 		{
-		return keyExpr;
+			return keyExpr;
 		}
 	}
 
@@ -40,7 +40,7 @@ public class MapVarAddItem : ContainerVarProcedureMethodInvocationBase
 	{
 		get
 		{
-		return valueExpr;
+			return valueExpr;
 		}
 	}
 

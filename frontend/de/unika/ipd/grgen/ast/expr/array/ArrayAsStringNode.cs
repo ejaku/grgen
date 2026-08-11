@@ -44,10 +44,10 @@ public class ArrayAsStringNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(targetExpr);
-		children.Add(valueExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(targetExpr);
+			children.Add(valueExpr);
+			return children;
 		}
 	}
 
@@ -55,10 +55,10 @@ public class ArrayAsStringNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("targetExpr");
-		childrenNames.Add("valueExpr");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("targetExpr");
+			childrenNames.Add("valueExpr");
+			return childrenNames;
 		}
 	}
 
@@ -92,7 +92,7 @@ public class ArrayAsStringNode : ArrayFunctionMethodInvocationBaseExprNode
 	{
 		get
 		{
-		return BasicTypeNode.stringType;
+			return BasicTypeNode.stringType;
 		}
 	}
 

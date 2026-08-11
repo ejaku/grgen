@@ -27,7 +27,7 @@ public class FilterInvocationBase : Identifiable
 	{
 		get
 		{
-		return iteratedAction;
+			return iteratedAction;
 		}
 	}
 }

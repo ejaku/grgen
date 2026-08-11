@@ -38,7 +38,7 @@ public class Alternative : Identifiable
 	{
 		get
 		{
-		return alternativeCases;
+			return alternativeCases;
 		}
 	}
 
@@ -51,7 +51,7 @@ public class Alternative : Identifiable
 	{
 		get
 		{
-		return Ident.ToString();
+			return Ident.ToString();
 		}
 	}
 }

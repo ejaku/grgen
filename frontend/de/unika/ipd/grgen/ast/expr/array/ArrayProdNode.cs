@@ -49,8 +49,8 @@ public class ArrayProdNode : ArrayAccumulationMethodNode
 	{
 		get
 		{
-		ArrayTypeNode arrayType = TargetTypeExact;
-		return BasicTypeNode.GetArrayAccumulationResultType(arrayType.valueType);
+			ArrayTypeNode arrayType = TargetTypeExact;
+			return BasicTypeNode.GetArrayAccumulationResultType(arrayType.valueType);
 		}
 	}
 
@@ -63,7 +63,7 @@ public class ArrayProdNode : ArrayAccumulationMethodNode
 	{
 		get
 		{
-		return TypeNode.AccumulationTargetTypesAsString;
+			return TypeNode.AccumulationTargetTypesAsString;
 		}
 	}
 

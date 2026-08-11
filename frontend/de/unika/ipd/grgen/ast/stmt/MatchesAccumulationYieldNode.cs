@@ -61,11 +61,11 @@ public class MatchesAccumulationYieldNode : NestingStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
-		children.Add(GetValidVersion(matchesContainerUnresolved, matchesContainer));
-		children.Add(statements);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
+			children.Add(GetValidVersion(matchesContainerUnresolved, matchesContainer));
+			children.Add(statements);
+			return children;
 		}
 	}
 
@@ -75,11 +75,11 @@ public class MatchesAccumulationYieldNode : NestingStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("iterationVariable");
-		childrenNames.Add("matchesContainer");
-		childrenNames.Add("accumulationStatements");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("iterationVariable");
+			childrenNames.Add("matchesContainer");
+			childrenNames.Add("accumulationStatements");
+			return childrenNames;
 		}
 	}
 

@@ -65,13 +65,13 @@ public class MatchByIndexAccessOrderingPartNode : BaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersion(indexUnresolved, index));
-		if(expr != null)
-			children.Add(expr);
-		if(expr2 != null)
-			children.Add(expr2);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersion(indexUnresolved, index));
+			if(expr != null)
+				children.Add(expr);
+			if(expr2 != null)
+				children.Add(expr2);
+			return children;
 		}
 	}
 
@@ -81,13 +81,13 @@ public class MatchByIndexAccessOrderingPartNode : BaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("index");
-		if(expr != null)
-			childrenNames.Add("expression");
-		if(expr2 != null)
-			childrenNames.Add("expression2");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("index");
+			if(expr != null)
+				childrenNames.Add("expression");
+			if(expr2 != null)
+				childrenNames.Add("expression2");
+			return childrenNames;
 		}
 	}
 

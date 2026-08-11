@@ -33,7 +33,7 @@ public class GraphEntityExpression : Expression
 	{
 		get
 		{
-		return graphEntity;
+			return graphEntity;
 		}
 	}
 

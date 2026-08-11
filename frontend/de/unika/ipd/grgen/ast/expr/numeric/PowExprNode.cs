@@ -53,11 +53,11 @@ public class PowExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		if(leftExpr != null)
-			children.Add(leftExpr);
-		children.Add(rightExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			if(leftExpr != null)
+				children.Add(leftExpr);
+			children.Add(rightExpr);
+			return children;
 		}
 	}
 
@@ -65,11 +65,11 @@ public class PowExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		if(leftExpr != null)
-			childrenNames.Add("left");
-		childrenNames.Add("right");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			if(leftExpr != null)
+				childrenNames.Add("left");
+			childrenNames.Add("right");
+			return childrenNames;
 		}
 	}
 
@@ -106,7 +106,7 @@ public class PowExprNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		return BasicTypeNode.doubleType;
+			return BasicTypeNode.doubleType;
 		}
 	}
 }

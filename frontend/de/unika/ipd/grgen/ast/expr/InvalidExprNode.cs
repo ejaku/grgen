@@ -36,9 +36,9 @@ public class InvalidExprNode : ExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		// no children
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			// no children
+			return children;
 		}
 	}
 
@@ -48,9 +48,9 @@ public class InvalidExprNode : ExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// no children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// no children
+			return childrenNames;
 		}
 	}
 
@@ -70,7 +70,7 @@ public class InvalidExprNode : ExprNode
 	{
 		get
 		{
-		return BasicTypeNode.errorType;
+			return BasicTypeNode.errorType;
 		}
 	}
 
@@ -83,7 +83,7 @@ public class InvalidExprNode : ExprNode
 	{
 		get
 		{
-		return "invalid expression";
+			return "invalid expression";
 		}
 	}
 }

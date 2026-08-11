@@ -79,11 +79,11 @@ public abstract class RhsDeclNode : DeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, type));
-		children.Add(patternGraph);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, type));
+			children.Add(patternGraph);
+			return children;
 		}
 	}
 
@@ -93,11 +93,11 @@ public abstract class RhsDeclNode : DeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("right");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("right");
+			return childrenNames;
 		}
 	}
 
@@ -105,7 +105,7 @@ public abstract class RhsDeclNode : DeclNode
 	{
 		get
 		{
-		return patternGraph;
+			return patternGraph;
 		}
 	}
 
@@ -343,9 +343,9 @@ public abstract class RhsDeclNode : DeclNode
 	{
 		get
 		{
-		Debug.Assert(IsResolved());
+			Debug.Assert(IsResolved());
 
-		return type;
+			return type;
 		}
 	}
 

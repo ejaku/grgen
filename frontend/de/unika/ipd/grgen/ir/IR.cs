@@ -57,7 +57,7 @@ public abstract class IR : Base, GraphDumpable, XMLDumpable
 	{
 		get
 		{
-		return name;
+			return name;
 		}
 		set // Set the name of this IR object.
 		{
@@ -82,7 +82,7 @@ public abstract class IR : Base, GraphDumpable, XMLDumpable
 	{
 		set
 		{
-		this.childrenNames = value;
+			this.childrenNames = value;
 		}
 	}
 
@@ -118,7 +118,7 @@ public abstract class IR : Base, GraphDumpable, XMLDumpable
 	{
 		get
 		{
-		return Name.Replace(' ', '_');
+			return Name.Replace(' ', '_');
 		}
 	}
 
@@ -127,7 +127,7 @@ public abstract class IR : Base, GraphDumpable, XMLDumpable
 	{
 		get
 		{
-		return Name.Replace(' ', '_') + "_ref";
+			return Name.Replace(' ', '_') + "_ref";
 		}
 	}
 
@@ -144,7 +144,7 @@ public abstract class IR : Base, GraphDumpable, XMLDumpable
 	{
 		get
 		{
-		return Id;
+			return Id;
 		}
 	}
 
@@ -157,7 +157,7 @@ public abstract class IR : Base, GraphDumpable, XMLDumpable
 	{
 		get
 		{
-		return Id;
+			return Id;
 		}
 	}
 
@@ -166,7 +166,7 @@ public abstract class IR : Base, GraphDumpable, XMLDumpable
 	{
 		get
 		{
-		return Color.WHITE;
+			return Color.WHITE;
 		}
 	}
 
@@ -175,7 +175,7 @@ public abstract class IR : Base, GraphDumpable, XMLDumpable
 	{
 		get
 		{
-		return GraphDumper.DEFAULT;
+			return GraphDumper.DEFAULT;
 		}
 	}
 
@@ -184,7 +184,7 @@ public abstract class IR : Base, GraphDumpable, XMLDumpable
 	{
 		get
 		{
-		return name;
+			return name;
 		}
 	}
 
@@ -193,7 +193,7 @@ public abstract class IR : Base, GraphDumpable, XMLDumpable
 	{
 		get
 		{
-		return "ID: " + Id;
+			return "ID: " + Id;
 		}
 	}
 

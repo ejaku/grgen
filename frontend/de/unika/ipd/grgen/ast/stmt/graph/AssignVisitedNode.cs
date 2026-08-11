@@ -61,10 +61,10 @@ public class AssignVisitedNode : EvalStatementNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(lhs);
-		children.Add(rhs);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(lhs);
+			children.Add(rhs);
+			return children;
 		}
 	}
 
@@ -74,10 +74,10 @@ public class AssignVisitedNode : EvalStatementNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("lhs");
-		childrenNames.Add("rhs");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("lhs");
+			childrenNames.Add("rhs");
+			return childrenNames;
 		}
 	}
 

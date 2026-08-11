@@ -41,10 +41,10 @@ public class RandomNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		if(numExpr != null)
-			children.Add(numExpr);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			if(numExpr != null)
+				children.Add(numExpr);
+			return children;
 		}
 	}
 
@@ -52,10 +52,10 @@ public class RandomNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		if(numExpr != null)
-			childrenNames.Add("maximum random number");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			if(numExpr != null)
+				childrenNames.Add("maximum random number");
+			return childrenNames;
 		}
 	}
 
@@ -82,9 +82,9 @@ public class RandomNode : BuiltinFunctionInvocationBaseNode
 	{
 		get
 		{
-		// if a parameter was given random returns an random integer number from 0 up to excluding numExpr,
-		// otherwise a random double in the range [0,1] is returned
-		return numExpr != null ? BasicTypeNode.intType : BasicTypeNode.doubleType;
+			// if a parameter was given random returns an random integer number from 0 up to excluding numExpr,
+			// otherwise a random double in the range [0,1] is returned
+			return numExpr != null ? BasicTypeNode.intType : BasicTypeNode.doubleType;
 		}
 	}
 }

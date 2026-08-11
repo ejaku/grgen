@@ -28,7 +28,7 @@ public class NodeByNameExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return name;
+			return name;
 		}
 	}
 
@@ -36,7 +36,7 @@ public class NodeByNameExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return nodeType;
+			return nodeType;
 		}
 	}
 

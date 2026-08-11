@@ -27,7 +27,7 @@ public class Nameof : Expression
 	{
 		get
 		{
-		return namedEntity;
+			return namedEntity;
 		}
 	}
 

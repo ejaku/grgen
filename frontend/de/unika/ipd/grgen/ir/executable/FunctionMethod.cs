@@ -32,11 +32,11 @@ public class FunctionMethod : Function
 	{
 		get
 		{
-		return owner;
+			return owner;
 		}
 		set
 		{
-		owner = value;
+			owner = value;
 		}
 	}
 

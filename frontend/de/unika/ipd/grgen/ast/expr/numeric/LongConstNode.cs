@@ -33,7 +33,7 @@ public class LongConstNode : ConstNode
 	{
 		get
 		{
-		return BasicTypeNode.longType;
+			return BasicTypeNode.longType;
 		}
 	}
 

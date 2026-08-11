@@ -46,7 +46,7 @@ public class ArrayInit : Expression
 	{
 		get
 		{
-		return arrayItems;
+			return arrayItems;
 		}
 	}
 
@@ -54,12 +54,12 @@ public class ArrayInit : Expression
 	{
 		set
 		{
-		Debug.Assert((member == null && value != null));
-		member = value;
+			Debug.Assert((member == null && value != null));
+			member = value;
 		}
 		get
 		{
-		return member;
+			return member;
 		}
 	}
 
@@ -68,7 +68,7 @@ public class ArrayInit : Expression
 	{
 		get
 		{
-		return arrayType;
+			return arrayType;
 		}
 	}
 
@@ -86,7 +86,7 @@ public class ArrayInit : Expression
 	{
 		get
 		{
-		return "anonymous_array_" + Id;
+			return "anonymous_array_" + Id;
 		}
 	}
 }

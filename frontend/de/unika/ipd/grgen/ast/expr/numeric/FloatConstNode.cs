@@ -27,7 +27,7 @@ public class FloatConstNode : ConstNode
 	{
 		get
 		{
-		return BasicTypeNode.floatType;
+			return BasicTypeNode.floatType;
 		}
 	}
 

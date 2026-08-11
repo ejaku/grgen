@@ -44,7 +44,7 @@ public abstract class ConstNode : OperatorNode
 	{
 		get
 		{
-		return INVALID;
+			return INVALID;
 		}
 	}
 
@@ -62,9 +62,9 @@ public abstract class ConstNode : OperatorNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		// no children
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			// no children
+			return children;
 		}
 	}
 
@@ -74,9 +74,9 @@ public abstract class ConstNode : OperatorNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		// no children
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			// no children
+			return childrenNames;
 		}
 	}
 
@@ -93,7 +93,7 @@ public abstract class ConstNode : OperatorNode
 	{
 		get
 		{
-		return value;
+			return value;
 		}
 	}
 
@@ -109,7 +109,7 @@ public abstract class ConstNode : OperatorNode
 	{
 		get
 		{
-		return ToString();
+			return ToString();
 		}
 	}
 
@@ -120,7 +120,7 @@ public abstract class ConstNode : OperatorNode
 	{
 		get
 		{
-		return CheckIR(typeof(Constant));
+			return CheckIR(typeof(Constant));
 		}
 	}
 
@@ -135,7 +135,7 @@ public abstract class ConstNode : OperatorNode
 	{
 		get
 		{
-		return BasicTypeNode.errorType;
+			return BasicTypeNode.errorType;
 		}
 	}
 

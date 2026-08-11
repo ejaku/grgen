@@ -49,7 +49,7 @@ public class ArrayMedUnorderedNode : ArrayAccumulationMethodNode
 	{
 		get
 		{
-		return BasicTypeNode.doubleType;
+			return BasicTypeNode.doubleType;
 		}
 	}
 
@@ -62,7 +62,7 @@ public class ArrayMedUnorderedNode : ArrayAccumulationMethodNode
 	{
 		get
 		{
-		return "double";
+			return "double";
 		}
 	}
 

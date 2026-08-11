@@ -28,7 +28,7 @@ public class MinMaxFromIndexExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return index;
+			return index;
 		}
 	}
 

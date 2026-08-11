@@ -32,11 +32,11 @@ public abstract class BooleanResultVisitor : ResultVisitor<bool>
 	{
 		set
 		{
-		result = value;
+			result = value;
 		}
 		get
 		{
-		return new bool?(result);
+			return new bool?(result);
 		}
 	}
 

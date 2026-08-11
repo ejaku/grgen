@@ -60,7 +60,7 @@ public class CountReachableNodeExprNode : NeighborhoodQueryExprNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 }

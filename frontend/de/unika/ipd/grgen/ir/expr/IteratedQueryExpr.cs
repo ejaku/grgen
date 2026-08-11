@@ -29,7 +29,7 @@ public class IteratedQueryExpr : Expression
 	{
 		get
 		{
-		return iteratedName;
+			return iteratedName;
 		}
 	}
 }

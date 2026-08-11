@@ -45,7 +45,7 @@ public class CountNodesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
 	{
 		get
 		{
-		return NodeRoot;
+			return NodeRoot;
 		}
 	}
 
@@ -58,7 +58,7 @@ public class CountNodesFromIndexAccessSameExprNode : FromIndexAccessSameExprNode
 	{
 		get
 		{
-		return BasicTypeNode.intType;
+			return BasicTypeNode.intType;
 		}
 	}
 

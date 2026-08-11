@@ -30,7 +30,7 @@ public class EqualsAnyExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return subgraphExpr;
+			return subgraphExpr;
 		}
 	}
 
@@ -38,7 +38,7 @@ public class EqualsAnyExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return setExpr;
+			return setExpr;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class EqualsAnyExpr : BuiltinFunctionInvocationExpr
 	{
 		get
 		{
-		return includingAttributes;
+			return includingAttributes;
 		}
 	}
 

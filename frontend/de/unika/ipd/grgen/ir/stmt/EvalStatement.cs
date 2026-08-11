@@ -34,11 +34,11 @@ public abstract class EvalStatement : IR, OrderedReplacement
 	{
 		get
 		{
-		return next;
+			return next;
 		}
 		set
 		{
-		this.next = value;
+			this.next = value;
 		}
 	}
 

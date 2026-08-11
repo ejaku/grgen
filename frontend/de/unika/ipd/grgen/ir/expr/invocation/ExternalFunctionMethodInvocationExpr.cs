@@ -41,7 +41,7 @@ public class ExternalFunctionMethodInvocationExpr : FunctionInvocationBaseExpr
 	{
 		get
 		{
-		return owner;
+			return owner;
 		}
 	}
 
@@ -49,7 +49,7 @@ public class ExternalFunctionMethodInvocationExpr : FunctionInvocationBaseExpr
 	{
 		get
 		{
-		return externalFunction;
+			return externalFunction;
 		}
 	}
 

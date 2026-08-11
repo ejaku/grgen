@@ -28,7 +28,7 @@ public class CountBoundedReachableNodeExpr : NeighborhoodQueryExpr
 	{
 		get
 		{
-		return depthExpr;
+			return depthExpr;
 		}
 	}
 

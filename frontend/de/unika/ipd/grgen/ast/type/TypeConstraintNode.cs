@@ -62,9 +62,9 @@ public class TypeConstraintNode : TypeExprNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(GetValidVersionCollectNode(operandsUnresolved, operands));
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(GetValidVersionCollectNode(operandsUnresolved, operands));
+			return children;
 		}
 	}
 
@@ -74,9 +74,9 @@ public class TypeConstraintNode : TypeExprNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("operands");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("operands");
+			return childrenNames;
 		}
 	}
 

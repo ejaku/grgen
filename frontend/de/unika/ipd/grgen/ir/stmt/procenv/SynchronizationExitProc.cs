@@ -29,7 +29,7 @@ public class SynchronizationExitProc : BuiltinProcedureInvocationBase
 	{
 		get
 		{
-		return criticalSectionObjectExpr;
+			return criticalSectionObjectExpr;
 		}
 	}
 

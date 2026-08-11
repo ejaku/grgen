@@ -61,16 +61,16 @@ public class MatchEdgeByIndexAccessOrderingDeclNode : MatchEdgeByIndexDeclNode
 	{
 		get
 		{
-		IList<BaseNode> children = new List<BaseNode>();
-		children.Add(ident);
-		children.Add(GetValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
-		children.Add(constraints);
-		children.Add(GetValidVersion(indexUnresolved, index));
-		if(expr != null)
-			children.Add(expr);
-		if(expr2 != null)
-			children.Add(expr2);
-		return children;
+			IList<BaseNode> children = new List<BaseNode>();
+			children.Add(ident);
+			children.Add(GetValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
+			children.Add(constraints);
+			children.Add(GetValidVersion(indexUnresolved, index));
+			if(expr != null)
+				children.Add(expr);
+			if(expr2 != null)
+				children.Add(expr2);
+			return children;
 		}
 	}
 
@@ -80,16 +80,16 @@ public class MatchEdgeByIndexAccessOrderingDeclNode : MatchEdgeByIndexDeclNode
 	{
 		get
 		{
-		IList<string> childrenNames = new List<string>();
-		childrenNames.Add("ident");
-		childrenNames.Add("type");
-		childrenNames.Add("constraints");
-		childrenNames.Add("index");
-		if(expr != null)
-			childrenNames.Add("expression");
-		if(expr2 != null)
-			childrenNames.Add("expression2");
-		return childrenNames;
+			IList<string> childrenNames = new List<string>();
+			childrenNames.Add("ident");
+			childrenNames.Add("type");
+			childrenNames.Add("constraints");
+			childrenNames.Add("index");
+			if(expr != null)
+				childrenNames.Add("expression");
+			if(expr2 != null)
+				childrenNames.Add("expression2");
+			return childrenNames;
 		}
 	}
 
