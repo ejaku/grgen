@@ -1,35 +1,35 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * Generates the index part of the SearchPlanBackend2 model.
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// Generates the index part of the SearchPlanBackend2 model.
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.be.Csharp;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.model.AttributeIndex;
-import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
-import de.unika.ipd.grgen.ir.model.Index;
-import de.unika.ipd.grgen.ir.model.Model;
-import de.unika.ipd.grgen.ir.model.type.NodeType;
-import de.unika.ipd.grgen.ir.type.basic.BooleanType;
-import de.unika.ipd.grgen.ir.type.basic.StringType;
-import de.unika.ipd.grgen.util.Direction;
-import de.unika.ipd.grgen.util.SourceBuilder;
-
-public class ModelIndexGen extends CSharpBase
+namespace de.unika.ipd.grgen.be.Csharp
 {
-	public ModelIndexGen(Model model, SourceBuilder sb, String nodeTypePrefix, String edgeTypePrefix,
-			String objectTypePrefix, String transientObjectTypePrefix)
+using de.unika.ipd.grgen.ir;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using AttributeIndex = de.unika.ipd.grgen.ir.model.AttributeIndex;
+using IncidenceCountIndex = de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
+using Index = de.unika.ipd.grgen.ir.model.Index;
+using Model = de.unika.ipd.grgen.ir.model.Model;
+using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
+using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
+using Direction = de.unika.ipd.grgen.util.Direction;
+using SourceBuilder = de.unika.ipd.grgen.util.SourceBuilder;
+
+public class ModelIndexGen : CSharpBase
+{
+	public ModelIndexGen(Model model, SourceBuilder sb, string nodeTypePrefix, string edgeTypePrefix,
+			string objectTypePrefix, string transientObjectTypePrefix)
+		: base(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix)
 	{
-		super(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		this.model = model;
 		this.sb = sb;
 	}
@@ -38,428 +38,434 @@ public class ModelIndexGen extends CSharpBase
 	// Index generation //
 	////////////////////////////
 
-	void genIndexTypes()
+	internal virtual void GenIndexTypes()
 	{
-		for(Index index : model.getIndices()) {
-			genIndexType(index);
-		}
+		foreach(Index index in model.Indices)
+			GenIndexType(index);
 	}
 
-	void genIndexType(Index index)
+	internal virtual void GenIndexType(Index index)
 	{
-		String indexName = index.getIdent().toString();
-		String lookupType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
-		String graphElementType = index instanceof AttributeIndex
-				? formatElementInterfaceRef(((AttributeIndex)index).type)
-				: formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
-		if(index instanceof AttributeIndex) {
-			sb.appendFront("interface Index" + indexName + " : GRGEN_LIBGR.IAttributeIndex\n");
-		} else if(index instanceof IncidenceCountIndex) {
-			sb.appendFront("interface Index" + indexName + " : GRGEN_LIBGR.IIncidenceCountIndex\n");
-		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("IEnumerable<" + graphElementType + "> Lookup("
+		string indexName = index.Ident.ToString();
+		string lookupType = index is AttributeIndex ? FormatAttributeType(((AttributeIndex)index).entity) : "int";
+		string graphElementType = index is AttributeIndex
+				? FormatElementInterfaceRef(((AttributeIndex)index).type)
+				: FormatElementInterfaceRef(((IncidenceCountIndex)index).StartNodeType);
+		if(index is AttributeIndex)
+			sb.AppendFront("interface Index" + indexName + " : GRGEN_LIBGR.IAttributeIndex\n");
+		else if(index is IncidenceCountIndex)
+			sb.AppendFront("interface Index" + indexName + " : GRGEN_LIBGR.IIncidenceCountIndex\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("IEnumerable<" + graphElementType + "> Lookup("
 				+ lookupType + " fromto);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscending();\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupAscending();\n");
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusive("
 				+ lookupType + " from);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusive("
 				+ lookupType + " from);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingToInclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupAscendingToInclusive("
 				+ lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingToExclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupAscendingToExclusive("
 				+ lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToInclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToInclusive("
 				+ lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToExclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToExclusive("
 				+ lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToInclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToInclusive("
 				+ lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToExclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToExclusive("
 				+ lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescending();\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupDescending();\n");
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusive("
 				+ lookupType + " from);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusive("
 				+ lookupType + " from);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingToInclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupDescendingToInclusive("
 				+ lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingToExclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupDescendingToExclusive("
 				+ lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToInclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToInclusive("
 				+ lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToExclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToExclusive("
 				+ lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToInclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToInclusive("
 				+ lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToExclusive("
+		sb.AppendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToExclusive("
 				+ lookupType + " from, " + lookupType + " to);\n");
-		if(index instanceof IncidenceCountIndex) {
-			sb.appendFront("int GetIncidenceCount(" + graphElementType + " element);\n");
-		}
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		if(index is IncidenceCountIndex)
+			sb.AppendFront("int GetIncidenceCount(" + graphElementType + " element);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genIndexImplementations()
+	internal virtual void GenIndexImplementations()
 	{
 		int i = 0;
-		for(Index index : model.getIndices()) {
-			if(index instanceof AttributeIndex) {
-				genIndexImplementation((AttributeIndex)index, i);
-			} else {
-				genIndexImplementation((IncidenceCountIndex)index, i);
-			}
+		foreach(Index index in model.Indices)
+		{
+			if(index is AttributeIndex)
+				GenIndexImplementation((AttributeIndex)index, i);
+			else
+				GenIndexImplementation((IncidenceCountIndex)index, i);
 			++i;
 		}
 	}
 
-	void genIndexImplementation(AttributeIndex index, int indexNum)
+	internal virtual void GenIndexImplementation(AttributeIndex index, int indexNum)
 	{
-		String indexName = index.getIdent().toString();
-		String graphElementType = formatElementInterfaceRef(index.type);
-		String modelName = model.getIdent().toString() + "GraphModel";
-		sb.appendFront("public class Index" + indexName + "Impl : Index" + indexName + "\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		string indexName = index.Ident.ToString();
+		string graphElementType = FormatElementInterfaceRef(index.type);
+		string modelName = model.Ident.ToString() + "GraphModel";
+		sb.AppendFront("public class Index" + indexName + "Impl : Index" + indexName + "\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("public GRGEN_LIBGR.IndexDescription Description { get { return "
+		sb.AppendFront("public GRGEN_LIBGR.IndexDescription Description { get { return "
 				+ modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
-		sb.append("\n");
+		sb.Append("\n");
 
-		sb.appendFront("public int Size { get { return count; } }\n");
-		sb.append("\n");
+		sb.AppendFront("public int Size { get { return count; } }\n");
+		sb.Append("\n");
 
-		sb.appendFront("protected class TreeNode\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("// search tree structure\n");
-		sb.appendFront("public TreeNode left;\n");
-		sb.appendFront("public TreeNode right;\n");
-		sb.appendFront("public int level;\n");
-		sb.append("\n");
-		sb.appendFront("// user data\n");
-		sb.appendFront("public " + graphElementType + " value;\n");
-		sb.append("\n");
-		sb.appendFront("// for the bottom node, operating as sentinel\n");
-		sb.appendFront("public TreeNode()\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("left = this;\n");
-		sb.appendFront("right = this;\n");
-		sb.appendFront("level = 0;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
-		sb.appendFront("// for regular nodes (that are born as leaf nodes)\n");
-		sb.appendFront("public TreeNode(" + graphElementType + " value, TreeNode bottom)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("left = bottom;\n");
-		sb.appendFront("right = bottom;\n");
-		sb.appendFront("level = 1;\n");
-		sb.append("\n");
-		sb.appendFront("this.value = value;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
-		sb.appendFront("// for copy constructing from other index\n");
-		sb.appendFront("public TreeNode(TreeNode left, TreeNode right, int level, " + graphElementType + " value)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("this.left = left;\n");
-		sb.appendFront("this.right = right;\n");
-		sb.appendFront("this.level = level;\n");
-		sb.append("\n");
-		sb.appendFront("this.value = value;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("protected class TreeNode\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("// search tree structure\n");
+		sb.AppendFront("public TreeNode left;\n");
+		sb.AppendFront("public TreeNode right;\n");
+		sb.AppendFront("public int level;\n");
+		sb.Append("\n");
+		sb.AppendFront("// user data\n");
+		sb.AppendFront("public " + graphElementType + " value;\n");
+		sb.Append("\n");
+		sb.AppendFront("// for the bottom node, operating as sentinel\n");
+		sb.AppendFront("public TreeNode()\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("left = this;\n");
+		sb.AppendFront("right = this;\n");
+		sb.AppendFront("level = 0;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
+		sb.AppendFront("// for regular nodes (that are born as leaf nodes)\n");
+		sb.AppendFront("public TreeNode(" + graphElementType + " value, TreeNode bottom)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("left = bottom;\n");
+		sb.AppendFront("right = bottom;\n");
+		sb.AppendFront("level = 1;\n");
+		sb.Append("\n");
+		sb.AppendFront("this.value = value;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
+		sb.AppendFront("// for copy constructing from other index\n");
+		sb.AppendFront("public TreeNode(TreeNode left, TreeNode right, int level, " + graphElementType + " value)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("this.left = left;\n");
+		sb.AppendFront("this.right = right;\n");
+		sb.AppendFront("this.level = level;\n");
+		sb.Append("\n");
+		sb.AppendFront("this.value = value;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("protected TreeNode root;\n");
-		sb.appendFront("protected TreeNode bottom;\n");
-		sb.appendFront("protected TreeNode deleted;\n");
-		sb.appendFront("protected TreeNode last;\n");
-		sb.appendFront("protected int count;\n");
-		sb.appendFront("protected int version;\n");
-		sb.append("\n");
+		sb.AppendFront("protected TreeNode root;\n");
+		sb.AppendFront("protected TreeNode bottom;\n");
+		sb.AppendFront("protected TreeNode deleted;\n");
+		sb.AppendFront("protected TreeNode last;\n");
+		sb.AppendFront("protected int count;\n");
+		sb.AppendFront("protected int version;\n");
+		sb.Append("\n");
 
-		genEqualElementEntry(index);
-		genEqualEntry(index);
+		GenEqualElementEntry(index);
+		GenEqualEntry(index);
 
-		genAscendingElementEntry(index, false, true, false, true);
-		genAscendingEntry(index, false, true, false, true);
-		genAscendingElementEntry(index, true, true, false, true);
-		genAscendingEntry(index, true, true, false, true);
-		genAscendingElementEntry(index, true, false, false, true);
-		genAscendingEntry(index, true, false, false, true);
-		genAscendingElementEntry(index, false, true, true, true);
-		genAscendingEntry(index, false, true, true, true);
-		genAscendingElementEntry(index, false, true, true, false);
-		genAscendingEntry(index, false, true, true, false);
-		genAscendingElementEntry(index, true, true, true, true);
-		genAscendingEntry(index, true, true, true, true);
-		genAscendingElementEntry(index, true, true, true, false);
-		genAscendingEntry(index, true, true, true, false);
-		genAscendingElementEntry(index, true, false, true, true);
-		genAscendingEntry(index, true, false, true, true);
-		genAscendingElementEntry(index, true, false, true, false);
-		genAscendingEntry(index, true, false, true, false);
+		GenAscendingElementEntry(index, false, true, false, true);
+		GenAscendingEntry(index, false, true, false, true);
+		GenAscendingElementEntry(index, true, true, false, true);
+		GenAscendingEntry(index, true, true, false, true);
+		GenAscendingElementEntry(index, true, false, false, true);
+		GenAscendingEntry(index, true, false, false, true);
+		GenAscendingElementEntry(index, false, true, true, true);
+		GenAscendingEntry(index, false, true, true, true);
+		GenAscendingElementEntry(index, false, true, true, false);
+		GenAscendingEntry(index, false, true, true, false);
+		GenAscendingElementEntry(index, true, true, true, true);
+		GenAscendingEntry(index, true, true, true, true);
+		GenAscendingElementEntry(index, true, true, true, false);
+		GenAscendingEntry(index, true, true, true, false);
+		GenAscendingElementEntry(index, true, false, true, true);
+		GenAscendingEntry(index, true, false, true, true);
+		GenAscendingElementEntry(index, true, false, true, false);
+		GenAscendingEntry(index, true, false, true, false);
 
-		genDescendingElementEntry(index, false, true, false, true);
-		genDescendingEntry(index, false, true, false, true);
-		genDescendingElementEntry(index, true, true, false, true);
-		genDescendingEntry(index, true, true, false, true);
-		genDescendingElementEntry(index, true, false, false, true);
-		genDescendingEntry(index, true, false, false, true);
-		genDescendingElementEntry(index, false, true, true, true);
-		genDescendingEntry(index, false, true, true, true);
-		genDescendingElementEntry(index, false, true, true, false);
-		genDescendingEntry(index, false, true, true, false);
-		genDescendingElementEntry(index, true, true, true, true);
-		genDescendingEntry(index, true, true, true, true);
-		genDescendingElementEntry(index, true, true, true, false);
-		genDescendingEntry(index, true, true, true, false);
-		genDescendingElementEntry(index, true, false, true, true);
-		genDescendingEntry(index, true, false, true, true);
-		genDescendingElementEntry(index, true, false, true, false);
-		genDescendingEntry(index, true, false, true, false);
+		GenDescendingElementEntry(index, false, true, false, true);
+		GenDescendingEntry(index, false, true, false, true);
+		GenDescendingElementEntry(index, true, true, false, true);
+		GenDescendingEntry(index, true, true, false, true);
+		GenDescendingElementEntry(index, true, false, false, true);
+		GenDescendingEntry(index, true, false, false, true);
+		GenDescendingElementEntry(index, false, true, true, true);
+		GenDescendingEntry(index, false, true, true, true);
+		GenDescendingElementEntry(index, false, true, true, false);
+		GenDescendingEntry(index, false, true, true, false);
+		GenDescendingElementEntry(index, true, true, true, true);
+		GenDescendingEntry(index, true, true, true, true);
+		GenDescendingElementEntry(index, true, true, true, false);
+		GenDescendingEntry(index, true, true, true, false);
+		GenDescendingElementEntry(index, true, false, true, true);
+		GenDescendingEntry(index, true, false, true, true);
+		GenDescendingElementEntry(index, true, false, true, false);
+		GenDescendingEntry(index, true, false, true, false);
 
-		genEqual(index);
+		GenEqual(index);
 
-		genAscending(index, false, true, false, true);
-		genAscending(index, true, true, false, true);
-		genAscending(index, true, false, false, true);
-		genAscending(index, false, true, true, true);
-		genAscending(index, false, true, true, false);
-		genAscending(index, true, true, true, true);
-		genAscending(index, true, true, true, false);
-		genAscending(index, true, false, true, true);
-		genAscending(index, true, false, true, false);
+		GenAscending(index, false, true, false, true);
+		GenAscending(index, true, true, false, true);
+		GenAscending(index, true, false, false, true);
+		GenAscending(index, false, true, true, true);
+		GenAscending(index, false, true, true, false);
+		GenAscending(index, true, true, true, true);
+		GenAscending(index, true, true, true, false);
+		GenAscending(index, true, false, true, true);
+		GenAscending(index, true, false, true, false);
 
-		genDescending(index, false, true, false, true);
-		genDescending(index, true, true, false, true);
-		genDescending(index, true, false, false, true);
-		genDescending(index, false, true, true, true);
-		genDescending(index, false, true, true, false);
-		genDescending(index, true, true, true, true);
-		genDescending(index, true, true, true, false);
-		genDescending(index, true, false, true, true);
-		genDescending(index, true, false, true, false);
+		GenDescending(index, false, true, false, true);
+		GenDescending(index, true, true, false, true);
+		GenDescending(index, true, false, false, true);
+		GenDescending(index, false, true, true, true);
+		GenDescending(index, false, true, true, false);
+		GenDescending(index, true, true, true, true);
+		GenDescending(index, true, true, true, false);
+		GenDescending(index, true, false, true, true);
+		GenDescending(index, true, false, true, false);
 
-		sb.appendFront("public Index" + indexName + "Impl(GRGEN_LGSP.LGSPGraph graph)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("this.graph = graph;\n");
-		sb.append("\n");
-		sb.appendFront("// initialize AA tree used to implement the index\n");
-		sb.appendFront("bottom = new TreeNode();\n");
-		sb.appendFront("root = bottom;\n");
-		sb.appendFront("deleted = bottom;\n");
-		sb.appendFront("count = 0;\n");
-		sb.appendFront("version = 0;\n");
-		sb.append("\n");
-		sb.appendFront("graph.OnClearingGraph += ClearingGraph;\n");
-		if(index.type instanceof NodeType) {
-			sb.appendFront("graph.OnNodeAdded += Added;\n");
-			sb.appendFront("graph.OnRemovingNode += Removing;\n");
-			sb.appendFront("graph.OnChangingNodeAttribute += ChangingAttribute;\n");
-			sb.appendFront("graph.OnRetypingNode += Retyping;\n");
-		} else {
-			sb.appendFront("graph.OnEdgeAdded += Added;\n");
-			sb.appendFront("graph.OnRemovingEdge += Removing;\n");
-			sb.appendFront("graph.OnChangingEdgeAttribute += ChangingAttribute;\n");
-			sb.appendFront("graph.OnRetypingEdge += Retyping;\n");
+		sb.AppendFront("public Index" + indexName + "Impl(GRGEN_LGSP.LGSPGraph graph)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("this.graph = graph;\n");
+		sb.Append("\n");
+		sb.AppendFront("// initialize AA tree used to implement the index\n");
+		sb.AppendFront("bottom = new TreeNode();\n");
+		sb.AppendFront("root = bottom;\n");
+		sb.AppendFront("deleted = bottom;\n");
+		sb.AppendFront("count = 0;\n");
+		sb.AppendFront("version = 0;\n");
+		sb.Append("\n");
+		sb.AppendFront("graph.OnClearingGraph += ClearingGraph;\n");
+		if(index.type is NodeType)
+		{
+			sb.AppendFront("graph.OnNodeAdded += Added;\n");
+			sb.AppendFront("graph.OnRemovingNode += Removing;\n");
+			sb.AppendFront("graph.OnChangingNodeAttribute += ChangingAttribute;\n");
+			sb.AppendFront("graph.OnRetypingNode += Retyping;\n");
 		}
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		else
+		{
+			sb.AppendFront("graph.OnEdgeAdded += Added;\n");
+			sb.AppendFront("graph.OnRemovingEdge += Removing;\n");
+			sb.AppendFront("graph.OnChangingEdgeAttribute += ChangingAttribute;\n");
+			sb.AppendFront("graph.OnRetypingEdge += Retyping;\n");
+		}
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("public void FillAsClone(Index" + indexName + "Impl that, "
+		sb.AppendFront("public void FillAsClone(Index" + indexName + "Impl that, "
 				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("root = FillAsClone(that.root, that.bottom, oldToNewMap);\n");
-		sb.appendFront("count = that.count;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("root = FillAsClone(that.root, that.bottom, oldToNewMap);\n");
+		sb.AppendFront("count = that.count;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("protected TreeNode FillAsClone(TreeNode that, TreeNode otherBottom, "
+		sb.AppendFront("protected TreeNode FillAsClone(TreeNode that, TreeNode otherBottom, "
 				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(that == otherBottom)\n");
-		sb.appendFrontIndented("return bottom;\n");
-		sb.appendFront("else\n");
-		sb.indent();
-		sb.appendFront("return new TreeNode(\n");
-		sb.indent();
-		sb.appendFront("FillAsClone(that.left, otherBottom, oldToNewMap),\n");
-		sb.appendFront("FillAsClone(that.right, otherBottom, oldToNewMap),\n");
-		sb.appendFront("that.level,\n");
-		sb.appendFront("(" + graphElementType + ")oldToNewMap[that.value]\n");
-		sb.unindent();
-		sb.appendFront(");\n");
-		sb.unindent();
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(that == otherBottom)\n");
+		sb.AppendFrontIndented("return bottom;\n");
+		sb.AppendFront("else\n");
+		sb.Indent();
+		sb.AppendFront("return new TreeNode(\n");
+		sb.Indent();
+		sb.AppendFront("FillAsClone(that.left, otherBottom, oldToNewMap),\n");
+		sb.AppendFront("FillAsClone(that.right, otherBottom, oldToNewMap),\n");
+		sb.AppendFront("that.level,\n");
+		sb.AppendFront("(" + graphElementType + ")oldToNewMap[that.value]\n");
+		sb.Unindent();
+		sb.AppendFront(");\n");
+		sb.Unindent();
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		genIndexMaintainingEventHandlers(index);
+		GenIndexMaintainingEventHandlers(index);
 
-		genIndexAATreeBalancingInsertionDeletion(index);
+		GenIndexAATreeBalancingInsertionDeletion(index);
 
-		sb.appendFront("private GRGEN_LGSP.LGSPGraph graph;\n");
+		sb.AppendFront("private GRGEN_LGSP.LGSPGraph graph;\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genEqualElementEntry(Index index)
+	internal virtual void GenEqualElementEntry(Index index)
 	{
-		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
+		string attributeType = index is AttributeIndex ? FormatAttributeType(((AttributeIndex)index).entity) : "int";
 
-		sb.appendFront("public IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements(object fromto)\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		sb.AppendFront("public IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements(object fromto)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.appendFront("foreach(GRGEN_LIBGR.IGraphElement value in Lookup(root, (" + attributeType + ")fromto))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.AppendFront("foreach(GRGEN_LIBGR.IGraphElement value in Lookup(root, (" + attributeType + ")fromto))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genEqualEntry(Index index)
+	internal virtual void GenEqualEntry(Index index)
 	{
-		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
-		String graphElementType = index instanceof AttributeIndex
-				? formatElementInterfaceRef(((AttributeIndex)index).type)
-				: formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		string attributeType = index is AttributeIndex ? FormatAttributeType(((AttributeIndex)index).entity) : "int";
+		string graphElementType = index is AttributeIndex
+				? FormatElementInterfaceRef(((AttributeIndex)index).type)
+				: FormatElementInterfaceRef(((IncidenceCountIndex)index).StartNodeType);
 
-		sb.appendFront("public IEnumerable<" + graphElementType + "> Lookup(" + attributeType + " fromto)\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		sb.AppendFront("public IEnumerable<" + graphElementType + "> Lookup(" + attributeType + " fromto)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup(root, fromto))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup(root, fromto))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genEqual(AttributeIndex index)
+	internal virtual void GenEqual(AttributeIndex index)
 	{
-		String attributeType = formatAttributeType(index.entity);
-		String attributeName = index.entity.getIdent().toString();
-		String graphElementType = formatElementInterfaceRef(index.type);
+		string attributeType = FormatAttributeType(index.entity);
+		string attributeName = index.entity.Ident.ToString();
+		string graphElementType = FormatElementInterfaceRef(index.type);
 
-		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup(TreeNode current, "
-				 + attributeType + " fromto)\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		sb.AppendFront("private IEnumerable<" + graphElementType + "> Lookup(TreeNode current, "
+				+ attributeType + " fromto)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFrontIndented("yield break;\n");
-		sb.append("\n");
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.append("\n");
-		sb.appendFront("// don't go left if the value is already lower than fromto\n");
-		if(index.entity.getType() instanceof BooleanType)
-			sb.appendFront("if(current.value." + attributeName + ".CompareTo(fromto)>=0)\n");
-		else if(index.entity.getType() instanceof StringType) {
-			sb.appendFront("if(String.Compare(current.value." + attributeName
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFrontIndented("yield break;\n");
+		sb.Append("\n");
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.Append("\n");
+		sb.AppendFront("// don't go left if the value is already lower than fromto\n");
+		if(index.entity.Type is BooleanType)
+			sb.AppendFront("if(current.value." + attributeName + ".CompareTo(fromto)>=0)\n");
+		else if(index.entity.Type is StringType)
+		{
+			sb.AppendFront("if(String.Compare(current.value." + attributeName
 					+ ", fromto, StringComparison.InvariantCulture)>=0)\n");
-		} else
-			sb.appendFront("if(current.value." + attributeName + " >= fromto)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup(current.left, fromto))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		}
+		else
+			sb.AppendFront("if(current.value." + attributeName + " >= fromto)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup(current.left, fromto))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("// (only) yield a value that is equal to fromto\n");
-		sb.appendFront("if(current.value." + attributeName + " == fromto)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("// the value is within range.\n");
-		sb.appendFront("yield return current.value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("// (only) yield a value that is equal to fromto\n");
+		sb.AppendFront("if(current.value." + attributeName + " == fromto)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("// the value is within range.\n");
+		sb.AppendFront("yield return current.value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("// don't go right if the value is already higher than fromto\n");
-		if(index.entity.getType() instanceof BooleanType)
-			sb.appendFront("if(current.value." + attributeName + ".CompareTo(fromto)<=0)\n");
-		else if(index.entity.getType() instanceof StringType) {
-			sb.appendFront("if(String.Compare(current.value." + attributeName
+		sb.AppendFront("// don't go right if the value is already higher than fromto\n");
+		if(index.entity.Type is BooleanType)
+			sb.AppendFront("if(current.value." + attributeName + ".CompareTo(fromto)<=0)\n");
+		else if(index.entity.Type is StringType)
+		{
+			sb.AppendFront("if(String.Compare(current.value." + attributeName
 					+ ", fromto, StringComparison.InvariantCulture)<=0)\n");
-		} else
-			sb.appendFront("if(current.value." + attributeName + " <= fromto)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup(current.right, fromto))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		}
+		else
+			sb.AppendFront("if(current.value." + attributeName + " <= fromto)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup(current.right, fromto))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genAscendingElementEntry(Index index, boolean fromConstrained, boolean fromInclusive,
-			boolean toConstrained, boolean toInclusive)
+	internal virtual void GenAscendingElementEntry(Index index, bool fromConstrained, bool fromInclusive,
+			bool toConstrained, bool toInclusive)
 	{
-		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
+		string attributeType = index is AttributeIndex ? FormatAttributeType(((AttributeIndex)index).entity) : "int";
 
-		String lookupMethodNameAppendix = "Ascending";
-		if(fromConstrained) {
+		string lookupMethodNameAppendix = "Ascending";
+		if(fromConstrained)
+		{
 			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
 				lookupMethodNameAppendix += "Inclusive";
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		if(toConstrained) {
+		if(toConstrained)
+		{
 			lookupMethodNameAppendix += "To";
 			if(toInclusive)
 				lookupMethodNameAppendix += "Inclusive";
@@ -467,54 +473,56 @@ public class ModelIndexGen extends CSharpBase
 				lookupMethodNameAppendix += "Exclusive";
 		}
 
-		sb.appendFront("public IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements" + lookupMethodNameAppendix + "(");
+		sb.AppendFront("public IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements" + lookupMethodNameAppendix + "(");
 		if(fromConstrained)
-			sb.append("object from");
+			sb.Append("object from");
 		if(fromConstrained && toConstrained)
-			sb.append(", ");
+			sb.Append(", ");
 		if(toConstrained)
-			sb.append("object to");
-		sb.append(")\n");
-		sb.appendFront("{\n");
-		sb.indent();
+			sb.Append("object to");
+		sb.Append(")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.appendFront("foreach(GRGEN_LIBGR.IGraphElement value in Lookup" + lookupMethodNameAppendix + "(root");
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.AppendFront("foreach(GRGEN_LIBGR.IGraphElement value in Lookup" + lookupMethodNameAppendix + "(root");
 		if(fromConstrained)
-			sb.append(", (" + attributeType + ")from");
+			sb.Append(", (" + attributeType + ")from");
 		if(toConstrained)
-			sb.append(", (" + attributeType + ")to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+			sb.Append(", (" + attributeType + ")to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genAscendingEntry(Index index, boolean fromConstrained, boolean fromInclusive,
-			boolean toConstrained, boolean toInclusive)
+	internal virtual void GenAscendingEntry(Index index, bool fromConstrained, bool fromInclusive,
+			bool toConstrained, bool toInclusive)
 	{
-		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
-		String graphElementType = index instanceof AttributeIndex
-				? formatElementInterfaceRef(((AttributeIndex)index).type)
-				: formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		string attributeType = index is AttributeIndex ? FormatAttributeType(((AttributeIndex)index).entity) : "int";
+		string graphElementType = index is AttributeIndex
+				? FormatElementInterfaceRef(((AttributeIndex)index).type)
+				: FormatElementInterfaceRef(((IncidenceCountIndex)index).StartNodeType);
 
-		String lookupMethodNameAppendix = "Ascending";
-		if(fromConstrained) {
+		string lookupMethodNameAppendix = "Ascending";
+		if(fromConstrained)
+		{
 			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
 				lookupMethodNameAppendix += "Inclusive";
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		if(toConstrained) {
+		if(toConstrained)
+		{
 			lookupMethodNameAppendix += "To";
 			if(toInclusive)
 				lookupMethodNameAppendix += "Inclusive";
@@ -522,53 +530,55 @@ public class ModelIndexGen extends CSharpBase
 				lookupMethodNameAppendix += "Exclusive";
 		}
 
-		sb.appendFront("public IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(");
+		sb.AppendFront("public IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(");
 		if(fromConstrained)
-			sb.append(attributeType + " from");
+			sb.Append(attributeType + " from");
 		if(fromConstrained && toConstrained)
-			sb.append(", ");
+			sb.Append(", ");
 		if(toConstrained)
-			sb.append(attributeType + " to");
-		sb.append(")\n");
-		sb.appendFront("{\n");
-		sb.indent();
+			sb.Append(attributeType + " to");
+		sb.Append(")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(root");
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(root");
 		if(fromConstrained)
-			sb.append(", from");
+			sb.Append(", from");
 		if(toConstrained)
-			sb.append(", to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+			sb.Append(", to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genAscending(AttributeIndex index, boolean fromConstrained, boolean fromInclusive,
-			boolean toConstrained, boolean toInclusive)
+	internal virtual void GenAscending(AttributeIndex index, bool fromConstrained, bool fromInclusive,
+			bool toConstrained, bool toInclusive)
 	{
-		String attributeType = formatAttributeType(index.entity);
-		String attributeName = index.entity.getIdent().toString();
-		String graphElementType = formatElementInterfaceRef(index.type);
+		string attributeType = FormatAttributeType(index.entity);
+		string attributeName = index.entity.Ident.ToString();
+		string graphElementType = FormatElementInterfaceRef(index.type);
 
-		String lookupMethodNameAppendix = "Ascending";
-		if(fromConstrained) {
+		string lookupMethodNameAppendix = "Ascending";
+		if(fromConstrained)
+		{
 			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
 				lookupMethodNameAppendix += "Inclusive";
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		if(toConstrained) {
+		if(toConstrained)
+		{
 			lookupMethodNameAppendix += "To";
 			if(toInclusive)
 				lookupMethodNameAppendix += "Inclusive";
@@ -576,135 +586,158 @@ public class ModelIndexGen extends CSharpBase
 				lookupMethodNameAppendix += "Exclusive";
 		}
 
-		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
+		sb.AppendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
 				+ "(TreeNode current");
 		if(fromConstrained)
-			sb.append(", " + attributeType + " from");
+			sb.Append(", " + attributeType + " from");
 		if(toConstrained)
-			sb.append(", " + attributeType + " to");
-		sb.append(")\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFrontIndented("yield break;\n");
-		sb.append("\n");
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.append("\n");
-		if(fromConstrained) {
-			sb.appendFront("// don't go left if the value is already lower than from\n");
-			if(index.entity.getType() instanceof BooleanType) {
-				sb.appendFront("if(current.value." + attributeName + ".CompareTo(from)"
+			sb.Append(", " + attributeType + " to");
+		sb.Append(")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFrontIndented("yield break;\n");
+		sb.Append("\n");
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.Append("\n");
+		if(fromConstrained)
+		{
+			sb.AppendFront("// don't go left if the value is already lower than from\n");
+			if(index.entity.Type is BooleanType)
+			{
+				sb.AppendFront("if(current.value." + attributeName + ".CompareTo(from)"
 						+ (fromInclusive ? " >= " : " > ") + "0)\n");
-			} else if(index.entity.getType() instanceof StringType) {
-				sb.appendFront("if(String.Compare(current.value." + attributeName
+			}
+			else if(index.entity.Type is StringType)
+			{
+				sb.AppendFront("if(String.Compare(current.value." + attributeName
 						+ ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " >= " : " > ") + "0)\n");
-			} else
-				sb.appendFront("if(current.value." + attributeName + (fromInclusive ? " >= " : " > ") + "from)\n");
+			}
+			else
+				sb.AppendFront("if(current.value." + attributeName + (fromInclusive ? " >= " : " > ") + "from)\n");
 		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
 		if(fromConstrained)
-			sb.append(", from");
+			sb.Append(", from");
 		if(toConstrained)
-			sb.append(", to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+			sb.Append(", to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		if(fromConstrained || toConstrained) {
-			sb.appendFront("// (only) yield a value that is within bounds\n");
-			sb.appendFront("if(");
-			if(fromConstrained) {
-				if(index.entity.getType() instanceof BooleanType) {
-					sb.append("current.value." + attributeName + ".CompareTo(from)"
+		if(fromConstrained || toConstrained)
+		{
+			sb.AppendFront("// (only) yield a value that is within bounds\n");
+			sb.AppendFront("if(");
+			if(fromConstrained)
+			{
+				if(index.entity.Type is BooleanType)
+				{
+					sb.Append("current.value." + attributeName + ".CompareTo(from)"
 							+ (fromInclusive ? " >= " : " > ") + "0");
-				} else if(index.entity.getType() instanceof StringType) {
-					sb.append("String.Compare(current.value." + attributeName
+				}
+				else if(index.entity.Type is StringType)
+				{
+					sb.Append("String.Compare(current.value." + attributeName
 							+ ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " >= " : " > ") + "0");
-				} else
-					sb.append("current.value." + attributeName + (fromInclusive ? " >= " : " > ") + "from");
+				}
+				else
+					sb.Append("current.value." + attributeName + (fromInclusive ? " >= " : " > ") + "from");
 			}
 			if(fromConstrained && toConstrained)
-				sb.append(" && ");
-			if(toConstrained) {
-				if(index.entity.getType() instanceof BooleanType) {
-					sb.append("current.value." + attributeName + ".CompareTo(to)"
-							 + (toInclusive ? " <= " : " < ") + "0");
-				} else if(index.entity.getType() instanceof StringType)
-					sb.append("String.Compare(current.value." + attributeName
+				sb.Append(" && ");
+			if(toConstrained)
+			{
+				if(index.entity.Type is BooleanType)
+				{
+					sb.Append("current.value." + attributeName + ".CompareTo(to)"
+							+ (toInclusive ? " <= " : " < ") + "0");
+				}
+				else if(index.entity.Type is StringType)
+				{
+					sb.Append("String.Compare(current.value." + attributeName
 							+ ", to, StringComparison.InvariantCulture)" + (toInclusive ? " <= " : " < ") + "0");
+				}
 				else
-					sb.append("current.value." + attributeName + (toInclusive ? " <= " : " < ") + "to");
+					sb.Append("current.value." + attributeName + (toInclusive ? " <= " : " < ") + "to");
 			}
-			sb.append(")\n");
+			sb.Append(")\n");
 		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("// the value is within range.\n");
-		sb.appendFront("yield return current.value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("// the value is within range.\n");
+		sb.AppendFront("yield return current.value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		if(toConstrained) {
-			sb.appendFront("// don't go right if the value is already higher than to\n");
-			if(index.entity.getType() instanceof BooleanType) {
-				sb.appendFront("if(current.value." + attributeName + ".CompareTo(to)"
+		if(toConstrained)
+		{
+			sb.AppendFront("// don't go right if the value is already higher than to\n");
+			if(index.entity.Type is BooleanType)
+			{
+				sb.AppendFront("if(current.value." + attributeName + ".CompareTo(to)"
 						+ (toInclusive ? " <= " : " < ") + "0)\n");
-			} else if(index.entity.getType() instanceof StringType) {
-				sb.appendFront("if(String.Compare(current.value." + attributeName
+			}
+			else if(index.entity.Type is StringType)
+			{
+				sb.AppendFront("if(String.Compare(current.value." + attributeName
 						+ ", to, StringComparison.InvariantCulture)" + (toInclusive ? " <= " : " < ") + "0)\n");
-			} else
-				sb.appendFront("if(current.value." + attributeName + (toInclusive ? " <= " : " < ") + "to)\n");
+			}
+			else
+				sb.AppendFront("if(current.value." + attributeName + (toInclusive ? " <= " : " < ") + "to)\n");
 		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup"
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup"
 				+ lookupMethodNameAppendix + "(current.right");
 		if(fromConstrained)
-			sb.append(", from");
+			sb.Append(", from");
 		if(toConstrained)
-			sb.append(", to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+			sb.Append(", to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genDescendingElementEntry(Index index, boolean fromConstrained, boolean fromInclusive,
-			boolean toConstrained, boolean toInclusive)
+	internal virtual void GenDescendingElementEntry(Index index, bool fromConstrained, bool fromInclusive,
+			bool toConstrained, bool toInclusive)
 	{
-		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
+		string attributeType = index is AttributeIndex ? FormatAttributeType(((AttributeIndex)index).entity) : "int";
 
-		String lookupMethodNameAppendix = "Descending";
-		if(fromConstrained) {
+		string lookupMethodNameAppendix = "Descending";
+		if(fromConstrained)
+		{
 			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
 				lookupMethodNameAppendix += "Inclusive";
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		if(toConstrained) {
+		if(toConstrained)
+		{
 			lookupMethodNameAppendix += "To";
 			if(toInclusive)
 				lookupMethodNameAppendix += "Inclusive";
@@ -712,54 +745,56 @@ public class ModelIndexGen extends CSharpBase
 				lookupMethodNameAppendix += "Exclusive";
 		}
 
-		sb.appendFront("public IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements" + lookupMethodNameAppendix + "(");
+		sb.AppendFront("public IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements" + lookupMethodNameAppendix + "(");
 		if(fromConstrained)
-			sb.append("object from");
+			sb.Append("object from");
 		if(fromConstrained && toConstrained)
-			sb.append(", ");
+			sb.Append(", ");
 		if(toConstrained)
-			sb.append("object to");
-		sb.append(")\n");
-		sb.appendFront("{\n");
-		sb.indent();
+			sb.Append("object to");
+		sb.Append(")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.appendFront("foreach(GRGEN_LIBGR.IGraphElement value in Lookup" + lookupMethodNameAppendix + "(root");
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.AppendFront("foreach(GRGEN_LIBGR.IGraphElement value in Lookup" + lookupMethodNameAppendix + "(root");
 		if(fromConstrained)
-			sb.append(", (" + attributeType + ")from");
+			sb.Append(", (" + attributeType + ")from");
 		if(toConstrained)
-			sb.append(", (" + attributeType + ")to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+			sb.Append(", (" + attributeType + ")to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genDescendingEntry(Index index, boolean fromConstrained, boolean fromInclusive,
-			boolean toConstrained, boolean toInclusive)
+	internal virtual void GenDescendingEntry(Index index, bool fromConstrained, bool fromInclusive,
+			bool toConstrained, bool toInclusive)
 	{
-		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
-		String graphElementType = index instanceof AttributeIndex
-				? formatElementInterfaceRef(((AttributeIndex)index).type)
-				: formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		string attributeType = index is AttributeIndex ? FormatAttributeType(((AttributeIndex)index).entity) : "int";
+		string graphElementType = index is AttributeIndex
+				? FormatElementInterfaceRef(((AttributeIndex)index).type)
+				: FormatElementInterfaceRef(((IncidenceCountIndex)index).StartNodeType);
 
-		String lookupMethodNameAppendix = "Descending";
-		if(fromConstrained) {
+		string lookupMethodNameAppendix = "Descending";
+		if(fromConstrained)
+		{
 			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
 				lookupMethodNameAppendix += "Inclusive";
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		if(toConstrained) {
+		if(toConstrained)
+		{
 			lookupMethodNameAppendix += "To";
 			if(toInclusive)
 				lookupMethodNameAppendix += "Inclusive";
@@ -767,53 +802,55 @@ public class ModelIndexGen extends CSharpBase
 				lookupMethodNameAppendix += "Exclusive";
 		}
 
-		sb.appendFront("public IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(");
+		sb.AppendFront("public IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(");
 		if(fromConstrained)
-			sb.append(attributeType + " from");
+			sb.Append(attributeType + " from");
 		if(fromConstrained && toConstrained)
-			sb.append(", ");
+			sb.Append(", ");
 		if(toConstrained)
-			sb.append(attributeType + " to");
-		sb.append(")\n");
-		sb.appendFront("{\n");
+			sb.Append(attributeType + " to");
+		sb.Append(")\n");
+		sb.AppendFront("{\n");
 
-		sb.indent();
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(root");
+		sb.Indent();
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(root");
 		if(fromConstrained)
-			sb.append(", from");
+			sb.Append(", from");
 		if(toConstrained)
-			sb.append(", to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+			sb.Append(", to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genDescending(AttributeIndex index, boolean fromConstrained, boolean fromInclusive,
-			boolean toConstrained, boolean toInclusive)
+	internal virtual void GenDescending(AttributeIndex index, bool fromConstrained, bool fromInclusive,
+			bool toConstrained, bool toInclusive)
 	{
-		String attributeType = formatAttributeType(index.entity);
-		String attributeName = index.entity.getIdent().toString();
-		String graphElementType = formatElementInterfaceRef(index.type);
+		string attributeType = FormatAttributeType(index.entity);
+		string attributeName = index.entity.Ident.ToString();
+		string graphElementType = FormatElementInterfaceRef(index.type);
 
-		String lookupMethodNameAppendix = "Descending";
-		if(fromConstrained) {
+		string lookupMethodNameAppendix = "Descending";
+		if(fromConstrained)
+		{
 			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
 				lookupMethodNameAppendix += "Inclusive";
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		if(toConstrained) {
+		if(toConstrained)
+		{
 			lookupMethodNameAppendix += "To";
 			if(toInclusive)
 				lookupMethodNameAppendix += "Inclusive";
@@ -821,667 +858,698 @@ public class ModelIndexGen extends CSharpBase
 				lookupMethodNameAppendix += "Exclusive";
 		}
 
-		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
+		sb.AppendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
 				+ "(TreeNode current");
 		if(fromConstrained)
-			sb.append(", " + attributeType + " from");
+			sb.Append(", " + attributeType + " from");
 		if(toConstrained)
-			sb.append(", " + attributeType + " to");
-		sb.append(")\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFrontIndented("yield break;\n");
-		sb.append("\n");
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.append("\n");
-		if(fromConstrained) {
-			sb.appendFront("// don't go left if the value is already lower than from\n");
-			if(index.entity.getType() instanceof BooleanType) {
-				sb.appendFront("if(current.value." + attributeName + ".CompareTo(from)"
+			sb.Append(", " + attributeType + " to");
+		sb.Append(")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFrontIndented("yield break;\n");
+		sb.Append("\n");
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.Append("\n");
+		if(fromConstrained)
+		{
+			sb.AppendFront("// don't go left if the value is already lower than from\n");
+			if(index.entity.Type is BooleanType)
+			{
+				sb.AppendFront("if(current.value." + attributeName + ".CompareTo(from)"
 						+ (fromInclusive ? " <= " : " < ") + "0)\n");
-			} else if(index.entity.getType() instanceof StringType) {
-				sb.appendFront("if(String.Compare(current.value." + attributeName
+			}
+			else if(index.entity.Type is StringType)
+			{
+				sb.AppendFront("if(String.Compare(current.value." + attributeName
 						+ ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " <= " : " < ") + "0)\n");
-			} else
-				sb.appendFront("if(current.value." + attributeName + (fromInclusive ? " <= " : " < ") + "from)\n");
+			}
+			else
+				sb.AppendFront("if(current.value." + attributeName + (fromInclusive ? " <= " : " < ") + "from)\n");
 		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup"
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup"
 				+ lookupMethodNameAppendix + "(current.right");
 		if(fromConstrained)
-			sb.append(", from");
+			sb.Append(", from");
 		if(toConstrained)
-			sb.append(", to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+			sb.Append(", to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		if(fromConstrained || toConstrained) {
-			sb.appendFront("// (only) yield a value that is within bounds\n");
-			sb.appendFront("if(");
-			if(fromConstrained) {
-				if(index.entity.getType() instanceof BooleanType) {
-					sb.append("current.value." + attributeName + ".CompareTo(from)"
+		if(fromConstrained || toConstrained)
+		{
+			sb.AppendFront("// (only) yield a value that is within bounds\n");
+			sb.AppendFront("if(");
+			if(fromConstrained)
+			{
+				if(index.entity.Type is BooleanType)
+				{
+					sb.Append("current.value." + attributeName + ".CompareTo(from)"
 							+ (fromInclusive ? " <= " : " < ") + "0");
-				} else if(index.entity.getType() instanceof StringType) {
-					sb.append("String.Compare(current.value." + attributeName
+				}
+				else if(index.entity.Type is StringType)
+				{
+					sb.Append("String.Compare(current.value." + attributeName
 							+ ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " <= " : " < ") + "0");
-				} else
-					sb.append("current.value." + attributeName + (fromInclusive ? " <= " : " < ") + "from");
+				}
+				else
+					sb.Append("current.value." + attributeName + (fromInclusive ? " <= " : " < ") + "from");
 			}
 			if(fromConstrained && toConstrained)
-				sb.append(" && ");
-			if(toConstrained) {
-				if(index.entity.getType() instanceof BooleanType) {
-					sb.append("current.value." + attributeName + ".CompareTo(to)"
+				sb.Append(" && ");
+			if(toConstrained)
+			{
+				if(index.entity.Type is BooleanType)
+				{
+					sb.Append("current.value." + attributeName + ".CompareTo(to)"
 							+ (toInclusive ? " >= " : " > ") + "0");
-				} else if(index.entity.getType() instanceof StringType) {
-					sb.append("String.Compare(current.value." + attributeName
+				}
+				else if(index.entity.Type is StringType)
+				{
+					sb.Append("String.Compare(current.value." + attributeName
 							+ ", to, StringComparison.InvariantCulture)" + (toInclusive ? " >= " : " > ") + "0");
-				} else
-					sb.append("current.value." + attributeName + (toInclusive ? " >= " : " > ") + "to");
+				}
+				else
+					sb.Append("current.value." + attributeName + (toInclusive ? " >= " : " > ") + "to");
 			}
-			sb.append(")\n");
+			sb.Append(")\n");
 		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("// the value is within range.\n");
-		sb.appendFront("yield return current.value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("// the value is within range.\n");
+		sb.AppendFront("yield return current.value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		if(toConstrained) {
-			sb.appendFront("// don't go right if the value is already higher than to\n");
-			if(index.entity.getType() instanceof BooleanType) {
-				sb.appendFront("if(current.value." + attributeName + ".CompareTo(to)"
-						+ (toInclusive ? " >= " : " > ") + "0)\n");
-			} else if(index.entity.getType() instanceof StringType) {
-				sb.appendFront("if(String.Compare(current.value." + attributeName
-						+ ", to, StringComparison.InvariantCulture)" + (toInclusive ? " >= " : " > ") + "0)\n");
-			} else
-				sb.appendFront("if(current.value." + attributeName + (toInclusive ? " >= " : " > ") + "to)\n");
-		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
-		if(fromConstrained)
-			sb.append(", from");
 		if(toConstrained)
-			sb.append(", to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		{
+			sb.AppendFront("// don't go right if the value is already higher than to\n");
+			if(index.entity.Type is BooleanType)
+			{
+				sb.AppendFront("if(current.value." + attributeName + ".CompareTo(to)"
+						+ (toInclusive ? " >= " : " > ") + "0)\n");
+			}
+			else if(index.entity.Type is StringType)
+			{
+				sb.AppendFront("if(String.Compare(current.value." + attributeName
+						+ ", to, StringComparison.InvariantCulture)" + (toInclusive ? " >= " : " > ") + "0)\n");
+			}
+			else
+				sb.AppendFront("if(current.value." + attributeName + (toInclusive ? " >= " : " > ") + "to)\n");
+		}
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
+		if(fromConstrained)
+			sb.Append(", from");
+		if(toConstrained)
+			sb.Append(", to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genIndexMaintainingEventHandlers(AttributeIndex index)
+	internal virtual void GenIndexMaintainingEventHandlers(AttributeIndex index)
 	{
-		String attributeType = formatAttributeType(index.entity);
-		String attributeName = index.entity.getIdent().toString();
-		String graphElementType = formatElementInterfaceRef(index.type);
+		string attributeType = FormatAttributeType(index.entity);
+		string attributeName = index.entity.Ident.ToString();
+		string graphElementType = FormatElementInterfaceRef(index.type);
 
-		sb.appendFront("void ClearingGraph(GRGEN_LIBGR.IGraph graph)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("// ReInitialize AA tree to clear the index\n");
-		sb.appendFront("bottom = new TreeNode();\n");
-		sb.appendFront("root = bottom;\n");
-		sb.appendFront("deleted = bottom;\n");
-		sb.appendFront("last = null;\n");
-		sb.appendFront("count = 0;\n");
-		sb.appendFront("version = 0;\n");
-		sb.unindent();
-		sb.appendFront("}\n\n");
+		sb.AppendFront("void ClearingGraph(GRGEN_LIBGR.IGraph graph)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("// ReInitialize AA tree to clear the index\n");
+		sb.AppendFront("bottom = new TreeNode();\n");
+		sb.AppendFront("root = bottom;\n");
+		sb.AppendFront("deleted = bottom;\n");
+		sb.AppendFront("last = null;\n");
+		sb.AppendFront("count = 0;\n");
+		sb.AppendFront("version = 0;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n\n");
 
-		sb.appendFront("void Added(GRGEN_LIBGR.IGraphElement elem)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(elem is " + graphElementType + ")\n");
-		sb.appendFrontIndented("Insert(ref root, (" + graphElementType + ")elem, "
-				+"((" + graphElementType + ")elem)." + attributeName + ");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
-		sb.appendFront("void Removing(GRGEN_LIBGR.IGraphElement elem)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(elem is " + graphElementType + ")\n");
-		sb.appendFrontIndented("Delete(ref root, (" + graphElementType + ")elem);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
-		sb.appendFront("void ChangingAttribute(GRGEN_LIBGR.IGraphElement elem, "
+		sb.AppendFront("void Added(GRGEN_LIBGR.IGraphElement elem)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(elem is " + graphElementType + ")\n");
+		sb.AppendFrontIndented("Insert(ref root, (" + graphElementType + ")elem, "
+				+ "((" + graphElementType + ")elem)." + attributeName + ");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
+		sb.AppendFront("void Removing(GRGEN_LIBGR.IGraphElement elem)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(elem is " + graphElementType + ")\n");
+		sb.AppendFrontIndented("Delete(ref root, (" + graphElementType + ")elem);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
+		sb.AppendFront("void ChangingAttribute(GRGEN_LIBGR.IGraphElement elem, "
 				+ "GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.AttributeChangeType changeType, object newValue, object keyValue)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(elem is " + graphElementType + " && attrType.Name==\"" + attributeName + "\")\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("Delete(ref root, (" + graphElementType + ")elem);\n");
-		sb.appendFront("Insert(ref root, (" + graphElementType + ")elem, (" + attributeType + ")newValue);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n\n");
-		sb.append("\n");
-		sb.appendFront("void Retyping(GRGEN_LIBGR.IGraphElement oldElem, GRGEN_LIBGR.IGraphElement newElem)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(oldElem is " + graphElementType + ")\n");
-		sb.appendFrontIndented("Delete(ref root, (" + graphElementType + ")oldElem);\n");
-		sb.appendFront("if(newElem is " + graphElementType + ")\n");
-		sb.appendFrontIndented("Insert(ref root, (" + graphElementType + ")newElem, "
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(elem is " + graphElementType + " && attrType.Name==\"" + attributeName + "\")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("Delete(ref root, (" + graphElementType + ")elem);\n");
+		sb.AppendFront("Insert(ref root, (" + graphElementType + ")elem, (" + attributeType + ")newValue);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n\n");
+		sb.Append("\n");
+		sb.AppendFront("void Retyping(GRGEN_LIBGR.IGraphElement oldElem, GRGEN_LIBGR.IGraphElement newElem)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(oldElem is " + graphElementType + ")\n");
+		sb.AppendFrontIndented("Delete(ref root, (" + graphElementType + ")oldElem);\n");
+		sb.AppendFront("if(newElem is " + graphElementType + ")\n");
+		sb.AppendFrontIndented("Insert(ref root, (" + graphElementType + ")newElem, "
 				+ "((" + graphElementType + ")newElem)." + attributeName + ");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genIndexAATreeBalancingInsertionDeletion(AttributeIndex index)
+	internal virtual void GenIndexAATreeBalancingInsertionDeletion(AttributeIndex index)
 	{
-		String attributeType = formatAttributeType(index.entity);
-		String attributeName = index.entity.getIdent().toString();
-		String graphElementType = formatElementInterfaceRef(index.type);
-		String castForUnique = index.type instanceof NodeType ? " as GRGEN_LGSP.LGSPNodeWithUniqueId" : " as GRGEN_LGSP.LGSPEdgeWithUniqueId";
+		string attributeType = FormatAttributeType(index.entity);
+		string attributeName = index.entity.Ident.ToString();
+		string graphElementType = FormatElementInterfaceRef(index.type);
+		string castForUnique = index.type is NodeType ? " as GRGEN_LGSP.LGSPNodeWithUniqueId" : " as GRGEN_LGSP.LGSPEdgeWithUniqueId";
 
-		sb.appendFront("private void Skew(ref TreeNode current)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current.level != current.left.level)\n");
-		sb.appendFrontIndented("return;\n");
-		sb.append("\n");
-		sb.appendFront("// rotate right\n");
-		sb.appendFront("TreeNode left = current.left;\n");
-		sb.appendFront("current.left = left.right;\n");
-		sb.appendFront("left.right = current;\n");
-		sb.appendFront("current = left;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("private void Skew(ref TreeNode current)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current.level != current.left.level)\n");
+		sb.AppendFrontIndented("return;\n");
+		sb.Append("\n");
+		sb.AppendFront("// rotate right\n");
+		sb.AppendFront("TreeNode left = current.left;\n");
+		sb.AppendFront("current.left = left.right;\n");
+		sb.AppendFront("left.right = current;\n");
+		sb.AppendFront("current = left;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("private void Split(ref TreeNode current)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current.right.right.level != current.level)\n");
-		sb.appendFrontIndented("return;\n");
-		sb.append("\n");
-		sb.appendFront("// rotate left\n");
-		sb.appendFront("TreeNode right = current.right;\n");
-		sb.appendFront("current.right = right.left;\n");
-		sb.appendFront("right.left = current;\n");
-		sb.appendFront("current = right;\n");
-		sb.appendFront("++current.level;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("private void Split(ref TreeNode current)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current.right.right.level != current.level)\n");
+		sb.AppendFrontIndented("return;\n");
+		sb.Append("\n");
+		sb.AppendFront("// rotate left\n");
+		sb.AppendFront("TreeNode right = current.right;\n");
+		sb.AppendFront("current.right = right.left;\n");
+		sb.AppendFront("right.left = current;\n");
+		sb.AppendFront("current = right;\n");
+		sb.AppendFront("++current.level;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("private void Insert(ref TreeNode current, " + graphElementType + " value, "
+		sb.AppendFront("private void Insert(ref TreeNode current, " + graphElementType + " value, "
 				+ attributeType + " attributeValue)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("current = new TreeNode(value, bottom);\n");
-		sb.appendFront("++count;\n");
-		sb.appendFront("++version;\n");
-		sb.appendFront("return;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
-		if(index.entity.getType() instanceof BooleanType)
-			sb.appendFront("if(attributeValue.CompareTo(current.value." + attributeName + ")<0");
-		else if(index.entity.getType() instanceof StringType) {
-			sb.appendFront("if(String.Compare(attributeValue, current.value." + attributeName
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("current = new TreeNode(value, bottom);\n");
+		sb.AppendFront("++count;\n");
+		sb.AppendFront("++version;\n");
+		sb.AppendFront("return;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
+		if(index.entity.Type is BooleanType)
+			sb.AppendFront("if(attributeValue.CompareTo(current.value." + attributeName + ")<0");
+		else if(index.entity.Type is StringType)
+		{
+			sb.AppendFront("if(String.Compare(attributeValue, current.value." + attributeName
 					+ ", StringComparison.InvariantCulture)<0");
-		} else
-			sb.appendFront("if(attributeValue < current.value." + attributeName);
-		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique
+		}
+		else
+			sb.AppendFront("if(attributeValue < current.value." + attributeName);
+		sb.Append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique
 				+ ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFrontIndented("Insert(ref current.left, value, attributeValue);\n");
-		if(index.entity.getType() instanceof BooleanType)
-			sb.appendFront("else if(attributeValue.CompareTo(current.value." + attributeName + ")>0");
-		else if(index.entity.getType() instanceof StringType) {
-			sb.appendFront("else if(String.Compare(attributeValue, current.value." + attributeName
+		sb.AppendFrontIndented("Insert(ref current.left, value, attributeValue);\n");
+		if(index.entity.Type is BooleanType)
+			sb.AppendFront("else if(attributeValue.CompareTo(current.value." + attributeName + ")>0");
+		else if(index.entity.Type is StringType)
+			sb.AppendFront("else if(String.Compare(attributeValue, current.value." + attributeName
 					+ ", StringComparison.InvariantCulture)>0");
-		} else
-			sb.appendFront("else if(attributeValue > current.value." + attributeName);
-		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique
+		else
+			sb.AppendFront("else if(attributeValue > current.value." + attributeName);
+		sb.Append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique
 				+ ").uniqueId > (current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFrontIndented("Insert(ref current.right, value, attributeValue);\n");
-		sb.appendFront("else\n");
-		sb.appendFrontIndented("throw new Exception(\"Insertion of already available element\");\n");
-		sb.append("\n");
-		sb.appendFront("Skew(ref current);\n");
-		sb.appendFront("Split(ref current);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFrontIndented("Insert(ref current.right, value, attributeValue);\n");
+		sb.AppendFront("else\n");
+		sb.AppendFrontIndented("throw new Exception(\"Insertion of already available element\");\n");
+		sb.Append("\n");
+		sb.AppendFront("Skew(ref current);\n");
+		sb.AppendFront("Split(ref current);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("private void Delete(ref TreeNode current, " + graphElementType + " value)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFrontIndented("return;\n");
-		sb.append("\n");
-		sb.appendFront("// search down the tree (and set pointer last and deleted)\n");
-		sb.appendFront("last = current;\n");
-		if(index.entity.getType() instanceof BooleanType)
-			sb.appendFront("if(value." + attributeName + ".CompareTo(current.value." + attributeName + ")<0");
-		else if(index.entity.getType() instanceof StringType) {
-			sb.appendFront("if(String.Compare(value." + attributeName + ", current.value." + attributeName
+		sb.AppendFront("private void Delete(ref TreeNode current, " + graphElementType + " value)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFrontIndented("return;\n");
+		sb.Append("\n");
+		sb.AppendFront("// search down the tree (and set pointer last and deleted)\n");
+		sb.AppendFront("last = current;\n");
+		if(index.entity.Type is BooleanType)
+			sb.AppendFront("if(value." + attributeName + ".CompareTo(current.value." + attributeName + ")<0");
+		else if(index.entity.Type is StringType)
+		{
+			sb.AppendFront("if(String.Compare(value." + attributeName + ", current.value." + attributeName
 					+ ", StringComparison.InvariantCulture)<0");
-		} else
-			sb.appendFront("if(value." + attributeName + " < current.value." + attributeName);
-		sb.append(" || ( value." + attributeName + " == current.value." + attributeName + " && (value" + castForUnique
+		}
+		else
+			sb.AppendFront("if(value." + attributeName + " < current.value." + attributeName);
+		sb.Append(" || ( value." + attributeName + " == current.value." + attributeName + " && (value" + castForUnique
 				+ ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFrontIndented("Delete(ref current.left, value);\n");
-		sb.appendFront("else\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("deleted = current;\n");
-		sb.appendFront("Delete(ref current.right, value);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
-		sb.appendFront("// at the bottom of the tree we remove the element (if present)\n");
-		sb.appendFront("if(current == last && deleted != bottom && "
-				+"value." + attributeName + " == deleted.value." + attributeName);
-		sb.append(" && (value" + castForUnique + ").uniqueId == (deleted.value" + castForUnique + ").uniqueId )\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("deleted.value = current.value;\n");
-		sb.appendFront("deleted = bottom;\n");
-		sb.appendFront("current = current.right;\n");
-		sb.appendFront("--count;\n");
-		sb.appendFront("++version;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.appendFront("// on the way back, we rebalance\n");
-		sb.appendFront("else if(current.left.level < current.level - 1\n");
-		sb.appendFrontIndented("|| current.right.level < current.level - 1)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("--current.level;\n");
-		sb.appendFront("if(current.right.level > current.level)\n");
-		sb.appendFrontIndented("current.right.level = current.level;\n");
-		sb.appendFront("Skew(ref current);\n");
-		sb.appendFront("Skew(ref current.right);\n");
-		sb.appendFront("Skew(ref current.right.right);\n");
-		sb.appendFront("Split(ref current);\n");
-		sb.appendFront("Split(ref current.right);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFrontIndented("Delete(ref current.left, value);\n");
+		sb.AppendFront("else\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("deleted = current;\n");
+		sb.AppendFront("Delete(ref current.right, value);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
+		sb.AppendFront("// at the bottom of the tree we remove the element (if present)\n");
+		sb.AppendFront("if(current == last && deleted != bottom && "
+				+ "value." + attributeName + " == deleted.value." + attributeName);
+		sb.Append(" && (value" + castForUnique + ").uniqueId == (deleted.value" + castForUnique + ").uniqueId )\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("deleted.value = current.value;\n");
+		sb.AppendFront("deleted = bottom;\n");
+		sb.AppendFront("current = current.right;\n");
+		sb.AppendFront("--count;\n");
+		sb.AppendFront("++version;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.AppendFront("// on the way back, we rebalance\n");
+		sb.AppendFront("else if(current.left.level < current.level - 1\n");
+		sb.AppendFrontIndented("|| current.right.level < current.level - 1)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("--current.level;\n");
+		sb.AppendFront("if(current.right.level > current.level)\n");
+		sb.AppendFrontIndented("current.right.level = current.level;\n");
+		sb.AppendFront("Skew(ref current);\n");
+		sb.AppendFront("Skew(ref current.right);\n");
+		sb.AppendFront("Skew(ref current.right.right);\n");
+		sb.AppendFront("Split(ref current);\n");
+		sb.AppendFront("Split(ref current.right);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genIndexSetType()
+	internal virtual void GenIndexSetType()
 	{
-		sb.appendFront("public class " + model.getIdent() + "IndexSet : GRGEN_LIBGR.IIndexSet\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("public " + model.getIdent() + "IndexSet(GRGEN_LGSP.LGSPGraph graph)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		for(Index index : model.getIndices()) {
-			String indexName = index.getIdent().toString();
-			sb.appendFront(indexName + " = new Index" + indexName + "Impl(graph);\n");
+		sb.AppendFront("public class " + model.Ident + "IndexSet : GRGEN_LIBGR.IIndexSet\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("public " + model.Ident + "IndexSet(GRGEN_LGSP.LGSPGraph graph)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		foreach(Index index in model.Indices)
+		{
+			string indexName = index.Ident.ToString();
+			sb.AppendFront(indexName + " = new Index" + indexName + "Impl(graph);\n");
 		}
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		for(Index index : model.getIndices()) {
-			String indexName = index.getIdent().toString();
-			sb.appendFront("public Index" + indexName + "Impl " + indexName + ";\n");
+		foreach(Index index in model.Indices)
+		{
+			string indexName = index.Ident.ToString();
+			sb.AppendFront("public Index" + indexName + "Impl " + indexName + ";\n");
 		}
-		sb.append("\n");
+		sb.Append("\n");
 
-		sb.appendFront("public GRGEN_LIBGR.IIndex GetIndex(string indexName)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("switch(indexName)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		for(Index index : model.getIndices()) {
-			String indexName = index.getIdent().toString();
-			sb.appendFront("case \"" + indexName + "\": return " + indexName + ";\n");
+		sb.AppendFront("public GRGEN_LIBGR.IIndex GetIndex(string indexName)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("switch(indexName)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		foreach(Index index in model.Indices)
+		{
+			string indexName = index.Ident.ToString();
+			sb.AppendFront("case \"" + indexName + "\": return " + indexName + ";\n");
 		}
-		sb.appendFront("default: return null;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("default: return null;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("public void FillAsClone(GRGEN_LGSP.LGSPGraph originalGraph, "
+		sb.AppendFront("public void FillAsClone(GRGEN_LGSP.LGSPGraph originalGraph, "
 				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		for(Index index : model.getIndices()) {
-			String indexName = index.getIdent().toString();
-			sb.appendFront(indexName + ".FillAsClone((Index" + indexName + "Impl)originalGraph.Indices.GetIndex(\""
+		sb.AppendFront("{\n");
+		sb.Indent();
+		foreach(Index index in model.Indices)
+		{
+			string indexName = index.Ident.ToString();
+			sb.AppendFront(indexName + ".FillAsClone((Index" + indexName + "Impl)originalGraph.Indices.GetIndex(\""
 					+ indexName + "\"), oldToNewMap);\n");
 		}
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 	}
 
-	void genIndexImplementation(IncidenceCountIndex index, int indexNum)
+	internal virtual void GenIndexImplementation(IncidenceCountIndex index, int indexNum)
 	{
-		String indexName = index.getIdent().toString();
-		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
-		String modelName = model.getIdent().toString() + "GraphModel";
-		sb.appendFront("public class Index" + indexName + "Impl : Index" + indexName + "\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		string indexName = index.Ident.ToString();
+		string graphElementType = FormatElementInterfaceRef(index.StartNodeType);
+		string modelName = model.Ident.ToString() + "GraphModel";
+		sb.AppendFront("public class Index" + indexName + "Impl : Index" + indexName + "\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("public GRGEN_LIBGR.IndexDescription Description { get { return "
+		sb.AppendFront("public GRGEN_LIBGR.IndexDescription Description { get { return "
 				+ modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
-		sb.append("\n");
+		sb.Append("\n");
 
-		sb.appendFront("public int Size { get { return count; } }\n");
-		sb.append("\n");
+		sb.AppendFront("public int Size { get { return count; } }\n");
+		sb.Append("\n");
 
-		sb.appendFront("protected class TreeNode\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("// search tree structure\n");
-		sb.appendFront("public TreeNode left;\n");
-		sb.appendFront("public TreeNode right;\n");
-		sb.appendFront("public int level;\n");
-		sb.append("\n");
-		sb.appendFront("// user data\n");
-		sb.appendFront("public int key;\n");
-		sb.appendFront("public " + graphElementType + " value;\n");
-		sb.append("\n");
-		sb.appendFront("// for the bottom node, operating as sentinel\n");
-		sb.appendFront("public TreeNode()\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("left = this;\n");
-		sb.appendFront("right = this;\n");
-		sb.appendFront("level = 0;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
-		sb.appendFront("// for regular nodes (that are born as leaf nodes)\n");
-		sb.appendFront("public TreeNode(int key, " + graphElementType + " value, TreeNode bottom)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("left = bottom;\n");
-		sb.appendFront("right = bottom;\n");
-		sb.appendFront("level = 1;\n");
-		sb.append("\n");
-		sb.appendFront("this.key = key;\n");
-		sb.appendFront("this.value = value;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
-		sb.appendFront("// for copy constructing from other index\n");
-		sb.appendFront("public TreeNode(TreeNode left, TreeNode right, int level, int key, " + graphElementType + " value)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("this.left = left;\n");
-		sb.appendFront("this.right = right;\n");
-		sb.appendFront("this.level = level;\n");
-		sb.append("\n");
-		sb.appendFront("this.key = key;\n");
-		sb.appendFront("this.value = value;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("protected class TreeNode\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("// search tree structure\n");
+		sb.AppendFront("public TreeNode left;\n");
+		sb.AppendFront("public TreeNode right;\n");
+		sb.AppendFront("public int level;\n");
+		sb.Append("\n");
+		sb.AppendFront("// user data\n");
+		sb.AppendFront("public int key;\n");
+		sb.AppendFront("public " + graphElementType + " value;\n");
+		sb.Append("\n");
+		sb.AppendFront("// for the bottom node, operating as sentinel\n");
+		sb.AppendFront("public TreeNode()\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("left = this;\n");
+		sb.AppendFront("right = this;\n");
+		sb.AppendFront("level = 0;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
+		sb.AppendFront("// for regular nodes (that are born as leaf nodes)\n");
+		sb.AppendFront("public TreeNode(int key, " + graphElementType + " value, TreeNode bottom)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("left = bottom;\n");
+		sb.AppendFront("right = bottom;\n");
+		sb.AppendFront("level = 1;\n");
+		sb.Append("\n");
+		sb.AppendFront("this.key = key;\n");
+		sb.AppendFront("this.value = value;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
+		sb.AppendFront("// for copy constructing from other index\n");
+		sb.AppendFront("public TreeNode(TreeNode left, TreeNode right, int level, int key, " + graphElementType + " value)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("this.left = left;\n");
+		sb.AppendFront("this.right = right;\n");
+		sb.AppendFront("this.level = level;\n");
+		sb.Append("\n");
+		sb.AppendFront("this.key = key;\n");
+		sb.AppendFront("this.value = value;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("protected TreeNode root;\n");
-		sb.appendFront("protected TreeNode bottom;\n");
-		sb.appendFront("protected TreeNode deleted;\n");
-		sb.appendFront("protected TreeNode last;\n");
-		sb.appendFront("protected int count;\n");
-		sb.appendFront("protected int version;\n");
-		sb.append("\n");
-		sb.appendFront("protected IDictionary<" + graphElementType + ", int> nodeToIncidenceCount = "
+		sb.AppendFront("protected TreeNode root;\n");
+		sb.AppendFront("protected TreeNode bottom;\n");
+		sb.AppendFront("protected TreeNode deleted;\n");
+		sb.AppendFront("protected TreeNode last;\n");
+		sb.AppendFront("protected int count;\n");
+		sb.AppendFront("protected int version;\n");
+		sb.Append("\n");
+		sb.AppendFront("protected IDictionary<" + graphElementType + ", int> nodeToIncidenceCount = "
 				+ "new Dictionary<" + graphElementType + ", int>();\n");
-		sb.append("\n");
+		sb.Append("\n");
 
-		genEqualElementEntry(index);
-		genEqualEntry(index);
+		GenEqualElementEntry(index);
+		GenEqualEntry(index);
 
-		genAscendingElementEntry(index, false, true, false, true);
-		genAscendingEntry(index, false, true, false, true);
-		genAscendingElementEntry(index, true, true, false, true);
-		genAscendingEntry(index, true, true, false, true);
-		genAscendingElementEntry(index, true, false, false, true);
-		genAscendingEntry(index, true, false, false, true);
-		genAscendingElementEntry(index, false, true, true, true);
-		genAscendingEntry(index, false, true, true, true);
-		genAscendingElementEntry(index, false, true, true, false);
-		genAscendingEntry(index, false, true, true, false);
-		genAscendingElementEntry(index, true, true, true, true);
-		genAscendingEntry(index, true, true, true, true);
-		genAscendingElementEntry(index, true, true, true, false);
-		genAscendingEntry(index, true, true, true, false);
-		genAscendingElementEntry(index, true, false, true, true);
-		genAscendingEntry(index, true, false, true, true);
-		genAscendingElementEntry(index, true, false, true, false);
-		genAscendingEntry(index, true, false, true, false);
+		GenAscendingElementEntry(index, false, true, false, true);
+		GenAscendingEntry(index, false, true, false, true);
+		GenAscendingElementEntry(index, true, true, false, true);
+		GenAscendingEntry(index, true, true, false, true);
+		GenAscendingElementEntry(index, true, false, false, true);
+		GenAscendingEntry(index, true, false, false, true);
+		GenAscendingElementEntry(index, false, true, true, true);
+		GenAscendingEntry(index, false, true, true, true);
+		GenAscendingElementEntry(index, false, true, true, false);
+		GenAscendingEntry(index, false, true, true, false);
+		GenAscendingElementEntry(index, true, true, true, true);
+		GenAscendingEntry(index, true, true, true, true);
+		GenAscendingElementEntry(index, true, true, true, false);
+		GenAscendingEntry(index, true, true, true, false);
+		GenAscendingElementEntry(index, true, false, true, true);
+		GenAscendingEntry(index, true, false, true, true);
+		GenAscendingElementEntry(index, true, false, true, false);
+		GenAscendingEntry(index, true, false, true, false);
 
-		genDescendingElementEntry(index, false, true, false, true);
-		genDescendingEntry(index, false, true, false, true);
-		genDescendingElementEntry(index, true, true, false, true);
-		genDescendingEntry(index, true, true, false, true);
-		genDescendingElementEntry(index, true, false, false, true);
-		genDescendingEntry(index, true, false, false, true);
-		genDescendingElementEntry(index, false, true, true, true);
-		genDescendingEntry(index, false, true, true, true);
-		genDescendingElementEntry(index, false, true, true, false);
-		genDescendingEntry(index, false, true, true, false);
-		genDescendingElementEntry(index, true, true, true, true);
-		genDescendingEntry(index, true, true, true, true);
-		genDescendingElementEntry(index, true, true, true, false);
-		genDescendingEntry(index, true, true, true, false);
-		genDescendingElementEntry(index, true, false, true, true);
-		genDescendingEntry(index, true, false, true, true);
-		genDescendingElementEntry(index, true, false, true, false);
-		genDescendingEntry(index, true, false, true, false);
+		GenDescendingElementEntry(index, false, true, false, true);
+		GenDescendingEntry(index, false, true, false, true);
+		GenDescendingElementEntry(index, true, true, false, true);
+		GenDescendingEntry(index, true, true, false, true);
+		GenDescendingElementEntry(index, true, false, false, true);
+		GenDescendingEntry(index, true, false, false, true);
+		GenDescendingElementEntry(index, false, true, true, true);
+		GenDescendingEntry(index, false, true, true, true);
+		GenDescendingElementEntry(index, false, true, true, false);
+		GenDescendingEntry(index, false, true, true, false);
+		GenDescendingElementEntry(index, true, true, true, true);
+		GenDescendingEntry(index, true, true, true, true);
+		GenDescendingElementEntry(index, true, true, true, false);
+		GenDescendingEntry(index, true, true, true, false);
+		GenDescendingElementEntry(index, true, false, true, true);
+		GenDescendingEntry(index, true, false, true, true);
+		GenDescendingElementEntry(index, true, false, true, false);
+		GenDescendingEntry(index, true, false, true, false);
 
-		genEqual(index);
+		GenEqual(index);
 
-		genAscending(index, false, true, false, true);
-		genAscending(index, true, true, false, true);
-		genAscending(index, true, false, false, true);
-		genAscending(index, false, true, true, true);
-		genAscending(index, false, true, true, false);
-		genAscending(index, true, true, true, true);
-		genAscending(index, true, true, true, false);
-		genAscending(index, true, false, true, true);
-		genAscending(index, true, false, true, false);
+		GenAscending(index, false, true, false, true);
+		GenAscending(index, true, true, false, true);
+		GenAscending(index, true, false, false, true);
+		GenAscending(index, false, true, true, true);
+		GenAscending(index, false, true, true, false);
+		GenAscending(index, true, true, true, true);
+		GenAscending(index, true, true, true, false);
+		GenAscending(index, true, false, true, true);
+		GenAscending(index, true, false, true, false);
 
-		genDescending(index, false, true, false, true);
-		genDescending(index, true, true, false, true);
-		genDescending(index, true, false, false, true);
-		genDescending(index, false, true, true, true);
-		genDescending(index, false, true, true, false);
-		genDescending(index, true, true, true, true);
-		genDescending(index, true, true, true, false);
-		genDescending(index, true, false, true, true);
-		genDescending(index, true, false, true, false);
+		GenDescending(index, false, true, false, true);
+		GenDescending(index, true, true, false, true);
+		GenDescending(index, true, false, false, true);
+		GenDescending(index, false, true, true, true);
+		GenDescending(index, false, true, true, false);
+		GenDescending(index, true, true, true, true);
+		GenDescending(index, true, true, true, false);
+		GenDescending(index, true, false, true, true);
+		GenDescending(index, true, false, true, false);
 
-		genGetIncidenceCount(index);
+		GenGetIncidenceCount(index);
 
-		sb.appendFront("public Index" + indexName + "Impl(GRGEN_LGSP.LGSPGraph graph)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("this.graph = graph;\n");
-		sb.append("\n");
-		sb.appendFront("// initialize AA tree used to implement the index\n");
-		sb.appendFront("bottom = new TreeNode();\n");
-		sb.appendFront("root = bottom;\n");
-		sb.appendFront("deleted = bottom;\n");
-		sb.appendFront("count = 0;\n");
-		sb.appendFront("version = 0;\n");
-		sb.append("\n");
-		sb.appendFront("graph.OnClearingGraph += ClearingGraph;\n");
-		sb.appendFront("graph.OnEdgeAdded += EdgeAdded;\n");
-		sb.appendFront("graph.OnNodeAdded += NodeAdded;\n");
-		sb.appendFront("graph.OnRemovingEdge += RemovingEdge;\n");
-		sb.appendFront("graph.OnRemovingNode += RemovingNode;\n");
-		sb.appendFront("graph.OnRetypingEdge += RetypingEdge;\n");
-		sb.appendFront("graph.OnRetypingNode += RetypingNode;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("public Index" + indexName + "Impl(GRGEN_LGSP.LGSPGraph graph)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("this.graph = graph;\n");
+		sb.Append("\n");
+		sb.AppendFront("// initialize AA tree used to implement the index\n");
+		sb.AppendFront("bottom = new TreeNode();\n");
+		sb.AppendFront("root = bottom;\n");
+		sb.AppendFront("deleted = bottom;\n");
+		sb.AppendFront("count = 0;\n");
+		sb.AppendFront("version = 0;\n");
+		sb.Append("\n");
+		sb.AppendFront("graph.OnClearingGraph += ClearingGraph;\n");
+		sb.AppendFront("graph.OnEdgeAdded += EdgeAdded;\n");
+		sb.AppendFront("graph.OnNodeAdded += NodeAdded;\n");
+		sb.AppendFront("graph.OnRemovingEdge += RemovingEdge;\n");
+		sb.AppendFront("graph.OnRemovingNode += RemovingNode;\n");
+		sb.AppendFront("graph.OnRetypingEdge += RetypingEdge;\n");
+		sb.AppendFront("graph.OnRetypingNode += RetypingNode;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("public void FillAsClone(Index" + indexName + "Impl that, "
+		sb.AppendFront("public void FillAsClone(Index" + indexName + "Impl that, "
 				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("root = FillAsClone(that.root, that.bottom, oldToNewMap);\n");
-		sb.appendFront("count = that.count;\n");
-		sb.appendFront("foreach(KeyValuePair<" + graphElementType + ", int> ntic in that.nodeToIncidenceCount)\n");
-		sb.appendFrontIndented("nodeToIncidenceCount.Add((" + graphElementType + ")oldToNewMap[ntic.Key], ntic.Value);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.append("\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("root = FillAsClone(that.root, that.bottom, oldToNewMap);\n");
+		sb.AppendFront("count = that.count;\n");
+		sb.AppendFront("foreach(KeyValuePair<" + graphElementType + ", int> ntic in that.nodeToIncidenceCount)\n");
+		sb.AppendFrontIndented("nodeToIncidenceCount.Add((" + graphElementType + ")oldToNewMap[ntic.Key], ntic.Value);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.Append("\n");
 
-		sb.appendFront("protected TreeNode FillAsClone(TreeNode that, TreeNode otherBottom, "
+		sb.AppendFront("protected TreeNode FillAsClone(TreeNode that, TreeNode otherBottom, "
 				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(that == otherBottom)\n");
-		sb.appendFrontIndented("return bottom;\n");
-		sb.appendFront("else\n");
-		sb.indent();
-		sb.appendFront("return new TreeNode(\n");
-		sb.indent();
-		sb.appendFront("FillAsClone(that.left, otherBottom, oldToNewMap),\n");
-		sb.appendFront("FillAsClone(that.right, otherBottom, oldToNewMap),\n");
-		sb.appendFront("that.level,\n");
-		sb.appendFront("that.key,\n");
-		sb.appendFront("(" + graphElementType + ")oldToNewMap[that.value]\n");
-		sb.unindent();
-		sb.unindent();
-		sb.append(");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(that == otherBottom)\n");
+		sb.AppendFrontIndented("return bottom;\n");
+		sb.AppendFront("else\n");
+		sb.Indent();
+		sb.AppendFront("return new TreeNode(\n");
+		sb.Indent();
+		sb.AppendFront("FillAsClone(that.left, otherBottom, oldToNewMap),\n");
+		sb.AppendFront("FillAsClone(that.right, otherBottom, oldToNewMap),\n");
+		sb.AppendFront("that.level,\n");
+		sb.AppendFront("that.key,\n");
+		sb.AppendFront("(" + graphElementType + ")oldToNewMap[that.value]\n");
+		sb.Unindent();
+		sb.Unindent();
+		sb.Append(");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		genIndexMaintainingEventHandlers(index);
+		GenIndexMaintainingEventHandlers(index);
 
-		genIndexAATreeBalancingInsertionDeletion(index);
+		GenIndexAATreeBalancingInsertionDeletion(index);
 
 		//genCheckDump(index);
 
-		sb.appendFront("private GRGEN_LGSP.LGSPGraph graph;\n");
+		sb.AppendFront("private GRGEN_LGSP.LGSPGraph graph;\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genEqual(IncidenceCountIndex index)
+	internal virtual void GenEqual(IncidenceCountIndex index)
 	{
-		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
+		string graphElementType = FormatElementInterfaceRef(index.StartNodeType);
 
-		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup(TreeNode current, int fromto)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFrontIndented("yield break;\n");
-		sb.append("\n");
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.append("\n");
-		sb.appendFront("// don't go left if the value is already lower than fromto\n");
-		sb.appendFront("if(current.key >= fromto)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup(current.left, fromto))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("private IEnumerable<" + graphElementType + "> Lookup(TreeNode current, int fromto)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFrontIndented("yield break;\n");
+		sb.Append("\n");
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.Append("\n");
+		sb.AppendFront("// don't go left if the value is already lower than fromto\n");
+		sb.AppendFront("if(current.key >= fromto)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup(current.left, fromto))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("// (only) yield a value that is equal to fromto\n");
-		sb.appendFront("if(current.key == fromto)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("// the value is within range.\n");
-		sb.appendFront("yield return current.value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("// (only) yield a value that is equal to fromto\n");
+		sb.AppendFront("if(current.key == fromto)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("// the value is within range.\n");
+		sb.AppendFront("yield return current.value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("// don't go right if the value is already higher than fromto\n");
-		sb.appendFront("if(current.key <= fromto)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup(current.right, fromto))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("// don't go right if the value is already higher than fromto\n");
+		sb.AppendFront("if(current.key <= fromto)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup(current.right, fromto))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genAscending(IncidenceCountIndex index, boolean fromConstrained, boolean fromInclusive,
-			boolean toConstrained, boolean toInclusive)
+	internal virtual void GenAscending(IncidenceCountIndex index, bool fromConstrained, bool fromInclusive,
+			bool toConstrained, bool toInclusive)
 	{
-		String attributeType = "int";
-		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
+		string attributeType = "int";
+		string graphElementType = FormatElementInterfaceRef(index.StartNodeType);
 
-		String lookupMethodNameAppendix = "Ascending";
-		if(fromConstrained) {
+		string lookupMethodNameAppendix = "Ascending";
+		if(fromConstrained)
+		{
 			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
 				lookupMethodNameAppendix += "Inclusive";
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		if(toConstrained) {
+		if(toConstrained)
+		{
 			lookupMethodNameAppendix += "To";
 			if(toInclusive)
 				lookupMethodNameAppendix += "Inclusive";
@@ -1489,107 +1557,110 @@ public class ModelIndexGen extends CSharpBase
 				lookupMethodNameAppendix += "Exclusive";
 		}
 
-		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
+		sb.AppendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
 				+ "(TreeNode current");
 		if(fromConstrained)
-			sb.append(", " + attributeType + " from");
+			sb.Append(", " + attributeType + " from");
 		if(toConstrained)
-			sb.append(", " + attributeType + " to");
-		sb.append(")\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFrontIndented("yield break;\n");
-		sb.append("\n");
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.append("\n");
-		if(fromConstrained) {
-			sb.appendFront("// don't go left if the value is already lower than from\n");
-			sb.appendFront("if(current.key" + (fromInclusive ? " >= " : " > ") + "from)\n");
-		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
+			sb.Append(", " + attributeType + " to");
+		sb.Append(")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFrontIndented("yield break;\n");
+		sb.Append("\n");
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.Append("\n");
 		if(fromConstrained)
-			sb.append(", from");
+		{
+			sb.AppendFront("// don't go left if the value is already lower than from\n");
+			sb.AppendFront("if(current.key" + (fromInclusive ? " >= " : " > ") + "from)\n");
+		}
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
+		if(fromConstrained)
+			sb.Append(", from");
 		if(toConstrained)
-			sb.append(", to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+			sb.Append(", to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		if(fromConstrained || toConstrained) {
-			sb.appendFront("// (only) yield a value that is within bounds\n");
-			sb.appendFront("if(");
-			if(fromConstrained) {
-				sb.append("current.key" + (fromInclusive ? " >= " : " > ") + "from");
-			}
+		if(fromConstrained || toConstrained)
+		{
+			sb.AppendFront("// (only) yield a value that is within bounds\n");
+			sb.AppendFront("if(");
+			if(fromConstrained)
+				sb.Append("current.key" + (fromInclusive ? " >= " : " > ") + "from");
 			if(fromConstrained && toConstrained)
-				sb.append(" && ");
-			if(toConstrained) {
-				sb.append("current.key" + (toInclusive ? " <= " : " < ") + "to");
-			}
-			sb.append(")\n");
+				sb.Append(" && ");
+			if(toConstrained)
+				sb.Append("current.key" + (toInclusive ? " <= " : " < ") + "to");
+			sb.Append(")\n");
 		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("// the value is within range.\n");
-		sb.appendFront("yield return current.value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("// the value is within range.\n");
+		sb.AppendFront("yield return current.value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		if(toConstrained) {
-			sb.appendFront("// don't go right if the value is already higher than to\n");
-			sb.appendFront("if(current.key" + (toInclusive ? " <= " : " < ") + "to)\n");
+		if(toConstrained)
+		{
+			sb.AppendFront("// don't go right if the value is already higher than to\n");
+			sb.AppendFront("if(current.key" + (toInclusive ? " <= " : " < ") + "to)\n");
 		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup"
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup"
 				+ lookupMethodNameAppendix + "(current.right");
 		if(fromConstrained)
-			sb.append(", from");
+			sb.Append(", from");
 		if(toConstrained)
-			sb.append(", to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+			sb.Append(", to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genDescending(IncidenceCountIndex index, boolean fromConstrained, boolean fromInclusive,
-			boolean toConstrained, boolean toInclusive)
+	internal virtual void GenDescending(IncidenceCountIndex index, bool fromConstrained, bool fromInclusive,
+			bool toConstrained, bool toInclusive)
 	{
-		String attributeType = "int";
-		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
+		string attributeType = "int";
+		string graphElementType = FormatElementInterfaceRef(index.StartNodeType);
 
-		String lookupMethodNameAppendix = "Descending";
-		if(fromConstrained) {
+		string lookupMethodNameAppendix = "Descending";
+		if(fromConstrained)
+		{
 			lookupMethodNameAppendix += "From";
 			if(fromInclusive)
 				lookupMethodNameAppendix += "Inclusive";
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		if(toConstrained) {
+		if(toConstrained)
+		{
 			lookupMethodNameAppendix += "To";
 			if(toInclusive)
 				lookupMethodNameAppendix += "Inclusive";
@@ -1597,528 +1668,537 @@ public class ModelIndexGen extends CSharpBase
 				lookupMethodNameAppendix += "Exclusive";
 		}
 
-		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
+		sb.AppendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
 				+ "(TreeNode current");
 		if(fromConstrained)
-			sb.append(", " + attributeType + " from");
+			sb.Append(", " + attributeType + " from");
 		if(toConstrained)
-			sb.append(", " + attributeType + " to");
-		sb.append(")\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFrontIndented("yield break;\n");
-		sb.append("\n");
-		sb.appendFront("int versionAtIterationBegin = version;\n");
-		sb.append("\n");
-		if(fromConstrained) {
-			sb.appendFront("// don't go left if the value is already lower than from\n");
-			sb.appendFront("if(current.key" + (fromInclusive ? " <= " : " < ") + "from)\n");
+			sb.Append(", " + attributeType + " to");
+		sb.Append(")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFrontIndented("yield break;\n");
+		sb.Append("\n");
+		sb.AppendFront("int versionAtIterationBegin = version;\n");
+		sb.Append("\n");
+		if(fromConstrained)
+		{
+			sb.AppendFront("// don't go left if the value is already lower than from\n");
+			sb.AppendFront("if(current.key" + (fromInclusive ? " <= " : " < ") + "from)\n");
 		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup"
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup"
 				+ lookupMethodNameAppendix + "(current.right");
 		if(fromConstrained)
-			sb.append(", from");
+			sb.Append(", from");
 		if(toConstrained)
-			sb.append(", to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+			sb.Append(", to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		if(fromConstrained || toConstrained) {
-			sb.appendFront("// (only) yield a value that is within bounds\n");
-			sb.appendFront("if(");
-			if(fromConstrained) {
-				sb.append("current.key" + (fromInclusive ? " <= " : " < ") + "from");
-			}
+		if(fromConstrained || toConstrained)
+		{
+			sb.AppendFront("// (only) yield a value that is within bounds\n");
+			sb.AppendFront("if(");
+			if(fromConstrained)
+				sb.Append("current.key" + (fromInclusive ? " <= " : " < ") + "from");
 			if(fromConstrained && toConstrained)
-				sb.append(" && ");
-			if(toConstrained) {
-				sb.append("current.key" + (toInclusive ? " >= " : " > ") + "to");
-			}
-			sb.append(")\n");
+				sb.Append(" && ");
+			if(toConstrained)
+				sb.Append("current.key" + (toInclusive ? " >= " : " > ") + "to");
+			sb.Append(")\n");
 		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("// the value is within range.\n");
-		sb.appendFront("yield return current.value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("// the value is within range.\n");
+		sb.AppendFront("yield return current.value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		if(toConstrained) {
-			sb.appendFront("// don't go right if the value is already higher than to\n");
-			sb.appendFront("if(current.key" + (toInclusive ? " >= " : " > ") + "to)\n");
-		}
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
-		if(fromConstrained)
-			sb.append(", from");
 		if(toConstrained)
-			sb.append(", to");
-		sb.append("))\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("yield return value;\n");
-		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		{
+			sb.AppendFront("// don't go right if the value is already higher than to\n");
+			sb.AppendFront("if(current.key" + (toInclusive ? " >= " : " > ") + "to)\n");
+		}
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.left");
+		if(fromConstrained)
+			sb.Append(", from");
+		if(toConstrained)
+			sb.Append(", to");
+		sb.Append("))\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("yield return value;\n");
+		sb.AppendFront("if(version != versionAtIterationBegin)\n");
+		sb.AppendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genGetIncidenceCount(IncidenceCountIndex index)
+	internal virtual void GenGetIncidenceCount(IncidenceCountIndex index)
 	{
-		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
-		sb.appendFront("public int GetIncidenceCount(GRGEN_LIBGR.IGraphElement element)\n");
-		sb.appendFront("{\n");
-		sb.appendFrontIndented("return GetIncidenceCount((" + graphElementType + ") element);\n");
-		sb.appendFront("}\n");
-		sb.append("\n");
+		string graphElementType = FormatElementInterfaceRef(index.StartNodeType);
+		sb.AppendFront("public int GetIncidenceCount(GRGEN_LIBGR.IGraphElement element)\n");
+		sb.AppendFront("{\n");
+		sb.AppendFrontIndented("return GetIncidenceCount((" + graphElementType + ") element);\n");
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("public int GetIncidenceCount(" + graphElementType + " element)\n");
-		sb.appendFront("{\n");
-		sb.appendFrontIndented("return nodeToIncidenceCount[element];\n");
-		sb.appendFront("}\n");
+		sb.AppendFront("public int GetIncidenceCount(" + graphElementType + " element)\n");
+		sb.AppendFront("{\n");
+		sb.AppendFrontIndented("return nodeToIncidenceCount[element];\n");
+		sb.AppendFront("}\n");
 	}
 
-	void genCheckDump(IncidenceCountIndex index)
+	internal virtual void GenCheckDump(IncidenceCountIndex index)
 	{
-		String startNodeType = formatElementInterfaceRef(index.getStartNodeType());
+		string startNodeType = FormatElementInterfaceRef(index.StartNodeType);
 
-		sb.appendFront("protected void Check(TreeNode current)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFrontIndented("return;\n");
-		sb.appendFront("Check(current.left);\n");
-		sb.appendFront("if(!nodeToIncidenceCount.ContainsKey(current.value)) {\n");
-		sb.indent();
-		sb.appendFront("Dump(root);\n");
-		sb.appendFront("Dump();\n");
-		sb.appendFront("throw new Exception(\"Missing node\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.appendFront("if(nodeToIncidenceCount[current.value]!=current.key) {\n");
-		sb.indent();
-		sb.appendFront("Dump(root);\n");
-		sb.appendFront("Dump();\n");
-		sb.appendFront("throw new Exception(\"Incidence values differ\");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.appendFront("Check(current.right);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("protected void Check(TreeNode current)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFrontIndented("return;\n");
+		sb.AppendFront("Check(current.left);\n");
+		sb.AppendFront("if(!nodeToIncidenceCount.ContainsKey(current.value)) {\n");
+		sb.Indent();
+		sb.AppendFront("Dump(root);\n");
+		sb.AppendFront("Dump();\n");
+		sb.AppendFront("throw new Exception(\"Missing node\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.AppendFront("if(nodeToIncidenceCount[current.value]!=current.key) {\n");
+		sb.Indent();
+		sb.AppendFront("Dump(root);\n");
+		sb.AppendFront("Dump();\n");
+		sb.AppendFront("throw new Exception(\"Incidence values differ\");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.AppendFront("Check(current.right);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("protected void Dump(TreeNode current)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFrontIndented("return;\n");
-		sb.appendFront("Dump(current.left);\n");
-		sb.appendFront("Console.Write(current.key);\n");
-		sb.appendFront("Console.Write(\" -> \");\n");
-		sb.appendFront("Console.WriteLine(graph.GetElementName(current.value));\n");
-		sb.appendFront("Dump(current.right);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("protected void Dump(TreeNode current)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFrontIndented("return;\n");
+		sb.AppendFront("Dump(current.left);\n");
+		sb.AppendFront("Console.Write(current.key);\n");
+		sb.AppendFront("Console.Write(\" -> \");\n");
+		sb.AppendFront("Console.WriteLine(graph.GetElementName(current.value));\n");
+		sb.AppendFront("Dump(current.right);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("protected void Dump()\n");
-		sb.appendFront("{\n");
-		sb.appendFront("foreach(KeyValuePair<" + startNodeType + ",int> kvp in nodeToIncidenceCount) {\n");
-		sb.indent();
-		sb.appendFront("Console.Write(graph.GetElementName(kvp.Key));\n");
-		sb.appendFront("Console.Write(\" => \");\n");
-		sb.appendFront("Console.WriteLine(kvp.Value);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("protected void Dump()\n");
+		sb.AppendFront("{\n");
+		sb.AppendFront("foreach(KeyValuePair<" + startNodeType + ",int> kvp in nodeToIncidenceCount) {\n");
+		sb.Indent();
+		sb.AppendFront("Console.Write(graph.GetElementName(kvp.Key));\n");
+		sb.AppendFront("Console.Write(\" => \");\n");
+		sb.AppendFront("Console.WriteLine(kvp.Value);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	void genIndexMaintainingEventHandlers(IncidenceCountIndex index)
+	internal virtual void GenIndexMaintainingEventHandlers(IncidenceCountIndex index)
 	{
-		String startNodeType = formatElementInterfaceRef(index.getStartNodeType());
-		String incidentEdgeType = formatElementInterfaceRef(index.getIncidentEdgeType());
-		String incidentEdgeTypeType = formatTypeClassRefInstance(index.getIncidentEdgeType());
+		string startNodeType = FormatElementInterfaceRef(index.StartNodeType);
+		string incidentEdgeType = FormatElementInterfaceRef(index.IncidentEdgeType);
+		string incidentEdgeTypeType = FormatTypeClassRefInstance(index.IncidentEdgeType);
 
-		sb.appendFront("void ClearingGraph(GRGEN_LIBGR.IGraph graph)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("// ReInitialize AA tree to clear the index\n");
-		sb.appendFront("bottom = new TreeNode();\n");
-		sb.appendFront("root = bottom;\n");
-		sb.appendFront("deleted = bottom;\n");
-		sb.appendFront("last = null;\n");
-		sb.appendFront("count = 0;\n");
-		sb.appendFront("version = 0;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("void ClearingGraph(GRGEN_LIBGR.IGraph graph)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("// ReInitialize AA tree to clear the index\n");
+		sb.AppendFront("bottom = new TreeNode();\n");
+		sb.AppendFront("root = bottom;\n");
+		sb.AppendFront("deleted = bottom;\n");
+		sb.AppendFront("last = null;\n");
+		sb.AppendFront("count = 0;\n");
+		sb.AppendFront("version = 0;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("void EdgeAdded(GRGEN_LIBGR.IEdge edge)\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		sb.AppendFront("void EdgeAdded(GRGEN_LIBGR.IEdge edge)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 		//sb.append("Check(root);\n");
-		sb.appendFront("if(!(edge is " + incidentEdgeType + "))\n");
-		sb.appendFrontIndented("return;\n");
-		sb.appendFront("GRGEN_LIBGR.INode source = edge.Source;\n");
-		sb.appendFront("GRGEN_LIBGR.INode target = edge.Target;\n");
-		genIndexMaintainingEdgeAdded(index);
+		sb.AppendFront("if(!(edge is " + incidentEdgeType + "))\n");
+		sb.AppendFrontIndented("return;\n");
+		sb.AppendFront("GRGEN_LIBGR.INode source = edge.Source;\n");
+		sb.AppendFront("GRGEN_LIBGR.INode target = edge.Target;\n");
+		GenIndexMaintainingEdgeAdded(index);
 		//sb.append("Check(root);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("void NodeAdded(GRGEN_LIBGR.INode node)\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		sb.AppendFront("void NodeAdded(GRGEN_LIBGR.INode node)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 		//sb.append("Check(root);\n");
-		sb.appendFront("if(node is " + startNodeType + ") {\n");
-		sb.indent();
-		sb.appendFront("nodeToIncidenceCount.Add((" + startNodeType + ")node, 0);\n");
-		sb.appendFront("Insert(ref root, 0, (" + startNodeType + ")node);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("if(node is " + startNodeType + ") {\n");
+		sb.Indent();
+		sb.AppendFront("nodeToIncidenceCount.Add((" + startNodeType + ")node, 0);\n");
+		sb.AppendFront("Insert(ref root, 0, (" + startNodeType + ")node);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 		//sb.append("Check(root);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("void RemovingEdge(GRGEN_LIBGR.IEdge edge)\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		sb.AppendFront("void RemovingEdge(GRGEN_LIBGR.IEdge edge)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 		//sb.append("Check(root);\n");
-		sb.appendFront("if(!(edge is " + incidentEdgeType + "))\n");
-		sb.appendFrontIndented("return;\n");
-		sb.appendFront("GRGEN_LIBGR.INode source = edge.Source;\n");
-		sb.appendFront("GRGEN_LIBGR.INode target = edge.Target;\n");
-		genIndexMaintainingRemovingEdge(index);
+		sb.AppendFront("if(!(edge is " + incidentEdgeType + "))\n");
+		sb.AppendFrontIndented("return;\n");
+		sb.AppendFront("GRGEN_LIBGR.INode source = edge.Source;\n");
+		sb.AppendFront("GRGEN_LIBGR.INode target = edge.Target;\n");
+		GenIndexMaintainingRemovingEdge(index);
 		//sb.append("Check(root);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("void RemovingNode(GRGEN_LIBGR.INode node)\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		sb.AppendFront("void RemovingNode(GRGEN_LIBGR.INode node)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 		//sb.append("Check(root);\n");
-		sb.appendFront("if(node is " + startNodeType + ") {\n");
-		sb.indent();
-		sb.appendFront("nodeToIncidenceCount.Remove((" + startNodeType + ")node);\n");
-		sb.appendFront("Delete(ref root, 0, (" + startNodeType + ")node);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("if(node is " + startNodeType + ") {\n");
+		sb.Indent();
+		sb.AppendFront("nodeToIncidenceCount.Remove((" + startNodeType + ")node);\n");
+		sb.AppendFront("Delete(ref root, 0, (" + startNodeType + ")node);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 		//sb.append("Check(root);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("void RetypingEdge(GRGEN_LIBGR.IEdge oldEdge, GRGEN_LIBGR.IEdge newEdge)\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		sb.AppendFront("void RetypingEdge(GRGEN_LIBGR.IEdge oldEdge, GRGEN_LIBGR.IEdge newEdge)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 		//sb.append("Check(root);\n");
-		sb.appendFront("RemovingEdge(oldEdge);\n");
-		sb.appendFront("EdgeAdded(newEdge);\n");
+		sb.AppendFront("RemovingEdge(oldEdge);\n");
+		sb.AppendFront("EdgeAdded(newEdge);\n");
 		//sb.append("Check(root);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("void RetypingNode(GRGEN_LIBGR.INode oldNode, GRGEN_LIBGR.INode newNode)\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		sb.AppendFront("void RetypingNode(GRGEN_LIBGR.INode oldNode, GRGEN_LIBGR.INode newNode)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 		//sb.append("Check(root);\n");
-		sb.appendFront("IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> incidentEdges = "
+		sb.AppendFront("IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> incidentEdges = "
 				+ "GRGEN_LIBGR.GraphHelper.Incident(oldNode, " + incidentEdgeTypeType + ", graph.Model.NodeModel.RootType);\n");
-		sb.appendFront("foreach(KeyValuePair<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> edgeKVP in incidentEdges)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("GRGEN_LIBGR.IEdge edge = edgeKVP.Key;\n");
-		sb.appendFront("GRGEN_LIBGR.INode source = edge.Source;\n");
-		sb.appendFront("GRGEN_LIBGR.INode target = edge.Target;\n");
-		genIndexMaintainingRemovingEdge(index);
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("foreach(KeyValuePair<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> edgeKVP in incidentEdges)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("GRGEN_LIBGR.IEdge edge = edgeKVP.Key;\n");
+		sb.AppendFront("GRGEN_LIBGR.INode source = edge.Source;\n");
+		sb.AppendFront("GRGEN_LIBGR.INode target = edge.Target;\n");
+		GenIndexMaintainingRemovingEdge(index);
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.appendFront("if(oldNode is " + startNodeType + ") {\n");
-		sb.indent();
-		sb.appendFront("nodeToIncidenceCount.Remove((" + startNodeType + ")oldNode);\n");
-		sb.appendFront("Delete(ref root, 0, (" + startNodeType + ")oldNode);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("if(oldNode is " + startNodeType + ") {\n");
+		sb.Indent();
+		sb.AppendFront("nodeToIncidenceCount.Remove((" + startNodeType + ")oldNode);\n");
+		sb.AppendFront("Delete(ref root, 0, (" + startNodeType + ")oldNode);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.appendFront("if(newNode is " + startNodeType + ") {\n");
-		sb.indent();
-		sb.appendFront("nodeToIncidenceCount.Add((" + startNodeType + ")newNode, 0);\n");
-		sb.appendFront("Insert(ref root, 0, (" + startNodeType + ")newNode);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("if(newNode is " + startNodeType + ") {\n");
+		sb.Indent();
+		sb.AppendFront("nodeToIncidenceCount.Add((" + startNodeType + ")newNode, 0);\n");
+		sb.AppendFront("Insert(ref root, 0, (" + startNodeType + ")newNode);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.appendFront("foreach(KeyValuePair<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> edgeKVP in incidentEdges)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("GRGEN_LIBGR.IEdge edge = edgeKVP.Key;\n");
-		sb.appendFront("GRGEN_LIBGR.INode source = edge.Source==oldNode ? newNode : edge.Source;\n");
-		sb.appendFront("GRGEN_LIBGR.INode target = edge.Target==oldNode ? newNode : edge.Target;\n");
-		genIndexMaintainingEdgeAdded(index);
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("foreach(KeyValuePair<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> edgeKVP in incidentEdges)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("GRGEN_LIBGR.IEdge edge = edgeKVP.Key;\n");
+		sb.AppendFront("GRGEN_LIBGR.INode source = edge.Source==oldNode ? newNode : edge.Source;\n");
+		sb.AppendFront("GRGEN_LIBGR.INode target = edge.Target==oldNode ? newNode : edge.Target;\n");
+		GenIndexMaintainingEdgeAdded(index);
+		sb.Unindent();
+		sb.AppendFront("}\n");
 		//sb.append("Check(root);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 	}
 
-	void genIndexMaintainingEdgeAdded(IncidenceCountIndex index)
+	internal virtual void GenIndexMaintainingEdgeAdded(IncidenceCountIndex index)
 	{
-		String startNodeType = formatElementInterfaceRef(index.getStartNodeType());
-		String adjacentNodeType = formatElementInterfaceRef(index.getAdjacentNodeType());
+		string startNodeType = FormatElementInterfaceRef(index.StartNodeType);
+		string adjacentNodeType = FormatElementInterfaceRef(index.AdjacentNodeType);
 
-		if(index.Direction() == Direction.OUTGOING) {
-			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
-			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+		if(index.Direction() == Direction.OUTGOING)
+		{
+			sb.AppendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
+			sb.Indent();
+			sb.AppendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
 					+ "(" + startNodeType + ")source);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
-					+"nodeToIncidenceCount[(" + startNodeType + ")source] + 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
-					+"(" + startNodeType + ")source);\n");
-			sb.unindent();
-			sb.appendFront("}\n");
-		} else if(index.Direction() == Direction.INCOMING) {
-			sb.appendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + ") {\n");
-			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
-					+"(" + startNodeType + ")target);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
-					+ "nodeToIncidenceCount[(" + startNodeType + ")target] + 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
-					+"(" + startNodeType + ")target);\n");
-			sb.unindent();
-			sb.appendFront("}\n");
-		} else {
-			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
-			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
-					+"(" + startNodeType + ")source);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
+			sb.AppendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
 					+ "nodeToIncidenceCount[(" + startNodeType + ")source] + 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
-					+"(" + startNodeType + ")source);\n");
-			sb.unindent();
-			sb.appendFront("}\n");
-			sb.appendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + " && source!=target) {\n");
-			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
-					+"(" + startNodeType + ")target);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
-					+"nodeToIncidenceCount[(" + startNodeType + ")target] + 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
-					+"(" + startNodeType + ")target);\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			sb.AppendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+					+ "(" + startNodeType + ")source);\n");
+			sb.Unindent();
+			sb.AppendFront("}\n");
+		}
+		else if(index.Direction() == Direction.INCOMING)
+		{
+			sb.AppendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + ") {\n");
+			sb.Indent();
+			sb.AppendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+ "(" + startNodeType + ")target);\n");
+			sb.AppendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
+					+ "nodeToIncidenceCount[(" + startNodeType + ")target] + 1;\n");
+			sb.AppendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+ "(" + startNodeType + ")target);\n");
+			sb.Unindent();
+			sb.AppendFront("}\n");
+		}
+		else
+		{
+			sb.AppendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
+			sb.Indent();
+			sb.AppendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+					+ "(" + startNodeType + ")source);\n");
+			sb.AppendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
+					+ "nodeToIncidenceCount[(" + startNodeType + ")source] + 1;\n");
+			sb.AppendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+					+ "(" + startNodeType + ")source);\n");
+			sb.Unindent();
+			sb.AppendFront("}\n");
+			sb.AppendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + " && source!=target) {\n");
+			sb.Indent();
+			sb.AppendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+ "(" + startNodeType + ")target);\n");
+			sb.AppendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
+					+ "nodeToIncidenceCount[(" + startNodeType + ")target] + 1;\n");
+			sb.AppendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+ "(" + startNodeType + ")target);\n");
+			sb.Unindent();
+			sb.AppendFront("}\n");
 		}
 	}
 
-	void genIndexMaintainingRemovingEdge(IncidenceCountIndex index)
+	internal virtual void GenIndexMaintainingRemovingEdge(IncidenceCountIndex index)
 	{
-		String startNodeType = formatElementInterfaceRef(index.getStartNodeType());
-		String adjacentNodeType = formatElementInterfaceRef(index.getAdjacentNodeType());
+		string startNodeType = FormatElementInterfaceRef(index.StartNodeType);
+		string adjacentNodeType = FormatElementInterfaceRef(index.AdjacentNodeType);
 
-		if(index.Direction() == Direction.OUTGOING) {
-			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
-			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+		if(index.Direction() == Direction.OUTGOING)
+		{
+			sb.AppendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
+			sb.Indent();
+			sb.AppendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
 					+ "(" + startNodeType + ")source);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
+			sb.AppendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
 					+ "nodeToIncidenceCount[(" + startNodeType + ")source] - 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+			sb.AppendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
 					+ "(" + startNodeType + ")source);\n");
-			sb.unindent();
-			sb.appendFront("}\n");
-		} else if(index.Direction() == Direction.INCOMING) {
-			sb.appendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + ") {\n");
-			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+			sb.Unindent();
+			sb.AppendFront("}\n");
+		}
+		else if(index.Direction() == Direction.INCOMING)
+		{
+			sb.AppendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + ") {\n");
+			sb.Indent();
+			sb.AppendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
 					+ "(" + startNodeType + ")target);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
+			sb.AppendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
 					+ "nodeToIncidenceCount[("+ startNodeType + ")target] - 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+			sb.AppendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
 					+ "(" + startNodeType + ")target);\n");
-			sb.unindent();
-			sb.appendFront("}\n");
-		} else {
-			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
-			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+			sb.Unindent();
+			sb.AppendFront("}\n");
+		}
+		else
+		{
+			sb.AppendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
+			sb.Indent();
+			sb.AppendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
 					+ "(" + startNodeType + ")source);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
+			sb.AppendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
 					+ "nodeToIncidenceCount[(" + startNodeType + ")source] - 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+			sb.AppendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
 					+ "(" + startNodeType + ")source);\n");
-			sb.unindent();
-			sb.appendFront("}\n");
-			sb.appendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + " && source!=target) {\n");
-			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+			sb.Unindent();
+			sb.AppendFront("}\n");
+			sb.AppendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + " && source!=target) {\n");
+			sb.Indent();
+			sb.AppendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
 					+ "(" + startNodeType + ")target);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
+			sb.AppendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
 					+ "nodeToIncidenceCount[(" + startNodeType + ")target] - 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+			sb.AppendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
 					+ "(" + startNodeType + ")target);\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			sb.Unindent();
+			sb.AppendFront("}\n");
 		}
 	}
 
-	void genIndexAATreeBalancingInsertionDeletion(IncidenceCountIndex index)
+	internal virtual void GenIndexAATreeBalancingInsertionDeletion(IncidenceCountIndex index)
 	{
-		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
-		String castForUnique = " as GRGEN_LGSP.LGSPNodeWithUniqueId";
+		string graphElementType = FormatElementInterfaceRef(index.StartNodeType);
+		string castForUnique = " as GRGEN_LGSP.LGSPNodeWithUniqueId";
 
-		sb.appendFront("private void Skew(ref TreeNode current)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current.level != current.left.level)\n");
-		sb.appendFrontIndented("return;\n");
-		sb.append("\n");
-		sb.appendFront("// rotate right\n");
-		sb.appendFront("TreeNode left = current.left;\n");
-		sb.appendFront("current.left = left.right;\n");
-		sb.appendFront("left.right = current;\n");
-		sb.appendFront("current = left;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("private void Skew(ref TreeNode current)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current.level != current.left.level)\n");
+		sb.AppendFrontIndented("return;\n");
+		sb.Append("\n");
+		sb.AppendFront("// rotate right\n");
+		sb.AppendFront("TreeNode left = current.left;\n");
+		sb.AppendFront("current.left = left.right;\n");
+		sb.AppendFront("left.right = current;\n");
+		sb.AppendFront("current = left;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("private void Split(ref TreeNode current)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current.right.right.level != current.level)\n");
-		sb.appendFrontIndented("return;\n");
-		sb.append("\n");
-		sb.appendFront("// rotate left\n");
-		sb.appendFront("TreeNode right = current.right;\n");
-		sb.appendFront("current.right = right.left;\n");
-		sb.appendFront("right.left = current;\n");
-		sb.appendFront("current = right;\n");
-		sb.appendFront("++current.level;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("private void Split(ref TreeNode current)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current.right.right.level != current.level)\n");
+		sb.AppendFrontIndented("return;\n");
+		sb.Append("\n");
+		sb.AppendFront("// rotate left\n");
+		sb.AppendFront("TreeNode right = current.right;\n");
+		sb.AppendFront("current.right = right.left;\n");
+		sb.AppendFront("right.left = current;\n");
+		sb.AppendFront("current = right;\n");
+		sb.AppendFront("++current.level;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("private void Insert(ref TreeNode current, int key, " + graphElementType + " value)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("current = new TreeNode(key, value, bottom);\n");
-		sb.appendFront("++count;\n");
-		sb.appendFront("++version;\n");
-		sb.appendFront("return;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
-		sb.appendFront("if(key < current.key");
-		sb.appendFront(" || ( key == current.key && (value" + castForUnique + ").uniqueId < "
+		sb.AppendFront("private void Insert(ref TreeNode current, int key, " + graphElementType + " value)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("current = new TreeNode(key, value, bottom);\n");
+		sb.AppendFront("++count;\n");
+		sb.AppendFront("++version;\n");
+		sb.AppendFront("return;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
+		sb.AppendFront("if(key < current.key");
+		sb.AppendFront(" || ( key == current.key && (value" + castForUnique + ").uniqueId < "
 				+ "(current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFrontIndented("Insert(ref current.left, key, value);\n");
-		sb.appendFront("else if(key > current.key");
-		sb.appendFront(" || ( key == current.key && (value" + castForUnique + ").uniqueId > "
+		sb.AppendFrontIndented("Insert(ref current.left, key, value);\n");
+		sb.AppendFront("else if(key > current.key");
+		sb.AppendFront(" || ( key == current.key && (value" + castForUnique + ").uniqueId > "
 				+ "(current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFrontIndented("Insert(ref current.right, key, value);\n");
-		sb.appendFront("else\n");
-		sb.appendFrontIndented("throw new Exception(\"Insertion of already available element\");\n");
-		sb.append("\n");
-		sb.appendFront("Skew(ref current);\n");
-		sb.appendFront("Split(ref current);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFrontIndented("Insert(ref current.right, key, value);\n");
+		sb.AppendFront("else\n");
+		sb.AppendFrontIndented("throw new Exception(\"Insertion of already available element\");\n");
+		sb.Append("\n");
+		sb.AppendFront("Skew(ref current);\n");
+		sb.AppendFront("Split(ref current);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 
-		sb.appendFront("private void Delete(ref TreeNode current, int key, " + graphElementType + " value)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(current == bottom)\n");
-		sb.appendFrontIndented("return;\n");
-		sb.append("\n");
-		sb.appendFront("// search down the tree (and set pointer last and deleted)\n");
-		sb.appendFront("last = current;\n");
-		sb.appendFront("if(key < current.key");
-		sb.append(" || ( key == current.key && (value" + castForUnique + ").uniqueId < "
+		sb.AppendFront("private void Delete(ref TreeNode current, int key, " + graphElementType + " value)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(current == bottom)\n");
+		sb.AppendFrontIndented("return;\n");
+		sb.Append("\n");
+		sb.AppendFront("// search down the tree (and set pointer last and deleted)\n");
+		sb.AppendFront("last = current;\n");
+		sb.AppendFront("if(key < current.key");
+		sb.Append(" || ( key == current.key && (value" + castForUnique + ").uniqueId < "
 				+ "(current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFrontIndented("Delete(ref current.left, key, value);\n");
-		sb.appendFront("else\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("deleted = current;\n");
-		sb.appendFront("Delete(ref current.right, key, value);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
-		sb.appendFront("// at the bottom of the tree we remove the element (if present)\n");
-		sb.appendFront("if(current == last && deleted != bottom && key == deleted.key");
-		sb.appendFront(" && (value" + castForUnique + ").uniqueId"
+		sb.AppendFrontIndented("Delete(ref current.left, key, value);\n");
+		sb.AppendFront("else\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("deleted = current;\n");
+		sb.AppendFront("Delete(ref current.right, key, value);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
+		sb.AppendFront("// at the bottom of the tree we remove the element (if present)\n");
+		sb.AppendFront("if(current == last && deleted != bottom && key == deleted.key");
+		sb.AppendFront(" && (value" + castForUnique + ").uniqueId"
 				+ " == (deleted.value" + castForUnique + ").uniqueId )\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("deleted.value = current.value;\n");
-		sb.appendFront("deleted.key = current.key;\n");
-		sb.appendFront("deleted = bottom;\n");
-		sb.appendFront("current = current.right;\n");
-		sb.appendFront("--count;\n");
-		sb.appendFront("++version;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.appendFront("// on the way back, we rebalance\n");
-		sb.appendFront("else if(current.left.level < current.level - 1\n");
-		sb.appendFrontIndented("|| current.right.level < current.level - 1)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("--current.level;\n");
-		sb.appendFront("if(current.right.level > current.level)\n");
-		sb.appendFrontIndented("current.right.level = current.level;\n");
-		sb.appendFront("Skew(ref current);\n");
-		sb.appendFront("Skew(ref current.right);\n");
-		sb.appendFront("Skew(ref current.right.right);\n");
-		sb.appendFront("Split(ref current);\n");
-		sb.appendFront("Split(ref current.right);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("deleted.value = current.value;\n");
+		sb.AppendFront("deleted.key = current.key;\n");
+		sb.AppendFront("deleted = bottom;\n");
+		sb.AppendFront("current = current.right;\n");
+		sb.AppendFront("--count;\n");
+		sb.AppendFront("++version;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.AppendFront("// on the way back, we rebalance\n");
+		sb.AppendFront("else if(current.left.level < current.level - 1\n");
+		sb.AppendFrontIndented("|| current.right.level < current.level - 1)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("--current.level;\n");
+		sb.AppendFront("if(current.right.level > current.level)\n");
+		sb.AppendFrontIndented("current.right.level = current.level;\n");
+		sb.AppendFront("Skew(ref current);\n");
+		sb.AppendFront("Skew(ref current.right);\n");
+		sb.AppendFront("Skew(ref current.right.right);\n");
+		sb.AppendFront("Split(ref current);\n");
+		sb.AppendFront("Split(ref current.right);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Append("\n");
 	}
 
-	@Override
-	protected void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState)
+	protected internal override void GenQualAccess(SourceBuilder sb, Qualification qual, object modifyGenerationState)
 	{
 		// needed because of inheritance, maybe todo: remove
 	}
 
-	@Override
-	protected void genMemberAccess(SourceBuilder sb, Entity member)
+	protected internal override void GenMemberAccess(SourceBuilder sb, Entity member)
 	{
 		// needed because of inheritance, maybe todo: remove
 	}
@@ -2129,4 +2209,6 @@ public class ModelIndexGen extends CSharpBase
 
 	private Model model;
 	private SourceBuilder sb = null;
+}
+
 }

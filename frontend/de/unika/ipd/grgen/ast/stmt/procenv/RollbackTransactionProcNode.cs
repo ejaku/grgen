@@ -1,92 +1,95 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.procenv;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.procenv.RollbackTransactionProc;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class RollbackTransactionProcNode extends BuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
-	static {
-		setClassName(RollbackTransactionProcNode.class, "rollback transaction procedure");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using RollbackTransactionProc = de.unika.ipd.grgen.ir.stmt.procenv.RollbackTransactionProc;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class RollbackTransactionProcNode : BuiltinProcedureInvocationBaseNode
+{
+	static RollbackTransactionProcNode()
+	{
+		SetClassName(typeof(RollbackTransactionProcNode), "rollback transaction procedure");
 	}
 
 	private ExprNode transactionIdExpr;
 
 	public RollbackTransactionProcNode(Coords coords, ExprNode transactionIdExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.transactionIdExpr = becomeParent(transactionIdExpr);
+		this.transactionIdExpr = BecomeParent(transactionIdExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(transactionIdExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(transactionIdExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("transactionIdExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("transactionIdExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		TypeNode transactionIdExprType = transactionIdExpr.getType();
-		if(!transactionIdExprType.isEqual(BasicTypeNode.intType)) {
-			transactionIdExpr.reportError("The Transaction::rollback procedure expects as argument (transactionId)"
+		TypeNode transactionIdExprType = transactionIdExpr.Type;
+		if(!transactionIdExprType.IsEqual(BasicTypeNode.intType))
+		{
+			transactionIdExpr.ReportError("The Transaction::rollback procedure expects as argument (transactionId)"
 					+ " a value of type int"
-					+ " (but is given a value of type " + transactionIdExprType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + transactionIdExprType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		transactionIdExpr = transactionIdExpr.evaluate();
-		return new RollbackTransactionProc(transactionIdExpr.checkIR(Expression.class));
+		transactionIdExpr = transactionIdExpr.Evaluate();
+		return new RollbackTransactionProc(transactionIdExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

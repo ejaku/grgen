@@ -1,109 +1,118 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node yielding the graph elements (nodes or edges) from an index by accessing a range from a certain value to a certain value (one or both may be optional) (base class for the specific node or edge versions).
- */
-public abstract class FromIndexAccessFromToExprNode extends FromIndexAccessExprNode
+namespace de.unika.ipd.grgen.ast.expr.graph
 {
-	static {
-		setClassName(FromIndexAccessFromToExprNode.class, "from index access from to expr");
+
+using System.Collections.Generic;
+using System.Text;
+
+using de.unika.ipd.grgen.ast;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node yielding the graph elements (nodes or edges) from an index by accessing a range from a certain value to a certain value (one or both may be optional) (base class for the specific node or edge versions).
+/// </summary>
+public abstract class FromIndexAccessFromToExprNode : FromIndexAccessExprNode
+{
+	static FromIndexAccessFromToExprNode()
+	{
+		SetClassName(typeof(FromIndexAccessFromToExprNode), "from index access from to expr");
 	}
 
-	protected ExprNode fromExpr;
-	protected boolean fromExclusive;
-	protected ExprNode toExpr;
-	protected boolean toExclusive;
+	protected internal ExprNode fromExpr;
+	protected internal bool fromExclusive;
+	protected internal ExprNode toExpr;
+	protected internal bool toExclusive;
 
-	public FromIndexAccessFromToExprNode(Coords coords, BaseNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
+	public FromIndexAccessFromToExprNode(Coords coords, BaseNode index, ExprNode fromExpr, bool fromExclusive, ExprNode toExpr, bool toExclusive)
+		: base(coords, index)
 	{
-		super(coords, index);
 		this.fromExpr = fromExpr;
-		becomeParent(this.fromExpr);
+		BecomeParent(this.fromExpr);
 		this.fromExclusive = fromExclusive;
 		this.toExpr = toExpr;
-		becomeParent(this.toExpr);
+		BecomeParent(this.toExpr);
 		this.toExclusive = toExclusive;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(indexUnresolved, index));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(indexUnresolved, index));
 		if(fromExpr != null)
-			children.add(fromExpr);
+			children.Add(fromExpr);
 		if(toExpr != null)
-			children.add(toExpr);
+			children.Add(toExpr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("index");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("index");
 		if(fromExpr != null)
-			childrenNames.add("fromExpr");
+			childrenNames.Add("fromExpr");
 		if(toExpr != null)
-			childrenNames.add("toExpr");
+			childrenNames.Add("toExpr");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = super.resolveLocal();
+		bool successfullyResolved = base.ResolveLocal();
 		if(fromExpr != null)
-			successfullyResolved &= fromExpr.resolve();
+			successfullyResolved &= fromExpr.Resolve();
 		if(toExpr != null)
-			successfullyResolved &= toExpr.resolve();
+			successfullyResolved &= toExpr.Resolve();
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		boolean res = super.checkLocal();
-		TypeNode expectedIndexAccessType = index.getExpectedAccessType();
-		if(fromExpr != null) {
-			TypeNode fromIndexAccessType = fromExpr.getType();
-			if(!fromIndexAccessType.isCompatibleTo(expectedIndexAccessType)) {
-				String expTypeName = expectedIndexAccessType.getTypeName();
-				String typeName = fromIndexAccessType.getTypeName();
-				int fromArgumentNumber = 2 + indexShift();
-				reportError("The function " + shortSignature() + " expects as " + fromArgumentNumber + ". argument (fromExpr) a value of type " + expTypeName
+		bool res = base.CheckLocal();
+		TypeNode expectedIndexAccessType = index.ExpectedAccessType;
+		if(fromExpr != null)
+		{
+			TypeNode fromIndexAccessType = fromExpr.Type;
+			if(!fromIndexAccessType.IsCompatibleTo(expectedIndexAccessType))
+			{
+				string expTypeName = expectedIndexAccessType.TypeName;
+				string typeName = fromIndexAccessType.TypeName;
+				int fromArgumentNumber = 2 + IndexShift();
+				ReportError("The function " + ShortSignature() + " expects as " + fromArgumentNumber + ". argument (fromExpr) a value of type " + expTypeName
 						+ " (but is given a value of type " + typeName + ").");
 				return false;
 			}
 		}
-		if(toExpr != null) {
-			TypeNode toIndexAccessType = toExpr.getType();
-			if(!toIndexAccessType.isCompatibleTo(expectedIndexAccessType)) {
-				String expTypeName = expectedIndexAccessType.getTypeName();
-				String typeName = toIndexAccessType.getTypeName();
-				int toArgumentNumber = (fromExpr != null ? 3 : 2) + indexShift();
-				reportError("The function " + shortSignature() + " expects as " + toArgumentNumber + ". argument (toExpr) a value of type " + expTypeName
+		if(toExpr != null)
+		{
+			TypeNode toIndexAccessType = toExpr.Type;
+			if(!toIndexAccessType.IsCompatibleTo(expectedIndexAccessType))
+			{
+				string expTypeName = expectedIndexAccessType.TypeName;
+				string typeName = toIndexAccessType.TypeName;
+				int toArgumentNumber = (fromExpr != null ? 3 : 2) + IndexShift();
+				ReportError("The function " + ShortSignature() + " expects as " + toArgumentNumber + ". argument (toExpr) a value of type " + expTypeName
 						+ " (but is given a value of type " + typeName + ").");
 				return false;
 			}
@@ -111,38 +120,40 @@ public abstract class FromIndexAccessFromToExprNode extends FromIndexAccessExprN
 		return res;
 	}
 
-	protected String fromPart()
+	protected internal virtual string FromPart()
 	{
 		if(fromExpr == null)
 			return "";
 		return fromExclusive ? "FromExclusive" : "From";
 	}
 
-	protected String toPart()
+	protected internal virtual string ToPart()
 	{
 		if(toExpr == null)
 			return "";
 		return toExclusive ? "ToExclusive" : "To";
 	}
 
-	protected String argumentsPart()
+	protected internal virtual string ArgumentsPart()
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.append(".");
+		sb.Append(".");
 		if(fromExpr != null)
-			sb.append(",.");
+			sb.Append(",.");
 		if(toExpr != null)
-			sb.append(",.");
-		return sb.toString();
+			sb.Append(",.");
+		return sb.ToString();
 	}
 
-	protected Operator fromOperator()
+	protected internal virtual Operator FromOperator()
 	{
 		return fromExclusive ? Operator.GT : Operator.GE;
 	}
 
-	protected Operator toOperator()
+	protected internal virtual Operator ToOperator()
 	{
 		return toExclusive ? Operator.LT : Operator.LE;
 	}
+}
+
 }

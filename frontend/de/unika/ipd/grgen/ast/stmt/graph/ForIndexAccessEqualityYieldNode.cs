@@ -1,41 +1,41 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ast.stmt.graph;
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ast.stmt.graph
+{
 
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.model.Index;
-import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.stmt.graph.ForIndexAccessEquality;
-import de.unika.ipd.grgen.parser.Coords;
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using IndexDeclNode = de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Index = de.unika.ipd.grgen.ir.model.Index;
+using IndexAccessEquality = de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using ForIndexAccessEquality = de.unika.ipd.grgen.ir.stmt.graph.ForIndexAccessEquality;
+using Coords = de.unika.ipd.grgen.parser.Coords;
 
 // deprecated, TODO: purge
-public class ForIndexAccessEqualityYieldNode extends ForIndexAccessNode
+public class ForIndexAccessEqualityYieldNode : ForIndexAccessNode
 {
-	static {
-		setClassName(ForIndexAccessEqualityYieldNode.class, "for index access equality yield loop");
+	static ForIndexAccessEqualityYieldNode()
+	{
+		SetClassName(typeof(ForIndexAccessEqualityYieldNode), "for index access equality yield loop");
 	}
 
 	private ExprNode expr;
@@ -43,99 +43,104 @@ public class ForIndexAccessEqualityYieldNode extends ForIndexAccessNode
 	public ForIndexAccessEqualityYieldNode(Coords coords, BaseNode iterationVariable, int context,
 			IdentNode index, ExprNode expr, PatternGraphLhsNode directlyNestingLHSGraph,
 			CollectNode<EvalStatementNode> loopedStatements)
+		 : base(coords, iterationVariable, context, index, directlyNestingLHSGraph, loopedStatements)
 	{
-		super(coords, iterationVariable, context, index, directlyNestingLHSGraph, loopedStatements);
 		this.expr = expr;
-		becomeParent(this.expr);
+		BecomeParent(this.expr);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
-		children.add(getValidVersion(indexUnresolved, index));
-		children.add(expr);
-		children.add(statements);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
+		children.Add(GetValidVersion(indexUnresolved, index));
+		children.Add(expr);
+		children.Add(statements);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("iterVar");
-		childrenNames.add("index");
-		childrenNames.add("expression");
-		childrenNames.add("loopedStatements");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("iterVar");
+		childrenNames.Add("index");
+		childrenNames.Add("expression");
+		childrenNames.Add("loopedStatements");
 		return childrenNames;
+		}
 	}
 
 	private static DeclarationResolver<IndexDeclNode> indexResolver =
-			new DeclarationResolver<IndexDeclNode>(IndexDeclNode.class);
+			new DeclarationResolver<IndexDeclNode>(typeof(IndexDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = true;
+		bool successfullyResolved = true;
 
-		if(!resolveIterationVariable("index access equality"))
+		if(!ResolveIterationVariable("index access equality"))
 			successfullyResolved = false;
 
-		index = indexResolver.resolve(indexUnresolved, this);
+		index = indexResolver.Resolve(indexUnresolved, this);
 		successfullyResolved &= index != null;
-		successfullyResolved &= expr.resolve();
+		successfullyResolved &= expr.Resolve();
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		if(!checkIterationVariable("index access equality"))
+		if(!CheckIterationVariable("index access equality"))
 			return false;
 
-		boolean res = true;
-		TypeNode expectedIndexAccessType = index.getExpectedAccessType();
-		TypeNode indexAccessType = expr.getType();
-		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
-			reportError("Cannot convert type used in accessing index"
-					+ " from " + indexAccessType.toStringWithDeclarationCoords()
-					+ " to the expected " + expectedIndexAccessType.toStringWithDeclarationCoords()
+		bool res = true;
+		TypeNode expectedIndexAccessType = index.ExpectedAccessType;
+		TypeNode indexAccessType = expr.Type;
+		if(!indexAccessType.IsCompatibleTo(expectedIndexAccessType))
+		{
+			ReportError("Cannot convert type used in accessing index"
+					+ " from " + indexAccessType.ToStringWithDeclarationCoords()
+					+ " to the expected " + expectedIndexAccessType.ToStringWithDeclarationCoords()
 					+ " in index access loop (on " + indexUnresolved + ").");
 			return false;
 		}
-		TypeNode expectedEntityType = iterationVariable.getDeclType();
-		TypeNode entityType = index.getType();
-		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
-			reportError("Cannot convert index type"
-					+ " from " + entityType.toStringWithDeclarationCoords()
-					+ " to the expected " + expectedEntityType.toStringWithDeclarationCoords()
+		TypeNode expectedEntityType = iterationVariable.DeclType;
+		TypeNode entityType = index.Type;
+		if(!entityType.IsCompatibleTo(expectedEntityType) && !expectedEntityType.IsCompatibleTo(entityType))
+		{
+			ReportError("Cannot convert index type"
+					+ " from " + entityType.ToStringWithDeclarationCoords()
+					+ " to the expected " + expectedEntityType.ToStringWithDeclarationCoords()
 					+ " in index access loop (on " + indexUnresolved + ").");
 			return false;
 		}
 		return res;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
-		expr = expr.evaluate();
-		ForIndexAccessEquality fiae = new ForIndexAccessEquality(iterationVariable.checkIR(Variable.class),
-				new IndexAccessEquality(index.checkIR(Index.class), expr.checkIR(Expression.class)));
-		for(EvalStatementNode accumulationStatement : statements.getChildrenExact()) {
-			fiae.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
-		}
+		expr = expr.Evaluate();
+		ForIndexAccessEquality fiae = new ForIndexAccessEquality(iterationVariable.CheckIR(typeof(Variable)),
+				new IndexAccessEquality(index.CheckIR(typeof(Index)), expr.CheckIR(typeof(Expression))));
+		foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
+			fiae.AddLoopedStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
 		return fiae;
 	}
+}
+
 }

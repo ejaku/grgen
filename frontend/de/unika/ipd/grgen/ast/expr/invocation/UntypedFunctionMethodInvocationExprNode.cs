@@ -1,88 +1,95 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.invocation;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.invocation.UntypedFunctionMethodInvocationExpr;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * Invocation of a function method on an untyped target - result untyped
- */
-public class UntypedFunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.invocation
 {
-	static {
-		setClassName(UntypedFunctionMethodInvocationExprNode.class, "untyped function method invocation expression");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using UntypedFunctionMethodInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.UntypedFunctionMethodInvocationExpr;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+/// <summary>
+/// Invocation of a function method on an untyped target - result untyped
+/// </summary>
+public class UntypedFunctionMethodInvocationExprNode : FunctionInvocationBaseNode
+{
+	static UntypedFunctionMethodInvocationExprNode()
+	{
+		SetClassName(typeof(UntypedFunctionMethodInvocationExprNode), "untyped function method invocation expression");
 	}
 
 	public UntypedFunctionMethodInvocationExprNode(Coords coords, CollectNode<ExprNode> arguments)
+		: base(coords, arguments)
 	{
-		super(coords, arguments);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(arguments);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(arguments);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("arguments");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("arguments");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 		return BasicTypeNode.untypedType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		UntypedFunctionMethodInvocationExpr ufmi = new UntypedFunctionMethodInvocationExpr(
-				BasicTypeNode.untypedType.checkIR(Type.class));
-		for(ExprNode argument : arguments.getChildrenExact()) {
-			ExprNode argumentEvaluated = argument.evaluate();
-			ufmi.addArgument(argumentEvaluated.checkIR(Expression.class));
+				BasicTypeNode.untypedType.CheckIR(typeof(Type)));
+		foreach(ExprNode argument in arguments.ChildrenExact)
+		{
+			ExprNode argumentEvaluated = argument.Evaluate();
+			ufmi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
 		}
 		return ufmi;
 	}
+}
+
 }

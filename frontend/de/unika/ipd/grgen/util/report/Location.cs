@@ -1,35 +1,35 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.util.report;
-
-/**
- * Represents a location known to the user, where a message can be
- * generated. For example, in parser, the file and line number in
- * the file that is parsed.
- */
+namespace de.unika.ipd.grgen.util.report
+{
+/// <summary>
+/// Represents a location known to the user, where a message can be
+/// generated. For example, in parser, the file and line number in
+/// the file that is parsed.
+/// </summary>
 public interface Location
 {
-	/**
-	 * Get the location's string representation.
-	 * This string is only meaningful, if #hasLocation() returns true.
-	 * @return The string representation of the location.
-	 */
-	String getLocation();
+	/// <summary>
+	/// Get the location's string representation.
+	/// This string is only meaningful, if #hasLocation() returns true. </summary>
+	/// <returns> The string representation of the location. </returns>
+	string Location {get;}
 
-	/**
-	 * Checks, if the location is valid. If it is valid, #getLocation()
-	 * returns a valid location string, if not, the string returned by
-	 * #getLocation() is to be ignored.
-	 * @return true, if the location is valid.
-	 */
-	boolean hasLocation();
+	/// <summary>
+	/// Checks, if the location is valid. If it is valid, #getLocation()
+	/// returns a valid location string, if not, the string returned by
+	/// #getLocation() is to be ignored. </summary>
+	/// <returns> true, if the location is valid. </returns>
+	bool HasLocation();
+}
+
 }

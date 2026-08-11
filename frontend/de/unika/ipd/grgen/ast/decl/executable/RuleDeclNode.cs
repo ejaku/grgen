@@ -1,126 +1,131 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack, Daniel Grund
- */
+/// <summary>
+/// @author Sebastian Hack, Daniel Grund
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.EmitNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.DeclExprNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.MemberAccessExprNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.executable.RuleTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.executable.Rule.RuleKind;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
-import de.unika.ipd.grgen.ir.type.DefinedMatchType;
-
-/**
- * AST node for a replacement rule.
- */
-public class RuleDeclNode extends ActionDeclNode
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	static {
-		setClassName(RuleDeclNode.class, "rule declaration");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using EmitNode = de.unika.ipd.grgen.ast.EmitNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ConstraintDeclNode = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using RhsDeclNode = de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using DeclExprNode = de.unika.ipd.grgen.ast.expr.DeclExprNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using MemberAccessExprNode = de.unika.ipd.grgen.ast.expr.MemberAccessExprNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using PatternGraphRhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using DefinedMatchTypeNode = de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using RuleTypeNode = de.unika.ipd.grgen.ast.type.executable.RuleTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using RuleKind = de.unika.ipd.grgen.ir.executable.Rule.RuleKind;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using PatternGraphRhs = de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
+using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+
+/// <summary>
+/// AST node for a replacement rule.
+/// </summary>
+public class RuleDeclNode : ActionDeclNode
+{
+	static RuleDeclNode()
+	{
+		SetClassName(typeof(RuleDeclNode), "rule declaration");
 	}
 
 	public RhsDeclNode right;
-	
-	/** Type for this declaration. */
+
+	/// <summary>
+	/// Type for this declaration. </summary>
 	private RuleTypeNode type;
-	private static final TypeNode ruleType = new RuleTypeNode();
+	private static readonly TypeNode ruleType = new RuleTypeNode();
 
 
-	/**
-	 * Make a new rule.
-	 * @param id The identifier of this rule.
-	 * @param left The left hand side (The pattern to match).
-	 * @param right The right hand side.
-	 */
+	/// <summary>
+	/// Make a new rule. </summary>
+	/// <param name="id"> The identifier of this rule. </param>
+	/// <param name="left"> The left hand side (The pattern to match). </param>
+	/// <param name="right"> The right hand side. </param>
 	public RuleDeclNode(IdentNode id, PatternGraphLhsNode left, CollectNode<IdentNode> implementedMatchTypes,
 			RhsDeclNode right, CollectNode<BaseNode> rets)
+		: base(id, ruleType, left, implementedMatchTypes, rets)
 	{
-		super(id, ruleType, left, implementedMatchTypes, rets);
 		this.right = right;
-		becomeParent(this.right);
+		BecomeParent(this.right);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
-		children.add(getValidVersionCollectNode(returnFormalParametersUnresolved, returnFormalParameters));
-		children.add(pattern);
-		children.add(getValidVersionCollectNode(implementedMatchTypesUnresolved, implementedMatchTypes));
-		children.add(right);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, type));
+		children.Add(GetValidVersionCollectNode(returnFormalParametersUnresolved, returnFormalParameters));
+		children.Add(pattern);
+		children.Add(GetValidVersionCollectNode(implementedMatchTypesUnresolved, implementedMatchTypes));
+		children.Add(right);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("ret");
-		childrenNames.add("pattern");
-		childrenNames.add("implementedMatchTypes");
-		childrenNames.add("right");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("ret");
+		childrenNames.Add("pattern");
+		childrenNames.Add("implementedMatchTypes");
+		childrenNames.Add("right");
 		return childrenNames;
+		}
 	}
 
-	protected static final DeclarationTypeResolver<RuleTypeNode> typeResolver =
-			new DeclarationTypeResolver<RuleTypeNode>(RuleTypeNode.class);
+	protected internal static readonly DeclarationTypeResolver<RuleTypeNode> typeResolver =
+			new DeclarationTypeResolver<RuleTypeNode>(typeof(RuleTypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean matchAndReturnTypesAreOk = super.resolveLocal();
+		bool matchAndReturnTypesAreOk = base.ResolveLocal();
 
-		type = typeResolver.resolve(typeUnresolved, this);
+		type = typeResolver.Resolve(typeUnresolved, this);
 
-		boolean filtersOk = true;
-		for(FilterAutoDeclNode filter : filters) {
-			if(filter instanceof FilterAutoSuppliedDeclNode)
-				filtersOk &= ((FilterAutoSuppliedDeclNode)filter).resolve();
+		bool filtersOk = true;
+		foreach(FilterAutoDeclNode filter in filters)
+		{
+			if(filter is FilterAutoSuppliedDeclNode)
+				filtersOk &= ((FilterAutoSuppliedDeclNode)filter).Resolve();
 			else //if(filter instanceof FilterAutoGeneratedNode)
-				filtersOk &= ((FilterAutoGeneratedDeclNode)filter).resolve();
+				filtersOk &= ((FilterAutoGeneratedDeclNode)filter).Resolve();
 		}
 
 		return matchAndReturnTypesAreOk
@@ -128,87 +133,95 @@ public class RuleDeclNode extends ActionDeclNode
 				& filtersOk;
 	}
 
-	public Set<ConstraintDeclNode> getDeletedElements()
+	public virtual ISet<ConstraintDeclNode> DeletedElements
 	{
-		return right.getElementsToDelete(pattern);
+		get
+		{
+		return right.GetElementsToDelete(pattern);
+		}
 	}
 
-	/**
-	 * Check that only graph elements are returned, that are not deleted.
-	 *
-	 * The check also consider the case that a node is returned and homomorphic
-	 * matching is allowed with a deleted node.
-	 */
-	private boolean checkReturnedElementsNotDeleted()
+	/// <summary>
+	/// Check that only graph elements are returned, that are not deleted.
+	/// 
+	/// The check also consider the case that a node is returned and homomorphic
+	/// matching is allowed with a deleted node.
+	/// </summary>
+	private bool CheckReturnedElementsNotDeleted()
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		boolean valid = true;
-		Set<ConstraintDeclNode> deletedElements = right.getElementsToDelete(pattern);
-		Set<ConstraintDeclNode> maybeDeletedElements = right.getMaybeDeletedElements(pattern);
+		bool valid = true;
+		ISet<ConstraintDeclNode> deletedElements = right.GetElementsToDelete(pattern);
+		ISet<ConstraintDeclNode> maybeDeletedElements = right.GetMaybeDeletedElements(pattern);
 
-		for(ExprNode expr : right.patternGraph.returns.getChildrenExact()) {
+		foreach(ExprNode expr in right.patternGraph.returns.ChildrenExact)
+		{
 			HashSet<ConstraintDeclNode> potentiallyResultingElements = new HashSet<ConstraintDeclNode>();
-			expr.getPotentiallyResultingElements(potentiallyResultingElements);
-			for(ConstraintDeclNode potentiallyResultingElement : potentiallyResultingElements) {
-				valid &= checkReturnedElementNotDeleted(potentiallyResultingElement, deletedElements, maybeDeletedElements);
-			}
+			expr.GetPotentiallyResultingElements(potentiallyResultingElements);
+			foreach(ConstraintDeclNode potentiallyResultingElement in potentiallyResultingElements)
+				valid &= CheckReturnedElementNotDeleted(potentiallyResultingElement, deletedElements, maybeDeletedElements);
 		}
 
 		return valid;
 	}
 
-	private static boolean checkReturnedElementNotDeleted(ConstraintDeclNode retElem,
-			Set<ConstraintDeclNode> deletedElements, Set<ConstraintDeclNode> maybeDeletedElements)
+	private static bool CheckReturnedElementNotDeleted(ConstraintDeclNode retElem,
+			ISet<ConstraintDeclNode> deletedElements, ISet<ConstraintDeclNode> maybeDeletedElements)
 	{
-		if(deletedElements.contains(retElem)) {
-			retElem.reportError("The deleted " + retElem.getKind() + " " + retElem
-					+ " is not allowed to be returned.");
+		if(deletedElements.Contains(retElem))
+		{
+			retElem.ReportError("The deleted " + retElem.Kind + " " + retElem
+					 + " is not allowed to be returned.");
 			return false;
-		} else if(maybeDeletedElements.contains(retElem)) {
+		}
+		else if(maybeDeletedElements.Contains(retElem))
+		{
 			retElem.maybeDeleted = true;
 
-			if(!retElem.getIdent().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "Returning " + retElem.getKind() + " " + retElem + " that may be deleted.";
-				errorMessage += " Possibly it is homomorphic with a deleted " + retElem.getKind();
+			if(!retElem.Ident.Annotations.IsFlagSet("maybeDeleted"))
+			{
+				string errorMessage = "Returning " + retElem.Kind + " " + retElem + " that may be deleted.";
+				errorMessage += " Possibly it is homomorphic with a deleted " + retElem.Kind;
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
-				if(retElem instanceof EdgeDeclNode) {
+				if(retElem is EdgeDeclNode)
 					errorMessage += ", or " + retElem + " is a dangling edge and a deleted node exists";
-				}
 				errorMessage += ".";
-				retElem.reportError(errorMessage);
+				retElem.ReportError(errorMessage);
 				return false;
- 			}
+			}
 		}
 
 		return true;
 	}
 
-	/**
-	 * Check that only graph elements are returned, that are not retyped.
-	 *
-	 * The check also consider the case that a node is returned and homomorphic
-	 * matching is allowed with a retyped node.
-	 */
-	private boolean checkReturnedElementsNotRetyped()
+	/// <summary>
+	/// Check that only graph elements are returned, that are not retyped.
+	/// 
+	/// The check also consider the case that a node is returned and homomorphic
+	/// matching is allowed with a retyped node.
+	/// </summary>
+	private bool CheckReturnedElementsNotRetyped()
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		boolean valid = true;
+		bool valid = true;
 
-		for(ExprNode expr : right.patternGraph.returns.getChildrenExact()) {
-			if(!(expr instanceof DeclExprNode))
+		foreach(ExprNode expr in right.patternGraph.returns.ChildrenExact)
+		{
+			if(!(expr is DeclExprNode))
 				continue;
 
-			ConstraintDeclNode retElem = ((DeclExprNode)expr).getConstraintDecl();
+			ConstraintDeclNode retElem = ((DeclExprNode)expr).ConstraintDecl;
 			if(retElem == null)
 				continue;
 
-			if(retElem.getRetypedElement() != null) {
+			if(retElem.RetypedElement != null)
+			{
 				valid = false;
 
-				expr.reportError("The retyped " + retElem.getKind() + " " + retElem
+				expr.ReportError("The retyped " + retElem.Kind + " " + retElem
 						+ " is not allowed to be returned.");
 			}
 		}
@@ -216,39 +229,43 @@ public class RuleDeclNode extends ActionDeclNode
 		return valid;
 	}
 
-	/**
-	 * Check that every graph element is retyped to at most one type.
-	 */
-	private boolean checkElementsNotRetypedToDifferentTypes()
+	/// <summary>
+	/// Check that every graph element is retyped to at most one type.
+	/// </summary>
+	private bool CheckElementsNotRetypedToDifferentTypes()
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		boolean valid = true;
+		bool valid = true;
 
-		for(Set<ConstraintDeclNode> homSet : pattern.getHoms()) {
-			valid &= checkElementsInHomSetNotRetypedToDifferentTypes(homSet);
-		}
+		foreach(ISet<ConstraintDeclNode> homSet in pattern.Homs)
+			valid &= CheckElementsInHomSetNotRetypedToDifferentTypes(homSet);
 
 		return valid;
 	}
 
-	private static boolean checkElementsInHomSetNotRetypedToDifferentTypes(Set<ConstraintDeclNode> homSet)
+	private static bool CheckElementsInHomSetNotRetypedToDifferentTypes(ISet<ConstraintDeclNode> homSet)
 	{
 		ConstraintDeclNode element = null;
 		ConstraintDeclNode retypedElement = null;
 		ConstraintDeclNode anotherElement = null;
 		ConstraintDeclNode anotherRetypedElement = null;
 
-		for(ConstraintDeclNode currentElement : homSet) {
-			ConstraintDeclNode currentRetypedElement = currentElement.getRetypedElement();
+		foreach(ConstraintDeclNode currentElement in homSet)
+		{
+			ConstraintDeclNode currentRetypedElement = currentElement.RetypedElement;
 
-			if(currentRetypedElement != null) {
-				InheritanceTypeNode currentType = currentRetypedElement.getDeclInhType();
+			if(currentRetypedElement != null)
+			{
+				InheritanceTypeNode currentType = currentRetypedElement.DeclInhType;
 
-				if(retypedElement == null) {
+				if(retypedElement == null)
+				{
 					element = currentElement;
 					retypedElement = currentRetypedElement;
-				} else if(currentType != retypedElement.getDeclType()) {
+				}
+				else if(currentType != retypedElement.DeclType)
+				{
 					anotherElement = currentElement;
 					anotherRetypedElement = currentRetypedElement;
 					break;
@@ -256,37 +273,38 @@ public class RuleDeclNode extends ActionDeclNode
 			}
 		}
 
-		boolean multipleRetypes = anotherElement != null;
-		if(multipleRetypes) {
-			retypedElement.reportError("The " + element.getKind() + " " + element
-					+ " is retyped to " + retypedElement.getDeclType().getTypeName() + ","
-					+ " but the " + anotherElement.getKind() + " " + anotherElement
-					+ " it may be homomorphic to is retyped to " + anotherRetypedElement.getDeclType().getTypeName()
+		bool multipleRetypes = anotherElement != null;
+		if(multipleRetypes)
+			retypedElement.ReportError("The " + element.Kind + " " + element
+					+ " is retyped to " + retypedElement.DeclType.TypeName + ","
+					+ " but the " + anotherElement.Kind + " " + anotherElement
+					+ " it may be homomorphic to is retyped to " + anotherRetypedElement.DeclType.TypeName
 					+ ".");
-		}
 
 		return !multipleRetypes;
 	}
 
-	/**
-	 * Check that only graph elements are retyped, that are not deleted.
-	 */
-	private boolean checkRetypedElementsNotDeleted()
+	/// <summary>
+	/// Check that only graph elements are retyped, that are not deleted.
+	/// </summary>
+	private bool CheckRetypedElementsNotDeleted()
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		boolean valid = true;
+		bool valid = true;
 
-		for(DeclNode decl : getDeletedElements()) {
-			if(!(decl instanceof ConstraintDeclNode))
+		foreach(DeclNode decl in DeletedElements)
+		{
+			if(!(decl is ConstraintDeclNode))
 				continue;
 
 			ConstraintDeclNode retElem = ((ConstraintDeclNode)decl);
 
-			if(retElem.getRetypedElement() != null) {
+			if(retElem.RetypedElement != null)
+			{
 				valid = false;
 
-				retElem.reportError("The retyped " + retElem.getKind() + " " + retElem
+				retElem.ReportError("The retyped " + retElem.Kind + " " + retElem
 						+ " is not allowed to be deleted.");
 			}
 		}
@@ -294,79 +312,83 @@ public class RuleDeclNode extends ActionDeclNode
 		return valid;
 	}
 
-	private HashSet<ConstraintDeclNode> collectNeededElements(ExprNode expr)
+	private HashSet<ConstraintDeclNode> CollectNeededElements(ExprNode expr)
 	{
 		HashSet<ConstraintDeclNode> neededElements = new HashSet<ConstraintDeclNode>();
-		if(expr instanceof MemberAccessExprNode) // attribute access is decoupled via temporary variable, so deletion of element is ok
+		if(expr is MemberAccessExprNode) // attribute access is decoupled via temporary variable, so deletion of element is ok
 			return neededElements;
 
-		for(BaseNode child : expr.getChildren()) {
-			if(child instanceof ExprNode)
-				neededElements.addAll(collectNeededElements((ExprNode)child));
+		foreach(BaseNode child in expr.Children)
+		{
+			if(child is ExprNode)
+				neededElements.AddAll(CollectNeededElements((ExprNode)child));
 
-			if(child instanceof DeclExprNode)
-				neededElements.add(((DeclExprNode)child).getConstraintDecl());
-			else if(child instanceof ConstraintDeclNode)
-				neededElements.add((ConstraintDeclNode)child);
+			if(child is DeclExprNode)
+				neededElements.Add(((DeclExprNode)child).ConstraintDecl);
+			else if(child is ConstraintDeclNode)
+				neededElements.Add((ConstraintDeclNode)child);
 		}
 
 		return neededElements;
 	}
 
-	/**
-	 * Check that emit elements are not deleted.
-	 * The check considers the case that parameters are deleted due to homomorphic matching.
-	 */
-	private boolean checkEmitElementsNotDeleted()
+	/// <summary>
+	/// Check that emit elements are not deleted.
+	/// The check considers the case that parameters are deleted due to homomorphic matching.
+	/// </summary>
+	private bool CheckEmitElementsNotDeleted()
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		boolean valid = true;
-		Set<ConstraintDeclNode> delete = right.getElementsToDelete(pattern);
-		Set<ConstraintDeclNode> maybeDeleted = right.getMaybeDeletedElements(pattern);
+		bool valid = true;
+		ISet<ConstraintDeclNode> delete = right.GetElementsToDelete(pattern);
+		ISet<ConstraintDeclNode> maybeDeleted = right.GetMaybeDeletedElements(pattern);
 
-		for(BaseNode imperativeStmt : right.patternGraph.imperativeStmts.getChildrenExact()) {
-			if(!(imperativeStmt instanceof EmitNode))
+		foreach(BaseNode imperativeStmt in right.patternGraph.imperativeStmts.ChildrenExact)
+		{
+			if(!(imperativeStmt is EmitNode))
 				continue;
 
 			EmitNode emit = (EmitNode)imperativeStmt;
-			for(BaseNode child : emit.getChildren()) {
+			foreach(BaseNode child in emit.Children)
+			{
 				ExprNode expr = (ExprNode)child;
-				for(ConstraintDeclNode declNode : collectNeededElements(expr)) {
-					valid &= checkEmitElementNotDeleted(declNode, expr, delete, maybeDeleted, emit);
-				}
+				foreach(ConstraintDeclNode declNode in CollectNeededElements(expr))
+					valid &= CheckEmitElementNotDeleted(declNode, expr, delete, maybeDeleted, emit);
 			}
 		}
 
 		return valid;
 	}
 
-	private static boolean checkEmitElementNotDeleted(ConstraintDeclNode declNode, ExprNode expr,
-			Set<ConstraintDeclNode> delete, Set<ConstraintDeclNode> maybeDeleted, EmitNode emit)
+	private static bool CheckEmitElementNotDeleted(ConstraintDeclNode declNode, ExprNode expr,
+			ISet<ConstraintDeclNode> delete, ISet<ConstraintDeclNode> maybeDeleted, EmitNode emit)
 	{
-		String emitVersion = emit.isDebug ? "emitdebug" : "emit";
-		String emitHereVersion = emit.isDebug ? "emitheredebug" : "emithere";
-		if(delete.contains(declNode)) {
-			expr.reportError("The deleted " + declNode.getKind() + " " + declNode
+		string emitVersion = emit.isDebug ? "emitdebug" : "emit";
+		string emitHereVersion = emit.isDebug ? "emitheredebug" : "emithere";
+		if(delete.Contains(declNode))
+		{
+			expr.ReportError("The deleted " + declNode.Kind + " " + declNode
 					+ " is not allowed to be referenced in an " + emitVersion + " statement"
 					+ " (you may use an " + emitHereVersion + " instead).");
 			return false;
 		}
-		if(maybeDeleted.contains(declNode)) {
+		if(maybeDeleted.Contains(declNode))
+		{
 			declNode.maybeDeleted = true;
 
-			if(!declNode.getIdent().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "The " + declNode.getKind() + " " + declNode + " used in an " + emitVersion + " statement may be deleted.";
-				errorMessage += " Possibly it is homomorphic with a deleted " + declNode.getKind();
+			if(!declNode.Ident.Annotations.IsFlagSet("maybeDeleted"))
+			{
+				string errorMessage = "The " + declNode.Kind + " " + declNode + " used in an " + emitVersion + " statement may be deleted.";
+				errorMessage += " Possibly it is homomorphic with a deleted " + declNode.Kind;
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
-				if(declNode instanceof EdgeDeclNode) {
+				if(declNode is EdgeDeclNode)
 					errorMessage += ", or " + declNode + " is a dangling edge and a deleted node exists";
-				}
 
 				errorMessage += " (you may use an " + emitHereVersion + " instead).";
 
-				expr.reportError(errorMessage);
+				expr.ReportError(errorMessage);
 
 				return false;
 			}
@@ -375,12 +397,15 @@ public class RuleDeclNode extends ActionDeclNode
 		return true;
 	}
 
-	private void calcMaybeRetyped()
+	private void CalcMaybeRetyped()
 	{
-		for(Set<ConstraintDeclNode> homSet : pattern.getHoms()) {
-			boolean containsRetypedElem = false;
-			for(ConstraintDeclNode elem : homSet) {
-				if(elem.getRetypedElement() != null) {
+		foreach(ISet<ConstraintDeclNode> homSet in pattern.Homs)
+		{
+			bool containsRetypedElem = false;
+			foreach(ConstraintDeclNode elem in homSet)
+			{
+				if(elem.RetypedElement != null)
+				{
 					containsRetypedElem = true;
 					break;
 				}
@@ -389,173 +414,186 @@ public class RuleDeclNode extends ActionDeclNode
 			// If there was one homomorphic element, which is retyped,
 			// all non-retyped elements in the same hom group are marked
 			// as maybeRetyped.
-			if(containsRetypedElem) {
-				for(ConstraintDeclNode elem : homSet) {
-					if(elem.getRetypedElement() == null)
+			if(containsRetypedElem)
+			{
+				foreach(ConstraintDeclNode elem in homSet)
+				{
+					if(elem.RetypedElement == null)
 						elem.maybeRetyped = true;
 				}
 			}
 		}
 	}
 
-	/**
-	 * Check, if the rule type node is right.
-	 * The children of a rule type are
-	 * 1) a pattern for the left side.
-	 * 2) a pattern for the right side.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
-	@Override
-	protected boolean checkLocal()
+	/// <summary>
+	/// Check, if the rule type node is right.
+	/// The children of a rule type are
+	/// 1) a pattern for the left side.
+	/// 2) a pattern for the right side. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal()"/>
+	protected internal override bool CheckLocal()
 	{
-		boolean leftHandGraphsOk = super.checkLocal();
+		bool leftHandGraphsOk = base.CheckLocal();
 
-		boolean rightHandGraphsOk = this.right.checkAgainstLhsPattern(pattern);
+		bool rightHandGraphsOk = this.right.CheckAgainstLhsPattern(pattern);
 
 		PatternGraphRhsNode right = this.right.patternGraph;
 
 		// check if the pattern name equals the rule name
 		// named rewrite parts are only allowed in subpatterns
-		String ruleName = ident.toString();
-		if(!right.nameOfGraph.equals(ruleName))
-			this.right.reportError("Named rewrite parts are not allowed in rules (only in (sub)patterns).");
+		string ruleName = ident.ToString();
+		if(!right.nameOfGraph.Equals(ruleName))
+			this.right.ReportError("Named rewrite parts are not allowed in rules (only in (sub)patterns).");
 
 		// check if parameters only exists for subpatterns
-		if(right.params.getChildrenExact().size() > 0)
-			this.right.reportError("Parameters for the rewrite part are not allowed in rules (only in (sub)patterns).");
+		if(right.@params.ChildrenExact.Count > 0)
+			this.right.ReportError("Parameters for the rewrite part are not allowed in rules (only in (sub)patterns).");
 
-		boolean noReturnInPatternOk = true;
-		if(pattern.returns.size() > 0) {
-			reportError("A return statement is not allowed in the pattern part of a rule.");
+		bool noReturnInPatternOk = true;
+		if(pattern.returns.Size() > 0)
+		{
+			ReportError("A return statement is not allowed in the pattern part of a rule.");
 			noReturnInPatternOk = false;
 		}
 
-		calcMaybeRetyped();
+		CalcMaybeRetyped();
 
 		return leftHandGraphsOk
 				& rightHandGraphsOk
-				& checkRhsReuse(this.right)
-				& sameNumberOfRewriteParts(this.right, "rule")
+				& CheckRhsReuse(this.right)
+				& SameNumberOfRewriteParts(this.right, "rule")
 				& noReturnInPatternOk
-				& noAbstractElementInstantiated(this.right)
-				& checkRetypedElementsNotDeleted()
-				& checkReturnedElementsNotDeleted()
-				& checkElementsNotRetypedToDifferentTypes()
-				& checkReturnedElementsNotRetyped()
-				& checkExecParamsNotDeleted(this.right)
-				& checkEmitElementsNotDeleted()
-				& checkReturns(right.returns)
-				& noAmbiguousRetypes(this.right);
+				& NoAbstractElementInstantiated(this.right)
+				& CheckRetypedElementsNotDeleted()
+				& CheckReturnedElementsNotDeleted()
+				& CheckElementsNotRetypedToDifferentTypes()
+				& CheckReturnedElementsNotRetyped()
+				& CheckExecParamsNotDeleted(this.right)
+				& CheckEmitElementsNotDeleted()
+				& CheckReturns(right.returns)
+				& NoAmbiguousRetypes(this.right);
 	}
-	
-	public NodeDeclNode tryGetNode(IdentNode ident)
+
+	public virtual NodeDeclNode TryGetNode(IdentNode ident)
 	{
-		for(NodeDeclNode node : pattern.getNodes()) {
-			if(node.ident.toString().equals(ident.toString()))
+		foreach(NodeDeclNode node in pattern.Nodes)
+		{
+			if(node.ident.ToString().Equals(ident.ToString()))
 				return node;
 		}
-		for(NodeDeclNode node : right.patternGraph.getNodes()) {
-			if(node.ident.toString().equals(ident.toString()))
+		foreach(NodeDeclNode node in right.patternGraph.Nodes)
+		{
+			if(node.ident.ToString().Equals(ident.ToString()))
 				return node;
 		}
 		return null;
 	}
 
-	public EdgeDeclNode tryGetEdge(IdentNode ident)
+	public virtual EdgeDeclNode TryGetEdge(IdentNode ident)
 	{
-		for(EdgeDeclNode edge : pattern.getEdges()) {
-			if(edge.ident.toString().equals(ident.toString()))
+		foreach(EdgeDeclNode edge in pattern.Edges)
+		{
+			if(edge.ident.ToString().Equals(ident.ToString()))
 				return edge;
 		}
-		for(EdgeDeclNode edge : right.patternGraph.getEdges()) {
-			if(edge.ident.toString().equals(ident.toString()))
+		foreach(EdgeDeclNode edge in right.patternGraph.Edges)
+		{
+			if(edge.ident.ToString().Equals(ident.ToString()))
 				return edge;
 		}
 		return null;
 	}
 
-	public VarDeclNode tryGetVar(IdentNode ident)
+	public virtual VarDeclNode TryGetVar(IdentNode ident)
 	{
-		for(VarDeclNode var : pattern.defVariablesToBeYieldedTo.getChildrenExact()) {
-			if(var.ident.toString().equals(ident.toString()))
+		foreach(VarDeclNode var in pattern.defVariablesToBeYieldedTo.ChildrenExact)
+		{
+			if(var.ident.ToString().Equals(ident.ToString()))
 				return var;
 		}
-		for(DeclNode varCand : pattern.getParamDecls()) {
-			if(!(varCand instanceof VarDeclNode))
+		foreach(DeclNode varCand in pattern.ParamDecls)
+		{
+			if(!(varCand is VarDeclNode))
 				continue;
 			VarDeclNode var = (VarDeclNode)varCand;
-			if(var.ident.toString().equals(ident.toString()))
+			if(var.ident.ToString().Equals(ident.ToString()))
 				return var;
 		}
-		for(VarDeclNode var : right.patternGraph.defVariablesToBeYieldedTo.getChildrenExact()) {
-			if(var.ident.toString().equals(ident.toString()))
+		foreach(VarDeclNode var in right.patternGraph.defVariablesToBeYieldedTo.ChildrenExact)
+		{
+			if(var.ident.ToString().Equals(ident.ToString()))
 				return var;
 		}
-		for(DeclNode varCand : right.patternGraph.getParamDecls()) {
-			if(!(varCand instanceof VarDeclNode))
+		foreach(DeclNode varCand in right.patternGraph.ParamDecls)
+		{
+			if(!(varCand is VarDeclNode))
 				continue;
 			VarDeclNode var = (VarDeclNode)varCand;
-			if(var.ident.toString().equals(ident.toString()))
+			if(var.ident.ToString().Equals(ident.ToString()))
 				return var;
 		}
 		return null;
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "rule";
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
 	{
 		// return if the pattern graph already constructed the IR object
 		// that may happen in recursive patterns (and other usages/references)
-		if(isIRAlreadySet()) {
-			return getIR();
-		}
+		if(IsIRAlreadySet())
+			return IR;
 
-		Rule rule = new Rule(getIdent().getIRIdent(), RuleKind.Rule);
+		Rule rule = new Rule(Ident.IRIdent, Rule.RuleKind.Rule);
 
 		// mark this node as already visited
-		setIR(rule);
+		IR = rule;
 
-		PatternGraphLhs left = pattern.getIRPatternGraphLhs();
-		for(DeclNode varCand : pattern.getParamDecls()) {
-			if(!(varCand instanceof VarDeclNode))
+		PatternGraphLhs left = pattern.IRPatternGraphLhs;
+		foreach(DeclNode varCand in pattern.ParamDecls)
+		{
+			if(!(varCand is VarDeclNode))
 				continue;
 			VarDeclNode var = (VarDeclNode)varCand;
-			left.addVariable(var.checkIR(Variable.class));
+			left.AddVariable(var.CheckIR(typeof(Variable)));
 		}
 
-		PatternGraphRhs right = this.right.getIRPatternGraph(left);
+		PatternGraphRhs right = this.right.GetIRPatternGraph(left);
 
-		rule.initialize(left, right);
+		rule.Initialize(left, right);
 
-		for(DefinedMatchTypeNode implementedMatchClassNode : implementedMatchTypes.getChildrenExact()) {
-			DefinedMatchType implementedMatchClass = implementedMatchClassNode.checkIR(DefinedMatchType.class);
-			rule.addImplementedMatchClass(implementedMatchClass);
+		foreach(DefinedMatchTypeNode implementedMatchClassNode in implementedMatchTypes.ChildrenExact)
+		{
+			DefinedMatchType implementedMatchClass = implementedMatchClassNode.CheckIR(typeof(DefinedMatchType));
+			rule.AddImplementedMatchClass(implementedMatchClass);
 		}
 
-		constructImplicitNegs(left);
-		constructIRaux(rule, this.right.patternGraph.returns);
+		ConstructImplicitNegs(left);
+		ConstructIRaux(rule, this.right.patternGraph.returns);
 
 		// add eval statements to the IR
-		for(EvalStatements evalStatement : this.right.getRhsGraph().getEvalStatements()) {
-			rule.addEval(evalStatement);
-		}
+		foreach(EvalStatements evalStatement in this.right.RhsGraph.EvalStatements)
+			rule.AddEval(evalStatement);
 
 		return rule;
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return type;
+		}
 	}
+}
+
 }

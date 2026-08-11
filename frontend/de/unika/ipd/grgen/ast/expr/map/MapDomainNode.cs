@@ -1,55 +1,58 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.map;
-
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.map.MapDomainExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class MapDomainNode extends MapFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.map
 {
-	static {
-		setClassName(MapSizeNode.class, "map domain expression");
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using MapDomainExpr = de.unika.ipd.grgen.ir.expr.map.MapDomainExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class MapDomainNode : MapFunctionMethodInvocationBaseExprNode
+{
+	static MapDomainNode()
+	{
+		SetClassName(typeof(MapSizeNode), "map domain expression");
 	}
 
 	private SetTypeNode setTypeNode;
 
 	public MapDomainNode(Coords coords, ExprNode targetExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		// target type already checked during resolving into this node
-		setTypeNode = new SetTypeNode(getTargetTypeExact().keyTypeUnresolved);
-		return setTypeNode.resolve();
+		setTypeNode = new SetTypeNode(TargetTypeExact.keyTypeUnresolved);
+		return setTypeNode.Resolve();
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return setTypeNode;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		targetExpr = targetExpr.evaluate();
-		return new MapDomainExpr(targetExpr.checkIR(Expression.class), getType().getIRType());
+		targetExpr = targetExpr.Evaluate();
+		return new MapDomainExpr(targetExpr.CheckIR(typeof(Expression)), Type.IRType);
 	}
+}
+
 }

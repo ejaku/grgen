@@ -1,92 +1,95 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.graph.VFreeNonResetProc;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class VFreeNonResetProcNode extends BuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.graph
 {
-	static {
-		setClassName(VFreeNonResetProcNode.class, "vfreenonreset procedure");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using VFreeNonResetProc = de.unika.ipd.grgen.ir.stmt.graph.VFreeNonResetProc;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class VFreeNonResetProcNode : BuiltinProcedureInvocationBaseNode
+{
+	static VFreeNonResetProcNode()
+	{
+		SetClassName(typeof(VFreeNonResetProcNode), "vfreenonreset procedure");
 	}
 
 	private ExprNode visFlagExpr;
 
 	public VFreeNonResetProcNode(Coords coords, ExprNode visFlagExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.visFlagExpr = becomeParent(visFlagExpr);
+		this.visFlagExpr = BecomeParent(visFlagExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(visFlagExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(visFlagExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("visFlagExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("visFlagExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		TypeNode visFlagExprType = visFlagExpr.getType();
-		if(!visFlagExprType.isEqual(BasicTypeNode.intType)) {
-			visFlagExpr.reportError("The vfreenonreset procedure expects as argument (visitedFlagId)"
+		TypeNode visFlagExprType = visFlagExpr.Type;
+		if(!visFlagExprType.IsEqual(BasicTypeNode.intType))
+		{
+			visFlagExpr.ReportError("The vfreenonreset procedure expects as argument (visitedFlagId)"
 					+ " a value of type int"
-					+ " (but is given a value of type " + visFlagExprType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + visFlagExprType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		visFlagExpr = visFlagExpr.evaluate();
-		return new VFreeNonResetProc(visFlagExpr.checkIR(Expression.class));
+		visFlagExpr = visFlagExpr.Evaluate();
+		return new VFreeNonResetProc(visFlagExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

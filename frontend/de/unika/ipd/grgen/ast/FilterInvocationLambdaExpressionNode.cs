@@ -1,57 +1,57 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.FilterInvocationLambdaExpression;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class FilterInvocationLambdaExpressionNode extends FilterInvocationBaseNode
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(FilterInvocationLambdaExpressionNode.class, "filter invocation lambda expression");
+
+using System.Collections.Generic;
+
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using FilterInvocationLambdaExpression = de.unika.ipd.grgen.ir.FilterInvocationLambdaExpression;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class FilterInvocationLambdaExpressionNode : FilterInvocationBaseNode
+{
+	static FilterInvocationLambdaExpressionNode()
+	{
+		SetClassName(typeof(FilterInvocationLambdaExpressionNode), "filter invocation lambda expression");
 	}
 
-	String filterName;
-	String assignEntity;
-	TypeNode entityType;
-	
-	VarDeclNode initArrayAccessVar;
-	ExprNode initExpr;
+	internal string filterName;
+	internal string assignEntity;
+	internal TypeNode entityType;
 
-	VarDeclNode arrayAccessVar;
-	VarDeclNode previousAccumulationAccessVar;
-	VarDeclNode indexVar;
-	VarDeclNode elementVar;
-	ExprNode lambdaExpr;
+	internal VarDeclNode initArrayAccessVar;
+	internal ExprNode initExpr;
+
+	internal VarDeclNode arrayAccessVar;
+	internal VarDeclNode previousAccumulationAccessVar;
+	internal VarDeclNode indexVar;
+	internal VarDeclNode elementVar;
+	internal ExprNode lambdaExpr;
 
 	public FilterInvocationLambdaExpressionNode(IdentNode iteratedUnresolved,
-			Coords coords, String filterName, String assignEntity,
+			Coords coords, string filterName, string assignEntity,
 			VarDeclNode arrayAccessVar, VarDeclNode indexVar, VarDeclNode elementVar, ExprNode lambdaExpr)
+		: base(coords, iteratedUnresolved)
 	{
-		super(coords, iteratedUnresolved);
-		this.iteratedUnresolved = becomeParent(iteratedUnresolved);
+		this.iteratedUnresolved = BecomeParent(iteratedUnresolved);
 		this.filterName = filterName;
 		this.assignEntity = assignEntity;
 		this.arrayAccessVar = arrayAccessVar;
@@ -61,13 +61,13 @@ public class FilterInvocationLambdaExpressionNode extends FilterInvocationBaseNo
 	}
 
 	public FilterInvocationLambdaExpressionNode(IdentNode iteratedUnresolved,
-			Coords coords, String filterName, String assignEntity,
+			Coords coords, string filterName, string assignEntity,
 			VarDeclNode initArrayAccessVar, ExprNode initExpr,
 			VarDeclNode arrayAccessVar, VarDeclNode previousAccumulationAccessVar,
 			VarDeclNode indexVar, VarDeclNode elementVar, ExprNode lambdaExpr)
+		: base(coords, iteratedUnresolved)
 	{
-		super(coords, iteratedUnresolved);
-		this.iteratedUnresolved = becomeParent(iteratedUnresolved);
+		this.iteratedUnresolved = BecomeParent(iteratedUnresolved);
 		this.filterName = filterName;
 		this.assignEntity = assignEntity;
 		this.initArrayAccessVar = initArrayAccessVar;
@@ -79,88 +79,92 @@ public class FilterInvocationLambdaExpressionNode extends FilterInvocationBaseNo
 		this.lambdaExpr = lambdaExpr;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(iteratedUnresolved, iterated));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(iteratedUnresolved, iterated));
 		if(initArrayAccessVar != null)
-			children.add(initArrayAccessVar);
+			children.Add(initArrayAccessVar);
 		if(initExpr != null)
-			children.add(initExpr);
+			children.Add(initExpr);
 		if(arrayAccessVar != null)
-			children.add(arrayAccessVar);
+			children.Add(arrayAccessVar);
 		if(previousAccumulationAccessVar != null)
-			children.add(previousAccumulationAccessVar);
+			children.Add(previousAccumulationAccessVar);
 		if(indexVar != null)
-			children.add(indexVar);
-		children.add(elementVar);
-		children.add(lambdaExpr);
+			children.Add(indexVar);
+		children.Add(elementVar);
+		children.Add(lambdaExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("iterated");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("iterated");
 		if(initArrayAccessVar != null)
-			childrenNames.add("initArrayAccessVar");
+			childrenNames.Add("initArrayAccessVar");
 		if(initExpr != null)
-			childrenNames.add("initExpr");
+			childrenNames.Add("initExpr");
 		if(arrayAccessVar != null)
-			childrenNames.add("arrayAccessVar");
+			childrenNames.Add("arrayAccessVar");
 		if(previousAccumulationAccessVar != null)
-			childrenNames.add("previousAccumulationAccessVar");
+			childrenNames.Add("previousAccumulationAccessVar");
 		if(indexVar != null)
-			childrenNames.add("indexVar");
-		childrenNames.add("elementVar");
-		childrenNames.add("lambdaExpr");
+			childrenNames.Add("indexVar");
+		childrenNames.Add("elementVar");
+		childrenNames.Add("lambdaExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		// owner
-		boolean iteratedOk = super.resolveLocal();
+		bool iteratedOk = base.ResolveLocal();
 		if(!iteratedOk)
 			return false;
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// member
-		if(assignEntity != null) {
-			DeclNode resolvedEntity = iterated.pattern.tryGetMember(assignEntity);
-			if(resolvedEntity == null) {
-				reportError("Unknown entity " + assignEntity + " in " + iterated.getIdent() + ".");
+		if(!string.ReferenceEquals(assignEntity, null))
+		{
+			DeclNode resolvedEntity = iterated.pattern.TryGetMember(assignEntity);
+			if(resolvedEntity == null)
+			{
+				ReportError("Unknown entity " + assignEntity + " in " + iterated.Ident + ".");
 				return false;
 			}
-			entityType = resolvedEntity.getDeclType();
+			entityType = resolvedEntity.DeclType;
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		FilterInvocationLambdaExpression filterInvocation;
-		if(initExpr != null) {
-			initExpr = initExpr.evaluate();
-		}
-		lambdaExpr = lambdaExpr.evaluate();
-		String fullFilterName = filterName + "<" + assignEntity + ">";
-		filterInvocation = new FilterInvocationLambdaExpression(fullFilterName, new Ident(fullFilterName, getCoords()),
-				filterName, assignEntity, entityType != null ? entityType.getIRType() : null, iterated.checkIR(Rule.class),
-				initArrayAccessVar != null ? initArrayAccessVar.checkIR(Variable.class) : null,
-				initExpr != null ? initExpr.checkIR(Expression.class) : null,
-				arrayAccessVar != null ? arrayAccessVar.checkIR(Variable.class) : null,
-				previousAccumulationAccessVar != null ? previousAccumulationAccessVar.checkIR(Variable.class) : null,
-				indexVar != null ? indexVar.checkIR(Variable.class) : null, elementVar.checkIR(Variable.class),
-				lambdaExpr.checkIR(Expression.class));
+		if(initExpr != null)
+			initExpr = initExpr.Evaluate();
+		lambdaExpr = lambdaExpr.Evaluate();
+		string fullFilterName = filterName + "<" + assignEntity + ">";
+		filterInvocation = new FilterInvocationLambdaExpression(fullFilterName, new Ident(fullFilterName, Coords),
+				filterName, assignEntity, entityType != null ? entityType.IRType : null, iterated.CheckIR(typeof(Rule)),
+				initArrayAccessVar != null ? initArrayAccessVar.CheckIR(typeof(Variable)) : null,
+				initExpr != null ? initExpr.CheckIR(typeof(Expression)) : null,
+				arrayAccessVar != null ? arrayAccessVar.CheckIR(typeof(Variable)) : null,
+				previousAccumulationAccessVar != null ? previousAccumulationAccessVar.CheckIR(typeof(Variable)) : null,
+				indexVar != null ? indexVar.CheckIR(typeof(Variable)) : null, elementVar.CheckIR(typeof(Variable)),
+				lambdaExpr.CheckIR(typeof(Expression)));
 		return filterInvocation;
 	}
+}
+
 }

@@ -1,175 +1,189 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.pattern;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
-
-/**
- * AST node representing nodes
- * that occur without any edge connection to the rest of the graph.
- * children: NODE:NodeDeclNode|IdentNode
- */
-public class SingleNodeConnNode extends ConnectionCharacter
+namespace de.unika.ipd.grgen.ast.pattern
 {
-	static {
-		setClassName(SingleNodeConnNode.class, "single node");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using Checker = de.unika.ipd.grgen.ast.util.Checker;
+using de.unika.ipd.grgen.ast.util;
+using TypeChecker = de.unika.ipd.grgen.ast.util.TypeChecker;
+using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
+
+/// <summary>
+/// AST node representing nodes
+/// that occur without any edge connection to the rest of the graph.
+/// children: NODE:NodeDeclNode|IdentNode
+/// </summary>
+public class SingleNodeConnNode : ConnectionCharacter
+{
+	static SingleNodeConnNode()
+	{
+		SetClassName(typeof(SingleNodeConnNode), "single node");
 	}
 
 	private NodeDeclNode node;
 	public BaseNode nodeUnresolved;
 
 	public SingleNodeConnNode(BaseNode node)
+		: base(node.Coords)
 	{
-		super(node.getCoords());
 		this.nodeUnresolved = node;
-		becomeParent(this.nodeUnresolved);
+		BecomeParent(this.nodeUnresolved);
 	}
 
 	public SingleNodeConnNode(NodeDeclNode node, BaseNode parent)
+		: this(node)
 	{
-		this(node);
-		parent.becomeParent(this);
+		parent.BecomeParent(this);
 
-		resolve();
-		check();
+		Resolve();
+		Check();
 	}
 
-	public SingleNodeConnNode cloneForAuto(PatternGraphLhsNode parent)
+	public virtual SingleNodeConnNode CloneForAuto(PatternGraphLhsNode parent)
 	{
-		return new SingleNodeConnNode(this.node.cloneForAuto(parent), parent);
+		return new SingleNodeConnNode(this.node.CloneForAuto(parent), parent);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(nodeUnresolved, node));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(nodeUnresolved, node));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("node");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("node");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<NodeDeclNode> nodeResolver =
-			new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class); // optional
+	private static readonly DeclarationResolver<NodeDeclNode> nodeResolver =
+			new DeclarationResolver<NodeDeclNode>(typeof(NodeDeclNode)); // optional
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean res = fixupDefinition(nodeUnresolved, nodeUnresolved.getScope());
+		bool res = FixupDefinition(nodeUnresolved, nodeUnresolved.Scope);
 		if(!res)
 			return false;
 
-		node = nodeResolver.resolve(nodeUnresolved, this);
+		node = nodeResolver.Resolve(nodeUnresolved, this);
 		return node != null;
 	}
 
-	/** Get the node child of this node.
-	 * @return The node child. */
-	public NodeDeclNode getNode()
+	/// <summary>
+	/// Get the node child of this node. </summary>
+	/// <returns> The node child.  </returns>
+	public virtual NodeDeclNode Node
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return node;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addToGraph(de.unika.ipd.grgen.ir.pattern.PatternGraphBase) */
-	@Override
-	public void addToGraph(PatternGraphBase patternGraph)
+	/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionCharacter.addToGraph(de.unika.ipd.grgen.ir.pattern.PatternGraphBase) "/>
+	public override void AddToGraph(PatternGraphBase patternGraph)
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		patternGraph.addSingleNode(node.getIRNode());
+		patternGraph.AddSingleNode(node.IRNode);
 	}
 
-	private static Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
+	private static Checker nodeChecker = new TypeChecker(typeof(NodeTypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		return nodeChecker.check(node, error);
+		return nodeChecker.Check(node, error);
 	}
 
-	/** @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addEdge(java.util.Set) */
-	@Override
-	public void addEdge(Set<EdgeDeclNode> set)
+	/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionCharacter.addEdge(java.util.Set) "/>
+	public override void AddEdge(ISet<EdgeDeclNode> set)
 	{
 		// no edge available
 	}
 
-	@Override
-	public EdgeDeclNode getEdge()
+	public override EdgeDeclNode Edge
 	{
+		get
+		{
 		return null;
+		}
 	}
 
-	@Override
-	public NodeDeclNode getSrc()
+	public override NodeDeclNode Src
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return node;
-	}
-
-	@Override
-	public void setSrc(NodeDeclNode src)
-	{
+		}
+		set
+		{
 		// no edge available a source could be set
+		}
 	}
 
-	@Override
-	public NodeDeclNode getTgt()
+
+	public override NodeDeclNode Tgt
 	{
+		get
+		{
 		return null;
-	}
-
-	@Override
-	public void setTgt(NodeDeclNode tgt)
-	{
+		}
+		set
+		{
 		// no edge available a target could be set
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.pattern.ConnectionCharacter#addNodes(java.util.Set) */
-	@Override
-	public void addNodes(Set<NodeDeclNode> set)
-	{
-		assert isResolved();
 
-		set.add(node);
+	/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionCharacter.addNodes(java.util.Set) "/>
+	public override void AddNodes(ISet<NodeDeclNode> set)
+	{
+		Debug.Assert(IsResolved());
+
+		set.Add(node);
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "single node connection";
+		}
 	}
+}
+
 }

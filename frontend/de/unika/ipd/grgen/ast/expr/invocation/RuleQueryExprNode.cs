@@ -1,31 +1,31 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.invocation;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.invocation.RuleQueryExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class RuleQueryExprNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr.invocation
 {
-	static {
-		setClassName(RuleQueryExprNode.class, "rule query");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using RuleQueryExpr = de.unika.ipd.grgen.ir.expr.invocation.RuleQueryExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class RuleQueryExprNode : ExprNode
+{
+	static RuleQueryExprNode()
+	{
+		SetClassName(typeof(RuleQueryExprNode), "rule query");
 	}
 
 	private CallActionNode callAction;
@@ -34,60 +34,67 @@ public class RuleQueryExprNode extends ExprNode
 	private TypeNode arrayOfMatchType;
 
 	public RuleQueryExprNode(Coords coords, CallActionNode callAction, TypeNode arrayOfMatchType)
+		: base(coords)
 	{
-		super(coords);
 
-		this.callAction = becomeParent(callAction);
-		this.arrayOfMatchTypeUnresolved = becomeParent(arrayOfMatchType);
+		this.callAction = BecomeParent(callAction);
+		this.arrayOfMatchTypeUnresolved = BecomeParent(arrayOfMatchType);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(callAction);
-		children.add(getValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(callAction);
+		children.Add(GetValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
 		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("callAction");
-		childrenNames.add("arrayOfMatchType");
-		return childrenNames;
-	}
-
-	@Override
-	protected boolean resolveLocal()
-	{
-		if(arrayOfMatchTypeUnresolved.resolve()) {
-			arrayOfMatchType = arrayOfMatchTypeUnresolved;
 		}
+	}
+
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("callAction");
+		childrenNames.Add("arrayOfMatchType");
+		return childrenNames;
+		}
+	}
+
+	protected internal override bool ResolveLocal()
+	{
+		if(arrayOfMatchTypeUnresolved.Resolve())
+			arrayOfMatchType = arrayOfMatchTypeUnresolved;
 		return arrayOfMatchType != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	public CallActionNode getCallAction()
+	public virtual CallActionNode CallAction
 	{
+		get
+		{
 		return callAction;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return new RuleQueryExpr(getType().getIRType());
+		return new RuleQueryExpr(Type.IRType);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return arrayOfMatchType;
+		}
 	}
+}
+
 }

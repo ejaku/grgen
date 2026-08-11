@@ -1,91 +1,94 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.procenv;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.procenv.SynchronizationEnterProc;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class SynchronizationEnterProcNode extends BuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
-	static {
-		setClassName(SynchronizationEnterProcNode.class, "synchronization enter procedure");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using SynchronizationEnterProc = de.unika.ipd.grgen.ir.stmt.procenv.SynchronizationEnterProc;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class SynchronizationEnterProcNode : BuiltinProcedureInvocationBaseNode
+{
+	static SynchronizationEnterProcNode()
+	{
+		SetClassName(typeof(SynchronizationEnterProcNode), "synchronization enter procedure");
 	}
 
 	private ExprNode criticalSectionObjectExpr;
 
 	public SynchronizationEnterProcNode(Coords coords, ExprNode criticalSectionObjectExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.criticalSectionObjectExpr = becomeParent(criticalSectionObjectExpr);
+		this.criticalSectionObjectExpr = BecomeParent(criticalSectionObjectExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(criticalSectionObjectExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(criticalSectionObjectExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("criticalSectionObjectExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("criticalSectionObjectExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		TypeNode criticalSectionObjectExprType = criticalSectionObjectExpr.getType();
-		if(!criticalSectionObjectExprType.isLockableType()) {
-			criticalSectionObjectExpr.reportError("The Synchronization::enter procedure expects as argument (criticalSectionObject)"
+		TypeNode criticalSectionObjectExprType = criticalSectionObjectExpr.Type;
+		if(!criticalSectionObjectExprType.IsLockableType())
+		{
+			criticalSectionObjectExpr.ReportError("The Synchronization::enter procedure expects as argument (criticalSectionObject)"
 					+ " a value that is not of basic type (with exception of type object)"
-					+ " (but is given a value of type " + criticalSectionObjectExprType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + criticalSectionObjectExprType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		criticalSectionObjectExpr = criticalSectionObjectExpr.evaluate();
-		return new SynchronizationEnterProc(criticalSectionObjectExpr.checkIR(Expression.class));
+		criticalSectionObjectExpr = criticalSectionObjectExpr.Evaluate();
+		return new SynchronizationEnterProc(criticalSectionObjectExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

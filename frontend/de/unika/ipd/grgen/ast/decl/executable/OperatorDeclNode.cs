@@ -1,446 +1,452 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.expr.ArithmeticOperatorNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.executable.OperatorTypeNode;
-import de.unika.ipd.grgen.parser.Symbol;
-
-/**
- * Operator description / pseudo-declaration class.
- */
-public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	private static final OperatorTypeNode operatorType = new OperatorTypeNode();
 
-	/** Arity map of the operators. */
-	private static final Map<Operator, Integer> arities = new HashMap<Operator, Integer>();
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-	/** Name map of the operators. */
-	private static final Map<Operator, String> names = new HashMap<Operator, String>();
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using ArithmeticOperatorNode = de.unika.ipd.grgen.ast.expr.ArithmeticOperatorNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EnumTypeNode = de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using OperatorTypeNode = de.unika.ipd.grgen.ast.type.executable.OperatorTypeNode;
+using Symbol = de.unika.ipd.grgen.parser.Symbol;
 
-	static {
-		Integer two = new Integer(2);
-		Integer one = new Integer(1);
-		Integer zero = new Integer(0);
+/// <summary>
+/// Operator description / pseudo-declaration class.
+/// </summary>
+public class OperatorDeclNode : FunctionOrOperatorDeclBaseNode
+{
+	private static readonly OperatorTypeNode operatorType = new OperatorTypeNode();
 
-		for(Operator op : Operator.values())
-			arities.put(op, two);
+	/// <summary>
+	/// Arity map of the operators. </summary>
+	private static readonly IDictionary<Operator, int> arities = new Dictionary<Operator, int>();
 
-		arities.put(Operator.COND, new Integer(3));
-		arities.put(Operator.LOG_NOT, one);
-		arities.put(Operator.BIT_NOT, one);
-		arities.put(Operator.NEG, one);
-		arities.put(Operator.CONST, zero);
-		arities.put(Operator.ERROR, zero);
+	/// <summary>
+	/// Name map of the operators. </summary>
+	private static readonly IDictionary<Operator, string> names = new Dictionary<Operator, string>();
+
+	static OperatorDeclNode()
+	{
+		int? two = new int?(2);
+		int? one = new int?(1);
+		int? zero = new int?(0);
+
+		foreach(Operator op in (Operator[])Enum.GetValues(typeof(Operator)))
+			arities[op] = two.Value;
+
+		arities[de.unika.ipd.grgen.ast.decl.executable.Operator.COND] = new int?(3);
+		arities[de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_NOT] = one.Value;
+		arities[de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_NOT] = one.Value;
+		arities[de.unika.ipd.grgen.ast.decl.executable.Operator.NEG] = one.Value;
+		arities[de.unika.ipd.grgen.ast.decl.executable.Operator.CONST] = zero.Value;
+		arities[de.unika.ipd.grgen.ast.decl.executable.Operator.ERROR] = zero.Value;
+
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.COND] = "Cond";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_OR] = "LogOr";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_AND] = "LogAnd";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_XOR] = "BitXor";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_OR] = "BitOr";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_AND] = "BitAnd";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.EQ] = "Eq";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.NE] = "Ne";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.LT] = "Lt";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.LE] = "Le";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.GT] = "Gt";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.GE] = "Ge";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.SHL] = "Shl";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.SHR] = "Shr";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_SHR] = "BitShr";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.ADD] = "Add";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.SUB] = "Sub";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.MUL] = "Mul";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.DIV] = "Div";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.MOD] = "Mod";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_NOT] = "LogNot";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_NOT] = "BitNot";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.NEG] = "Neg";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.CONST] = "Const";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.IN] = "In";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.INDEX] = "IndexedAccess";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.EXCEPT] = "Except";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.SE] = "Se";
+		names[de.unika.ipd.grgen.ast.decl.executable.Operator.ERROR] = "Error";
+
+		InitializeOperatorsMap();
 	}
 
-	static {
-		names.put(Operator.COND, "Cond");
-		names.put(Operator.LOG_OR, "LogOr");
-		names.put(Operator.LOG_AND, "LogAnd");
-		names.put(Operator.BIT_XOR, "BitXor");
-		names.put(Operator.BIT_OR, "BitOr");
-		names.put(Operator.BIT_AND, "BitAnd");
-		names.put(Operator.EQ, "Eq");
-		names.put(Operator.NE, "Ne");
-		names.put(Operator.LT, "Lt");
-		names.put(Operator.LE, "Le");
-		names.put(Operator.GT, "Gt");
-		names.put(Operator.GE, "Ge");
-		names.put(Operator.SHL, "Shl");
-		names.put(Operator.SHR, "Shr");
-		names.put(Operator.BIT_SHR, "BitShr");
-		names.put(Operator.ADD, "Add");
-		names.put(Operator.SUB, "Sub");
-		names.put(Operator.MUL, "Mul");
-		names.put(Operator.DIV, "Div");
-		names.put(Operator.MOD, "Mod");
-		names.put(Operator.LOG_NOT, "LogNot");
-		names.put(Operator.BIT_NOT, "BitNot");
-		names.put(Operator.NEG, "Neg");
-		names.put(Operator.CONST, "Const");
-		names.put(Operator.IN, "In");
-		names.put(Operator.INDEX, "IndexedAccess");
-		names.put(Operator.EXCEPT, "Except");
-		names.put(Operator.SE, "Se");
-		names.put(Operator.ERROR, "Error");
-	}
+	/// <summary>
+	/// Just short forms for less verbose coding. </summary>
+	internal static readonly TypeNode STRING = BasicTypeNode.stringType;
+	internal static readonly TypeNode BOOLEAN = BasicTypeNode.booleanType;
+	internal static readonly TypeNode BYTE = BasicTypeNode.byteType;
+	internal static readonly TypeNode SHORT = BasicTypeNode.shortType;
+	internal static readonly TypeNode INT = BasicTypeNode.intType;
+	internal static readonly TypeNode LONG = BasicTypeNode.longType;
+	internal static readonly TypeNode FLOAT = BasicTypeNode.floatType;
+	internal static readonly TypeNode DOUBLE = BasicTypeNode.doubleType;
+	internal static readonly TypeNode OBJECT = BasicTypeNode.objectType;
+	internal static readonly TypeNode GRAPH = BasicTypeNode.graphType;
+	internal static readonly TypeNode NULL = BasicTypeNode.nullType;
+	internal static readonly TypeNode ENUM = BasicTypeNode.enumItemType;
+	internal static readonly TypeNode TYPE = BasicTypeNode.typeType;
+	internal static readonly TypeNode UNTYPED = BasicTypeNode.untypedType;
 
-	/** Just short forms for less verbose coding. */
-	static final TypeNode STRING = BasicTypeNode.stringType;
-	static final TypeNode BOOLEAN = BasicTypeNode.booleanType;
-	static final TypeNode BYTE = BasicTypeNode.byteType;
-	static final TypeNode SHORT = BasicTypeNode.shortType;
-	static final TypeNode INT = BasicTypeNode.intType;
-	static final TypeNode LONG = BasicTypeNode.longType;
-	static final TypeNode FLOAT = BasicTypeNode.floatType;
-	static final TypeNode DOUBLE = BasicTypeNode.doubleType;
-	static final TypeNode OBJECT = BasicTypeNode.objectType;
-	static final TypeNode GRAPH = BasicTypeNode.graphType;
-	static final TypeNode NULL = BasicTypeNode.nullType;
-	static final TypeNode ENUM = BasicTypeNode.enumItemType;
-	static final TypeNode TYPE = BasicTypeNode.typeType;
-	static final TypeNode UNTYPED = BasicTypeNode.untypedType;
+	/// <summary>
+	/// Each generic operator is mapped by its ID to a set of concrete operator signatures.
+	/// </summary>
+	private static readonly IDictionary<Operator, HashSet<OperatorDeclNode>> operators =
+			new Dictionary<Operator, HashSet<OperatorDeclNode>>();
 
-	/**
-	 * Each generic operator is mapped by its ID to a set of concrete operator signatures.
-	 */
-	private static final Map<Operator, HashSet<OperatorDeclNode>> operators =
-			new HashMap<Operator, HashSet<OperatorDeclNode>>();
-
-	/**
-	 * Makes an entry in the {@link #operators} map.
-	 *
-	 * @param operator The operator.
-	 * @param resultType The result type of the operator.
-	 * @param operandTypes The operand types of the operator.
-	 * @param evaluator an Evaluator
-	 */
-	public static final void makeOp(Operator operator, TypeNode resultType,
+	/// <summary>
+	/// Makes an entry in the <seealso cref="operators"/> map.
+	/// </summary>
+	/// <param name="operator"> The operator. </param>
+	/// <param name="resultType"> The result type of the operator. </param>
+	/// <param name="operandTypes"> The operand types of the operator. </param>
+	/// <param name="evaluator"> an Evaluator </param>
+	public static void MakeOp(Operator @operator, TypeNode resultType,
 			TypeNode[] operandTypes, OperatorEvaluator evaluator)
 	{
-		HashSet<OperatorDeclNode> typeMap = operators.get(operator);
-		if(typeMap == null) {
+		HashSet<OperatorDeclNode> typeMap = operators[@operator];
+		if(typeMap == null)
+		{
 			typeMap = new LinkedHashSet<OperatorDeclNode>();
-			operators.put(operator, typeMap);
+			operators[@operator] = typeMap;
 		}
 
-		OperatorDeclNode newOpSig = new OperatorDeclNode(operator, resultType,
+		OperatorDeclNode newOpSig = new OperatorDeclNode(@operator, resultType,
 				operandTypes, evaluator);
-		typeMap.add(newOpSig);
+		typeMap.Add(newOpSig);
 	}
 
-	/**
-	 * Enter a binary operator. This is just a convenience function for
-	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
-	 */
-	public static final void makeBinOp(Operator operator, TypeNode resultType,
+	/// <summary>
+	/// Enter a binary operator. This is just a convenience function for
+	/// <seealso cref="makeOp(int, TypeNode, TypeNode[])"/>.
+	/// </summary>
+	public static void MakeBinOp(Operator @operator, TypeNode resultType,
 			TypeNode leftType, TypeNode rightType, OperatorEvaluator evaluator)
 	{
-		makeOp(operator, resultType, new TypeNode[] { leftType, rightType }, evaluator);
+		MakeOp(@operator, resultType, new TypeNode[] { leftType, rightType }, evaluator);
 	}
 
-	/**
-	 * Enter an unary operator. This is just a convenience function for
-	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
-	 */
-	public static final void makeUnOp(Operator operator, TypeNode resultType,
+	/// <summary>
+	/// Enter an unary operator. This is just a convenience function for
+	/// <seealso cref="makeOp(int, TypeNode, TypeNode[])"/>.
+	/// </summary>
+	public static void MakeUnOp(Operator @operator, TypeNode resultType,
 			TypeNode operandType, OperatorEvaluator evaluator)
 	{
-		makeOp(operator, resultType, new TypeNode[] { operandType }, evaluator);
+		MakeOp(@operator, resultType, new TypeNode[] { operandType }, evaluator);
 	}
 
 	// Initialize the operators map.
-	static {
+	static void InitializeOperatorsMap()
+	{
 		// String operators
-		makeBinOp(Operator.EQ, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(Operator.NE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(Operator.GE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(Operator.GT, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(Operator.LE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(Operator.LT, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
-		makeBinOp(Operator.IN, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EQ, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GT, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LE, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LT, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.IN, BOOLEAN, STRING, STRING, OperatorEvaluator.stringEvaluator);
 
 		// object operators
-		makeBinOp(Operator.EQ, BOOLEAN, OBJECT, OBJECT, OperatorEvaluator.objectEvaluator);
-		makeBinOp(Operator.NE, BOOLEAN, OBJECT, OBJECT, OperatorEvaluator.objectEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EQ, BOOLEAN, OBJECT, OBJECT, OperatorEvaluator.objectEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NE, BOOLEAN, OBJECT, OBJECT, OperatorEvaluator.objectEvaluator);
 
 		// null operators
-		makeBinOp(Operator.EQ, BOOLEAN, NULL, NULL, OperatorEvaluator.nullEvaluator);
-		makeBinOp(Operator.NE, BOOLEAN, NULL, NULL, OperatorEvaluator.nullEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EQ, BOOLEAN, NULL, NULL, OperatorEvaluator.nullEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NE, BOOLEAN, NULL, NULL, OperatorEvaluator.nullEvaluator);
 
 		// subgraph operators
-		makeBinOp(Operator.EQ, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
-		makeBinOp(Operator.NE, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
-		makeBinOp(Operator.SE, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EQ, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NE, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.SE, BOOLEAN, GRAPH, GRAPH, OperatorEvaluator.subgraphEvaluator);
 
 		// Integer comparison
-		makeBinOp(Operator.EQ, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.NE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.GE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.GT, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.LE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.LT, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EQ, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GT, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LE, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LT, BOOLEAN, INT, INT, OperatorEvaluator.intEvaluator);
 
 		// Long comparison
-		makeBinOp(Operator.EQ, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.NE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.GE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.GT, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.LE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.LT, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EQ, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GT, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LE, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LT, BOOLEAN, LONG, LONG, OperatorEvaluator.longEvaluator);
 
 		// Float comparison
-		makeBinOp(Operator.EQ, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(Operator.NE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(Operator.GE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(Operator.GT, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(Operator.LE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(Operator.LT, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EQ, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GT, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LE, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LT, BOOLEAN, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
 
 		// Double comparison
-		makeBinOp(Operator.EQ, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(Operator.NE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(Operator.GE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(Operator.GT, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(Operator.LE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(Operator.LT, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EQ, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GT, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LE, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LT, BOOLEAN, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
 
 		// Boolean operators
-		makeBinOp(Operator.LOG_AND, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
-		makeBinOp(Operator.LOG_OR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
-		makeUnOp(Operator.LOG_NOT, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_AND, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_OR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		MakeUnOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_NOT, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
 
-		makeBinOp(Operator.BIT_AND, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
-		makeBinOp(Operator.BIT_OR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
-		makeBinOp(Operator.BIT_XOR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_AND, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_OR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_XOR, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
 
 		// Boolean comparison
-		makeBinOp(Operator.EQ, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
-		makeBinOp(Operator.NE, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EQ, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NE, BOOLEAN, BOOLEAN, BOOLEAN, OperatorEvaluator.booleanEvaluator);
 
 		// Integer arithmetic (byte and short are casted to integer)
-		makeBinOp(Operator.ADD, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.SUB, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.MUL, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.DIV, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.MOD, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.SHL, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.SHR, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.BIT_SHR, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.BIT_OR, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.BIT_AND, INT, INT, INT, OperatorEvaluator.intEvaluator);
-		makeBinOp(Operator.BIT_XOR, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.ADD, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.SUB, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.MUL, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.DIV, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.MOD, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.SHL, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.SHR, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_SHR, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_OR, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_AND, INT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_XOR, INT, INT, INT, OperatorEvaluator.intEvaluator);
 
-		makeUnOp(Operator.NEG, INT, INT, OperatorEvaluator.intEvaluator);
-		makeUnOp(Operator.BIT_NOT, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeUnOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NEG, INT, INT, OperatorEvaluator.intEvaluator);
+		MakeUnOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_NOT, INT, INT, OperatorEvaluator.intEvaluator);
 
 		// Long arithmetic
-		makeBinOp(Operator.ADD, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.SUB, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.MUL, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.DIV, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.MOD, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.SHL, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.SHR, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.BIT_SHR, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.BIT_OR, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.BIT_AND, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeBinOp(Operator.BIT_XOR, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.ADD, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.SUB, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.MUL, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.DIV, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.MOD, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.SHL, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.SHR, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_SHR, LONG, LONG, INT, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_OR, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_AND, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_XOR, LONG, LONG, LONG, OperatorEvaluator.longEvaluator);
 
-		makeUnOp(Operator.NEG, LONG, LONG, OperatorEvaluator.longEvaluator);
-		makeUnOp(Operator.BIT_NOT, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeUnOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NEG, LONG, LONG, OperatorEvaluator.longEvaluator);
+		MakeUnOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_NOT, LONG, LONG, OperatorEvaluator.longEvaluator);
 
 		// Float arithmetic
-		makeBinOp(Operator.ADD, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(Operator.SUB, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(Operator.MUL, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(Operator.DIV, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
-		makeBinOp(Operator.MOD, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.ADD, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.SUB, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.MUL, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.DIV, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.MOD, FLOAT, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
 
-		makeUnOp(Operator.NEG, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
+		MakeUnOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NEG, FLOAT, FLOAT, OperatorEvaluator.floatEvaluator);
 
 		// Double arithmetic
-		makeBinOp(Operator.ADD, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(Operator.SUB, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(Operator.MUL, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(Operator.DIV, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
-		makeBinOp(Operator.MOD, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.ADD, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.SUB, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.MUL, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.DIV, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.MOD, DOUBLE, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
 
-		makeUnOp(Operator.NEG, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
+		MakeUnOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NEG, DOUBLE, DOUBLE, OperatorEvaluator.doubleEvaluator);
 
 		// "String arithmetic"
-		makeBinOp(Operator.ADD, STRING, STRING, STRING, OperatorEvaluator.stringEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.ADD, STRING, STRING, STRING, OperatorEvaluator.stringEvaluator);
 
 		// Type comparison
-		makeBinOp(Operator.EQ, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
-		makeBinOp(Operator.NE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
-		makeBinOp(Operator.GE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
-		makeBinOp(Operator.GT, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
-		makeBinOp(Operator.LE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
-		makeBinOp(Operator.LT, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EQ, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GT, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LE, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LT, BOOLEAN, TYPE, TYPE, OperatorEvaluator.typeEvaluator);
 
 		// And of course the ternary COND operator
-		makeOp(Operator.COND, BYTE, new TypeNode[] { BOOLEAN, BYTE, BYTE }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, SHORT, new TypeNode[] { BOOLEAN, SHORT, SHORT }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, INT, new TypeNode[] { BOOLEAN, INT, INT }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, LONG, new TypeNode[] { BOOLEAN, LONG, LONG }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, FLOAT, new TypeNode[] { BOOLEAN, FLOAT, FLOAT }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, STRING, new TypeNode[] { BOOLEAN, STRING, STRING }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, BOOLEAN, new TypeNode[] { BOOLEAN, BOOLEAN, BOOLEAN }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, TYPE, new TypeNode[] { BOOLEAN, TYPE, TYPE }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, BYTE, new TypeNode[] { BOOLEAN, BYTE, BYTE }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, SHORT, new TypeNode[] { BOOLEAN, SHORT, SHORT }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, INT, new TypeNode[] { BOOLEAN, INT, INT }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, LONG, new TypeNode[] { BOOLEAN, LONG, LONG }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, FLOAT, new TypeNode[] { BOOLEAN, FLOAT, FLOAT }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, STRING, new TypeNode[] { BOOLEAN, STRING, STRING }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, BOOLEAN, new TypeNode[] { BOOLEAN, BOOLEAN, BOOLEAN }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, TYPE, new TypeNode[] { BOOLEAN, TYPE, TYPE }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT }, OperatorEvaluator.condEvaluator);
 		// makeOp(Operator.COND, ENUM, new TypeNode[] { BOOLEAN, ENUM, ENUM }, OperatorEvaluator.condEvaluator);
 
 		/////////////////////////////////////////////////////////////////////////////////////////
 		// Operators to handle the untyped type that may appear in the sequence expressions due to untyped graph global variables
 
 		// Comparison operators
-		makeBinOp(Operator.EQ, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.NE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.GE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.GT, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.LE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.LT, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.IN, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.SE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EQ, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.GT, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LT, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.IN, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.SE, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
 		// Boolean (and set) operators
-		makeBinOp(Operator.LOG_AND, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.LOG_OR, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeUnOp(Operator.LOG_NOT, BOOLEAN, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_AND, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_OR, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeUnOp(de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_NOT, BOOLEAN, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
-		makeBinOp(Operator.BIT_AND, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.BIT_OR, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.BIT_XOR, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_AND, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_OR, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_XOR, BOOLEAN, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
-		makeBinOp(Operator.EXCEPT, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.EXCEPT, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
 		// Arithmetic (and string or array/deque concatenation) operators
-		makeBinOp(Operator.ADD, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.SUB, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.MUL, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.DIV, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
-		makeBinOp(Operator.MOD, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.ADD, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.SUB, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.MUL, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.DIV, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.MOD, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
-		makeUnOp(Operator.NEG, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeUnOp(de.unika.ipd.grgen.ast.decl.executable.Operator.NEG, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 
 		// Condition operator ?:
-		makeOp(Operator.COND, BYTE, new TypeNode[] { UNTYPED, BYTE, BYTE }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, SHORT, new TypeNode[] { UNTYPED, SHORT, SHORT }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, INT, new TypeNode[] { UNTYPED, INT, INT }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, LONG, new TypeNode[] { UNTYPED, LONG, LONG }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, FLOAT, new TypeNode[] { UNTYPED, FLOAT, FLOAT }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, DOUBLE, new TypeNode[] { UNTYPED, DOUBLE, DOUBLE }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, STRING, new TypeNode[] { UNTYPED, STRING, STRING }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, BOOLEAN, new TypeNode[] { UNTYPED, BOOLEAN, BOOLEAN }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, TYPE, new TypeNode[] { UNTYPED, TYPE, TYPE }, OperatorEvaluator.condEvaluator);
-		makeOp(Operator.COND, OBJECT, new TypeNode[] { UNTYPED, OBJECT, OBJECT }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, BYTE, new TypeNode[] { UNTYPED, BYTE, BYTE }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, SHORT, new TypeNode[] { UNTYPED, SHORT, SHORT }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, INT, new TypeNode[] { UNTYPED, INT, INT }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, LONG, new TypeNode[] { UNTYPED, LONG, LONG }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, FLOAT, new TypeNode[] { UNTYPED, FLOAT, FLOAT }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, DOUBLE, new TypeNode[] { UNTYPED, DOUBLE, DOUBLE }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, STRING, new TypeNode[] { UNTYPED, STRING, STRING }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, BOOLEAN, new TypeNode[] { UNTYPED, BOOLEAN, BOOLEAN }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, TYPE, new TypeNode[] { UNTYPED, TYPE, TYPE }, OperatorEvaluator.condEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, OBJECT, new TypeNode[] { UNTYPED, OBJECT, OBJECT }, OperatorEvaluator.condEvaluator);
 
-		makeOp(Operator.COND, UNTYPED, new TypeNode[] { BOOLEAN, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, UNTYPED, new TypeNode[] { BOOLEAN, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
 
-		makeOp(Operator.COND, UNTYPED, new TypeNode[] { UNTYPED, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
-		
+		MakeOp(de.unika.ipd.grgen.ast.decl.executable.Operator.COND, UNTYPED, new TypeNode[] { UNTYPED, UNTYPED, UNTYPED }, OperatorEvaluator.untypedEvaluator);
+
 		// Indexed access (of map, array, deque) operators
-		makeBinOp(Operator.INDEX, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
+		MakeBinOp(de.unika.ipd.grgen.ast.decl.executable.Operator.INDEX, UNTYPED, UNTYPED, UNTYPED, OperatorEvaluator.untypedEvaluator);
 	}
 
-	/**
-	 * Get the operand types of this operator signature.
-	 * @return The operand types.
-	 */
-	public TypeNode[] getOperandTypes()
+	/// <summary>
+	/// Get the operand types of this operator signature. </summary>
+	/// <returns> The operand types. </returns>
+	public virtual TypeNode[] OperandTypes
 	{
-		TypeNode[] array = new TypeNode[parameterTypes.size()];
-		return parameterTypes.toArray(array);
+		get
+		{
+		TypeNode[] array = new TypeNode[parameterTypes.Count];
+		return parameterTypes.ToArray(array);
+		}
 	}
 
-	/**
-	 * Get the arity of an operator.
-	 *
-	 * @param operator The operator.
-	 * @return The arity of the operator.
-	 */
-	public static int getArity(Operator operator)
+	/// <summary>
+	/// Get the arity of an operator.
+	/// </summary>
+	/// <param name="operator"> The operator. </param>
+	/// <returns> The arity of the operator. </returns>
+	public static int GetArity(Operator @operator)
 	{
-		return arities.get(operator).intValue();
+		return arities[@operator];
 	}
 
-	/**
-	 * Get the name of an operator.
-	 *
-	 * @param id ID of the operator.
-	 * @return The name of the operator.
-	 */
-	public static String getName(Operator operator)
+	/// <summary>
+	/// Get the name of an operator.
+	/// </summary>
+	/// <param name="id"> ID of the operator. </param>
+	/// <returns> The name of the operator. </returns>
+	public static string GetName(Operator @operator)
 	{
-		return names.get(operator);
+		return names[@operator];
 	}
 
-	/**
-	 * Get the "nearest" operator for a given set of operand types. This method
-	 * selects the operator that will provoke the least implicit type casts when
-	 * used.
-	 *
-	 * @param operator The operator.
-	 * @param operandTypes The operands.
-	 * @return The declaration of the "nearest" operator.
-	 */
-	public static OperatorDeclNode getNearestOperator(Operator operator, List<TypeNode> operandTypes)
+	/// <summary>
+	/// Get the "nearest" operator for a given set of operand types. This method
+	/// selects the operator that will provoke the least implicit type casts when
+	/// used.
+	/// </summary>
+	/// <param name="operator"> The operator. </param>
+	/// <param name="operandTypes"> The operands. </param>
+	/// <returns> The declaration of the "nearest" operator. </returns>
+	public static OperatorDeclNode GetNearestOperator(Operator @operator, IList<TypeNode> operandTypes)
 	{
 		OperatorDeclNode resultingOperator = INVALID;
-		int nearestDistance = Integer.MAX_VALUE;
+		int nearestDistance = int.MaxValue;
 
-		boolean hasVoid = false;
-		boolean hasUntyped = false;
-		boolean checkEnums = false;
-		boolean[] isEnum = new boolean[operandTypes.size()]; // initialized to false
+		bool hasVoid = false;
+		bool hasUntyped = false;
+		bool checkEnums = false;
+		bool[] isEnum = new bool[operandTypes.Count]; // initialized to false
 
-		for(int i = 0; i < operandTypes.size(); i++) {
-			if(operandTypes.get(i) == BasicTypeNode.voidType)
+		for(int i = 0; i < operandTypes.Count; i++)
+		{
+			if(operandTypes[i] == BasicTypeNode.voidType)
 				hasVoid = true;
-			else if(operandTypes.get(i) == BasicTypeNode.untypedType)
+			else if(operandTypes[i] == BasicTypeNode.untypedType)
 				hasUntyped = true;
-			else if(operandTypes.get(i) instanceof EnumTypeNode) {
+			else if(operandTypes[i] is EnumTypeNode)
+			{
 				checkEnums = true;
 				isEnum[i] = true;
 			}
 		}
 
-		HashSet<OperatorDeclNode> operatorCandidates = operators.get(operator);
+		HashSet<OperatorDeclNode> operatorCandidates = operators[@operator];
 		if(operatorCandidates == null)
 			return INVALID;
 
-		for(OperatorDeclNode operatorCandidate : operatorCandidates) {
-			operatorCandidate.resolve();
-			
-			int distance = operatorCandidate.getDistance(operandTypes);
+		foreach(OperatorDeclNode operatorCandidate in operatorCandidates)
+		{
+			operatorCandidate.Resolve();
 
-			String arguments = "";
-			for(TypeNode tn : operandTypes) {
-				arguments += tn.toString() + ", ";
-			}
-			debug.report(NOTE, "dist: " + distance + " for signature: " + operatorCandidate + " against " + arguments);
+			int distance = operatorCandidate.GetDistance(operandTypes);
 
-			if(distance == Integer.MAX_VALUE)
+			string arguments = "";
+			foreach(TypeNode tn in operandTypes)
+				arguments += tn.ToString() + ", ";
+			debug.Report(NOTE, "dist: " + distance + " for signature: " + operatorCandidate + " against " + arguments);
+
+			if(distance == int.MaxValue)
 				continue;
 
-			if(checkEnums) {
+			if(checkEnums)
+			{
 				// Make implicit casts from enum to int for half the price
 				distance *= 2;
 
-				TypeNode[] candidateOperandTypes = operatorCandidate.getOperandTypes();
-				for(int i = 0; i < operandTypes.size(); i++) {
+				TypeNode[] candidateOperandTypes = operatorCandidate.OperandTypes;
+				for(int i = 0; i < operandTypes.Count; i++)
+				{
 					if(isEnum[i] && candidateOperandTypes[i] == BasicTypeNode.intType)
 						distance--;
 				}
 			}
 
-			if(distance < nearestDistance) {
+			if(distance < nearestDistance)
+			{
 				nearestDistance = distance;
 				resultingOperator = operatorCandidate;
 				if(nearestDistance == 0)
@@ -452,151 +458,166 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 		// But allow "a + b" being enums to be turned into "(int) a + (int) b".
 		// Also allow "a == b" being void (abstract attribute) to become "(string) a == (string) b".
 		if(!hasVoid && (checkEnums && nearestDistance >= 4 // costs doubled
-				|| !checkEnums && nearestDistance >= 2)) {
+				|| !checkEnums && nearestDistance >= 2))
+		{
 			resultingOperator = INVALID;
-			resultingOperator.resolve();
+			resultingOperator.Resolve();
 		}
 
-		boolean untypedOperator = false;
-		for(TypeNode operandTypeOfOperator : resultingOperator.getOperandTypes()) {
+		bool untypedOperator = false;
+		foreach(TypeNode operandTypeOfOperator in resultingOperator.OperandTypes)
+		{
 			if(operandTypeOfOperator == UNTYPED)
 				untypedOperator = true;
 		}
-		
+
 		// Don't allow untyped to get introduced on type mismatches (one argument untyped -> untyped as result ok)
-		if(untypedOperator && !hasUntyped) {
+		if(untypedOperator && !hasUntyped)
+		{
 			resultingOperator = INVALID;
-			resultingOperator.resolve();
+			resultingOperator.Resolve();
 		}
 
-		debug.report(NOTE, "selected: " + resultingOperator);
+		debug.Report(NOTE, "selected: " + resultingOperator);
 
 		return resultingOperator;
 	}
 
-	/**
-	 * An invalid operator signature.
-	 */
-	private static final OperatorDeclNode INVALID = new OperatorDeclNode(Operator.ERROR, BasicTypeNode.errorType,
-			new TypeNode[] {}, OperatorEvaluator.emptyEvaluator) {
-		@Override
-		public boolean isValid()
+	/// <summary>
+	/// An invalid operator signature.
+	/// </summary>
+	private static readonly OperatorDeclNode INVALID = new OperatorDeclNodeAnonymousInnerClass(BasicTypeNode.errorType,
+			OperatorEvaluator.emptyEvaluator);
+
+	private class OperatorDeclNodeAnonymousInnerClass : OperatorDeclNode
+	{
+		private readonly OperatorDeclNode outerInstance;
+
+		public OperatorDeclNodeAnonymousInnerClass(OperatorDeclNode outerInstance, TypeNode errorType, UnknownType emptyEvaluator) : base(Operator.ERROR, errorType, new TypeNode[] {}, emptyEvaluator)
+		{
+			this.outerInstance = outerInstance;
+		}
+
+		public override bool isValid()
 		{
 			return false;
 		}
-	};
+	}
 
-	/** id of the operator. */
-	Operator operator;
+	/// <summary>
+	/// id of the operator. </summary>
+	internal Operator @operator;
 
-	/** The evaluator for constant expressions for this operator. */
+	/// <summary>
+	/// The evaluator for constant expressions for this operator. </summary>
 	private OperatorEvaluator evaluator;
 
-	/**
-	 * Make a new operator. This is used exclusively in this class, so it's
-	 * private.
-	 *
-	 * @param operator The operator.
-	 * @param resultType The result type of the operator.
-	 * @param operandTypes The operand types.
-	 * @param evaluator The evaluator for this operator signature.
-	 */
-	private OperatorDeclNode(Operator operator, TypeNode resultType, TypeNode[] operandTypes,
-			OperatorEvaluator evaluator)
+	/// <summary>
+	/// Make a new operator. This is used exclusively in this class, so it's
+	/// private.
+	/// </summary>
+	/// <param name="operator"> The operator. </param>
+	/// <param name="resultType"> The result type of the operator. </param>
+	/// <param name="operandTypes"> The operand types. </param>
+	/// <param name="evaluator"> The evaluator for this operator signature. </param>
+	private OperatorDeclNode(Operator @operator, TypeNode resultType, TypeNode[] operandTypes, OperatorEvaluator evaluator)
+		: base(new IdentNode(Symbol.Definition.Invalid), operatorType)
 	{
-		super(new IdentNode(Symbol.Definition.getInvalid()), operatorType);
 
 		this.resultType = resultType;
-		this.parameterTypes = new ArrayList<TypeNode>();
-		for(TypeNode operandType : operandTypes) {
-			this.parameterTypes.add(operandType);
-		}
-		
-		this.operator = operator;
+		this.parameterTypes = new List<TypeNode>();
+		foreach(TypeNode operandType in operandTypes)
+			this.parameterTypes.Add(operandType);
+
+		this.@operator = @operator;
 		this.evaluator = evaluator;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		return children;
-	}
-
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		return childrenNames;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
-	{
-		boolean res = resultType.resolve();
-		for(TypeNode parameterType : parameterTypes) {
-			res &= parameterType.resolve();
 		}
+	}
+
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		return childrenNames;
+		}
+	}
+
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
+	{
+		bool res = resultType.Resolve();
+		foreach(TypeNode parameterType in parameterTypes)
+			res &= parameterType.Resolve();
 		return res;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 		return operatorType;
+		}
 	}
 
-	/**
-	 * Evaluate an expression using this operator signature.
-	 *
-	 * @param expr The expression to be evaluated.
-	 * @param arguments The arguments for this operator.
-	 * @return The possibly simplified value of the expression.
-	 */
-	public ExprNode evaluate(ArithmeticOperatorNode expr, ExprNode[] arguments)
+	/// <summary>
+	/// Evaluate an expression using this operator signature.
+	/// </summary>
+	/// <param name="expr"> The expression to be evaluated. </param>
+	/// <param name="arguments"> The arguments for this operator. </param>
+	/// <returns> The possibly simplified value of the expression. </returns>
+	public virtual ExprNode Evaluate(ArithmeticOperatorNode expr, ExprNode[] arguments)
 	{
-		return evaluator.evaluate(expr, this, arguments);
+		return evaluator.Evaluate(expr, this, arguments);
 	}
 
-	/**
-	 * Check, if this signature is ok, not bad.
-	 *
-	 * @return true, if the signature is ok, false, if not.
-	 */
-	public boolean isValid()
+	/// <summary>
+	/// Check, if this signature is ok, not bad.
+	/// </summary>
+	/// <returns> true, if the signature is ok, false, if not. </returns>
+	public virtual bool IsValid()
 	{
 		return true;
 	}
 
-	public Operator getOperator()
+	public virtual Operator Operator
 	{
-		return operator;
+		get
+		{
+		return @operator;
+		}
 	}
 
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString()
+	/// <seealso cref="java.lang.Object.toString()"/>
+	public override string ToString()
 	{
-		String res = getResultType().toString() + " ";
-		res += names.get(operator) + "(";
-		TypeNode[] opTypes = getOperandTypes();
-		for(int i = 0; i < opTypes.length; i++) {
+		string res = ResultType.ToString() + " ";
+		res += names[@operator] + "(";
+		TypeNode[] opTypes = OperandTypes;
+		for(int i = 0; i < opTypes.Length; i++)
 			res += (i == 0 ? "" : ",") + opTypes[i];
-		}
 		res += ")";
 		return res;
 	}
+}
+
 }

@@ -1,53 +1,57 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.util.report;
-
-/**
- * An empty location.
- */
-public class EmptyLocation implements Location
+namespace de.unika.ipd.grgen.util.report
 {
-	private static final EmptyLocation EMPTY;
+/// <summary>
+/// An empty location.
+/// </summary>
+public class EmptyLocation : Location
+{
+	private static readonly EmptyLocation EMPTY;
 
-	static {
+	static EmptyLocation()
+	{
 		EMPTY = new EmptyLocation();
 	}
 
-	/**
-	 * Return the empty string always.
-	 * @see de.unika.ipd.grgen.util.report.Location#getLocation()
-	 */
-	@Override
-	public String getLocation()
+	/// <summary>
+	/// Return the empty string always. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.util.report.Location.getLocation()"/>
+	public virtual string Location
 	{
+		get
+		{
 		return "<nowhere>";
+		}
 	}
 
-	/**
-	 * This location is never valid.
-	 * @see de.unika.ipd.grgen.util.report.Location#hasLocation()
-	 */
-	@Override
-	public boolean hasLocation()
+	/// <summary>
+	/// This location is never valid. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.util.report.Location.hasLocation()"/>
+	public virtual bool HasLocation()
 	{
 		return false;
 	}
 
-	/**
-	 * Get a new empty location
-	 * @return an empty location
-	 */
-	public static EmptyLocation getEmptyLoc()
+	/// <summary>
+	/// Get a new empty location </summary>
+	/// <returns> an empty location </returns>
+	public static EmptyLocation EmptyLoc
 	{
+		get
+		{
 		return EMPTY;
+		}
 	}
+}
+
 }

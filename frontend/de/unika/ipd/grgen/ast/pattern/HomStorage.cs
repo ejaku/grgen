@@ -1,49 +1,48 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * HomStorage.java
- *
- * @author Sebastian Buchwald, Edgar Jakumeit
- */
+/// <summary>
+/// HomStorage.java
+/// 
+/// @author Sebastian Buchwald, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.pattern;
+namespace de.unika.ipd.grgen.ast.pattern
+{
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using ConstraintDeclNode = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 
-/**
- * AST node that stores node/edge is-homomorphic-to information
- */
+/// <summary>
+/// AST node that stores node/edge is-homomorphic-to information
+/// </summary>
 public class HomStorage
 {
-	/** Stores the sets of homomorphic elements (not equivalent to the contents of the hom statements) */
-	private Collection<Set<ConstraintDeclNode>> homSets =
-		new LinkedHashSet<Set<ConstraintDeclNode>>();
+	/// <summary>
+	/// Stores the sets of homomorphic elements (not equivalent to the contents of the hom statements) </summary>
+	private ICollection<ISet<ConstraintDeclNode>> homSets =
+		new LinkedHashSet<ISet<ConstraintDeclNode>>();
 
-	/** Map an edge to its homomorphic set. */
-	private Map<EdgeDeclNode, Set<EdgeDeclNode>> edgeToHomEdges =
-		new LinkedHashMap<EdgeDeclNode, Set<EdgeDeclNode>>();
+	/// <summary>
+	/// Map an edge to its homomorphic set. </summary>
+	private IDictionary<EdgeDeclNode, ISet<EdgeDeclNode>> edgeToHomEdges =
+		new LinkedHashMap<EdgeDeclNode, ISet<EdgeDeclNode>>();
 
-	/** Map a node to its homomorphic set. */
-	private Map<NodeDeclNode, Set<NodeDeclNode>> nodeToHomNodes =
-		new LinkedHashMap<NodeDeclNode, Set<NodeDeclNode>>();
-	
-	private Set<NodeDeclNode> emptyHomNodeSet = new LinkedHashSet<NodeDeclNode>();
-	private Set<EdgeDeclNode> emptyHomEdgeSet = new LinkedHashSet<EdgeDeclNode>();
+	/// <summary>
+	/// Map a node to its homomorphic set. </summary>
+	private IDictionary<NodeDeclNode, ISet<NodeDeclNode>> nodeToHomNodes =
+		new LinkedHashMap<NodeDeclNode, ISet<NodeDeclNode>>();
+
+	private ISet<NodeDeclNode> emptyHomNodeSet = new LinkedHashSet<NodeDeclNode>();
+	private ISet<EdgeDeclNode> emptyHomEdgeSet = new LinkedHashSet<EdgeDeclNode>();
 
 
 	// Don't call in PatternGraphNode constructor / until all pattern graphs were constructed
@@ -51,170 +50,182 @@ public class HomStorage
 	public HomStorage(PatternGraphLhsNode patternGraph)
 	{
 		// fill with own homomorphic sets
-		if(patternGraph.isIdentification()) {
+		if(patternGraph.IsIdentification())
+		{
 			// Split one hom statement into two parts, so deleted and reuse nodes/edges can't be matched homomorphically.
 			// This behavior is required for DPO-semantic / more exactly the identification condition.
-			Set<ConstraintDeclNode> deletedEntities = patternGraph.getRule().getDeletedElements();
-			for(HomNode homNode : patternGraph.homs.getChildrenExact()) {
-				Set<ConstraintDeclNode> deleteHomSet = getDeleteHomSet(homNode.getChildren(), deletedEntities);
-				addIfNonTrivialHomSet(homSets, deleteHomSet);
-				Set<ConstraintDeclNode> reuseHomSet = getReuseHomSet(homNode.getChildren(), deletedEntities);
-				addIfNonTrivialHomSet(homSets, reuseHomSet);
+			ISet<ConstraintDeclNode> deletedEntities = patternGraph.Rule.DeletedElements;
+			foreach(HomNode homNode in patternGraph.homs.ChildrenExact)
+			{
+				ISet<ConstraintDeclNode> deleteHomSet = GetDeleteHomSet(homNode.Children, deletedEntities);
+				AddIfNonTrivialHomSet(homSets, deleteHomSet);
+				ISet<ConstraintDeclNode> reuseHomSet = GetReuseHomSet(homNode.Children, deletedEntities);
+				AddIfNonTrivialHomSet(homSets, reuseHomSet);
 			}
-		} else {
-			for(HomNode homNode : patternGraph.homs.getChildrenExact()) {
-				Set<ConstraintDeclNode> homSet = getHomSet(homNode.getChildren());
-				addIfNonTrivialHomSet(homSets, homSet);
+		}
+		else
+		{
+			foreach(HomNode homNode in patternGraph.homs.ChildrenExact)
+			{
+				ISet<ConstraintDeclNode> homSet = GetHomSet(homNode.Children);
+				AddIfNonTrivialHomSet(homSets, homSet);
 			}
 		}
 
 		// then add inherited homomorphic sets
-		for(PatternGraphLhsNode parent = patternGraph.getParentPatternGraph(); parent != null;
-				parent = parent.getParentPatternGraph()) {
-			for(Set<ConstraintDeclNode> parentHomSet : parent.getHoms()) {
-				Set<ConstraintDeclNode> inheritedHomSet = getInheritedHomSet(parentHomSet, 
-						patternGraph.getNodes(), patternGraph.getEdges());
-				addIfNonTrivialHomSet(homSets, inheritedHomSet);
+		for(PatternGraphLhsNode parent = patternGraph.ParentPatternGraph; parent != null;
+				parent = parent.ParentPatternGraph)
+		{
+			foreach(ISet<ConstraintDeclNode> parentHomSet in parent.Homs)
+			{
+				ISet<ConstraintDeclNode> inheritedHomSet = GetInheritedHomSet(parentHomSet,
+						patternGraph.Nodes, patternGraph.Edges);
+				AddIfNonTrivialHomSet(homSets, inheritedHomSet);
 			}
 		}
 
-		initElementsToHomElements(patternGraph.getNodes(), patternGraph.getEdges());
+		InitElementsToHomElements(patternGraph.Nodes, patternGraph.Edges);
 	}
 
-	private static Set<ConstraintDeclNode> getDeleteHomSet(Collection<? extends BaseNode> homChildren,
-			Set<ConstraintDeclNode> deletedElements)
+	private static ISet<ConstraintDeclNode> GetDeleteHomSet<T1>(ICollection<T1> homChildren,
+			ISet<ConstraintDeclNode> deletedElements) where T1 : de.unika.ipd.grgen.ast.BaseNode
 	{
 		// homs between deleted entities
 		HashSet<ConstraintDeclNode> deleteHomSet = new HashSet<ConstraintDeclNode>();
 
-		for(BaseNode homChild : homChildren) {
+		foreach(BaseNode homChild in homChildren)
+		{
 			ConstraintDeclNode decl = (ConstraintDeclNode)homChild;
-			if(deletedElements.contains(decl)) {
-				deleteHomSet.add(decl);
-			}
+			if(deletedElements.Contains(decl))
+				deleteHomSet.Add(decl);
 		}
-		
+
 		return deleteHomSet;
 	}
 
-	private static Set<ConstraintDeclNode> getReuseHomSet(Collection<? extends BaseNode> homChildren,
-			Set<ConstraintDeclNode> deletedElements)
+	private static ISet<ConstraintDeclNode> GetReuseHomSet<T1>(ICollection<T1> homChildren,
+			ISet<ConstraintDeclNode> deletedElements) where T1 : de.unika.ipd.grgen.ast.BaseNode
 	{
 		// homs between reused entities
 		HashSet<ConstraintDeclNode> reuseHomSet = new HashSet<ConstraintDeclNode>();
 
-		for(BaseNode homChild : homChildren) {
+		foreach(BaseNode homChild in homChildren)
+		{
 			ConstraintDeclNode decl = (ConstraintDeclNode)homChild;
-			if(!deletedElements.contains(decl)) {
-				reuseHomSet.add(decl);
-			}
+			if(!deletedElements.Contains(decl))
+				reuseHomSet.Add(decl);
 		}
 
 		return reuseHomSet;
 	}
 
-	private static Set<ConstraintDeclNode> getHomSet(Collection<? extends BaseNode> homChildren)
+	private static ISet<ConstraintDeclNode> GetHomSet<T1>(ICollection<T1> homChildren) where T1 : de.unika.ipd.grgen.ast.BaseNode
 	{
 		// simply the entities from the hom statements
-		Set<ConstraintDeclNode> homSet = new LinkedHashSet<ConstraintDeclNode>();
+		ISet<ConstraintDeclNode> homSet = new LinkedHashSet<ConstraintDeclNode>();
 
-		for(BaseNode homChild : homChildren) {
+		foreach(BaseNode homChild in homChildren)
+		{
 			ConstraintDeclNode decl = (ConstraintDeclNode)homChild;
-			homSet.add(decl);
+			homSet.Add(decl);
 		}
 
 		return homSet;
 	}
 
-	private static Set<ConstraintDeclNode> getInheritedHomSet(Set<ConstraintDeclNode> parentHomSet,
-			Set<NodeDeclNode> nodes, Set<EdgeDeclNode> edges)
+	private static ISet<ConstraintDeclNode> GetInheritedHomSet(ISet<ConstraintDeclNode> parentHomSet,
+			ISet<NodeDeclNode> nodes, ISet<EdgeDeclNode> edges)
 	{
-		Set<ConstraintDeclNode> inheritedHomSet = new LinkedHashSet<ConstraintDeclNode>();
+		ISet<ConstraintDeclNode> inheritedHomSet = new LinkedHashSet<ConstraintDeclNode>();
 
-		for(ConstraintDeclNode homParent : parentHomSet) {
-			if(homParent instanceof NodeDeclNode) // note that either all elements in the homSet are nodes or all elements in the homSet are edges
+		foreach(ConstraintDeclNode homParent in parentHomSet)
+		{
+			if(homParent is NodeDeclNode) // note that either all elements in the homSet are nodes or all elements in the homSet are edges
 			{
 				NodeDeclNode homNode = (NodeDeclNode)homParent;
-				if(nodes.contains(homNode)) {
-					inheritedHomSet.add(homNode);
-				}
+				if(nodes.Contains(homNode))
+					inheritedHomSet.Add(homNode);
 			}
 			else
 			{
 				EdgeDeclNode homEdge = (EdgeDeclNode)homParent;
-				if(edges.contains(homEdge)) {
-					inheritedHomSet.add(homEdge);
-				}
+				if(edges.Contains(homEdge))
+					inheritedHomSet.Add(homEdge);
 			}
 		}
 
 		return inheritedHomSet;
 	}
 
-	private static void addIfNonTrivialHomSet(Collection<Set<ConstraintDeclNode>> collectionToAddTo,
-			Set<ConstraintDeclNode> setToAdd)
+	private static void AddIfNonTrivialHomSet(ICollection<ISet<ConstraintDeclNode>> collectionToAddTo,
+			ISet<ConstraintDeclNode> setToAdd)
 	{
-		if(setToAdd.size() > 1) {
-			collectionToAddTo.add(setToAdd);
-		}
+		if(setToAdd.Count > 1)
+			collectionToAddTo.Add(setToAdd);
 	}
 
-	private void initElementsToHomElements(Set<NodeDeclNode> nodes, Set<EdgeDeclNode> edges)
+	private void InitElementsToHomElements(ISet<NodeDeclNode> nodes, ISet<EdgeDeclNode> edges)
 	{
 		// Each node is homomorphic to itself (trivial hom).
-		for(NodeDeclNode node : nodes) {
-			Set<NodeDeclNode> homSet = new LinkedHashSet<NodeDeclNode>();
-			homSet.add(node);
-			nodeToHomNodes.put(node, homSet);
+		foreach(NodeDeclNode node in nodes)
+		{
+			ISet<NodeDeclNode> homSet = new LinkedHashSet<NodeDeclNode>();
+			homSet.Add(node);
+			nodeToHomNodes[node] = homSet;
 		}
 
 		// Each edge is homomorphic to itself (trivial hom).
-		for(EdgeDeclNode edge : edges) {
-			Set<EdgeDeclNode> homSet = new LinkedHashSet<EdgeDeclNode>();
-			homSet.add(edge);
-			edgeToHomEdges.put(edge, homSet);
+		foreach(EdgeDeclNode edge in edges)
+		{
+			ISet<EdgeDeclNode> homSet = new LinkedHashSet<EdgeDeclNode>();
+			homSet.Add(edge);
+			edgeToHomEdges[edge] = homSet;
 		}
 
-		for(Set<ConstraintDeclNode> homSet : homSets) {
-			if(homSet.iterator().next() instanceof NodeDeclNode) {
-				fillHomNodesInNodesToHomNodes(homSet);
-			} else {//if(homSet.iterator().next() instanceof EdgeDeclNode)
-				fillHomEdgesInEdgesToHomEdges(homSet);
-			}
+		foreach(ISet<ConstraintDeclNode> homSet in homSets)
+		{
+			if(homSet.GetEnumerator().Next() is NodeDeclNode)
+				FillHomNodesInNodesToHomNodes(homSet);
+			else
+				FillHomEdgesInEdgesToHomEdges(homSet);
 		}
 	}
 
-	private void fillHomNodesInNodesToHomNodes(Set<ConstraintDeclNode> homSet)
+	private void FillHomNodesInNodesToHomNodes(ISet<ConstraintDeclNode> homSet)
 	{
-		for(ConstraintDeclNode elem : homSet) {
+		foreach(ConstraintDeclNode elem in homSet)
+		{
 			NodeDeclNode node = (NodeDeclNode)elem;
-			Set<NodeDeclNode> mapEntry = nodeToHomNodes.get(node);
-			for(ConstraintDeclNode homomorphicNode : homSet) {
-				mapEntry.add((NodeDeclNode)homomorphicNode);
-			}
+			ISet<NodeDeclNode> mapEntry = nodeToHomNodes[node];
+			foreach(ConstraintDeclNode homomorphicNode in homSet)
+				mapEntry.Add((NodeDeclNode)homomorphicNode);
 		}
 	}
 
-	private void fillHomEdgesInEdgesToHomEdges(Set<ConstraintDeclNode> homSet)
+	private void FillHomEdgesInEdgesToHomEdges(ISet<ConstraintDeclNode> homSet)
 	{
-		for(ConstraintDeclNode elem : homSet) {
+		foreach(ConstraintDeclNode elem in homSet)
+		{
 			EdgeDeclNode edge = (EdgeDeclNode)elem;
-			Set<EdgeDeclNode> mapEntry = edgeToHomEdges.get(edge);
-			for(ConstraintDeclNode homomorphicEdge : homSet) {
-				mapEntry.add((EdgeDeclNode)homomorphicEdge);
-			}
+			ISet<EdgeDeclNode> mapEntry = edgeToHomEdges[edge];
+			foreach(ConstraintDeclNode homomorphicEdge in homSet)
+				mapEntry.Add((EdgeDeclNode)homomorphicEdge);
 		}
 	}
 
-	public Collection<Set<ConstraintDeclNode>> getHoms()
+	public virtual ICollection<ISet<ConstraintDeclNode>> Homs
 	{
+		get
+		{
 		return homSets;
+		}
 	}
-	
-	/** Return the correspondent homomorphic set. */
-	public Set<NodeDeclNode> getHomomorphic(NodeDeclNode node)
+
+	/// <summary>
+	/// Return the correspondent homomorphic set. </summary>
+	public virtual ISet<NodeDeclNode> GetHomomorphic(NodeDeclNode node)
 	{
-		Set<NodeDeclNode> homSet = nodeToHomNodes.get(node);
+		ISet<NodeDeclNode> homSet = nodeToHomNodes[node];
 
 		// If the node isn't part of the pattern, return empty set.
 		if(homSet == null)
@@ -223,15 +234,18 @@ public class HomStorage
 			return homSet;
 	}
 
-	/** Return the correspondent homomorphic set. */
-	public Set<EdgeDeclNode> getHomomorphic(EdgeDeclNode edge)
+	/// <summary>
+	/// Return the correspondent homomorphic set. </summary>
+	public virtual ISet<EdgeDeclNode> GetHomomorphic(EdgeDeclNode edge)
 	{
-		Set<EdgeDeclNode> homSet = edgeToHomEdges.get(edge);
+		ISet<EdgeDeclNode> homSet = edgeToHomEdges[edge];
 
 		// If the edge isn't part of the pattern, return empty set.
 		if(homSet == null)
 			return emptyHomEdgeSet;
 		else
 			return homSet;
-	}	
+	}
+}
+
 }

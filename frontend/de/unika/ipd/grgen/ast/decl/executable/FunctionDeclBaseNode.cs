@@ -1,28 +1,36 @@
-package de.unika.ipd.grgen.ast.decl.executable;
+﻿/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
+ * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
+ * www.grgen.de / www.grgen.net
+ */
 
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-
-public abstract class FunctionDeclBaseNode extends FunctionOrOperatorDeclBaseNode
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	protected BaseNode resultUnresolved;
+using de.unika.ipd.grgen.ast;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
 
-	
+public abstract class FunctionDeclBaseNode : FunctionOrOperatorDeclBaseNode
+{
+	protected internal BaseNode resultUnresolved;
+
+
 	public FunctionDeclBaseNode(IdentNode ident, BaseNode type)
+		: base(ident, type)
 	{
-		super(ident, type);
 	}
 
-	private static final Resolver<TypeNode> resultTypeResolver =
-			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	private static readonly Resolver<TypeNode> resultTypeResolver =
+			new DeclarationTypeResolver<TypeNode>(typeof(TypeNode));
+
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		resultType = resultTypeResolver.resolve(resultUnresolved, this);
+		resultType = resultTypeResolver.Resolve(resultUnresolved, this);
 		return resultType != null;
 	}
+}
+
 }

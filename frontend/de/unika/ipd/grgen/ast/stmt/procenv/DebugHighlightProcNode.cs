@@ -1,48 +1,50 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.procenv;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.procenv.DebugHighlightProc;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class DebugHighlightProcNode extends DebugProcNode
+namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
-	static {
-		setClassName(DebugHighlightProcNode.class, "debug highlight procedure");
+
+using System.Collections.Generic;
+
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using DebugHighlightProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugHighlightProc;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class DebugHighlightProcNode : DebugProcNode
+{
+	static DebugHighlightProcNode()
+	{
+		SetClassName(typeof(DebugHighlightProcNode), "debug highlight procedure");
 	}
 
 	public DebugHighlightProcNode(Coords coords)
+		: base(coords)
 	{
-		super(coords);
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		int paramNum = 0;
-		for(ExprNode expr : exprs.getChildrenExact()) {
-			TypeNode exprType = expr.getType();
-			if(paramNum % 2 == 0 && !(exprType.equals(BasicTypeNode.stringType))) {
-				reportError("The " + shortSignature() + " procedure expects as " + paramNum + ". argument"
+		foreach(ExprNode expr in exprs.GetChildrenExact())
+		{
+			TypeNode exprType = expr.Type;
+			if(paramNum % 2 == 0 && !(exprType.Equals(BasicTypeNode.stringType)))
+			{
+				ReportError("The " + ShortSignature() + " procedure expects as " + paramNum + ". argument"
 						+ " a value of type string (a message followed by a sequence of (value, annotation for the value)* must be given)"
-						+ " (but is given a value of type " + exprType.toStringWithDeclarationCoords() + ").");
+						+ " (but is given a value of type " + exprType.ToStringWithDeclarationCoords() + ").");
 				return false;
 			}
 			++paramNum;
@@ -50,20 +52,21 @@ public class DebugHighlightProcNode extends DebugProcNode
 		return true;
 	}
 
-	@Override
-	protected String shortSignature()
+	protected internal override string ShortSignature()
 	{
 		return "Debug::highlight()";
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		List<Expression> expressions = new ArrayList<Expression>();
-		for(ExprNode expr : exprs.getChildrenExact()) {
-			ExprNode exprEvaluated = expr.evaluate();
-			expressions.add(exprEvaluated.checkIR(Expression.class));
+		IList<Expression> expressions = new List<Expression>();
+		foreach(ExprNode expr in exprs.GetChildrenExact())
+		{
+			ExprNode exprEvaluated = expr.Evaluate();
+			expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
 		}
 		return new DebugHighlightProc(expressions);
 	}
+}
+
 }

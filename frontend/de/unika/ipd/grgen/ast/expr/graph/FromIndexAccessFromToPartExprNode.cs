@@ -1,77 +1,84 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr.graph;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.model.Index;
-import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node yielding the graph elements (nodes or edges) from an index by accessing a range from a certain value to a certain value (part class to be used in a multiple index query).
- */
-public class FromIndexAccessFromToPartExprNode extends FromIndexAccessFromToExprNode
+namespace de.unika.ipd.grgen.ast.expr.graph
 {
-	static {
-		setClassName(FromIndexAccessFromToPartExprNode.class, "from index access from to part expr");
+using System;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Index = de.unika.ipd.grgen.ir.model.Index;
+using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node yielding the graph elements (nodes or edges) from an index by accessing a range from a certain value to a certain value (part class to be used in a multiple index query).
+/// </summary>
+public class FromIndexAccessFromToPartExprNode : FromIndexAccessFromToExprNode
+{
+	static FromIndexAccessFromToPartExprNode()
+	{
+		SetClassName(typeof(FromIndexAccessFromToPartExprNode), "from index access from to part expr");
 	}
 
-	int indexShiftCausedByPartNumber;
-	FromIndexAccessMultipleFromToExprNode wholeExpr;
-	
-	public FromIndexAccessFromToPartExprNode(Coords coords, BaseNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive, int indexShiftCausedByPartNumber, FromIndexAccessMultipleFromToExprNode wholeExpr)
+	internal int indexShiftCausedByPartNumber;
+	internal FromIndexAccessMultipleFromToExprNode wholeExpr;
+
+	public FromIndexAccessFromToPartExprNode(Coords coords, BaseNode index, ExprNode fromExpr, bool fromExclusive, ExprNode toExpr, bool toExclusive, int indexShiftCausedByPartNumber, FromIndexAccessMultipleFromToExprNode wholeExpr)
+		: base(coords, index, fromExpr, fromExclusive, toExpr, toExclusive)
 	{
-		super(coords, index, fromExpr, fromExclusive, toExpr, toExclusive);
 		this.indexShiftCausedByPartNumber = indexShiftCausedByPartNumber;
 		this.wholeExpr = wholeExpr;
 	}
 
-	protected int indexShift() // the parts in a multiple from to index query are shifted by 3 from each other
+	protected internal override int IndexShift() // the parts in a multiple from to index query are shifted by 3 from each other
 	{
 		return indexShiftCausedByPartNumber;
 	}
 
-	@Override
-	protected IdentNode getRoot()
+	protected internal override IdentNode Root
 	{
-		return wholeExpr.getRoot();
+		get
+		{
+		return wholeExpr.Root;
+		}
 	}
 
-	@Override
-	protected String shortSignature()
+	protected internal override string ShortSignature()
 	{
-		return wholeExpr.shortSignature();
+		return wholeExpr.ShortSignature();
 	}
 
-	public IndexAccessOrdering constructIRPart()
+	public virtual IndexAccessOrdering ConstructIRPart()
 	{
 		if(fromExpr != null)
-			fromExpr = fromExpr.evaluate();
+			fromExpr = fromExpr.Evaluate();
 		if(toExpr != null)
-			toExpr = toExpr.evaluate();
-		return new IndexAccessOrdering(index.checkIR(Index.class), true,
-				fromOperator(), fromExpr != null ? fromExpr.checkIR(Expression.class) : null, 
-				toOperator(), toExpr != null ? toExpr.checkIR(Expression.class) : null);
+			toExpr = toExpr.Evaluate();
+		return new IndexAccessOrdering(index.CheckIR(typeof(Index)), true,
+				FromOperator(), fromExpr != null ? fromExpr.CheckIR(typeof(Expression)) : null,
+				ToOperator(), toExpr != null ? toExpr.CheckIR(typeof(Expression)) : null);
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		throw new RuntimeException("Not implemented! Only used as part class.");
+		throw new Exception("Not implemented! Only used as part class.");
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		throw new RuntimeException("Not implemented! Only used as part class.");
+		get
+		{
+		throw new Exception("Not implemented! Only used as part class.");
+		}
 	}
+}
+
 }

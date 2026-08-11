@@ -1,80 +1,94 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr.array;
-
-import java.util.Collection;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.container.ArrayType;
-
-public class ArrayInit extends Expression
+namespace de.unika.ipd.grgen.ir.expr.array
 {
-	private Collection<Expression> arrayItems;
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+
+public class ArrayInit : Expression
+{
+	private ICollection<Expression> arrayItems;
 	private Entity member;
 	private ArrayType arrayType;
-	private boolean isConst;
+	private bool isConst;
 
-	public ArrayInit(Collection<Expression> arrayItems, Entity member, ArrayType arrayType, boolean isConst)
+	public ArrayInit(ICollection<Expression> arrayItems, Entity member, ArrayType arrayType, bool isConst)
+		: base("array init", member != null ? member.Type : arrayType)
 	{
-		super("array init", member != null ? member.getType() : arrayType);
 		this.arrayItems = arrayItems;
 		this.member = member;
 		this.arrayType = arrayType;
 		this.isConst = isConst;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.add(this);
-		for(Expression arrayItem : arrayItems) {
-			arrayItem.collectNeededEntities(needs);
+		needs.Add(this);
+		foreach(Expression arrayItem in arrayItems)
+			arrayItem.CollectNeededEntities(needs);
+	}
+
+	public virtual ICollection<Expression> ArrayItems
+	{
+		get
+		{
+		return arrayItems;
 		}
 	}
 
-	public Collection<Expression> getArrayItems()
+	public virtual Entity Member
 	{
-		return arrayItems;
-	}
-
-	public void setMember(Entity entity)
-	{
-		assert(member == null && entity != null);
-		member = entity;
-	}
-
-	public Entity getMember()
-	{
+		set
+		{
+		Debug.Assert((member == null && value != null));
+		member = value;
+		}
+		get
+		{
 		return member;
+		}
 	}
 
-	public ArrayType getArrayType()
+
+	public virtual ArrayType ArrayType
 	{
+		get
+		{
 		return arrayType;
+		}
 	}
 
-	public void forceNotConstant()
+	public virtual void ForceNotConstant()
 	{
 		isConst = false;
 	}
 
-	public boolean isConstant()
+	public virtual bool IsConstant()
 	{
 		return isConst;
 	}
 
-	public String getAnonymousArrayName()
+	public virtual string AnonymousArrayName
 	{
-		return "anonymous_array_" + getId();
+		get
+		{
+		return "anonymous_array_" + Id;
+		}
 	}
+}
+
 }

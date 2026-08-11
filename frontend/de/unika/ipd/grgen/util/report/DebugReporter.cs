@@ -1,122 +1,138 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.util.report;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-/**
- * A debug message reporter.
- */
-public class DebugReporter extends Reporter
+namespace de.unika.ipd.grgen.util.report
 {
-	private Pattern pattern = Pattern.compile(".*");
-	private Matcher matcher = pattern.matcher("");
-	private boolean inclusive = true;
-	private boolean includeClassName = false;
 
-	private String prefix = "";
-	private boolean enableStackTrace = true;
+using System;
+using System.Text;
+
+/// <summary>
+/// A debug message reporter.
+/// </summary>
+public class DebugReporter : Reporter
+{
+	private void InitializeInstanceFields()
+	{
+		matcher = pattern.Matcher("");
+	}
+
+	private Pattern pattern = Pattern.compile(".*");
+	private Matcher matcher;
+	private bool inclusive = true;
+	private bool includeClassName = false;
+
+	private string prefix = "";
+	private bool enableStackTrace = true;
 
 	public DebugReporter(int mask)
 	{
-		setMask(mask);
+		InitializeInstanceFields();
+		Mask = mask;
 	}
 
-	/**
-	 * Set the class filter.
-	 * The class filter is a regular expression. Each class calling
-	 * this debug reporter is matched against this regex. Only if the
-	 * regex matches, the message is reported.
-	 * @param regex A regular expression.
-	 */
-	public void setFilter(String regex)
+	/// <summary>
+	/// Set the class filter.
+	/// The class filter is a regular expression. Each class calling
+	/// this debug reporter is matched against this regex. Only if the
+	/// regex matches, the message is reported. </summary>
+	/// <param name="regex"> A regular expression. </param>
+	public virtual string Filter
 	{
-		pattern = Pattern.compile(regex);
-		matcher = pattern.matcher("");
+		set
+		{
+		pattern = Pattern.Compile(value);
+		matcher = pattern.Matcher("");
+		}
 	}
 
-	/**
-	 * Determines the meaning of the filter.
-	 * If <code>value</code> is true, than all debug zones matching
-	 * the filter are reported, all other are ignored. If set to false,
-	 * All debug zones not matching the filter are entered, the others
-	 * are ignored.
-	 * @param value Inclusive or exclusive filtering.
-	 */
-	public void setFilterInclusive(boolean value)
+	/// <summary>
+	/// Determines the meaning of the filter.
+	/// If <code>value</code> is true, than all debug zones matching
+	/// the filter are reported, all other are ignored. If set to false,
+	/// All debug zones not matching the filter are entered, the others
+	/// are ignored. </summary>
+	/// <param name="value"> Inclusive or exclusive filtering. </param>
+	public virtual bool FilterInclusive
 	{
+		set
+		{
 		inclusive = value;
+		}
 	}
 
-	public void setStackTrace(boolean enabled)
+	public virtual bool StackTrace
 	{
-		enableStackTrace = enabled;
+		set
+		{
+		enableStackTrace = value;
+		}
 	}
 
-	protected void makePrefix()
+	protected internal virtual void MakePrefix()
 	{
-		if(enableStackTrace) {
-			StackTraceElement[] st = (new Exception()).getStackTrace();
+		if(enableStackTrace)
+		{
+			StackTraceElement[] st = (new Exception()).GetStackTrace();
 			StackTraceElement ste = st[2];
-			StringBuffer sb = new StringBuffer();
-			for(int i = 0; i < st.length; i++)
-				sb.append(' ');
-			String className = ste.getClassName();
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0; i < st.Length; i++)
+				sb.Append(' ');
+			string className = ste.GetClassName();
 
-			int lastDot = className.lastIndexOf('.');
+			int lastDot = className.LastIndexOf('.');
 			if(lastDot != -1)
-				className = className.substring(lastDot + 1);
+				className = className.Substring(lastDot + 1);
 
-			if(includeClassName) {
-				sb.append(className);
-				sb.append('.');
+			if(includeClassName)
+			{
+				sb.Append(className);
+				sb.Append('.');
 			}
-			sb.append(ste.getMethodName());
-			prefix = sb.toString();
-		} else
+			sb.Append(ste.GetMethodName());
+			prefix = sb.ToString();
+		}
+		else
 			prefix = "";
 	}
 
-	/**
-	 * Checks, whether a message supplied with this level will be reported
-	 * @param channel The channel to check
-	 * @return true, if the message would be reported, false if not.
-	 */
-	@Override
-	public boolean willReport(int channel)
+	/// <summary>
+	/// Checks, whether a message supplied with this level will be reported </summary>
+	/// <param name="channel"> The channel to check </param>
+	/// <returns> true, if the message would be reported, false if not. </returns>
+	public override bool WillReport(int channel)
 	{
 		int res = inclusive ? 1 : 0;
 
-		if(prefix.length() != 0) {
-			boolean matches = matcher.reset(prefix).matches();
+		if(prefix.Length != 0)
+		{
+			bool matches = matcher.Reset(prefix).Matches();
 			res += matches ? 1 : 0;
 		}
 
-		return (res == 0 || res == 2) && super.willReport(channel);
+		return (res == 0 || res == 2) && base.WillReport(channel);
 	}
 
-	@Override
-	public void report(int level, Location loc, String msg)
+	public override void Report(int level, Location loc, string msg)
 	{
-		makePrefix();
-		super.report(level, loc, prefix + ": " + msg);
+		MakePrefix();
+		base.Report(level, loc, prefix + ": " + msg);
 	}
 
-	@Override
-	public void report(int channel, String msg)
+	public override void Report(int channel, string msg)
 	{
-		makePrefix();
-		super.report(channel, EmptyLocation.getEmptyLoc(),
+		MakePrefix();
+		base.Report(channel, EmptyLocation.EmptyLoc,
 				prefix + ": " + msg);
 	}
+}
+
 }

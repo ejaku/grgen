@@ -1,25 +1,24 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.util;
-
-/**
- * A visitor that dumps graphs
- * Every object that is visited must implement Walkable and GraphDumpable
- * @see GraphDumpable
- * @see Walkable
- */
-public class GraphDumpVisitor extends Base implements Visitor
+namespace de.unika.ipd.grgen.util
 {
-	protected GraphDumper dumper;
+/// <summary>
+/// A visitor that dumps graphs
+/// Every object that is visited must implement Walkable and GraphDumpable </summary>
+/// <seealso cref="GraphDumpable"/>
+/// <seealso cref="Walkable"/>
+public class GraphDumpVisitor : Base, Visitor
+{
+	protected internal GraphDumper dumper;
 
 	public GraphDumpVisitor(GraphDumper dumper)
 	{
@@ -30,24 +29,27 @@ public class GraphDumpVisitor extends Base implements Visitor
 	{
 	}
 
-	public void setDumper(GraphDumper dumper)
+	public virtual GraphDumper Dumper
 	{
-		this.dumper = dumper;
+		set
+		{
+		this.dumper = value;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.Visitor#visit(de.unika.ipd.grgen.ast.BaseNode)
-	 */
-	@Override
-	public void visit(Walkable n)
+	/// <seealso cref="de.unika.ipd.grgen.ast.Visitor.visit(de.unika.ipd.grgen.ast.BaseNode)"/>
+	public virtual void Visit(Walkable n)
 	{
 		GraphDumpable gd = (GraphDumpable)n;
-		dumper.node(gd);
+		dumper.Node(gd);
 
 		int i = 0;
-		for(GraphDumpable target : n.getWalkableChildren()) {
-			dumper.edge(gd, target, gd.getEdgeLabel(i));
+		foreach(GraphDumpable target in n.WalkableChildren)
+		{
+			dumper.Edge(gd, target, gd.GetEdgeLabel(i));
 			i++;
 		}
 	}
+}
+
 }

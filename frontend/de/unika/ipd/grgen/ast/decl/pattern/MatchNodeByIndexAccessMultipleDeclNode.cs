@@ -1,149 +1,157 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.TypeExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.pattern.Node;
-
-public class MatchNodeByIndexAccessMultipleDeclNode extends NodeDeclNode
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(MatchNodeByIndexAccessMultipleDeclNode.class, "match node by index access multiple decl");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using IndexDeclNode = de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using TypeExprNode = de.unika.ipd.grgen.ast.type.TypeExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+
+public class MatchNodeByIndexAccessMultipleDeclNode : NodeDeclNode
+{
+	static MatchNodeByIndexAccessMultipleDeclNode()
+	{
+		SetClassName(typeof(MatchNodeByIndexAccessMultipleDeclNode), "match node by index access multiple decl");
 	}
 
-	protected CollectNode<MatchByIndexAccessOrderingPartNode> indexAccessParts = new CollectNode<MatchByIndexAccessOrderingPartNode>();
+	protected internal CollectNode<MatchByIndexAccessOrderingPartNode> indexAccessParts = new CollectNode<MatchByIndexAccessOrderingPartNode>();
 
 	public MatchNodeByIndexAccessMultipleDeclNode(IdentNode id, BaseNode type, int context,
 			PatternGraphLhsNode directlyNestingLHSGraph)
+		: base(id, type, CopyKind.None, context, TypeExprNode.Empty, directlyNestingLHSGraph)
 	{
-		super(id, type, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 	}
 
-	public void addIndexAccessPart(MatchByIndexAccessOrderingPartNode expr)
+	public virtual void AddIndexAccessPart(MatchByIndexAccessOrderingPartNode expr)
 	{
-		indexAccessParts.addChild(expr);
+		indexAccessParts.AddChild(expr);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
-		children.add(constraints);
-		children.add(indexAccessParts);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
+		children.Add(constraints);
+		children.Add(indexAccessParts);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("constraints");
-		childrenNames.add("indexAccessParts");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("constraints");
+		childrenNames.Add("indexAccessParts");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = super.resolveLocal();
+		bool successfullyResolved = base.ResolveLocal();
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		boolean res = super.checkLocal();
-		
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Cannot employ match node by index multiple in the rewrite part"
-					+ " (as it occurs in match node" + emptyWhenAnonymousPostfix(" ") + " by multiple index access).");
+		bool res = base.CheckLocal();
+
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS)
+		{
+			ReportError("Cannot employ match node by index multiple in the rewrite part"
+					+ " (as it occurs in match node" + EmptyWhenAnonymousPostfix(" ") + " by multiple index access).");
 			res = false;
 		}
-		
-		TypeNode expectedEntityType = getDeclType();
-		for(MatchByIndexAccessOrderingPartNode indexAccessPart : indexAccessParts.getChildrenExact()) {
-			InheritanceTypeNode entityType = indexAccessPart.index.getType();
-			if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
+
+		TypeNode expectedEntityType = DeclType;
+		foreach(MatchByIndexAccessOrderingPartNode indexAccessPart in indexAccessParts.ChildrenExact)
+		{
+			InheritanceTypeNode entityType = indexAccessPart.index.Type;
+			if(!entityType.IsCompatibleTo(expectedEntityType) && !expectedEntityType.IsCompatibleTo(entityType))
 				res = false; // the index type is checked with the parts, and an error is emitted there - we just skip the warning messages here in case of an index type mismatch
-			}
 		}
-		
+
 		if(!res)
 			return false;
-		
-		for(int i = 0; i < indexAccessParts.getChildrenExact().size(); ++i) {
-			MatchByIndexAccessOrderingPartNode indexAccessPart = indexAccessParts.get(i);
-			InheritanceTypeNode entityType = indexAccessPart.index.getType();
 
-			for(int j = i + 1; j < indexAccessParts.getChildrenExact().size(); ++j) {
-				MatchByIndexAccessOrderingPartNode indexAccessPart2 = indexAccessParts.get(j);
-				InheritanceTypeNode entityType2 = indexAccessPart2.index.getType();
-				
-				if(!InheritanceTypeNode.hasCommonSubtype(entityType, entityType2)) {
-					reportWarning("The indexed type " + entityType.toStringWithDeclarationCoords()
-									+ " and the indexed type " + entityType2.toStringWithDeclarationCoords()
+		for(int i = 0; i < indexAccessParts.ChildrenExact.Count; ++i)
+		{
+			MatchByIndexAccessOrderingPartNode indexAccessPart = indexAccessParts.Get(i);
+			InheritanceTypeNode entityType = indexAccessPart.index.Type;
+
+			for(int j = i + 1; j < indexAccessParts.ChildrenExact.Count; ++j)
+			{
+				MatchByIndexAccessOrderingPartNode indexAccessPart2 = indexAccessParts.Get(j);
+				InheritanceTypeNode entityType2 = indexAccessPart2.index.Type;
+
+				if(!InheritanceTypeNode.HasCommonSubtype(entityType, entityType2))
+				{
+					ReportWarning("The indexed type " + entityType.ToStringWithDeclarationCoords()
+									+ " and the indexed type " + entityType2.ToStringWithDeclarationCoords()
 									+ " have no common subtype, thus the content of these indices is disjoint, and the index join will always be empty.");
 				}
 			}
 		}
-		
+
 		HashSet<IndexDeclNode> indicesUsed = new HashSet<IndexDeclNode>();
-		for(MatchByIndexAccessOrderingPartNode indexAccessPart : indexAccessParts.getChildrenExact()) {
-			if(indicesUsed.contains(indexAccessPart.index)) {
-				reportWarning("The match node by index multiple uses the index " + indexAccessPart.index.toStringWithDeclarationCoords()
+		foreach(MatchByIndexAccessOrderingPartNode indexAccessPart in indexAccessParts.ChildrenExact)
+		{
+			if(indicesUsed.Contains(indexAccessPart.index))
+			{
+				ReportWarning("The match node by index multiple uses the index " + indexAccessPart.index.ToStringWithDeclarationCoords()
 						+ " for another time (combine the queried ranges into one).");
-			} else {
-				indicesUsed.add(indexAccessPart.index);
 			}
+			else
+				indicesUsed.Add(indexAccessPart.index);
 		}
-		
+
 		return res;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
-		if(isIRAlreadySet()) { // break endless recursion in case of cycle in usage
-			return getIR();
-		}
+		if(IsIRAlreadySet()) // break endless recursion in case of cycle in usage
+			return IR;
 
-		Node node = (Node)super.constructIR();
+		Node node = (Node)base.ConstructIR();
 
-		setIR(node);
+		IR = node;
 
-		for(MatchByIndexAccessOrderingPartNode partNode : indexAccessParts.getChildrenExact()) {
-			node.addIndex(partNode.constructIRPart());
-		}
+		foreach(MatchByIndexAccessOrderingPartNode partNode in indexAccessParts.ChildrenExact)
+			node.AddIndex(partNode.ConstructIRPart());
 		return node;
 	}
+}
+
 }

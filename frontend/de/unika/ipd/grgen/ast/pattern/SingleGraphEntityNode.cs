@@ -1,81 +1,84 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.pattern;
+namespace de.unika.ipd.grgen.ast.pattern
+{
 
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using SubpatternUsageDeclNode = de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
 
-/**
- * Represents a reused single (pattern) graph entity.
- *
- * This node is needed to distinguish between reused single nodes and reused
- * subpatterns.
- * After resolving in {@link PatternGraphRhsNode#resolveLocal()} this node should disappear.
- *
- * @author buchwald
- *
- */
-public class SingleGraphEntityNode extends BaseNode
+/// <summary>
+/// Represents a reused single (pattern) graph entity.
+/// 
+/// This node is needed to distinguish between reused single nodes and reused
+/// subpatterns.
+/// After resolving in <seealso cref="PatternGraphRhsNode.resolveLocal()"/> this node should disappear.
+/// 
+/// @author buchwald
+/// 
+/// </summary>
+public class SingleGraphEntityNode : BaseNode
 {
 	private IdentNode entityUnresolved;
 	private NodeDeclNode entityNode;
 	private SubpatternUsageDeclNode entitySubpattern;
 
 	public SingleGraphEntityNode(IdentNode ent)
+		: base(ent.Coords)
 	{
-		super(ent.getCoords());
 		entityUnresolved = ent;
-		becomeParent(this.entityUnresolved);
+		BecomeParent(this.entityUnresolved);
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// this node should not exist after resolving
 		return false;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(entityUnresolved);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(entityUnresolved);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("entity");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("entity");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationPairResolver<NodeDeclNode, SubpatternUsageDeclNode> entityResolver =
-			new DeclarationPairResolver<NodeDeclNode, SubpatternUsageDeclNode>(NodeDeclNode.class, SubpatternUsageDeclNode.class);
+	private static readonly DeclarationPairResolver<NodeDeclNode, SubpatternUsageDeclNode> entityResolver =
+			new DeclarationPairResolver<NodeDeclNode, SubpatternUsageDeclNode>(typeof(NodeDeclNode), typeof(SubpatternUsageDeclNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		if(!fixupDefinition(entityUnresolved, entityUnresolved.getScope()))
+		if(!FixupDefinition(entityUnresolved, entityUnresolved.Scope))
 			return false;
 
-		Pair<NodeDeclNode, SubpatternUsageDeclNode> pair = entityResolver.resolve(entityUnresolved, this);
+		Pair<NodeDeclNode, SubpatternUsageDeclNode> pair = entityResolver.Resolve(entityUnresolved, this);
 
-		if(pair != null) {
+		if(pair != null)
+		{
 			entityNode = pair.fst;
 			entitySubpattern = pair.snd;
 		}
@@ -83,22 +86,33 @@ public class SingleGraphEntityNode extends BaseNode
 		return entityNode != null || entitySubpattern != null;
 	}
 
-	protected SubpatternUsageDeclNode getEntitySubpattern()
+	protected internal virtual SubpatternUsageDeclNode EntitySubpattern
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return entitySubpattern;
+		}
 	}
 
-	protected NodeDeclNode getEntityNode()
+	protected internal virtual NodeDeclNode EntityNode
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return entityNode;
+		}
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "single graph entity";
+		}
 	}
+}
+
 }

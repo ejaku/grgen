@@ -1,374 +1,464 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * Dump.java
- *
- * @author Sebastian Hack
- */
+/// <summary>
+/// Dump.java
+/// 
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
+namespace de.unika.ipd.grgen.ir
+{
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collection;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ir.executable.Action;
-import de.unika.ipd.grgen.ir.executable.MatchingAction;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Operator;
-import de.unika.ipd.grgen.ir.model.Model;
-import de.unika.ipd.grgen.ir.model.type.InheritanceType;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.stmt.Assignment;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.util.Formatter;
-import de.unika.ipd.grgen.util.GraphDumpable;
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.GraphDumperFactory;
+using Action = de.unika.ipd.grgen.ir.executable.Action;
+using MatchingAction = de.unika.ipd.grgen.ir.executable.MatchingAction;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Operator = de.unika.ipd.grgen.ir.expr.Operator;
+using Model = de.unika.ipd.grgen.ir.model.Model;
+using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using Assignment = de.unika.ipd.grgen.ir.stmt.Assignment;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using Formatter = de.unika.ipd.grgen.util.Formatter;
+using GraphDumpable = de.unika.ipd.grgen.util.GraphDumpable;
+using GraphDumper = de.unika.ipd.grgen.util.GraphDumper;
+using GraphDumperFactory = de.unika.ipd.grgen.util.GraphDumperFactory;
 
-/**
- * A custom dumper for the IR.
- */
+/// <summary>
+/// A custom dumper for the IR.
+/// </summary>
 public class Dumper
 {
-	/** Draw edges between graphs. */
-	private final boolean interGraphEdges;
-	/** Draw cond and eval as string not as expression tree */
-	private final boolean compactCondEval = true;
+	/// <summary>
+	/// Draw edges between graphs. </summary>
+	private readonly bool interGraphEdges;
+	/// <summary>
+	/// Draw cond and eval as string not as expression tree </summary>
+	private readonly bool compactCondEval = true;
 
-	/** The factory to get a dumper from. */
-	private final GraphDumperFactory dumperFactory;
+	/// <summary>
+	/// The factory to get a dumper from. </summary>
+	private readonly GraphDumperFactory dumperFactory;
 
 	public Dumper(GraphDumperFactory dumperFactory,
-			boolean interGraphEdges)
+			bool interGraphEdges)
 	{
 
 		this.dumperFactory = dumperFactory;
 		this.interGraphEdges = interGraphEdges;
 	}
 
-	private void dump(PatternGraphBase patternGraph, GraphDumper dumper)
+	private void Dump(PatternGraphBase patternGraph, GraphDumper dumper)
 	{
-		dumper.beginSubgraph(patternGraph);
+		dumper.BeginSubgraph(patternGraph);
 
-		for(Node node : patternGraph.getNodes()) {
-			GraphDumpable nodeDumpable = patternGraph.getLocalDumpable(node);
-			dumper.node(nodeDumpable);
+		foreach(Node node in patternGraph.Nodes)
+		{
+			GraphDumpable nodeDumpable = patternGraph.GetLocalDumpable(node);
+			dumper.Node(nodeDumpable);
 		}
 
-		for(Edge edge : patternGraph.getEdges()) {
-			GraphDumpable edgeDumpable = patternGraph.getLocalDumpable(edge);
-			GraphDumpable src = patternGraph.getLocalDumpable(patternGraph.getSource(edge));
-			GraphDumpable tgt = patternGraph.getLocalDumpable(patternGraph.getTarget(edge));
-			dumper.node(edgeDumpable);
-			dumper.edge(src, edgeDumpable);
-			dumper.edge(edgeDumpable, tgt);
+		foreach(Edge edge in patternGraph.Edges)
+		{
+			GraphDumpable edgeDumpable = patternGraph.GetLocalDumpable(edge);
+			GraphDumpable src = patternGraph.GetLocalDumpable(patternGraph.GetSource(edge));
+			GraphDumpable tgt = patternGraph.GetLocalDumpable(patternGraph.GetTarget(edge));
+			dumper.Node(edgeDumpable);
+			dumper.Edge(src, edgeDumpable);
+			dumper.Edge(edgeDumpable, tgt);
 		}
 
-		if(patternGraph instanceof PatternGraphLhs) {
+		if(patternGraph is PatternGraphLhs)
+		{
 			PatternGraphLhs patternGraphLhs = (PatternGraphLhs)patternGraph;
-			Collection<Expression> conditions = patternGraphLhs.getConditions();
+			ICollection<Expression> conditions = patternGraphLhs.Conditions;
 
-			if(!conditions.isEmpty()) {
-				for(Expression expr : conditions) {
-					dump(expr, dumper);
-				}
+			if(conditions.Count > 0)
+			{
+				foreach(Expression expr in conditions)
+					Dump(expr, dumper);
 			}
 		}
 
-		dumper.endSubgraph();
+		dumper.EndSubgraph();
 	}
 
-	public final void dump(MatchingAction matchingAction, GraphDumper dumper)
+	public void Dump(MatchingAction matchingAction, GraphDumper dumper)
 	{
-		PatternGraphLhs pattern = matchingAction.getPattern();
-		ArrayList<PatternGraphBase> patternGraphs = new ArrayList<PatternGraphBase>();
+		PatternGraphLhs pattern = matchingAction.Pattern;
+		List<PatternGraphBase> patternGraphs = new List<PatternGraphBase>();
 		PatternGraphBase right = null;
 
-		if(matchingAction instanceof Rule && ((Rule)matchingAction).getRight() != null) {
-			right = ((Rule)matchingAction).getRight();
-			patternGraphs.add(right);
+		if(matchingAction is Rule && ((Rule)matchingAction).Right != null)
+		{
+			right = ((Rule)matchingAction).Right;
+			patternGraphs.Add(right);
 		}
 
-		patternGraphs.addAll(pattern.getNegs());
+		patternGraphs.AddRange(pattern.Negs);
 
-		dumper.beginSubgraph(matchingAction);
-		dump(pattern, dumper);
+		dumper.BeginSubgraph(matchingAction);
+		Dump(pattern, dumper);
 
-		for(PatternGraphBase patternGraph : patternGraphs) {
-			dump(patternGraph, dumper);
+		foreach(PatternGraphBase patternGraph in patternGraphs)
+		{
+			Dump(patternGraph, dumper);
 			if(patternGraph == right)
-				dumper.edge(pattern, patternGraph, patternGraph.getNodeLabel().toLowerCase(), GraphDumper.DASHED, Color.green);
+				dumper.Edge(pattern, patternGraph, patternGraph.NodeLabel.ToLower(), GraphDumper.DASHED, Color.green);
 			else
-				dumper.edge(pattern, patternGraph, patternGraph.getNodeLabel().toLowerCase(), GraphDumper.DASHED, Color.red);
+				dumper.Edge(pattern, patternGraph, patternGraph.NodeLabel.ToLower(), GraphDumper.DASHED, Color.red);
 
-			if(interGraphEdges) {
-				for(Node node : patternGraph.getNodes()) {
-					if(pattern.hasNode(node))
-						dumper.edge(pattern.getLocalDumpable(node), patternGraph.getLocalDumpable(node), "",
+			if(interGraphEdges)
+			{
+				foreach(Node node in patternGraph.Nodes)
+				{
+					if(pattern.HasNode(node))
+						dumper.Edge(pattern.GetLocalDumpable(node), patternGraph.GetLocalDumpable(node), "",
 								GraphDumper.DOTTED);
 				}
 
-				for(Edge edge : patternGraph.getEdges()) {
-					if(pattern.hasEdge(edge))
-						dumper.edge(pattern.getLocalDumpable(edge), patternGraph.getLocalDumpable(edge), "",
+				foreach(Edge edge in patternGraph.Edges)
+				{
+					if(pattern.HasEdge(edge))
+						dumper.Edge(pattern.GetLocalDumpable(edge), patternGraph.GetLocalDumpable(edge), "",
 								GraphDumper.DOTTED);
 				}
 			}
 		}
 
-		if(matchingAction instanceof Rule && ((Rule)matchingAction).getRight() != null) {
+		if(matchingAction is Rule && ((Rule)matchingAction).Right != null)
+		{
 			Rule rule = (Rule)matchingAction;
-			patternGraphs.add(rule.getRight());
-			Collection<EvalStatement> evals = new ArrayList<EvalStatement>();
-			for(EvalStatements evalStatements : rule.getEvals()) {
-				for(EvalStatement evalStatement : evalStatements.evalStatements) {
-					evals.add(evalStatement);
-				}
+			patternGraphs.Add(rule.Right);
+			ICollection<EvalStatement> evals = new List<EvalStatement>();
+			foreach(EvalStatements evalStatements in rule.Evals)
+			{
+				foreach(EvalStatement evalStatement in evalStatements.evalStatements)
+					evals.Add(evalStatement);
 			}
 
-			if(!evals.isEmpty()) {
-				dumper.beginSubgraph("evals");
-				dumper.edge(rule.getRight(), evals.iterator().next(), "eval", GraphDumper.DASHED, Color.GRAY);
+			if(evals.Count > 0)
+			{
+				dumper.BeginSubgraph("evals");
+				dumper.Edge(rule.Right, evals.GetEnumerator().Next(), "eval", GraphDumper.DASHED, Color.GRAY);
 			}
 
 			EvalStatement oldEvalStatement = null;
-			for(EvalStatement eval : evals) {
-				if(eval instanceof Assignment) {
+			foreach(EvalStatement eval in evals)
+			{
+				if(eval is Assignment)
+				{
 					Assignment assignment = (Assignment)eval;
-					Expression target = assignment.getTarget();
-					Expression expr = assignment.getExpression();
+					Expression target = assignment.Target;
+					Expression expr = assignment.Expression;
 
-					if(compactCondEval) {
-						dump(assignment.getId(),
-								Formatter.formatConditionEval(target) + " = " + Formatter.formatConditionEval(expr),
+					if(compactCondEval)
+					{
+						Dump(assignment.Id,
+								Formatter.FormatConditionEval(target) + " = " + Formatter.FormatConditionEval(expr),
 								dumper);
 						if(oldEvalStatement != null)
-							dumper.edge(oldEvalStatement, assignment, "next", GraphDumper.DASHED, Color.RED);
-					} else {
-						dumper.node(assignment);
-						dumper.node(target);
-						dumper.edge(assignment, target);
-						dump(expr, dumper);
-						dumper.edge(assignment, expr);
+							dumper.Edge(oldEvalStatement, assignment, "next", GraphDumper.DASHED, Color.RED);
 					}
-				} else {
+					else
+					{
+						dumper.Node(assignment);
+						dumper.Node(target);
+						dumper.Edge(assignment, target);
+						Dump(expr, dumper);
+						dumper.Edge(assignment, expr);
+					}
+				}
+				else
+				{
 					// just swallow, it's on the ones who need this to re-enable and implement
 					// throw new UnsupportedOperationException("Unknown EvalStatement \"" + e + "\"");
 				}
 				oldEvalStatement = eval;
 			}
 
-			if(!evals.isEmpty())
-				dumper.endSubgraph();
+			if(evals.Count > 0)
+				dumper.EndSubgraph();
 		}
 
-		dumper.endSubgraph();
+		dumper.EndSubgraph();
 	}
 
-	public static final void dump(final String id, final String s, GraphDumper dumper)
+	public static void Dump(in string id, in string s, GraphDumper dumper)
 	{
-		dumper.node(
-			new GraphDumpable() {
-				@Override
-				public String getNodeId()
-				{
-					return id;
-				}
-	
-				@Override
-				public Color getNodeColor()
-				{
-					return Color.ORANGE;
-				}
-	
-				@Override
-				public int getNodeShape()
-				{
-					return GraphDumper.BOX;
-				}
-	
-				@Override
-				public String getNodeLabel()
-				{
-					return s;
-				}
-	
-				@Override
-				public String getNodeInfo()
-				{
-					return null;
-				}
-	
-				@Override
-				public String getEdgeLabel(int edge)
-				{
-					return null;
-				}
+		dumper.Node(new GraphDumpableAnonymousInnerClass(id, s));
+	}
+
+	private class GraphDumpableAnonymousInnerClass : GraphDumpable
+	{
+		private string id;
+		private string s;
+
+		public GraphDumpableAnonymousInnerClass(string id, string s)
+		{
+			this.id = id;
+			this.s = s;
+		}
+
+		public string NodeId
+		{
+			get
+			{
+			return id;
 			}
-		);
+		}
+
+		public Color NodeColor
+		{
+			get
+			{
+			return Color.ORANGE;
+			}
+		}
+
+		public int NodeShape
+		{
+			get
+			{
+			return GraphDumper.BOX;
+			}
+		}
+
+		public string NodeLabel
+		{
+			get
+			{
+			return s;
+			}
+		}
+
+		public string NodeInfo
+		{
+			get
+			{
+			return null;
+			}
+		}
+
+		public string getEdgeLabel(int edge)
+		{
+			return null;
+		}
 	}
 
-	public static final void dump(final String s, final String fromId,
-			final String toId, GraphDumper dumper)
+	public static void Dump(in string s, in string fromId,
+			in string toId, GraphDumper dumper)
 	{
-		dumper.edge(
-			new GraphDumpable() {
-				@Override
-				public String getNodeId()
-				{
-					return fromId;
-				}
-	
-				@Override
-				public Color getNodeColor()
-				{
-					return Color.ORANGE;
-				}
-	
-				@Override
-				public int getNodeShape()
-				{
-					return GraphDumper.BOX;
-				}
-	
-				@Override
-				public String getNodeLabel()
-				{
-					return fromId;
-				}
-	
-				@Override
-				public String getNodeInfo()
-				{
-					return null;
-				}
-	
-				@Override
-				public String getEdgeLabel(int edge)
-				{
-					return null;
-				}
-			},
-			new GraphDumpable() {
-				@Override
-				public String getNodeId()
-				{
-					return toId;
-				}
-	
-				@Override
-				public Color getNodeColor()
-				{
-					return Color.ORANGE;
-				}
-	
-				@Override
-				public int getNodeShape()
-				{
-					return GraphDumper.BOX;
-				}
-	
-				@Override
-				public String getNodeLabel()
-				{
-					return fromId;
-				}
-	
-				@Override
-				public String getNodeInfo()
-				{
-					return null;
-				}
-	
-				@Override
-				public String getEdgeLabel(int edge)
-				{
-					return null;
-				}
-			},
-			s
-		);
+		dumper.Edge(new GraphDumpableAnonymousInnerClass2(fromId)
+			, new GraphDumpableAnonymousInnerClass3(fromId, toId)
+			, s);
 	}
 
-	public final void dump(Expression expr, GraphDumper dumper)
+	private class GraphDumpableAnonymousInnerClass2 : GraphDumpable
 	{
-		if(compactCondEval) {
-			dump(expr.getId(), Formatter.formatConditionEval(expr), dumper);
-		} else {
-			dumper.node(expr);
-			if(expr instanceof Operator) {
+		private string fromId;
+
+		public GraphDumpableAnonymousInnerClass2(string fromId)
+		{
+			this.fromId = fromId;
+		}
+
+		public string NodeId
+		{
+			get
+			{
+			return fromId;
+			}
+		}
+
+		public Color NodeColor
+		{
+			get
+			{
+			return Color.ORANGE;
+			}
+		}
+
+		public int NodeShape
+		{
+			get
+			{
+			return GraphDumper.BOX;
+			}
+		}
+
+		public string NodeLabel
+		{
+			get
+			{
+			return fromId;
+			}
+		}
+
+		public string NodeInfo
+		{
+			get
+			{
+			return null;
+			}
+		}
+
+		public string getEdgeLabel(int edge)
+		{
+			return null;
+		}
+	}
+
+	private class GraphDumpableAnonymousInnerClass3 : GraphDumpable
+	{
+		private string fromId;
+		private string toId;
+
+		public GraphDumpableAnonymousInnerClass3(string fromId, string toId)
+		{
+			this.fromId = fromId;
+			this.toId = toId;
+		}
+
+		public string NodeId
+		{
+			get
+			{
+			return toId;
+			}
+		}
+
+		public Color NodeColor
+		{
+			get
+			{
+			return Color.ORANGE;
+			}
+		}
+
+		public int NodeShape
+		{
+			get
+			{
+			return GraphDumper.BOX;
+			}
+		}
+
+		public string NodeLabel
+		{
+			get
+			{
+			return fromId;
+			}
+		}
+
+		public string NodeInfo
+		{
+			get
+			{
+			return null;
+			}
+		}
+
+		public string getEdgeLabel(int edge)
+		{
+			return null;
+		}
+	}
+
+	public void Dump(Expression expr, GraphDumper dumper)
+	{
+		if(compactCondEval)
+			Dump(expr.Id, Formatter.FormatConditionEval(expr), dumper);
+		else
+		{
+			dumper.Node(expr);
+			if(expr is Operator)
+			{
 				Operator op = (Operator)expr;
-				for(int i = 0; i < op.arity(); i++) {
-					Expression operand = op.getOperand(i);
-					dump(operand, dumper);
-					dumper.edge(expr, operand);
+				for(int i = 0; i < op.Arity(); i++)
+				{
+					Expression operand = op.GetOperand(i);
+					Dump(operand, dumper);
+					dumper.Edge(expr, operand);
 				}
 			}
 		}
 	}
 
-	public final void dumpComplete(Unit unit, String fileName)
+	public void DumpComplete(Unit unit, string fileName)
 	{
-		GraphDumper dumper = dumperFactory.get(fileName);
+		GraphDumper dumper = dumperFactory.Get(fileName);
 
-		dumper.begin();
-		for(Action act : unit.getActionRules()) {
-			if(act instanceof MatchingAction) {
+		dumper.Begin();
+		foreach(Action act in unit.ActionRules)
+		{
+			if(act is MatchingAction)
+			{
 				MatchingAction mact = (MatchingAction)act;
-				dump(mact, dumper);
+				Dump(mact, dumper);
 			}
 		}
 
-		dumper.finish();
+		dumper.Finish();
 
-		dumper = dumperFactory.get(fileName + "Model");
-		dumper.begin();
+		dumper = dumperFactory.Get(fileName + "Model");
+		dumper.Begin();
 
-		for(Model model : unit.getModels()) {
-			for(Type type : model.getTypes()) {
-				String typeName = type.getIdent().toString();
-				dump(typeName, typeName, dumper);
+		foreach(Model model in unit.Models)
+		{
+			foreach(Type type in model.Types)
+			{
+				string typeName = type.Ident.ToString();
+				Dump(typeName, typeName, dumper);
 			}
-			for(Type type : model.getTypes()) {
-				String typeName = type.getIdent().toString();
-				if(type instanceof InheritanceType) {
+			foreach(Type type in model.Types)
+			{
+				string typeName = type.Ident.ToString();
+				if(type is InheritanceType)
+				{
 					InheritanceType inhType = (InheritanceType)type;
-					for(InheritanceType superType : inhType.getDirectSuperTypes()) {
-						String superTypeName = superType.getIdent().toString();
-						dump("", typeName, superTypeName, dumper);
+					foreach(InheritanceType superType in inhType.DirectSuperTypes)
+					{
+						string superTypeName = superType.Ident.ToString();
+						Dump("", typeName, superTypeName, dumper);
 					}
 				}
 			}
 		}
 
-		dumper.finish();
+		dumper.Finish();
 	}
 
-	public final void dump(Unit unit)
+	public void Dump(Unit unit)
 	{
-		for(Action act : unit.getActionRules()) {
-			if(act instanceof MatchingAction) {
+		foreach(Action act in unit.ActionRules)
+		{
+			if(act is MatchingAction)
+			{
 				MatchingAction matchingAction = (MatchingAction)act;
-				String main = matchingAction.toString().replace(' ', '_');
+				string main = matchingAction.ToString().Replace(' ', '_');
 
-				GraphDumper dumper = dumperFactory.get(main);
+				GraphDumper dumper = dumperFactory.Get(main);
 
-				dumper.begin();
-				dump(matchingAction, dumper);
-				dumper.finish();
+				dumper.Begin();
+				Dump(matchingAction, dumper);
+				dumper.Finish();
 			}
 		}
 	}
+}
+
 }

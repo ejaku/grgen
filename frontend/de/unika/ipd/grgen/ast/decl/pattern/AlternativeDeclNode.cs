@@ -1,112 +1,126 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.type.AlternativeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.pattern.Alternative;
-
-/**
- * AST node that represents an alternative, containing the alternative graph patterns
- */
-public class AlternativeDeclNode extends DeclNode
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(AlternativeDeclNode.class, "alternative");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using AlternativeTypeNode = de.unika.ipd.grgen.ast.type.AlternativeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Alternative = de.unika.ipd.grgen.ir.pattern.Alternative;
+
+/// <summary>
+/// AST node that represents an alternative, containing the alternative graph patterns
+/// </summary>
+public class AlternativeDeclNode : DeclNode
+{
+	static AlternativeDeclNode()
+	{
+		SetClassName(typeof(AlternativeDeclNode), "alternative");
 	}
 
-	/** Type for this declaration. */
+	/// <summary>
+	/// Type for this declaration. </summary>
 	private static AlternativeTypeNode alternativeType = new AlternativeTypeNode();
 
-	private List<AlternativeCaseDeclNode> children = new ArrayList<AlternativeCaseDeclNode>();
+	private IList<AlternativeCaseDeclNode> children = new List<AlternativeCaseDeclNode>();
 
 	public AlternativeDeclNode(IdentNode id)
+		: base(id, alternativeType)
 	{
-		super(id, alternativeType);
 	}
 
-	public void addChild(AlternativeCaseDeclNode n)
+	public virtual void AddChild(AlternativeCaseDeclNode n)
 	{
-		assert(!isResolved());
-		becomeParent(n);
-		children.add(n);
+		Debug.Assert((!IsResolved()));
+		BecomeParent(n);
+		children.Add(n);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		return new ArrayList<BaseNode>(children);
+		get
+		{
+		return new List<BaseNode>(children);
+		}
 	}
 
-	public Collection<AlternativeCaseDeclNode> getChildrenExact()
+	public virtual ICollection<AlternativeCaseDeclNode> ChildrenExact
 	{
+		get
+		{
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// nameless children
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		if(children.isEmpty()) {
-			this.reportError("The alternative pattern is empty.");
+		if(children.Count == 0)
+		{
+			this.ReportError("The alternative pattern is empty.");
 			return false;
 		}
 
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
-		Alternative alternative = new Alternative(ident.getIRIdent());
-		for(AlternativeCaseDeclNode alternativeCaseNode : children) {
-			Rule alternativeCaseRule = alternativeCaseNode.checkIR(Rule.class);
-			alternative.addAlternativeCase(alternativeCaseRule);
+		Alternative alternative = new Alternative(ident.IRIdent);
+		foreach(AlternativeCaseDeclNode alternativeCaseNode in children)
+		{
+			Rule alternativeCaseRule = alternativeCaseNode.CheckIR(typeof(Rule));
+			alternative.AddAlternativeCase(alternativeCaseRule);
 		}
 		return alternative;
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return alternativeType;
+		}
 	}
+}
+
 }

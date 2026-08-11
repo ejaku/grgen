@@ -1,43 +1,50 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.type.Type;
-
-public class TryScanExpr extends BuiltinFunctionInvocationExpr
+namespace de.unika.ipd.grgen.ir.expr
 {
-	private final Expression stringExpr;
-	private final Type targetType;
+using de.unika.ipd.grgen.ir;
+using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+public class TryScanExpr : BuiltinFunctionInvocationExpr
+{
+	private readonly Expression stringExpr;
+	private readonly Type targetType;
 
 	public TryScanExpr(Expression stringExpr, Type targetType, Type type)
+		: base("tryscan expression", type)
 	{
-		super("tryscan expression", type);
 		this.stringExpr = stringExpr;
 		this.targetType = targetType;
 	}
 
-	public Expression getStringExpr()
+	public virtual Expression StringExpr
 	{
+		get
+		{
 		return stringExpr;
+		}
 	}
 
-	public Type getTargetType()
+	public virtual Type TargetType
 	{
+		get
+		{
 		return targetType;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		stringExpr.collectNeededEntities(needs);
-		needs.needsGraph();
+		stringExpr.CollectNeededEntities(needs);
+		needs.NeedsGraph();
 	}
+}
+
 }

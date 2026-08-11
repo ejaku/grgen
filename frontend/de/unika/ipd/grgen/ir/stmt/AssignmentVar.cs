@@ -1,58 +1,62 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ir.stmt;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-
-/**
- * Represents an assignment statement in the IR.
- */
-public class AssignmentVar extends AssignmentBase
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ir.stmt
 {
-	/** The lhs of the assignment. */
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+
+/// <summary>
+/// Represents an assignment statement in the IR.
+/// </summary>
+public class AssignmentVar : AssignmentBase
+{
+	/// <summary>
+	/// The lhs of the assignment. </summary>
 	private Variable target;
 
 	public AssignmentVar(Variable target, Expression expr)
+		: base("assignment var")
 	{
-		super("assignment var");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	protected AssignmentVar(String name, Variable target, Expression expr)
+	protected internal AssignmentVar(string name, Variable target, Expression expr)
+		: base(name)
 	{
-		super(name);
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public Variable getTarget()
+	public virtual Variable Target
 	{
+		get
+		{
 		return target;
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return getTarget() + " = " + getExpression();
+		return Target + " = " + Expression;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(target))
-			needs.add(target);
+		if(!IsGlobalVariable(target))
+			needs.Add(target);
 
-		getExpression().collectNeededEntities(needs);
+		Expression.CollectNeededEntities(needs);
 	}
+}
+
 }

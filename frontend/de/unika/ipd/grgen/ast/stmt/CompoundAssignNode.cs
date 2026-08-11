@@ -1,52 +1,53 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.IdentExprNode;
-import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.expr.graph.VisitedNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
-import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.expr.graph.Visited;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.CompoundAssignment;
-import de.unika.ipd.grgen.ir.stmt.CompoundAssignmentChanged;
-import de.unika.ipd.grgen.ir.stmt.CompoundAssignmentChangedVar;
-import de.unika.ipd.grgen.ir.stmt.CompoundAssignmentChangedVisited;
-import de.unika.ipd.grgen.ir.stmt.CompoundAssignmentVar;
-import de.unika.ipd.grgen.ir.stmt.CompoundAssignmentVarChanged;
-import de.unika.ipd.grgen.ir.stmt.CompoundAssignmentVarChangedVar;
-import de.unika.ipd.grgen.ir.stmt.CompoundAssignmentVarChangedVisited;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class CompoundAssignNode extends EvalStatementNode
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	static {
-		setClassName(CompoundAssignNode.class, "compound assign statement");
+
+using System;
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using IdentExprNode = de.unika.ipd.grgen.ast.expr.IdentExprNode;
+using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+using VisitedNode = de.unika.ipd.grgen.ast.expr.graph.VisitedNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using DequeTypeNode = de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
+using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using Visited = de.unika.ipd.grgen.ir.expr.graph.Visited;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using CompoundAssignment = de.unika.ipd.grgen.ir.stmt.CompoundAssignment;
+using CompoundAssignmentChanged = de.unika.ipd.grgen.ir.stmt.CompoundAssignmentChanged;
+using CompoundAssignmentChangedVar = de.unika.ipd.grgen.ir.stmt.CompoundAssignmentChangedVar;
+using CompoundAssignmentChangedVisited = de.unika.ipd.grgen.ir.stmt.CompoundAssignmentChangedVisited;
+using CompoundAssignmentVar = de.unika.ipd.grgen.ir.stmt.CompoundAssignmentVar;
+using CompoundAssignmentVarChanged = de.unika.ipd.grgen.ir.stmt.CompoundAssignmentVarChanged;
+using CompoundAssignmentVarChangedVar = de.unika.ipd.grgen.ir.stmt.CompoundAssignmentVarChangedVar;
+using CompoundAssignmentVarChangedVisited = de.unika.ipd.grgen.ir.stmt.CompoundAssignmentVarChangedVisited;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class CompoundAssignNode : EvalStatementNode
+{
+	static CompoundAssignNode()
+	{
+		SetClassName(typeof(CompoundAssignNode), "compound assign statement");
 	}
 
 	public enum CompoundAssignmentType
@@ -73,96 +74,122 @@ public class CompoundAssignNode extends EvalStatementNode
 
 	public CompoundAssignNode(Coords coords, BaseNode target, CompoundAssignmentType compoundAssignmentType, ExprNode valueExpr,
 			CompoundAssignmentType targetCompoundAssignmentType, BaseNode targetChanged)
+		: base(coords)
 	{
-		super(coords);
-		this.targetUnresolved = becomeParent(target);
+		this.targetUnresolved = BecomeParent(target);
 		this.compoundAssignmentType = compoundAssignmentType;
-		this.valueExpr = becomeParent(valueExpr);
-		this.targetChangedUnresolved = becomeParent(targetChanged);
+		this.valueExpr = BecomeParent(valueExpr);
+		this.targetChangedUnresolved = BecomeParent(targetChanged);
 		this.targetCompoundAssignmentType = targetCompoundAssignmentType;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(targetUnresolved, targetQual, targetVar));
-		children.add(valueExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(targetUnresolved, targetQual, targetVar));
+		children.Add(valueExpr);
 		if(targetChangedUnresolved != null)
-			children.add(getValidVersion(targetChangedUnresolved,
+		{
+			children.Add(GetValidVersion(targetChangedUnresolved,
 					targetChangedQual, targetChangedVar, targetChangedVis));
+		}
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("target");
-		childrenNames.add("valueExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("target");
+		childrenNames.Add("valueExpr");
 		if(targetChangedUnresolved != null)
-			childrenNames.add("targetChanged");
+			childrenNames.Add("targetChanged");
 		return childrenNames;
+		}
 	}
 
-	public BaseNode getValidTarget()
+	public virtual BaseNode ValidTarget
 	{
+		get
+		{
 		return targetQual != null ? (BaseNode)targetQual : (BaseNode)targetVar;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = true;
+		bool successfullyResolved = true;
 
-		if(targetUnresolved instanceof IdentExprNode) {
+		if(targetUnresolved is IdentExprNode)
+		{
 			IdentExprNode unresolved = (IdentExprNode)targetUnresolved;
-			if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
+			if(unresolved.Resolve() && unresolved.decl is VarDeclNode)
 				targetVar = (VarDeclNode)unresolved.decl;
-			} else {
-				reportError("Error in resolving the left hand side of the compound assignment, a parameter variable is expected (given is " + unresolved.getIdent() + ").");
+			else
+			{
+				ReportError("Error in resolving the left hand side of the compound assignment, a parameter variable is expected (given is " + unresolved.Ident + ").");
 				successfullyResolved = false;
 			}
-		} else if(targetUnresolved instanceof QualIdentNode) {
+		}
+		else if(targetUnresolved is QualIdentNode)
+		{
 			QualIdentNode unresolved = (QualIdentNode)targetUnresolved;
-			if(unresolved.resolve()) {
+			if(unresolved.Resolve())
 				targetQual = unresolved;
-			} else {
-				reportError("Error in resolving the left hand side of the compound assignment, a qualified attribute is expected (given is " + unresolved + ").");
+			else
+			{
+				ReportError("Error in resolving the left hand side of the compound assignment, a qualified attribute is expected (given is " + unresolved + ").");
 				successfullyResolved = false;
 			}
-		} else {
-			reportError("Internal error - invalid left hand side in compound assignment.");
+		}
+		else
+		{
+			ReportError("Internal error - invalid left hand side in compound assignment.");
 			successfullyResolved = false;
 		}
 
-		if(targetChangedUnresolved != null) {
-			if(targetChangedUnresolved instanceof IdentExprNode) {
+		if(targetChangedUnresolved != null)
+		{
+			if(targetChangedUnresolved is IdentExprNode)
+			{
 				IdentExprNode unresolved = (IdentExprNode)targetChangedUnresolved;
-				if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
+				if(unresolved.Resolve() && unresolved.decl is VarDeclNode)
 					targetChangedVar = (VarDeclNode)unresolved.decl;
-				} else {
-					reportError("Error in resolving the changement assign target of the compound assignment, a parameter variable is expected (given is " + unresolved.getIdent() + ").");
+				else
+				{
+					ReportError("Error in resolving the changement assign target of the compound assignment, a parameter variable is expected (given is " + unresolved.Ident + ").");
 					successfullyResolved = false;
 				}
-			} else if(targetChangedUnresolved instanceof QualIdentNode) {
+			}
+			else if(targetChangedUnresolved is QualIdentNode)
+			{
 				QualIdentNode unresolved = (QualIdentNode)targetChangedUnresolved;
-				if(unresolved.resolve()) {
+				if(unresolved.Resolve())
 					targetChangedQual = unresolved;
-				} else {
-					reportError("Error in resolving the changement assign target of the compound assignment, a qualified attribute is expected (given is " + unresolved + ").");
+				else
+				{
+					ReportError("Error in resolving the changement assign target of the compound assignment, a qualified attribute is expected (given is " + unresolved + ").");
 					successfullyResolved = false;
 				}
-			} else if(targetChangedUnresolved instanceof VisitedNode) {
+			}
+			else if(targetChangedUnresolved is VisitedNode)
+			{
 				VisitedNode unresolved = (VisitedNode)targetChangedUnresolved;
-				if(unresolved.resolve()) {
+				if(unresolved.Resolve())
 					targetChangedVis = unresolved;
-				} else {
-					reportError("Error in resolving the changement assign target of the compound assignment, a visited flag is expected (given is " + unresolved + ").");
+				else
+				{
+					ReportError("Error in resolving the changement assign target of the compound assignment, a visited flag is expected (given is " + unresolved + ").");
 					successfullyResolved = false;
 				}
-			} else {
-				reportError("Internal error - invalid changement assign target in compound assignment.");
+			}
+			else
+			{
+				ReportError("Internal error - invalid changement assign target in compound assignment.");
 				successfullyResolved = false;
 			}
 		}
@@ -170,116 +197,153 @@ public class CompoundAssignNode extends EvalStatementNode
 		return successfullyResolved;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		TypeNode targetType = targetQual != null ? targetQual.getDecl().getDeclType() : targetVar.getDeclType();
+		TypeNode targetType = targetQual != null ? targetQual.Decl.DeclType : targetVar.DeclType;
 		if(compoundAssignmentType == CompoundAssignmentType.CONCATENATE
-				&& !(targetType instanceof ArrayTypeNode || targetType instanceof DequeTypeNode)) {
-			getValidTarget().reportError("Compound assignment expects a left hand side of array or deque type"
-					+ " (given is type " + targetType.toStringWithDeclarationCoords() + ").");
+				&& !(targetType is ArrayTypeNode || targetType is DequeTypeNode))
+		{
+			ValidTarget.ReportError("Compound assignment expects a left hand side of array or deque type"
+					+ " (given is type " + targetType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		if(compoundAssignmentType != CompoundAssignmentType.CONCATENATE
-				&& !(targetType instanceof SetTypeNode || targetType instanceof MapTypeNode)) {
-			getValidTarget().reportError("Compound assignment expects a left hand side of set or map type"
-					+ " (given is type " + targetType.toStringWithDeclarationCoords() + ").");
+				&& !(targetType is SetTypeNode || targetType is MapTypeNode))
+		{
+			ValidTarget.ReportError("Compound assignment expects a left hand side of set or map type"
+				+ " (given is type " + targetType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
-		TypeNode exprType = valueExpr.getType();
-		if(!exprType.isEqual(targetType)) {
-			valueExpr.reportError("Cannot compound-assign a value of type " + exprType.toStringWithDeclarationCoords()
-					+ " to a variable of type " + targetType.toStringWithDeclarationCoords() + ".");
+		TypeNode exprType = valueExpr.Type;
+		if(!exprType.IsEqual(targetType))
+		{
+			valueExpr.ReportError("Cannot compound-assign a value of type " + exprType.ToStringWithDeclarationCoords()
+					+ " to a variable of type " + targetType.ToStringWithDeclarationCoords() + ".");
 			return false;
 		}
-		if(targetChangedUnresolved != null) {
+		if(targetChangedUnresolved != null)
+		{
 			TypeNode targetChangedType = null;
 			if(targetChangedQual != null)
-				targetChangedType = targetChangedQual.getDecl().getDeclType();
+				targetChangedType = targetChangedQual.Decl.DeclType;
 			else if(targetChangedVar != null)
-				targetChangedType = targetChangedVar.getDeclType();
+				targetChangedType = targetChangedVar.DeclType;
 			else if(targetChangedVis != null)
-				targetChangedType = targetChangedVis.getType();
-			if(targetChangedType != BasicTypeNode.booleanType) {
-				targetChangedUnresolved.reportError("The type of the target of the changement assignment"
+				targetChangedType = targetChangedVis.Type;
+			if(targetChangedType != BasicTypeNode.booleanType)
+			{
+				targetChangedUnresolved.ReportError("The type of the target of the changement assignment"
 						+ " of the compound assignment must be boolean"
-						+ " (but given is " + targetChangedType.toStringWithDeclarationCoords() + ").");
+						+ " (but given is " + targetChangedType.ToStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		valueExpr = valueExpr.evaluate();
-		if(targetQual != null) {
+		valueExpr = valueExpr.Evaluate();
+		if(targetQual != null)
+		{
 			if(targetChangedQual != null)
-				return new CompoundAssignmentChanged(targetQual.checkIR(Qualification.class),
-						mapCompoundAssignmentType(compoundAssignmentType), valueExpr.checkIR(Expression.class),
-						mapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedQual.checkIR(Qualification.class));
+			{
+				return new CompoundAssignmentChanged(targetQual.CheckIR(typeof(Qualification)),
+						MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
+						MapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedQual.CheckIR(typeof(Qualification)));
+			}
 			else if(targetChangedVar != null)
-				return new CompoundAssignmentChangedVar(targetQual.checkIR(Qualification.class),
-						mapCompoundAssignmentType(compoundAssignmentType), valueExpr.checkIR(Expression.class),
-						mapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedVar.checkIR(Variable.class));
+			{
+				return new CompoundAssignmentChangedVar(targetQual.CheckIR(typeof(Qualification)),
+						MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
+						MapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedVar.CheckIR(typeof(Variable)));
+			}
 			else if(targetChangedVis != null)
-				return new CompoundAssignmentChangedVisited(targetQual.checkIR(Qualification.class),
-						mapCompoundAssignmentType(compoundAssignmentType), valueExpr.checkIR(Expression.class),
-						mapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedVis.checkIR(Visited.class));
+			{
+				return new CompoundAssignmentChangedVisited(targetQual.CheckIR(typeof(Qualification)),
+						MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
+						MapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedVis.CheckIR(typeof(Visited)));
+			}
 			else
-				return new CompoundAssignment(targetQual.checkIR(Qualification.class),
-						mapCompoundAssignmentType(compoundAssignmentType), valueExpr.checkIR(Expression.class));
-		} else {
+			{
+				return new CompoundAssignment(targetQual.CheckIR(typeof(Qualification)),
+						MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)));
+			}
+		}
+		else
+		{
 			if(targetChangedQual != null)
-				return new CompoundAssignmentVarChanged(targetVar.checkIR(Variable.class),
-						mapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.checkIR(Expression.class),
-						mapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedQual.checkIR(Qualification.class));
+			{
+				return new CompoundAssignmentVarChanged(targetVar.CheckIR(typeof(Variable)),
+						MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
+						MapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedQual.CheckIR(typeof(Qualification)));
+			}
 			else if(targetChangedVar != null)
-				return new CompoundAssignmentVarChangedVar(targetVar.checkIR(Variable.class),
-						mapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.checkIR(Expression.class),
-						mapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedVar.checkIR(Variable.class));
+			{
+				return new CompoundAssignmentVarChangedVar(targetVar.CheckIR(typeof(Variable)),
+						MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
+						MapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedVar.CheckIR(typeof(Variable)));
+			}
 			else if(targetChangedVis != null)
-				return new CompoundAssignmentVarChangedVisited(targetVar.checkIR(Variable.class),
-						mapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.checkIR(Expression.class),
-						mapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedVis.checkIR(Visited.class));
+			{
+				return new CompoundAssignmentVarChangedVisited(targetVar.CheckIR(typeof(Variable)),
+						MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
+						MapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedVis.CheckIR(typeof(Visited)));
+			}
 			else
-				return new CompoundAssignmentVar(targetVar.checkIR(Variable.class),
-						mapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.checkIR(Expression.class));
+			{
+				return new CompoundAssignmentVar(targetVar.CheckIR(typeof(Variable)),
+						MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)));
+			}
 		}
 	}
-	
-	CompoundAssignment.CompoundAssignmentType mapCompoundAssignmentType(CompoundAssignmentType type)
+
+	internal virtual CompoundAssignment.CompoundAssignmentType MapCompoundAssignmentType(CompoundAssignmentType type)
 	{
 		switch(type)
 		{
-		case NONE: return CompoundAssignment.CompoundAssignmentType.NONE;
-		case UNION: return CompoundAssignment.CompoundAssignmentType.UNION;
-		case INTERSECTION: return CompoundAssignment.CompoundAssignmentType.INTERSECTION;
-		case WITHOUT: return CompoundAssignment.CompoundAssignmentType.WITHOUT;
-		case CONCATENATE: return CompoundAssignment.CompoundAssignmentType.CONCATENATE;
-		case ASSIGN: return CompoundAssignment.CompoundAssignmentType.ASSIGN;
-		default: throw new RuntimeException("Internal failure");
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.NONE:
+			return CompoundAssignment.CompoundAssignmentType.NONE;
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.UNION:
+			return CompoundAssignment.CompoundAssignmentType.UNION;
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.INTERSECTION:
+			return CompoundAssignment.CompoundAssignmentType.INTERSECTION;
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.WITHOUT:
+			return CompoundAssignment.CompoundAssignmentType.WITHOUT;
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.CONCATENATE:
+			return CompoundAssignment.CompoundAssignmentType.CONCATENATE;
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.ASSIGN:
+			return CompoundAssignment.CompoundAssignmentType.ASSIGN;
+		default:
+			throw new Exception("Internal failure");
 		}
 	}
-	
-	CompoundAssignmentVar.CompoundAssignmentType mapCompoundAssignmentTypeVar(CompoundAssignmentType type)
+
+	internal virtual CompoundAssignmentVar.CompoundAssignmentType MapCompoundAssignmentTypeVar(CompoundAssignmentType type)
 	{
 		switch(type)
 		{
-		case NONE: return CompoundAssignmentVar.CompoundAssignmentType.NONE;
-		case UNION: return CompoundAssignmentVar.CompoundAssignmentType.UNION;
-		case INTERSECTION: return CompoundAssignmentVar.CompoundAssignmentType.INTERSECTION;
-		case WITHOUT: return CompoundAssignmentVar.CompoundAssignmentType.WITHOUT;
-		case CONCATENATE: return CompoundAssignmentVar.CompoundAssignmentType.CONCATENATE;
-		case ASSIGN: return CompoundAssignmentVar.CompoundAssignmentType.ASSIGN;
-		default: throw new RuntimeException("Internal failure");
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.NONE:
+			return CompoundAssignmentVar.CompoundAssignmentType.NONE;
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.UNION:
+			return CompoundAssignmentVar.CompoundAssignmentType.UNION;
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.INTERSECTION:
+			return CompoundAssignmentVar.CompoundAssignmentType.INTERSECTION;
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.WITHOUT:
+			return CompoundAssignmentVar.CompoundAssignmentType.WITHOUT;
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.CONCATENATE:
+			return CompoundAssignmentVar.CompoundAssignmentType.CONCATENATE;
+		case de.unika.ipd.grgen.ast.stmt.CompoundAssignNode.CompoundAssignmentType.ASSIGN:
+			return CompoundAssignmentVar.CompoundAssignmentType.ASSIGN;
+		default:
+			throw new Exception("Internal failure");
 		}
 	}
+}
+
 }

@@ -1,128 +1,138 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.array;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedByExpr;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ArrayIndexOfOrderedByNode extends ArrayFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.array
 {
-	static {
-		setClassName(ArrayIndexOfOrderedByNode.class, "array index of ordered by");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EnumTypeNode = de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using MatchTypeNode = de.unika.ipd.grgen.ast.type.MatchTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayIndexOfOrderedByExpr = de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedByExpr;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ArrayIndexOfOrderedByNode : ArrayFunctionMethodInvocationBaseExprNode
+{
+	static ArrayIndexOfOrderedByNode()
+	{
+		SetClassName(typeof(ArrayIndexOfOrderedByNode), "array index of ordered by");
 	}
 
-	IdentNode attribute;
+	internal IdentNode attribute;
 	private DeclNode member;
 	private ExprNode valueExpr;
 
 	public ArrayIndexOfOrderedByNode(Coords coords, ExprNode targetExpr, IdentNode attribute, ExprNode valueExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
 		this.attribute = attribute;
-		this.valueExpr = becomeParent(valueExpr);
+		this.valueExpr = BecomeParent(valueExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(targetExpr);
-		children.add(valueExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(targetExpr);
+		children.Add(valueExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("targetExpr");
-		childrenNames.add("valueExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("targetExpr");
+		childrenNames.Add("valueExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = getTargetTypeExact();
-		if(!(arrayType.valueType instanceof InheritanceTypeNode)
-				&& !(arrayType.valueType instanceof MatchTypeNode)) {
-			targetExpr.reportError("The array function method indexOfOrderedBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
-					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
+		ArrayTypeNode arrayType = TargetTypeExact;
+		if(!(arrayType.valueType is InheritanceTypeNode)
+				&& !(arrayType.valueType is MatchTypeNode))
+		{
+			targetExpr.ReportError("The array function method indexOfOrderedBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
+					+ " (but is employed on an object of type " + arrayType.TypeName + ").");
 			return false;
 		}
 
-		member = Resolver.resolveMember(arrayType.valueType, attribute);
+		member = Resolver.ResolveMember(arrayType.valueType, attribute);
 		if(member == null)
 			return false;
 
-		TypeNode memberType = member.getDeclType();
-		if(!(memberType.equals(BasicTypeNode.byteType))
-				&& !(memberType.equals(BasicTypeNode.shortType))
-				&& !(memberType.equals(BasicTypeNode.intType))
-				&& !(memberType.equals(BasicTypeNode.longType))
-				&& !(memberType.equals(BasicTypeNode.floatType))
-				&& !(memberType.equals(BasicTypeNode.doubleType))
-				&& !(memberType.equals(BasicTypeNode.stringType))
-				&& !(memberType.equals(BasicTypeNode.booleanType))
-				&& !(memberType instanceof EnumTypeNode)) {
-			targetExpr.reportError("The array function method indexOfOrderedBy is only available for attributes of type byte, short, int, long, float, double, string, boolean, enum of a graph element"
-					+ " (but is of type " + memberType.getTypeName() + ")");
+		TypeNode memberType = member.DeclType;
+		if(!(memberType.Equals(BasicTypeNode.byteType))
+				&& !(memberType.Equals(BasicTypeNode.shortType))
+				&& !(memberType.Equals(BasicTypeNode.intType))
+				&& !(memberType.Equals(BasicTypeNode.longType))
+				&& !(memberType.Equals(BasicTypeNode.floatType))
+				&& !(memberType.Equals(BasicTypeNode.doubleType))
+				&& !(memberType.Equals(BasicTypeNode.stringType))
+				&& !(memberType.Equals(BasicTypeNode.booleanType))
+				&& !(memberType is EnumTypeNode))
+		{
+			targetExpr.ReportError("The array function method indexOfOrderedBy is only available for attributes of type byte, short, int, long, float, double, string, boolean, enum of a graph element"
+					+ " (but is of type " + memberType.TypeName + ")");
 		}
 
-		TypeNode valueType = valueExpr.getType();
-		if(!valueType.isEqual(memberType)) {
+		TypeNode valueType = valueExpr.Type;
+		if(!valueType.IsEqual(memberType))
+		{
 			ExprNode valueExprOld = valueExpr;
-			valueExpr = becomeParent(valueExpr.adjustType(memberType, getCoords()));
-			if(valueExpr == ConstNode.getInvalid()) {
-				valueExprOld.reportError("The array function method indexOfOrderedBy expects as 1. argument (valueToSearchFor) a value of type " + memberType.getTypeName()
-						+ " (but is given a value of type " + valueType.getTypeName() + ").");
+			valueExpr = BecomeParent(valueExpr.AdjustType(memberType, Coords));
+			if(valueExpr == ConstNode.Invalid)
+			{
+				valueExprOld.ReportError("The array function method indexOfOrderedBy expects as 1. argument (valueToSearchFor) a value of type " + memberType.TypeName
+						+ " (but is given a value of type " + valueType.TypeName + ").");
 				return false;
 			}
 		}
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.intType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		targetExpr = targetExpr.evaluate();
-		valueExpr = valueExpr.evaluate();
-		return new ArrayIndexOfOrderedByExpr(targetExpr.checkIR(Expression.class),
-				member.checkIR(Entity.class),
-				valueExpr.checkIR(Expression.class));
+		targetExpr = targetExpr.Evaluate();
+		valueExpr = valueExpr.Evaluate();
+		return new ArrayIndexOfOrderedByExpr(targetExpr.CheckIR(typeof(Expression)),
+				member.CheckIR(typeof(Entity)),
+				valueExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

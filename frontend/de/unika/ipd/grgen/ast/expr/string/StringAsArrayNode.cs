@@ -1,36 +1,36 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.string;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.string.StringAsArray;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class StringAsArrayNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.@string
 {
-	static {
-		setClassName(StringAsArrayNode.class, "string asArray");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using StringTypeNode = de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using StringAsArray = de.unika.ipd.grgen.ir.expr.@string.StringAsArray;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class StringAsArrayNode : BuiltinFunctionInvocationBaseNode
+{
+	static StringAsArrayNode()
+	{
+		SetClassName(typeof(StringAsArrayNode), "string asArray");
 	}
 
 	private ExprNode stringExpr;
@@ -38,67 +38,74 @@ public class StringAsArrayNode extends BuiltinFunctionInvocationBaseNode
 	private ArrayTypeNode arrayTypeNode;
 
 	public StringAsArrayNode(Coords coords, ExprNode stringExpr, ExprNode stringToSplitAtExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.stringExpr = becomeParent(stringExpr);
-		this.stringToSplitAtExpr = becomeParent(stringToSplitAtExpr);
+		this.stringExpr = BecomeParent(stringExpr);
+		this.stringToSplitAtExpr = BecomeParent(stringToSplitAtExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(stringExpr);
-		children.add(stringToSplitAtExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(stringExpr);
+		children.Add(stringToSplitAtExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("string");
-		childrenNames.add("stringToSplitAt");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("string");
+		childrenNames.Add("stringToSplitAt");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		arrayTypeNode = new ArrayTypeNode(((StringTypeNode)stringExpr.getType()).getIdent());
-		return arrayTypeNode.resolve();
+		arrayTypeNode = new ArrayTypeNode(((StringTypeNode)stringExpr.Type).Ident);
+		return arrayTypeNode.Resolve();
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("The string function method explode can only be employed on an object of type string"
-					+ " (but is employed on an object of type " + stringExpr.getType().getTypeName() + ").");
+		if(!stringExpr.Type.IsEqual(BasicTypeNode.stringType))
+		{
+			stringExpr.ReportError("The string function method explode can only be employed on an object of type string"
+					+ " (but is employed on an object of type " + stringExpr.Type.TypeName + ").");
 			return false;
 		}
-		if(!stringToSplitAtExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringToSplitAtExpr.reportError("The string function method explode expects as argument (stringToSplitAt) a value of type string"
-					+ " (but is given a value of type " + stringToSplitAtExpr.getType().getTypeName() + ").");
+		if(!stringToSplitAtExpr.Type.IsEqual(BasicTypeNode.stringType))
+		{
+			stringToSplitAtExpr.ReportError("The string function method explode expects as argument (stringToSplitAt) a value of type string"
+					+ " (but is given a value of type " + stringToSplitAtExpr.Type.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		stringExpr = stringExpr.evaluate();
-		stringToSplitAtExpr = stringToSplitAtExpr.evaluate();
-		return new StringAsArray(stringExpr.checkIR(Expression.class),
-				stringToSplitAtExpr.checkIR(Expression.class),
-				getType().getIRType());
+		stringExpr = stringExpr.Evaluate();
+		stringToSplitAtExpr = stringToSplitAtExpr.Evaluate();
+		return new StringAsArray(stringExpr.CheckIR(typeof(Expression)),
+				stringToSplitAtExpr.CheckIR(typeof(Expression)),
+				Type.IRType);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return arrayTypeNode;
+		}
 	}
+}
+
 }

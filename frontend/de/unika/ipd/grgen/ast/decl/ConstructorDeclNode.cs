@@ -1,108 +1,120 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll
- */
+/// <summary>
+/// @author Moritz Kroll
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl;
-
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.ConstructorParamNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.type.ConstructorTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.Constructor;
-import de.unika.ipd.grgen.ir.ConstructorParam;
-import de.unika.ipd.grgen.ir.IR;
-
-/**
- * A compound type constructor declaration.
- */
-public class ConstructorDeclNode extends DeclNode
+namespace de.unika.ipd.grgen.ast.decl
 {
-	static {
-		setClassName(ConstructorDeclNode.class, "constructor declaration");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using ConstructorParamNode = de.unika.ipd.grgen.ast.ConstructorParamNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using ConstructorTypeNode = de.unika.ipd.grgen.ast.type.ConstructorTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using Constructor = de.unika.ipd.grgen.ir.Constructor;
+using ConstructorParam = de.unika.ipd.grgen.ir.ConstructorParam;
+using IR = de.unika.ipd.grgen.ir.IR;
+
+/// <summary>
+/// A compound type constructor declaration.
+/// </summary>
+public class ConstructorDeclNode : DeclNode
+{
+	static ConstructorDeclNode()
+	{
+		SetClassName(typeof(ConstructorDeclNode), "constructor declaration");
 	}
 
-	private static final TypeNode constructorType = new ConstructorTypeNode();
+	private static readonly TypeNode constructorType = new ConstructorTypeNode();
 
 	private CollectNode<ConstructorParamNode> parameters;
 
-	public ConstructorDeclNode(IdentNode n, CollectNode<ConstructorParamNode> params)
+	public ConstructorDeclNode(IdentNode n, CollectNode<ConstructorParamNode> @params)
+		: base(n, constructorType)
 	{
-		super(n, constructorType);
 
-		parameters = becomeParent(params);
+		parameters = BecomeParent(@params);
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
+		get
+		{
 		return constructorType;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true; // nothing to be checked locally
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(parameters);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(parameters);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("parameters");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("parameters");
 		return childrenNames;
+		}
 	}
 
-	public CollectNode<ConstructorParamNode> getParameters()
+	public virtual CollectNode<ConstructorParamNode> Parameters
 	{
+		get
+		{
 		return parameters;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true; // nothing to be resolved locally
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "constructor";
-	}
-
-	public Constructor getIRConstructor()
-	{
-		return checkIR(Constructor.class);
-	}
-
-	@Override
-	protected IR constructIR()
-	{
-		LinkedHashSet<ConstructorParam> params = new LinkedHashSet<ConstructorParam>();
-		for(ConstructorParamNode param : parameters.getChildrenExact()) {
-			params.add(param.checkIR(ConstructorParam.class));
 		}
-
-		return new Constructor(params);
 	}
+
+	public virtual Constructor IRConstructor
+	{
+		get
+		{
+		return CheckIR(typeof(Constructor));
+		}
+	}
+
+	protected internal override IR ConstructIR()
+	{
+		LinkedHashSet<ConstructorParam> @params = new LinkedHashSet<ConstructorParam>();
+		foreach(ConstructorParamNode param in parameters.ChildrenExact)
+			@params.Add(param.CheckIR(typeof(ConstructorParam)));
+
+		return new Constructor(@params);
+	}
+}
+
 }

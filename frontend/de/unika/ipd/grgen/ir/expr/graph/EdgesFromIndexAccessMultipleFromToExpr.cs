@@ -1,41 +1,45 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr.graph;
-
-import java.util.List;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
-import de.unika.ipd.grgen.ir.type.Type;
-
-public class EdgesFromIndexAccessMultipleFromToExpr extends BuiltinFunctionInvocationExpr
+namespace de.unika.ipd.grgen.ir.expr.graph
 {
-	private final List<IndexAccessOrdering> indexAccesses;
 
-	public EdgesFromIndexAccessMultipleFromToExpr(List<IndexAccessOrdering> indexAccesses, Type type)
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ir;
+using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+public class EdgesFromIndexAccessMultipleFromToExpr : BuiltinFunctionInvocationExpr
+{
+	private readonly IList<IndexAccessOrdering> indexAccesses;
+
+	public EdgesFromIndexAccessMultipleFromToExpr(IList<IndexAccessOrdering> indexAccesses, Type type)
+		: base("edges from index access multiple expression", type)
 	{
-		super("edges from index access multiple expression", type);
 		this.indexAccesses = indexAccesses;
 	}
 
-	public List<IndexAccessOrdering> getIndexAccesses()
+	public virtual IList<IndexAccessOrdering> IndexAccesses
 	{
+		get
+		{
 		return indexAccesses;
-	}
-
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		needs.needsGraph();
-		for(IndexAccessOrdering indexAccess : indexAccesses) {
-			indexAccess.collectNeededEntities(needs);
 		}
 	}
+
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
+	{
+		needs.NeedsGraph();
+		foreach(IndexAccessOrdering indexAccess in indexAccesses)
+			indexAccess.CollectNeededEntities(needs);
+	}
+}
+
 }

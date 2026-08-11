@@ -1,43 +1,48 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * Represents the basic type 'object'
- *
- * @author G. Veit Batz
- */
+/// <summary>
+/// Represents the basic type 'object'
+/// 
+/// @author G. Veit Batz
+/// </summary>
 
-package de.unika.ipd.grgen.ast.type.basic;
-
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.basic.ObjectType;
-
-public class ObjectTypeNode extends BasicTypeNode
+namespace de.unika.ipd.grgen.ast.type.basic
 {
-	static {
-		setClassName(ObjectTypeNode.class, "object type");
+using IR = de.unika.ipd.grgen.ir.IR;
+using ObjectType = de.unika.ipd.grgen.ir.type.basic.ObjectType;
+
+public class ObjectTypeNode : BasicTypeNode
+{
+	static ObjectTypeNode()
+	{
+		SetClassName(typeof(ObjectTypeNode), "object type");
 	}
 
-	/**
-	 * Singleton class representing the only constant value 'null' that
-	 * the basic type 'object' has.
-	 */
+	/// <summary>
+	/// Singleton class representing the only constant value 'null' that
+	/// the basic type 'object' has.
+	/// </summary>
 	// TODO: No instance is ever used! Probably useless...
-	public static class Value
+	public class Value
 	{
-		public static Value NULL = new Value() {
-			@Override
-			public String toString()
+		public static Value NULL = new ValueAnonymousInnerClass();
+
+		private class ValueAnonymousInnerClass : Value
+		{
+			private readonly Value outerInstance;
+
+			public override string ToString()
 			{
 				return "Const null";
 			}
-		};
+		}
 
-		private Value()
+		internal Value()
 		{
 		}
 	}
@@ -46,15 +51,15 @@ public class ObjectTypeNode extends BasicTypeNode
 	{
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return new ObjectType(getIdent().getIRIdent());
+		return new ObjectType(Ident.IRIdent);
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
 		return "object";
 	}
+}
+
 }

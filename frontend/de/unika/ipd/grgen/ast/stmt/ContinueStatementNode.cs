@@ -1,81 +1,86 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.stmt.ContinueStatement;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing a continue statement.
- */
-public class ContinueStatementNode extends EvalStatementNode
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	static {
-		setClassName(ContinueStatementNode.class, "ContinueStatement");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ContinueStatement = de.unika.ipd.grgen.ir.stmt.ContinueStatement;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing a continue statement.
+/// </summary>
+public class ContinueStatementNode : EvalStatementNode
+{
+	static ContinueStatementNode()
+	{
+		SetClassName(typeof(ContinueStatementNode), "ContinueStatement");
 	}
 
 	public ContinueStatementNode(Coords coords)
+		: base(coords)
 	{
-		super(coords);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
-		if(enclosingLoop == null) {
-			reportError("The continue statement must be nested inside a loop (where to continue at otherwise?).");
+		if(enclosingLoop == null)
+		{
+			ReportError("The continue statement must be nested inside a loop (where to continue at otherwise?).");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		return new ContinueStatement();
 	}
+}
+
 }

@@ -1,32 +1,36 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * SymbolTableException.java
- *
- * @author Sebastian Hack
- */
+/// <summary>
+/// SymbolTableException.java
+/// 
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.parser;
-
-/**
- * A symbol table exception.
- */
-public class SymbolTableException extends Exception
+namespace de.unika.ipd.grgen.parser
 {
-	private static final long serialVersionUID = -7291849597287733435L;
+using System;
 
-	public SymbolTableException(String text)
+/// <summary>
+/// A symbol table exception.
+/// </summary>
+public class SymbolTableException : Exception
+{
+	private const long serialVersionUID = -7291849597287733435L;
+
+	public SymbolTableException(string text)
+		: base(text)
 	{
-		super(text);
 	}
 
-	public SymbolTableException(Coords coords, String text)
+	public SymbolTableException(Coords coords, string text)
+		: this(coords + ": " + text)
 	{
-		this(coords + ": " + text);
 	}
+}
+
 }

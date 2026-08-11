@@ -1,268 +1,277 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
-package de.unika.ipd.grgen.ast;
-
-import java.awt.Color;
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.parser.Symbol;
-import de.unika.ipd.grgen.util.Annotated;
-import de.unika.ipd.grgen.util.Annotations;
-import de.unika.ipd.grgen.util.EmptyAnnotations;
-
-/**
- * AST node that represents an Identifier (name that appears within the specification)
- * children: none
- */
-public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(IdentNode.class, "identifier");
+
+using System.Collections.Generic;
+
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Symbol = de.unika.ipd.grgen.parser.Symbol;
+using Annotated = de.unika.ipd.grgen.util.Annotated;
+using Annotations = de.unika.ipd.grgen.util.Annotations;
+using EmptyAnnotations = de.unika.ipd.grgen.util.EmptyAnnotations;
+
+/// <summary>
+/// AST node that represents an Identifier (name that appears within the specification)
+/// children: none
+/// </summary>
+public class IdentNode : BaseNode, DeclaredCharacter, Annotated
+{
+	static IdentNode()
+	{
+		SetClassName(typeof(IdentNode), "identifier");
 	}
 
-	/** The annotations. */
-	protected Annotations annotations = EmptyAnnotations.get();
+	/// <summary>
+	/// The annotations. </summary>
+	protected internal Annotations annotations = EmptyAnnotations.Get();
 
-	/** Occurrence of the identifier. */
+	/// <summary>
+	/// Occurrence of the identifier. </summary>
 	public Symbol.Occurrence occ;
 
-	/** The declaration associated with this identifier. */
-	protected DeclNode decl = DeclNode.getInvalid();
+	/// <summary>
+	/// The declaration associated with this identifier. </summary>
+	protected internal DeclNode decl = DeclNode.Invalid;
 
-	protected static final IdentNode INVALID = new IdentNode(Symbol.Definition.getInvalid());
+	protected internal static readonly IdentNode INVALID = new IdentNode(Symbol.Definition.Invalid);
 
-	/**
-	 * Get an invalid ident node.
-	 * @return An invalid ident node.
-	 */
-	public static IdentNode getInvalid()
+	/// <summary>
+	/// Get an invalid ident node. </summary>
+	/// <returns> An invalid ident node. </returns>
+	public static IdentNode Invalid
 	{
+		get
+		{
 		return INVALID;
+		}
 	}
 
-	/**
-	 * Make a new identifier node at a symbols's definition.
-	 * @param def The definition of the symbol.
-	 */
+	/// <summary>
+	/// Make a new identifier node at a symbols's definition. </summary>
+	/// <param name="def"> The definition of the symbol. </param>
 	public IdentNode(Symbol.Definition def)
+		: this((Symbol.Occurrence)def)
 	{
-		this((Symbol.Occurrence)def);
-		def.setNode(this);
+		def.Node = this;
 	}
 
-	/**
-	 * Make a new identifier node at a symbol's occurrence.
-	 * @param occ The occurrence of the symbol.
-	 */
+	/// <summary>
+	/// Make a new identifier node at a symbol's occurrence. </summary>
+	/// <param name="occ"> The occurrence of the symbol. </param>
 	public IdentNode(Symbol.Occurrence occ)
+		: base(occ.Coords)
 	{
-		super(occ.getCoords());
 		this.occ = occ;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		// no children
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// no children
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		// there must be exactly one definition
-		boolean isValid = getSymDef().isValid();
+		bool isValid = SymDef.IsValid();
 		return isValid;
 	}
 
-	/**
-	 * Get the symbol definition of this identifier
-	 * @see Symbol#Definition
-	 * @return The symbol definition.
-	 */
-	public Symbol.Definition getSymDef()
+	/// <summary>
+	/// Get the symbol definition of this identifier </summary>
+	/// <seealso cref="Symbol.Definition"/>
+	/// <returns> The symbol definition. </returns>
+	public virtual Symbol.Definition SymDef
 	{
-		if(occ.getDefinition() == null) {
+		get
+		{
+		if(occ.Definition == null)
+		{
 			// I don't now why this is needed, it feels like a hack, but it works
-			Symbol.Definition def = occ.getScope().getCurrDef(getSymbol());
-			if(def.isValid())
-				setSymDef(def);
+			Symbol.Definition def = occ.Scope.GetCurrDef(Symbol);
+			if(def.IsValid())
+				SymDef = def;
 		}
-		return occ.getDefinition();
+		return occ.Definition;
+		}
+		set
+		{
+		occ.Definition = value;
+		}
 	}
 
-	/**
-	 * Set the definition of the symbol of this identifier.
-	 * @param def The definition.
-	 */
-	public void setSymDef(Symbol.Definition def)
-	{
-		occ.setDefinition(def);
-	}
 
-	/**
-	 * set the declaration node for this ident node. Each ident node
-	 * declares an entity. To resolve this declared entity from the name,
-	 * an ident node (which gets the name from the symbol defined
-	 * by the symbol definition) has a declaration as its only child.
-	 * @param n The declaration this ident represents.
-	 * @return For convenience, this method returns <code>this</code>.
-	 */
-	public IdentNode setDecl(DeclNode n)
+	/// <summary>
+	/// set the declaration node for this ident node. Each ident node
+	/// declares an entity. To resolve this declared entity from the name,
+	/// an ident node (which gets the name from the symbol defined
+	/// by the symbol definition) has a declaration as its only child. </summary>
+	/// <param name="n"> The declaration this ident represents. </param>
+	/// <returns> For convenience, this method returns <code>this</code>. </returns>
+	public virtual IdentNode setDecl(DeclNode n)
 	{
 		decl = n;
 		return this;
 	}
 
-	/**
-	 * Get the declaration corresponding to this node.
-	 * @see #setDecl() for a detailed description.
-	 * @return The declaration this node represents
-	 */
-	@Override
-	public DeclNode getDecl()
+	/// <summary>
+	/// Get the declaration corresponding to this node. </summary>
+	/// <seealso cref=".setDecl() for a detailed description."/>
+	/// <returns> The declaration this node represents </returns>
+	public virtual DeclNode Decl
 	{
-		Symbol.Definition def = getSymDef();
+		get
+		{
+		Symbol.Definition def = SymDef;
 
-		if(def.isValid()) {
-			if(def.getNode() == this) {
+		if(def.IsValid())
+		{
+			if(def.Node == this)
 				return decl;
-			} else {
-				return def.getNode().getDecl();
-			}
-		} else {
-			return DeclNode.getInvalid(this);
+			else
+				return def.Node.Decl;
+		}
+		else
+			return DeclNode.GetInvalid(this);
 		}
 	}
 
-	/**
-	 * Get the symbol of the identifier.
-	 * @return The symbol.
-	 */
-	public Symbol getSymbol()
+	/// <summary>
+	/// Get the symbol of the identifier. </summary>
+	/// <returns> The symbol. </returns>
+	public virtual Symbol Symbol
 	{
-		return occ.getSymbol();
+		get
+		{
+		return occ.Symbol;
+		}
 	}
 
-	@Override
-	public String getNodeLabel()
+	public override string NodeLabel
 	{
-		return toString();
+		get
+		{
+		return ToString();
+		}
 	}
 
-	/**
-	 * The string representation for this node.
-	 * For an identifier, this is the string of the symbol, the identifier represents.
-	 */
-	@Override
-	public String toString()
+	/// <summary>
+	/// The string representation for this node.
+	/// For an identifier, this is the string of the symbol, the identifier represents.
+	/// </summary>
+	public override string ToString()
 	{
-		return occ.getSymbol().toString();
+		return occ.Symbol.ToString();
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "identifier";
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
-	 */
-	@Override
-	public Color getNodeColor()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor()"/>
+	public override Color NodeColor
 	{
+		get
+		{
 		return Color.ORANGE;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
-	 */
-	@Override
-	protected String extraNodeInfo()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeInfo()"/>
+	protected internal override string ExtraNodeInfo()
 	{
-		return "occurrence: " + occ + "\ndefinition: " + getSymDef();
+		return "occurrence: " + occ + "\ndefinition: " + SymDef;
 	}
 
-	/**
-	 * Get the current occurrence of this identifier.
-	 * Each time this ident node is reused in the parser (rule identUse)
-	 * the current occurrence changes.
-	 * @return The current occurrence.
-	 */
-	public Symbol.Occurrence getCurrOcc()
+	/// <summary>
+	/// Get the current occurrence of this identifier.
+	/// Each time this ident node is reused in the parser (rule identUse)
+	/// the current occurrence changes. </summary>
+	/// <returns> The current occurrence. </returns>
+	public virtual Symbol.Occurrence CurrOcc
 	{
+		get
+		{
 		return occ;
+		}
 	}
 
-	/**
-	 * Get the IR object.
-	 * This is an ident here.
-	 * @return The IR object.
-	 */
-	public Ident getIRIdent()
+	/// <summary>
+	/// Get the IR object.
+	/// This is an ident here. </summary>
+	/// <returns> The IR object. </returns>
+	public virtual Ident IRIdent
 	{
-		return checkIR(Ident.class);
+		get
+		{
+		return CheckIR(typeof(Ident));
+		}
 	}
 
-	/**
-	 * Construct the ir object.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+	/// <summary>
+	/// Construct the ir object. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
 	{
-		Symbol.Definition def = getSymDef();
-		return Ident.get(toString(), def, getAnnotations());
+		Symbol.Definition def = SymDef;
+		return Ident.Get(ToString(), def, Annotations);
 	}
 
-	/**
-	 * Get the annotations of this identifier.
-	 * @return The annotations of this identifier.
-	 */
-	@Override
-	public Annotations getAnnotations()
+	/// <summary>
+	/// Get the annotations of this identifier. </summary>
+	/// <returns> The annotations of this identifier. </returns>
+	public virtual Annotations Annotations
 	{
+		get
+		{
 		return annotations;
+		}
+		set // Set annotations for this ident node.
+		{
+		annotations = value;
+		}
 	}
 
-	/**
-	 * Set annotations for this ident node.
-	 * @param annots The annotations.
-	 */
-	public void setAnnotations(Annotations annots)
-	{
-		annotations = annots;
-	}
+}
+
 }

@@ -1,21 +1,21 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr;
+namespace de.unika.ipd.grgen.ir.expr
+{
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
-
-/**
- * Class for initializing a single attribute of a type
- */
-public class AttributeInitialization extends IR
+/// <summary>
+/// Class for initializing a single attribute of a type
+/// </summary>
+public class AttributeInitialization : IR
 {
 	public InternalObjectInit init;
 	public BaseInternalObjectType owner;
@@ -23,12 +23,14 @@ public class AttributeInitialization extends IR
 	public Expression expr;
 
 	public AttributeInitialization()
+		: base("attribute init")
 	{
-		super("attribute init");
 	}
 
-	public void collectNeededEntities(NeededEntities needs)
+	public virtual void CollectNeededEntities(NeededEntities needs)
 	{
-		expr.collectNeededEntities(needs);
+		expr.CollectNeededEntities(needs);
 	}
+}
+
 }

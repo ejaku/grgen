@@ -1,89 +1,95 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.stmt.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.graph.InsertProc;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node for inserting the subgraph to the given main graph (destroying the original graph).
- */
-public class InsertProcNode extends BuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.graph
 {
-	static {
-		setClassName(InsertProcNode.class, "insert procedure");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using InsertProc = de.unika.ipd.grgen.ir.stmt.graph.InsertProc;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node for inserting the subgraph to the given main graph (destroying the original graph).
+/// </summary>
+public class InsertProcNode : BuiltinProcedureInvocationBaseNode
+{
+	static InsertProcNode()
+	{
+		SetClassName(typeof(InsertProcNode), "insert procedure");
 	}
 
 	private ExprNode graphExpr;
 
 	public InsertProcNode(Coords coords, ExprNode graphExpr)
+		: base(coords)
 	{
-		super(coords);
 		this.graphExpr = graphExpr;
-		becomeParent(this.graphExpr);
+		BecomeParent(this.graphExpr);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(graphExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(graphExpr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("graphExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("graphExpr");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		TypeNode graphExprType = graphExpr.getType();
-		if(!(graphExprType.equals(BasicTypeNode.graphType))) {
-			reportError("The insert procedure expects as argument (subgraphToInsertIntoTheCurrentGraph)"
+		TypeNode graphExprType = graphExpr.Type;
+		if(!(graphExprType.Equals(BasicTypeNode.graphType)))
+		{
+			ReportError("The insert procedure expects as argument (subgraphToInsertIntoTheCurrentGraph)"
 					+ " a value of type graph"
-					+ " (but is given a value of type " + graphExprType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + graphExprType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		graphExpr = graphExpr.evaluate();
-		InsertProc insert = new InsertProc(graphExpr.checkIR(Expression.class));
+		graphExpr = graphExpr.Evaluate();
+		InsertProc insert = new InsertProc(graphExpr.CheckIR(typeof(Expression)));
 		return insert;
 	}
+}
+
 }

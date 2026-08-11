@@ -1,53 +1,57 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.stmt.graph;
-
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-import de.unika.ipd.grgen.ir.type.Type;
-
-public class GraphAddNodeProc extends BuiltinProcedureInvocationBase
+namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-	private final Expression nodeType;
+using System.Diagnostics;
 
-	private final Type returnType;
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+public class GraphAddNodeProc : BuiltinProcedureInvocationBase
+{
+	private readonly Expression nodeType;
+
+	private readonly Type returnType;
 
 	public GraphAddNodeProc(Expression nodeType, Type returnType)
+		: base("graph add node procedure")
 	{
-		super("graph add node procedure");
 		this.nodeType = nodeType;
 		this.returnType = returnType;
 	}
 
-	public Expression getNodeTypeExpr()
+	public virtual Expression NodeTypeExpr
 	{
+		get
+		{
 		return nodeType;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.needsGraph();
-		nodeType.collectNeededEntities(needs);
+		needs.NeedsGraph();
+		nodeType.CollectNeededEntities(needs);
 	}
-	
-	@Override
-	public int returnArity()
+
+	public override int ReturnArity()
 	{
 		return 1;
 	}
-	
-	@Override
-	public Type getReturnType(int index)
+
+	public override Type GetReturnType(int index)
 	{
-		assert(index == 0);
+		Debug.Assert((index == 0));
 		return returnType;
 	}
+}
+
 }

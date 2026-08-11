@@ -1,107 +1,114 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * The SourceBuilder acts like a StringBuilder with support for indentation added.
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// The SourceBuilder acts like a StringBuilder with support for indentation added.
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.util;
-
+namespace de.unika.ipd.grgen.util
+{
 public class SourceBuilder
 {
 	public SourceBuilder()
 	{
-		stringBuilder = new StringBuilder(16);
+		stringBuilder = new System.Text.StringBuilder(16);
 		indentationLevel = 0;
 	}
 
-	public SourceBuilder indent()
+	public virtual SourceBuilder Indent()
 	{
 		++indentationLevel;
 		return this;
 	}
 
-	public SourceBuilder unindent()
+	public virtual SourceBuilder Unindent()
 	{
 		--indentationLevel;
 		return this;
 	}
 
-	public SourceBuilder append(String str)
+	public virtual SourceBuilder Append(string str)
 	{
-		stringBuilder.append(str);
+		stringBuilder.Append(str);
 		return this;
 	}
 
-	public SourceBuilder appendFront(String str)
+	public virtual SourceBuilder AppendFront(string str)
 	{
-		for(int i = 0; i < indentationLevel; ++i) {
-			stringBuilder.append("\t");
+		for(int i = 0; i < indentationLevel; ++i)
+			stringBuilder.Append("\t");
+		stringBuilder.Append(str);
+		return this;
+	}
+
+	public virtual SourceBuilder AppendFrontIndented(string str)
+	{
+		for(int i = 0; i < indentationLevel + 1; ++i)
+			stringBuilder.Append("\t");
+		stringBuilder.Append(str);
+		return this;
+	}
+
+	public virtual SourceBuilder Append(bool b)
+	{
+		stringBuilder.Append(b);
+		return this;
+	}
+
+	public virtual string Indentation
+	{
+		get
+		{
+		System.Text.StringBuilder sb = new System.Text.StringBuilder();
+		for(int i = 0; i < indentationLevel; ++i)
+			sb.Append("\t");
+		return sb.ToString();
 		}
-		stringBuilder.append(str);
-		return this;
 	}
 
-	public SourceBuilder appendFrontIndented(String str)
+	public virtual System.Text.StringBuilder StringBuilder
 	{
-		for(int i = 0; i < indentationLevel + 1; ++i) {
-			stringBuilder.append("\t");
-		}
-		stringBuilder.append(str);
-		return this;
-	}
-
-	public SourceBuilder append(boolean b)
-	{
-		stringBuilder.append(b);
-		return this;
-	}
-
-	public String getIndentation()
-	{
-		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < indentationLevel; ++i) {
-			sb.append("\t");
-		}
-		return sb.toString();
-	}
-
-	public StringBuilder getStringBuilder()
-	{
+		get
+		{
 		return stringBuilder;
+		}
 	}
 
-	public int length()
+	public virtual int Length()
 	{
-		return stringBuilder.length();
+		return stringBuilder.Length;
 	}
 
-	public void delete(int start, int end)
+	public virtual void Delete(int start, int end)
 	{
-		stringBuilder.delete(start, end);
+		stringBuilder.Remove(start, end - start);
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return stringBuilder.toString();
+		return stringBuilder.ToString();
 	}
 
-	public int getIndentationLevel()
+	public virtual int IndentationLevel
 	{
+		get
+		{
 		return indentationLevel;
+		}
+		set
+		{
+		this.indentationLevel = value;
+		}
 	}
 
-	public void setIndentationLevel(int indentationLevel)
-	{
-		this.indentationLevel = indentationLevel;
-	}
 
-	private StringBuilder stringBuilder;
+	private System.Text.StringBuilder stringBuilder;
 	private int indentationLevel;
+}
+
 }

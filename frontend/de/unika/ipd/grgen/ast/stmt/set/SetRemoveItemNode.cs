@@ -1,108 +1,120 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.set;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.set.SetRemoveItem;
-import de.unika.ipd.grgen.ir.stmt.set.SetVarRemoveItem;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class SetRemoveItemNode extends SetProcedureMethodInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.set
 {
-	static {
-		setClassName(SetRemoveItemNode.class, "set remove item statement");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using SetRemoveItem = de.unika.ipd.grgen.ir.stmt.set.SetRemoveItem;
+using SetVarRemoveItem = de.unika.ipd.grgen.ir.stmt.set.SetVarRemoveItem;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class SetRemoveItemNode : SetProcedureMethodInvocationBaseNode
+{
+	static SetRemoveItemNode()
+	{
+		SetClassName(typeof(SetRemoveItemNode), "set remove item statement");
 	}
 
 	private ExprNode valueExpr;
 
 	public SetRemoveItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr)
+		: base(coords, target)
 	{
-		super(coords, target);
-		this.valueExpr = becomeParent(valueExpr);
+		this.valueExpr = BecomeParent(valueExpr);
 	}
 
 	public SetRemoveItemNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr)
+		: base(coords, targetVar)
 	{
-		super(coords, targetVar);
-		this.valueExpr = becomeParent(valueExpr);
+		this.valueExpr = BecomeParent(valueExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidTarget());
-		children.add(valueExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ValidTarget);
+		children.Add(valueExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("target");
-		childrenNames.add("valueExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("target");
+		childrenNames.Add("valueExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		SetTypeNode targetType = getTargetTypeExact();
-		if(target != null) {
+		SetTypeNode targetType = TargetTypeExact;
+		if(target != null)
+		{
 			TypeNode targetValueType = targetType.valueType;
-			TypeNode valueType = valueExpr.getType();
-			if(!valueType.isEqual(targetValueType)) {
+			TypeNode valueType = valueExpr.Type;
+			if(!valueType.IsEqual(targetValueType))
+			{
 				ExprNode valueExprOld = valueExpr;
-				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
-				if(valueExpr == ConstNode.getInvalid()) {
-					valueExprOld.reportError("The set rem item procedure expects as argument (value)"
-							+ " a value of type " + targetValueType.toStringWithDeclarationCoords()
-							+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
+				valueExpr = BecomeParent(valueExpr.AdjustType(targetValueType, Coords));
+				if(valueExpr == ConstNode.Invalid)
+				{
+					valueExprOld.ReportError("The set rem item procedure expects as argument (value)"
+							+ " a value of type " + targetValueType.ToStringWithDeclarationCoords()
+							+ " (but is given a value of type " + valueType.ToStringWithDeclarationCoords() + ").");
 					return false;
 				}
 			}
 			return true;
-		} else {
+		}
+		else
+		{
 			TypeNode targetValueType = targetType.valueType;
-			return checkType(valueExpr, targetValueType, "value", "set rem item procedure");
+			return CheckType(valueExpr, targetValueType, "value", "set rem item procedure");
 		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		valueExpr = valueExpr.evaluate();
-		if(target != null) {
-			return new SetRemoveItem(target.checkIR(Qualification.class),
-					valueExpr.checkIR(Expression.class));
-		} else {
-			return new SetVarRemoveItem(targetVar.checkIR(Variable.class),
-					valueExpr.checkIR(Expression.class));
+		valueExpr = valueExpr.Evaluate();
+		if(target != null)
+		{
+			return new SetRemoveItem(target.CheckIR(typeof(Qualification)),
+					valueExpr.CheckIR(typeof(Expression)));
+		}
+		else
+		{
+			return new SetVarRemoveItem(targetVar.CheckIR(typeof(Variable)),
+					valueExpr.CheckIR(typeof(Expression)));
 		}
 	}
+}
+
 }

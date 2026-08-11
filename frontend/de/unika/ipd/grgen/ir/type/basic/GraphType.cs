@@ -1,35 +1,39 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.type.basic;
+namespace de.unika.ipd.grgen.ir.type.basic
+{
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * A graph type.
- */
-public class GraphType extends PrimitiveType
+/// <summary>
+/// A graph type.
+/// </summary>
+public class GraphType : PrimitiveType
 {
 	public GraphType(Ident ident)
+		: base("graph type", ident)
 	{
-		super("graph type", ident);
 	}
 
-	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
-	@Override
-	public TypeClass classify()
+	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+	public override TypeClass Classify()
 	{
 		return TypeClass.IS_GRAPH;
 	}
 
-	public static Type getType()
+	public static Type Type
 	{
-		return BasicTypeNode.graphType.checkIR(Type.class);
+		get
+		{
+		return BasicTypeNode.graphType.CheckIR(typeof(Type));
+		}
 	}
+}
+
 }

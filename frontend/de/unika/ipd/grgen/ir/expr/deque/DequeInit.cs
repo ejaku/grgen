@@ -1,80 +1,94 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr.deque;
-
-import java.util.Collection;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.container.DequeType;
-
-public class DequeInit extends Expression
+namespace de.unika.ipd.grgen.ir.expr.deque
 {
-	private Collection<Expression> dequeItems;
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using DequeType = de.unika.ipd.grgen.ir.type.container.DequeType;
+
+public class DequeInit : Expression
+{
+	private ICollection<Expression> dequeItems;
 	private Entity member;
 	private DequeType dequeType;
-	private boolean isConst;
+	private bool isConst;
 
-	public DequeInit(Collection<Expression> dequeItems, Entity member, DequeType dequeType, boolean isConst)
+	public DequeInit(ICollection<Expression> dequeItems, Entity member, DequeType dequeType, bool isConst)
+		: base("deque init", member != null ? member.Type : dequeType)
 	{
-		super("deque init", member != null ? member.getType() : dequeType);
 		this.dequeItems = dequeItems;
 		this.member = member;
 		this.dequeType = dequeType;
 		this.isConst = isConst;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.add(this);
-		for(Expression dequeItem : dequeItems) {
-			dequeItem.collectNeededEntities(needs);
+		needs.Add(this);
+		foreach(Expression dequeItem in dequeItems)
+			dequeItem.CollectNeededEntities(needs);
+	}
+
+	public virtual ICollection<Expression> DequeItems
+	{
+		get
+		{
+		return dequeItems;
 		}
 	}
 
-	public Collection<Expression> getDequeItems()
+	public virtual Entity Member
 	{
-		return dequeItems;
-	}
-
-	public void setMember(Entity entity)
-	{
-		assert(member == null && entity != null);
-		member = entity;
-	}
-
-	public Entity getMember()
-	{
+		set
+		{
+		Debug.Assert((member == null && value != null));
+		member = value;
+		}
+		get
+		{
 		return member;
+		}
 	}
 
-	public DequeType getDequeType()
+
+	public virtual DequeType DequeType
 	{
+		get
+		{
 		return dequeType;
+		}
 	}
 
-	public void forceNotConstant()
+	public virtual void ForceNotConstant()
 	{
 		isConst = false;
 	}
 
-	public boolean isConstant()
+	public virtual bool IsConstant()
 	{
 		return isConst;
 	}
 
-	public String getAnonymousDequeName()
+	public virtual string AnonymousDequeName
 	{
-		return "anonymous_deque_" + getId();
+		get
+		{
+		return "anonymous_deque_" + Id;
+		}
 	}
+}
+
 }

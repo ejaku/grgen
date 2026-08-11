@@ -1,47 +1,55 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-
-public class Typeof extends Expression
+namespace de.unika.ipd.grgen.ir.expr
 {
-	/** The entity whose type we want to know. */
-	private final Entity entity;
+using de.unika.ipd.grgen.ir;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+
+public class Typeof : Expression
+{
+	/// <summary>
+	/// The entity whose type we want to know. </summary>
+	private readonly Entity entity;
 
 	public Typeof(Entity entity)
+		: base("typeof", entity.Type)
 	{
-		super("typeof", entity.getType());
 		this.entity = entity;
 	}
 
-	public Entity getEntity()
+	public virtual Entity Entity
 	{
+		get
+		{
 		return entity;
-	}
-
-	@Override
-	public String getNodeLabel()
-	{
-		return "typeof<" + entity + ">";
-	}
-
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		if(!isGlobalVariable(entity)) {
-			if(entity instanceof GraphEntity)
-				needs.add((GraphEntity)entity);
-			else
-				needs.add((Variable)entity);
 		}
 	}
+
+	public override string NodeLabel
+	{
+		get
+		{
+		return "typeof<" + entity + ">";
+		}
+	}
+
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
+	{
+		if(!IsGlobalVariable(entity))
+		{
+			if(entity is GraphEntity)
+				needs.Add((GraphEntity)entity);
+			else
+				needs.Add((Variable)entity);
+		}
+	}
+}
+
 }

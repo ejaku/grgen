@@ -1,129 +1,144 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.map;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.map.MapAddItem;
-import de.unika.ipd.grgen.ir.stmt.map.MapVarAddItem;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class MapAddItemNode extends MapProcedureMethodInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.map
 {
-	static {
-		setClassName(MapAddItemNode.class, "map add item statement");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using MapAddItem = de.unika.ipd.grgen.ir.stmt.map.MapAddItem;
+using MapVarAddItem = de.unika.ipd.grgen.ir.stmt.map.MapVarAddItem;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class MapAddItemNode : MapProcedureMethodInvocationBaseNode
+{
+	static MapAddItemNode()
+	{
+		SetClassName(typeof(MapAddItemNode), "map add item statement");
 	}
 
 	private ExprNode keyExpr;
 	private ExprNode valueExpr;
 
 	public MapAddItemNode(Coords coords, QualIdentNode target, ExprNode keyExpr, ExprNode valueExpr)
+		: base(coords, target)
 	{
-		super(coords, target);
-		this.keyExpr = becomeParent(keyExpr);
-		this.valueExpr = becomeParent(valueExpr);
+		this.keyExpr = BecomeParent(keyExpr);
+		this.valueExpr = BecomeParent(valueExpr);
 	}
 
 	public MapAddItemNode(Coords coords, VarDeclNode targetVar, ExprNode keyExpr, ExprNode valueExpr)
+		: base(coords, targetVar)
 	{
-		super(coords, targetVar);
-		this.keyExpr = becomeParent(keyExpr);
-		this.valueExpr = becomeParent(valueExpr);
+		this.keyExpr = BecomeParent(keyExpr);
+		this.valueExpr = BecomeParent(valueExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidTarget());
-		children.add(keyExpr);
-		children.add(valueExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ValidTarget);
+		children.Add(keyExpr);
+		children.Add(valueExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("target");
-		childrenNames.add("keyExpr");
-		childrenNames.add("valueExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("target");
+		childrenNames.Add("keyExpr");
+		childrenNames.Add("valueExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		MapTypeNode targetType = getTargetTypeExact();
-		if(target != null) {
+		MapTypeNode targetType = TargetTypeExact;
+		if(target != null)
+		{
 			TypeNode targetKeyType = targetType.keyType;
-			TypeNode keyType = keyExpr.getType();
-			if(!keyType.isEqual(targetKeyType)) {
+			TypeNode keyType = keyExpr.Type;
+			if(!keyType.IsEqual(targetKeyType))
+			{
 				ExprNode keyExprOld = keyExpr;
-				keyExpr = becomeParent(keyExpr.adjustType(targetKeyType, getCoords()));
-				if(keyExpr == ConstNode.getInvalid()) {
-					keyExprOld.reportError("The map add item procedure expects as 1. argument (key)"
-							+ " a value of type " + targetKeyType.toStringWithDeclarationCoords()
-							+ " (but is given a value of type " + keyType.toStringWithDeclarationCoords() + ").");
+				keyExpr = BecomeParent(keyExpr.AdjustType(targetKeyType, Coords));
+				if(keyExpr == ConstNode.Invalid)
+				{
+					keyExprOld.ReportError("The map add item procedure expects as 1. argument (key)"
+							+ " a value of type " + targetKeyType.ToStringWithDeclarationCoords()
+							+ " (but is given a value of type " + keyType.ToStringWithDeclarationCoords() + ").");
 					return false;
 				}
 			}
 			TypeNode targetValueType = targetType.valueType;
-			TypeNode valueType = valueExpr.getType();
-			if(!valueType.isEqual(targetValueType)) {
+			TypeNode valueType = valueExpr.Type;
+			if(!valueType.IsEqual(targetValueType))
+			{
 				ExprNode valueExprOld = valueExpr;
-				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
-				if(valueExpr == ConstNode.getInvalid()) {
-					valueExprOld.reportError("The map add item procedure expects as 2. argument (value)"
-							+ " a value of type " + targetValueType.toStringWithDeclarationCoords()
-							+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
+				valueExpr = BecomeParent(valueExpr.AdjustType(targetValueType, Coords));
+				if(valueExpr == ConstNode.Invalid)
+				{
+					valueExprOld.ReportError("The map add item procedure expects as 2. argument (value)"
+							+ " a value of type " + targetValueType.ToStringWithDeclarationCoords()
+							+ " (but is given a value of type " + valueType.ToStringWithDeclarationCoords() + ").");
 					return false;
 				}
 			}
-		} else {
+		}
+		else
+		{
 			TypeNode targetKeyType = targetType.keyType;
 			TypeNode targetValueType = targetType.valueType;
-			return checkType(keyExpr, targetKeyType, "map add item procedure", "key")
-					&& checkType(valueExpr, targetValueType, "map add item procedure", "value");
+			return CheckType(keyExpr, targetKeyType, "map add item procedure", "key")
+					&& CheckType(valueExpr, targetValueType, "map add item procedure", "value");
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		keyExpr = keyExpr.evaluate();
-		valueExpr = valueExpr.evaluate();
+		keyExpr = keyExpr.Evaluate();
+		valueExpr = valueExpr.Evaluate();
 		if(target != null)
-			return new MapAddItem(target.checkIR(Qualification.class),
-					keyExpr.checkIR(Expression.class),
-					valueExpr.checkIR(Expression.class));
+		{
+			return new MapAddItem(target.CheckIR(typeof(Qualification)),
+					keyExpr.CheckIR(typeof(Expression)),
+					valueExpr.CheckIR(typeof(Expression)));
+		}
 		else
-			return new MapVarAddItem(targetVar.checkIR(Variable.class),
-					keyExpr.checkIR(Expression.class),
-					valueExpr.checkIR(Expression.class));
+		{
+			return new MapVarAddItem(targetVar.CheckIR(typeof(Variable)),
+					keyExpr.CheckIR(typeof(Expression)),
+					valueExpr.CheckIR(typeof(Expression)));
+		}
 	}
+}
+
 }

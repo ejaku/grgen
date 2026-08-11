@@ -1,55 +1,59 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt.procenv;
-
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-import de.unika.ipd.grgen.ir.type.Type;
-
-public class SynchronizationTryEnterProc extends BuiltinProcedureInvocationBase
+namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-	Type returnType;
-	
+using System.Diagnostics;
+
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+public class SynchronizationTryEnterProc : BuiltinProcedureInvocationBase
+{
+	internal Type returnType;
+
 	private Expression criticalSectionObjectExpr;
 
 	public SynchronizationTryEnterProc(Type returnType, Expression criticalSectionObjectExpr)
+		: base("synchronization try enter procedure")
 	{
-		super("synchronization try enter procedure");
 		this.returnType = returnType;
 		this.criticalSectionObjectExpr = criticalSectionObjectExpr;
 	}
 
-	public Expression getCriticalSectionObject()
+	public virtual Expression CriticalSectionObject
 	{
+		get
+		{
 		return criticalSectionObjectExpr;
+		}
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		criticalSectionObjectExpr.collectNeededEntities(needs);
+		criticalSectionObjectExpr.CollectNeededEntities(needs);
 	}
-	
-	@Override
-	public int returnArity()
+
+	public override int ReturnArity()
 	{
 		return 1;
 	}
-	
-	@Override
-	public Type getReturnType(int index)
+
+	public override Type GetReturnType(int index)
 	{
-		assert(index == 0);
+		Debug.Assert((index == 0));
 		return returnType;
 	}
+}
+
 }

@@ -1,62 +1,72 @@
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import java.util.List;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.executable.FunctionSignature;
-
-public abstract class FunctionOrOperatorDeclBaseNode extends DeclNode implements FunctionSignature
+﻿namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	/** Result type of the function. */
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using FunctionSignature = de.unika.ipd.grgen.ast.type.executable.FunctionSignature;
+
+public abstract class FunctionOrOperatorDeclBaseNode : DeclNode, FunctionSignature
+{
+	/// <summary>
+	/// Result type of the function. </summary>
 	public TypeNode resultType;
 
-	/** Parameter types. */
-	protected List<TypeNode> parameterTypes;
+	/// <summary>
+	/// Parameter types. </summary>
+	protected internal IList<TypeNode> parameterTypes;
 
-	
+
 	public FunctionOrOperatorDeclBaseNode(IdentNode ident, BaseNode type)
+		: base(ident, type)
 	{
-		super(ident, type);
-	}
-	
-	@Override
-	public TypeNode getResultType()
-	{
-		assert isResolved();
-		return resultType;
 	}
 
-	@Override
-	public List<TypeNode> getParameterTypes()
+	public virtual TypeNode ResultType
 	{
-		assert isResolved();
-		return parameterTypes;
+		get
+		{
+		Debug.Assert(IsResolved());
+		return resultType;
+		}
 	}
-	
-	@Override
-	public int getDistance(List<TypeNode> argumentTypes)
+
+	public virtual IList<TypeNode> ParameterTypes
 	{
-		if(argumentTypes.size() != parameterTypes.size())
-			return Integer.MAX_VALUE;
+		get
+		{
+		Debug.Assert(IsResolved());
+		return parameterTypes;
+		}
+	}
+
+	public virtual int GetDistance(IList<TypeNode> argumentTypes)
+	{
+		if(argumentTypes.Count != parameterTypes.Count)
+			return int.MaxValue;
 
 		int distance = 0;
-		for(int i = 0; i < parameterTypes.size(); i++) {
-			debug.report(NOTE, "" + i + ": arg type: " + argumentTypes.get(i) + ", operand type: " + parameterTypes.get(i));
+		for(int i = 0; i < parameterTypes.Count; i++)
+		{
+			debug.Report(NOTE, "" + i + ": arg type: " + argumentTypes[i] + ", operand type: " + parameterTypes[i]);
 
-			boolean equal = argumentTypes.get(i).isEqual(parameterTypes.get(i));
-			boolean compatible = argumentTypes.get(i).isCompatibleTo(parameterTypes.get(i));
-			debug.report(NOTE, "equal: " + equal + ", compatible: " + compatible);
+			bool equal = argumentTypes[i].IsEqual(parameterTypes[i]);
+			bool compatible = argumentTypes[i].IsCompatibleTo(parameterTypes[i]);
+			debug.Report(NOTE, "equal: " + equal + ", compatible: " + compatible);
 
-			int compatibilityDistance = argumentTypes.get(i).compatibilityDistance(parameterTypes.get(i));
+			int compatibilityDistance = argumentTypes[i].CompatibilityDistance(parameterTypes[i]);
 
-			if(compatibilityDistance == Integer.MAX_VALUE)
-				return Integer.MAX_VALUE;
+			if(compatibilityDistance == int.MaxValue)
+				return int.MaxValue;
 
 			distance += compatibilityDistance;
 		}
 
 		return distance;
 	}
+}
+
 }

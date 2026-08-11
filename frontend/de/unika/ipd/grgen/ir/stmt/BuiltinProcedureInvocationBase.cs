@@ -1,38 +1,38 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt;
-
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * A base class for builtin procedure invocations.
- */
-public abstract class BuiltinProcedureInvocationBase extends ProcedureOrBuiltinProcedureInvocationBase
+namespace de.unika.ipd.grgen.ir.stmt
 {
-	protected BuiltinProcedureInvocationBase(String name)
+using ProcedureOrBuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+/// <summary>
+/// A base class for builtin procedure invocations.
+/// </summary>
+public abstract class BuiltinProcedureInvocationBase : ProcedureOrBuiltinProcedureInvocationBase
+{
+	protected internal BuiltinProcedureInvocationBase(string name)
+		: base(name)
 	{
-		super(name);
 	}
 
-	@Override
-	public int returnArity()
+	public override int ReturnArity()
 	{
 		return 0;
 	}
-	
-	@Override
-	public Type getReturnType(int index)
+
+	public override Type GetReturnType(int index)
 	{
 		return null;
 	}
+}
+
 }

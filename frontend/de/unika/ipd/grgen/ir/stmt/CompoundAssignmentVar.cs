@@ -1,24 +1,24 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt;
+namespace de.unika.ipd.grgen.ir.stmt
+{
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-
-/**
- * Represents a compound assignment var statement in the IR.
- */
-public class CompoundAssignmentVar extends EvalStatement
+/// <summary>
+/// Represents a compound assignment var statement in the IR.
+/// </summary>
+public class CompoundAssignmentVar : EvalStatement
 {
 	public enum CompoundAssignmentType
 	{
@@ -30,52 +30,64 @@ public class CompoundAssignmentVar extends EvalStatement
 		ASSIGN
 	}
 
-	/** The lhs of the assignment. */
+	/// <summary>
+	/// The lhs of the assignment. </summary>
 	private Variable target;
 
-	/** The operation of the compound assignment */
+	/// <summary>
+	/// The operation of the compound assignment </summary>
 	private CompoundAssignmentType operation;
 
-	/** The rhs of the assignment. */
+	/// <summary>
+	/// The rhs of the assignment. </summary>
 	private Expression expr;
 
 	public CompoundAssignmentVar(Variable target, CompoundAssignmentType compoundAssignmentType, Expression expr)
+		: base("compound assignment var")
 	{
-		super("compound assignment var");
 		this.target = target;
 		this.operation = compoundAssignmentType;
 		this.expr = expr;
 	}
 
-	public Variable getTarget()
+	public virtual Variable Target
 	{
+		get
+		{
 		return target;
+		}
 	}
 
-	public Expression getExpression()
+	public virtual Expression Expression
 	{
+		get
+		{
 		return expr;
+		}
 	}
 
-	public CompoundAssignmentType getOperation()
+	public virtual CompoundAssignmentType Operation
 	{
+		get
+		{
 		return operation;
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return getTarget() + (operation == CompoundAssignmentType.UNION ?
+		return Target + (operation == CompoundAssignmentType.UNION ?
 				" |= " : operation == CompoundAssignmentType.INTERSECTION ? " &= " : " \\= ")
-				+ getExpression();
+				+ Expression;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(target))
-			needs.add(target);
+		if(!IsGlobalVariable(target))
+			needs.Add(target);
 
-		getExpression().collectNeededEntities(needs);
+		Expression.CollectNeededEntities(needs);
 	}
+}
+
 }

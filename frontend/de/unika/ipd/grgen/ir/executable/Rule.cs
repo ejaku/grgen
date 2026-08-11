@@ -1,389 +1,453 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack, Daniel Grund
- */
+/// <summary>
+/// @author shack, Daniel Grund
+/// </summary>
 
-package de.unika.ipd.grgen.ir.executable;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-
-import de.unika.ipd.grgen.ir.ContainedInPackage;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Exec;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.NeededEntities.Needs;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.pattern.Alternative;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
-import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
-import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
-import de.unika.ipd.grgen.ir.pattern.RetypedNode;
-import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
-import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
-import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
-import de.unika.ipd.grgen.ir.type.DefinedMatchType;
-import de.unika.ipd.grgen.ast.BaseNode;
-
-/**
- * A graph rewrite rule or subrule, with none, one, or arbitrary many (not yet) replacements.
- */
-public class Rule extends MatchingAction implements ContainedInPackage
+namespace de.unika.ipd.grgen.ir.executable
 {
-	/** Names of the children of this node. */
-	private static final String[] childrenNames = {
-			"left", "right", "eval"
-	};
 
-	private String packageContainedIn;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-	/** The right hand side of the rule. */
+using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using Exec = de.unika.ipd.grgen.ir.Exec;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Needs = de.unika.ipd.grgen.ir.NeededEntities.Needs;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using GraphEntityExpression = de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using Alternative = de.unika.ipd.grgen.ir.pattern.Alternative;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using OrderedReplacement = de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
+using OrderedReplacements = de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using PatternGraphRhs = de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
+using RetypedEdge = de.unika.ipd.grgen.ir.pattern.RetypedEdge;
+using RetypedNode = de.unika.ipd.grgen.ir.pattern.RetypedNode;
+using SubpatternDependentReplacement = de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
+using SubpatternUsage = de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
+using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
+using ImperativeStmt = de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
+using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+
+/// <summary>
+/// A graph rewrite rule or subrule, with none, one, or arbitrary many (not yet) replacements.
+/// </summary>
+public class Rule : MatchingAction, ContainedInPackage
+{
+	/// <summary>
+	/// Names of the children of this node. </summary>
+	private static readonly string[] childrenNames = new string[] { "left", "right", "eval" };
+
+	private string packageContainedIn;
+
+	/// <summary>
+	/// The right hand side of the rule. </summary>
 	private PatternGraphRhs right;
 
-	/** The match classes that get implemented */
-	private final ArrayList<DefinedMatchType> implementedMatchClasses = new ArrayList<DefinedMatchType>();
+	/// <summary>
+	/// The match classes that get implemented </summary>
+	private readonly List<DefinedMatchType> implementedMatchClasses = new List<DefinedMatchType>();
 
-	/** The evaluation assignments of this rule (RHS). */
-	private final ArrayList<EvalStatements> evalStatements = new ArrayList<EvalStatements>();
+	/// <summary>
+	/// The evaluation assignments of this rule (RHS). </summary>
+	private readonly List<EvalStatements> evalStatements = new List<EvalStatements>();
 
-	/** How often the pattern is to be matched in case this is an iterated. */
+	/// <summary>
+	/// How often the pattern is to be matched in case this is an iterated. </summary>
 	private int minMatches;
 	private int maxMatches;
 
-	/** Was the replacement code already called by means of an iterated replacement declaration? (in case this is an iterated.) */
-	public boolean wasReplacementAlreadyCalled;
+	/// <summary>
+	/// Was the replacement code already called by means of an iterated replacement declaration? (in case this is an iterated.) </summary>
+	public bool wasReplacementAlreadyCalled;
 
-	/** Have deferred execs been added by using this top level rule, so we have to execute the exec queue? */
-	public boolean mightThereBeDeferredExecs;
-	
-	public enum RuleKind { Rule, Test, Subpattern, AlternativeCase, Iterated };
-	public static String toString(RuleKind ruleKind)
+	/// <summary>
+	/// Have deferred execs been added by using this top level rule, so we have to execute the exec queue? </summary>
+	public bool mightThereBeDeferredExecs;
+
+	public enum RuleKind
+	{
+		Rule,
+		Test,
+		Subpattern,
+		AlternativeCase,
+		Iterated
+	}
+
+	public static string toString(RuleKind ruleKind)
 	{
 		switch(ruleKind)
 		{
-		case Rule: return "rule";
-		case Test: return "test";
-		case Subpattern: return "(sub)pattern";
-		case AlternativeCase: return "alternative case";
-		case Iterated: return "iterated";
-		default: throw new RuntimeException("Unexpected case");
+		case de.unika.ipd.grgen.ir.executable.Rule.RuleKind.Rule:
+			return "rule";
+		case de.unika.ipd.grgen.ir.executable.Rule.RuleKind.Test:
+			return "test";
+		case de.unika.ipd.grgen.ir.executable.Rule.RuleKind.Subpattern:
+			return "(sub)pattern";
+		case de.unika.ipd.grgen.ir.executable.Rule.RuleKind.AlternativeCase:
+			return "alternative case";
+		case de.unika.ipd.grgen.ir.executable.Rule.RuleKind.Iterated:
+			return "iterated";
+		default:
+			throw new Exception("Unexpected case");
 		}
 	}
 	public RuleKind ruleKind;
 
-	/**
-	 * Make a new rule.
-	 * @param ident The identifier with which the rule was declared.
-	 */
+	/// <summary>
+	/// Make a new rule. </summary>
+	/// <param name="ident"> The identifier with which the rule was declared. </param>
 	public Rule(Ident ident, RuleKind ruleKind)
+		: base("rule", ident)
 	{
-		super("rule", ident);
-		setChildrenNames(childrenNames);
+		ChildrenNames = childrenNames;
 		this.ruleKind = ruleKind;
 		this.minMatches = -1;
 		this.maxMatches = -1;
 		mightThereBeDeferredExecs = false;
 	}
 
-	/**
-	 * Make a new iterated rule.
-	 * @param ident The identifier with which the rule was declared.
-	 */
+	/// <summary>
+	/// Make a new iterated rule. </summary>
+	/// <param name="ident"> The identifier with which the rule was declared. </param>
 	public Rule(Ident ident, int minMatches, int maxMatches)
+		: base("rule", ident)
 	{
-		super("rule", ident);
-		setChildrenNames(childrenNames);
+		ChildrenNames = childrenNames;
 		this.ruleKind = RuleKind.Iterated;
 		this.minMatches = minMatches;
 		this.maxMatches = maxMatches;
 		mightThereBeDeferredExecs = false;
 	}
 
-	/**
-	 * @param pattern The left side graph of the rule.
-	 * @param right The right side graph of the rule.
-	 */
-	public void initialize(PatternGraphLhs pattern, PatternGraphRhs right)
+	/// <param name="pattern"> The left side graph of the rule. </param>
+	/// <param name="right"> The right side graph of the rule. </param>
+	public virtual void Initialize(PatternGraphLhs pattern, PatternGraphRhs right)
 	{
-		super.setPattern(pattern);
+		base.Pattern = pattern;
 		this.right = right;
-		if(right == null) {
-			pattern.setNameSuffix("test");
-		} else {
-			pattern.setName("L");
-			right.setName("R");
+		if(right == null)
+			pattern.NameSuffix = "test";
+		else
+		{
+			pattern.Name = "L";
+			right.Name = "R";
 		}
 	}
 
-	@Override
-	public String getPackageContainedIn()
+	public virtual string PackageContainedIn
 	{
+		get
+		{
 		return packageContainedIn;
+		}
+		set
+		{
+		this.packageContainedIn = value;
+		}
 	}
 
-	public void setPackageContainedIn(String packageContainedIn)
-	{
-		this.packageContainedIn = packageContainedIn;
-	}
 
-	public boolean isSubpattern()
+	public virtual bool IsSubpattern()
 	{
 		return ruleKind == RuleKind.Subpattern;
 	}
-	
-	/** @return A collection containing all eval assignments of this rule. */
-	public Collection<EvalStatements> getEvals()
+
+	/// <returns> A collection containing all eval assignments of this rule. </returns>
+	public virtual ICollection<EvalStatements> Evals
 	{
-		return Collections.unmodifiableList(evalStatements);
+		get
+		{
+		return evalStatements.AsReadOnly();
+		}
 	}
 
-	/** Add an assignment to the list of evaluations. */
-	public void addEval(EvalStatements a)
+	/// <summary>
+	/// Add an assignment to the list of evaluations. </summary>
+	public virtual void AddEval(EvalStatements a)
 	{
-		evalStatements.add(a);
+		evalStatements.Add(a);
 	}
 
-	/**
-	 *  @return A set with nodes, that occur on the left _and_ on the right side of the rule.
-	 *  		The set also contains retyped nodes.
-	 */
-	public Collection<Node> getCommonNodes()
+	///  <returns> A set with nodes, that occur on the left _and_ on the right side of the rule.
+	///  		The set also contains retyped nodes. </returns>
+	public virtual ICollection<Node> CommonNodes
 	{
-		Collection<Node> common = new HashSet<Node>(pattern.getNodes());
-		common.retainAll(right.getNodes());
+		get
+		{
+		ICollection<Node> common = new HashSet<Node>(pattern.Nodes);
+		common.RetainAll(right.Nodes);
 		return common;
+		}
 	}
 
-	/**
-	 * @return A set with edges, that occur on the left _and_ on the right side of the rule.
-	 *         The set also contains all retyped edges.
-	 */
-	public Collection<Edge> getCommonEdges()
+	/// <returns> A set with edges, that occur on the left _and_ on the right side of the rule.
+	///         The set also contains all retyped edges. </returns>
+	public virtual ICollection<Edge> CommonEdges
 	{
-		Collection<Edge> common = new HashSet<Edge>(pattern.getEdges());
-		common.retainAll(right.getEdges());
+		get
+		{
+		ICollection<Edge> common = new HashSet<Edge>(pattern.Edges);
+		common.RetainAll(right.Edges);
 		return common;
+		}
 	}
 
-	/** @return A set with subpatterns, that occur on the left _and_ on the right side of the rule. */
-	public Collection<SubpatternUsage> getCommonSubpatternUsages()
+	/// <returns> A set with subpatterns, that occur on the left _and_ on the right side of the rule. </returns>
+	public virtual ICollection<SubpatternUsage> CommonSubpatternUsages
 	{
-		Collection<SubpatternUsage> common = new HashSet<SubpatternUsage>(pattern.getSubpatternUsages());
-		common.retainAll(right.getSubpatternUsages());
+		get
+		{
+		ICollection<SubpatternUsage> common = new HashSet<SubpatternUsage>(pattern.SubpatternUsages);
+		common.RetainAll(right.SubpatternUsages);
 		return common;
+		}
 	}
 
-	/** @return The left hand side graph. */
-	public PatternGraphLhs getLeft()
+	/// <returns> The left hand side graph. </returns>
+	public virtual PatternGraphLhs Left
 	{
+		get
+		{
 		return pattern;
+		}
 	}
 
-	/** @return The right hand side graph. */
-	public PatternGraphRhs getRight()
+	/// <returns> The right hand side graph. </returns>
+	public virtual PatternGraphRhs Right
 	{
+		get
+		{
 		return right;
+		}
 	}
 
-	public Collection<DefinedMatchType> getImplementedMatchClasses()
+	public virtual ICollection<DefinedMatchType> ImplementedMatchClasses
 	{
-		return Collections.unmodifiableList(implementedMatchClasses);
+		get
+		{
+		return implementedMatchClasses.AsReadOnly();
+		}
 	}
 
-	public void addImplementedMatchClass(DefinedMatchType implementedMatchClass)
+	public virtual void AddImplementedMatchClass(DefinedMatchType implementedMatchClass)
 	{
-		implementedMatchClasses.add(implementedMatchClass);
+		implementedMatchClasses.Add(implementedMatchClass);
 	}
 
-	/** @return Minimum number of how often the pattern must get matched. */
-	public int getMinMatches()
+	/// <returns> Minimum number of how often the pattern must get matched. </returns>
+	public virtual int MinMatches
 	{
+		get
+		{
 		return minMatches;
+		}
 	}
 
-	/** @return Maximum number of how often the pattern must get matched. 0 means unlimited */
-	public int getMaxMatches()
+	/// <returns> Maximum number of how often the pattern must get matched. 0 means unlimited </returns>
+	public virtual int MaxMatches
 	{
+		get
+		{
 		return maxMatches;
-	}
-
-	public void checkForRhsElementsUsedOnLhs()
-	{
-		PatternGraphLhs left = getLeft();
-		for(Node node : left.getNodes()) {
-			if((node.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-				error.error(node.getIdent().getCoords(), "Nodes declared in the rewrite part cannot be accessed in the pattern part (as is the case for " + node.getIdent() + ").");
-			}
-		}
-		for(Edge edge : left.getEdges()) {
-			if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-				error.error(edge.getIdent().getCoords(), "Edges declared in the rewrite part cannot be accessed in the pattern part (as is the case for " + edge.getIdent() + ").");
-			}
 		}
 	}
 
-	public void computeUsageDependencies(HashMap<Rule, HashSet<Rule>> subpatternsDefToUse, Rule subpattern)
+	public virtual void CheckForRhsElementsUsedOnLhs()
 	{
-		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
-			HashSet<Rule> uses = subpatternsDefToUse.get(sub.subpatternAction);
-			uses.add(subpattern);
+		PatternGraphLhs left = Left;
+		foreach(Node node in left.Nodes)
+		{
+			if((node.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
+				error.Error(node.Ident.GetCoords(), "Nodes declared in the rewrite part cannot be accessed in the pattern part (as is the case for " + node.Ident + ").");
 		}
-
-		for(Alternative alternative : pattern.getAlts()) {
-			for(Rule altCase : alternative.getAlternativeCases()) {
-				altCase.computeUsageDependencies(subpatternsDefToUse, subpattern);
-			}
-		}
-
-		for(Rule iterated : pattern.getIters()) {
-			iterated.computeUsageDependencies(subpatternsDefToUse, subpattern);
+		foreach(Edge edge in left.Edges)
+		{
+			if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
+				error.Error(edge.Ident.GetCoords(), "Edges declared in the rewrite part cannot be accessed in the pattern part (as is the case for " + edge.Ident + ").");
 		}
 	}
 
-	public boolean checkForMultipleDeletesOrRetypes(HashMap<Entity, Rule> entitiesToTheirDeletingOrRetypingPattern,
-			HashMap<Rule, HashMap<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern)
+	public virtual void ComputeUsageDependencies(Dictionary<Rule, HashSet<Rule>> subpatternsDefToUse, Rule subpattern)
 	{
-		if(right == null) {
+		foreach(SubpatternUsage sub in pattern.SubpatternUsages)
+		{
+			HashSet<Rule> uses = subpatternsDefToUse[sub.subpatternAction];
+			uses.Add(subpattern);
+		}
+
+		foreach(Alternative alternative in pattern.Alts)
+		{
+			foreach(Rule altCase in alternative.AlternativeCases)
+				altCase.ComputeUsageDependencies(subpatternsDefToUse, subpattern);
+		}
+
+		foreach(Rule iterated in pattern.Iters)
+			iterated.ComputeUsageDependencies(subpatternsDefToUse, subpattern);
+	}
+
+	public virtual bool CheckForMultipleDeletesOrRetypes(Dictionary<Entity, Rule> entitiesToTheirDeletingOrRetypingPattern,
+			Dictionary<Rule, Dictionary<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern)
+	{
+		if(right == null)
 			return false;
-		}
 
-		for(Node node : pattern.getNodes()) {
-			for(Node homNode : pattern.getHomomorphic(node)) {
-				if(!right.hasNode(homNode)) {
-					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(node)
-							&& entitiesToTheirDeletingOrRetypingPattern.get(node) != this) {
-						reportMultipleDeleteOrRetype(node, entitiesToTheirDeletingOrRetypingPattern.get(node), this);
-					} else {
-						entitiesToTheirDeletingOrRetypingPattern.put(node, this);
+		foreach(Node node in pattern.Nodes)
+		{
+			foreach(Node homNode in pattern.GetHomomorphic(node))
+			{
+				if(!right.HasNode(homNode))
+				{
+					if(entitiesToTheirDeletingOrRetypingPattern.ContainsKey(node)
+							&& entitiesToTheirDeletingOrRetypingPattern[node] != this)
+					{
+						ReportMultipleDeleteOrRetype(node, entitiesToTheirDeletingOrRetypingPattern[node], this);
 					}
+					else
+						entitiesToTheirDeletingOrRetypingPattern[node] = this;
 				}
-				if(homNode.changesType(right)) {
-					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(node)
-							&& entitiesToTheirDeletingOrRetypingPattern.get(node) != this) {
-						reportMultipleDeleteOrRetype(node, entitiesToTheirDeletingOrRetypingPattern.get(node), this);
-					} else {
-						entitiesToTheirDeletingOrRetypingPattern.put(node, this);
+				if(homNode.ChangesType(right))
+				{
+					if(entitiesToTheirDeletingOrRetypingPattern.ContainsKey(node)
+							&& entitiesToTheirDeletingOrRetypingPattern[node] != this)
+					{
+						ReportMultipleDeleteOrRetype(node, entitiesToTheirDeletingOrRetypingPattern[node], this);
 					}
+					else
+						entitiesToTheirDeletingOrRetypingPattern[node] = this;
 				}
 			}
 		}
-		for(Edge edge : pattern.getEdges()) {
-			for(Edge homEdge : pattern.getHomomorphic(edge)) {
-				if(!right.hasEdge(homEdge)) {
-					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(edge)
-							&& entitiesToTheirDeletingOrRetypingPattern.get(edge) != this) {
-						reportMultipleDeleteOrRetype(edge, entitiesToTheirDeletingOrRetypingPattern.get(edge), this);
-					} else {
-						entitiesToTheirDeletingOrRetypingPattern.put(edge, this);
+		foreach(Edge edge in pattern.Edges)
+		{
+			foreach(Edge homEdge in pattern.GetHomomorphic(edge))
+			{
+				if(!right.HasEdge(homEdge))
+				{
+					if(entitiesToTheirDeletingOrRetypingPattern.ContainsKey(edge)
+							&& entitiesToTheirDeletingOrRetypingPattern[edge] != this)
+					{
+						ReportMultipleDeleteOrRetype(edge, entitiesToTheirDeletingOrRetypingPattern[edge], this);
 					}
+					else
+						entitiesToTheirDeletingOrRetypingPattern[edge] = this;
 				}
-				if(homEdge.changesType(right)) {
-					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(edge)
-							&& entitiesToTheirDeletingOrRetypingPattern.get(edge) != this) {
-						reportMultipleDeleteOrRetype(edge, entitiesToTheirDeletingOrRetypingPattern.get(edge), this);
-					} else {
-						entitiesToTheirDeletingOrRetypingPattern.put(edge, this);
+				if(homEdge.ChangesType(right))
+				{
+					if(entitiesToTheirDeletingOrRetypingPattern.ContainsKey(edge)
+							&& entitiesToTheirDeletingOrRetypingPattern[edge] != this)
+					{
+						ReportMultipleDeleteOrRetype(edge, entitiesToTheirDeletingOrRetypingPattern[edge], this);
 					}
+					else
+						entitiesToTheirDeletingOrRetypingPattern[edge] = this;
 				}
 			}
 		}
 
-		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
-			boolean isDependentReplacementUsed = false;
-			for(OrderedReplacements ors : right.getOrderedReplacements()) {
-				for(OrderedReplacement or : ors.orderedReplacements) {
-					if(!(or instanceof SubpatternDependentReplacement))
+		foreach(SubpatternUsage sub in pattern.SubpatternUsages)
+		{
+			bool isDependentReplacementUsed = false;
+			foreach(OrderedReplacements ors in right.OrderedReplacements)
+			{
+				foreach(OrderedReplacement or in ors.orderedReplacements)
+				{
+					if(!(or is SubpatternDependentReplacement))
 						continue;
-					if(((SubpatternDependentReplacement)or).getSubpatternUsage() == sub) {
+					if(((SubpatternDependentReplacement)or).SubpatternUsage == sub)
 						isDependentReplacementUsed = true;
-					}
 				}
 			}
 			if(!isDependentReplacementUsed)
 				continue;
 
-			List<Entity> parameters = sub.subpatternAction.getParameters();
-			Iterator<Entity> parametersIt = parameters.iterator();
-			List<Expression> arguments = sub.subpatternConnections;
-			Iterator<Expression> argumentsIt = arguments.iterator();
-			while(argumentsIt.hasNext()) {
-				assert parametersIt.hasNext();
-				Expression argument = argumentsIt.next();
-				Entity parameter = parametersIt.next();
-				if(argument instanceof GraphEntityExpression) {
-					GraphEntity argumentEntity = ((GraphEntityExpression)argument).getGraphEntity();
-					HashMap<Entity, Rule> parametersToTheirDeletingOrRetypingPattern =
-							subpatternsToParametersToTheirDeletingOrRetypingPattern.get(sub.subpatternAction);
-					Rule deletingOrRetypingPattern = parametersToTheirDeletingOrRetypingPattern.get(parameter);
-					if(deletingOrRetypingPattern != null) {
-						if(entitiesToTheirDeletingOrRetypingPattern.containsKey(argumentEntity)) {
-							reportMultipleDeleteOrRetype(argumentEntity,
-									entitiesToTheirDeletingOrRetypingPattern.get(argumentEntity),
+			IList<Entity> parameters = sub.subpatternAction.Parameters;
+			IEnumerator<Entity> parametersIt = parameters.GetEnumerator();
+			IList<Expression> arguments = sub.subpatternConnections;
+			IEnumerator<Expression> argumentsIt = arguments.GetEnumerator();
+			while(argumentsIt.MoveNext())
+			{
+// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
+				Debug.Assert(parametersIt.HasNext());
+				Expression argument = argumentsIt.Current;
+// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
+				Entity parameter = parametersIt.Next();
+				if(argument is GraphEntityExpression)
+				{
+					GraphEntity argumentEntity = ((GraphEntityExpression)argument).GraphEntity;
+					Dictionary<Entity, Rule> parametersToTheirDeletingOrRetypingPattern =
+							subpatternsToParametersToTheirDeletingOrRetypingPattern[sub.subpatternAction];
+					Rule deletingOrRetypingPattern = parametersToTheirDeletingOrRetypingPattern[parameter];
+					if(deletingOrRetypingPattern != null)
+					{
+						if(entitiesToTheirDeletingOrRetypingPattern.ContainsKey(argumentEntity))
+						{
+							ReportMultipleDeleteOrRetype(argumentEntity,
+									entitiesToTheirDeletingOrRetypingPattern[argumentEntity],
 									deletingOrRetypingPattern);
-						} else {
-							entitiesToTheirDeletingOrRetypingPattern.put(argumentEntity, deletingOrRetypingPattern);
 						}
+						else
+							entitiesToTheirDeletingOrRetypingPattern[argumentEntity] = deletingOrRetypingPattern;
 					}
 				}
 			}
 		}
 
-		for(Alternative alternative : pattern.getAlts()) {
-			ArrayList<HashMap<Entity, Rule>> entitiesToTheirDeletingOrRetypingPatternOfAlternativCases = new ArrayList<HashMap<Entity, Rule>>();
-			for(Rule altCase : alternative.getAlternativeCases()) {
-				HashMap<Entity, Rule> entitiesToTheirDeletingOrRetypingPatternClone =
-						new HashMap<Entity, Rule>(entitiesToTheirDeletingOrRetypingPattern);
-				altCase.checkForMultipleDeletesOrRetypes(entitiesToTheirDeletingOrRetypingPatternClone,
+		foreach(Alternative alternative in pattern.Alts)
+		{
+			List<Dictionary<Entity, Rule>> entitiesToTheirDeletingOrRetypingPatternOfAlternativCases = new List<Dictionary<Entity, Rule>>();
+			foreach(Rule altCase in alternative.AlternativeCases)
+			{
+				Dictionary<Entity, Rule> entitiesToTheirDeletingOrRetypingPatternClone =
+						new Dictionary<Entity, Rule>(entitiesToTheirDeletingOrRetypingPattern);
+				altCase.CheckForMultipleDeletesOrRetypes(entitiesToTheirDeletingOrRetypingPatternClone,
 						subpatternsToParametersToTheirDeletingOrRetypingPattern);
-				entitiesToTheirDeletingOrRetypingPatternOfAlternativCases.add(entitiesToTheirDeletingOrRetypingPatternClone);
+				entitiesToTheirDeletingOrRetypingPatternOfAlternativCases.Add(entitiesToTheirDeletingOrRetypingPatternClone);
 			}
-			for(HashMap<Entity, Rule> entitiesToTheirDeletingOrRetypingPatternOfAlternativCase : entitiesToTheirDeletingOrRetypingPatternOfAlternativCases) {
-				for(Entity entityOfAlternativeCase : entitiesToTheirDeletingOrRetypingPatternOfAlternativCase.keySet()) {
-					Rule deletingOrRetypingPatternOld = entitiesToTheirDeletingOrRetypingPattern.get(entityOfAlternativeCase);
-					Rule deletingOrRetypingPatternNew = entitiesToTheirDeletingOrRetypingPatternOfAlternativCase.get(entityOfAlternativeCase);
-					if(deletingOrRetypingPatternOld == null && deletingOrRetypingPatternNew != null) {
-						entitiesToTheirDeletingOrRetypingPattern.put(entityOfAlternativeCase, deletingOrRetypingPatternNew);
-					}
+			foreach(Dictionary<Entity, Rule> entitiesToTheirDeletingOrRetypingPatternOfAlternativCase in entitiesToTheirDeletingOrRetypingPatternOfAlternativCases)
+			{
+				foreach(Entity entityOfAlternativeCase in entitiesToTheirDeletingOrRetypingPatternOfAlternativCase.Keys)
+				{
+					Rule deletingOrRetypingPatternOld = entitiesToTheirDeletingOrRetypingPattern[entityOfAlternativeCase];
+					Rule deletingOrRetypingPatternNew = entitiesToTheirDeletingOrRetypingPatternOfAlternativCase[entityOfAlternativeCase];
+					if(deletingOrRetypingPatternOld == null && deletingOrRetypingPatternNew != null)
+						entitiesToTheirDeletingOrRetypingPattern[entityOfAlternativeCase] = deletingOrRetypingPatternNew;
 				}
 			}
 		}
 
-		for(Rule iterated : pattern.getIters()) {
-			iterated.checkForMultipleDeletesOrRetypes(entitiesToTheirDeletingOrRetypingPattern,
+		foreach(Rule iterated in pattern.Iters)
+		{
+			iterated.CheckForMultipleDeletesOrRetypes(entitiesToTheirDeletingOrRetypingPattern,
 					subpatternsToParametersToTheirDeletingOrRetypingPattern);
 		}
 
-		boolean changed = false;
-		if(subpatternsToParametersToTheirDeletingOrRetypingPattern.containsKey(this)) {
-			HashMap<Entity, Rule> parametersToTheirDeletingOrRetypingPattern =
-					subpatternsToParametersToTheirDeletingOrRetypingPattern.get(this);
-			for(Entity parameter : parametersToTheirDeletingOrRetypingPattern.keySet()) {
-				Rule deletingOrRetypingPatternOld = parametersToTheirDeletingOrRetypingPattern.get(parameter);
-				Rule deletingOrRetypingPatternNew = entitiesToTheirDeletingOrRetypingPattern.get(parameter);
-				if(deletingOrRetypingPatternOld == null && deletingOrRetypingPatternNew != null) {
-					parametersToTheirDeletingOrRetypingPattern.put(parameter, deletingOrRetypingPatternNew);
+		bool changed = false;
+		if(subpatternsToParametersToTheirDeletingOrRetypingPattern.ContainsKey(this))
+		{
+			Dictionary<Entity, Rule> parametersToTheirDeletingOrRetypingPattern =
+					subpatternsToParametersToTheirDeletingOrRetypingPattern[this];
+			foreach(Entity parameter in parametersToTheirDeletingOrRetypingPattern.Keys)
+			{
+				Rule deletingOrRetypingPatternOld = parametersToTheirDeletingOrRetypingPattern[parameter];
+				Rule deletingOrRetypingPatternNew = entitiesToTheirDeletingOrRetypingPattern[parameter];
+				if(deletingOrRetypingPatternOld == null && deletingOrRetypingPatternNew != null)
+				{
+					parametersToTheirDeletingOrRetypingPattern[parameter] = deletingOrRetypingPatternNew;
 					changed = true;
 				}
 			}
@@ -391,291 +455,336 @@ public class Rule extends MatchingAction implements ContainedInPackage
 		return changed;
 	}
 
-	static void reportMultipleDeleteOrRetype(Entity entity, Rule first, Rule second)
+	internal static void ReportMultipleDeleteOrRetype(Entity entity, Rule first, Rule second)
 	{
-		error.error(entity.getIdent().getCoords(), "The " + entity.getKind() + " " + entity.getIdent() + " or a hom " + entity.getKind()
-				+ " may get deleted or retyped in " + toString(first.ruleKind) + " " + first.getIdent() + " [declared at " + first.getIdent().getCoords() + "]"
-				+ " and in " + toString(second.ruleKind) + " " + second.getIdent() + " [declared at " + second.getIdent().getCoords() + "]"
+		error.Error(entity.Ident.GetCoords(), "The " + entity.Kind + " " + entity.Ident + " or a hom " + entity.Kind
+				+ " may get deleted or retyped in " + toString(first.ruleKind) + " " + first.Ident + " [declared at " + first.Ident.GetCoords() + "]"
+				+ " and in " + toString(second.ruleKind) + " " + second.Ident + " [declared at " + second.Ident.GetCoords() + "]"
 				+ " (only one such place is allowed, determinable at compile time).");
 	}
 
-	public void checkForMultipleRetypesLocal()
+	public virtual void CheckForMultipleRetypesLocal()
 	{
-		if(right == null) {
+		if(right == null)
 			return;
-		}
 
-		for(Node node : pattern.getNodes()) {
-			for(Node homNode : pattern.getHomomorphic(node)) {
+		foreach(Node node in pattern.Nodes)
+		{
+			foreach(Node homNode in pattern.GetHomomorphic(node))
+			{
 				if(node == homNode)
 					continue;
-				if(node.changesType(right) && homNode.changesType(right)) {
-					reportMultipleRetype(node, homNode);
-				}
+				if(node.ChangesType(right) && homNode.ChangesType(right))
+					ReportMultipleRetype(node, homNode);
 			}
 		}
-		for(Edge edge : pattern.getEdges()) {
-			for(Edge homEdge : pattern.getHomomorphic(edge)) {
+		foreach(Edge edge in pattern.Edges)
+		{
+			foreach(Edge homEdge in pattern.GetHomomorphic(edge))
+			{
 				if(edge == homEdge)
 					continue;
-				if(edge.changesType(right) && homEdge.changesType(right)) {
-					reportMultipleRetype(edge, homEdge);
-				}
-			}
-		}
-		
-		for(Alternative alternative : pattern.getAlts()) {
-			for(Rule altCase : alternative.getAlternativeCases()) {
-				altCase.checkForMultipleRetypesLocal();
+				if(edge.ChangesType(right) && homEdge.ChangesType(right))
+					ReportMultipleRetype(edge, homEdge);
 			}
 		}
 
-		for(Rule iterated : pattern.getIters()) {
-			iterated.checkForMultipleRetypesLocal();
+		foreach(Alternative alternative in pattern.Alts)
+		{
+			foreach(Rule altCase in alternative.AlternativeCases)
+				altCase.CheckForMultipleRetypesLocal();
 		}
+
+		foreach(Rule iterated in pattern.Iters)
+			iterated.CheckForMultipleRetypesLocal();
 	}
 
-	static void reportMultipleRetype(Entity entity, Entity homEntity)
+	internal static void ReportMultipleRetype(Entity entity, Entity homEntity)
 	{
-		error.error(entity.getIdent().getCoords(), "The " + entity.getKind() + " " + entity.getIdent()
-				+ " and the hom " + entity.getKind() + " " + homEntity.getIdent() + homEntity.getIdent().getCoords().getDeclarationCoords(false)
+		error.Error(entity.Ident.GetCoords(), "The " + entity.Kind + " " + entity.Ident
+				+ " and the hom " + entity.Kind + " " + homEntity.Ident + homEntity.Ident.GetCoords().GetDeclarationCoords(false)
 				+ " are both retyped, so a homomorphically matched graph element may get retyped multiple times.");
 	}
 
-	public boolean isUsingNonDirectExec(boolean isTopLevelRule)
+	public virtual bool IsUsingNonDirectExec(bool isTopLevelRule)
 	{
-		if(right == null) {
+		if(right == null)
 			return false;
-		}
 
-		if(!isTopLevelRule) {
-			for(ImperativeStmt is : right.getImperativeStmts()) {
-				if(is instanceof Exec) {
+		if(!isTopLevelRule)
+		{
+			foreach(ImperativeStmt @is in right.ImperativeStmts)
+			{
+				if(@is is Exec)
 					return true;
-				}
 			}
 		}
 
-		for(Alternative alternative : pattern.getAlts()) {
-			for(Rule altCase : alternative.getAlternativeCases()) {
-				if(altCase.isUsingNonDirectExec(false)) {
+		foreach(Alternative alternative in pattern.Alts)
+		{
+			foreach(Rule altCase in alternative.AlternativeCases)
+			{
+				if(altCase.IsUsingNonDirectExec(false))
 					return true;
-				}
 			}
 		}
 
-		for(Rule iterated : pattern.getIters()) {
-			if(iterated.isUsingNonDirectExec(false)) {
+		foreach(Rule iterated in pattern.Iters)
+		{
+			if(iterated.IsUsingNonDirectExec(false))
 				return true;
-			}
 		}
 
 		return false;
 	}
 
-	public void setDependencyLevelOfInterElementDependencies()
+	public virtual void SetDependencyLevelOfInterElementDependencies()
 	{
-		PatternGraphLhs left = getLeft();
-		final int MAX_CHAINING_FOR_STORAGE_MAP_ACCESS = 1000;
+		PatternGraphLhs left = Left;
+		const int MAX_CHAINING_FOR_STORAGE_MAP_ACCESS = 1000;
 		int dependencyLevel = 0;
-		boolean somethingChanged;
-		do {
+		bool somethingChanged;
+		do
+		{
 			somethingChanged = false;
 
-			for(Node node : left.getNodes()) {
-				if(node.storageAccessIndex != null && node.storageAccessIndex.indexGraphEntity != null) {
+			foreach(Node node in left.Nodes)
+			{
+				if(node.storageAccessIndex != null && node.storageAccessIndex.indexGraphEntity != null)
+				{
 					GraphEntity indexGraphEntity = node.storageAccessIndex.indexGraphEntity;
-					if(node.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
-						node.incrementDependencyLevel();
-						dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+					if(node.DependencyLevel <= indexGraphEntity.DependencyLevel)
+					{
+						node.IncrementDependencyLevel();
+						dependencyLevel = Math.Max(node.DependencyLevel, dependencyLevel);
 						somethingChanged = true;
 					}
 				}
-				if(node.storageAccess != null && node.storageAccess.storageAttribute != null) {
+				if(node.storageAccess != null && node.storageAccess.storageAttribute != null)
+				{
 					Qualification storageAttribute = node.storageAccess.storageAttribute;
-					if(node.getDependencyLevel() <= ((GraphEntity)storageAttribute.getOwner()).getDependencyLevel()) {
-						node.incrementDependencyLevel();
-						dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+					if(node.DependencyLevel <= ((GraphEntity)storageAttribute.Owner).DependencyLevel)
+					{
+						node.IncrementDependencyLevel();
+						dependencyLevel = Math.Max(node.DependencyLevel, dependencyLevel);
 						somethingChanged = true;
 					}
 				}
-				if(node.indexAccess != null) {
-					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
-					node.indexAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, node);
-					if(indexGraphEntity != null) {
-						if(node.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
-							node.incrementDependencyLevel();
-							dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+				if(node.indexAccess != null)
+				{
+					NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+					node.indexAccess.CollectNeededEntities(needs);
+					GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, node);
+					if(indexGraphEntity != null)
+					{
+						if(node.DependencyLevel <= indexGraphEntity.DependencyLevel)
+						{
+							node.IncrementDependencyLevel();
+							dependencyLevel = Math.Max(node.DependencyLevel, dependencyLevel);
 							somethingChanged = true;
 						}
 					}
 				}
-				if(!node.multipleIndexAccesses.isEmpty()) {
-					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
-					for(IndexAccessOrdering indexAccess : node.multipleIndexAccesses) {
-						indexAccess.collectNeededEntities(needs);
-					}
-					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, node);
-					if(indexGraphEntity != null) {
-						if(node.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
-							node.incrementDependencyLevel();
-							dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+				if(node.multipleIndexAccesses.Count > 0)
+				{
+					NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+					foreach(IndexAccessOrdering indexAccess in node.multipleIndexAccesses)
+						indexAccess.CollectNeededEntities(needs);
+					GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, node);
+					if(indexGraphEntity != null)
+					{
+						if(node.DependencyLevel <= indexGraphEntity.DependencyLevel)
+						{
+							node.IncrementDependencyLevel();
+							dependencyLevel = Math.Max(node.DependencyLevel, dependencyLevel);
 							somethingChanged = true;
 						}
 					}
 				}
-				if(node.nameMapAccess != null) {
-					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
-					node.nameMapAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, node);
-					if(indexGraphEntity != null) {
-						if(node.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
-							node.incrementDependencyLevel();
-							dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+				if(node.nameMapAccess != null)
+				{
+					NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+					node.nameMapAccess.CollectNeededEntities(needs);
+					GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, node);
+					if(indexGraphEntity != null)
+					{
+						if(node.DependencyLevel <= indexGraphEntity.DependencyLevel)
+						{
+							node.IncrementDependencyLevel();
+							dependencyLevel = Math.Max(node.DependencyLevel, dependencyLevel);
 							somethingChanged = true;
 						}
 					}
 				}
-				if(node.uniqueIndexAccess != null) {
-					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
-					node.uniqueIndexAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, node);
-					if(indexGraphEntity != null) {
-						if(node.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
-							node.incrementDependencyLevel();
-							dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+				if(node.uniqueIndexAccess != null)
+				{
+					NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+					node.uniqueIndexAccess.CollectNeededEntities(needs);
+					GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, node);
+					if(indexGraphEntity != null)
+					{
+						if(node.DependencyLevel <= indexGraphEntity.DependencyLevel)
+						{
+							node.IncrementDependencyLevel();
+							dependencyLevel = Math.Max(node.DependencyLevel, dependencyLevel);
 							somethingChanged = true;
 						}
 					}
 				}
-				if(node instanceof RetypedNode) {
-					if(node.getDependencyLevel() <= ((RetypedNode)node).getCombinedDependencyLevel()) {
-						node.incrementDependencyLevel();
-						dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+				if(node is RetypedNode)
+				{
+					if(node.DependencyLevel <= ((RetypedNode)node).CombinedDependencyLevel)
+					{
+						node.IncrementDependencyLevel();
+						dependencyLevel = Math.Max(node.DependencyLevel, dependencyLevel);
 						somethingChanged = true;
 					}
 				}
 			}
-			for(Edge edge : left.getEdges()) {
-				if(edge.storageAccessIndex != null && edge.storageAccessIndex.indexGraphEntity != null) {
+			foreach(Edge edge in left.Edges)
+			{
+				if(edge.storageAccessIndex != null && edge.storageAccessIndex.indexGraphEntity != null)
+				{
 					GraphEntity indexGraphEntity = edge.storageAccessIndex.indexGraphEntity;
-					if(edge.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
-						edge.incrementDependencyLevel();
-						dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+					if(edge.DependencyLevel <= indexGraphEntity.DependencyLevel)
+					{
+						edge.IncrementDependencyLevel();
+						dependencyLevel = Math.Max(edge.DependencyLevel, dependencyLevel);
 						somethingChanged = true;
 					}
 				}
-				if(edge.storageAccess != null && edge.storageAccess.storageAttribute != null) {
+				if(edge.storageAccess != null && edge.storageAccess.storageAttribute != null)
+				{
 					Qualification storageAttribute = edge.storageAccess.storageAttribute;
-					if(edge.getDependencyLevel() <= ((GraphEntity)storageAttribute.getOwner()).getDependencyLevel()) {
-						edge.incrementDependencyLevel();
-						dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+					if(edge.DependencyLevel <= ((GraphEntity)storageAttribute.Owner).DependencyLevel)
+					{
+						edge.IncrementDependencyLevel();
+						dependencyLevel = Math.Max(edge.DependencyLevel, dependencyLevel);
 						somethingChanged = true;
 					}
 				}
-				if(edge.indexAccess != null) {
-					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
-					edge.indexAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, edge);
-					if(indexGraphEntity != null) {
-						if(edge.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
-							edge.incrementDependencyLevel();
-							dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+				if(edge.indexAccess != null)
+				{
+					NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+					edge.indexAccess.CollectNeededEntities(needs);
+					GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, edge);
+					if(indexGraphEntity != null)
+					{
+						if(edge.DependencyLevel <= indexGraphEntity.DependencyLevel)
+						{
+							edge.IncrementDependencyLevel();
+							dependencyLevel = Math.Max(edge.DependencyLevel, dependencyLevel);
 							somethingChanged = true;
 						}
 					}
 				}
-				if(!edge.multipleIndexAccesses.isEmpty()) {
-					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
-					for(IndexAccessOrdering indexAccess : edge.multipleIndexAccesses) {
-						indexAccess.collectNeededEntities(needs);
-					}
-					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, edge);
-					if(indexGraphEntity != null) {
-						if(edge.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
-							edge.incrementDependencyLevel();
-							dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+				if(edge.multipleIndexAccesses.Count > 0)
+				{
+					NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+					foreach(IndexAccessOrdering indexAccess in edge.multipleIndexAccesses)
+						indexAccess.CollectNeededEntities(needs);
+					GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, edge);
+					if(indexGraphEntity != null)
+					{
+						if(edge.DependencyLevel <= indexGraphEntity.DependencyLevel)
+						{
+							edge.IncrementDependencyLevel();
+							dependencyLevel = Math.Max(edge.DependencyLevel, dependencyLevel);
 							somethingChanged = true;
 						}
 					}
 				}
-				if(edge.nameMapAccess != null) {
-					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
-					edge.nameMapAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, edge);
-					if(indexGraphEntity != null) {
-						if(edge.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
-							edge.incrementDependencyLevel();
-							dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+				if(edge.nameMapAccess != null)
+				{
+					NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+					edge.nameMapAccess.CollectNeededEntities(needs);
+					GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, edge);
+					if(indexGraphEntity != null)
+					{
+						if(edge.DependencyLevel <= indexGraphEntity.DependencyLevel)
+						{
+							edge.IncrementDependencyLevel();
+							dependencyLevel = Math.Max(edge.DependencyLevel, dependencyLevel);
 							somethingChanged = true;
 						}
 					}
 				}
-				if(edge.uniqueIndexAccess != null) {
-					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
-					edge.uniqueIndexAccess.collectNeededEntities(needs);
-					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, edge);
-					if(indexGraphEntity != null) {
-						if(edge.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
-							edge.incrementDependencyLevel();
-							dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+				if(edge.uniqueIndexAccess != null)
+				{
+					NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+					edge.uniqueIndexAccess.CollectNeededEntities(needs);
+					GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, edge);
+					if(indexGraphEntity != null)
+					{
+						if(edge.DependencyLevel <= indexGraphEntity.DependencyLevel)
+						{
+							edge.IncrementDependencyLevel();
+							dependencyLevel = Math.Max(edge.DependencyLevel, dependencyLevel);
 							somethingChanged = true;
 						}
 					}
 				}
-				if(edge instanceof RetypedEdge) {
-					if(edge.getDependencyLevel() <= ((RetypedEdge)edge).oldEdge.getDependencyLevel()) {
-						edge.incrementDependencyLevel();
-						dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+				if(edge is RetypedEdge)
+				{
+					if(edge.DependencyLevel <= ((RetypedEdge)edge).oldEdge.GetDependencyLevel())
+					{
+						edge.IncrementDependencyLevel();
+						dependencyLevel = Math.Max(edge.DependencyLevel, dependencyLevel);
 						somethingChanged = true;
 					}
 				}
 			}
-			if(dependencyLevel >= MAX_CHAINING_FOR_STORAGE_MAP_ACCESS) {
-				error.error(getIdent().getCoords(), "Cycle in match node/edge by storage map access or storage attribute detected.");
+			if(dependencyLevel >= MAX_CHAINING_FOR_STORAGE_MAP_ACCESS)
+			{
+				error.Error(Ident.GetCoords(), "Cycle in match node/edge by storage map access or storage attribute detected.");
 				break;
 			}
 		} while(somethingChanged);
 
-		for(Alternative alternative : pattern.getAlts()) {
-			for(Rule altCase : alternative.getAlternativeCases()) {
-				altCase.setDependencyLevelOfInterElementDependencies();
-			}
+		foreach(Alternative alternative in pattern.Alts)
+		{
+			foreach(Rule altCase in alternative.AlternativeCases)
+				altCase.SetDependencyLevelOfInterElementDependencies();
 		}
 
-		for(Rule iterated : pattern.getIters()) {
-			iterated.setDependencyLevelOfInterElementDependencies();
-		}
+		foreach(Rule iterated in pattern.Iters)
+			iterated.SetDependencyLevelOfInterElementDependencies();
 	}
 
-	public GraphEntity getAtMostOneNeededGraphElement(NeededEntities needs, GraphEntity entity)
+	public virtual GraphEntity GetAtMostOneNeededGraphElement(NeededEntities needs, GraphEntity entity)
 	{
 		HashSet<GraphEntity> neededEntities = new HashSet<GraphEntity>();
-		for(Node node : needs.nodes) {
-			if(getParameters().indexOf(node) != -1)
+		foreach(Node node in needs.nodes)
+		{
+			if(Parameters.IndexOf(node) != -1)
 				continue;
-			if(node.isDefToBeYieldedTo()) {
-				error.error(entity.getIdent().getCoords(), "Cannot use a def node (" + node.getIdent() + ")"
-						+ " for an index access or name map access of " + entity.getIdent() + ".");
+			if(node.IsDefToBeYieldedTo())
+			{
+				error.Error(entity.Ident.GetCoords(), "Cannot use a def node (" + node.Ident + ")" 
+						+ " for an index access or name map access of " + entity.Ident + ".");
 			}
-			neededEntities.add(node);
+			neededEntities.Add(node);
 		}
-		for(Edge edge : needs.edges) {
-			if(getParameters().indexOf(edge) != -1)
+		foreach(Edge edge in needs.edges)
+		{
+			if(Parameters.IndexOf(edge) != -1)
 				continue;
-			if(edge.isDefToBeYieldedTo()) {
-				error.error(entity.getIdent().getCoords(), "Cannot use a def edge (" + edge.getIdent() + ")"
-						+ " for an index access or name map access of " + entity.getIdent() + ".");
+			if(edge.IsDefToBeYieldedTo())
+			{
+				error.Error(entity.Ident.GetCoords(), "Cannot use a def edge (" + edge.Ident + ")"
+						+ " for an index access or name map access of " + entity.Ident + ".");
 			}
-			neededEntities.add(edge);
+			neededEntities.Add(edge);
 		}
-		if(neededEntities.size() == 1)
-			return neededEntities.iterator().next();
-		else if(neededEntities.size() > 1) {
-			error.error(entity.getIdent().getCoords(), "There are " + neededEntities.size() + " entities specified in an index access or name map access of "
-						+ entity.getIdent() + " (only one is allowed).");
+		if(neededEntities.Count == 1)
+			return neededEntities.GetEnumerator().Next();
+		else if(neededEntities.Count > 1)
+		{
+			error.Error(entity.Ident.GetCoords(), "There are " + neededEntities.Count + " entities specified in an index access or name map access of "
+						+ entity.Ident + " (only one is allowed).");
 		}
 		return null;
 	}
+}
+
 }

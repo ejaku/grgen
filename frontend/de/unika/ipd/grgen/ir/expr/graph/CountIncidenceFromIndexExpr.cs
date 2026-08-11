@@ -1,47 +1,54 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr.graph;
-
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
-import de.unika.ipd.grgen.ir.type.basic.IntType;
-
-public class CountIncidenceFromIndexExpr extends Expression
+namespace de.unika.ipd.grgen.ir.expr.graph
 {
-	IncidenceCountIndex index;
-	Expression keyExpr;
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using IncidenceCountIndex = de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
+using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+
+public class CountIncidenceFromIndexExpr : Expression
+{
+	internal IncidenceCountIndex index;
+	internal Expression keyExpr;
 
 	public CountIncidenceFromIndexExpr(IncidenceCountIndex target, Expression keyExpr)
+		: base("count incidence from index access expression", IntType.Type)
 	{
-		super("count incidence from index access expression", IntType.getType());
 		this.index = target;
 		this.keyExpr = keyExpr;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.add(this);
-		keyExpr.collectNeededEntities(needs);
+		needs.Add(this);
+		keyExpr.CollectNeededEntities(needs);
 	}
 
-	public IncidenceCountIndex getIndex()
+	public virtual IncidenceCountIndex Index
 	{
+		get
+		{
 		return index;
+		}
 	}
 
-	public Expression getKeyExpr()
+	public virtual Expression KeyExpr
 	{
+		get
+		{
 		return keyExpr;
+		}
 	}
+}
+
 }

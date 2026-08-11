@@ -1,186 +1,204 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
-
-import java.util.HashMap;
-
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.parser.Scope;
-import de.unika.ipd.grgen.parser.Symbol;
-import de.unika.ipd.grgen.parser.SymbolTable;
-import de.unika.ipd.grgen.util.Annotated;
-import de.unika.ipd.grgen.util.Annotations;
-import de.unika.ipd.grgen.util.EmptyAnnotations;
-
-/**
- * A class representing an identifier.
- */
-public class Ident extends IR implements Comparable<Ident>, Annotated
+namespace de.unika.ipd.grgen.ir
 {
-	/** Symbol table recording all identifiers. */
-	private static HashMap<String, Ident> identifiers = new HashMap<String, Ident>();
 
-	/** Text of the identifier */
-	private final String text;
+using System;
+using System.Collections.Generic;
 
-	private final SymbolTable symTab;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+using Scope = de.unika.ipd.grgen.parser.Scope;
+using Symbol = de.unika.ipd.grgen.parser.Symbol;
+using SymbolTable = de.unika.ipd.grgen.parser.SymbolTable;
+using Annotated = de.unika.ipd.grgen.util.Annotated;
+using Annotations = de.unika.ipd.grgen.util.Annotations;
+using EmptyAnnotations = de.unika.ipd.grgen.util.EmptyAnnotations;
 
-	private final Scope scope;
+/// <summary>
+/// A class representing an identifier.
+/// </summary>
+public class Ident : IR, IComparable<Ident>, Annotated
+{
+	/// <summary>
+	/// Symbol table recording all identifiers. </summary>
+	private static Dictionary<string, Ident> identifiers = new Dictionary<string, Ident>();
 
-	/** The scope/namespace the identifier was defined in. */
+	/// <summary>
+	/// Text of the identifier </summary>
+	private readonly string text;
+
+	private readonly SymbolTable symTab;
+
+	private readonly Scope scope;
+
+	/// <summary>
+	/// The scope/namespace the identifier was defined in. </summary>
 	//private final String scope;
 
-	/** location of the definition of the identifier */
-	private final Coords def;
+	/// <summary>
+	/// location of the definition of the identifier </summary>
+	private readonly Coords def;
 
-	/** The annotations for the identifier. */
-	private final Annotations annots;
+	/// <summary>
+	/// The annotations for the identifier. </summary>
+	private readonly Annotations annots;
 
-	/** A precomputed hash code. */
-	private final int precomputedHashCode;
+	/// <summary>
+	/// A precomputed hash code. </summary>
+	private readonly int precomputedHashCode;
 
-	/**
-	 * New Identifier.
-	 * @param text The text of the identifier.
-	 * @param scope The scope/namespace of the identifier.
-	 * @param def The location of the definition of the identifier.
-	 * @param annots The annotations of this identifier
-	 * (Each identifier can carry several annotations which serve as meta information usable by backend components).
-	 */
-	private Ident(String text, SymbolTable symTab, Scope scope, Coords def, Annotations annots)
+	/// <summary>
+	/// New Identifier. </summary>
+	/// <param name="text"> The text of the identifier. </param>
+	/// <param name="scope"> The scope/namespace of the identifier. </param>
+	/// <param name="def"> The location of the definition of the identifier. </param>
+	/// <param name="annots"> The annotations of this identifier
+	/// (Each identifier can carry several annotations which serve as meta information usable by backend components). </param>
+	private Ident(string text, SymbolTable symTab, Scope scope, Coords def, Annotations annots)
+		: base("ident")
 	{
-		super("ident");
 		this.text = text;
 		this.scope = scope;
 		this.symTab = symTab;
 		this.def = def;
 		this.annots = annots;
-		this.precomputedHashCode = (symTab.getName() + ":" + text).hashCode();
+		this.precomputedHashCode = (symTab.Name + ":" + text).GetHashCode();
 	}
 
-	/**
-	 * New Identifier.
-	 * @param text The text of the identifier.
-	 * @param def The location of the definition of the identifier.
-	 */
-	private Ident(String text, Coords def, Annotations annots)
+	/// <summary>
+	/// New Identifier. </summary>
+	/// <param name="text"> The text of the identifier. </param>
+	/// <param name="def"> The location of the definition of the identifier. </param>
+	private Ident(string text, Coords def, Annotations annots)
+		: this(text, SymbolTable.Invalid, Scope.Invalid, def, annots)
 	{
-		this(text, SymbolTable.getInvalid(), Scope.getInvalid(), def, annots);
 	}
-	
+
 	// for internal code generation (in contrast to parsing/buildup from AST)
-	public Ident(String text, Coords def)
+	public Ident(string text, Coords def)
+		: this(text, def, EmptyAnnotations.Get())
 	{
-		this(text, def, EmptyAnnotations.get());
 	}
 
-	/** The string of an identifier is its text.
-	 *  @see java.lang.Object#toString() */
-	@Override
-	public String toString()
+	/// <summary>
+	/// The string of an identifier is its text. </summary>
+	///  <seealso cref="java.lang.Object.toString() "/>
+	public override string ToString()
 	{
 		return text;
 	}
 
-	/** @return The location where the identifier was defined. */
-	public Coords getCoords()
+	/// <returns> The location where the identifier was defined. </returns>
+	public virtual Coords Coords
 	{
+		get
+		{
 		return def;
+		}
 	}
 
-	/**
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 * Two identifiers are equal, if they have the same names and the same location of definition.
-	 */
-	@Override
-	public boolean equals(Object obj)
+	/// <seealso cref="java.lang.Object.equals(java.lang.Object)"
+	/// Two identifiers are equal, if they have the same names and the same location of definition./>
+	public override bool Equals(object obj)
 	{
-		boolean res = false;
-		if(obj instanceof Ident) {
+		bool res = false;
+		if(obj is Ident)
+		{
 			Ident id = (Ident)obj;
-			res = text.equals(id.text) && scope.equals(id.scope);
+			res = text.Equals(id.text) && scope.Equals(id.scope);
 		}
 		return res;
 	}
 
-	/**
-	 * Identifier factory.
-	 * Use this to get a new Identifier using a string and a location
-	 * @param text The text of the identifier.
-	 * @param scope The scope/namespace the identifier was defined in.
-	 * @param loc The location of the identifier.
-	 * @param annots The annotations of this identifier.
-	 * @return The IR identifier object for the desired identifier.
-	 */
-	public static Ident get(String text, Symbol.Definition def, Annotations annots)
+	/// <summary>
+	/// Identifier factory.
+	/// Use this to get a new Identifier using a string and a location </summary>
+	/// <param name="text"> The text of the identifier. </param>
+	/// <param name="scope"> The scope/namespace the identifier was defined in. </param>
+	/// <param name="loc"> The location of the identifier. </param>
+	/// <param name="annots"> The annotations of this identifier. </param>
+	/// <returns> The IR identifier object for the desired identifier. </returns>
+	public static Ident Get(string text, Symbol.Definition def, Annotations annots)
 	{
-		Coords loc = def.getCoords();
-		String key = text + "#" + loc.toString();
+		Coords loc = def.Coords;
+		string key = text + "#" + loc.ToString();
 		Ident res;
 
-		if(identifiers.containsKey(key)) {
-			res = identifiers.get(key);
-		} else {
-			res = new Ident(text, def.getSymbol().getSymbolTable(), def.getScope(), loc, annots);
-			identifiers.put(key, res);
+		if(identifiers.ContainsKey(key))
+			res = identifiers[key];
+		else
+		{
+			res = new Ident(text, def.Symbol.GetSymbolTable(), def.Scope, loc, annots);
+			identifiers[key] = res;
 		}
 		return res;
 	}
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo() */
-	@Override
-	public String getNodeInfo()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeInfo() "/>
+	public override string NodeInfo
 	{
-		return super.getNodeInfo() + "\nCoords: " + def + "\nScope: " + scope.getPath();
+		get
+		{
+		return base.NodeInfo + "\nCoords: " + def + "\nScope: " + scope.Path;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
-	@Override
-	public String getNodeLabel()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel() "/>
+	public override string NodeLabel
 	{
-		return getName() + " " + text;
+		get
+		{
+		return Name + " " + text;
+		}
 	}
 
-	/**
-	 * Compare an identifier to another.
-	 * @param obj The other identifier.
-	 * @return -1, 0, 1, respectively.
-	 */
-	@Override
-	public int compareTo(Ident id)
+	/// <summary>
+	/// Compare an identifier to another. </summary>
+	/// <param name="obj"> The other identifier. </param>
+	/// <returns> -1, 0, 1, respectively. </returns>
+	public virtual int CompareTo(Ident id)
 	{
-		return toString().compareTo(id.toString());
+		return string.CompareOrdinal(ToString(), id.ToString());
 	}
 
-	@Override
-	public int hashCode()
+	public override int GetHashCode()
 	{
 		return precomputedHashCode;
 	}
 
-	public Scope getScope()
+	public virtual Scope Scope
 	{
+		get
+		{
 		return scope;
+		}
 	}
 
-	public SymbolTable getSymbolTable()
+	public virtual SymbolTable SymbolTable
 	{
+		get
+		{
 		return symTab;
+		}
 	}
 
-	/** @return The annotations. */
-	@Override
-	public Annotations getAnnotations()
+	/// <returns> The annotations. </returns>
+	public virtual Annotations Annotations
 	{
+		get
+		{
 		return annots;
+		}
 	}
+}
+
 }

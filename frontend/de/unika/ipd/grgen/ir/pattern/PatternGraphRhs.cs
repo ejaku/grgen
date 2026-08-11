@@ -1,107 +1,123 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.pattern;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
-
-/**
- * A pattern graph rhs is a graph pattern as it occurs on the right hand side of rules.
- * It extends the pattern graph base class, additionally offering explicitly deleted information, 
- * ordered replacements (eval statements), rhs imperative statements, and further things.
- */
-public class PatternGraphRhs extends PatternGraphBase
+namespace de.unika.ipd.grgen.ir.pattern
 {
-	/** A set of the graph elements clearly deleted (in contrast to not mentioned ones) 
-	 * This means explicitly deleted, or for edges deleted because their source/target node is explicitly deleted*/
-	private final HashSet<GraphEntity> deletedElements = new HashSet<GraphEntity>();
 
-	/** A list of the replacement parameters */
-	private final ArrayList<Entity> replParams = new ArrayList<Entity>();
+using System.Collections.Generic;
 
-	private ArrayList<OrderedReplacements> orderedReplacements = new ArrayList<OrderedReplacements>();
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using ImperativeStmt = de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 
-	private ArrayList<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
+/// <summary>
+/// A pattern graph rhs is a graph pattern as it occurs on the right hand side of rules.
+/// It extends the pattern graph base class, additionally offering explicitly deleted information, 
+/// ordered replacements (eval statements), rhs imperative statements, and further things.
+/// </summary>
+public class PatternGraphRhs : PatternGraphBase
+{
+	/// <summary>
+	/// A set of the graph elements clearly deleted (in contrast to not mentioned ones) 
+	/// This means explicitly deleted, or for edges deleted because their source/target node is explicitly deleted
+	/// </summary>
+	private readonly HashSet<GraphEntity> deletedElements = new HashSet<GraphEntity>();
 
-	/** Make a new pattern graph. */
-	public PatternGraphRhs(String nameOfGraph)
+	/// <summary>
+	/// A list of the replacement parameters </summary>
+	private readonly List<Entity> replParams = new List<Entity>();
+
+	private List<OrderedReplacements> orderedReplacements = new List<OrderedReplacements>();
+
+	private List<ImperativeStmt> imperativeStmts = new List<ImperativeStmt>();
+
+	/// <summary>
+	/// Make a new pattern graph. </summary>
+	public PatternGraphRhs(string nameOfGraph)
+		: base(nameOfGraph)
 	{
-		super(nameOfGraph);
 	}
 
-	/** Make a new pattern graph with preset nodes, edges, subpatternUsages (copy from another pattern graph). */
-	public PatternGraphRhs(String nameOfGraph,
-			Map<Node, PatternGraphBase.GraphNode> nodes,
-			Map<Edge, PatternGraphBase.GraphEdge> edges,
-			Set<SubpatternUsage> subpatternUsages)
+	/// <summary>
+	/// Make a new pattern graph with preset nodes, edges, subpatternUsages (copy from another pattern graph). </summary>
+	public PatternGraphRhs(string nameOfGraph,
+			IDictionary<Node, PatternGraphBase.GraphNode> nodes,
+			IDictionary<Edge, PatternGraphBase.GraphEdge> edges,
+			ISet<SubpatternUsage> subpatternUsages)
+		: base(nameOfGraph, nodes, edges, subpatternUsages)
 	{
-		super(nameOfGraph, nodes, edges, subpatternUsages);
 	}
 
-	public void addDeletedElement(GraphEntity entity)
+	public virtual void AddDeletedElement(GraphEntity entity)
 	{
-		deletedElements.add(entity);
+		deletedElements.Add(entity);
 	}
 
-	public HashSet<GraphEntity> getDeletedElements()
+	public virtual HashSet<GraphEntity> DeletedElements
 	{
+		get
+		{
 		return deletedElements;
+		}
 	}
 
-	/** Add a replacement parameter to the rule. */
-	public void addReplParameter(Entity entity)
+	/// <summary>
+	/// Add a replacement parameter to the rule. </summary>
+	public virtual void AddReplParameter(Entity entity)
 	{
-		replParams.add(entity);
+		replParams.Add(entity);
 	}
 
-	/** Get all replacement parameters of this rule (may currently contain only nodes). */
-	public List<Entity> getReplParameters()
+	/// <summary>
+	/// Get all replacement parameters of this rule (may currently contain only nodes). </summary>
+	public virtual IList<Entity> ReplParameters
 	{
-		return Collections.unmodifiableList(replParams);
+		get
+		{
+		return replParams.AsReadOnly();
+		}
 	}
 
-	public boolean replParametersContain(Entity entity)
+	public virtual bool ReplParametersContain(Entity entity)
 	{
-		return replParams.contains(entity);
+		return replParams.Contains(entity);
 	}
 
-	/**
-	 * Get a read-only collection containing all ordered replacements
-	 * (subpattern dependent replacement, emit here) in this graph.
-	 * @return A collection containing all ordered replacements in this graph.
-	 * Note: The collection is read-only and may not be modified.
-	 */
-	public Collection<OrderedReplacements> getOrderedReplacements()
+	/// <summary>
+	/// Get a read-only collection containing all ordered replacements
+	/// (subpattern dependent replacement, emit here) in this graph. </summary>
+	/// <returns> A collection containing all ordered replacements in this graph.
+	/// Note: The collection is read-only and may not be modified. </returns>
+	public virtual ICollection<OrderedReplacements> OrderedReplacements
 	{
-		return Collections.unmodifiableList(orderedReplacements);
+		get
+		{
+		return orderedReplacements.AsReadOnly();
+		}
 	}
 
-	/** Add a ordered replacement (subpattern dependent replacement, emit here) to the pattern graph */
-	public void addOrderedReplacement(OrderedReplacements orderedRepl)
+	/// <summary>
+	/// Add a ordered replacement (subpattern dependent replacement, emit here) to the pattern graph </summary>
+	public virtual void AddOrderedReplacement(OrderedReplacements orderedRepl)
 	{
-		orderedReplacements.add(orderedRepl);
+		orderedReplacements.Add(orderedRepl);
 	}
 
-	public void addImperativeStmt(ImperativeStmt emit)
+	public virtual void AddImperativeStmt(ImperativeStmt emit)
 	{
-		imperativeStmts.add(emit);
+		imperativeStmts.Add(emit);
 	}
 
-	public Collection<ImperativeStmt> getImperativeStmts()
+	public virtual ICollection<ImperativeStmt> ImperativeStmts
 	{
-		return Collections.unmodifiableList(imperativeStmts);
+		get
+		{
+		return imperativeStmts.AsReadOnly();
+		}
 	}
+}
+
 }

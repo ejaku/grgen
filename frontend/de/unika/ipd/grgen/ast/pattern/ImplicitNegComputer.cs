@@ -1,252 +1,267 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * ImplicitNegComputer.java
- *
- * @author Sebastian Buchwald, Edgar Jakumeit
- */
+/// <summary>
+/// ImplicitNegComputer.java
+/// 
+/// @author Sebastian Buchwald, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.pattern;
+namespace de.unika.ipd.grgen.ast.pattern
+{
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+using ConstraintDeclNode = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 
-/**
- * Class computing the implicit negative application conditions
- * that are used to implement the exact and dpo (dangling+identification) modifiers
- */
+/// <summary>
+/// Class computing the implicit negative application conditions
+/// that are used to implement the exact and dpo (dangling+identification) modifiers
+/// </summary>
 public class ImplicitNegComputer
 {
-	/** the pattern graph for which the implicit negatives are to be computed */
-	PatternGraphLhsNode patternGraph;
-	
-	/** All nodes that need a single node NAC. */
-	private Set<NodeDeclNode> nodesRequiringNeg =
+	/// <summary>
+	/// the pattern graph for which the implicit negatives are to be computed </summary>
+	internal PatternGraphLhsNode patternGraph;
+
+	/// <summary>
+	/// All nodes that need a single node NAC. </summary>
+	private ISet<NodeDeclNode> nodesRequiringNeg =
 		new LinkedHashSet<NodeDeclNode>();
 
-	/** Map a homomorphic set to a set of edges (of the NAC). */
-	private Map<Set<NodeDeclNode>, Set<ConnectionNode>> homNodesToEdges =
-		new LinkedHashMap<Set<NodeDeclNode>, Set<ConnectionNode>>();
+	/// <summary>
+	/// Map a homomorphic set to a set of edges (of the NAC). </summary>
+	private IDictionary<ISet<NodeDeclNode>, ISet<ConnectionNode>> homNodesToEdges =
+		new LinkedHashMap<ISet<NodeDeclNode>, ISet<ConnectionNode>>();
 
 	// counts number of implicit single node negative patterns
 	// created from pattern modifiers, in order to get unique negative names
-	int implicitNegCounter = 0;
+	internal int implicitNegCounter = 0;
 
-	
+
 	public ImplicitNegComputer(PatternGraphLhsNode patternGraph)
 	{
 		this.patternGraph = patternGraph;
-		
-		if(patternGraph.isExact()) {
-			nodesRequireNeg(patternGraph.getNodes());
 
-			if(patternGraph.isDangling() && !patternGraph.isIdentification()) {
-				patternGraph.reportWarning("The keyword \"dangling\" is redundant for exact patterns");
-			}
+		if(patternGraph.IsExact())
+		{
+			NodesRequireNeg(patternGraph.Nodes);
 
-			for(ExactNode exact : patternGraph.exacts.getChildrenExact()) {
-				exact.reportWarning("Exact statement occurs in exact pattern");
-			}
+			if(patternGraph.IsDangling() && !patternGraph.IsIdentification())
+				patternGraph.ReportWarning("The keyword \"dangling\" is redundant for exact patterns");
+
+			foreach(ExactNode exact in patternGraph.exacts.ChildrenExact)
+				exact.ReportWarning("Exact statement occurs in exact pattern");
 
 			return;
 		}
 
-		if(patternGraph.isDangling()) {
-			Set<ConstraintDeclNode> deletedNodes = patternGraph.getRule().getDeletedElements();
-			nodesRequireNeg(getDpoPatternNodes(deletedNodes));
+		if(patternGraph.IsDangling())
+		{
+			ISet<ConstraintDeclNode> deletedNodes = patternGraph.Rule.DeletedElements;
+			NodesRequireNeg(GetDpoPatternNodes(deletedNodes));
 
-			for(ExactNode exact : patternGraph.exacts.getChildrenExact()) {
-				for(NodeDeclNode exactNode : exact.getExactNodes()) {
-					if(deletedNodes.contains(exactNode)) {
-						exact.reportWarning("Exact statement for " + exactNode.getKind() + " "
-								+ exactNode.getIdent().getSymbol().getText()
+			foreach(ExactNode exact in patternGraph.exacts.ChildrenExact)
+			{
+				foreach(NodeDeclNode exactNode in exact.ExactNodes)
+				{
+					if(deletedNodes.Contains(exactNode))
+						exact.ReportWarning("Exact statement for " + exactNode.Kind + " "
+								+ exactNode.Ident.Symbol.Text
 								+ " is redundant, since the pattern is declared \"dangling\" or \"dpo\"");
-					}
 				}
 			}
 		}
 
-		Map<NodeDeclNode, Integer> generatedExactNodes = new LinkedHashMap<NodeDeclNode, Integer>();
-		for(int i = 0; i < patternGraph.exacts.getChildrenExact().size(); i++) { // exact Statements
-			ExactNode exact = patternGraph.exacts.get(i);
-			for(NodeDeclNode exactNode : exact.getExactNodes()) {
+		IDictionary<NodeDeclNode, int> generatedExactNodes = new LinkedHashMap<NodeDeclNode, int>();
+		for(int i = 0; i < patternGraph.exacts.ChildrenExact.Count; i++)
+		{ // exact Statements
+			ExactNode exact = patternGraph.exacts.Get(i);
+			foreach(NodeDeclNode exactNode in exact.ExactNodes)
+			{
 				// coords of occurrence are not available
-				if(generatedExactNodes.containsKey(exactNode)) {
-					exact.reportWarning(exactNode.getKind() + " "
-							+ exactNode.getIdent().getSymbol().getText()
+				if(generatedExactNodes.ContainsKey(exactNode))
+				{
+					exact.ReportWarning(exactNode.Kind + " "
+							+ exactNode.Ident.Symbol.Text
 							+ " already occurs in exact statement at "
-							+ patternGraph.exacts.get(generatedExactNodes.get(exactNode).intValue()).getCoords());
-				} else {
-					generatedExactNodes.put(exactNode, Integer.valueOf(i));
+							+ patternGraph.exacts.Get(generatedExactNodes[exactNode]).GetCoords());
 				}
+				else
+					generatedExactNodes[exactNode] = Convert.ToInt32(i);
 			}
 		}
 
-		nodesRequireNeg(generatedExactNodes.keySet());
+		NodesRequireNeg(generatedExactNodes.Keys);
 	}
 
-	private void nodesRequireNeg(Collection<NodeDeclNode> nodes)
+	private void NodesRequireNeg(ICollection<NodeDeclNode> nodes)
 	{
-		for(NodeDeclNode node : nodes) {
-			if(node.isDummy())
+		foreach(NodeDeclNode node in nodes)
+		{
+			if(node.IsDummy())
 				continue;
 
-			nodesRequiringNeg.add(node);
-			Set<NodeDeclNode> homSet = patternGraph.getHomomorphic(node);
-			if(!homNodesToEdges.containsKey(homSet)) {
-				Set<ConnectionNode> edgeSet = new HashSet<ConnectionNode>();
-				homNodesToEdges.put(homSet, edgeSet);
+			nodesRequiringNeg.Add(node);
+			ISet<NodeDeclNode> homSet = patternGraph.GetHomomorphic(node);
+			if(!homNodesToEdges.ContainsKey(homSet))
+			{
+				ISet<ConnectionNode> edgeSet = new HashSet<ConnectionNode>();
+				homNodesToEdges[homSet] = edgeSet;
 			}
 		}
 	}
 
-	/**
-	 * Return the set of nodes needed for the singleNodeNegMap if the whole pattern is dpo.
-	 */
-	private static Set<NodeDeclNode> getDpoPatternNodes(Set<ConstraintDeclNode> deletedEntities)
+	/// <summary>
+	/// Return the set of nodes needed for the singleNodeNegMap if the whole pattern is dpo.
+	/// </summary>
+	private static ISet<NodeDeclNode> GetDpoPatternNodes(ISet<ConstraintDeclNode> deletedEntities)
 	{
-		Set<NodeDeclNode> deletedNodes = new LinkedHashSet<NodeDeclNode>();
+		ISet<NodeDeclNode> deletedNodes = new LinkedHashSet<NodeDeclNode>();
 
-		for(DeclNode declNode : deletedEntities) {
-			if(declNode instanceof NodeDeclNode) {
+		foreach(DeclNode declNode in deletedEntities)
+		{
+			if(declNode is NodeDeclNode)
+			{
 				NodeDeclNode node = (NodeDeclNode)declNode;
-				if(!node.isDummy()) {
-					deletedNodes.add(node);
-				}
+				if(!node.IsDummy())
+					deletedNodes.Add(node);
 			}
 		}
 
 		return deletedNodes;
 	}
-	
-	/**
-	 * Get all implicit NACs.
-	 * @return The Collection for the NACs.
-	 */
-	public List<PatternGraphLhs> getImplicitNegGraphs()
-	{
-		assert patternGraph.isResolved();
 
-		List<PatternGraphLhs> implicitNegGraphs = new ArrayList<PatternGraphLhs>();
+	/// <summary>
+	/// Get all implicit NACs. </summary>
+	/// <returns> The Collection for the NACs. </returns>
+	public virtual IList<PatternGraphLhs> ImplicitNegGraphs
+	{
+		get
+		{
+		Debug.Assert(patternGraph.IsResolved());
+
+		IList<PatternGraphLhs> implicitNegGraphs = new List<PatternGraphLhs>();
 
 		// add existing edges to the corresponding sets
-		for(ConnectionCharacter connection : patternGraph.connections.getChildrenExact()) {
-			if(!(connection instanceof ConnectionNode))
+		foreach(ConnectionCharacter connection in patternGraph.connections.ChildrenExact)
+		{
+			if(!(connection is ConnectionNode))
 				continue;
-			
+
 			ConnectionNode cn = (ConnectionNode)connection;
-			NodeDeclNode src = cn.getSrc();
-			if(nodesRequiringNeg.contains(src)) {
-				Set<NodeDeclNode> homSet = patternGraph.getHomomorphic(src);
-				Set<ConnectionNode> edges = homNodesToEdges.get(homSet);
-				edges.add(cn);
-				homNodesToEdges.put(homSet, edges);
+			NodeDeclNode src = cn.Src;
+			if(nodesRequiringNeg.Contains(src))
+			{
+				ISet<NodeDeclNode> homSet = patternGraph.GetHomomorphic(src);
+				ISet<ConnectionNode> edges = homNodesToEdges[homSet];
+				edges.Add(cn);
+				homNodesToEdges[homSet] = edges;
 			}
-			NodeDeclNode tgt = cn.getTgt();
-			if(nodesRequiringNeg.contains(tgt)) {
-				Set<NodeDeclNode> homSet = patternGraph.getHomomorphic(tgt);
-				Set<ConnectionNode> edges = homNodesToEdges.get(homSet);
-				edges.add(cn);
-				homNodesToEdges.put(homSet, edges);
+			NodeDeclNode tgt = cn.Tgt;
+			if(nodesRequiringNeg.Contains(tgt))
+			{
+				ISet<NodeDeclNode> homSet = patternGraph.GetHomomorphic(tgt);
+				ISet<ConnectionNode> edges = homNodesToEdges[homSet];
+				edges.Add(cn);
+				homNodesToEdges[homSet] = edges;
 			}
 		}
 
-		TypeDeclNode edgeRoot = patternGraph.getArbitraryEdgeRootTypeDecl();
-		TypeDeclNode nodeRoot = patternGraph.getNodeRootTypeDecl();
+		TypeDeclNode edgeRoot = patternGraph.ArbitraryEdgeRootTypeDecl;
+		TypeDeclNode nodeRoot = patternGraph.NodeRootTypeDecl;
 
 		// generate and add pattern graphs
-		for(NodeDeclNode nodeRequiringNeg : nodesRequiringNeg) {
+		foreach(NodeDeclNode nodeRequiringNeg in nodesRequiringNeg)
+		{
 			//for (int direction = INCOMING; direction <= OUTGOING; direction++) {
-			Set<ConnectionNode> edgeSet = homNodesToEdges.get(patternGraph.getHomomorphic(nodeRequiringNeg));
-			
+			ISet<ConnectionNode> edgeSet = homNodesToEdges[patternGraph.GetHomomorphic(nodeRequiringNeg)];
+
 			PatternGraphLhs neg = new PatternGraphLhs("implneg_" + implicitNegCounter, 0);
 			++implicitNegCounter;
-			neg.setDirectlyNestingLHSGraph(neg);
+			neg.DirectlyNestingLHSGraph = neg;
 
 			// add edges to NAC
-			Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
-			Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
-			for(ConnectionNode connEdge : edgeSet) {
-				connEdge.addToGraph(neg);
+			ISet<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
+			ISet<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
+			foreach(ConnectionNode connEdge in edgeSet)
+			{
+				connEdge.AddToGraph(neg);
 
-				allNegEdges.add(connEdge.getEdge());
-				allNegNodes.add(connEdge.getSrc());
-				allNegNodes.add(connEdge.getTgt());
+				allNegEdges.Add(connEdge.Edge);
+				allNegNodes.Add(connEdge.Src);
+				allNegNodes.Add(connEdge.Tgt);
 			}
 
-			addInheritedHomSet(neg, allNegEdges, allNegNodes);
+			AddInheritedHomSet(neg, allNegEdges, allNegNodes);
 
 			// add another edge of type edgeRoot to the NAC
-			EdgeDeclNode edge = patternGraph.getAnonymousEdgeDecl(edgeRoot, patternGraph.context);
-			NodeDeclNode dummyNode = patternGraph.getAnonymousDummyNode(nodeRoot, patternGraph.context);
+			EdgeDeclNode edge = patternGraph.GetAnonymousEdgeDecl(edgeRoot, patternGraph.context);
+			NodeDeclNode dummyNode = patternGraph.GetAnonymousDummyNode(nodeRoot, patternGraph.context);
 
 			ConnectionNode conn = new ConnectionNode(nodeRequiringNeg, edge, dummyNode,
 					ConnectionKind.ARBITRARY, patternGraph);
-			conn.addToGraph(neg);
+			conn.AddToGraph(neg);
 
-			implicitNegGraphs.add(neg);
+			implicitNegGraphs.Add(neg);
 			//}
 		}
-		
+
 		return implicitNegGraphs;
+		}
 	}
 
-	/**
-	 * Add all necessary homomorphic sets to a NAC.
-	 *
-	 * If an edge a-e->b is homomorphic to another edge c-f->d f only added if
-	 * a is homomorphic to c and b is homomorphic to d.
-	 */
-	private void addInheritedHomSet(PatternGraphLhs neg, Set<EdgeDeclNode> allNegEdges, Set<NodeDeclNode> allNegNodes)
+	/// <summary>
+	/// Add all necessary homomorphic sets to a NAC.
+	/// 
+	/// If an edge a-e->b is homomorphic to another edge c-f->d f only added if
+	/// a is homomorphic to c and b is homomorphic to d.
+	/// </summary>
+	private void AddInheritedHomSet(PatternGraphLhs neg, ISet<EdgeDeclNode> allNegEdges, ISet<NodeDeclNode> allNegNodes)
 	{
 		// inherit homomorphic nodes
-		for(NodeDeclNode node : allNegNodes) {
-			Set<Node> homSet = new LinkedHashSet<Node>();
-			Set<NodeDeclNode> homNodes = patternGraph.getHomomorphic(node);
+		foreach(NodeDeclNode node in allNegNodes)
+		{
+			ISet<Node> homSet = new LinkedHashSet<Node>();
+			ISet<NodeDeclNode> homNodes = patternGraph.GetHomomorphic(node);
 
-			for(NodeDeclNode homNode : homNodes) {
-				if(allNegNodes.contains(homNode)) {
-					homSet.add(homNode.checkIR(Node.class));
-				}
+			foreach(NodeDeclNode homNode in homNodes)
+			{
+				if(allNegNodes.Contains(homNode))
+					homSet.Add(homNode.CheckIR(typeof(Node)));
 			}
-			if(homSet.size() > 1) {
-				neg.addHomomorphicNodes(homSet);
-			}
+			if(homSet.Count > 1)
+				neg.AddHomomorphicNodes(homSet);
 		}
 
 		// inherit homomorphic edges
-		for(EdgeDeclNode edge : allNegEdges) {
-			Set<Edge> homSet = new LinkedHashSet<Edge>();
-			Set<EdgeDeclNode> homEdges = patternGraph.getHomomorphic(edge);
+		foreach(EdgeDeclNode edge in allNegEdges)
+		{
+			ISet<Edge> homSet = new LinkedHashSet<Edge>();
+			ISet<EdgeDeclNode> homEdges = patternGraph.GetHomomorphic(edge);
 
-			for(EdgeDeclNode homEdge : homEdges) {
-				if(allNegEdges.contains(homEdge)) {
-					homSet.add(homEdge.checkIR(Edge.class));
-				}
+			foreach(EdgeDeclNode homEdge in homEdges)
+			{
+				if(allNegEdges.Contains(homEdge))
+					homSet.Add(homEdge.CheckIR(typeof(Edge)));
 			}
-			if(homSet.size() > 1) {
-				neg.addHomomorphicEdges(homSet);
-			}
+			if(homSet.Count > 1)
+				neg.AddHomomorphicEdges(homSet);
 		}
-	}	
+	}
+}
+
 }

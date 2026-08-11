@@ -1,138 +1,157 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl;
-
-import java.awt.Color;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.DeclaredCharacter;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.model.type.ArbitraryEdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.DirectedEdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.Entity;
-
-/**
- * Base class for all AST nodes representing declarations.
- * children: IDENT:IdentNode TYPE:
- */
-public abstract class DeclNode extends BaseNode implements DeclaredCharacter
+namespace de.unika.ipd.grgen.ast.decl
 {
-	static {
-		setClassName(DeclNode.class, "declaration");
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using DeclaredCharacter = de.unika.ipd.grgen.ast.DeclaredCharacter;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using ArbitraryEdgeTypeNode = de.unika.ipd.grgen.ast.model.type.ArbitraryEdgeTypeNode;
+using DirectedEdgeTypeNode = de.unika.ipd.grgen.ast.model.type.DirectedEdgeTypeNode;
+using UndirectedEdgeTypeNode = de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+
+/// <summary>
+/// Base class for all AST nodes representing declarations.
+/// children: IDENT:IdentNode TYPE:
+/// </summary>
+public abstract class DeclNode : BaseNode, DeclaredCharacter
+{
+	static DeclNode()
+	{
+		SetClassName(typeof(DeclNode), "declaration");
 	}
 
 	public IdentNode ident;
 
 	public BaseNode typeUnresolved;
 
-	/** An invalid declaration. */
-	private static final DeclNode invalidDecl = new InvalidDeclNode(IdentNode.getInvalid());
+	/// <summary>
+	/// An invalid declaration. </summary>
+	private static readonly DeclNode invalidDecl = new InvalidDeclNode(IdentNode.Invalid);
 
-	/** Get an invalid declaration. */
-	public static final DeclNode getInvalid()
+	/// <summary>
+	/// Get an invalid declaration. </summary>
+	public static DeclNode Invalid
 	{
+		get
+		{
 		return invalidDecl;
+		}
 	}
 
-	/** Get an invalid declaration for an IdentNode. */
-	public static final DeclNode getInvalid(IdentNode id)
+	/// <summary>
+	/// Get an invalid declaration for an IdentNode. </summary>
+	public static DeclNode GetInvalid(IdentNode id)
 	{
 		return new InvalidDeclNode(id);
 	}
 
-	/**
-	 * Create a new declaration node
-	 * @param n The identifier that is declared
-	 * @param t The type with which it is declared
-	 */
-	protected DeclNode(IdentNode n, BaseNode t)
+	/// <summary>
+	/// Create a new declaration node </summary>
+	/// <param name="n"> The identifier that is declared </param>
+	/// <param name="t"> The type with which it is declared </param>
+	protected internal DeclNode(IdentNode n, BaseNode t)
+		: base(n.Coords)
 	{
-		super(n.getCoords());
-		n.setDecl(this);
+		n.Decl = this;
 		this.ident = n;
-		becomeParent(this.ident);
+		BecomeParent(this.ident);
 		this.typeUnresolved = t;
-		becomeParent(this.typeUnresolved);
+		BecomeParent(this.typeUnresolved);
 	}
 
-	/** @return The ident node of the declaration */
-	public IdentNode getIdent()
+	/// <returns> The ident node of the declaration </returns>
+	public virtual IdentNode Ident
 	{
+		get
+		{
 		return ident;
+		}
 	}
 
-	/** @return The type node of the declaration */
-	public abstract TypeNode getDeclType();
+	/// <returns> The type node of the declaration </returns>
+	public abstract TypeNode DeclType {get;}
 
-	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
-	@Override
-	public DeclNode getDecl()
+	/// <seealso cref="de.unika.ipd.grgen.ast.DeclaredCharacter.getDecl() "/>
+	public virtual DeclNode Decl
 	{
+		get
+		{
 		return this;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeColor() */
-	@Override
-	public Color getNodeColor()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpableNode.getNodeColor() "/>
+	public override Color NodeColor
 	{
+		get
+		{
 		return Color.BLUE;
+		}
 	}
 
-	public final String emptyWhenAnonymous(String str)
+	public string EmptyWhenAnonymous(string str)
 	{
-		return getIdent().getCurrOcc().isAnonymous() ? "" : str;
+		return Ident.CurrOcc.IsAnonymous() ? "" : str;
 	}
 
-	public final String emptyWhenAnonymousPostfix(String prefix)
+	public string EmptyWhenAnonymousPostfix(string prefix)
 	{
-		return getIdent().getCurrOcc().isAnonymous() ? "" : prefix + getIdent();
+		return Ident.CurrOcc.IsAnonymous() ? "" : prefix + Ident;
 	}
 
-	public final String emptyWhenAnonymousInParenthesis(String prefix)
+	public string EmptyWhenAnonymousInParenthesis(string prefix)
 	{
-		return getIdent().getCurrOcc().isAnonymous() ? "" : prefix + "(" + getIdent() + ")";
+		return Ident.CurrOcc.IsAnonymous() ? "" : prefix + "(" + Ident + ")";
 	}
 
-	public final String dotOrArrowWhenAnonymous()
+	public string DotOrArrowWhenAnonymous()
 	{
-		if(getIdent().getCurrOcc().isAnonymous() && this instanceof EdgeDeclNode)
+		if(Ident.CurrOcc.IsAnonymous() && this is EdgeDeclNode)
 		{
 			EdgeDeclNode edge = (EdgeDeclNode)this;
-			if(edge.getDeclType() instanceof ArbitraryEdgeTypeNode)
+			if(edge.DeclType is ArbitraryEdgeTypeNode)
 				return "?--?";
-			else if(edge.getDeclType() instanceof DirectedEdgeTypeNode)
+			else if(edge.DeclType is DirectedEdgeTypeNode)
 				return "-->";
-			else if(edge.getDeclType() instanceof UndirectedEdgeTypeNode)
+			else if(edge.DeclType is UndirectedEdgeTypeNode)
 				return "--";
 		}
-		return getIdent().getCurrOcc().isAnonymous() ? "." : getIdent().toString();
+		return Ident.CurrOcc.IsAnonymous() ? "." : Ident.ToString();
 	}
 
-	public Entity getIREntity()
+	public virtual Entity IREntity
 	{
-		return checkIR(Entity.class);
+		get
+		{
+		return CheckIR(typeof(Entity));
+		}
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "declaration";
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return ident.toString();
+		return ident.ToString();
 	}
+}
+
 }

@@ -1,57 +1,63 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ir.stmt;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
-
-/**
- * Represents an assignment of procedure invocation return values statement in the IR.
- */
-public class ReturnAssignment extends EvalStatement
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ir.stmt
 {
-	ProcedureOrBuiltinProcedureInvocationBase procedureInvocation;
-	List<AssignmentBase> targets = new ArrayList<AssignmentBase>();
+
+using System.Collections.Generic;
+
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using ProcedureOrBuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
+
+/// <summary>
+/// Represents an assignment of procedure invocation return values statement in the IR.
+/// </summary>
+public class ReturnAssignment : EvalStatement
+{
+	internal ProcedureOrBuiltinProcedureInvocationBase procedureInvocation;
+	internal IList<AssignmentBase> targets = new List<AssignmentBase>();
 
 	public ReturnAssignment(ProcedureOrBuiltinProcedureInvocationBase procedureInvocation)
+		: base("return assignment")
 	{
-		super("return assignment");
 
 		this.procedureInvocation = procedureInvocation;
 	}
 
-	public void addAssignment(AssignmentBase target)
+	public virtual void AddAssignment(AssignmentBase target)
 	{
-		targets.add(target);
+		targets.Add(target);
 	}
 
-	public ProcedureOrBuiltinProcedureInvocationBase getProcedureInvocation()
+	public virtual ProcedureOrBuiltinProcedureInvocationBase ProcedureInvocation
 	{
+		get
+		{
 		return procedureInvocation;
-	}
-
-	public List<AssignmentBase> getTargets()
-	{
-		return targets;
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		for(EvalStatement target : targets) {
-			target.collectNeededEntities(needs);
 		}
-		procedureInvocation.collectNeededEntities(needs);
 	}
+
+	public virtual IList<AssignmentBase> Targets
+	{
+		get
+		{
+		return targets;
+		}
+	}
+
+	public override void CollectNeededEntities(NeededEntities needs)
+	{
+		foreach(EvalStatement target in targets)
+			target.CollectNeededEntities(needs);
+		procedureInvocation.CollectNeededEntities(needs);
+	}
+}
+
 }

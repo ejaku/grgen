@@ -1,39 +1,45 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.executable;
-
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * A procedure method.
- */
-public class ProcedureMethod extends Procedure
+namespace de.unika.ipd.grgen.ir.executable
 {
-	/** The owner of the procedure method. */
-	protected Type owner = null;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-	public ProcedureMethod(String name, Ident ident)
+/// <summary>
+/// A procedure method.
+/// </summary>
+public class ProcedureMethod : Procedure
+{
+	/// <summary>
+	/// The owner of the procedure method. </summary>
+	protected internal Type owner = null;
+
+	public ProcedureMethod(string name, Ident ident)
+		: base(name, ident)
 	{
-		super(name, ident);
 	}
 
-	public Type getOwner()
+	public virtual Type Owner
 	{
+		get
+		{
 		return owner;
+		}
+		set
+		{
+		owner = value;
+		}
 	}
 
-	public void setOwner(Type type)
-	{
-		owner = type;
-	}
+}
+
 }

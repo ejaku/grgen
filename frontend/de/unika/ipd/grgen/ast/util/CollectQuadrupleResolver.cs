@@ -1,21 +1,21 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.util;
+namespace de.unika.ipd.grgen.ast.util
+{
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using CollectBaseNode = de.unika.ipd.grgen.ast.CollectBaseNode;
+using de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectBaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-
-/**
- * A resolver, that resolves a source AST CollectNode into four target AST
- * CollectNode of type R, S, T  and U by using a given resolver.
- */
-public class CollectQuadrupleResolver<R extends BaseNode, S extends BaseNode, T extends BaseNode, U extends BaseNode>
+/// <summary>
+/// A resolver, that resolves a source AST CollectNode into four target AST
+/// CollectNode of type R, S, T  and U by using a given resolver.
+/// </summary>
+public class CollectQuadrupleResolver<R, S, T, U> where R : de.unika.ipd.grgen.ast.BaseNode where S : de.unika.ipd.grgen.ast.BaseNode where T : de.unika.ipd.grgen.ast.BaseNode where U : de.unika.ipd.grgen.ast.BaseNode
 {
 	private Resolver<Quadruple<R, S, T, U>> resolver;
 
@@ -24,49 +24,57 @@ public class CollectQuadrupleResolver<R extends BaseNode, S extends BaseNode, T 
 		this.resolver = resolver;
 	}
 
-	/**
-	 * resolves the collect node to collect nodes of type R, S, T and U via
-	 * the given resolver
-	 */
-	public Quadruple<CollectNode<R>, CollectNode<S>, CollectNode<T>, CollectNode<U>> resolve(CollectBaseNode collect)
+	/// <summary>
+	/// resolves the collect node to collect nodes of type R, S, T and U via
+	/// the given resolver
+	/// </summary>
+	public virtual Quadruple<CollectNode<R>, CollectNode<S>, CollectNode<T>, CollectNode<U>> Resolve(CollectBaseNode collect)
 	{
 		CollectNode<R> first = null;
 		CollectNode<S> second = null;
 		CollectNode<T> third = null;
 		CollectNode<U> fourth = null;
 
-		for(BaseNode child : collect.getChildren()) {
-			Quadruple<R, S, T, U> quadruple = resolver.resolve(child, collect);
-			if(quadruple == null) {
+		foreach(BaseNode child in collect.Children)
+		{
+			Quadruple<R, S, T, U> quadruple = resolver.Resolve(child, collect);
+			if(quadruple == null)
 				return null;
-			}
-			if(quadruple.first != null) {
-				if(first == null) {
+			if(quadruple.first != null)
+			{
+				if(first == null)
+				{
 					first = new CollectNode<R>();
-					first.setCoords(collect.getCoords());
+					first.Coords = collect.Coords;
 				}
-				first.addChild(quadruple.first);
+				first.AddChild(quadruple.first);
 			}
-			if(quadruple.second != null) {
-				if(second == null) {
+			if(quadruple.second != null)
+			{
+				if(second == null)
+				{
 					second = new CollectNode<S>();
-					second.setCoords(collect.getCoords());
+					second.Coords = collect.Coords;
 				}
-				second.addChild(quadruple.second);
+				second.AddChild(quadruple.second);
 			}
-			if(quadruple.third != null) {
-				if(third == null) {
+			if(quadruple.third != null)
+			{
+				if(third == null)
+				{
 					third = new CollectNode<T>();
-					third.setCoords(collect.getCoords());
+					third.Coords = collect.Coords;
 				}
-				third.addChild(quadruple.third);
+				third.AddChild(quadruple.third);
 			}
-			if(quadruple.fourth != null) {
-				if(fourth == null) {
+			if(quadruple.fourth != null)
+			{
+				if(fourth == null)
+				{
 					fourth = new CollectNode<U>();
-					fourth.setCoords(collect.getCoords());
+					fourth.Coords = collect.Coords;
 				}
-				fourth.addChild(quadruple.fourth);
+				fourth.AddChild(quadruple.fourth);
 			}
 		}
 
@@ -78,4 +86,6 @@ public class CollectQuadrupleResolver<R extends BaseNode, S extends BaseNode, T 
 
 		return res;
 	}
+}
+
 }

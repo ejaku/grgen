@@ -1,30 +1,29 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * TypeConstraintExprNode.java
- *
- * @author Sebastian Hack
- */
+/// <summary>
+/// TypeConstraintExprNode.java
+/// 
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.type;
+namespace de.unika.ipd.grgen.ast.type
+{
 
-import java.awt.Color;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing type expressions.
- * A lot more general than what is really used as of now (a non-empty constraint defines a set difference which is not modeled explicitly, and contains one or a union of types).
- */
-public abstract class TypeExprNode extends BaseNode
+/// <summary>
+/// AST node representing type expressions.
+/// A lot more general than what is really used as of now (a non-empty constraint defines a set difference which is not modeled explicitly, and contains one or a union of types).
+/// </summary>
+public abstract class TypeExprNode : BaseNode
 {
 	public enum TypeOperator
 	{
@@ -34,32 +33,42 @@ public abstract class TypeExprNode extends BaseNode
 		INTERSECT,
 	}
 
-	/** Opcode of the set operation. */
-	protected final TypeOperator op;
+	/// <summary>
+	/// Opcode of the set operation. </summary>
+	protected internal readonly TypeOperator op;
 
-	private static final TypeExprNode EMPTY = new TypeConstraintNode(Coords.getInvalid(), new CollectNode<IdentNode>());
+	private static readonly TypeExprNode EMPTY = new TypeConstraintNode(Coords.Invalid, new CollectNode<IdentNode>());
 
-	public static final TypeExprNode getEmpty()
+	public static TypeExprNode Empty
 	{
+		get
+		{
 		return EMPTY;
+		}
 	}
 
-	protected TypeExprNode(Coords coords, TypeOperator op)
+	protected internal TypeExprNode(Coords coords, TypeOperator op)
+		: base(coords)
 	{
-		super(coords);
 		this.op = op;
 	}
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
-	@Override
-	public Color getNodeColor()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor() "/>
+	public override Color NodeColor
 	{
+		get
+		{
 		return Color.CYAN;
+		}
 	}
 
-	@Override
-	public String getNodeLabel()
+	public override string NodeLabel
 	{
+		get
+		{
 		return "type expr " + op;
+		}
 	}
+}
+
 }

@@ -1,158 +1,176 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FilterFunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.stmt.ReturnStatement;
-import de.unika.ipd.grgen.ir.stmt.ReturnStatementFilter;
-import de.unika.ipd.grgen.ir.stmt.ReturnStatementProcedure;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing a return statement (of function or procedure).
- */
-public class ReturnStatementNode extends EvalStatementNode
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	static {
-		setClassName(ReturnStatementNode.class, "ReturnStatement");
+
+using System;
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using FilterFunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FilterFunctionDeclNode;
+using FunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+using ProcedureDeclNode = de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ReturnStatement = de.unika.ipd.grgen.ir.stmt.ReturnStatement;
+using ReturnStatementFilter = de.unika.ipd.grgen.ir.stmt.ReturnStatementFilter;
+using ReturnStatementProcedure = de.unika.ipd.grgen.ir.stmt.ReturnStatementProcedure;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing a return statement (of function or procedure).
+/// </summary>
+public class ReturnStatementNode : EvalStatementNode
+{
+	static ReturnStatementNode()
+	{
+		SetClassName(typeof(ReturnStatementNode), "ReturnStatement");
 	}
 
-	CollectNode<ExprNode> returnValueExprs;
+	internal CollectNode<ExprNode> returnValueExprs;
 
-	boolean isFilterReturn = false;
-	boolean isFunctionReturn = false;
+	internal bool isFilterReturn = false;
+	internal bool isFunctionReturn = false;
 
 	public ReturnStatementNode(Coords coords, CollectNode<ExprNode> returnValueExprs)
+		: base(coords)
 	{
-		super(coords);
 		this.returnValueExprs = returnValueExprs;
-		becomeParent(returnValueExprs);
+		BecomeParent(returnValueExprs);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(returnValueExprs);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(returnValueExprs);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("return value expressions");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("return value expressions");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
-		if(!(root instanceof FunctionDeclNode)
-				&& !(root instanceof ProcedureDeclNode)
-				&& !(root instanceof FilterFunctionDeclNode)) {
-			reportError("A return statement must be nested inside a function or procedure or filter (or where do you want to return from otherwise?).");
+		if(!(root is FunctionDeclNode)
+				&& !(root is ProcedureDeclNode)
+				&& !(root is FilterFunctionDeclNode))
+		{
+			ReportError("A return statement must be nested inside a function or procedure or filter (or where do you want to return from otherwise?).");
 			return false;
 		}
-		List<TypeNode> retTypes;
-		if(root instanceof FilterFunctionDeclNode) {
+		IList<TypeNode> retTypes;
+		if(root is FilterFunctionDeclNode)
+		{
 			isFilterReturn = true;
-			retTypes = new ArrayList<TypeNode>();
-		} else if(root instanceof FunctionDeclNode) {
+			retTypes = new List<TypeNode>();
+		}
+		else if(root is FunctionDeclNode)
+		{
 			isFunctionReturn = true;
 			FunctionDeclNode function = (FunctionDeclNode)root;
-			retTypes = new ArrayList<TypeNode>();
-			retTypes.add(function.getResultType());
-		} else {
-			ProcedureDeclNode procedure = (ProcedureDeclNode)root;
-			retTypes = procedure.getResultTypes();
+			retTypes = new List<TypeNode>();
+			retTypes.Add(function.ResultType);
 		}
-		return checkReturns(retTypes, root);
+		else
+		{
+			ProcedureDeclNode procedure = (ProcedureDeclNode)root;
+			retTypes = procedure.ResultTypes;
+		}
+		return CheckReturns(retTypes, root);
 	}
 
-	/**
-	 * Check if actual return arguments are conforming to the formal return parameters.
-	 */
-	protected boolean checkReturns(List<TypeNode> returnFormalParameters, DeclNode ident)
+	/// <summary>
+	/// Check if actual return arguments are conforming to the formal return parameters.
+	/// </summary>
+	protected internal virtual bool CheckReturns(IList<TypeNode> returnFormalParameters, DeclNode ident)
 	{
-		boolean res = true;
+		bool res = true;
 
-		int declaredNumRets = returnFormalParameters.size();
-		int actualNumRets = returnValueExprs.size();
-		for(int i = 0; i < Math.min(declaredNumRets, actualNumRets); ++i) {
-			ExprNode retExpr = returnValueExprs.get(i);
-			TypeNode retExprType = retExpr.getType();
-			TypeNode retDeclType = returnFormalParameters.get(i);
-			if(!retExprType.isCompatibleTo(retDeclType)) {
+		int declaredNumRets = returnFormalParameters.Count;
+		int actualNumRets = returnValueExprs.Size();
+		for(int i = 0; i < Math.Min(declaredNumRets, actualNumRets); ++i)
+		{
+			ExprNode retExpr = returnValueExprs.Get(i);
+			TypeNode retExprType = retExpr.Type;
+			TypeNode retDeclType = returnFormalParameters[i];
+			if(!retExprType.IsCompatibleTo(retDeclType))
+			{
 				res = false;
-				reportError("Cannot convert the " + (i + 1) + ". return parameter"
-						+ " from the type " + retExprType.getTypeName()
-						+ " to the expected type " + retDeclType.getTypeName()
-						+ retExprType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
-						+ retDeclType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+				ReportError("Cannot convert the " + (i + 1) + ". return parameter"
+						+ " from the type " + retExprType.TypeName
+						+ " to the expected type " + retDeclType.TypeName
+						+ retExprType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
+						+ retDeclType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
 						+ ".");
 			}
 		}
 
 		//check the number of returned elements
-		if(actualNumRets != declaredNumRets) {
+		if(actualNumRets != declaredNumRets)
+		{
 			res = false;
-			reportError("Trying to return " + actualNumRets + " values, but expected are "
+			ReportError("Trying to return " + actualNumRets + " values, but expected are "
 					+ declaredNumRets + " values (in " + ident + ").");
 		}
 		return res;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		if(isFilterReturn) {
+		if(isFilterReturn)
 			return new ReturnStatementFilter();
-		} else if(isFunctionReturn) {
-			ExprNode returnValueExpr = returnValueExprs.get(0).evaluate();
-			return new ReturnStatement(returnValueExpr.checkIR(Expression.class));
-		} else {
+		else if(isFunctionReturn)
+		{
+			ExprNode returnValueExpr = returnValueExprs.Get(0).Evaluate();
+			return new ReturnStatement(returnValueExpr.CheckIR(typeof(Expression)));
+		}
+		else
+		{
 			ReturnStatementProcedure rsp = new ReturnStatementProcedure();
-			for(ExprNode returnValueExpr : returnValueExprs.getChildrenExact()) {
-				ExprNode returnValueExprEvaluated = returnValueExpr.evaluate();
-				rsp.addReturnValueExpr(returnValueExprEvaluated.checkIR(Expression.class));
+			foreach(ExprNode returnValueExpr in returnValueExprs.ChildrenExact)
+			{
+				ExprNode returnValueExprEvaluated = returnValueExpr.Evaluate();
+				rsp.AddReturnValueExpr(returnValueExprEvaluated.CheckIR(typeof(Expression)));
 			}
 			return rsp;
 		}
 	}
+}
+
 }

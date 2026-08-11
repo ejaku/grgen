@@ -1,52 +1,44 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.util.report;
-
-/**
- * A reporter that eats every thing up
- */
-public class NullReporter extends Reporter
+namespace de.unika.ipd.grgen.util.report
 {
-	/**
-	 * @see de.unika.ipd.grgen.util.report.Reporter#entering(String)
-	 */
-	public void entering(String s)
+/// <summary>
+/// A reporter that eats every thing up
+/// </summary>
+public class NullReporter : Reporter
+{
+	/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.entering(String)"/>
+	public virtual void Entering(string s)
 	{
 		// nothing to do
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.report.Reporter#leaving()
-	 */
-	public void leaving()
+	/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.leaving()"/>
+	public virtual void Leaving()
 	{
 		// nothing to do
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.report.Reporter#report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)
-	 */
-	@Override
-	public void report(int channel, Location loc, String msg)
+	/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)"/>
+	public override void Report(int channel, Location loc, string msg)
 	{
 		// nothing to do
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.report.Reporter#report(int, java.lang.String)
-	 */
-	@Override
-	public void report(int channel, String msg)
+	/// <seealso cref="de.unika.ipd.grgen.util.report.Reporter.report(int, java.lang.String)"/>
+	public override void Report(int channel, string msg)
 	{
 		// nothing to do
 	}
+}
+
 }

@@ -1,40 +1,40 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.model.type;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
-import de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
-import de.unika.ipd.grgen.ast.type.CompoundTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.model.EnumItem;
-import de.unika.ipd.grgen.ir.model.type.EnumType;
-
-/**
- * An enumeration type AST node.
- */
-public class EnumTypeNode extends CompoundTypeNode
+namespace de.unika.ipd.grgen.ast.model.type
 {
-	static {
-		setClassName(EnumTypeNode.class, "enum type");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using OperatorDeclNode = de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+using OperatorEvaluator = de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
+using EnumItemDeclNode = de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
+using CompoundTypeNode = de.unika.ipd.grgen.ast.type.CompoundTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using EnumItem = de.unika.ipd.grgen.ir.model.EnumItem;
+using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
+
+/// <summary>
+/// An enumeration type AST node.
+/// </summary>
+public class EnumTypeNode : CompoundTypeNode
+{
+	static EnumTypeNode()
+	{
+		SetClassName(typeof(EnumTypeNode), "enum type");
 	}
 
 	private CollectNode<EnumItemDeclNode> elements;
@@ -59,20 +59,20 @@ public class EnumTypeNode extends CompoundTypeNode
 	public EnumTypeNode(CollectNode<EnumItemDeclNode> body)
 	{
 		this.elements = body;
-		becomeParent(this.elements);
+		BecomeParent(this.elements);
 
 		//enumerations can be used with the conditional operator
-		OperatorDeclNode.makeOp(Operator.COND, this,
+		OperatorDeclNode.MakeOp(Operator.COND, this,
 				new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
 
 		//the compatibility of the this enum type
-		addCompatibility(this, BasicTypeNode.byteType);
-		addCompatibility(this, BasicTypeNode.shortType);
-		addCompatibility(this, BasicTypeNode.intType);
-		addCompatibility(this, BasicTypeNode.longType);
-		addCompatibility(this, BasicTypeNode.floatType);
-		addCompatibility(this, BasicTypeNode.doubleType);
-		addCompatibility(this, BasicTypeNode.stringType);
+		AddCompatibility(this, BasicTypeNode.byteType);
+		AddCompatibility(this, BasicTypeNode.shortType);
+		AddCompatibility(this, BasicTypeNode.intType);
+		AddCompatibility(this, BasicTypeNode.longType);
+		AddCompatibility(this, BasicTypeNode.floatType);
+		AddCompatibility(this, BasicTypeNode.doubleType);
+		AddCompatibility(this, BasicTypeNode.stringType);
 	}
 
 	/*
@@ -82,48 +82,58 @@ public class EnumTypeNode extends CompoundTypeNode
 	 coll.addAll((Collection) obj);
 	 }*/
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(elements);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(elements);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("elements");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("elements");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
-		Ident name = getIdent().checkIR(Ident.class);
+		Ident name = Ident.CheckIR(typeof(Ident));
 		EnumType ty = new EnumType(name);
 
-		for(EnumItemDeclNode item : elements.getChildrenExact()) {
-			EnumItem it = item.getItem();
-			it.getValue().lateInit(ty, it);
-			ty.addItem(it);
+		foreach(EnumItemDeclNode item in elements.ChildrenExact)
+		{
+			EnumItem it = item.Item;
+			it.Value.LateInit(ty, it);
+			ty.AddItem(it);
 		}
 
 		return ty;
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return "enum " + getIdent().toString();
+		return "enum " + Ident.ToString();
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "enum";
+		}
 	}
+}
+
 }

@@ -1,220 +1,236 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
-package de.unika.ipd.grgen.ast.type.basic;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.expr.NullConstNode;
-import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-
-/**
- * A basic type AST node such as string or int
- */
-public abstract class BasicTypeNode extends DeclaredTypeNode
+/// <summary>
+/// @author shack
+/// </summary>
+namespace de.unika.ipd.grgen.ast.type.basic
 {
-	public static final BasicTypeNode stringType = new StringTypeNode();
-	public static final BasicTypeNode typeType = new TypeTypeNode();
-	public static final BasicTypeNode byteType = new ByteTypeNode();
-	public static final BasicTypeNode shortType = new ShortTypeNode();
-	public static final BasicTypeNode intType = new IntTypeNode();
-	public static final BasicTypeNode longType = new LongTypeNode();
-	public static final BasicTypeNode doubleType = new DoubleTypeNode();
-	public static final BasicTypeNode floatType = new FloatTypeNode();
-	public static final BasicTypeNode booleanType = new BooleanTypeNode();
-	public static final BasicTypeNode objectType = new ObjectTypeNode();
-	public static final BasicTypeNode enumItemType = new EnumItemTypeNode();
-	public static final BasicTypeNode voidType = new VoidTypeNode();
-	public static final BasicTypeNode nullType = new NullTypeNode();
-	public static final BasicTypeNode graphType = new GraphTypeNode();
-	public static final BasicTypeNode untypedType = new UntypedExecVarTypeNode();
 
-	public static final TypeNode errorType = new ErrorTypeNode(IdentNode.getInvalid());
+using System;
+using System.Collections.Generic;
 
-	public static TypeNode getErrorType(IdentNode id)
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using NullConstNode = de.unika.ipd.grgen.ast.expr.NullConstNode;
+using DeclaredTypeNode = de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+
+/// <summary>
+/// A basic type AST node such as string or int
+/// </summary>
+public abstract class BasicTypeNode : DeclaredTypeNode
+{
+	public static readonly BasicTypeNode stringType = new StringTypeNode();
+	public static readonly BasicTypeNode typeType = new TypeTypeNode();
+	public static readonly BasicTypeNode byteType = new ByteTypeNode();
+	public static readonly BasicTypeNode shortType = new ShortTypeNode();
+	public static readonly BasicTypeNode intType = new IntTypeNode();
+	public static readonly BasicTypeNode longType = new LongTypeNode();
+	public static readonly BasicTypeNode doubleType = new DoubleTypeNode();
+	public static readonly BasicTypeNode floatType = new FloatTypeNode();
+	public static readonly BasicTypeNode booleanType = new BooleanTypeNode();
+	public static readonly BasicTypeNode objectType = new ObjectTypeNode();
+	public static readonly BasicTypeNode enumItemType = new EnumItemTypeNode();
+	public static readonly BasicTypeNode voidType = new VoidTypeNode();
+	public static readonly BasicTypeNode nullType = new NullTypeNode();
+	public static readonly BasicTypeNode graphType = new GraphTypeNode();
+	public static readonly BasicTypeNode untypedType = new UntypedExecVarTypeNode();
+
+	public static readonly TypeNode errorType = new ErrorTypeNode(IdentNode.Invalid);
+
+	public static TypeNode GetErrorType(IdentNode id)
 	{
 		return new ErrorTypeNode(id);
 	}
 
-	private static Object invalidValueType = new Object() {
-		@Override
-		public String toString()
+	private static object invalidValueType = new ObjectAnonymousInnerClass();
+
+	private class ObjectAnonymousInnerClass : object
+	{
+		private readonly BasicTypeNode outerInstance;
+
+		public override string ToString()
 		{
 			return "invalid value";
 		}
-	};
+	}
 
-	/** This map contains the value types of the basic types.
-	 *  (BasicTypeNode -> Class) */
-	protected static Map<BasicTypeNode, Class<?>> valueMap = new HashMap<BasicTypeNode, Class<?>>();
+	/// <summary>
+	/// This map contains the value types of the basic types.
+	///  (BasicTypeNode -> Class) 
+	/// </summary>
+	protected internal static IDictionary<BasicTypeNode, Type> valueMap = new Dictionary<BasicTypeNode, Type>();
 
-	static {
-		setClassName(BasicTypeNode.class, "basic type");
+	static BasicTypeNode()
+	{
+		SetClassName(typeof(BasicTypeNode), "basic type");
 
-		valueMap.put(byteType, Byte.class);
-		valueMap.put(shortType, Short.class);
-		valueMap.put(intType, Integer.class);
-		valueMap.put(longType, Long.class);
-		valueMap.put(floatType, Float.class);
-		valueMap.put(doubleType, Double.class);
-		valueMap.put(booleanType, Boolean.class);
-		valueMap.put(stringType, String.class);
-		valueMap.put(enumItemType, Integer.class);
-		valueMap.put(objectType, ObjectTypeNode.Value.class);
-		valueMap.put(nullType, NullConstNode.Value.class);
-		valueMap.put(untypedType, UntypedExecVarTypeNode.Value.class);
+		valueMap[byteType] = typeof(Byte);
+		valueMap[shortType] = typeof(Short);
+		valueMap[intType] = typeof(Integer);
+		valueMap[longType] = typeof(Long);
+		valueMap[floatType] = typeof(Float);
+		valueMap[doubleType] = typeof(Double);
+		valueMap[booleanType] = typeof(Boolean);
+		valueMap[stringType] = typeof(string);
+		valueMap[enumItemType] = typeof(Integer);
+		valueMap[objectType] = typeof(ObjectTypeNode.Value);
+		valueMap[nullType] = typeof(NullConstNode.Value);
+		valueMap[untypedType] = typeof(UntypedExecVarTypeNode.Value);
 
 		//////////////////////////////////////////////////////////
 		//implicit casts; upcasts for arithmetic, and everything to string (easy emitting)
 		//////////////////////////////////////////////////////////
 
-		addCompatibility(enumItemType, byteType);
-		addCompatibility(enumItemType, shortType);
-		addCompatibility(enumItemType, intType);
-		addCompatibility(enumItemType, longType);
-		addCompatibility(enumItemType, floatType);
-		addCompatibility(enumItemType, doubleType);
+		AddCompatibility(enumItemType, byteType);
+		AddCompatibility(enumItemType, shortType);
+		AddCompatibility(enumItemType, intType);
+		AddCompatibility(enumItemType, longType);
+		AddCompatibility(enumItemType, floatType);
+		AddCompatibility(enumItemType, doubleType);
 
-		addCompatibility(byteType, shortType);
-		addCompatibility(byteType, intType);
-		addCompatibility(byteType, longType);
-		addCompatibility(byteType, floatType);
-		addCompatibility(byteType, doubleType);
+		AddCompatibility(byteType, shortType);
+		AddCompatibility(byteType, intType);
+		AddCompatibility(byteType, longType);
+		AddCompatibility(byteType, floatType);
+		AddCompatibility(byteType, doubleType);
 
-		addCompatibility(shortType, intType);
-		addCompatibility(shortType, longType);
-		addCompatibility(shortType, floatType);
-		addCompatibility(shortType, doubleType);
+		AddCompatibility(shortType, intType);
+		AddCompatibility(shortType, longType);
+		AddCompatibility(shortType, floatType);
+		AddCompatibility(shortType, doubleType);
 
-		addCompatibility(intType, longType);
-		addCompatibility(intType, floatType);
-		addCompatibility(intType, doubleType);
+		AddCompatibility(intType, longType);
+		AddCompatibility(intType, floatType);
+		AddCompatibility(intType, doubleType);
 
-		addCompatibility(longType, floatType);
-		addCompatibility(longType, doubleType);
+		AddCompatibility(longType, floatType);
+		AddCompatibility(longType, doubleType);
 
-		addCompatibility(floatType, doubleType);
+		AddCompatibility(floatType, doubleType);
 
-		addCompatibility(enumItemType, stringType);
-		addCompatibility(byteType, stringType);
-		addCompatibility(shortType, stringType);
-		addCompatibility(intType, stringType);
-		addCompatibility(longType, stringType);
-		addCompatibility(floatType, stringType);
-		addCompatibility(doubleType, stringType);
-		addCompatibility(booleanType, stringType);
-		addCompatibility(objectType, stringType);
-		addCompatibility(voidType, stringType);
+		AddCompatibility(enumItemType, stringType);
+		AddCompatibility(byteType, stringType);
+		AddCompatibility(shortType, stringType);
+		AddCompatibility(intType, stringType);
+		AddCompatibility(longType, stringType);
+		AddCompatibility(floatType, stringType);
+		AddCompatibility(doubleType, stringType);
+		AddCompatibility(booleanType, stringType);
+		AddCompatibility(objectType, stringType);
+		AddCompatibility(voidType, stringType);
 
 		//////////////////////////////////////////////////////////
 		//implicit casts to untyped (due to sequence variables of statically not known type)
 		//////////////////////////////////////////////////////////
 
-		addCompatibility(enumItemType, untypedType);
-		addCompatibility(byteType, untypedType);
-		addCompatibility(shortType, untypedType);
-		addCompatibility(intType, untypedType);
-		addCompatibility(longType, untypedType);
-		addCompatibility(floatType, untypedType);
-		addCompatibility(doubleType, untypedType);
-		addCompatibility(booleanType, untypedType);
-		addCompatibility(objectType, untypedType);
-		addCompatibility(voidType, untypedType);
-		addCompatibility(stringType, untypedType);
-		addCompatibility(nullType, untypedType);
-		addCompatibility(graphType, untypedType);
+		AddCompatibility(enumItemType, untypedType);
+		AddCompatibility(byteType, untypedType);
+		AddCompatibility(shortType, untypedType);
+		AddCompatibility(intType, untypedType);
+		AddCompatibility(longType, untypedType);
+		AddCompatibility(floatType, untypedType);
+		AddCompatibility(doubleType, untypedType);
+		AddCompatibility(booleanType, untypedType);
+		AddCompatibility(objectType, untypedType);
+		AddCompatibility(voidType, untypedType);
+		AddCompatibility(stringType, untypedType);
+		AddCompatibility(nullType, untypedType);
+		AddCompatibility(graphType, untypedType);
 
 		//////////////////////////////////////////////////////////
 		//explicit casts; downcasts for arithmetic, everything into an object
 		//////////////////////////////////////////////////////////
 
-		addCastability(shortType, byteType);
+		AddCastability(shortType, byteType);
 
-		addCastability(intType, byteType);
-		addCastability(intType, shortType);
+		AddCastability(intType, byteType);
+		AddCastability(intType, shortType);
 
-		addCastability(longType, byteType);
-		addCastability(longType, shortType);
-		addCastability(longType, intType);
+		AddCastability(longType, byteType);
+		AddCastability(longType, shortType);
+		AddCastability(longType, intType);
 
-		addCastability(floatType, byteType);
-		addCastability(floatType, shortType);
-		addCastability(floatType, intType);
-		addCastability(floatType, longType);
+		AddCastability(floatType, byteType);
+		AddCastability(floatType, shortType);
+		AddCastability(floatType, intType);
+		AddCastability(floatType, longType);
 
-		addCastability(doubleType, byteType);
-		addCastability(doubleType, shortType);
-		addCastability(doubleType, intType);
-		addCastability(doubleType, longType);
-		addCastability(doubleType, floatType);
+		AddCastability(doubleType, byteType);
+		AddCastability(doubleType, shortType);
+		AddCastability(doubleType, intType);
+		AddCastability(doubleType, longType);
+		AddCastability(doubleType, floatType);
 
-		addCastability(enumItemType, objectType);
-		addCastability(byteType, objectType);
-		addCastability(shortType, objectType);
-		addCastability(intType, objectType);
-		addCastability(longType, objectType);
-		addCastability(floatType, objectType);
-		addCastability(doubleType, objectType);
-		addCastability(booleanType, objectType);
-		addCastability(stringType, objectType);
+		AddCastability(enumItemType, objectType);
+		AddCastability(byteType, objectType);
+		AddCastability(shortType, objectType);
+		AddCastability(intType, objectType);
+		AddCastability(longType, objectType);
+		AddCastability(floatType, objectType);
+		AddCastability(doubleType, objectType);
+		AddCastability(booleanType, objectType);
+		AddCastability(stringType, objectType);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		// no children
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// no children
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.type.TypeNode#isBasic() */
-	@Override
-	public final boolean isBasic()
+	/// <seealso cref="de.unika.ipd.grgen.ast.type.TypeNode.isBasic() "/>
+	public override sealed bool IsBasic()
 	{
 		return true;
 	}
 
-	/** Return the Java class, that represents a value of a constant in this type. */
-	public final Class<?> getValueType()
+	/// <summary>
+	/// Return the Java class, that represents a value of a constant in this type. </summary>
+	public Type ValueType
 	{
-		if(!valueMap.containsKey(this)) {
-			return invalidValueType.getClass();
-		} else {
-			return valueMap.get(this);
+		get
+		{
+		if(!valueMap.ContainsKey(this))
+			return invalidValueType.GetType();
+		else
+			return valueMap[this];
 		}
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "basic type";
+		}
 	}
 
 	// implements type promotion (byte/short->int, float->double)
-	public static TypeNode getArrayAccumulationResultType(TypeNode inputType)
+	public static TypeNode GetArrayAccumulationResultType(TypeNode inputType)
 	{
 		if(inputType == byteType)
 			return intType;
@@ -231,4 +247,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 		else
 			return errorType;
 	}
+}
+
 }

@@ -1,83 +1,88 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll
- */
+/// <summary>
+/// @author Moritz Kroll
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Constant;
-
-/**
- * An identifier expression.
- */
-public class IdentExprNode extends DeclExprNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(IdentExprNode.class, "ident expression");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Constant = de.unika.ipd.grgen.ir.expr.Constant;
+
+/// <summary>
+/// An identifier expression.
+/// </summary>
+public class IdentExprNode : DeclExprNode
+{
+	static IdentExprNode()
+	{
+		SetClassName(typeof(IdentExprNode), "ident expression");
 	}
 
-	public boolean yieldedTo = false;
+	public bool yieldedTo = false;
 
 	public IdentExprNode(IdentNode ident)
+		: base(ident)
 	{
-		super(ident);
 	}
 
-	public IdentExprNode(IdentNode ident, boolean yieldedTo)
+	public IdentExprNode(IdentNode ident, bool yieldedTo)
+		: base(ident)
 	{
-		super(ident);
 		this.yieldedTo = yieldedTo;
 	}
 
-	public void setYieldedTo()
+	public virtual void SetYieldedTo()
 	{
 		yieldedTo = true;
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		decl = ((DeclaredCharacter)declUnresolved).getDecl();
-		if(decl instanceof TypeDeclNode)
+		decl = ((DeclaredCharacter)declUnresolved).Decl;
+		if(decl is TypeDeclNode)
 			return true;
 
-		return super.resolveLocal();
+		return base.ResolveLocal();
 	}
 
-	public IdentNode getIdent()
+	public virtual IdentNode Ident
 	{
+		get
+		{
 		return (IdentNode)declUnresolved;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		BaseNode declNode = (BaseNode)decl;
-		if(declNode instanceof TypeDeclNode)
-			return new Constant(BasicTypeNode.typeType.getIRType(), ((TypeDeclNode)decl).getDeclType().getIR());
+		if(declNode is TypeDeclNode)
+			return new Constant(BasicTypeNode.typeType.GetIRType(), ((TypeDeclNode)decl).DeclType.IR);
 		else
-			return super.constructIR();
+			return base.ConstructIR();
 	}
+}
+
 }

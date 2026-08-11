@@ -1,557 +1,543 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.be.C;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.PrintStream;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Map;
-
-import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.IDBase;
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.Action;
-import de.unika.ipd.grgen.ir.executable.MatchingAction;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.model.ConnAssert;
-import de.unika.ipd.grgen.ir.model.EnumItem;
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.ir.model.type.InheritanceType;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.Type.TypeClass;
-import de.unika.ipd.grgen.util.Util;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
-
-/**
- * A backend for the C interface to grgen.
- */
-public abstract class CBackend extends IDBase implements Backend
+namespace de.unika.ipd.grgen.be.C
 {
-	/** The unit to generate code for. */
-	protected Unit unit;
 
-	/** The output path as handed over by the frontend. */
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+
+using Sys = de.unika.ipd.grgen.Sys;
+using Backend = de.unika.ipd.grgen.be.Backend;
+using IDBase = de.unika.ipd.grgen.be.IDBase;
+using de.unika.ipd.grgen.ir;
+using Action = de.unika.ipd.grgen.ir.executable.Action;
+using MatchingAction = de.unika.ipd.grgen.ir.executable.MatchingAction;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using ConnAssert = de.unika.ipd.grgen.ir.model.ConnAssert;
+using EnumItem = de.unika.ipd.grgen.ir.model.EnumItem;
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
+using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using TypeClass = de.unika.ipd.grgen.ir.type.Type.TypeClass;
+using Util = de.unika.ipd.grgen.util.Util;
+using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
+
+/// <summary>
+/// A backend for the C interface to grgen.
+/// </summary>
+public abstract class CBackend : IDBase, Backend
+{
+	/// <summary>
+	/// The unit to generate code for. </summary>
+	protected internal Unit unit;
+
+	/// <summary>
+	/// The output path as handed over by the frontend. </summary>
 	private File path;
 
-	/** the extension of the generated include files */
-	public final String incExtension = ".inc";
+	/// <summary>
+	/// the extension of the generated include files </summary>
+	public readonly string incExtension = ".inc";
 
-	/** The error reporter. */
-	protected ErrorReporter error;
+	/// <summary>
+	/// The error reporter. </summary>
+	protected internal new ErrorReporter error;
 
-	/**
-	 * Get the IR root node.
-	 * @return The Unit node of the IR.
-	 */
-	protected Unit getUnit()
+	/// <summary>
+	/// Get the IR root node. </summary>
+	/// <returns> The Unit node of the IR. </returns>
+	protected internal virtual Unit Unit
 	{
+		get
+		{
 		return unit;
+		}
 	}
 
-	/**
-	 * Mangle an identifier.
-	 * @param id The identifier.
-	 * @return A mangled name.
-	 */
-	protected static String mangle(Identifiable id)
+	/// <summary>
+	/// Mangle an identifier. </summary>
+	/// <param name="id"> The identifier. </param>
+	/// <returns> A mangled name. </returns>
+	protected internal static string Mangle(Identifiable id)
 	{
-		String s = id.getIdent().toString();
+		string s = id.Ident.ToString();
 
-		s = s.replaceAll("_", "__");
-		s = s.replace('$', '_');
+		s = s.ReplaceAll("_", "__");
+		s = s.Replace('$', '_');
 
 		return s;
 	}
 
-	/**
-	 * Write a character sequence to a file using the path set.
-	 * @param filename The filename.
-	 * @param cs A character sequence.
-	 */
-	protected final void writeFile(String filename, CharSequence cs)
+	/// <summary>
+	/// Write a character sequence to a file using the path set. </summary>
+	/// <param name="filename"> The filename. </param>
+	/// <param name="cs"> A character sequence. </param>
+	protected internal void WriteFile(string filename, CharSequence cs)
 	{
-		Util.writeFile(new File(path, filename), cs, error);
+		Util.WriteFile(new File(path, filename), cs, error);
 	}
 
-	protected final PrintStream openFile(String filename)
+	protected internal PrintStream OpenFile(string filename)
 	{
-		return Util.openFile(new File(path, filename), error);
+		return Util.OpenFile(new File(path, filename), error);
 	}
 
-	protected static final void closeFile(PrintStream ps)
+	protected internal static void CloseFile(PrintStream ps)
 	{
-		Util.closeFile(ps);
+		Util.CloseFile(ps);
 	}
 
-	/**
-	 * Make C defines for each type in a type map.
-	 * This method makes defines like<br>
-	 * #define GR_<code>labelAdd</code>_TYPE_<code>typename<InheritanceType/code>
-	 * @param sb The string buffer to add to.
-	 * @param typeMap The type map containing the types to dump.
-	 * @param labelAdd The string that should be added to the define.
-	 */
-	protected static void makeTypeDefines(PrintStream ps, Map<? extends InheritanceType, Integer> typeMap,
-			String labelAdd)
+	/// <summary>
+	/// Make C defines for each type in a type map.
+	/// This method makes defines like<br>
+	/// #define GR_<code>labelAdd</code>_TYPE_<code>typename<InheritanceType/code> </summary>
+	/// <param name="sb"> The string buffer to add to. </param>
+	/// <param name="typeMap"> The type map containing the types to dump. </param>
+	/// <param name="labelAdd"> The string that should be added to the define. </param>
+	protected internal static void MakeTypeDefines<T1>(PrintStream ps, IDictionary<T1> typeMap, string labelAdd) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
 	{
-		ps.print("/** Use this macro to check, if an id is a valid type */\n");
-		ps.print("#define GR_" + labelAdd + "_TYPE_VALID(t) "
-				+ "((t) >= 0 && (t) < " + typeMap.size() + ")\n\n");
+		ps.Print("/** Use this macro to check, if an id is a valid type */\n");
+		ps.Print("#define GR_" + labelAdd + "_TYPE_VALID(t) "
+				+ "((t) >= 0 && (t) < " + typeMap.Count + ")\n\n");
 
-		ps.print("/** The number of types defined */\n");
-		ps.print("#define GR_" + labelAdd + "_TYPES " + typeMap.size()
-				+ "\n\n");
-		for(InheritanceType ty : typeMap.keySet()) {
-			Ident id = ty.getIdent();
+		ps.Print("/** The number of types defined */\n");
+		ps.Print("#define GR_" + labelAdd + "_TYPES " + typeMap.Count + "\n\n");
+		foreach(InheritanceType ty in typeMap.Keys)
+		{
+			Ident id = ty.Ident;
 
-			ps.print("/** type " + id + " defined at line "
-					+ id.getCoords().getLine() + " */\n");
-			ps.print("#define GR_DEF_" + labelAdd + "_TYPE_"
-					+ mangle(ty) + " " + typeMap.get(ty) + "\n\n");
+			ps.Print("/** type " + id + " defined at line " + id.Coords.Line + " */\n");
+			ps.Print("#define GR_DEF_" + labelAdd + "_TYPE_" + Mangle(ty) + " " + typeMap[ty] + "\n\n");
 		}
 	}
 
-	/**
-	 * Make defines for attribute IDs.
-	 * @param sb The string buffer to add the code to.
-	 * @param attrMap The attribute map to use.
-	 * @param labelAdd The string to add to the define's name.
-	 */
-	protected static void makeAttrDefines(PrintStream ps, Map<Entity, Integer> attrMap,
-			String labelAdd)
+	/// <summary>
+	/// Make defines for attribute IDs. </summary>
+	/// <param name="sb"> The string buffer to add the code to. </param>
+	/// <param name="attrMap"> The attribute map to use. </param>
+	/// <param name="labelAdd"> The string to add to the define's name. </param>
+	protected internal static void MakeAttrDefines(PrintStream ps, IDictionary<Entity, int> attrMap, string labelAdd)
 	{
-		ps.print("/** Number of attributes macro for " + labelAdd + " */\n");
-		ps.print("#define GR_" + labelAdd + "_ATTRS " + attrMap.size() + "\n\n");
+		ps.Print("/** Number of attributes macro for " + labelAdd + " */\n");
+		ps.Print("#define GR_" + labelAdd + "_ATTRS " + attrMap.Count + "\n\n");
 
-		ps.print("/** Attribute valid macro for " + labelAdd + " */\n");
-		ps.print("#define GR_" + labelAdd + "_ATTR_VALID(a) "
-				+ "((a) >= 0 && (a) < " + attrMap.size() + ")\n\n");
+		ps.Print("/** Attribute valid macro for " + labelAdd + " */\n");
+		ps.Print("#define GR_" + labelAdd + "_ATTR_VALID(a) " + "((a) >= 0 && (a) < " + attrMap.Count + ")\n\n");
 
-		for(Entity ent : attrMap.keySet()) {
-			Ident id = ent.getIdent();
+		foreach(Entity ent in attrMap.Keys)
+		{
+			Ident id = ent.Ident;
 
-			ps.print("/** Attribute " + id + " of "
-					+ ent.getOwner().getIdent() + " in line "
-					+ id.getCoords().getLine() + " */\n");
-			ps.print("#define GR_DEF_" + labelAdd + "_ATTR_"
-					+ mangle(ent.getOwner()) + "_"
-					+ mangle(ent) + " " + attrMap.get(ent) + "\n\n");
+			ps.Print("/** Attribute " + id + " of " + ent.Owner.Ident + " in line " + id.Coords.Line + " */\n");
+			ps.Print("#define GR_DEF_" + labelAdd + "_ATTR_" + Mangle(ent.Owner) + "_" + Mangle(ent) + " " + attrMap[ent] + "\n\n");
 		}
 	}
 
-	/**
-	 * Make defines for enum types.
-	 * @param sb The string buffer to add the code to.
-	 * @param map The enum type map.
-	 */
-	protected static void makeEnumDefines(PrintStream ps, Map<EnumType, Integer> map)
+	/// <summary>
+	/// Make defines for enum types. </summary>
+	/// <param name="sb"> The string buffer to add the code to. </param>
+	/// <param name="map"> The enum type map. </param>
+	protected internal static void MakeEnumDefines(PrintStream ps, IDictionary<EnumType, int> map)
 	{
-		ps.print("/** Number of enum types. */\n");
-		ps.print("#define GR_DEF_ENUMS " + map.size() + "\n\n");
+		ps.Print("/** Number of enum types. */\n");
+		ps.Print("#define GR_DEF_ENUMS " + map.Count + "\n\n");
 
-		ps.print("/** Use this macro to check, if an id is a valid enum type */\n");
-		ps.print("#define GR_ENUM_TYPE_VALID(t) ((t) >= 0 && (t) < " + map.size() + ")\n\n");
+		ps.Print("/** Use this macro to check, if an id is a valid enum type */\n");
+		ps.Print("#define GR_ENUM_TYPE_VALID(t) ((t) >= 0 && (t) < " + map.Count + ")\n\n");
 	}
 
-	/**
-	 * Make a C array containing the strings made of the names of the
-	 * objects in the map. The index of a string corresponds to the
-	 * integer value in the map.
-	 * @param sb The string buffer to append the text to.
-	 * @param map The type map which contains the types.
-	 * @param add A string which shall prepend the name of the array.
-	 */
-	protected static void makeTypeMap(PrintStream ps, Map<InheritanceType, Integer> map, String add)
+	/// <summary>
+	/// Make a C array containing the strings made of the names of the
+	/// objects in the map. The index of a string corresponds to the
+	/// integer value in the map. </summary>
+	/// <param name="sb"> The string buffer to append the text to. </param>
+	/// <param name="map"> The type map which contains the types. </param>
+	/// <param name="add"> A string which shall prepend the name of the array. </param>
+	protected internal static void MakeTypeMap(PrintStream ps, IDictionary<InheritanceType, int> map, string add)
 	{
-		String[] names = new String[map.size()];
+		string[] names = new string[map.Count];
 
-		for(InheritanceType ty : map.keySet()) {
-			int index = getTypeId(map, ty);
-			names[index] = ty.getIdent().toString();
+		foreach(InheritanceType ty in map.Keys)
+		{
+			int index = GetTypeId(map, ty);
+			names[index] = ty.Ident.ToString();
 		}
 
-		ps.print("static const char *" + add + "_type_map[] = {\n");
-		for(int i = 0; i < names.length; i++) {
-			ps.print("  \"" + names[i] + "\",\n");
-		}
-		ps.print("  NULL\n};\n\n");
+		ps.Print("static const char *" + add + "_type_map[] = {\n");
+		for(int i = 0; i < names.Length; i++)
+			ps.Print("  \"" + names[i] + "\",\n");
+		ps.Print("  NULL\n};\n\n");
 	}
 
-	/**
-	 * Make the attribute map.
-	 * Each entry consists of an type ID that represents the attributes
-	 * owner type, and the name of the attribute.
-	 * @param sb The string buffer to add the code to.
-	 * @param attrMap The attribute map.
-	 * @param typeMap The type map for these attributes.
-	 * @param enumMap The enum type map.
-	 * @param add A string to add to the identifier of the map.
-	 */
-	protected static void makeAttrMap(PrintStream ps, Map<Entity, Integer> attrMap,
-			Map<? extends InheritanceType, Integer> typeMap,
-			Map<EnumType, Integer> enumMap, String add)
+	/// <summary>
+	/// Make the attribute map.
+	/// Each entry consists of an type ID that represents the attributes
+	/// owner type, and the name of the attribute. </summary>
+	/// <param name="sb"> The string buffer to add the code to. </param>
+	/// <param name="attrMap"> The attribute map. </param>
+	/// <param name="typeMap"> The type map for these attributes. </param>
+	/// <param name="enumMap"> The enum type map. </param>
+	/// <param name="add"> A string to add to the identifier of the map. </param>
+	protected internal static void MakeAttrMap<T1>(PrintStream ps, IDictionary<Entity, int> attrMap,
+			IDictionary<T1> typeMap,
+			IDictionary<EnumType, int> enumMap, string add) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
 	{
-		String[] name = new String[attrMap.size()];
-		Type[] types = new Type[attrMap.size()];
-		Integer[] owner = new Integer[attrMap.size()];
+		string[] name = new string[attrMap.Count];
+		Type[] types = new Type[attrMap.Count];
+		int?[] owner = new int?[attrMap.Count];
 
-		for(Entity ent : attrMap.keySet()) {
-			int index = attrMap.get(ent).intValue();
-			name[index] = ent.getIdent().toString();
-			owner[index] = new Integer(getTypeId(typeMap, ent.getOwner()));
-			types[index] = ent.getType();
+		foreach(Entity ent in attrMap.Keys)
+		{
+			int index = attrMap[ent];
+			name[index] = ent.Ident.ToString();
+			owner[index] = new int?(GetTypeId(typeMap, ent.Owner));
+			types[index] = ent.Type;
 		}
 
-		ps.print("/** The attribute map for " + add + " attributes. */\n");
-		ps.print("static const attr_t " + add + "_attr_map[] = {\n");
-		for(int i = 0; i < name.length; i++) {
-			ps.print("  { " + owner[i] + ", " + formatString(name[i]) + ", " + types[i].classify() + ", ");
+		ps.Print("/** The attribute map for " + add + " attributes. */\n");
+		ps.Print("static const attr_t " + add + "_attr_map[] = {\n");
+		for(int i = 0; i < name.Length; i++)
+		{
+			ps.Print("  { " + owner[i] + ", " + FormatString(name[i]) + ", " + types[i].Classify() + ", ");
 
-			if(types[i] instanceof EnumType) {
-				int id = getTypeId(enumMap, types[i]);
-				ps.print(id + " },\n");
-			} else
-				ps.print("-1 },\n");
+			if(types[i] is EnumType)
+			{
+				int id = GetTypeId(enumMap, types[i]);
+				ps.Print(id + " },\n");
+			}
+			else
+				ps.Print("-1 },\n");
 		}
-		ps.print("  { 0, NULL, 0 }\n};\n\n");
+		ps.Print("  { 0, NULL, 0 }\n};\n\n");
 
 	}
 
-	/**
-	 * Make a matrix that represents the type relation.
-	 * @param buf The string buffer to add the code to.
-	 * @param typeMap The type map to use.
-	 * @param add A string to add to the identifier.
-	 */
-	protected void makeIsAMatrix(PrintStream ps, boolean forNode, String add)
+	/// <summary>
+	/// Make a matrix that represents the type relation. </summary>
+	/// <param name="buf"> The string buffer to add the code to. </param>
+	/// <param name="typeMap"> The type map to use. </param>
+	/// <param name="add"> A string to add to the identifier. </param>
+	protected internal virtual void MakeIsAMatrix(PrintStream ps, bool forNode, string add)
 	{
 		// since all type id's are given from zero on, the maximum type id
 		// (not used) is the number of entries in the type map.
-		short[][] matrix = getIsAMatrix(forNode);
-		int maxTypeId = matrix.length;
-		String matrixName = add + "_type_is_a_matrix";
+		short[][] matrix = GetIsAMatrix(forNode);
+		int maxTypeId = matrix.Length;
+		string matrixName = add + "_type_is_a_matrix";
 
-		ps.print("/** The matrix showing valid type attributes for " + add + ". */\n");
-		ps.print("static const char " + matrixName + "[" + maxTypeId + "]["
-				+ maxTypeId + "] = {\n");
+		ps.Print("/** The matrix showing valid type attributes for " + add + ". */\n");
+		ps.Print("static const char " + matrixName + "[" + maxTypeId + "][" + maxTypeId + "] = {\n");
 
-		for(int i = 0; i < maxTypeId; i++) {
-			ps.print("  { ");
-			for(int j = 0; j < maxTypeId; j++) {
-				ps.print(j != 0 ? ", " : "");
-				ps.print(matrix[i][j]);
+		for(int i = 0; i < maxTypeId; i++)
+		{
+			ps.Print("  { ");
+			for(int j = 0; j < maxTypeId; j++)
+			{
+				ps.Print(j != 0 ? ", " : "");
+				ps.Print(matrix[i][j]);
 			}
-			ps.print(" }, /* ");
-			ps.print(i);
-			ps.print(' ');
-			ps.print(getTypeName(forNode, i));
-			ps.print(" */\n");
+			ps.Print(" }, /* ");
+			ps.Print(i);
+			ps.Print(' ');
+			ps.Print(GetTypeName(forNode, i));
+			ps.Print(" */\n");
 		}
-		ps.print("};\n\n");
-		ps.print("/** Function to test for type compatibility. */\n");
-		ps.print("static inline int ");
-		ps.print(add);
-		ps.print("_type_is_a(int t1, int t2) {\n");
-		ps.print("  return t1 == t2 || " + matrixName + "[t1][t2] != 0;\n}\n\n");
+		ps.Print("};\n\n");
+		ps.Print("/** Function to test for type compatibility. */\n");
+		ps.Print("static inline int ");
+		ps.Print(add);
+		ps.Print("_type_is_a(int t1, int t2) {\n");
+		ps.Print("  return t1 == t2 || " + matrixName + "[t1][t2] != 0;\n}\n\n");
 	}
 
-	protected void makeSuperSubTypes(PrintStream ps, boolean forNode, String add)
+	protected internal virtual void MakeSuperSubTypes(PrintStream ps, bool forNode, string add)
 	{
-		int[] types = getIDs(forNode);
-		int maxTypeId = types.length;
+		int[] types = GetIDs(forNode);
+		int maxTypeId = types.Length;
 
-		ps.print("static const char " + add + "_super_types[" + (maxTypeId + 1) + "]["
-				+ maxTypeId + "] = {\n");
+		ps.Print("static const char " + add + "_super_types[" + (maxTypeId + 1) + "][" + maxTypeId + "] = {\n");
 
-		for(int i = 0; i < maxTypeId; i++) {
-			int[] superTypes = getSuperTypes(forNode, i);
-			ps.print("  /* super types of ");
-			ps.print(getTypeName(forNode, i));
-			ps.print(": ");
-			for(int j = 0; j < superTypes.length; j++) {
-				ps.print(getTypeName(forNode, superTypes[j]));
-				ps.print(" ");
+		for(int i = 0; i < maxTypeId; i++)
+		{
+			int[] superTypes = GetSuperTypes(forNode, i);
+			ps.Print("  /* super types of ");
+			ps.Print(GetTypeName(forNode, i));
+			ps.Print(": ");
+			for(int j = 0; j < superTypes.Length; j++)
+			{
+				ps.Print(GetTypeName(forNode, superTypes[j]));
+				ps.Print(" ");
 			}
-			ps.print(" */\n");
+			ps.Print(" */\n");
 
-			ps.print("  { ");
-			for(int j = 0; j < superTypes.length; j++) {
-				ps.print(superTypes[j]);
-				ps.print(", ");
+			ps.Print("  { ");
+			for(int j = 0; j < superTypes.Length; j++)
+			{
+				ps.Print(superTypes[j]);
+				ps.Print(", ");
 			}
-			ps.print("-1 },\n\n");
+			ps.Print("-1 },\n\n");
 		}
-		ps.print("};\n\n");
+		ps.Print("};\n\n");
 
-		ps.print("static const char " + add + "_sub_types[" + (maxTypeId + 1) + "]["
-				+ maxTypeId + "] = {\n");
-		for(int i = 0; i < maxTypeId; i++) {
-			int[] subTypes = getSubTypes(forNode, i);
-			ps.print("  /* sub types of ");
-			ps.print(getTypeName(forNode, i));
-			ps.print(": ");
-			for(int j = 0; j < subTypes.length; j++) {
-				ps.print(getTypeName(forNode, subTypes[j]));
-				ps.print(" ");
+		ps.Print("static const char " + add + "_sub_types[" + (maxTypeId + 1) + "][" + maxTypeId + "] = {\n");
+		for(int i = 0; i < maxTypeId; i++)
+		{
+			int[] subTypes = GetSubTypes(forNode, i);
+			ps.Print("  /* sub types of ");
+			ps.Print(GetTypeName(forNode, i));
+			ps.Print(": ");
+			for(int j = 0; j < subTypes.Length; j++)
+			{
+				ps.Print(GetTypeName(forNode, subTypes[j]));
+				ps.Print(" ");
 			}
-			ps.print(" */\n  {");
-			for(int j = 0; j < subTypes.length; j++) {
-				ps.print(subTypes[j]);
-				ps.print(", ");
+			ps.Print(" */\n  {");
+			for(int j = 0; j < subTypes.Length; j++)
+			{
+				ps.Print(subTypes[j]);
+				ps.Print(", ");
 			}
-			ps.print("-1 },\n\n");
+			ps.Print("-1 },\n\n");
 		}
-		ps.print("};\n\n");
+		ps.Print("};\n\n");
 	}
 
-	/**
-	 * Make the attribute matrix for a given attribute type.
-	 *
-	 * @param sb      The string buffer to add the code to.
-	 * @param add     The matrix prefix.
-	 * @param attrMap The map of all attributes.
-	 * @param typeMap The type map to use.
-	 */
-	protected static void makeAttrMatrix(PrintStream ps, String add,
-			Map<Entity, Integer> attrMap, Map<? extends InheritanceType, Integer> typeMap)
+	/// <summary>
+	/// Make the attribute matrix for a given attribute type.
+	/// </summary>
+	/// <param name="sb">      The string buffer to add the code to. </param>
+	/// <param name="add">     The matrix prefix. </param>
+	/// <param name="attrMap"> The map of all attributes. </param>
+	/// <param name="typeMap"> The type map to use. </param>
+	protected internal static void MakeAttrMatrix<T1>(PrintStream ps, string add,
+			IDictionary<Entity, int> attrMap, IDictionary<T1> typeMap) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
 	{
 
-		int maxTypeId = typeMap.size();
-		int maxAttrId = attrMap.size();
-		int[][] matrix = new int[maxTypeId][maxAttrId];
+		int maxTypeId = typeMap.Count;
+		int maxAttrId = attrMap.Count;
+		int[][] matrix = RectangularArrays.RectangularIntArray(maxTypeId, maxAttrId);
 
-		for(Entity ent : attrMap.keySet()) {
-			int attrId = attrMap.get(ent).intValue();
-			int typeId = getTypeId(typeMap, ent.getOwner());
+		foreach(Entity ent in attrMap.Keys)
+		{
+			int attrId = attrMap[ent];
+			int typeId = GetTypeId(typeMap, ent.Owner);
 			matrix[typeId][attrId] = 1;
 		}
 
-		ps.print("static const char " + add + "_attr_matrix[" + maxTypeId + "]["
-				+ maxAttrId + "] = {\n");
+		ps.Print("static const char " + add + "_attr_matrix[" + maxTypeId + "][" + maxAttrId + "] = {\n");
 
-		for(int i = 0; i < maxTypeId; i++) {
-			ps.print("  { ");
+		for(int i = 0; i < maxTypeId; i++)
+		{
+			ps.Print("  { ");
 			for(int j = 0; j < maxAttrId; j++)
-				ps.print((j != 0 ? ", " : "") + matrix[i][j]);
-			ps.print(" },\n");
+				ps.Print((j != 0 ? ", " : "") + matrix[i][j]);
+			ps.Print(" },\n");
 		}
-		ps.print("};\n");
+		ps.Print("};\n");
 	}
 
-	protected static void makeActionMap(PrintStream ps, Map<Rule, Integer> map)
+	protected internal static void MakeActionMap(PrintStream ps, IDictionary<Rule, int> map)
 	{
-		Action[] actions = new Action[map.size()];
+		Action[] actions = new Action[map.Count];
 
-		for(Rule r : map.keySet()) {
-			int index = map.get(r).intValue();
+		foreach(Rule r in map.Keys)
+		{
+			int index = map[r];
 			actions[index] = r;
 		}
 
-		ps.print("#define GR_ACTION_VALID(x) ((x) >= 0 && (x) < "
-				+ actions.length + ")\n\n");
-		ps.print("#define GR_ACTIONS " + actions.length + "\n\n");
+		ps.Print("#define GR_ACTION_VALID(x) ((x) >= 0 && (x) < " + actions.Length + ")\n\n");
+		ps.Print("#define GR_ACTIONS " + actions.Length + "\n\n");
 
-		ps.print("static const action_t action_map[] = {\n");
-		for(int i = 0; i < actions.length; i++) {
+		ps.Print("static const action_t action_map[] = {\n");
+		for(int i = 0; i < actions.Length; i++)
+		{
 			Action a = actions[i];
-			String kind = "gr_action_kind_test";
+			string kind = "gr_action_kind_test";
 
-			if(a instanceof Rule && ((Rule)a).getRight() != null)
+			if(a is Rule && ((Rule)a).Right != null)
 				kind = "gr_action_kind_rule";
 
-			ps.print("  { " + formatString(a.getIdent().toString()) + ", "
-					+ kind + ", 0, 0, NULL, NULL },\n");
+			ps.Print("  { " + FormatString(a.Ident.ToString()) + ", " + kind + ", 0, 0, NULL, NULL },\n");
 		}
-		ps.print("  { NULL, -1, 0, 0, NULL, NULL }\n};\n\n");
+		ps.Print("  { NULL, -1, 0, 0, NULL, NULL }\n};\n\n");
 	}
 
-	/**
-	 * Generate code for matching actions.
-	 * @param sb The string buffer to add the code to.
-	 */
-	protected void makeActions(PrintStream ps)
+	/// <summary>
+	/// Generate code for matching actions. </summary>
+	/// <param name="sb"> The string buffer to add the code to. </param>
+	protected internal virtual void MakeActions(PrintStream ps)
 	{
-		for(Rule a : actionRuleMap.keySet()) {
-			int id = actionRuleMap.get(a).intValue();
-			genMatch(ps, a, id);
-			genFinish(ps, a, id);
+		foreach(Rule a in actionRuleMap.Keys)
+		{
+			int id = actionRuleMap[a];
+			GenMatch(ps, a, id);
+			GenFinish(ps, a, id);
 		}
 	}
 
-	/**
-	 * Adds a XML type tag to the string buffer.
-	 *
-	 * @param depth  indentation depth
-	 * @param sb     the string buffer
-	 * @param ending the end of the XML tag, either ">" or "/>"
-	 * @param inh    the type
-	 */
-	protected static void dumpXMLTag(int depth, PrintStream ps, String ending, Type inh)
+	/// <summary>
+	/// Adds a XML type tag to the string buffer.
+	/// </summary>
+	/// <param name="depth">  indentation depth </param>
+	/// <param name="sb">     the string buffer </param>
+	/// <param name="ending"> the end of the XML tag, either ">" or "/>" </param>
+	/// <param name="inh">    the type </param>
+	protected internal static void DumpXMLTag(int depth, PrintStream ps, string ending, Type inh)
 	{
 		for(int i = 0; i < depth; ++i)
-			ps.print("  ");
-		ps.print("<" + inh.getName().replace(' ', '_')
-				+ " name=\"" + inh.getIdent() + "\"" + ending);
+			ps.Print("  ");
+		ps.Print("<" + inh.Name.Replace(' ', '_') + " name=\"" + inh.Ident + "\"" + ending);
 	}
 
-	/**
-	 * Adds a XML end type tag to the string buffer.
-	 *
-	 * @param depth indentation depth
-	 * @param sb    the string buffer
-	 * @param inh   the type
-	 */
-	protected static void dumpXMLEndTag(int depth, PrintStream ps, Type inh)
+	/// <summary>
+	/// Adds a XML end type tag to the string buffer.
+	/// </summary>
+	/// <param name="depth"> indentation depth </param>
+	/// <param name="sb">    the string buffer </param>
+	/// <param name="inh">   the type </param>
+	protected internal static void DumpXMLEndTag(int depth, PrintStream ps, Type inh)
 	{
 		for(int i = 0; i < depth; ++i)
-			ps.print("  ");
-		ps.print("</" + inh.getName().replace(' ', '_') + ">\n");
+			ps.Print("  ");
+		ps.Print("</" + inh.Name.Replace(' ', '_') + ">\n");
 	}
 
-	/**
-	 * Adds an XML entity tag to the string buffer.
-	 *
-	 * @param depth  indentation depth
-	 * @param sb     the string buffer
-	 * @param ending the end of the XML tag, either ">" or "/>"
-	 * @param ent    the entity
-	 */
-	protected static void dumpXMLTag(int depth, PrintStream ps, String ending, Entity ent)
+	/// <summary>
+	/// Adds an XML entity tag to the string buffer.
+	/// </summary>
+	/// <param name="depth">  indentation depth </param>
+	/// <param name="sb">     the string buffer </param>
+	/// <param name="ending"> the end of the XML tag, either ">" or "/>" </param>
+	/// <param name="ent">    the entity </param>
+	protected internal static void DumpXMLTag(int depth, PrintStream ps, string ending, Entity ent)
 	{
 		for(int i = 0; i < depth; ++i)
-			ps.print("  ");
-		ps.print("<" + ent.getName().replace(' ', '_')
-				+ " name=\"" + ent.getIdent() + "\""
-				+ " type=\"" + ent.getType().getIdent() + "\"" + ending);
+			ps.Print("  ");
+		ps.Print("<" + ent.Name.Replace(' ', '_') + " name=\"" + ent.Ident + "\"" + " type=\"" + ent.Type.Ident + "\"" + ending);
 	}
 
-	/**
-	 * Adds a XML end entity tag to the string buffer.
-	 *
-	 * @param depth indentation depth.
-	 * @param sb    the string buffer.
-	 * @param ent   the entity.
-	 */
-	protected static void dumpXMLEndTag(int depth, PrintStream ps, Entity ent)
+	/// <summary>
+	/// Adds a XML end entity tag to the string buffer.
+	/// </summary>
+	/// <param name="depth"> indentation depth. </param>
+	/// <param name="sb">    the string buffer. </param>
+	/// <param name="ent">   the entity. </param>
+	protected internal static void DumpXMLEndTag(int depth, PrintStream ps, Entity ent)
 	{
-		for(int i = 0; i < depth; ++i) {
-			ps.print("  ");
-		}
-		ps.print("</" + ent.getName().replace(' ', '_') + ">\n");
+		for(int i = 0; i < depth; ++i)
+			ps.Print("  ");
+		ps.Print("</" + ent.Name.Replace(' ', '_') + ">\n");
 	}
 
-	/**
-	 * Adds a XML enum value tag to the string buffer.
-	 *
-	 * @param depth  indentation depth.
-	 * @param sb     the string buffer.
-	 * @param ending the end of the XML tag, either ">" or "/>".
-	 * @param ev     the enum item.
-	 */
-	protected static void dumpXMLTag(int depth, PrintStream ps, String ending, EnumItem ev)
+	/// <summary>
+	/// Adds a XML enum value tag to the string buffer.
+	/// </summary>
+	/// <param name="depth">  indentation depth. </param>
+	/// <param name="sb">     the string buffer. </param>
+	/// <param name="ending"> the end of the XML tag, either ">" or "/>". </param>
+	/// <param name="ev">     the enum item. </param>
+	protected internal static void DumpXMLTag(int depth, PrintStream ps, string ending, EnumItem ev)
 	{
-		for(int i = 0; i < depth; ++i) {
-			ps.print("  ");
-		}
-		ps.print("<" + ev.getName().replace(' ', '_')
-				+ " name=\"" + ev + "\" value=\"" + ev.getValue().getValue() + "\"" + ending);
+		for(int i = 0; i < depth; ++i)
+			ps.Print("  ");
+		ps.Print("<" + ev.Name.Replace(' ', '_') + " name=\"" + ev + "\" value=\"" + ev.Value.Value + "\"" + ending);
 	}
 
-	/**
-	 * Dump an overview of all declared types, attributes and enums to
-	 * an XML file.
-	 *
-	 * @param sb The string buffer to put the XML stuff to.
-	 */
-	protected void writeOverview(PrintStream ps)
+	/// <summary>
+	/// Dump an overview of all declared types, attributes and enums to
+	/// an XML file.
+	/// </summary>
+	/// <param name="sb"> The string buffer to put the XML stuff to. </param>
+	protected internal virtual void WriteOverview(PrintStream ps)
 	{
-		Collection<Map<InheritanceType, Integer>> maps = new LinkedHashSet<Map<InheritanceType, Integer>>();
-		maps.add(getTypeMap(nodeTypeMap));
-		maps.add(getTypeMap(edgeTypeMap));
+		ICollection<IDictionary<InheritanceType, int>> maps = new LinkedHashSet<IDictionary<InheritanceType, int>>();
+		maps.Add(GetTypeMap(nodeTypeMap));
+		maps.Add(GetTypeMap(edgeTypeMap));
 
-		ps.print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		ps.Print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 
-		ps.print("<unit>\n");
+		ps.Print("<unit>\n");
 
-		for(Map<? extends InheritanceType, Integer> map : maps) {
-			for(InheritanceType type : map.keySet()) {
+// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
+// ORIGINAL LINE: for(java.util.Map<? extends de.unika.ipd.grgen.ir.model.type.InheritanceType, int> map : maps)
+		foreach(IDictionary<InheritanceType, int> map in maps)
+		{
+			foreach(InheritanceType type in map.Keys)
+			{
 				dumpXMLTag(1, ps, ">\n", type);
 
-				if(!type.getDirectSuperTypes().isEmpty())
-					ps.print("    <inherits>\n");
-				for(InheritanceType inh : type.getDirectSuperTypes()) {
+				if(type.DirectSuperTypes.Count > 0)
+					ps.Print("    <inherits>\n");
+				foreach(InheritanceType inh in type.DirectSuperTypes)
 					dumpXMLTag(3, ps, "/>\n", inh);
-				}
-				if(!type.getDirectSuperTypes().isEmpty())
-					ps.print("    </inherits>\n");
+				if(type.DirectSuperTypes.Count > 0)
+					ps.Print("    </inherits>\n");
 
-				if(!type.getMembers().isEmpty())
-					ps.print("    <attributes>\n");
-				for(Entity ent : type.getMembers()) {
-					dumpXMLTag(3, ps, "/>\n", ent);
-				}
-				if(!type.getMembers().isEmpty())
-					ps.print("    </attributes>\n");
+				if(type.Members.Count > 0)
+					ps.Print("    <attributes>\n");
+				foreach(Entity ent in type.Members)
+					DumpXMLTag(3, ps, "/>\n", ent);
+				if(type.Members.Count > 0)
+					ps.Print("    </attributes>\n");
 
 				dumpXMLEndTag(1, ps, type);
 			}
 		}
 
-		for(EnumType type : enumMap.keySet()) {
+		foreach(EnumType type in enumMap.Keys)
+		{
 			dumpXMLTag(1, ps, ">\n", type);
 
-			if(!type.getItems().isEmpty())
-				ps.print("    <attributes>\n");
-			ps.print("    <items>\n");
-			for(EnumItem ev : type.getItems()) {
-				dumpXMLTag(3, ps, "/>\n", ev);
-			}
-			if(!type.getItems().isEmpty())
-				ps.print("    </items>\n");
+			if(type.Items.Count > 0)
+				ps.Print("    <attributes>\n");
+			ps.Print("    <items>\n");
+			foreach(EnumItem ev in type.Items)
+				DumpXMLTag(3, ps, "/>\n", ev);
+			if(type.Items.Count > 0)
+				ps.Print("    </items>\n");
 
 			dumpXMLEndTag(1, ps, type);
 		}
 
-		ps.print("</unit>\n");
+		ps.Print("</unit>\n");
 	}
 
-	/**
-	 * Make some additional C type declarations that must probably be used
-	 * in the generated code.
-	 * @param sb The string buffer to the stuff to.
-	 */
-	protected static void makeCTypes(PrintStream ps)
+	/// <summary>
+	/// Make some additional C type declarations that must probably be used
+	/// in the generated code. </summary>
+	/// <param name="sb"> The string buffer to the stuff to. </param>
+	protected internal static void MakeCTypes(PrintStream ps)
 	{
-		ps.print("/** The attribute type classification. */\n");
-		ps.print("typedef enum _attribute_type {\n");
-		ps.print("  AT_TYPE_INTEGER = " + TypeClass.IS_INTEGER + ", /**< an integer */\n");
-		ps.print("  AT_TYPE_BOOLEAN = " + TypeClass.IS_BOOLEAN + ", /**< a boolean */\n");
-		ps.print("  AT_TYPE_STRING  = " + TypeClass.IS_STRING + ", /**< a string */\n");
-		ps.print("} attribute_type;\n\n");
+		ps.Print("/** The attribute type classification. */\n");
+		ps.Print("typedef enum _attribute_type {\n");
+		ps.Print("  AT_TYPE_INTEGER = " + Type.TypeClass.IS_INTEGER + ", /**< an integer */\n");
+		ps.Print("  AT_TYPE_BOOLEAN = " + Type.TypeClass.IS_BOOLEAN + ", /**< a boolean */\n");
+		ps.Print("  AT_TYPE_STRING  = " + Type.TypeClass.IS_STRING + ", /**< a string */\n");
+		ps.Print("} attribute_type;\n\n");
 
-		ps.print("/** The attribute type. */\n");
-		ps.print("typedef struct {\n"
+		ps.Print("/** The attribute type. */\n");
+		ps.Print("typedef struct {\n"
 				+ "  int type_id;       /**< the ID of attributes type */\n"
 				+ "  const char *name;  /**< the name of the attribute */\n"
 				+ "  attribute_type at; /**< the attribute type kind */\n"
 				+ "  int enum_id;       /**< the Id of the enum type or -1 */\n"
 				+ "} attr_t;\n\n");
 
-		ps.print("/** The type of an action. */\n");
-		ps.print("typedef struct {\n"
+		ps.Print("/** The type of an action. */\n");
+		ps.Print("typedef struct {\n"
 				+ "  const char *name;\n"
 				+ "  gr_action_kind_t kind;\n"
 				+ "  int ins;\n"
@@ -560,48 +546,47 @@ public abstract class CBackend extends IDBase implements Backend
 				+ "  const gr_value_kind_t *out_types;\n"
 				+ "} action_t;\n\n");
 
-		ps.print("/** The type of an enum item declaration. */\n");
-		ps.print("typedef struct {\n"
+		ps.Print("/** The type of an enum item declaration. */\n");
+		ps.Print("typedef struct {\n"
 				+ "  const char *name;    /**< the name of the enum item */\n"
 				+ "  int value;           /**< the value of the enum item */\n"
 				+ "} enum_item_decl_t;\n\n");
 
-		ps.print("/** The type of an enum declaration. */\n");
-		ps.print("typedef struct {\n"
+		ps.Print("/** The type of an enum declaration. */\n");
+		ps.Print("typedef struct {\n"
 				+ "  const char *name;    /**< the name of the enum type */\n"
 				+ "  int num_items;       /**< the number of items in this enum type */\n"
 				+ "  const enum_item_decl_t *items;  /**< the items of this enum type */\n"
 				+ "} enum_type_decl_t;\n\n");
 
-		ps.print("/** The type of the enum table. */\n");
-		ps.print("typedef struct {\n"
+		ps.Print("/** The type of the enum table. */\n");
+		ps.Print("typedef struct {\n"
 				+ "  const enum_type_decl_t *type; /**< declaration of the type */\n"
 				+ "  int type_id;                  /**< the Id of this enum type */\n"
 				+ "} enum_types_t;\n\n");
 	}
 
-	/**
-	 * Dump all enum type declarations to a string buffer.
-	 *
-	 * @param sb   The string buffer.
-	 * @param map  A map containing all enum types.
-	 */
-	protected static void makeEnumDeclarations(PrintStream ps, Map<EnumType, Integer> map)
+	/// <summary>
+	/// Dump all enum type declarations to a string buffer.
+	/// </summary>
+	/// <param name="sb">   The string buffer. </param>
+	/// <param name="map">  A map containing all enum types. </param>
+	protected internal static void MakeEnumDeclarations(PrintStream ps, IDictionary<EnumType, int> map)
 	{
 		// build the description of all enum types
-		for(EnumType type : map.keySet()) {
-			Ident name = type.getIdent();
+		foreach(EnumType type in map.Keys)
+		{
+			Ident name = type.Ident;
 
-			ps.print("/** The items for the " + name + " enum type. */\n");
-			ps.print("static const enum_item_decl_t _" + name + "_items[] = {\n");
+			ps.Print("/** The items for the " + name + " enum type. */\n");
+			ps.Print("static const enum_item_decl_t _" + name + "_items[] = {\n");
 
-			for(EnumItem ev : type.getItems()) {
-				ps.print(" { \"" + ev + "\", " + ev.getValue().getValue() + " },\n");
-			}
-			ps.print("};\n\n");
+			foreach(EnumItem ev in type.Items)
+				ps.Print(" { \"" + ev + "\", " + ev.Value.Value + " },\n");
+			ps.Print("};\n\n");
 
-			ps.print("/** The declaration of the " + name + " enum type. */\n");
-			ps.print("static const enum_type_decl_t " + name + "_decl = {\n"
+			ps.Print("/** The declaration of the " + name + " enum type. */\n");
+			ps.Print("static const enum_type_decl_t " + name + "_decl = {\n"
 					+ "  \"" + name + "\",\n"
 					+ "  sizeof(_" + name + "_items)/sizeof(_" + name + "_items[0]),\n"
 					+ "  _" + name + "_items,\n"
@@ -609,204 +594,199 @@ public abstract class CBackend extends IDBase implements Backend
 		}
 
 		// dump all enums to a table
-		ps.print("/** All enum types. */\n");
-		ps.print("static const enum_types_t enum_types[] = {\n");
+		ps.Print("/** All enum types. */\n");
+		ps.Print("static const enum_types_t enum_types[] = {\n");
 
-		String[] names = new String[map.size()];
-		for(EnumType type : map.keySet()) {
-			int index = getTypeId(map, type);
+		string[] names = new string[map.Count];
+		foreach(EnumType type in map.Keys)
+		{
+			int index = GetTypeId(map, type);
 
-			names[index] = type.getIdent().toString();
+			names[index] = type.Ident.ToString();
 		}
 
-		for(int i = 0; i < map.size(); ++i) {
-			ps.print("  { &" + names[i] + "_decl, " + i + " },\n");
-		}
-		ps.print("};\n\n");
+		for(int i = 0; i < map.Count; ++i)
+			ps.Print("  { &" + names[i] + "_decl, " + i + " },\n");
+		ps.Print("};\n\n");
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)
-	 */
-	@Override
-	public void init(Unit unit, Sys sys, File outputPath)
+	/// <seealso cref="de.unika.ipd.grgen.be.Backend.init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)"/>
+	public virtual void Init(Unit unit, Sys sys, File outputPath)
 	{
 		this.unit = unit;
-		this.error = sys.getErrorReporter();
+		error = sys.ErrorReporter;
 		this.path = outputPath;
-		path.mkdirs();
+		path.Mkdirs();
 
-		makeTypes(unit);
+		MakeTypes(unit);
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.be.Backend#generate()
-	 */
-	@Override
-	public void generate()
+	/// <seealso cref="de.unika.ipd.grgen.be.Backend.generate()"/>
+	public virtual void Generate()
 	{
-		String unitName = formatString(unit.getUnitName());
+		string unitName = FormatString(unit.UnitName);
 
 		// Emit the C types file
-		PrintStream ps = openFile("types" + incExtension);
-		makeCTypes(ps);
-		closeFile(ps);
+		PrintStream ps = OpenFile("types" + incExtension);
+		MakeCTypes(ps);
+		CloseFile(ps);
 
 		// Emit the type defines.
-		ps = openFile("graph" + incExtension);
-		ps.println("/** name of the unit */\n");
-		ps.println("#define UNIT_NAME " + unitName + "\n\n");
+		ps = OpenFile("graph" + incExtension);
+		ps.Println("/** name of the unit */\n");
+		ps.Println("#define UNIT_NAME " + unitName + "\n\n");
 
-		ps.println("/** type model digest */\n");
-		ps.println("#define TYPE_MODEL_DIGEST \"" + unit.getTypeDigest() + "\"\n\n");
+		ps.Println("/** type model digest */\n");
+		ps.Println("#define TYPE_MODEL_DIGEST \"" + unit.TypeDigest + "\"\n\n");
 
-		makeTypeDefines(ps, nodeTypeMap, "NODE");
-		makeTypeDefines(ps, edgeTypeMap, "EDGE");
-		makeAttrDefines(ps, nodeAttrMap, "NODE");
-		makeAttrDefines(ps, edgeAttrMap, "EDGE");
-		makeEnumDefines(ps, enumMap);
-		closeFile(ps);
+		MakeTypeDefines(ps, nodeTypeMap, "NODE");
+		MakeTypeDefines(ps, edgeTypeMap, "EDGE");
+		MakeAttrDefines(ps, nodeAttrMap, "NODE");
+		MakeAttrDefines(ps, edgeAttrMap, "EDGE");
+		MakeEnumDefines(ps, enumMap);
+		CloseFile(ps);
 
-		ps = openFile("enums" + incExtension);
-		makeEnumDeclarations(ps, enumMap);
-		closeFile(ps);
+		ps = OpenFile("enums" + incExtension);
+		MakeEnumDeclarations(ps, enumMap);
+		CloseFile(ps);
 
 		// Make the "is a" matrices.
-		ps = openFile("is_a" + incExtension);
-		makeIsAMatrix(ps, true, "node");
-		makeIsAMatrix(ps, false, "edge");
-		closeFile(ps);
+		ps = OpenFile("is_a" + incExtension);
+		MakeIsAMatrix(ps, true, "node");
+		MakeIsAMatrix(ps, false, "edge");
+		CloseFile(ps);
 
-		ps = openFile("super_sub_types" + incExtension);
-		makeSuperSubTypes(ps, true, "node");
-		makeSuperSubTypes(ps, false, "edge");
-		closeFile(ps);
+		ps = OpenFile("super_sub_types" + incExtension);
+		MakeSuperSubTypes(ps, true, "node");
+		MakeSuperSubTypes(ps, false, "edge");
+		CloseFile(ps);
 
 		// Make the attribute matrices
-		ps = openFile("attr" + incExtension);
-		makeAttrMatrix(ps, "node", nodeAttrMap, nodeTypeMap);
-		makeAttrMatrix(ps, "edge", edgeAttrMap, edgeTypeMap);
-		closeFile(ps);
+		ps = OpenFile("attr" + incExtension);
+		MakeAttrMatrix(ps, "node", nodeAttrMap, nodeTypeMap);
+		MakeAttrMatrix(ps, "edge", edgeAttrMap, edgeTypeMap);
+		CloseFile(ps);
 
 		// Make arrays with names of the types.
-		ps = openFile("names" + incExtension);
-		makeTypeMap(ps, getTypeMap(nodeTypeMap), "node");
-		makeTypeMap(ps, getTypeMap(edgeTypeMap), "edge");
-		makeAttrMap(ps, nodeAttrMap, nodeTypeMap, enumMap, "node");
-		makeAttrMap(ps, edgeAttrMap, edgeTypeMap, enumMap, "edge");
-		closeFile(ps);
+		ps = OpenFile("names" + incExtension);
+		MakeTypeMap(ps, GetTypeMap(nodeTypeMap), "node");
+		MakeTypeMap(ps, GetTypeMap(edgeTypeMap), "edge");
+		MakeAttrMap(ps, nodeAttrMap, nodeTypeMap, enumMap, "node");
+		MakeAttrMap(ps, edgeAttrMap, edgeTypeMap, enumMap, "edge");
+		CloseFile(ps);
 
-		ps = openFile("actions" + incExtension);
-		makeActionMap(ps, actionRuleMap);
-		closeFile(ps);
+		ps = OpenFile("actions" + incExtension);
+		MakeActionMap(ps, actionRuleMap);
+		CloseFile(ps);
 
-		ps = openFile("action_impl" + incExtension);
-		makeActions(ps);
-		closeFile(ps);
+		ps = OpenFile("action_impl" + incExtension);
+		MakeActions(ps);
+		CloseFile(ps);
 
 		// write an overview of all generated Ids
-		ps = openFile("overview.xml");
-		writeOverview(ps);
-		closeFile(ps);
+		ps = OpenFile("overview.xml");
+		WriteOverview(ps);
+		CloseFile(ps);
 
 		// Make validate data structures.
-		genValidateStatements();
+		GenValidateStatements();
 
 		// a hook for special generated things
-		genExtra();
+		GenExtra();
 	}
 
-	protected abstract void genMatch(PrintStream sb, MatchingAction a, int id);
+	protected internal abstract void GenMatch(PrintStream sb, MatchingAction a, int id);
 
-	protected abstract void genFinish(PrintStream sb, MatchingAction a, int id);
+	protected internal abstract void GenFinish(PrintStream sb, MatchingAction a, int id);
 
-	/**
-	 * Generate some extra stuff.
-	 * This function is called after everything else is generated.
-	 */
-	protected abstract void genExtra();
+	/// <summary>
+	/// Generate some extra stuff.
+	/// This function is called after everything else is generated.
+	/// </summary>
+	protected internal abstract void GenExtra();
 
-	/**
-	 * @see de.unika.ipd.grgen.be.Backend#done()
-	 */
-	@Override
-	public void done()
+	/// <seealso cref="de.unika.ipd.grgen.be.Backend.done()"/>
+	public virtual void Done()
 	{
 		// nothing to do
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.be.C.Formatter#formatId(java.lang.String)
-	 */
-	public static String formatId(String id)
+	/// <seealso cref="de.unika.ipd.grgen.be.C.Formatter.formatId(java.lang.String)"/>
+	public static string FormatId(string id)
 	{
 		return id;
 	}
 
-	/**
-	 * Format a string into a C string.
-	 * This takes a Java string and produces a C string literal of it by escaping
-	 * some characters and putting quotes around it.
-	 * If a character is equal to the constant <code>BREAK_LINE</code> defined
-	 * above, the string literal is ended and continued at the next line.
-	 * This gives a better readability, if used properly.
-	 * @param s A string.
-	 * @return A C string literal.
-	 */
-	public static String formatString(String s)
+	/// <summary>
+	/// Format a string into a C string.
+	/// This takes a Java string and produces a C string literal of it by escaping
+	/// some characters and putting quotes around it.
+	/// If a character is equal to the constant <code>BREAK_LINE</code> defined
+	/// above, the string literal is ended and continued at the next line.
+	/// This gives a better readability, if used properly. </summary>
+	/// <param name="s"> A string. </param>
+	/// <returns> A C string literal. </returns>
+	public static string FormatString(string s)
 	{
-		ByteArrayOutputStream bos = new ByteArrayOutputStream(s.length() * 2);
+		MemoryStream bos = new MemoryStream(s.Length * 2);
 		PrintStream ps = new PrintStream(bos);
-		formatString(ps, s);
-		ps.flush();
+		FormatString(ps, s);
+		ps.Flush();
 		ps.close();
-		return bos.toString();
+		return bos.ToString();
 	}
 
-	public static void formatString(PrintStream ps, String s)
+	public static void FormatString(PrintStream ps, string s)
 	{
-		ps.print('\"');
-		for(int i = 0; i < s.length(); i++) {
-			char ch = s.charAt(i);
-			switch(ch) {
+		ps.Print('\"');
+		for(int i = 0; i < s.Length; i++)
+		{
+			char ch = s[i];
+			switch(ch)
+			{
 			case '\"':
-				ps.print("\\\"");
+				ps.Print("\\\"");
 				break;
 			case '\'':
-				ps.print("\\\'");
+				ps.Print("\\\'");
 				break;
 			case '\n':
 			case '\t':
 				break;
 			default:
-				ps.print(ch);
+				ps.Print(ch);
+			break;
 			}
 		}
-		ps.print('\"');
+		ps.Print('\"');
 	}
 
-	protected void genValidateStatements()
+	protected internal virtual void GenValidateStatements()
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
-		sb.append("\n/** The Validate Info */\n\n");
-		sb.append("static gr_validate_info_t valid_info[] = {\n");
+		sb.Append("\n/** The Validate Info */\n\n");
+		sb.Append("static gr_validate_info_t valid_info[] = {\n");
 
-		for(EdgeType edgeType : edgeTypeMap.keySet()) {
-			for(ConnAssert ca : edgeType.getConnAsserts()) {
-				sb.append("\n{\n");
-				sb.append("  " + getId(edgeType) + ",\n");
-				sb.append("  " + getId(ca.getSrcType()) + ",\n");
-				sb.append("  " + getId(ca.getTgtType()) + ",\n");
-				sb.append("  " + ca.getSrcLower() + ",\n");
-				sb.append("  " + ca.getSrcUpper() + ",\n");
-				sb.append("  " + ca.getTgtLower() + ",\n");
-				sb.append("  " + ca.getTgtUpper() + ",\n");
-				sb.append("},\n");
+		foreach(EdgeType edgeType in edgeTypeMap.Keys)
+		{
+			foreach(ConnAssert ca in edgeType.ConnAsserts)
+			{
+				sb.Append("\n{\n");
+				sb.Append("  " + GetId(edgeType) + ",\n");
+				sb.Append("  " + GetId(ca.SrcType) + ",\n");
+				sb.Append("  " + GetId(ca.TgtType) + ",\n");
+				sb.Append("  " + ca.SrcLower + ",\n");
+				sb.Append("  " + ca.SrcUpper + ",\n");
+				sb.Append("  " + ca.TgtLower + ",\n");
+				sb.Append("  " + ca.TgtUpper + ",\n");
+				sb.Append("},\n");
 			}
 		}
-		sb.append("\n{-1, -1, -1, -1, -1, -1, -1}\n\n};\n\n");
+		sb.Append("\n{-1, -1, -1, -1, -1, -1, -1}\n\n};\n\n");
 
-		writeFile("valid_info" + incExtension, sb);
+		WriteFile("valid_info" + incExtension, sb);
 	}
+}
+
 }

@@ -1,95 +1,115 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.executable;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import de.unika.ipd.grgen.ir.ContainedInPackage;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * Base type for filter functions (internal and external).
- */
-public abstract class FilterFunction extends Identifiable implements Filter, ContainedInPackage
+namespace de.unika.ipd.grgen.ir.executable
 {
-	private String packageContainedIn;
 
-	/** A list of the parameters */
-	protected ArrayList<Entity> params = new ArrayList<Entity>();
+using System.Collections.Generic;
 
-	/** A list of the parameter types, computed from the parameters */
-	protected ArrayList<Type> parameterTypes = null;
+using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-	/** The action we're a filter for */
-	protected Rule action;
+/// <summary>
+/// Base type for filter functions (internal and external).
+/// </summary>
+public abstract class FilterFunction : Identifiable, Filter, ContainedInPackage
+{
+	private string packageContainedIn;
 
-	public FilterFunction(String name, Ident ident)
+	/// <summary>
+	/// A list of the parameters </summary>
+	protected internal List<Entity> @params = new List<Entity>();
+
+	/// <summary>
+	/// A list of the parameter types, computed from the parameters </summary>
+	protected internal List<Type> parameterTypes = null;
+
+	/// <summary>
+	/// The action we're a filter for </summary>
+	protected internal Rule action;
+
+	public FilterFunction(string name, Ident ident)
+		: base(name, ident)
 	{
-		super(name, ident);
 	}
 
-	public void setAction(Rule action)
+	public virtual Rule Action
 	{
-		this.action = action;
-	}
-
-	@Override
-	public Rule getAction()
-	{
-		return action;
-	}
-
-	@Override
-	public String getPackageContainedIn()
-	{
-		return packageContainedIn;
-	}
-
-	public void setPackageContainedIn(String packageContainedIn)
-	{
-		this.packageContainedIn = packageContainedIn;
-	}
-
-	public String getFilterName()
-	{
-		return getIdent().toString();
-	}
-
-	/** Add a parameter to the filter function. */
-	public void addParameter(Entity entity)
-	{
-		params.add(entity);
-	}
-
-	/** Get all parameters of this filter function. */
-	public List<Entity> getParameters()
-	{
-		return Collections.unmodifiableList(params);
-	}
-
-	/** Get all parameter types of this filter function. */
-	public List<Type> getParameterTypes()
-	{
-		if(parameterTypes == null) {
-			parameterTypes = new ArrayList<Type>();
-			for(Entity entity : getParameters()) {
-				parameterTypes.add(entity.getType());
-			}
+		set
+		{
+		this.action = value;
 		}
-		return Collections.unmodifiableList(parameterTypes);
+		get
+		{
+		return action;
+		}
 	}
+
+
+	public virtual string PackageContainedIn
+	{
+		get
+		{
+		return packageContainedIn;
+		}
+		set
+		{
+		this.packageContainedIn = value;
+		}
+	}
+
+
+	public virtual string FilterName
+	{
+		get
+		{
+		return Ident.ToString();
+		}
+	}
+
+	/// <summary>
+	/// Add a parameter to the filter function. </summary>
+	public virtual void AddParameter(Entity entity)
+	{
+		@params.Add(entity);
+	}
+
+	/// <summary>
+	/// Get all parameters of this filter function. </summary>
+	public virtual IList<Entity> Parameters
+	{
+		get
+		{
+		return @params.AsReadOnly();
+		}
+	}
+
+	/// <summary>
+	/// Get all parameter types of this filter function. </summary>
+	public virtual IList<Type> ParameterTypes
+	{
+		get
+		{
+		if(parameterTypes == null)
+		{
+			parameterTypes = new List<Type>();
+			foreach(Entity entity in Parameters)
+				parameterTypes.Add(entity.Type);
+		}
+		return parameterTypes.AsReadOnly();
+		}
+	}
+}
+
 }

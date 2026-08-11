@@ -1,52 +1,62 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-
-/**
- * AST node for an iterated pattern with explicitly specified min and max bounds on the matches, maybe including replacements.
- */
-public class IteratedMinMaxDeclNode extends IteratedDeclNode
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(IteratedMinMaxDeclNode.class, "iterated minmax");
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+
+/// <summary>
+/// AST node for an iterated pattern with explicitly specified min and max bounds on the matches, maybe including replacements.
+/// </summary>
+public class IteratedMinMaxDeclNode : IteratedDeclNode
+{
+	static IteratedMinMaxDeclNode()
+	{
+		SetClassName(typeof(IteratedMinMaxDeclNode), "iterated minmax");
 	}
 
 	private int minMatches;
 	private int maxMatches;
 
 	public IteratedMinMaxDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right, int minMatches, int maxMatches)
+		: base(id, left, right)
 	{
-		super(id, left, right);
 		this.minMatches = minMatches;
 		this.maxMatches = maxMatches;
 	}
 
-	@Override
-	protected int getMinMatches()
+	protected internal override int MinMatches
 	{
+		get
+		{
 		return minMatches;
-	}
-	
-	@Override
-	protected int getMaxMatches()
-	{
-		return maxMatches;
+		}
 	}
 
-	public static String getKindStr()
+	protected internal override int MaxMatches
 	{
-		return "iterated-minmax";
+		get
+		{
+		return maxMatches;
+		}
 	}
+
+	public static string KindStr
+	{
+		get
+		{
+		return "iterated-minmax";
+		}
+	}
+}
+
 }

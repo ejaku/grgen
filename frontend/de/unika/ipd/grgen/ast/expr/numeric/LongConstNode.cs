@@ -1,65 +1,70 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.numeric;
+namespace de.unika.ipd.grgen.ast.expr.numeric
+{
+using System;
 
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.string.StringConstNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.parser.Coords;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using StringConstNode = de.unika.ipd.grgen.ast.expr.@string.StringConstNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
 
-/**
- * A long constant.
- */
-public class LongConstNode extends ConstNode
+/// <summary>
+/// A long constant.
+/// </summary>
+public class LongConstNode : ConstNode
 {
 	public LongConstNode(Coords coords, long v)
+		: base(coords, "long", new long?(v))
 	{
-		super(coords, "long", new Long(v));
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.longType;
+		}
 	}
 
-	@Override
-	protected ConstNode doCastTo(TypeNode type)
+	protected internal override ConstNode DoCastTo(TypeNode type)
 	{
-		Long value = (Long)getValue();
-		long unboxed = value.longValue();
+		long? value = (long?)Value;
+		long unboxed = value.Value;
 
-		if(type.isEqual(BasicTypeNode.byteType)) {
-			return new ByteConstNode(getCoords(), (byte)unboxed);
-		} else if(type.isEqual(BasicTypeNode.shortType)) {
-			return new ShortConstNode(getCoords(), (short)unboxed);
-		} else if(type.isEqual(BasicTypeNode.intType)) {
-			return new IntConstNode(getCoords(), (int)unboxed);
-		} else if(type.isEqual(BasicTypeNode.floatType)) {
-			return new FloatConstNode(getCoords(), unboxed);
-		} else if(type.isEqual(BasicTypeNode.doubleType)) {
-			return new DoubleConstNode(getCoords(), unboxed);
-		} else if(type.isEqual(BasicTypeNode.stringType)) {
-			return new StringConstNode(getCoords(), value.toString());
-		} else
-			throw new UnsupportedOperationException();
+		if(type.IsEqual(BasicTypeNode.byteType))
+			return new ByteConstNode(Coords, (sbyte)unboxed);
+		else if(type.IsEqual(BasicTypeNode.shortType))
+			return new ShortConstNode(Coords, (short)unboxed);
+		else if(type.IsEqual(BasicTypeNode.intType))
+			return new IntConstNode(Coords, (int)unboxed);
+		else if(type.IsEqual(BasicTypeNode.floatType))
+			return new FloatConstNode(Coords, unboxed);
+		else if(type.IsEqual(BasicTypeNode.doubleType))
+			return new DoubleConstNode(Coords, unboxed);
+		else if(type.IsEqual(BasicTypeNode.stringType))
+			return new StringConstNode(Coords, value.ToString());
+		else
+			throw new System.NotSupportedException();
 	}
 
-	public static String removeSuffix(String longLiteral)
+	public static string RemoveSuffix(string longLiteral)
 	{
-		if(longLiteral.endsWith("l") || longLiteral.endsWith("L"))
-			return longLiteral.substring(0, longLiteral.length() - 1);
+		if(longLiteral.EndsWith("l", StringComparison.Ordinal) || longLiteral.EndsWith("L", StringComparison.Ordinal))
+			return longLiteral.Substring(0, longLiteral.Length - 1);
 		else
 			return longLiteral;
 	}
+}
+
 }

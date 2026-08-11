@@ -1,138 +1,146 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * XMLDumper.java
- *
- * @author Created by Omnicore CodeGuide
- */
+/// <summary>
+/// XMLDumper.java
+/// 
+/// @author Created by Omnicore CodeGuide
+/// </summary>
 
-package de.unika.ipd.grgen.util;
+namespace de.unika.ipd.grgen.util
+{
 
-import java.io.PrintStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 public class XMLDumper
 {
-	private final PrintStream ps;
+	private readonly PrintStream ps;
 
 	private int indentationLevel = 0;
 
-	private final String indentString;
+	private readonly string indentString;
 
-	private final Collection<XMLDumpable> visited = new HashSet<XMLDumpable>();
+	private readonly ICollection<XMLDumpable> visited = new HashSet<XMLDumpable>();
 
 	public XMLDumper(PrintStream ps)
+		: this(ps, "  ")
 	{
-		this(ps, "  ");
 	}
 
-	public XMLDumper(PrintStream ps, String indentString)
+	public XMLDumper(PrintStream ps, string indentString)
 	{
 		this.ps = ps;
 		this.indentString = indentString;
 	}
 
-	public void dump(XMLDumpable dumpable)
+	public virtual void Dump(XMLDumpable dumpable)
 	{
-		if(visited.contains(dumpable)) {
-			dumpRef(dumpable);
+		if(visited.Contains(dumpable))
+		{
+			DumpRef(dumpable);
 			return;
 		}
 
-		visited.add(dumpable);
+		visited.Add(dumpable);
 
-		Map<String, Object> fields = new HashMap<String, Object>();
-		dumpable.addFields(fields);
-		String tagName = dumpable.getTagName();
+		IDictionary<string, object> fields = new Dictionary<string, object>();
+		dumpable.AddFields(fields);
+		string tagName = dumpable.TagName;
 
-		indent();
-		ps.print('<');
-		ps.print(tagName);
-		ps.print(" id=\"");
-		ps.print(dumpable.getXMLId());
-		ps.print('\"');
+		Indent();
+		ps.Print('<');
+		ps.Print(tagName);
+		ps.Print(" id=\"");
+		ps.Print(dumpable.XMLId);
+		ps.Print('\"');
 
-		List<String> keysToRemove = new ArrayList<String>();
+		IList<string> keysToRemove = new List<string>();
 
-		for(String obj : fields.keySet()) {
-			Object val = fields.get(obj);
-			if(!(val instanceof Iterator<?>)) {
-				ps.print(' ');
-				ps.print(obj);
-				ps.print("=\"");
-				ps.print(val);
-				ps.print('\"');
-				keysToRemove.add(obj);
+		foreach(string obj in fields.Keys)
+		{
+			object val = fields[obj];
+// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
+// ORIGINAL LINE: if(!(val instanceof java.util.Iterator<?>))
+			if(!(val is IEnumerator<object>))
+			{
+				ps.Print(' ');
+				ps.Print(obj);
+				ps.Print("=\"");
+				ps.Print(val);
+				ps.Print('\"');
+				keysToRemove.Add(obj);
 			}
 		}
 
-		for(String keyToRemove : keysToRemove) {
-			fields.remove(keyToRemove);
-		}
+		foreach(string keyToRemove in keysToRemove)
+			fields.Remove(keyToRemove);
 
-		if(!fields.isEmpty()) {
-			ps.println('>');
+		if(fields.Count > 0)
+		{
+			ps.Println('>');
 			indentationLevel++;
-			for(Object obj : fields.keySet()) {
+			foreach(object obj in fields.Keys)
+			{
 				// the cast was checked some lines above
-				Iterator<?> childs = (Iterator<?>)fields.get(obj);
-				String tag = obj.toString();
+// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
+// ORIGINAL LINE: java.util.Iterator<?> childs = (java.util.Iterator<?>)fields.get(obj);
+				IEnumerator<object> childs = (IEnumerator<object>)fields[obj];
+				string tag = obj.ToString();
 
-				if(childs.hasNext()) {
-					indent();
-					ps.print('<');
-					ps.print(tag);
-					ps.println('>');
+// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
+				if(childs.HasNext())
+				{
+					Indent();
+					ps.Print('<');
+					ps.Print(tag);
+					ps.Println('>');
 					indentationLevel++;
 
-					while(childs.hasNext()) {
-						Object d = childs.next();
+					while(childs.MoveNext())
+					{
+						object d = childs.Current;
 
-						assert d instanceof XMLDumpable;
-						dump((XMLDumpable)d);
+						Debug.Assert(d is XMLDumpable);
+						Dump((XMLDumpable)d);
 					}
 
 					indentationLevel--;
-					indent();
-					ps.print("</");
-					ps.print(tag);
-					ps.println('>');
+					Indent();
+					ps.Print("</");
+					ps.Print(tag);
+					ps.Println('>');
 				}
 			}
 			indentationLevel--;
-			indent();
-			ps.print("</");
-			ps.print(tagName);
-			ps.println('>');
-		} else
-			ps.println("/>");
-	}
-
-	private void dumpRef(XMLDumpable dumpable)
-	{
-		indent();
-		ps.print('<');
-		ps.print(dumpable.getRefTagName());
-		ps.print(" id=\"");
-		ps.print(dumpable.getXMLId());
-		ps.println("\"/>");
-	}
-
-	private void indent()
-	{
-		for(int i = 0; i < indentationLevel; i++) {
-			ps.print(indentString);
+			Indent();
+			ps.Print("</");
+			ps.Print(tagName);
+			ps.Println('>');
 		}
+		else
+			ps.Println("/>");
 	}
+
+	private void DumpRef(XMLDumpable dumpable)
+	{
+		Indent();
+		ps.Print('<');
+		ps.Print(dumpable.RefTagName);
+		ps.Print(" id=\"");
+		ps.Print(dumpable.XMLId);
+		ps.Println("\"/>");
+	}
+
+	private void Indent()
+	{
+		for(int i = 0; i < indentationLevel; i++)
+			ps.Print(indentString);
+	}
+}
+
 }

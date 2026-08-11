@@ -1,50 +1,58 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.type;
+namespace de.unika.ipd.grgen.ast.type
+{
 
-import java.util.HashSet;
-import java.util.Set;
+using System;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ast.MemberAccessor;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
+using MemberAccessor = de.unika.ipd.grgen.ast.MemberAccessor;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
 
 // base class for the different match types (action, iterated, defined=match class)
-public abstract class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
+public abstract class MatchTypeNode : DeclaredTypeNode, MemberAccessor
 {
-	static {
-		setClassName(MatchTypeNode.class, "match type");
-	}
-
-	@Override
-	public String getName()
+	static MatchTypeNode()
 	{
-		return getTypeName();
+		SetClassName(typeof(MatchTypeNode), "match type");
 	}
 
-	@Override
-	public abstract DeclNode tryGetMember(String name);
+	public override string Name
+	{
+		get
+		{
+		return TypeName;
+		}
+	}
 
-	public abstract Set<DeclNode> getEntities();
+	public override abstract DeclNode TryGetMember(string name);
+
+	public abstract ISet<DeclNode> Entities {get;}
 
 	// get set of names of contained entities excluding anonymous entities
-	public Set<String> getNamesOfEntities()
+	public virtual ISet<string> NamesOfEntities
 	{
-		Set<String> set = new HashSet<String>();
-		for(DeclNode entity : getEntities())
+		get
 		{
-			String name = entity.ident.toString();
-			if(!name.startsWith("$"))
-				set.add(name);
+		ISet<string> set = new HashSet<string>();
+		foreach(DeclNode entity in Entities)
+		{
+			string name = entity.ident.ToString();
+			if(!name.StartsWith("$", StringComparison.Ordinal))
+				set.Add(name);
 		}
 		return set;
+		}
 	}
+}
+
 }

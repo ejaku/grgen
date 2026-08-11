@@ -1,34 +1,38 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr.numeric;
+namespace de.unika.ipd.grgen.ir.expr.numeric
+{
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-
-public class RoundExpr extends BuiltinFunctionInvocationExpr
+public class RoundExpr : BuiltinFunctionInvocationExpr
 {
 	private Expression expr;
 
 	public RoundExpr(Expression expr)
+		: base("round expr", expr.Type)
 	{
-		super("round expr", expr.getType());
 		this.expr = expr;
 	}
 
-	public Expression getExpr()
+	public virtual Expression Expr
 	{
+		get
+		{
 		return expr;
+		}
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		expr.collectNeededEntities(needs);
+		expr.CollectNeededEntities(needs);
 	}
+}
+
 }

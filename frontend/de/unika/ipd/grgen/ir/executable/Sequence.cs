@@ -1,77 +1,89 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.executable;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ir.ContainedInPackage;
-import de.unika.ipd.grgen.ir.Exec;
-import de.unika.ipd.grgen.ir.ExecVariable;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.Identifiable;
-
-/**
- * A graph rewrite sequence definition.
- */
-public class Sequence extends Identifiable implements ContainedInPackage
+namespace de.unika.ipd.grgen.ir.executable
 {
-	private String packageContainedIn;
+
+using System.Collections.Generic;
+
+using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
+using Exec = de.unika.ipd.grgen.ir.Exec;
+using ExecVariable = de.unika.ipd.grgen.ir.ExecVariable;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+
+/// <summary>
+/// A graph rewrite sequence definition.
+/// </summary>
+public class Sequence : Identifiable, ContainedInPackage
+{
+	private string packageContainedIn;
 
 	private Exec exec;
 
-	private ArrayList<ExecVariable> inParams = new ArrayList<ExecVariable>();
-	private ArrayList<ExecVariable> outParams = new ArrayList<ExecVariable>();
+	private List<ExecVariable> inParams = new List<ExecVariable>();
+	private List<ExecVariable> outParams = new List<ExecVariable>();
 
 	public Sequence(Ident ident, Exec exec)
+		: base("sequence", ident)
 	{
-		super("sequence", ident);
 		this.exec = exec;
 	}
 
-	@Override
-	public String getPackageContainedIn()
+	public virtual string PackageContainedIn
 	{
+		get
+		{
 		return packageContainedIn;
+		}
+		set
+		{
+		this.packageContainedIn = value;
+		}
 	}
 
-	public void setPackageContainedIn(String packageContainedIn)
-	{
-		this.packageContainedIn = packageContainedIn;
-	}
 
-	public Exec getExec()
+	public virtual Exec Exec
 	{
+		get
+		{
 		return exec;
+		}
 	}
 
-	public void addInParam(ExecVariable inParam)
+	public virtual void AddInParam(ExecVariable inParam)
 	{
-		inParams.add(inParam);
+		inParams.Add(inParam);
 	}
 
-	public List<ExecVariable> getInParameters()
+	public virtual IList<ExecVariable> InParameters
 	{
-		return Collections.unmodifiableList(inParams);
+		get
+		{
+		return inParams.AsReadOnly();
+		}
 	}
 
-	public void addOutParam(ExecVariable outParam)
+	public virtual void AddOutParam(ExecVariable outParam)
 	{
-		outParams.add(outParam);
+		outParams.Add(outParam);
 	}
 
-	public List<ExecVariable> getOutParameters()
+	public virtual IList<ExecVariable> OutParameters
 	{
-		return Collections.unmodifiableList(outParams);
+		get
+		{
+		return outParams.AsReadOnly();
+		}
 	}
+}
+
 }

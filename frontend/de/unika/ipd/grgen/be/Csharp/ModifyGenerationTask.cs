@@ -1,44 +1,44 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * The task specifies what rewrite part to generate (for the SearchPlanBackend2 backend).
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// The task specifies what rewrite part to generate (for the SearchPlanBackend2 backend).
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.be.Csharp;
+namespace de.unika.ipd.grgen.be.Csharp
+{
 
-import java.util.Collection;
-import java.util.List;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
-import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using OrderedReplacement = de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
+using OrderedReplacements = de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using PatternGraphRhs = de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
+using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 public class ModifyGenerationTask
 {
-	public static final int TYPE_OF_TASK_NONE = 0;
-	public static final int TYPE_OF_TASK_MODIFY = 1;
-	public static final int TYPE_OF_TASK_CREATION = 2;
-	public static final int TYPE_OF_TASK_DELETION = 3;
+	public const int TYPE_OF_TASK_NONE = 0;
+	public const int TYPE_OF_TASK_MODIFY = 1;
+	public const int TYPE_OF_TASK_CREATION = 2;
+	public const int TYPE_OF_TASK_DELETION = 3;
 
-	int typeOfTask;
-	PatternGraphLhs left;
-	PatternGraphRhs right;
-	List<Entity> parameters;
-	Collection<EvalStatements> evals;
-	List<Entity> replParameters;
-	List<Expression> returns;
-	boolean isSubpattern;
-	boolean mightThereBeDeferredExecs;
+	internal int typeOfTask;
+	internal PatternGraphLhs left;
+	internal PatternGraphRhs right;
+	internal IList<Entity> parameters;
+	internal ICollection<EvalStatements> evals;
+	internal IList<Entity> replParameters;
+	internal IList<Expression> returns;
+	internal bool isSubpattern;
+	internal bool mightThereBeDeferredExecs;
 
 	public ModifyGenerationTask()
 	{
@@ -52,16 +52,19 @@ public class ModifyGenerationTask
 		isSubpattern = false;
 		mightThereBeDeferredExecs = false;
 	}
-	
-	public boolean isEmitHereNeeded()
+
+	public virtual bool IsEmitHereNeeded()
 	{
-		for(OrderedReplacements orderedReps : right.getOrderedReplacements()) {
-			for(OrderedReplacement orderedRep : orderedReps.orderedReplacements) {
-				if(orderedRep instanceof Emit) { // emithere
+		foreach(OrderedReplacements orderedReps in right.OrderedReplacements)
+		{
+			foreach(OrderedReplacement orderedRep in orderedReps.orderedReplacements)
+			{
+				if(orderedRep is Emit)
 					return true;
-				}
 			}
 		}
 		return false;
 	}
+}
+
 }

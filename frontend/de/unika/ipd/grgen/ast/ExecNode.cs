@@ -1,70 +1,69 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Rubino Geiss
- */
+/// <summary>
+/// @author Rubino Geiss
+/// </summary>
 
-package de.unika.ipd.grgen.ast;
-
-import java.awt.Color;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.DeclExprNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.IdentExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BooleanTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.ByteTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.DoubleTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.FloatTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.LongTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.NullTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.ShortTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
-import de.unika.ipd.grgen.ast.util.CollectQuadrupleResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationQuadrupleResolver;
-import de.unika.ipd.grgen.ast.util.Quadruple;
-import de.unika.ipd.grgen.ir.Exec;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
-import de.unika.ipd.grgen.ir.expr.VariableExpression;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.parser.Symbol;
-
-public class ExecNode extends BaseNode
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(ExecNode.class, "exec");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExecVarDeclNode = de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
+using ConstraintDeclNode = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using DeclExprNode = de.unika.ipd.grgen.ast.expr.DeclExprNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using IdentExprNode = de.unika.ipd.grgen.ast.expr.IdentExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using BooleanTypeNode = de.unika.ipd.grgen.ast.type.basic.BooleanTypeNode;
+using ByteTypeNode = de.unika.ipd.grgen.ast.type.basic.ByteTypeNode;
+using DoubleTypeNode = de.unika.ipd.grgen.ast.type.basic.DoubleTypeNode;
+using FloatTypeNode = de.unika.ipd.grgen.ast.type.basic.FloatTypeNode;
+using IntTypeNode = de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
+using LongTypeNode = de.unika.ipd.grgen.ast.type.basic.LongTypeNode;
+using NullTypeNode = de.unika.ipd.grgen.ast.type.basic.NullTypeNode;
+using ShortTypeNode = de.unika.ipd.grgen.ast.type.basic.ShortTypeNode;
+using StringTypeNode = de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using Exec = de.unika.ipd.grgen.ir.Exec;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using GraphEntityExpression = de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
+using VariableExpression = de.unika.ipd.grgen.ir.expr.VariableExpression;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+using Symbol = de.unika.ipd.grgen.parser.Symbol;
+
+public class ExecNode : BaseNode
+{
+	static ExecNode()
+	{
+		SetClassName(typeof(ExecNode), "exec");
 	}
 
-	private static final CollectQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode> graphElementUsageOutsideOfCallResolver =
+	private static readonly CollectQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode> graphElementUsageOutsideOfCallResolver =
 		new CollectQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode>(
-		new DeclarationQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode>(ExecVarDeclNode.class, NodeDeclNode.class, EdgeDeclNode.class, VarDeclNode.class));
+		new DeclarationQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode>(typeof(ExecVarDeclNode), typeof(NodeDeclNode), typeof(EdgeDeclNode), typeof(VarDeclNode)));
 
 	private StringBuilder sb = new StringBuilder(); // if sb.length()==0 this is an external exec implemented externally
 
-	protected CollectNode<MultiCallActionNode> multiCallActions = new CollectNode<MultiCallActionNode>();
+	protected internal CollectNode<MultiCallActionNode> multiCallActions = new CollectNode<MultiCallActionNode>();
 	public CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
 	private CollectNode<ExecVarDeclNode> varDecls = new CollectNode<ExecVarDeclNode>();
 	private CollectNode<IdentNode> usageUnresolved = new CollectNode<IdentNode>();
@@ -72,139 +71,156 @@ public class ExecNode extends BaseNode
 	private CollectNode<DeclNode> usage = new CollectNode<DeclNode>();
 	private CollectNode<DeclNode> writeUsage = new CollectNode<DeclNode>();
 
-	private boolean xgrsStringBuildingDisabled = false;
+	private bool xgrsStringBuildingDisabled = false;
 
 	public ExecNode(Coords coords)
+		: base(coords)
 	{
-		super(coords);
-		becomeParent(multiCallActions);
-		becomeParent(callActions);
+		BecomeParent(multiCallActions);
+		BecomeParent(callActions);
 	}
 
-	public void append(Object n)
+	public virtual void Append(object n)
 	{
-		assert !isResolved();
-		
+		Debug.Assert(!IsResolved());
+
 		if(xgrsStringBuildingDisabled)
 			return;
-		
-		if(n instanceof ConstNode) {
+
+		if(n is ConstNode)
+		{
 			ConstNode constant = (ConstNode)n;
-			TypeNode type = constant.getType();
-			Object value = constant.getValue();
+			TypeNode type = constant.Type;
+			object value = constant.Value;
 
-			if(type instanceof StringTypeNode) {
+			if(type is StringTypeNode)
+			{
 				if(value == null)
-					sb.append("null");
+					sb.Append("null");
 				else
-					sb.append("\"" + value + "\"");
-			} else if(type instanceof IntTypeNode || type instanceof DoubleTypeNode
-					|| type instanceof ByteTypeNode || type instanceof ShortTypeNode)
-				sb.append(value);
-			else if(type instanceof FloatTypeNode)
-				sb.append(value + "f");
-			else if(type instanceof LongTypeNode)
-				sb.append(value + "L");
-			else if(type instanceof BooleanTypeNode)
-				sb.append(((Boolean)value).booleanValue() ? "true" : "false");
-			else if(type instanceof NullTypeNode)
-				sb.append("null");
+					sb.Append("\"" + value + "\"");
+			}
+			else if(type is IntTypeNode || type is DoubleTypeNode
+					|| type is ByteTypeNode || type is ShortTypeNode)
+				sb.Append(value);
+			else if(type is FloatTypeNode)
+				sb.Append(value + "f");
+			else if(type is LongTypeNode)
+				sb.Append(value + "L");
+			else if(type is BooleanTypeNode)
+				sb.Append(((bool?)value).Value ? "true" : "false");
+			else if(type is NullTypeNode)
+				sb.Append("null");
 			else
-				throw new UnsupportedOperationException("unsupported type");
-		} else if(n instanceof IdentExprNode) {
+				throw new System.NotSupportedException("unsupported type");
+		}
+		else if(n is IdentExprNode)
+		{
 			IdentExprNode identExpr = (IdentExprNode)n;
-			sb.append(identExpr.getIdent());
-		} else if(n instanceof DeclExprNode) {
+			sb.Append(identExpr.Ident);
+		}
+		else if(n is DeclExprNode)
+		{
 			DeclExprNode declExpr = (DeclExprNode)n;
-			sb.append(declExpr.declUnresolved);
-		} else
-			sb.append(n);
+			sb.Append(declExpr.declUnresolved);
+		}
+		else
+			sb.Append(n);
 	}
 
-	private String getXGRSString()
+	private string XGRSString
 	{
-		return sb.toString();
+		get
+		{
+		return sb.ToString();
+		}
 	}
 
-	public void enableXgrsStringBuilding()
+	public virtual void EnableXgrsStringBuilding()
 	{
 		xgrsStringBuildingDisabled = false;
 	}
-	
-	public void disableXgrsStringBuilding()
+
+	public virtual void DisableXgrsStringBuilding()
 	{
 		xgrsStringBuildingDisabled = true;
 	}
-	
-	public void addMultiCallAction(MultiCallActionNode m)
+
+	public virtual void AddMultiCallAction(MultiCallActionNode m)
 	{
-		assert !isResolved();
-		becomeParent(m);
-		multiCallActions.addChild(m);
+		Debug.Assert(!IsResolved());
+		BecomeParent(m);
+		multiCallActions.AddChild(m);
 	}
 
-	public void addCallAction(CallActionNode n)
+	public virtual void AddCallAction(CallActionNode n)
 	{
-		assert !isResolved();
-		becomeParent(n);
-		callActions.addChild(n);
+		Debug.Assert(!IsResolved());
+		BecomeParent(n);
+		callActions.AddChild(n);
 	}
 
-	/**
-	 * Registers an explicit sequence-local variable declaration
-	 */
-	public void addVarDecl(ExecVarDeclNode varDecl)
+	/// <summary>
+	/// Registers an explicit sequence-local variable declaration
+	/// </summary>
+	public virtual void AddVarDecl(ExecVarDeclNode varDecl)
 	{
-		assert !isResolved();
-		becomeParent(varDecl);
-		varDecls.addChild(varDecl);
+		Debug.Assert(!IsResolved());
+		BecomeParent(varDecl);
+		varDecls.AddChild(varDecl);
 	}
 
-	/**
-	 * Registers an identifier usage which might denote
-	 * a) the use of a declared pattern graph element (node/edge)
-	 * b) the use of a graph-global or sequence-local variable
-	 * c) the implicit declaration of a graph-global variable at the first occurance
-	 * which appears outside of a call (i.e. is not a rule call (input) parameter)
-	 */
-	public void addUsage(IdentNode id)
+	/// <summary>
+	/// Registers an identifier usage which might denote
+	/// a) the use of a declared pattern graph element (node/edge)
+	/// b) the use of a graph-global or sequence-local variable
+	/// c) the implicit declaration of a graph-global variable at the first occurance
+	/// which appears outside of a call (i.e. is not a rule call (input) parameter)
+	/// </summary>
+	public virtual void AddUsage(IdentNode id)
 	{
-		assert !isResolved();
-		becomeParent(id);
-		usageUnresolved.addChild(id);
+		Debug.Assert(!IsResolved());
+		BecomeParent(id);
+		usageUnresolved.AddChild(id);
 	}
 
-	public void addWriteUsage(IdentNode id)
+	public virtual void AddWriteUsage(IdentNode id)
 	{
-		assert !isResolved();
-		becomeParent(id);
-		writeUsageUnresolved.addChild(id);
+		Debug.Assert(!IsResolved());
+		BecomeParent(id);
+		writeUsageUnresolved.AddChild(id);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> res = new ArrayList<BaseNode>();
-		res.add(multiCallActions);
-		res.add(callActions);
-		res.add(varDecls);
-		res.add(getValidVersionCollectNode(usageUnresolved, usage));
-		res.add(getValidVersionCollectNode(writeUsageUnresolved, writeUsage));
+		get
+		{
+		IList<BaseNode> res = new List<BaseNode>();
+		res.Add(multiCallActions);
+		res.Add(callActions);
+		res.Add(varDecls);
+		res.Add(GetValidVersionCollectNode(usageUnresolved, usage));
+		res.Add(GetValidVersionCollectNode(writeUsageUnresolved, writeUsage));
 		return res;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("multi call actions");
-		childrenNames.add("call actions");
-		childrenNames.add("var decls");
-		childrenNames.add("graph element usage outside of a call");
-		childrenNames.add("writing graph element usage (outside of a call)");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("multi call actions");
+		childrenNames.Add("call actions");
+		childrenNames.Add("var decls");
+		childrenNames.Add("graph element usage outside of a call");
+		childrenNames.Add("writing graph element usage (outside of a call)");
 		return childrenNames;
+		}
 	}
 
 	/*
@@ -215,174 +231,192 @@ public class ExecNode extends BaseNode
 	 * (which makes sense for every other construct of the grgen language);
 	 * this error will be caught later on when the xgrs is processed by the libgr sequence parser and symbol table.
 	 */
-	public void addImplicitDefinitions()
+	public virtual void AddImplicitDefinitions()
 	{
-		for(IdentNode id : usageUnresolved.getChildrenExact()) {
-			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
+		foreach(IdentNode id in usageUnresolved.ChildrenExact)
+		{
+			debug.Report(NOTE, "Implicit definition for " + id + " in scope " + Scope);
 
 			// Get the definition of the ident's symbol local to the owned scope.
-			Symbol.Definition def = getScope().getCurrDef(id.getSymbol());
-			debug.report(NOTE, "definition is: " + def);
+			Symbol.Definition def = Scope.GetCurrDef(id.Symbol);
+			debug.Report(NOTE, "definition is: " + def);
 
 			// If this definition is valid, i.e. it exists, it will be used
 			// else, an ExecVarDeclNode of this name is added to the scope
-			if(def.isValid()) {
-				id.setSymDef(def);
-			} else {
-				Symbol.Definition vdef = getScope().define(id.getSymbol(), id.getCoords());
-				id.setSymDef(vdef);
-				vdef.setNode(id);
-				getScope().leaveScope();
+			if(def.IsValid())
+				id.SymDef = def;
+			else
+			{
+				Symbol.Definition vdef = Scope.Define(id.Symbol, id.Coords);
+				id.SymDef = vdef;
+				vdef.Node = id;
+				Scope.LeaveScope();
 				ExecVarDeclNode evd = new ExecVarDeclNode(id, BasicTypeNode.untypedType);
-				id.setDecl(evd);
-				addVarDecl(evd);
+				id.Decl = evd;
+				AddVarDecl(evd);
 			}
 		}
 
-		for(IdentNode id : writeUsageUnresolved.getChildrenExact()) {
-			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
+		foreach(IdentNode id in writeUsageUnresolved.ChildrenExact)
+		{
+			debug.Report(NOTE, "Implicit definition for " + id + " in scope " + Scope);
 
 			// Get the definition of the ident's symbol local to the owned scope.
-			Symbol.Definition def = getScope().getCurrDef(id.getSymbol());
-			debug.report(NOTE, "definition is: " + def);
+			Symbol.Definition def = Scope.GetCurrDef(id.Symbol);
+			debug.Report(NOTE, "definition is: " + def);
 
 			// If this definition is valid, i.e. it exists, it will be used
 			// else, an ExecVarDeclNode of this name is added to the scope
-			if(def.isValid()) {
-				id.setSymDef(def);
-			} else {
-				Symbol.Definition vdef = getScope().define(id.getSymbol(), id.getCoords());
-				id.setSymDef(vdef);
-				vdef.setNode(id);
-				getScope().leaveScope();
+			if(def.IsValid())
+				id.SymDef = def;
+			else
+			{
+				Symbol.Definition vdef = Scope.Define(id.Symbol, id.Coords);
+				id.SymDef = vdef;
+				vdef.Node = id;
+				Scope.LeaveScope();
 				ExecVarDeclNode evd = new ExecVarDeclNode(id, BasicTypeNode.untypedType);
-				id.setDecl(evd);
-				addVarDecl(evd);
+				id.Decl = evd;
+				AddVarDecl(evd);
 			}
 		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		addImplicitDefinitions();
-		Quadruple<CollectNode<ExecVarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<VarDeclNode>> resolve =
-			graphElementUsageOutsideOfCallResolver.resolve(usageUnresolved);
+		AddImplicitDefinitions();
+		Quadruple<CollectNode<ExecVarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<VarDeclNode>> resolve = graphElementUsageOutsideOfCallResolver.Resolve(usageUnresolved);
 
-		if(resolve != null) {
-			if(resolve.first != null) {
-				for(ExecVarDeclNode execVar : resolve.first.getChildrenExact()) {
-					usage.addChild(execVar);
-				}
+		if(resolve != null)
+		{
+			if(resolve.first != null)
+			{
+				foreach(ExecVarDeclNode execVar in resolve.first.ChildrenExact)
+					usage.AddChild(execVar);
 			}
 
-			if(resolve.second != null) {
-				for(NodeDeclNode node : resolve.second.getChildrenExact()) {
-					usage.addChild(node);
-				}
+			if(resolve.second != null)
+			{
+				foreach(NodeDeclNode node in resolve.second.ChildrenExact)
+					usage.AddChild(node);
 			}
 
-			if(resolve.third != null) {
-				for(EdgeDeclNode edge : resolve.third.getChildrenExact()) {
-					usage.addChild(edge);
-				}
+			if(resolve.third != null)
+			{
+				foreach(EdgeDeclNode edge in resolve.third.ChildrenExact)
+					usage.AddChild(edge);
 			}
 
-			if(resolve.fourth != null) {
-				for(VarDeclNode var : resolve.fourth.getChildrenExact()) {
-					usage.addChild(var);
-				}
+			if(resolve.fourth != null)
+			{
+				foreach(VarDeclNode var in resolve.fourth.ChildrenExact)
+					usage.AddChild(var);
 			}
 
-			becomeParent(usage);
+			BecomeParent(usage);
 		}
 
 		Quadruple<CollectNode<ExecVarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<VarDeclNode>> writeResolve =
-				graphElementUsageOutsideOfCallResolver.resolve(writeUsageUnresolved);
+				graphElementUsageOutsideOfCallResolver.Resolve(writeUsageUnresolved);
 
-		if(writeResolve != null) {
-			if(writeResolve.first != null) {
-				for(ExecVarDeclNode execVar : writeResolve.first.getChildrenExact()) {
-					writeUsage.addChild(execVar);
-				}
+		if(writeResolve != null)
+		{
+			if(writeResolve.first != null)
+			{
+				foreach(ExecVarDeclNode execVar in writeResolve.first.ChildrenExact)
+					writeUsage.AddChild(execVar);
 			}
 
-			if(writeResolve.second != null) {
-				for(NodeDeclNode node : writeResolve.second.getChildrenExact()) {
-					if(!node.defEntityToBeYieldedTo) {
-						reportError("Only a def (to be yielded to) node is allowed to be written from an exec statement"
-								+ " (this does not hold for " + node.getIdent() + ").");
+			if(writeResolve.second != null)
+			{
+				foreach(NodeDeclNode node in writeResolve.second.ChildrenExact)
+				{
+					if(!node.defEntityToBeYieldedTo)
+					{
+						ReportError("Only a def (to be yielded to) node is allowed to be written from an exec statement"
+								+ " (this does not hold for " + node.Ident + ").");
 					}
-					writeUsage.addChild(node);
+					writeUsage.AddChild(node);
 				}
 			}
 
-			if(writeResolve.third != null) {
-				for(EdgeDeclNode edge : writeResolve.third.getChildrenExact()) {
-					if(!edge.defEntityToBeYieldedTo) {
-						reportError("Only a def (to be yielded to) edge is allowed to be written from an exec statement"
-								+ " (this does not hold for " + edge.getIdent() + ").");
+			if(writeResolve.third != null)
+			{
+				foreach(EdgeDeclNode edge in writeResolve.third.ChildrenExact)
+				{
+					if(!edge.defEntityToBeYieldedTo)
+					{
+						ReportError("Only a def (to be yielded to) edge is allowed to be written from an exec statement"
+								+ " (this does not hold for " + edge.Ident + ").");
 					}
-					writeUsage.addChild(edge);
+					writeUsage.AddChild(edge);
 				}
 			}
 
-			if(writeResolve.fourth != null) {
-				for(VarDeclNode var : writeResolve.fourth.getChildrenExact()) {
-					if(!var.defEntityToBeYieldedTo) {
-						reportError("Only a def (to be yielded to) variable is allowed to be written from an exec statement"
-								+ " (this does not hold for " + var.getIdent() + ").");
+			if(writeResolve.fourth != null)
+			{
+				foreach(VarDeclNode var in writeResolve.fourth.ChildrenExact)
+				{
+					if(!var.defEntityToBeYieldedTo)
+					{
+						ReportError("Only a def (to be yielded to) variable is allowed to be written from an exec statement"
+								+ " (this does not hold for " + var.Ident + ").");
 					}
-					writeUsage.addChild(var);
+					writeUsage.AddChild(var);
 				}
 			}
 
-			becomeParent(writeUsage);
+			BecomeParent(writeUsage);
 		}
 
 		return resolve != null && writeResolve != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public Color getNodeColor()
+	public override Color NodeColor
 	{
+		get
+		{
 		return Color.PINK;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		Set<Expression> parameters = new LinkedHashSet<Expression>();
-		for(DeclNode dn : usage.getChildrenExact()) {
-			if(dn instanceof ConstraintDeclNode)
-				parameters.add(new GraphEntityExpression(dn.checkIR(GraphEntity.class)));
-			else if(dn instanceof VarDeclNode)
-				parameters.add(new VariableExpression(dn.checkIR(Variable.class)));
+		ISet<Expression> parameters = new LinkedHashSet<Expression>();
+		foreach(DeclNode dn in usage.ChildrenExact)
+		{
+			if(dn is ConstraintDeclNode)
+				parameters.Add(new GraphEntityExpression(dn.CheckIR(typeof(GraphEntity))));
+			else if(dn is VarDeclNode)
+				parameters.Add(new VariableExpression(dn.CheckIR(typeof(Variable))));
 		}
-		for(DeclNode dn : writeUsage.getChildrenExact()) {
-			if(dn instanceof ConstraintDeclNode)
-				parameters.add(new GraphEntityExpression(dn.checkIR(GraphEntity.class)));
-			else if(dn instanceof VarDeclNode)
-				parameters.add(new VariableExpression(dn.checkIR(Variable.class)));
+		foreach(DeclNode dn in writeUsage.ChildrenExact)
+		{
+			if(dn is ConstraintDeclNode)
+				parameters.Add(new GraphEntityExpression(dn.CheckIR(typeof(GraphEntity))));
+			else if(dn is VarDeclNode)
+				parameters.Add(new VariableExpression(dn.CheckIR(typeof(Variable))));
 		}
-		for(CallActionNode callActionNode : callActions.getChildrenExact()) {
-			callActionNode.checkPost();
-			for(ExprNode param : callActionNode.getParams().getChildrenExact()) {
-				ExprNode paramEvaluated = param.evaluate();
-				parameters.add(paramEvaluated.checkIR(Expression.class));
+		foreach(CallActionNode callActionNode in callActions.ChildrenExact)
+		{
+			callActionNode.CheckPost();
+			foreach(ExprNode param in callActionNode.Params.ChildrenExact)
+			{
+				ExprNode paramEvaluated = param.Evaluate();
+				parameters.Add(paramEvaluated.CheckIR(typeof(Expression)));
 			}
 		}
-		for(MultiCallActionNode multiCallActionNode : multiCallActions.getChildrenExact()) {
-			multiCallActionNode.checkPost();
-		}
-		Exec res = new Exec(getXGRSString(), parameters, getCoords().getLine());
+		foreach(MultiCallActionNode multiCallActionNode in multiCallActions.ChildrenExact)
+			multiCallActionNode.CheckPost();
+		Exec res = new Exec(XGRSString, parameters, Coords.Line);
 		return res;
 	}
+}
+
 }

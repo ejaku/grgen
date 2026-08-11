@@ -1,43 +1,45 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
-import de.unika.ipd.grgen.ir.NestingStatement;
-
-/**
- * Represents a block nesting statement in the IR (non top-level statement containing nested statements).
- */
-public abstract class BlockNestingStatement extends EvalStatement implements NestingStatement
+namespace de.unika.ipd.grgen.ir.stmt
 {
-	protected ArrayList<EvalStatement> statements = new ArrayList<EvalStatement>();
 
-	protected BlockNestingStatement(String name)
+using System.Collections.Generic;
+
+using NestingStatement = de.unika.ipd.grgen.ir.NestingStatement;
+
+/// <summary>
+/// Represents a block nesting statement in the IR (non top-level statement containing nested statements).
+/// </summary>
+public abstract class BlockNestingStatement : EvalStatement, NestingStatement
+{
+	protected internal List<EvalStatement> statements = new List<EvalStatement>();
+
+	protected internal BlockNestingStatement(string name)
+		: base(name)
 	{
-		super(name);
 	}
 
-	@Override
-	public void addStatement(EvalStatement loopedStatement)
+	public virtual void AddStatement(EvalStatement loopedStatement)
 	{
-		statements.add(loopedStatement);
+		statements.Add(loopedStatement);
 	}
 
-	@Override
-	public Collection<EvalStatement> getStatements()
+	public virtual ICollection<EvalStatement> Statements
 	{
-		return Collections.unmodifiableList(statements);
+		get
+		{
+		return statements.AsReadOnly();
+		}
 	}
+}
+
 }

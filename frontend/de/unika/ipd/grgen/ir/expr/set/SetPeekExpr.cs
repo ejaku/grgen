@@ -1,39 +1,43 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr.set;
+namespace de.unika.ipd.grgen.ir.expr.set
+{
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.container.SetType;
-
-public class SetPeekExpr extends SetFunctionMethodInvocationBaseExpr
+public class SetPeekExpr : SetFunctionMethodInvocationBaseExpr
 {
 	private Expression numberExpr;
 
 	public SetPeekExpr(Expression targetExpr, Expression numberExpr)
+		: base("set peek expr", ((SetType)(targetExpr.Type)).valueType, targetExpr)
 	{
-		super("set peek expr", ((SetType)(targetExpr.getType())).valueType, targetExpr);
 		this.numberExpr = numberExpr;
 	}
 
-	public Expression getNumberExpr()
+	public virtual Expression NumberExpr
 	{
+		get
+		{
 		return numberExpr;
+		}
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		super.collectNeededEntities(needs);
-		numberExpr.collectNeededEntities(needs);
+		base.CollectNeededEntities(needs);
+		numberExpr.CollectNeededEntities(needs);
 	}
+}
+
 }

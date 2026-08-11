@@ -1,207 +1,211 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Buchwald, Edgar Jakumeit
- */
+/// <summary>
+/// @author Sebastian Buchwald, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
-import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.RhsTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.NeededEntities.Needs;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
-import de.unika.ipd.grgen.ir.Emit;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
-import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-
-/**
- * AST node for a replacement right-hand side.
- */
-public abstract class RhsDeclNode extends DeclNode
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(RhsDeclNode.class, "right-hand side declaration");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ConnectionCharacter = de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
+using ConnectionNode = de.unika.ipd.grgen.ast.pattern.ConnectionNode;
+using PatternGraphRhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using RhsTypeNode = de.unika.ipd.grgen.ast.type.RhsTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Needs = de.unika.ipd.grgen.ir.NeededEntities.Needs;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
+using Emit = de.unika.ipd.grgen.ir.Emit;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using OrderedReplacement = de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
+using OrderedReplacements = de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using PatternGraphRhs = de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+
+/// <summary>
+/// AST node for a replacement right-hand side.
+/// </summary>
+public abstract class RhsDeclNode : DeclNode
+{
+	static RhsDeclNode()
+	{
+		SetClassName(typeof(RhsDeclNode), "right-hand side declaration");
 	}
 
 	public PatternGraphRhsNode patternGraph;
-	protected RhsTypeNode type;
+	protected internal RhsTypeNode type;
 
-	/** Type for this declaration. */
-	protected static final TypeNode rhsType = new RhsTypeNode();
+	/// <summary>
+	/// Type for this declaration. </summary>
+	protected internal static readonly TypeNode rhsType = new RhsTypeNode();
 
 	// Cache variables
-	private Set<ConstraintDeclNode> elementsToDelete;
-	private Set<NodeDeclNode> nodesToReuse;
-	private Set<ConnectionNode> connectionsToReuse; // edgesToReuse in connection form
+	private ISet<ConstraintDeclNode> elementsToDelete;
+	private ISet<NodeDeclNode> nodesToReuse;
+	private ISet<ConnectionNode> connectionsToReuse; // edgesToReuse in connection form
 
-	
-	/**
-	 * Make a new right-hand side.
-	 * @param id The identifier of this RHS.
-	 * @param patternGraph The right hand side graph.
-	 */
-	protected RhsDeclNode(IdentNode id, PatternGraphRhsNode patternGraph)
+
+	/// <summary>
+	/// Make a new right-hand side. </summary>
+	/// <param name="id"> The identifier of this RHS. </param>
+	/// <param name="patternGraph"> The right hand side graph. </param>
+	protected internal RhsDeclNode(IdentNode id, PatternGraphRhsNode patternGraph)
+		: base(id, rhsType)
 	{
-		super(id, rhsType);
 		this.patternGraph = patternGraph;
-		becomeParent(this.patternGraph);
+		BecomeParent(this.patternGraph);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
-		children.add(patternGraph);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, type));
+		children.Add(patternGraph);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("right");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("right");
 		return childrenNames;
+		}
 	}
 
-	public PatternGraphRhsNode getRhsGraph()
+	public virtual PatternGraphRhsNode RhsGraph
 	{
+		get
+		{
 		return patternGraph;
+		}
 	}
 
-	public Set<ConstraintDeclNode> getMaybeDeletedElements(PatternGraphLhsNode pattern)
+	public virtual ISet<ConstraintDeclNode> GetMaybeDeletedElements(PatternGraphLhsNode pattern)
 	{
 		// add deleted entities
-		Set<ConstraintDeclNode> maybeDeletedElements = new LinkedHashSet<ConstraintDeclNode>();
-		maybeDeletedElements.addAll(getElementsToDelete(pattern));
+		ISet<ConstraintDeclNode> maybeDeletedElements = new LinkedHashSet<ConstraintDeclNode>();
+		maybeDeletedElements.AddAll(GetElementsToDelete(pattern));
 
 		// extract deleted nodes, then add homomorphic nodes
-		Set<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
-		for(ConstraintDeclNode maybeDeletedElement : maybeDeletedElements) {
-			if(maybeDeletedElement instanceof NodeDeclNode) {
-				nodes.add((NodeDeclNode)maybeDeletedElement);
-			}
+		ISet<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
+		foreach(ConstraintDeclNode maybeDeletedElement in maybeDeletedElements)
+		{
+			if(maybeDeletedElement is NodeDeclNode)
+				nodes.Add((NodeDeclNode)maybeDeletedElement);
 		}
-		for(NodeDeclNode node : nodes) {
-			maybeDeletedElements.addAll(pattern.getHomomorphic(node));
-		}
+		foreach(NodeDeclNode node in nodes)
+			maybeDeletedElements.AddAll(pattern.GetHomomorphic(node));
 
 		// add edges resulting from deleted nodes (only needed if a deleted node exists)
-		if(nodes.size() > 0) {
-			maybeDeletedElements.addAll(getMaybeDeletedEdgesResultingFromMaybeDeletedNodes(maybeDeletedElements, pattern));
-		}
+		if(nodes.Count > 0)
+			maybeDeletedElements.AddAll(GetMaybeDeletedEdgesResultingFromMaybeDeletedNodes(maybeDeletedElements, pattern));
 
 		// extract deleted edges, then add homomorphic edges
-		Set<EdgeDeclNode> edges = new LinkedHashSet<EdgeDeclNode>();
-		for(ConstraintDeclNode maybeDeletedElement : maybeDeletedElements) {
-			if(maybeDeletedElement instanceof EdgeDeclNode) {
-				edges.add((EdgeDeclNode)maybeDeletedElement);
-			}
+		ISet<EdgeDeclNode> edges = new LinkedHashSet<EdgeDeclNode>();
+		foreach(ConstraintDeclNode maybeDeletedElement in maybeDeletedElements)
+		{
+			if(maybeDeletedElement is EdgeDeclNode)
+				edges.Add((EdgeDeclNode)maybeDeletedElement);
 		}
-		for(EdgeDeclNode edge : edges) {
-			maybeDeletedElements.addAll(pattern.getHomomorphic(edge));
-		}
+		foreach(EdgeDeclNode edge in edges)
+			maybeDeletedElements.AddAll(pattern.GetHomomorphic(edge));
 
 		return maybeDeletedElements;
 	}
 
-	private Set<ConstraintDeclNode> getMaybeDeletedEdgesResultingFromMaybeDeletedNodes(Set<ConstraintDeclNode> maybeDeletedNodes, PatternGraphLhsNode pattern)
+	private ISet<ConstraintDeclNode> GetMaybeDeletedEdgesResultingFromMaybeDeletedNodes(ISet<ConstraintDeclNode> maybeDeletedNodes, PatternGraphLhsNode pattern)
 	{
-		Set<ConstraintDeclNode> edgesResultingFromMaybeDeletedNodes = new HashSet<ConstraintDeclNode>();
-		
+		ISet<ConstraintDeclNode> edgesResultingFromMaybeDeletedNodes = new HashSet<ConstraintDeclNode>();
+
 		// edges of deleted nodes are deleted, too --> add them
-		Set<ConnectionNode> connections = getConnectionsNotDeleted(pattern);
-		for(ConnectionNode connection : connections) {
-			if(sourceOrTargetNodeIncluded(connection.getEdge(), pattern, new HashSet<DeclNode>(maybeDeletedNodes))) {
-				edgesResultingFromMaybeDeletedNodes.add(connection.getEdge());
-			}
+		ISet<ConnectionNode> connections = GetConnectionsNotDeleted(pattern);
+		foreach(ConnectionNode connection in connections)
+		{
+			if(SourceOrTargetNodeIncluded(connection.Edge, pattern, new HashSet<DeclNode>(maybeDeletedNodes)))
+				edgesResultingFromMaybeDeletedNodes.Add(connection.Edge);
 		}
 
 		// nodes of dangling edges are homomorphic to all other nodes,
 		// especially the deleted ones :-)
-		for(ConnectionNode connection : connections) {
-			EdgeDeclNode edge = connection.getEdge();
-			while(edge instanceof EdgeTypeChangeDeclNode) {
-				edge = ((EdgeTypeChangeDeclNode)edge).getOldEdge();
-			}
-			boolean srcIsDummy = true;
-			boolean tgtIsDummy = true;
-			for(ConnectionNode innerConn : connections) {
-				if(edge.equals(innerConn.getEdge())) {
-					srcIsDummy &= innerConn.getSrc().isDummy();
-					tgtIsDummy &= innerConn.getTgt().isDummy();
+		foreach(ConnectionNode connection in connections)
+		{
+			EdgeDeclNode edge = connection.Edge;
+			while(edge is EdgeTypeChangeDeclNode)
+				edge = ((EdgeTypeChangeDeclNode)edge).OldEdge;
+			bool srcIsDummy = true;
+			bool tgtIsDummy = true;
+			foreach(ConnectionNode innerConn in connections)
+			{
+				if(edge.Equals(innerConn.Edge))
+				{
+					srcIsDummy &= innerConn.Src.IsDummy();
+					tgtIsDummy &= innerConn.Tgt.IsDummy();
 				}
 			}
 
 			// so maybe the dangling edge is deleted by one of the node deletions --> add it
-			if(srcIsDummy || tgtIsDummy) {
-				edgesResultingFromMaybeDeletedNodes.add(edge);
-			}
+			if(srcIsDummy || tgtIsDummy)
+				edgesResultingFromMaybeDeletedNodes.Add(edge);
 		}
-		
+
 		return edgesResultingFromMaybeDeletedNodes;
 	}
 
-	protected abstract Set<ConnectionNode> getConnectionsNotDeleted(PatternGraphLhsNode pattern);
+	protected internal abstract ISet<ConnectionNode> GetConnectionsNotDeleted(PatternGraphLhsNode pattern);
 
-	protected static final DeclarationTypeResolver<RhsTypeNode> typeResolver =
-			new DeclarationTypeResolver<RhsTypeNode>(RhsTypeNode.class);
+	protected internal static readonly DeclarationTypeResolver<RhsTypeNode> typeResolver =
+			new DeclarationTypeResolver<RhsTypeNode>(typeof(RhsTypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		type = typeResolver.resolve(typeUnresolved, this);
+		type = typeResolver.Resolve(typeUnresolved, this);
 
 		return type != null;
 	}
 
-	/**
-	 * Edges as replacement parameters are not really needed but very troublesome, keep them out for now.
-	 */
-	private boolean checkEdgeParameters()
+	/// <summary>
+	/// Edges as replacement parameters are not really needed but very troublesome, keep them out for now.
+	/// </summary>
+	private bool CheckEdgeParameters()
 	{
-		boolean res = true;
+		bool res = true;
 
-		for(DeclNode replParam : patternGraph.getParamDecls()) {
-			if(replParam instanceof EdgeDeclNode) {
-				replParam.reportError("Edges are not supported as rewrite parameters"
-						+ " (but the rewrite parameter " + replParam.getIdent() + " is an edge).");
+		foreach(DeclNode replParam in patternGraph.ParamDecls)
+		{
+			if(replParam is EdgeDeclNode)
+			{
+				replParam.ReportError("Edges are not supported as rewrite parameters"
+						+ " (but the rewrite parameter " + replParam.Ident + " is an edge).");
 				res = false;
 			}
 		}
@@ -209,181 +213,196 @@ public abstract class RhsDeclNode extends DeclNode
 		return res;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal()"/>
+	protected internal override bool CheckLocal()
 	{
-		return checkEdgeParameters();
+		return CheckEdgeParameters();
 	}
-	
-	public abstract boolean checkAgainstLhsPattern(PatternGraphLhsNode pattern);
-	
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+
+	public abstract bool CheckAgainstLhsPattern(PatternGraphLhsNode pattern);
+
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
 	{
-		assert false;
+		Debug.Assert(false);
 
 		return null;
 	}
 
-	protected void insertElementsFromEvalsIntoRhs(PatternGraphLhs left, PatternGraphRhs right)
+	protected internal virtual void InsertElementsFromEvalsIntoRhs(PatternGraphLhs left, PatternGraphRhs right)
 	{
 		// insert all elements, which are used in eval statements (of the right hand side) and
 		// neither declared on the local left hand nor on the right hand side to the right hand side
 		// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs)
 		// will add them to the left hand side, too
 
-		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS));
-		Collection<EvalStatements> evalStatements = patternGraph.getEvalStatements();
-		for(EvalStatements evalStatement : evalStatements) {
-			evalStatement.collectNeededEntities(needs);
-		}
+		NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.VARS));
+		ICollection<EvalStatements> evalStatements = patternGraph.EvalStatements;
+		foreach(EvalStatements evalStatement in evalStatements)
+			evalStatement.CollectNeededEntities(needs);
 
-		for(Node neededNode : needs.nodes) {
-			if(neededNode.directlyNestingLHSGraph != left) {
-				if(!right.getDeletedElements().contains(neededNode)) {
-					if(!right.hasNode(neededNode)) {
-						right.addSingleNode(neededNode);
-						right.addHomToAll(neededNode);
+		foreach(Node neededNode in needs.nodes)
+		{
+			if(neededNode.directlyNestingLHSGraph != left)
+			{
+				if(!right.DeletedElements.Contains(neededNode))
+				{
+					if(!right.HasNode(neededNode))
+					{
+						right.AddSingleNode(neededNode);
+						right.AddHomToAll(neededNode);
 					}
 				}
 			}
 		}
-		for(Edge neededEdge : needs.edges) {
-			if(neededEdge.directlyNestingLHSGraph != left) {
-				if(!right.getDeletedElements().contains(neededEdge)) {
-					if(!right.hasEdge(neededEdge)) {
-						right.addSingleEdge(neededEdge);
-						right.addHomToAll(neededEdge);
+		foreach(Edge neededEdge in needs.edges)
+		{
+			if(neededEdge.directlyNestingLHSGraph != left)
+			{
+				if(!right.DeletedElements.Contains(neededEdge))
+				{
+					if(!right.HasEdge(neededEdge))
+					{
+						right.AddSingleEdge(neededEdge);
+						right.AddHomToAll(neededEdge);
 					}
 				}
 			}
 		}
-		for(Variable neededVariable : needs.variables) {
-			if(neededVariable.directlyNestingLHSGraph != left) {
-				if(!right.hasVar(neededVariable)) {
-					right.addVariable(neededVariable);
-				}
+		foreach(Variable neededVariable in needs.variables)
+		{
+			if(neededVariable.directlyNestingLHSGraph != left)
+			{
+				if(!right.HasVar(neededVariable))
+					right.AddVariable(neededVariable);
 			}
 		}
 	}
 
-	protected void insertElementsFromOrderedReplacementsIntoRhs(PatternGraphLhs left, PatternGraphRhs right)
+	protected internal virtual void InsertElementsFromOrderedReplacementsIntoRhs(PatternGraphLhs left, PatternGraphRhs right)
 	{
 		// insert all elements, which are used in ordered replacements (of the right hand side) and
 		// neither declared on the local left hand nor on the right hand side to the right hand side
 		// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs)
 		// will add them to the left hand side, too
 
-		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS));
-		Collection<OrderedReplacements> evalStatements = patternGraph.getOrderedReplacements();
-		for(OrderedReplacements evalStatement : evalStatements) {
-			for(OrderedReplacement orderedReplacement : evalStatement.orderedReplacements) {
-				if(orderedReplacement instanceof EvalStatement)
-					((EvalStatement)orderedReplacement).collectNeededEntities(needs);
-				else if(orderedReplacement instanceof Emit)
-					((Emit)orderedReplacement).collectNeededEntities(needs);
+		NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.VARS));
+		ICollection<OrderedReplacements> evalStatements = patternGraph.OrderedReplacements;
+		foreach(OrderedReplacements evalStatement in evalStatements)
+		{
+			foreach(OrderedReplacement orderedReplacement in evalStatement.orderedReplacements)
+			{
+				if(orderedReplacement is EvalStatement)
+					((EvalStatement)orderedReplacement).CollectNeededEntities(needs);
+				else if(orderedReplacement is Emit)
+					((Emit)orderedReplacement).CollectNeededEntities(needs);
 			}
 		}
 
-		for(Node neededNode : needs.nodes) {
-			if(neededNode.directlyNestingLHSGraph != left) {
-				if(!right.getDeletedElements().contains(neededNode)) {
-					if(!right.hasNode(neededNode)) {
-						right.addSingleNode(neededNode);
-						right.addHomToAll(neededNode);
+		foreach(Node neededNode in needs.nodes)
+		{
+			if(neededNode.directlyNestingLHSGraph != left)
+			{
+				if(!right.DeletedElements.Contains(neededNode))
+				{
+					if(!right.HasNode(neededNode))
+					{
+						right.AddSingleNode(neededNode);
+						right.AddHomToAll(neededNode);
 					}
 				}
 			}
 		}
-		for(Edge neededEdge : needs.edges) {
-			if(neededEdge.directlyNestingLHSGraph != left) {
-				if(!right.getDeletedElements().contains(neededEdge)) {
-					if(!right.hasEdge(neededEdge)) {
-						right.addSingleEdge(neededEdge);
-						right.addHomToAll(neededEdge);
+		foreach(Edge neededEdge in needs.edges)
+		{
+			if(neededEdge.directlyNestingLHSGraph != left)
+			{
+				if(!right.DeletedElements.Contains(neededEdge))
+				{
+					if(!right.HasEdge(neededEdge))
+					{
+						right.AddSingleEdge(neededEdge);
+						right.AddHomToAll(neededEdge);
 					}
 				}
 			}
 		}
-		for(Variable neededVariable : needs.variables) {
-			if(neededVariable.directlyNestingLHSGraph != left) {
-				if(!right.hasVar(neededVariable)) {
-					right.addVariable(neededVariable);
-				}
+		foreach(Variable neededVariable in needs.variables)
+		{
+			if(neededVariable.directlyNestingLHSGraph != left)
+			{
+				if(!right.HasVar(neededVariable))
+					right.AddVariable(neededVariable);
 			}
 		}
 	}
 
-	public abstract PatternGraphRhs getIRPatternGraph(PatternGraphLhs left);
+	public abstract PatternGraphRhs GetIRPatternGraph(PatternGraphLhs left);
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return type;
+		}
 	}
 
-	/**
-	 * Returns all elements that are to be deleted.
-	 */
-	public Set<ConstraintDeclNode> getElementsToDelete(PatternGraphLhsNode pattern)
+	/// <summary>
+	/// Returns all elements that are to be deleted.
+	/// </summary>
+	public virtual ISet<ConstraintDeclNode> GetElementsToDelete(PatternGraphLhsNode pattern)
 	{
-		if(elementsToDelete == null) {
-			elementsToDelete = Collections.unmodifiableSet(getElementsToDeleteImpl(pattern));
-		}
+		if(elementsToDelete == null)
+			elementsToDelete = Collections.UnmodifiableSet(GetElementsToDeleteImpl(pattern));
 		return elementsToDelete;
 	}
 
-	protected abstract Set<ConstraintDeclNode> getElementsToDeleteImpl(PatternGraphLhsNode pattern);
+	protected internal abstract ISet<ConstraintDeclNode> GetElementsToDeleteImpl(PatternGraphLhsNode pattern);
 
-	/**
-	 * Returns all to be reused edges (with their nodes, in the form of a connection),
-	 * that excludes new edges of the right-hand side, those are to be created.
-	 */
-	public Set<ConnectionNode> getConnectionsToReuse(PatternGraphLhsNode pattern)
+	/// <summary>
+	/// Returns all to be reused edges (with their nodes, in the form of a connection),
+	/// that excludes new edges of the right-hand side, those are to be created.
+	/// </summary>
+	public virtual ISet<ConnectionNode> GetConnectionsToReuse(PatternGraphLhsNode pattern)
 	{
-		if(connectionsToReuse == null) {
-			connectionsToReuse = Collections.unmodifiableSet(getConnectionsToReuseImpl(pattern));
-		}
+		if(connectionsToReuse == null)
+			connectionsToReuse = Collections.UnmodifiableSet(GetConnectionsToReuseImpl(pattern));
 		return connectionsToReuse;
 	}
-	
-	protected abstract Set<ConnectionNode> getConnectionsToReuseImpl(PatternGraphLhsNode pattern);
 
-	/**
-	 * Returns all to be reused nodes, that excludes new nodes of the right-hand side, those are to be created.
-	 */
-	public Set<NodeDeclNode> getNodesToReuse(PatternGraphLhsNode pattern)
+	protected internal abstract ISet<ConnectionNode> GetConnectionsToReuseImpl(PatternGraphLhsNode pattern);
+
+	/// <summary>
+	/// Returns all to be reused nodes, that excludes new nodes of the right-hand side, those are to be created.
+	/// </summary>
+	public virtual ISet<NodeDeclNode> GetNodesToReuse(PatternGraphLhsNode pattern)
 	{
-		if(nodesToReuse == null) {
-			nodesToReuse = Collections.unmodifiableSet(getNodesToReuseImpl(pattern));
-		}
+		if(nodesToReuse == null)
+			nodesToReuse = Collections.UnmodifiableSet(GetNodesToReuseImpl(pattern));
 		return nodesToReuse;
 	}
 
-	protected abstract Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphLhsNode pattern);
+	protected internal abstract ISet<NodeDeclNode> GetNodesToReuseImpl(PatternGraphLhsNode pattern);
 
 
-	protected static boolean sourceOrTargetNodeIncluded(EdgeDeclNode edge, PatternGraphLhsNode pattern,
-			Collection<DeclNode> collection)
+	protected internal static bool SourceOrTargetNodeIncluded(EdgeDeclNode edge, PatternGraphLhsNode pattern, ICollection<DeclNode> collection)
 	{
-		for(ConnectionCharacter connectionCharacter : pattern.getConnections()) {
-			if(connectionCharacter instanceof ConnectionNode) {
+		foreach(ConnectionCharacter connectionCharacter in pattern.Connections)
+		{
+			if(connectionCharacter is ConnectionNode)
+			{
 				ConnectionNode connection = (ConnectionNode)connectionCharacter;
-				if(connection.getEdge().equals(edge)) {
-					if(collection.contains(connection.getSrc()) || collection.contains(connection.getTgt())) {
+				if(connection.Edge.Equals(edge))
+				{
+					if(collection.Contains(connection.Src) || collection.Contains(connection.Tgt))
 						return true;
-					}
 				}
 			}
 		}
 		return false;
 	}
+}
+
 }

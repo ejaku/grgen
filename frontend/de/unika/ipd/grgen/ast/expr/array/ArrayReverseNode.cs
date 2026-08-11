@@ -1,44 +1,48 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.array;
-
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayReverseExpr;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ArrayReverseNode extends ArrayFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.array
 {
-	static {
-		setClassName(ArrayReverseNode.class, "array reverse");
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayReverseExpr = de.unika.ipd.grgen.ir.expr.array.ArrayReverseExpr;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ArrayReverseNode : ArrayFunctionMethodInvocationBaseExprNode
+{
+	static ArrayReverseNode()
+	{
+		SetClassName(typeof(ArrayReverseNode), "array reverse");
 	}
 
 	public ArrayReverseNode(Coords coords, ExprNode targetExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		return getTargetType();
+		get
+		{
+		return TargetType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		targetExpr = targetExpr.evaluate();
-		return new ArrayReverseExpr(targetExpr.checkIR(Expression.class));
+		targetExpr = targetExpr.Evaluate();
+		return new ArrayReverseExpr(targetExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

@@ -1,483 +1,548 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
-package de.unika.ipd.grgen.ir.model.type;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
-import de.unika.ipd.grgen.ir.Constructor;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.executable.FunctionMethod;
-import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
-import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
-import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.expr.map.MapInit;
-import de.unika.ipd.grgen.ir.expr.set.SetInit;
-import de.unika.ipd.grgen.ir.model.MemberInit;
-import de.unika.ipd.grgen.ir.type.CompoundType;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * Abstract base class for types that inherit from other types.
- */
-public abstract class InheritanceType extends CompoundType
+/// <summary>
+/// @author shack
+/// </summary>
+namespace de.unika.ipd.grgen.ir.model.type
 {
-	public static final int ABSTRACT = 1;
-	public static final int CONST = 2;
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using Constructor = de.unika.ipd.grgen.ir.Constructor;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using FunctionMethod = de.unika.ipd.grgen.ir.executable.FunctionMethod;
+using ProcedureMethod = de.unika.ipd.grgen.ir.executable.ProcedureMethod;
+using ArrayInit = de.unika.ipd.grgen.ir.expr.array.ArrayInit;
+using DequeInit = de.unika.ipd.grgen.ir.expr.deque.DequeInit;
+using MapInit = de.unika.ipd.grgen.ir.expr.map.MapInit;
+using SetInit = de.unika.ipd.grgen.ir.expr.set.SetInit;
+using MemberInit = de.unika.ipd.grgen.ir.model.MemberInit;
+using CompoundType = de.unika.ipd.grgen.ir.type.CompoundType;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+/// <summary>
+/// Abstract base class for types that inherit from other types.
+/// </summary>
+public abstract class InheritanceType : CompoundType
+{
+	public const int ABSTRACT = 1;
+	public const int CONST = 2;
 
 	private static int nextTypeID = 0;
-	private static ArrayList<InheritanceType> typesByID = new ArrayList<InheritanceType>();
+	private static List<InheritanceType> typesByID = new List<InheritanceType>();
 
 	private int typeID;
 	private int inheritanceTypeID;
 	private int maxDist = -1;
-	private final Set<InheritanceType> directSuperTypes = new LinkedHashSet<InheritanceType>();
-	private final Set<InheritanceType> directSubTypes = new LinkedHashSet<InheritanceType>();
+	private readonly ISet<InheritanceType> directSuperTypes = new LinkedHashSet<InheritanceType>();
+	private readonly ISet<InheritanceType> directSubTypes = new LinkedHashSet<InheritanceType>();
 
-	private Set<InheritanceType> allSuperTypes = null;
-	private Set<InheritanceType> allSubTypes = null;
+	private ISet<InheritanceType> allSuperTypes = null;
+	private ISet<InheritanceType> allSubTypes = null;
 
-	private ArrayList<Constructor> constructors = new ArrayList<Constructor>();
+	private List<Constructor> constructors = new List<Constructor>();
 
-	/** The list of member initializers */
-	private ArrayList<MemberInit> memberInitializers = new ArrayList<MemberInit>();
+	/// <summary>
+	/// The list of member initializers </summary>
+	private List<MemberInit> memberInitializers = new List<MemberInit>();
 
-	private ArrayList<MapInit> mapInitializers = new ArrayList<MapInit>();
-	private ArrayList<SetInit> setInitializers = new ArrayList<SetInit>();
-	private ArrayList<ArrayInit> arrayInitializers = new ArrayList<ArrayInit>();
-	private ArrayList<DequeInit> dequeInitializers = new ArrayList<DequeInit>();
+	private List<MapInit> mapInitializers = new List<MapInit>();
+	private List<SetInit> setInitializers = new List<SetInit>();
+	private List<ArrayInit> arrayInitializers = new List<ArrayInit>();
+	private List<DequeInit> dequeInitializers = new List<DequeInit>();
 
-	/** Collection containing all members defined in that type and in its supertype.
-	 *  This field is used for caching. */
-	private Map<String, Entity> allMembers = null;
+	/// <summary>
+	/// Collection containing all members defined in that type and in its supertype.
+	///  This field is used for caching. 
+	/// </summary>
+	private IDictionary<string, Entity> allMembers = null;
 
-	private Map<String, FunctionMethod> allFunctionMethods = null;
-	private Map<String, ProcedureMethod> allProcedureMethods = null;
+	private IDictionary<string, FunctionMethod> allFunctionMethods = null;
+	private IDictionary<string, ProcedureMethod> allProcedureMethods = null;
 
-	/** Map between overriding and overridden members */
-	private Map<Entity, Entity> overridingMembers = null;
+	/// <summary>
+	/// Map between overriding and overridden members </summary>
+	private IDictionary<Entity, Entity> overridingMembers = null;
 
-	/** The type modifiers. */
-	private final int modifiers;
+	/// <summary>
+	/// The type modifiers. </summary>
+	private readonly int modifiers;
 
-	/** The name of the external implementation of this type or null. */
-	private String externalName = null;
+	/// <summary>
+	/// The name of the external implementation of this type or null. </summary>
+	private string externalName = null;
 
-	/**
-	 * @param name The name of the type.
-	 * @param ident The identifier, declaring this type.
-	 * @param modifiers The modifiers for this type.
-	 * @param externalName The name of the external implementation of this type or null.
-	 */
-	protected InheritanceType(String name, Ident ident, int modifiers, String externalName)
+	/// <param name="name"> The name of the type. </param>
+	/// <param name="ident"> The identifier, declaring this type. </param>
+	/// <param name="modifiers"> The modifiers for this type. </param>
+	/// <param name="externalName"> The name of the external implementation of this type or null. </param>
+	protected internal InheritanceType(string name, Ident ident, int modifiers, string externalName)
+		: base(name, ident)
 	{
-		super(name, ident);
 		this.modifiers = modifiers;
 		this.externalName = externalName;
 		typeID = nextTypeID++;
-		typesByID.add(this);
+		typesByID.Add(this);
 	}
 
-	/** @return a unique type identifier starting with zero. (Used in SearchPlanBackend2.java) */
-	public int getTypeID()
+	/// <returns> a unique type identifier starting with zero. (Used in SearchPlanBackend2.java) </returns>
+	public virtual int TypeID
 	{
+		get
+		{
 		return typeID;
+		}
 	}
 
-	public static InheritanceType getByTypeID(int typeID)
+	public static InheritanceType GetByTypeID(int typeID)
 	{
-		return typesByID.get(typeID);
+		return typesByID[typeID];
 	}
 
-	/** @return a unique type identifier starting with zero, separate for the nodes, for the edges, and for the classes,
-	 * i.e. gapless ascending in each type.*/
-	public int getInheritanceTypeID()
+	/// <returns> a unique type identifier starting with zero, separate for the nodes, for the edges, and for the classes,
+	/// i.e. gapless ascending in each type. </returns>
+	public virtual int InheritanceTypeID
 	{
+		get
+		{
 		return inheritanceTypeID;
+		}
+		set
+		{
+		this.inheritanceTypeID = value;
+		}
 	}
 
-	public void setInheritanceTypeID(int inheritanceTypeID)
+
+	/// <returns> true, if this type does not inherit from some other types, being the root of an inheritance hierarchy. </returns>
+	public virtual bool IsRoot()
 	{
-		this.inheritanceTypeID = inheritanceTypeID;
+		return directSuperTypes.Count == 0;
 	}
 
-	/** @return true, if this type does not inherit from some other types, being the root of an inheritance hierarchy. */
-	public boolean isRoot()
+	/// <summary>
+	/// Adds a supertype, this type should inherit from. </summary>
+	public virtual void AddDirectSuperType(InheritanceType t)
 	{
-		return directSuperTypes.isEmpty();
-	}
-
-	/** Adds a supertype, this type should inherit from. */
-	public void addDirectSuperType(InheritanceType t)
-	{
-		assert allSubTypes == null && allSuperTypes == null : "wrong order of calls";
+		Debug.Assert(allSubTypes == null && allSuperTypes == null, "wrong order of calls");
 		if(allSubTypes != null || allSuperTypes != null) // todo: remove this constraint/work around it
-			error.error(t.getIdent().getCoords(), "A container in a type is not allowed to reference a subtype.");
-		directSuperTypes.add(t);
-		t.directSubTypes.add(this);
+			error.Error(t.Ident.GetCoords(), "A container in a type is not allowed to reference a subtype.");
+		directSuperTypes.Add(t);
+		t.directSubTypes.Add(this);
 	}
 
-	/** @return Set of all types, this type directly inherits from. */
-	public Set<InheritanceType> getDirectSuperTypes()
+	/// <returns> Set of all types, this type directly inherits from. </returns>
+	public virtual ISet<InheritanceType> DirectSuperTypes
 	{
-		return Collections.unmodifiableSet(directSuperTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(directSuperTypes);
+		}
 	}
 
-	/** @return Set of all super types this type inherits from (not including itself). */
-	public Set<InheritanceType> getAllSuperTypes()
+	/// <returns> Set of all super types this type inherits from (not including itself). </returns>
+	public virtual ISet<InheritanceType> AllSuperTypes
 	{
-		if(allSuperTypes == null) {
+		get
+		{
+		if(allSuperTypes == null)
+		{
 			allSuperTypes = new LinkedHashSet<InheritanceType>();
 
-			for(InheritanceType type : directSuperTypes) {
-				allSuperTypes.addAll(type.getAllSuperTypes());
-				allSuperTypes.add(type);
+			foreach(InheritanceType type in directSuperTypes)
+			{
+				allSuperTypes.AddAll(type.AllSuperTypes);
+				allSuperTypes.Add(type);
 			}
 		}
-		return Collections.unmodifiableSet(allSuperTypes);
+		return Collections.UnmodifiableSet(allSuperTypes);
+		}
 	}
 
-	/** @return Set of all sub types this type inherits from (including itself). */
-	public Set<InheritanceType> getAllSubTypes()
+	/// <returns> Set of all sub types this type inherits from (including itself). </returns>
+	public virtual ISet<InheritanceType> AllSubTypes
 	{
-		if(allSubTypes == null) {
+		get
+		{
+		if(allSubTypes == null)
+		{
 			allSubTypes = new LinkedHashSet<InheritanceType>();
-			allSubTypes.add(this);
+			allSubTypes.Add(this);
 
-			for(InheritanceType type : directSubTypes) {
-				allSubTypes.addAll(type.getAllSubTypes());
-				allSubTypes.add(type);
+			foreach(InheritanceType type in directSubTypes)
+			{
+				allSubTypes.AddAll(type.AllSubTypes);
+				allSubTypes.Add(type);
 			}
 		}
-		return Collections.unmodifiableSet(allSubTypes);
+		return Collections.UnmodifiableSet(allSubTypes);
+		}
 	}
 
-	/** Get all subtypes of this type. */
-	public Set<InheritanceType> getDirectSubTypes()
+	/// <summary>
+	/// Get all subtypes of this type. </summary>
+	public virtual ISet<InheritanceType> DirectSubTypes
 	{
-		return Collections.unmodifiableSet(directSubTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(directSubTypes);
+		}
 	}
 
-	/**
-	 * Adds all members of the given type to allMembers, handling overwriting
-	 * of abstract members including filling the overridingMembers map
-	 */
-	private void addMembers(InheritanceType type)
+	/// <summary>
+	/// Adds all members of the given type to allMembers, handling overwriting
+	/// of abstract members including filling the overridingMembers map
+	/// </summary>
+	private void AddMembers(InheritanceType type)
 	{
-		for(Entity member : type.getMembers()) {
-			String memberName = member.getIdent().toString();
-			Entity curMember = allMembers.get(memberName);
-			if(curMember != null) {
-				if(curMember.getType().isVoid()) {
+		foreach(Entity member in type.Members)
+		{
+			string memberName = member.Ident.ToString();
+			Entity curMember = allMembers[memberName];
+			if(curMember != null)
+			{
+				if(curMember.Type.IsVoid())
+				{
 					// we have an abstract member, it's OK to overwrite it
-					overridingMembers.put(member, curMember);
-				} else {
-					Type ownerType = member.getOwner();
-					Type curMemberType = curMember.getOwner();
-					String curMemberDeclarationCoords = curMemberType.getIdent().getCoords().getDeclarationCoords(false);
-					error.error(member.getIdent().getCoords(), "The " + member
+					overridingMembers[member] = curMember;
+				}
+				else
+				{
+					Type ownerType = member.Owner;
+					Type curMemberType = curMember.Owner;
+					string curMemberDeclarationCoords = curMemberType.Ident.GetCoords().GetDeclarationCoords(false);
+					error.Error(member.Ident.GetCoords(), "The " + member
 							+ " of " + ownerType + " is already defined."
-							+ " It is also declared in " + curMemberType + curMemberDeclarationCoords  + ".");
+							+ " It is also declared in " + curMemberType + curMemberDeclarationCoords + ".");
 				}
 			}
-			allMembers.put(memberName, member);
+			allMembers[memberName] = member;
 		}
 	}
 
-	private void addFunctionMethods(InheritanceType type)
+	private void AddFunctionMethods(InheritanceType type)
 	{
-		for(FunctionMethod fm : type.getFunctionMethods()) {
-			String functionName = fm.getIdent().toString();
-			allFunctionMethods.put(functionName, fm);
+		foreach(FunctionMethod fm in type.FunctionMethods)
+		{
+			string functionName = fm.Ident.ToString();
+			allFunctionMethods[functionName] = fm;
 		}
 	}
 
-	private void addProcedureMethods(InheritanceType type)
+	private void AddProcedureMethods(InheritanceType type)
 	{
-		for(ProcedureMethod pm : type.getProcedureMethods()) {
-			String procedureName = pm.getIdent().toString();
-			allProcedureMethods.put(procedureName, pm);
+		foreach(ProcedureMethod pm in type.ProcedureMethods)
+		{
+			string procedureName = pm.Ident.ToString();
+			allProcedureMethods[procedureName] = pm;
 		}
 	}
 
-	/**
-	 * Method getAllMembers computes the transitive closure of the members (attributes) of a type.
-	 * @return   a Collection containing all members defined in that type and in its supertype.
-	 */
-	public Collection<Entity> getAllMembers()
+	/// <summary>
+	/// Method getAllMembers computes the transitive closure of the members (attributes) of a type. </summary>
+	/// <returns>   a Collection containing all members defined in that type and in its supertype. </returns>
+	public virtual ICollection<Entity> AllMembers
 	{
-		if(allMembers == null) {
-			allMembers = new LinkedHashMap<String, Entity>();
+		get
+		{
+		if(allMembers == null)
+		{
+			allMembers = new LinkedHashMap<string, Entity>();
 			overridingMembers = new LinkedHashMap<Entity, Entity>();
 
 			// add the members of the super types
-			for(InheritanceType superType : getAllSuperTypes()) {
-				addMembers(superType);
-			}
+			foreach(InheritanceType superType in AllSuperTypes)
+				AddMembers(superType);
 
 			// add members of the current type
-			addMembers(this);
+			AddMembers(this);
 		}
 
-		return allMembers.values();
+		return allMembers.Values;
+		}
 	}
 
-	public Collection<FunctionMethod> getAllFunctionMethods()
+	public virtual ICollection<FunctionMethod> AllFunctionMethods
 	{
-		if(allFunctionMethods == null) {
-			allFunctionMethods = new LinkedHashMap<String, FunctionMethod>();
+		get
+		{
+		if(allFunctionMethods == null)
+		{
+			allFunctionMethods = new LinkedHashMap<string, FunctionMethod>();
 
 			// add the members of the super types
-			for(InheritanceType superType : getAllSuperTypes()) {
-				addFunctionMethods(superType);
-			}
+			foreach(InheritanceType superType in AllSuperTypes)
+				AddFunctionMethods(superType);
 
 			// add members of the current type
-			addFunctionMethods(this);
+			AddFunctionMethods(this);
 		}
 
-		return allFunctionMethods.values();
+		return allFunctionMethods.Values;
+		}
 	}
 
-	public Map<String, FunctionMethod> getAllFunctionMethodsByName()
+	public virtual IDictionary<string, FunctionMethod> AllFunctionMethodsByName
 	{
-		if(allFunctionMethods == null) {
-			getAllFunctionMethods();
-		}
+		get
+		{
+		if(allFunctionMethods == null)
+			AllFunctionMethods;
 
 		return allFunctionMethods;
+		}
 	}
 
-	public Collection<ProcedureMethod> getAllProcedureMethods()
+	public virtual ICollection<ProcedureMethod> AllProcedureMethods
 	{
-		if(allProcedureMethods == null) {
-			allProcedureMethods = new LinkedHashMap<String, ProcedureMethod>();
+		get
+		{
+		if(allProcedureMethods == null)
+		{
+			allProcedureMethods = new LinkedHashMap<string, ProcedureMethod>();
 
 			// add the members of the super types
-			for(InheritanceType superType : getAllSuperTypes()) {
-				addProcedureMethods(superType);
-			}
+			foreach(InheritanceType superType in AllSuperTypes)
+				AddProcedureMethods(superType);
 
 			// add members of the current type
-			addProcedureMethods(this);
+			AddProcedureMethods(this);
 		}
 
-		return allProcedureMethods.values();
+		return allProcedureMethods.Values;
+		}
 	}
 
-	public Map<String, ProcedureMethod> getAllProcedureMethodsByName()
+	public virtual IDictionary<string, ProcedureMethod> AllProcedureMethodsByName
 	{
-		if(allProcedureMethods == null) {
-			getAllProcedureMethods();
-		}
+		get
+		{
+		if(allProcedureMethods == null)
+			AllProcedureMethods;
 
 		return allProcedureMethods;
+		}
 	}
 
-	public boolean superTypeDefinesFunctionMethod(FunctionMethod functionMethod)
+	public virtual bool SuperTypeDefinesFunctionMethod(FunctionMethod functionMethod)
 	{
-		for(InheritanceType superType : getAllSuperTypes()) {
-			if(superType.getAllFunctionMethodsByName().containsKey(functionMethod.getIdent().toString())) {
+		foreach(InheritanceType superType in AllSuperTypes)
+		{
+			if(superType.AllFunctionMethodsByName.ContainsKey(functionMethod.Ident.ToString()))
 				return true;
-			}
 		}
 		return false;
 	}
 
-	public boolean superTypeDefinesProcedureMethod(ProcedureMethod procedureMethod)
+	public virtual bool SuperTypeDefinesProcedureMethod(ProcedureMethod procedureMethod)
 	{
-		for(InheritanceType superType : getAllSuperTypes()) {
-			if(superType.getAllProcedureMethodsByName().containsKey(procedureMethod.getIdent().toString())) {
+		foreach(InheritanceType superType in AllSuperTypes)
+		{
+			if(superType.AllProcedureMethodsByName.ContainsKey(procedureMethod.Ident.ToString()))
 				return true;
-			}
 		}
 		return false;
 	}
 
-	/**
-	 * Gets the overridden member for a given member, if one exists.
-	 * @param overridingMember The member, which eventually overrides another member.
-	 * @return The overridden member, or null, if no such exists.
-	 */
-	public Entity getOverriddenMember(Entity overridingMember)
+	/// <summary>
+	/// Gets the overridden member for a given member, if one exists. </summary>
+	/// <param name="overridingMember"> The member, which eventually overrides another member. </param>
+	/// <returns> The overridden member, or null, if no such exists. </returns>
+	public virtual Entity GetOverriddenMember(Entity overridingMember)
 	{
-		return overridingMembers.get(overridingMember);
+		return overridingMembers[overridingMember];
 	}
 
-	public void addConstructor(Constructor constr)
+	public virtual void AddConstructor(Constructor constr)
 	{
-		constructors.add(constr);
+		constructors.Add(constr);
 	}
 
-	public Collection<Constructor> getConstructor()
+	public virtual ICollection<Constructor> Constructor
 	{
-		return Collections.unmodifiableList(constructors);
+		get
+		{
+		return constructors.AsReadOnly();
+		}
 	}
 
-	/** Adds the given member initializer to this type. */
-	public void addMemberInit(MemberInit init)
+	/// <summary>
+	/// Adds the given member initializer to this type. </summary>
+	public virtual void AddMemberInit(MemberInit init)
 	{
-		memberInitializers.add(init);
+		memberInitializers.Add(init);
 	}
 
-	/** @return A collection containing all member initializers of this type. */
-	public Collection<MemberInit> getMemberInits()
+	/// <returns> A collection containing all member initializers of this type. </returns>
+	public virtual ICollection<MemberInit> MemberInits
 	{
-		return Collections.unmodifiableList(memberInitializers);
+		get
+		{
+		return memberInitializers.AsReadOnly();
+		}
 	}
 
-	public void addMapInit(MapInit init)
+	public virtual void AddMapInit(MapInit init)
 	{
-		mapInitializers.add(init);
+		mapInitializers.Add(init);
 	}
 
-	public Collection<MapInit> getMapInits()
+	public virtual ICollection<MapInit> MapInits
 	{
-		return Collections.unmodifiableList(mapInitializers);
+		get
+		{
+		return mapInitializers.AsReadOnly();
+		}
 	}
 
-	public void addSetInit(SetInit init)
+	public virtual void AddSetInit(SetInit init)
 	{
-		setInitializers.add(init);
+		setInitializers.Add(init);
 	}
 
-	public Collection<SetInit> getSetInits()
+	public virtual ICollection<SetInit> SetInits
 	{
-		return Collections.unmodifiableList(setInitializers);
+		get
+		{
+		return setInitializers.AsReadOnly();
+		}
 	}
 
-	public void addArrayInit(ArrayInit init)
+	public virtual void AddArrayInit(ArrayInit init)
 	{
-		arrayInitializers.add(init);
+		arrayInitializers.Add(init);
 	}
 
-	public Collection<ArrayInit> getArrayInits()
+	public virtual ICollection<ArrayInit> ArrayInits
 	{
-		return Collections.unmodifiableList(arrayInitializers);
+		get
+		{
+		return arrayInitializers.AsReadOnly();
+		}
 	}
 
-	public void addDequeInit(DequeInit init)
+	public virtual void AddDequeInit(DequeInit init)
 	{
-		dequeInitializers.add(init);
+		dequeInitializers.Add(init);
 	}
 
-	public Collection<DequeInit> getDequeInits()
+	public virtual ICollection<DequeInit> DequeInits
 	{
-		return Collections.unmodifiableList(dequeInitializers);
+		get
+		{
+		return dequeInitializers.AsReadOnly();
+		}
 	}
 
-	/**
-	 * Check, if this type is a direct sub type of another type.
-	 * This means, that this type inherited from the other type.
-	 * @param t The other type.
-	 * @return true, iff this type inherited from <code>t</code>.
-	 */
-	public boolean isDirectSubTypeOf(InheritanceType t)
+	/// <summary>
+	/// Check, if this type is a direct sub type of another type.
+	/// This means, that this type inherited from the other type. </summary>
+	/// <param name="t"> The other type. </param>
+	/// <returns> true, iff this type inherited from <code>t</code>. </returns>
+	public virtual bool IsDirectSubTypeOf(InheritanceType t)
 	{
-		return directSuperTypes.contains(t);
+		return directSuperTypes.Contains(t);
 	}
 
-	/**
-	 * Check, if this type is a direct super type of another type.
-	 * @param t The other type
-	 * @return true, iff <code>t</code> inherits from this type.
-	 */
-	public boolean isDirectSuperTypeOf(InheritanceType t)
+	/// <summary>
+	/// Check, if this type is a direct super type of another type. </summary>
+	/// <param name="t"> The other type </param>
+	/// <returns> true, iff <code>t</code> inherits from this type. </returns>
+	public virtual bool IsDirectSuperTypeOf(InheritanceType t)
 	{
-		return t.isDirectSubTypeOf(this);
+		return t.IsDirectSubTypeOf(this);
 	}
 
-	/**
-	 * Check, if this inheritance type is castable to another one.
-	 * This means, that this type must be a sub type <code>t</code>.
-	 * @see de.unika.ipd.grgen.ir.type.Type#castableTo(de.unika.ipd.grgen.ir.type.Type)
-	 */
-	@Override
-	protected boolean castableTo(Type t)
+	/// <summary>
+	/// Check, if this inheritance type is castable to another one.
+	/// This means, that this type must be a sub type <code>t</code>. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.castableTo(de.unika.ipd.grgen.ir.type.Type)"/>
+	protected internal override bool CastableTo(Type t)
 	{
-		if(!(t instanceof InheritanceType))
+		if(!(t is InheritanceType))
 			return false;
 
 		InheritanceType ty = (InheritanceType)t;
 
-		if(isDirectSubTypeOf(ty))
+		if(IsDirectSubTypeOf(ty))
 			return true;
 
-		for(InheritanceType inh : getDirectSuperTypes()) {
-			if(inh.castableTo(ty))
+		foreach(InheritanceType inh in DirectSuperTypes)
+		{
+			if(inh.CastableTo(ty))
 				return true;
 		}
 
 		return false;
 	}
 
-	/**
-	 * Get the maximum distance to the root inheritance type.
-	 * This method returns the length of the longest path (considering the inheritance
-	 * relation) from this type to the root type.
-	 * @return The length of the longest path to the root type.
-	 */
-	public final int getMaxDist()
+	/// <summary>
+	/// Get the maximum distance to the root inheritance type.
+	/// This method returns the length of the longest path (considering the inheritance
+	/// relation) from this type to the root type. </summary>
+	/// <returns> The length of the longest path to the root type. </returns>
+	public int MaxDist
 	{
+		get
+		{
 
-		if(maxDist == -1) {
+		if(maxDist == -1)
+		{
 			maxDist = 0;
 
-			for(InheritanceType inh : directSuperTypes) {
-				int dist = inh.getMaxDist() + 1;
+			foreach(InheritanceType inh in directSuperTypes)
+			{
+				int dist = inh.MaxDist + 1;
 				maxDist = dist > maxDist ? dist : maxDist;
 			}
 		}
 
 		return maxDist;
+		}
 	}
 
-	public final String getExternalName()
+	public string ExternalName
 	{
+		get
+		{
 		return externalName;
+		}
 	}
 
-	/**
-	 * Check, if this type is abstract.
-	 * If a type is abstract, no entities of this types may be instantiated.
-	 * Its body must also be empty.
-	 * @return true, if this type is abstract, false if not.
-	 */
-	public final boolean isAbstract()
+	/// <summary>
+	/// Check, if this type is abstract.
+	/// If a type is abstract, no entities of this types may be instantiated.
+	/// Its body must also be empty. </summary>
+	/// <returns> true, if this type is abstract, false if not. </returns>
+	public bool IsAbstract()
 	{
 		return (modifiers & ABSTRACT) != 0;
 	}
 
-	/**
-	 * Check, if this type is const.
-	 * Members of entities of a const type may not be modified.
-	 * @return true, if this type is const, false if not.
-	 */
-	public final boolean isConst()
+	/// <summary>
+	/// Check, if this type is const.
+	/// Members of entities of a const type may not be modified. </summary>
+	/// <returns> true, if this type is const, false if not. </returns>
+	public bool IsConst()
 	{
 		return (modifiers & CONST) != 0;
 	}
 
-	@Override
-	public void addFields(Map<String, Object> fields)
+	public override void AddFields(IDictionary<string, object> fields)
 	{
-		super.addFields(fields);
-		fields.put("inherits", directSuperTypes.iterator());
-		fields.put("const", Boolean.valueOf(isConst()));
-		fields.put("abstract ", Boolean.valueOf(isAbstract()));
+		base.AddFields(fields);
+		fields["inherits"] = directSuperTypes.GetEnumerator();
+		fields["const"] = Convert.ToBoolean(IsConst());
+		fields["abstract "] = Convert.ToBoolean(IsAbstract());
 	}
+}
+
 }

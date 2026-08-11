@@ -1,40 +1,41 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.DeclaredCharacter;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.PackageIdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.IdentExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
-
-public class SubpatternUsageDeclNode extends DeclNode
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(SubpatternUsageDeclNode.class, "subpattern node");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using DeclaredCharacter = de.unika.ipd.grgen.ast.DeclaredCharacter;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using PackageIdentNode = de.unika.ipd.grgen.ast.PackageIdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using SubpatternDeclNode = de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using IdentExprNode = de.unika.ipd.grgen.ast.expr.IdentExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using SubpatternUsage = de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
+
+public class SubpatternUsageDeclNode : DeclNode
+{
+	static SubpatternUsageDeclNode()
+	{
+		SetClassName(typeof(SubpatternUsageDeclNode), "subpattern node");
 	}
 
 	private CollectNode<ExprNode> connections;
@@ -43,261 +44,299 @@ public class SubpatternUsageDeclNode extends DeclNode
 	public int context;
 
 	public SubpatternUsageDeclNode(IdentNode n, BaseNode t, int context, CollectNode<ExprNode> c)
+		: base(n, t)
 	{
-		super(n, t);
 		this.context = context;
 		this.connections = c;
-		becomeParent(this.connections);
+		BecomeParent(this.connections);
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
-		return type.getDeclType();
+		return type.DeclType;
+		}
 	}
 
-	public SubpatternDeclNode getSubpatternDecl()
+	public virtual SubpatternDeclNode SubpatternDecl
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return type;
-	}
-
-	public int getContext()
-	{
-		return context;
-	}
-
-	@Override
-	public Collection<BaseNode> getChildren()
-	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
-		children.add(connections);
-		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("connections");
-		return childrenNames;
-	}
-
-	private static final DeclarationResolver<SubpatternDeclNode> actionResolver =
-			new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class);
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
-	{
-		if(!(typeUnresolved instanceof PackageIdentNode)) {
-			fixupDefinition((IdentNode)typeUnresolved, typeUnresolved.getScope());
 		}
-		type = actionResolver.resolve(typeUnresolved, this);
+	}
+
+	public virtual int Context
+	{
+		get
+		{
+		return context;
+		}
+	}
+
+	public override ICollection<BaseNode> Children
+	{
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, type));
+		children.Add(connections);
+		return children;
+		}
+	}
+
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("connections");
+		return childrenNames;
+		}
+	}
+
+	private static readonly DeclarationResolver<SubpatternDeclNode> actionResolver =
+			new DeclarationResolver<SubpatternDeclNode>(typeof(SubpatternDeclNode));
+
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
+	{
+		if(!(typeUnresolved is PackageIdentNode))
+			FixupDefinition((IdentNode)typeUnresolved, typeUnresolved.Scope);
+		type = actionResolver.Resolve(typeUnresolved, this);
 		return type != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		return checkSubpatternSignatureAdhered();
+		return CheckSubpatternSignatureAdhered();
 	}
 
-	/** Check whether the subpattern usage adheres to the signature of the subpattern declaration */
-	private boolean checkSubpatternSignatureAdhered()
+	/// <summary>
+	/// Check whether the subpattern usage adheres to the signature of the subpattern declaration </summary>
+	private bool CheckSubpatternSignatureAdhered()
 	{
 		// check if the number of parameters are correct
-		int expected = type.pattern.getParamDecls().size();
-		int actual = connections.getChildrenExact().size();
-		if(expected != actual) {
-			String patternName = type.ident.toString();
-			ident.reportError("The (sub)pattern " + patternName + type.getDeclarationCoords() + " expects " + expected
-					+ " arguments, given by the subpattern usage" + emptyWhenAnonymousPostfix(" ") + " are " + actual + " arguments.");
+		int expected = type.pattern.ParamDecls.Count;
+		int actual = connections.ChildrenExact.Count;
+		if(expected != actual)
+		{
+			string patternName = type.ident.ToString();
+			ident.ReportError("The (sub)pattern " + patternName + type.DeclarationCoords + " expects " + expected
+					+ " arguments, given by the subpattern usage" + EmptyWhenAnonymousPostfix(" ") + " are " + actual + " arguments.");
 			return false;
 		}
 
 		// check if the types of the parameters are correct
-		boolean res = true;
-		List<DeclNode> formalParameters = type.pattern.getParamDecls();
-		for(int i = 0; i < connections.size(); ++i) {
-			ExprNode actualParameter = connections.get(i);
-			DeclNode formalParameter = formalParameters.get(i);
-			if(actualParameter instanceof IdentExprNode && ((IdentExprNode)actualParameter).yieldedTo) {
-				res &= checkYieldedToParameter(i, actualParameter, formalParameter);
-			} else {
-				res &= checkParameter(i, actualParameter, formalParameter);
-			}
-			res &= checkDefArgument(i, actualParameter, formalParameter);
+		bool res = true;
+		IList<DeclNode> formalParameters = type.pattern.ParamDecls;
+		for(int i = 0; i < connections.Size(); ++i)
+		{
+			ExprNode actualParameter = connections.Get(i);
+			DeclNode formalParameter = formalParameters[i];
+			if(actualParameter is IdentExprNode && ((IdentExprNode)actualParameter).yieldedTo)
+				res &= CheckYieldedToParameter(i, actualParameter, formalParameter);
+			else
+				res &= CheckParameter(i, actualParameter, formalParameter);
+			res &= CheckDefArgument(i, actualParameter, formalParameter);
 		}
 		return res;
 	}
 
-	private boolean checkYieldedToParameter(int i, ExprNode actualParameter, DeclNode formalParameter)
+	private bool CheckYieldedToParameter(int i, ExprNode actualParameter, DeclNode formalParameter)
 	{
-		boolean res = true;
-		
-		TypeNode actualParameterType = actualParameter.getType();
-		TypeNode formalParameterType = formalParameter.getDeclType();
+		bool res = true;
 
-		if(formalParameter instanceof ConstraintDeclNode) {
+		TypeNode actualParameterType = actualParameter.Type;
+		TypeNode formalParameterType = formalParameter.DeclType;
+
+		if(formalParameter is ConstraintDeclNode)
+		{
 			ConstraintDeclNode parameterElement = (ConstraintDeclNode)formalParameter;
-			if(!parameterElement.defEntityToBeYieldedTo) {
+			if(!parameterElement.defEntityToBeYieldedTo)
+			{
 				res = false;
-				ident.reportError("The " + (i + 1) + ". subpattern usage argument is yielded to, "
+				ident.ReportError("The " + (i + 1) + ". subpattern usage argument is yielded to, "
 						+ "but the parameter at this position is not declared as def"
-						+ whenUsingSpecification(parameterElement) + ".");
+						+ WhenUsingSpecification(parameterElement) + ".");
 			}
-		} else { //if(formalParameter instanceof VarDeclNode)
+		}
+		else
+		{ //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
-			if(!parameterVar.defEntityToBeYieldedTo) {
+			if(!parameterVar.defEntityToBeYieldedTo)
+			{
 				res = false;
-				ident.reportError("The " + (i + 1) + ". subpattern usage argument is yielded to, "
+				ident.ReportError("The " + (i + 1) + ". subpattern usage argument is yielded to, "
 						+ "but the parameter at this position is not declared as def"
-						+ whenUsingSpecification(parameterVar) + ".");
+						+ WhenUsingSpecification(parameterVar) + ".");
 			}
 		}
 
 		DeclaredCharacter argument = ((IdentExprNode)actualParameter).decl;
-		if(argument instanceof VarDeclNode) {
+		if(argument is VarDeclNode)
+		{
 			VarDeclNode argumentVar = (VarDeclNode)argument;
-			if(!argumentVar.defEntityToBeYieldedTo) {
+			if(!argumentVar.defEntityToBeYieldedTo)
+			{
 				res = false;
-				ident.reportError("Cannot yield to non-def arguments - the " + (i + 1)
+				ident.ReportError("Cannot yield to non-def arguments - the " + (i + 1)
 						+ ". subpattern usage argument is yielded to but not declared as def"
-						+ whenUsingSpecification(argumentVar) + ".");
+						+ WhenUsingSpecification(argumentVar) + ".");
 			}
-		} else { //if(argument instanceof ConstraintDeclNode)
+		}
+		else
+		{ //if(argument instanceof ConstraintDeclNode)
 			ConstraintDeclNode argumentElement = (ConstraintDeclNode)argument;
-			if(!argumentElement.defEntityToBeYieldedTo) {
+			if(!argumentElement.defEntityToBeYieldedTo)
+			{
 				res = false;
-				ident.reportError("Cannot yield to non-def arguments - the " + (i + 1)
+				ident.ReportError("Cannot yield to non-def arguments - the " + (i + 1)
 						+ ". subpattern usage argument is yielded to but not declared as def"
-						+ whenUsingSpecification(argumentElement) + ".");
+						+ WhenUsingSpecification(argumentElement) + ".");
 			}
 		}
 
-		if(!formalParameterType.isCompatibleTo(actualParameterType)) {
+		if(!formalParameterType.IsCompatibleTo(actualParameterType))
+		{
 			res = false;
-			String exprTypeName = actualParameterType.getTypeName();
-			String paramTypeName = formalParameterType.getTypeName();
-			ident.reportError("The " + (i + 1) + ". subpattern usage argument of type " + exprTypeName
+			string exprTypeName = actualParameterType.TypeName;
+			string paramTypeName = formalParameterType.TypeName;
+			ident.ReportError("The " + (i + 1) + ". subpattern usage argument of type " + exprTypeName
 					+ " cannot be yielded to from the subpattern def parameter of incompatible type " + paramTypeName
-					+ whenUsingSpecification(null)
-					+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
-					+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ WhenUsingSpecification(null)
+					+ actualParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ formalParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
 					+ ".");
 		}
-		
+
 		return res;
 	}
 
-	private boolean checkParameter(int i, ExprNode actualParameter, DeclNode formalParameter)
+	private bool CheckParameter(int i, ExprNode actualParameter, DeclNode formalParameter)
 	{
-		boolean res = true;
-		
-		TypeNode actualParameterType = actualParameter.getType();
-		TypeNode formalParameterType = formalParameter.getDeclType();
+		bool res = true;
 
-		if(formalParameter instanceof ConstraintDeclNode) {
+		TypeNode actualParameterType = actualParameter.Type;
+		TypeNode formalParameterType = formalParameter.DeclType;
+
+		if(formalParameter is ConstraintDeclNode)
+		{
 			ConstraintDeclNode parameterElement = (ConstraintDeclNode)formalParameter;
-			if(parameterElement.defEntityToBeYieldedTo) {
+			if(parameterElement.defEntityToBeYieldedTo)
+			{
 				res = false;
-				ident.reportError("The " + (i + 1) + ". subpattern usage argument is not yielded to, "
+				ident.ReportError("The " + (i + 1) + ". subpattern usage argument is not yielded to, "
 						+ "but the parameter at this position is declared as def"
-						+ whenUsingSpecification(parameterElement) + ".");
+						+ WhenUsingSpecification(parameterElement) + ".");
 			}
-		} else { //if(formalParameter instanceof VarDeclNode)
+		}
+		else
+		{ //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
-			if(parameterVar.defEntityToBeYieldedTo) {
+			if(parameterVar.defEntityToBeYieldedTo)
+			{
 				res = false;
-				ident.reportError("The " + (i + 1) + ". subpattern usage argument is not yielded to, "
+				ident.ReportError("The " + (i + 1) + ". subpattern usage argument is not yielded to, "
 						+ "but the parameter at this position is declared as def"
-						+ whenUsingSpecification(parameterVar) + ".");
+						+ WhenUsingSpecification(parameterVar) + ".");
 			}
 		}
 
-		if(!actualParameterType.isCompatibleTo(formalParameterType)) {
+		if(!actualParameterType.IsCompatibleTo(formalParameterType))
+		{
 			res = false;
-			String exprTypeName = actualParameterType.getTypeName();
-			String paramTypeName = formalParameterType.getTypeName();
-			ident.reportError("Cannot convert " + (i + 1) + ". subpattern usage argument from " + exprTypeName
+			string exprTypeName = actualParameterType.TypeName;
+			string paramTypeName = formalParameterType.TypeName;
+			ident.ReportError("Cannot convert " + (i + 1) + ". subpattern usage argument from " + exprTypeName
 					+ " to the expected " + paramTypeName
-					+ whenUsingSpecification(null)
-					+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
-					+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
- 					+ ".");
+					+ WhenUsingSpecification(null)
+					+ actualParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ formalParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ ".");
 		}
 
 		return res;
 	}
 
-	private boolean checkDefArgument(int i, ExprNode actualParameter, DeclNode formalParameter)
+	private bool CheckDefArgument(int i, ExprNode actualParameter, DeclNode formalParameter)
 	{
-		if(!(actualParameter instanceof IdentExprNode)) {
+		if(!(actualParameter is IdentExprNode))
 			return true;
-		}
-		
+
 		DeclaredCharacter argument = ((IdentExprNode)actualParameter).decl;
-		if(argument instanceof VarDeclNode) {
+		if(argument is VarDeclNode)
+		{
 			VarDeclNode argumentVar = (VarDeclNode)argument;
-			if(argumentVar.defEntityToBeYieldedTo) {
-				if(formalParameter instanceof VarDeclNode) {
+			if(argumentVar.defEntityToBeYieldedTo)
+			{
+				if(formalParameter is VarDeclNode)
+				{
 					VarDeclNode parameterVar = (VarDeclNode)formalParameter;
-					if(!parameterVar.defEntityToBeYieldedTo) {
-						ident.reportError("Cannot use def elements as non-def arguments to subpatterns"
-								+" - the " + (i + 1) + ". subpattern usage argument is declared as def,"
+					if(!parameterVar.defEntityToBeYieldedTo)
+					{
+						ident.ReportError("Cannot use def elements as non-def arguments to subpatterns"
+								+ " - the " + (i + 1) + ". subpattern usage argument is declared as def,"
 								+ " but the parameter at this position is not declared as def"
-								+ whenUsingSpecification(parameterVar) + ".");
-						return false;
-					}
-				}
-			}
-		} else { //if(argument instanceof ConstraintDeclNode)
-			ConstraintDeclNode argumentElement = (ConstraintDeclNode)argument;
-			if(argumentElement.defEntityToBeYieldedTo) {
-				if(formalParameter instanceof ConstraintDeclNode) {
-					ConstraintDeclNode parameterElement = (ConstraintDeclNode)formalParameter;
-					if(!parameterElement.defEntityToBeYieldedTo) {
-						ident.reportError("Cannot use def elements as non-def arguments to subpatterns"+
-								" - the " + (i + 1) + ". subpattern usage argument is declared as def,"
-								+ " but the parameter at this position is not declared as def"
-								+ whenUsingSpecification(parameterElement) + ".");
+								+ WhenUsingSpecification(parameterVar) + ".");
 						return false;
 					}
 				}
 			}
 		}
-		
+		else
+		{ //if(argument instanceof ConstraintDeclNode)
+			ConstraintDeclNode argumentElement = (ConstraintDeclNode)argument;
+			if(argumentElement.defEntityToBeYieldedTo)
+			{
+				if(formalParameter is ConstraintDeclNode)
+				{
+					ConstraintDeclNode parameterElement = (ConstraintDeclNode)formalParameter;
+					if(!parameterElement.defEntityToBeYieldedTo)
+					{
+						ident.ReportError("Cannot use def elements as non-def arguments to subpatterns"
+								+ " - the " + (i + 1) + ". subpattern usage argument is declared as def,"
+								+ " but the parameter at this position is not declared as def"
+								+ WhenUsingSpecification(parameterElement) + ".");
+						return false;
+					}
+				}
+			}
+		}
+
 		return true;
 	}
 
-	private String whenUsingSpecification(DeclNode focusedElement)
+	private string WhenUsingSpecification(DeclNode focusedElement)
 	{
-		return " (" + (focusedElement != null ? focusedElement.getIdent() + " " : "")
-				+ "when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident)
+		return " (" + (focusedElement != null ? focusedElement.Ident + " " : "")
+				+ "when using " + type.ToStringWithDeclarationCoords() + EmptyWhenAnonymous(" by " + ident)
 				+ ")";
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		List<Expression> subpatternConnections = new ArrayList<Expression>();
-		List<Expression> subpatternYields = new ArrayList<Expression>();
-		for(ExprNode connection : connections.getChildrenExact()) {
-			ExprNode connectionEvaluated = connection.evaluate();
-			if(connectionEvaluated instanceof IdentExprNode && ((IdentExprNode)connectionEvaluated).yieldedTo)
-				subpatternYields.add(connectionEvaluated.checkIR(Expression.class));
+		IList<Expression> subpatternConnections = new List<Expression>();
+		IList<Expression> subpatternYields = new List<Expression>();
+		foreach(ExprNode connection in connections.ChildrenExact)
+		{
+			ExprNode connectionEvaluated = connection.Evaluate();
+			if(connectionEvaluated is IdentExprNode && ((IdentExprNode)connectionEvaluated).yieldedTo)
+				subpatternYields.Add(connectionEvaluated.CheckIR(typeof(Expression)));
 			else
-				subpatternConnections.add(connectionEvaluated.checkIR(Expression.class));
+				subpatternConnections.Add(connectionEvaluated.CheckIR(typeof(Expression)));
 		}
-		return new SubpatternUsage("subpattern", getIdent().getIRIdent(), type.checkIR(Rule.class),
+		return new SubpatternUsage("subpattern", Ident.IRIdent, type.CheckIR(typeof(Rule)),
 				subpatternConnections, subpatternYields);
 	}
+}
+
 }

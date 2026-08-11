@@ -1,52 +1,56 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-/** base class for builtin procedures calls */
-public abstract class BuiltinProcedureInvocationBaseNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	static {
-		setClassName(BuiltinProcedureInvocationBaseNode.class, "builtin procedure invocation base");
+
+using System.Collections.Generic;
+
+using ProcedureOrBuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBaseNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// base class for builtin procedures calls </summary>
+public abstract class BuiltinProcedureInvocationBaseNode : ProcedureOrBuiltinProcedureInvocationBaseNode
+{
+	static BuiltinProcedureInvocationBaseNode()
+	{
+		SetClassName(typeof(BuiltinProcedureInvocationBaseNode), "builtin procedure invocation base");
 	}
 
-	private static final List<TypeNode> emptyReturn = new ArrayList<TypeNode>();
+	private static readonly IList<TypeNode> emptyReturn = new List<TypeNode>();
 
 	public BuiltinProcedureInvocationBaseNode(Coords coords)
+		: base(coords)
 	{
-		super(coords);
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean res = true;
-		for(TypeNode typeNode : getType()) {
-			res &= typeNode.resolve();
-		}
+		bool res = true;
+		foreach(TypeNode typeNode in Type)
+			res &= typeNode.Resolve();
 		return res;
 	}
 
 	// default is a procedure without returns, overwrite if return is not empty
-	@Override
-	public List<TypeNode> getType()
+	public override IList<TypeNode> Type
 	{
+		get
+		{
 		return emptyReturn;
+		}
 	}
+}
+
 }

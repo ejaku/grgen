@@ -1,108 +1,110 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.UntypedExecVarTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.graph.Visited;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class VisitedNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr.graph
 {
-	static {
-		setClassName(VisitedNode.class, "visited");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using UntypedExecVarTypeNode = de.unika.ipd.grgen.ast.type.basic.UntypedExecVarTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Visited = de.unika.ipd.grgen.ir.expr.graph.Visited;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class VisitedNode : ExprNode
+{
+	static VisitedNode()
+	{
+		SetClassName(typeof(VisitedNode), "visited");
 	}
 
 	private ExprNode visitorIDExpr;
 	private ExprNode entityExpr;
 
 	public VisitedNode(Coords coords, ExprNode visitorIDExpr, ExprNode entityExpr)
+		: base(coords)
 	{
-		super(coords);
 
 		this.visitorIDExpr = visitorIDExpr;
-		becomeParent(visitorIDExpr);
+		BecomeParent(visitorIDExpr);
 
 		this.entityExpr = entityExpr;
-		becomeParent(entityExpr);
+		BecomeParent(entityExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(visitorIDExpr);
-		children.add(entityExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(visitorIDExpr);
+		children.Add(entityExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("visitorID");
-		childrenNames.add("entity");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("visitorID");
+		childrenNames.Add("entity");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if(visitorIDExpr.getType() instanceof UntypedExecVarTypeNode) {
+		if(visitorIDExpr.Type is UntypedExecVarTypeNode)
 			return true;
-		}
-		if(!visitorIDExpr.getType().isEqual(BasicTypeNode.intType)) {
-			visitorIDExpr.reportError("The visited construct expects as index argument (visitorId) a value of type int"
-					+ " (but is given a value of type " + visitorIDExpr.getType().getTypeName() + ").");
+		if(!visitorIDExpr.Type.IsEqual(BasicTypeNode.intType))
+		{
+			visitorIDExpr.ReportError("The visited construct expects as index argument (visitorId) a value of type int"
+					+ " (but is given a value of type " + visitorIDExpr.Type.TypeName + ").");
 			return false;
 		}
-		if(entityExpr.getType() instanceof UntypedExecVarTypeNode) {
+		if(entityExpr.Type is UntypedExecVarTypeNode)
 			return true;
-		}
-		if(entityExpr.getType() instanceof EdgeTypeNode) {
+		if(entityExpr.Type is EdgeTypeNode)
 			return true;
-		}
-		if(entityExpr.getType() instanceof NodeTypeNode) {
+		if(entityExpr.Type is NodeTypeNode)
 			return true;
-		}
-		reportError("The visited construct expects as entity argument a value of type node or edge"
-				+ " (but is given a value of type " + entityExpr.getType().getTypeName() + ").");
+		ReportError("The visited construct expects as entity argument a value of type node or edge"
+				+ " (but is given a value of type " + entityExpr.Type.TypeName + ").");
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		visitorIDExpr = visitorIDExpr.evaluate();
-		entityExpr = entityExpr.evaluate();
-		return new Visited(visitorIDExpr.checkIR(Expression.class), entityExpr.checkIR(Expression.class));
+		visitorIDExpr = visitorIDExpr.Evaluate();
+		entityExpr = entityExpr.Evaluate();
+		return new Visited(visitorIDExpr.CheckIR(typeof(Expression)), entityExpr.CheckIR(typeof(Expression)));
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.booleanType;
+		}
 	}
+}
+
 }

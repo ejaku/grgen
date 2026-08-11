@@ -1,116 +1,125 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Rubino Geiss
- */
+/// <summary>
+/// @author Rubino Geiss
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.ExecVariable;
-import de.unika.ipd.grgen.ir.IR;
-
-/**
- * Declaration of a variable in an exec, explicit sequence local or implicit graph global.
- */
-public class ExecVarDeclNode extends DeclNode
+namespace de.unika.ipd.grgen.ast.decl
 {
-	private static final DeclarationResolver<DeclNode> declOfTypeResolver =
-			new DeclarationResolver<DeclNode>(DeclNode.class);
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using ExecVariable = de.unika.ipd.grgen.ir.ExecVariable;
+using IR = de.unika.ipd.grgen.ir.IR;
+
+/// <summary>
+/// Declaration of a variable in an exec, explicit sequence local or implicit graph global.
+/// </summary>
+public class ExecVarDeclNode : DeclNode
+{
+	private static readonly DeclarationResolver<DeclNode> declOfTypeResolver =
+			new DeclarationResolver<DeclNode>(typeof(DeclNode));
 
 	private TypeNode type;
 
 	public ExecVarDeclNode(IdentNode id, IdentNode type)
+		: base(id, type)
 	{
-		super(id, type);
 	}
 
 	public ExecVarDeclNode(IdentNode id, TypeNode type)
+		: base(id, type)
 	{
-		super(id, type);
 		this.type = type;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, type));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
 		return childrenNames;
+		}
 	}
 
-	/**
-	 * local resolving of the current node to be implemented by the subclasses, called from the resolve AST walk
-	 * @return true, if resolution of the AST locally finished successfully;
-	 * false, if there was some error.
-	 */
-	@Override
-	protected boolean resolveLocal()
+	/// <summary>
+	/// local resolving of the current node to be implemented by the subclasses, called from the resolve AST walk </summary>
+	/// <returns> true, if resolution of the AST locally finished successfully;
+	/// false, if there was some error. </returns>
+	protected internal override bool ResolveLocal()
 	{
 		// Type was already known at construction?
 		if(type != null)
 			return true;
 
-		DeclNode typeDecl = declOfTypeResolver.resolve(typeUnresolved, this);
-		if(typeDecl instanceof InvalidDeclNode) {
-			typeUnresolved.reportError("The exec variable " + getIdent() + " has an unknown type " + typeUnresolved + ".");
+		DeclNode typeDecl = declOfTypeResolver.Resolve(typeUnresolved, this);
+		if(typeDecl is InvalidDeclNode)
+		{
+			typeUnresolved.ReportError("The exec variable " + Ident + " has an unknown type " + typeUnresolved + ".");
 			return false;
 		}
-		type = typeDecl.getDeclType();
+		type = typeDecl.DeclType;
 		return type != null;
 	}
 
-	/**
-	 * local checking of the current node to be implemented by the subclasses, called from the check AST walk
-	 * @return true, if checking of the AST locally finished successfully;
-	 * false, if there was some error.
-	 */
-	@Override
-	protected boolean checkLocal()
+	/// <summary>
+	/// local checking of the current node to be implemented by the subclasses, called from the check AST walk </summary>
+	/// <returns> true, if checking of the AST locally finished successfully;
+	/// false, if there was some error. </returns>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	/** @return The type node of the declaration */
-	@Override
-	public TypeNode getDeclType()
+	/// <returns> The type node of the declaration </returns>
+	public override TypeNode DeclType
 	{
-		assert isResolved() : this + " was not resolved";
+		get
+		{
+		Debug.Assert(IsResolved(), this + " was not resolved");
 		return type;
+		}
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "exec variable";
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return new ExecVariable("ExecVar", getIdent().getIRIdent(), type.getIRType(), 0);
+		return new ExecVariable("ExecVar", Ident.IRIdent, type.IRType, 0);
 	}
+}
+
 }

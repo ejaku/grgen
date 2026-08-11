@@ -1,35 +1,39 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.type.basic;
+namespace de.unika.ipd.grgen.ir.type.basic
+{
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ir;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * A short type.
- */
-public class ShortType extends PrimitiveType
+/// <summary>
+/// A short type.
+/// </summary>
+public class ShortType : PrimitiveType
 {
 	public ShortType(Ident ident)
+		: base("short type", ident)
 	{
-		super("short type", ident);
 	}
 
-	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
-	@Override
-	public TypeClass classify()
+	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+	public override TypeClass Classify()
 	{
 		return TypeClass.IS_SHORT;
 	}
 
-	public static Type getType()
+	public static Type Type
 	{
-		return BasicTypeNode.shortType.checkIR(Type.class);
+		get
+		{
+		return BasicTypeNode.shortType.CheckIR(typeof(Type));
+		}
 	}
+}
+
 }

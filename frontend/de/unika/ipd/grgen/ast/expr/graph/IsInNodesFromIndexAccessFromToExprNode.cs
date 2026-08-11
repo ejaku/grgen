@@ -1,134 +1,142 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessFromToExpr;
-import de.unika.ipd.grgen.ir.model.Index;
-import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node yielding whether the given node is in the nodes from an index by accessing a range from a certain value to a certain value (one or both may be optional).
- */
-public class IsInNodesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExprNode
+namespace de.unika.ipd.grgen.ast.expr.graph
 {
-	static {
-		setClassName(IsInNodesFromIndexAccessFromToExprNode.class, "is in nodes from index access from to expr");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using IsInNodesFromIndexAccessFromToExpr = de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessFromToExpr;
+using Index = de.unika.ipd.grgen.ir.model.Index;
+using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node yielding whether the given node is in the nodes from an index by accessing a range from a certain value to a certain value (one or both may be optional).
+/// </summary>
+public class IsInNodesFromIndexAccessFromToExprNode : FromIndexAccessFromToExprNode
+{
+	static IsInNodesFromIndexAccessFromToExprNode()
+	{
+		SetClassName(typeof(IsInNodesFromIndexAccessFromToExprNode), "is in nodes from index access from to expr");
 	}
 
 	private ExprNode candidateExpr;
-	
-	public IsInNodesFromIndexAccessFromToExprNode(Coords coords, ExprNode candidateExpr, BaseNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
+
+	public IsInNodesFromIndexAccessFromToExprNode(Coords coords, ExprNode candidateExpr, BaseNode index, ExprNode fromExpr, bool fromExclusive, ExprNode toExpr, bool toExclusive)
+		: base(coords, index, fromExpr, fromExclusive, toExpr, toExclusive)
 	{
-		super(coords, index, fromExpr, fromExclusive, toExpr, toExclusive);
 		this.candidateExpr = candidateExpr;
-		becomeParent(this.candidateExpr);
+		BecomeParent(this.candidateExpr);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(candidateExpr);
-		children.add(getValidVersion(indexUnresolved, index));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(candidateExpr);
+		children.Add(GetValidVersion(indexUnresolved, index));
 		if(fromExpr != null)
-			children.add(fromExpr);
+			children.Add(fromExpr);
 		if(toExpr != null)
-			children.add(toExpr);
+			children.Add(toExpr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("candidateExpr");
-		childrenNames.add("index");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("candidateExpr");
+		childrenNames.Add("index");
 		if(fromExpr != null)
-			childrenNames.add("fromExpr");
+			childrenNames.Add("fromExpr");
 		if(toExpr != null)
-			childrenNames.add("toExpr");
+			childrenNames.Add("toExpr");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = super.resolveLocal();
-		successfullyResolved &= candidateExpr.resolve();
-		successfullyResolved &= getType().resolve();
+		bool successfullyResolved = base.ResolveLocal();
+		successfullyResolved &= candidateExpr.Resolve();
+		successfullyResolved &= Type.Resolve();
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		boolean res = super.checkLocal();
-		TypeNode indexedEntityRootType = getRoot().getDecl().getDeclType();
-		TypeNode candidateType = candidateExpr.getType();
-		if(!candidateType.isCompatibleTo(indexedEntityRootType)) {
-			reportError("The function " + shortSignature() + " expects as 1. argument (candidateExpr) a value of type " + indexedEntityRootType
-					+ " (but is given a value of type " + candidateType.toStringWithDeclarationCoords() + ").");
+		bool res = base.CheckLocal();
+		TypeNode indexedEntityRootType = Root.Decl.GetDeclType();
+		TypeNode candidateType = candidateExpr.Type;
+		if(!candidateType.IsCompatibleTo(indexedEntityRootType))
+		{
+			ReportError("The function " + ShortSignature() + " expects as 1. argument (candidateExpr) a value of type " + indexedEntityRootType
+					+ " (but is given a value of type " + candidateType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return res;
 	}
 
-	@Override
-	protected int indexShift()
+	protected internal override int IndexShift()
 	{
 		return 1;
 	}
 
-	@Override
-	protected IdentNode getRoot()
+	protected internal override IdentNode Root
 	{
-		return getNodeRoot();
+		get
+		{
+		return NodeRoot;
+		}
 	}
 
-	@Override
-	protected String shortSignature()
+	protected internal override string ShortSignature()
 	{
-		return "isInNodesFromIndex" + fromPart() + toPart() + "(" + ".," + argumentsPart() + ")";
+		return "isInNodesFromIndex" + FromPart() + ToPart() + "(" + ".," + ArgumentsPart() + ")";
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.booleanType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		candidateExpr = candidateExpr.evaluate();
+		candidateExpr = candidateExpr.Evaluate();
 		if(fromExpr != null)
-			fromExpr = fromExpr.evaluate();
+			fromExpr = fromExpr.Evaluate();
 		if(toExpr != null)
-			toExpr = toExpr.evaluate();
-		return new IsInNodesFromIndexAccessFromToExpr(candidateExpr.checkIR(Expression.class),
-				new IndexAccessOrdering(index.checkIR(Index.class), true,
-						fromOperator(), fromExpr != null ? fromExpr.checkIR(Expression.class) : null, 
-						toOperator(), toExpr != null ? toExpr.checkIR(Expression.class) : null),
-				getType().getIRType());
+			toExpr = toExpr.Evaluate();
+		return new IsInNodesFromIndexAccessFromToExpr(candidateExpr.CheckIR(typeof(Expression)),
+				new IndexAccessOrdering(index.CheckIR(typeof(Index)), true,
+						FromOperator(), fromExpr != null ? fromExpr.CheckIR(typeof(Expression)) : null,
+						ToOperator(), toExpr != null ? toExpr.CheckIR(typeof(Expression)) : null),
+				Type.IRType);
 	}
+}
+
 }

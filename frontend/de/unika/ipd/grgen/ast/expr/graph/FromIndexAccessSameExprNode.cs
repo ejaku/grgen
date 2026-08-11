@@ -1,83 +1,90 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node yielding the graph elements (nodes or edges) from an index by accessing using a comparison for equality (base class for the specific node or edge classes).
- */
-public abstract class FromIndexAccessSameExprNode extends FromIndexAccessExprNode
+namespace de.unika.ipd.grgen.ast.expr.graph
 {
-	static {
-		setClassName(FromIndexAccessSameExprNode.class, "from index access same expr");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node yielding the graph elements (nodes or edges) from an index by accessing using a comparison for equality (base class for the specific node or edge classes).
+/// </summary>
+public abstract class FromIndexAccessSameExprNode : FromIndexAccessExprNode
+{
+	static FromIndexAccessSameExprNode()
+	{
+		SetClassName(typeof(FromIndexAccessSameExprNode), "from index access same expr");
 	}
 
-	protected ExprNode expr;
+	protected internal ExprNode expr;
 
 	public FromIndexAccessSameExprNode(Coords coords, BaseNode index, ExprNode expr)
+		: base(coords, index)
 	{
-		super(coords, index);
 		this.expr = expr;
-		becomeParent(this.expr);
+		BecomeParent(this.expr);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(indexUnresolved, index));
-		children.add(expr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(indexUnresolved, index));
+		children.Add(expr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("index");
-		childrenNames.add("expr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("index");
+		childrenNames.Add("expr");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = super.resolveLocal();
-		successfullyResolved &= expr.resolve();
+		bool successfullyResolved = base.ResolveLocal();
+		successfullyResolved &= expr.Resolve();
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		boolean res = super.checkLocal();
-		TypeNode expectedIndexAccessType = index.getExpectedAccessType();
-		TypeNode indexAccessType = expr.getType();
-		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
-			String expTypeName = expectedIndexAccessType.getTypeName();
-			String typeName = indexAccessType.getTypeName();
-			int argumentNumber = 2 + indexShift();
-			reportError("The function " + shortSignature() + " expects as " + argumentNumber + ". argument (expr) a value of type " + expTypeName
+		bool res = base.CheckLocal();
+		TypeNode expectedIndexAccessType = index.ExpectedAccessType;
+		TypeNode indexAccessType = expr.Type;
+		if(!indexAccessType.IsCompatibleTo(expectedIndexAccessType))
+		{
+			string expTypeName = expectedIndexAccessType.TypeName;
+			string typeName = indexAccessType.TypeName;
+			int argumentNumber = 2 + IndexShift();
+			ReportError("The function " + ShortSignature() + " expects as " + argumentNumber + ". argument (expr) a value of type " + expTypeName
 					+ " (but is given a value of type " + typeName + ").");
 			return false;
 		}
 		return res;
 	}
+}
+
 }

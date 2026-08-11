@@ -1,102 +1,112 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.util.Direction;
-
-/**
- * Base class for neighborhood graph queries (with members shared by all these queries).
- */
-public abstract class NeighborhoodQueryExprNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.graph
 {
-	static {
-		setClassName(NeighborhoodQueryExprNode.class, "neighborhood query expr");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+using Direction = de.unika.ipd.grgen.util.Direction;
+
+/// <summary>
+/// Base class for neighborhood graph queries (with members shared by all these queries).
+/// </summary>
+public abstract class NeighborhoodQueryExprNode : BuiltinFunctionInvocationBaseNode
+{
+	static NeighborhoodQueryExprNode()
+	{
+		SetClassName(typeof(NeighborhoodQueryExprNode), "neighborhood query expr");
 	}
 
-	protected ExprNode startNodeExpr;
-	protected ExprNode incidentTypeExpr;
-	protected ExprNode adjacentTypeExpr;
+	protected internal ExprNode startNodeExpr;
+	protected internal ExprNode incidentTypeExpr;
+	protected internal ExprNode adjacentTypeExpr;
 
-	protected Direction direction;
+	protected internal Direction direction;
 
-	
-	protected NeighborhoodQueryExprNode(Coords coords,
+
+	protected internal NeighborhoodQueryExprNode(Coords coords,
 			ExprNode startNodeExpr,
 			ExprNode incidentTypeExpr, Direction direction,
 			ExprNode adjacentTypeExpr)
+		: base(coords)
 	{
-		super(coords);
 		this.startNodeExpr = startNodeExpr;
-		becomeParent(this.startNodeExpr);
+		BecomeParent(this.startNodeExpr);
 		this.incidentTypeExpr = incidentTypeExpr;
-		becomeParent(this.incidentTypeExpr);
+		BecomeParent(this.incidentTypeExpr);
 		this.direction = direction;
 		this.adjacentTypeExpr = adjacentTypeExpr;
-		becomeParent(this.adjacentTypeExpr);
+		BecomeParent(this.adjacentTypeExpr);
 	}
-	
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(startNodeExpr);
-		children.add(incidentTypeExpr);
-		children.add(adjacentTypeExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(startNodeExpr);
+		children.Add(incidentTypeExpr);
+		children.Add(adjacentTypeExpr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("start node expr");
-		childrenNames.add("incident type expr");
-		childrenNames.add("adjacent type expr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("start node expr");
+		childrenNames.Add("incident type expr");
+		childrenNames.Add("adjacent type expr");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("The function " + shortSignature() + " expects as 1. argument a value of type node"
-					+ " (but is given a value of type " + startNodeExpr.getType().getTypeName() + ").");
+		if(!(startNodeExpr.Type is NodeTypeNode))
+		{
+			ReportError("The function " + ShortSignature() + " expects as 1. argument a value of type node"
+					+ " (but is given a value of type " + startNodeExpr.Type.TypeName + ").");
 			return false;
 		}
-		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("The function " + shortSignature() + " expects as 2. argument a value of type edge type"
-					+ " (but is given a value of type " + incidentTypeExpr.getType().getTypeName() + ").");
+		if(!(incidentTypeExpr.Type is EdgeTypeNode))
+		{
+			ReportError("The function " + ShortSignature() + " expects as 2. argument a value of type edge type"
+					+ " (but is given a value of type " + incidentTypeExpr.Type.TypeName + ").");
 			return false;
 		}
-		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("The function " + shortSignature() + " expects as 3. argument a value of type node type"
-					+ " (but is given a value of type " + adjacentTypeExpr.getType().getTypeName() + ").");
+		if(!(adjacentTypeExpr.Type is NodeTypeNode))
+		{
+			ReportError("The function " + ShortSignature() + " expects as 3. argument a value of type node type"
+					+ " (but is given a value of type " + adjacentTypeExpr.Type.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
-	
-	protected abstract String shortSignature();
+
+	protected internal abstract string ShortSignature();
+}
+
 }

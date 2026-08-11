@@ -1,148 +1,156 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.stmt.ContainerAccumulationYield;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing an accumulation yielding of a container variable.
- */
-public class ContainerAccumulationYieldNode extends NestingStatementNode
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	static {
-		setClassName(ContainerAccumulationYieldNode.class, "ContainerAccumulationYield");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using de.unika.ipd.grgen.ast.util;
+using ContainerAccumulationYield = de.unika.ipd.grgen.ir.stmt.ContainerAccumulationYield;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing an accumulation yielding of a container variable.
+/// </summary>
+public class ContainerAccumulationYieldNode : NestingStatementNode
+{
+	static ContainerAccumulationYieldNode()
+	{
+		SetClassName(typeof(ContainerAccumulationYieldNode), "ContainerAccumulationYield");
 	}
 
-	VarDeclNode iterationVariableUnresolved;
-	VarDeclNode iterationIndexUnresolved;
-	IdentNode containerUnresolved;
+	internal VarDeclNode iterationVariableUnresolved;
+	internal VarDeclNode iterationIndexUnresolved;
+	internal IdentNode containerUnresolved;
 
-	VarDeclNode iterationVariable;
-	VarDeclNode iterationIndex;
-	VarDeclNode container;
+	internal VarDeclNode iterationVariable;
+	internal VarDeclNode iterationIndex;
+	internal VarDeclNode container;
 
 	public ContainerAccumulationYieldNode(Coords coords, VarDeclNode iterationVariable, VarDeclNode iterationIndex,
 			IdentNode container, CollectNode<EvalStatementNode> accumulationStatements)
+		: base(coords, accumulationStatements)
 	{
-		super(coords, accumulationStatements);
 		this.iterationVariableUnresolved = iterationVariable;
-		becomeParent(this.iterationVariableUnresolved);
+		BecomeParent(this.iterationVariableUnresolved);
 		this.iterationIndexUnresolved = iterationIndex;
 		if(this.iterationIndexUnresolved != null)
-			becomeParent(this.iterationIndexUnresolved);
+			BecomeParent(this.iterationIndexUnresolved);
 		this.containerUnresolved = container;
-		becomeParent(this.containerUnresolved);
+		BecomeParent(this.containerUnresolved);
 		this.statements = accumulationStatements;
-		becomeParent(this.statements);
+		BecomeParent(this.statements);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
 		if(iterationIndexUnresolved != null)
-			children.add(getValidVersion(iterationIndexUnresolved, iterationIndex));
-		children.add(getValidVersion(containerUnresolved, container));
-		children.add(statements);
+			children.Add(GetValidVersion(iterationIndexUnresolved, iterationIndex));
+		children.Add(GetValidVersion(containerUnresolved, container));
+		children.Add(statements);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("iterationVariable");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("iterationVariable");
 		if(iterationIndexUnresolved != null)
-			childrenNames.add("iterationIndex");
-		childrenNames.add("container");
-		childrenNames.add("accumulationStatements");
+			childrenNames.Add("iterationIndex");
+		childrenNames.Add("container");
+		childrenNames.Add("accumulationStatements");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<VarDeclNode> containerResolver =
-			new DeclarationResolver<VarDeclNode>(VarDeclNode.class);
+	private static readonly DeclarationResolver<VarDeclNode> containerResolver =
+			new DeclarationResolver<VarDeclNode>(typeof(VarDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = true;
+		bool successfullyResolved = true;
 
-		container = containerResolver.resolve(containerUnresolved, this);
+		container = containerResolver.Resolve(containerUnresolved, this);
 		if(container == null)
 			successfullyResolved = false;
 
-		if(iterationVariableUnresolved instanceof VarDeclNode) { // defining occurrence, no resolving should be necessary
+		if(iterationVariableUnresolved is VarDeclNode) // defining occurrence, no resolving should be necessary
 			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
-		} else {
-			reportError("Error in resolving the iteration variable of the for loop iterating over a container.");
+		else
+		{
+			ReportError("Error in resolving the iteration variable of the for loop iterating over a container.");
 			successfullyResolved = false;
 		}
 
-		if(iterationIndexUnresolved != null) {
-			if(iterationIndexUnresolved instanceof VarDeclNode) { // defining occurrence, no resolving should be necessary
+		if(iterationIndexUnresolved != null)
+		{
+			if(iterationIndexUnresolved is VarDeclNode) // defining occurrence, no resolving should be necessary
 				iterationIndex = (VarDeclNode)iterationIndexUnresolved;
-			} else {
-				reportError("Error in resolving the iteration index variable of the for loop iterating over a container.");
+			else
+			{
+				ReportError("Error in resolving the iteration index variable of the for loop iterating over a container.");
 				successfullyResolved = false;
 			}
 		}
 
-		if(!iterationVariable.resolve())
+		if(!iterationVariable.Resolve())
 			successfullyResolved = false;
 
 		if(iterationIndex != null)
-			if(!iterationIndex.resolve())
+		{
+			if(!iterationIndex.Resolve())
 				successfullyResolved = false;
+		}
 
 		return successfullyResolved;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		ContainerAccumulationYield cay = new ContainerAccumulationYield(iterationVariable.checkIR(Variable.class),
-				iterationIndex != null ? iterationIndex.checkIR(Variable.class) : null,
-				container.checkIR(Variable.class));
-		for(EvalStatementNode accumulationStatement : statements.getChildrenExact()) {
-			cay.addStatement(accumulationStatement.checkIR(EvalStatement.class));
-		}
+		ContainerAccumulationYield cay = new ContainerAccumulationYield(iterationVariable.CheckIR(typeof(Variable)),
+				iterationIndex != null ? iterationIndex.CheckIR(typeof(Variable)) : null,
+				container.CheckIR(typeof(Variable)));
+		foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
+			cay.AddStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
 		return cay;
 	}
+}
+
 }

@@ -1,236 +1,278 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
-package de.unika.ipd.grgen.ast.decl.executable;
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
+namespace de.unika.ipd.grgen.ast.decl.executable
+{
+using System;
 
-import de.unika.ipd.grgen.ast.expr.ArithmeticOperatorNode;
-import de.unika.ipd.grgen.ast.expr.BoolConstNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.MemberAccessExprNode;
-import de.unika.ipd.grgen.ast.expr.TypeConstNode;
-import de.unika.ipd.grgen.ast.expr.TypeofNode;
-import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
-import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
-import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
-import de.unika.ipd.grgen.ast.expr.numeric.DoubleConstNode;
-import de.unika.ipd.grgen.ast.expr.numeric.FloatConstNode;
-import de.unika.ipd.grgen.ast.expr.numeric.IntConstNode;
-import de.unika.ipd.grgen.ast.expr.numeric.LongConstNode;
-import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
-import de.unika.ipd.grgen.ast.expr.string.StringConstNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.util.Base;
+using ArithmeticOperatorNode = de.unika.ipd.grgen.ast.expr.ArithmeticOperatorNode;
+using BoolConstNode = de.unika.ipd.grgen.ast.expr.BoolConstNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using MemberAccessExprNode = de.unika.ipd.grgen.ast.expr.MemberAccessExprNode;
+using TypeConstNode = de.unika.ipd.grgen.ast.expr.TypeConstNode;
+using TypeofNode = de.unika.ipd.grgen.ast.expr.TypeofNode;
+using ArrayInitNode = de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
+using DequeInitNode = de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
+using MapInitNode = de.unika.ipd.grgen.ast.expr.map.MapInitNode;
+using DoubleConstNode = de.unika.ipd.grgen.ast.expr.numeric.DoubleConstNode;
+using FloatConstNode = de.unika.ipd.grgen.ast.expr.numeric.FloatConstNode;
+using IntConstNode = de.unika.ipd.grgen.ast.expr.numeric.IntConstNode;
+using LongConstNode = de.unika.ipd.grgen.ast.expr.numeric.LongConstNode;
+using SetInitNode = de.unika.ipd.grgen.ast.expr.set.SetInitNode;
+using StringConstNode = de.unika.ipd.grgen.ast.expr.@string.StringConstNode;
+using MemberDeclNode = de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using ObjectTypeNode = de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+using Base = de.unika.ipd.grgen.util.Base;
 
-/**
- * A class that represents an evaluator for constant expressions.
- */
+/// <summary>
+/// A class that represents an evaluator for constant expressions.
+/// </summary>
 public class OperatorEvaluator
 {
-	/**
-	 * NOTE: recalculate the serialVersionUID if you change the class.
-	 */
-	static class NotEvaluatableException extends Exception
+	/// <summary>
+	/// NOTE: recalculate the serialVersionUID if you change the class.
+	/// </summary>
+	internal class NotEvaluatableException : Exception
 	{
-		private static final long serialVersionUID = -4866769730405704919L;
+		internal const long serialVersionUID = -4866769730405704919L;
 
-		private Coords coords;
+		internal Coords coords;
 
 		public NotEvaluatableException(Coords coords)
+			 : base()
 		{
-			super();
 			this.coords = coords;
 		}
 
-		@Override
-		public String getMessage()
+		public override string Message
 		{
-			return "Expression not evaluatable at " + coords.toString();
+			get
+			{
+			return "Expression not evaluatable at " + coords.ToString();
+			}
 		}
 	}
 
-	/**
-	 * NOTE: recalculate the serialVersionUID if you change the class.
-	 */
-	static class ValueException extends Exception
+	/// <summary>
+	/// NOTE: recalculate the serialVersionUID if you change the class.
+	/// </summary>
+	internal class ValueException : Exception
 	{
-		private static final long serialVersionUID = 991159946682342406L;
+		internal const long serialVersionUID = 991159946682342406L;
 
-		private Coords coords;
+		internal Coords coords;
 
 		public ValueException(Coords coords)
+			: base()
 		{
-			super();
 			this.coords = coords;
 		}
 
-		@Override
-		public String getMessage()
+		public override string Message
 		{
-			return "Expression not constant or value has wrong type at " + coords.toString();
+			get
+			{
+			return "Expression not constant or value has wrong type at " + coords.ToString();
+			}
 		}
 	}
 
-	public ExprNode evaluate(ExprNode expr, OperatorDeclNode operator, ExprNode[] arguments)
+	public virtual ExprNode Evaluate(ExprNode expr, OperatorDeclNode @operator, ExprNode[] arguments)
 	{
-		Base.debug.report(Base.NOTE, "id: " + operator.getOperator() + ", name: " + OperatorDeclNode.getName(operator.getOperator()));
+		Base.debug.Report(Base.NOTE, "id: " + @operator.Operator + ", name: " + OperatorDeclNode.GetName(@operator.Operator));
 
 		ExprNode resExpr = expr;
-		TypeNode[] paramTypes = operator.getOperandTypes();
+		TypeNode[] paramTypes = @operator.OperandTypes;
 
 		// Check, if the arity matches.
-		if(arguments.length == paramTypes.length) {
+		if(arguments.Length == paramTypes.Length)
+		{
 			// Check the types of the arguments.
-			for(int i = 0; i < arguments.length; i++) {
-				Base.debug.report(Base.NOTE, "parameter type: " + paramTypes[i]
-						+ " argument type: " + arguments[i].getType());
-				if(!paramTypes[i].isEqual(arguments[i].getType()))
+			for(int i = 0; i < arguments.Length; i++)
+			{
+				Base.debug.Report(Base.NOTE, "parameter type: " + paramTypes[i]
+						+ " argument type: " + arguments[i].Type);
+				if(!paramTypes[i].IsEqual(arguments[i].Type))
 					return resExpr;
 			}
 
 			// If we're here, all checks succeeded.
-			try {
-				resExpr = eval(expr.getCoords(), operator, arguments);
-			} catch(NotEvaluatableException e) {
-				Base.debug.report(Base.NOTE, e.toString());
+			try
+			{
+				resExpr = Eval(expr.Coords, @operator, arguments);
+			}
+			catch(NotEvaluatableException e)
+			{
+				Base.debug.Report(Base.NOTE, e.ToString());
 			}
 		}
 
-		if(Base.debug.willReport(Base.NOTE)) {
-			ConstNode c = (resExpr instanceof ConstNode) ? (ConstNode)resExpr : ConstNode.getInvalid();
-			Base.debug.report(Base.NOTE, "result: " + resExpr.getClass() + ", value: " + c.getValue());
+		if(Base.debug.WillReport(Base.NOTE))
+		{
+			ConstNode c = (resExpr is ConstNode) ? (ConstNode)resExpr : ConstNode.Invalid;
+			Base.debug.Report(Base.NOTE, "result: " + resExpr.GetType() + ", value: " + c.Value);
 		}
 
 		return resExpr;
 	}
 
-	protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	protected internal virtual ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 	{
 		return null;
 	}
 
-	private static Object checkValue(ExprNode e, Class<?> type) throws ValueException
+	private static object CheckValue(ExprNode e, Type type)
 	{
-		if(!(e instanceof ConstNode))
-			throw new ValueException(e.getCoords());
+		if(!(e is ConstNode))
+			throw new ValueException(e.Coords);
 
-		Object v = ((ConstNode)e).getValue();
-		if(!type.isInstance(v))
-			throw new ValueException(e.getCoords());
+		object v = ((ConstNode)e).Value;
+		if(!type.IsInstanceOfType(v))
+			throw new ValueException(e.Coords);
 
 		return v;
 	}
 
-	protected static Object getArgValue(ExprNode[] args, OperatorDeclNode op, int pos) throws ValueException
+	protected internal static object GetArgValue(ExprNode[] args, OperatorDeclNode op, int pos)
 	{
-		TypeNode[] paramTypes = op.getOperandTypes();
+		TypeNode[] paramTypes = op.OperandTypes;
 
-		if(paramTypes[pos].isBasic()) {
+		if(paramTypes[pos].IsBasic())
+		{
 			BasicTypeNode paramType = (BasicTypeNode)paramTypes[pos];
 
-			return checkValue(args[pos], paramType.getValueType());
-		} else
-			throw new ValueException(args[pos].getCoords());
+			return CheckValue(args[pos], paramType.ValueType);
+		}
+		else
+			throw new ValueException(args[pos].Coords);
 	}
 
-	public static final OperatorEvaluator objectEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator objectEvaluator = new OperatorEvaluatorAnonymousInnerClass();
+
+	private class OperatorEvaluatorAnonymousInnerClass : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
 			ObjectTypeNode.Value a0, a1;
 
-			if(OperatorDeclNode.getArity(op.getOperator()) != 2)
+			if(OperatorDeclNode.GetArity(op.Operator) != 2)
 				throw new NotEvaluatableException(coords);
 
-			try {
-				a0 = (ObjectTypeNode.Value)getArgValue(e, op, 0);
-				a1 = (ObjectTypeNode.Value)getArgValue(e, op, 1);
-			} catch(ValueException x) {
+			try
+			{
+				a0 = (ObjectTypeNode.Value)GetArgValue(e, op, 0);
+				a1 = (ObjectTypeNode.Value)GetArgValue(e, op, 1);
+			}
+			catch(ValueException)
+			{
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.getOperator()) {
-			case EQ:
-				return new BoolConstNode(coords, a0.equals(a1));
-			case NE:
-				return new BoolConstNode(coords, !a0.equals(a1));
+			switch(op.Operator)
+			{
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.EQ:
+				return new BoolConstNode(coords, a0.Equals(a1));
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.NE:
+				return new BoolConstNode(coords, !a0.Equals(a1));
 
 			default:
 				throw new NotEvaluatableException(coords);
 			}
 		}
-	};
+	}
 
-	public static final OperatorEvaluator subgraphEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator subgraphEvaluator = new OperatorEvaluatorAnonymousInnerClass2();
+
+	private class OperatorEvaluatorAnonymousInnerClass2 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
 			throw new NotEvaluatableException(coords);
 		}
-	};
+	}
 
-	public static final OperatorEvaluator nullEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator nullEvaluator = new OperatorEvaluatorAnonymousInnerClass3();
+
+	private class OperatorEvaluatorAnonymousInnerClass3 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
-			if(OperatorDeclNode.getArity(op.getOperator()) != 2)
+			if(OperatorDeclNode.GetArity(op.Operator) != 2)
 				throw new NotEvaluatableException(coords);
 
-			try {
-				getArgValue(e, op, 0);
-				getArgValue(e, op, 1);
-			} catch(ValueException x) {
+			try
+			{
+				GetArgValue(e, op, 0);
+				GetArgValue(e, op, 1);
+			}
+			catch(ValueException)
+			{
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.getOperator()) {
-			case EQ:
+			switch(op.Operator)
+			{
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.EQ:
 				return new BoolConstNode(coords, true);
-			case NE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.NE:
 				return new BoolConstNode(coords, false);
 
 			default:
 				throw new NotEvaluatableException(coords);
 			}
 		}
-	};
+	}
 
-	public static final OperatorEvaluator stringEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator stringEvaluator = new OperatorEvaluatorAnonymousInnerClass4();
+
+	private class OperatorEvaluatorAnonymousInnerClass4 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
-			String a0;
-			Object aobj1;
+			string a0;
+			object aobj1;
 
-			try {
-				a0 = (String)getArgValue(e, op, 0);
-				aobj1 = getArgValue(e, op, 1);
-			} catch(ValueException x) {
+			try
+			{
+				a0 = (string)GetArgValue(e, op, 0);
+				aobj1 = GetArgValue(e, op, 1);
+			}
+			catch(ValueException)
+			{
 				throw new NotEvaluatableException(coords);
 			}
 
-			if(op.getOperator() == Operator.ADD)
+			if(op.Operator == Operator.ADD)
 				return new StringConstNode(coords, a0 + aobj1);
 
-			String a1 = (String)aobj1;
+			string a1 = (string)aobj1;
 
-			switch(op.getOperator()) {
-			case EQ:
-				return new BoolConstNode(coords, a0.equals(a1));
-			case NE:
-				return new BoolConstNode(coords, !a0.equals(a1));
+			switch(op.Operator)
+			{
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.EQ:
+				return new BoolConstNode(coords, a0.Equals(a1));
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.NE:
+				return new BoolConstNode(coords, !a0.Equals(a1));
 			//case GE:  return new BoolConstNode(coords, a0.compareTo(a1) >= 0);
 			//case GT:  return new BoolConstNode(coords, a0.compareTo(a1) > 0);
 			//case LE:  return new BoolConstNode(coords, a0.compareTo(a1) <= 0);
@@ -241,258 +283,304 @@ public class OperatorEvaluator
 				throw new NotEvaluatableException(coords);
 			}
 		}
-	};
+	}
 
-	public static final OperatorEvaluator intEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator intEvaluator = new OperatorEvaluatorAnonymousInnerClass5();
+
+	private class OperatorEvaluatorAnonymousInnerClass5 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
 			int a0, a1;
 
-			try {
-				a0 = ((Integer)getArgValue(e, op, 0)).intValue();
+			try
+			{
+				a0 = ((int?)GetArgValue(e, op, 0)).Value;
 				a1 = 0;
-				if(OperatorDeclNode.getArity(op.getOperator()) > 1)
-					a1 = ((Integer)getArgValue(e, op, 1)).intValue();
-			} catch(ValueException x) {
+				if(OperatorDeclNode.GetArity(op.Operator) > 1)
+					a1 = ((int?)GetArgValue(e, op, 1)).Value;
+			}
+			catch(ValueException)
+			{
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.getOperator()) {
-			case EQ:
+			switch(op.Operator)
+			{
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.EQ:
 				return new BoolConstNode(coords, a0 == a1);
-			case NE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.NE:
 				return new BoolConstNode(coords, a0 != a1);
-			case LT:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.LT:
 				return new BoolConstNode(coords, a0 < a1);
-			case LE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.LE:
 				return new BoolConstNode(coords, a0 <= a1);
-			case GT:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.GT:
 				return new BoolConstNode(coords, a0 > a1);
-			case GE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.GE:
 				return new BoolConstNode(coords, a0 >= a1);
 
-			case ADD:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.ADD:
 				return new IntConstNode(coords, a0 + a1);
-			case SUB:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.SUB:
 				return new IntConstNode(coords, a0 - a1);
-			case MUL:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.MUL:
 				return new IntConstNode(coords, a0 * a1);
-			case DIV:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.DIV:
 				return new IntConstNode(coords, a0 / a1);
-			case MOD:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.MOD:
 				return new IntConstNode(coords, a0 % a1);
-			case SHL:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.SHL:
 				return new IntConstNode(coords, a0 << a1);
-			case SHR:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.SHR:
 				return new IntConstNode(coords, a0 >> a1);
-			case BIT_SHR:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_SHR:
 				return new IntConstNode(coords, a0 >>> a1);
-			case BIT_OR:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_OR:
 				return new IntConstNode(coords, a0 | a1);
-			case BIT_AND:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_AND:
 				return new IntConstNode(coords, a0 & a1);
-			case BIT_XOR:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_XOR:
 				return new IntConstNode(coords, a0 ^ a1);
-			case BIT_NOT:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_NOT:
 				return new IntConstNode(coords, ~a0);
-			case NEG:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.NEG:
 				return new IntConstNode(coords, -a0);
 
 			default:
 				throw new NotEvaluatableException(coords);
 			}
 		}
-	};
+	}
 
-	public static final OperatorEvaluator longEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator longEvaluator = new OperatorEvaluatorAnonymousInnerClass6();
+
+	private class OperatorEvaluatorAnonymousInnerClass6 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
 			long a0, a1;
 
-			try {
-				a0 = ((Long)getArgValue(e, op, 0)).longValue();
+			try
+			{
+				a0 = ((long?)GetArgValue(e, op, 0)).Value;
 				a1 = 0;
-				if(OperatorDeclNode.getArity(op.getOperator()) > 1)
-					a1 = ((Long)getArgValue(e, op, 1)).longValue();
-			} catch(ValueException x) {
+				if(OperatorDeclNode.GetArity(op.Operator) > 1)
+					a1 = ((long?)GetArgValue(e, op, 1)).Value;
+			}
+			catch(ValueException)
+			{
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.getOperator()) {
-			case EQ:
+			switch(op.Operator)
+			{
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.EQ:
 				return new BoolConstNode(coords, a0 == a1);
-			case NE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.NE:
 				return new BoolConstNode(coords, a0 != a1);
-			case LT:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.LT:
 				return new BoolConstNode(coords, a0 < a1);
-			case LE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.LE:
 				return new BoolConstNode(coords, a0 <= a1);
-			case GT:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.GT:
 				return new BoolConstNode(coords, a0 > a1);
-			case GE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.GE:
 				return new BoolConstNode(coords, a0 >= a1);
 
-			case ADD:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.ADD:
 				return new LongConstNode(coords, a0 + a1);
-			case SUB:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.SUB:
 				return new LongConstNode(coords, a0 - a1);
-			case MUL:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.MUL:
 				return new LongConstNode(coords, a0 * a1);
-			case DIV:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.DIV:
 				return new LongConstNode(coords, a0 / a1);
-			case MOD:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.MOD:
 				return new LongConstNode(coords, a0 % a1);
-			case SHL:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.SHL:
 				return new LongConstNode(coords, a0 << a1);
-			case SHR:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.SHR:
 				return new LongConstNode(coords, a0 >> a1);
-			case BIT_SHR:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_SHR:
 				return new LongConstNode(coords, a0 >>> a1);
-			case BIT_OR:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_OR:
 				return new LongConstNode(coords, a0 | a1);
-			case BIT_AND:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_AND:
 				return new LongConstNode(coords, a0 & a1);
-			case BIT_XOR:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_XOR:
 				return new LongConstNode(coords, a0 ^ a1);
-			case BIT_NOT:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_NOT:
 				return new LongConstNode(coords, ~a0);
-			case NEG:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.NEG:
 				return new LongConstNode(coords, -a0);
 
 			default:
 				throw new NotEvaluatableException(coords);
 			}
 		}
-	};
+	}
 
-	public static final OperatorEvaluator floatEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator floatEvaluator = new OperatorEvaluatorAnonymousInnerClass7();
+
+	private class OperatorEvaluatorAnonymousInnerClass7 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
 			float a0, a1;
 
-			try {
-				a0 = ((Float)getArgValue(e, op, 0)).floatValue();
+			try
+			{
+				a0 = ((float?)GetArgValue(e, op, 0)).Value;
 				a1 = 0;
-				if(OperatorDeclNode.getArity(op.getOperator()) > 1)
-					a1 = ((Float)getArgValue(e, op, 1)).floatValue();
-			} catch(ValueException x) {
+				if(OperatorDeclNode.GetArity(op.Operator) > 1)
+					a1 = ((float?)GetArgValue(e, op, 1)).Value;
+			}
+			catch(ValueException)
+			{
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.getOperator()) {
-			case EQ:
+			switch(op.Operator)
+			{
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.EQ:
 				return new BoolConstNode(coords, a0 == a1);
-			case NE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.NE:
 				return new BoolConstNode(coords, a0 != a1);
-			case LT:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.LT:
 				return new BoolConstNode(coords, a0 < a1);
-			case LE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.LE:
 				return new BoolConstNode(coords, a0 <= a1);
-			case GT:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.GT:
 				return new BoolConstNode(coords, a0 > a1);
-			case GE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.GE:
 				return new BoolConstNode(coords, a0 >= a1);
 
-			case ADD:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.ADD:
 				return new FloatConstNode(coords, a0 + a1);
-			case SUB:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.SUB:
 				return new FloatConstNode(coords, a0 - a1);
-			case MUL:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.MUL:
 				return new FloatConstNode(coords, a0 * a1);
-			case DIV:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.DIV:
 				return new FloatConstNode(coords, a0 / a1);
-			case MOD:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.MOD:
 				return new FloatConstNode(coords, a0 % a1);
 
 			default:
 				throw new NotEvaluatableException(coords);
 			}
 		}
-	};
+	}
 
-	public static final OperatorEvaluator doubleEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator doubleEvaluator = new OperatorEvaluatorAnonymousInnerClass8();
+
+	private class OperatorEvaluatorAnonymousInnerClass8 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
 			double a0, a1;
 
-			try {
-				a0 = ((Double)getArgValue(e, op, 0)).doubleValue();
+			try
+			{
+				a0 = ((double?)GetArgValue(e, op, 0)).Value;
 				a1 = 0;
-				if(OperatorDeclNode.getArity(op.getOperator()) > 1)
-					a1 = ((Double)getArgValue(e, op, 1)).doubleValue();
-			} catch(ValueException x) {
+				if(OperatorDeclNode.GetArity(op.Operator) > 1)
+					a1 = ((double?)GetArgValue(e, op, 1)).Value;
+			}
+			catch(ValueException)
+			{
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.getOperator()) {
-			case EQ:
+			switch(op.Operator)
+			{
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.EQ:
 				return new BoolConstNode(coords, a0 == a1);
-			case NE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.NE:
 				return new BoolConstNode(coords, a0 != a1);
-			case LT:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.LT:
 				return new BoolConstNode(coords, a0 < a1);
-			case LE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.LE:
 				return new BoolConstNode(coords, a0 <= a1);
-			case GT:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.GT:
 				return new BoolConstNode(coords, a0 > a1);
-			case GE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.GE:
 				return new BoolConstNode(coords, a0 >= a1);
 
-			case ADD:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.ADD:
 				return new DoubleConstNode(coords, a0 + a1);
-			case SUB:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.SUB:
 				return new DoubleConstNode(coords, a0 - a1);
-			case MUL:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.MUL:
 				return new DoubleConstNode(coords, a0 * a1);
-			case DIV:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.DIV:
 				return new DoubleConstNode(coords, a0 / a1);
-			case MOD:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.MOD:
 				return new DoubleConstNode(coords, a0 % a1);
 
 			default:
 				throw new NotEvaluatableException(coords);
 			}
 		}
-	};
+	}
 
-	public static final OperatorEvaluator typeEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator typeEvaluator = new OperatorEvaluatorAnonymousInnerClass9();
+
+	private class OperatorEvaluatorAnonymousInnerClass9 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
-			boolean is_node1, is_node2;
+			bool is_node1, is_node2;
 
-			if(e[0] instanceof TypeConstNode) {
-				TypeNode type = (TypeNode)((TypeConstNode)e[0]).getValue();
-				is_node1 = type instanceof NodeTypeNode;
-			} else if(e[0] instanceof TypeofNode) {
-				TypeNode type = ((TypeofNode)e[0]).getEntity().getDeclType();
-				is_node1 = type instanceof NodeTypeNode;
-			} else
+			if(e[0] is TypeConstNode)
+			{
+				TypeNode type = (TypeNode)((TypeConstNode)e[0]).GetValue();
+				is_node1 = type is NodeTypeNode;
+			}
+			else if(e[0] is TypeofNode)
+			{
+				TypeNode type = ((TypeofNode)e[0]).Entity.DeclType;
+				is_node1 = type is NodeTypeNode;
+			}
+			else
 				throw new NotEvaluatableException(coords);
 
-			if(e[1] instanceof TypeConstNode) {
-				TypeNode type = (TypeNode)((TypeConstNode)e[1]).getValue();
-				is_node2 = type instanceof NodeTypeNode;
-			} else if(e[1] instanceof TypeofNode) {
-				TypeNode type = ((TypeofNode)e[1]).getEntity().getDeclType();
-				is_node2 = type instanceof NodeTypeNode;
-			} else
+			if(e[1] is TypeConstNode)
+			{
+				TypeNode type = (TypeNode)((TypeConstNode)e[1]).GetValue();
+				is_node2 = type is NodeTypeNode;
+			}
+			else if(e[1] is TypeofNode)
+			{
+				TypeNode type = ((TypeofNode)e[1]).Entity.DeclType;
+				is_node2 = type is NodeTypeNode;
+			}
+			else
 				throw new NotEvaluatableException(coords);
 
-			if(is_node1 != is_node2) {
-				Base.error.warning(coords, "comparison between node and edge types will always fail");
-				switch(op.getOperator()) {
-				case EQ:
-				case LT:
-				case GT:
-				case LE:
-				case GE:
+			if(is_node1 != is_node2)
+			{
+				Base.error.Warning(coords, "comparison between node and edge types will always fail");
+				switch(op.Operator)
+				{
+				case de.unika.ipd.grgen.ast.decl.executable.Operator.EQ:
+				case de.unika.ipd.grgen.ast.decl.executable.Operator.LT:
+				case de.unika.ipd.grgen.ast.decl.executable.Operator.GT:
+				case de.unika.ipd.grgen.ast.decl.executable.Operator.LE:
+				case de.unika.ipd.grgen.ast.decl.executable.Operator.GE:
 					return new BoolConstNode(coords, false);
-				case NE:
+				case de.unika.ipd.grgen.ast.decl.executable.Operator.NE:
 					return new BoolConstNode(coords, true);
 
 				default:
@@ -501,118 +589,149 @@ public class OperatorEvaluator
 			}
 			throw new NotEvaluatableException(coords);
 		}
-	};
+	}
 
-	public static final OperatorEvaluator booleanEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator booleanEvaluator = new OperatorEvaluatorAnonymousInnerClass10();
+
+	private class OperatorEvaluatorAnonymousInnerClass10 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
-			boolean a0, a1;
+			bool a0, a1;
 
-			try {
-				a0 = ((Boolean)getArgValue(e, op, 0)).booleanValue();
+			try
+			{
+				a0 = ((bool?)GetArgValue(e, op, 0)).Value;
 				a1 = false;
-				if(OperatorDeclNode.getArity(op.getOperator()) > 1)
-					a1 = ((Boolean)getArgValue(e, op, 1)).booleanValue();
-			} catch(ValueException x) {
+				if(OperatorDeclNode.GetArity(op.Operator) > 1)
+					a1 = ((bool?)GetArgValue(e, op, 1)).Value;
+			}
+			catch(ValueException)
+			{
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch(op.getOperator()) {
-			case EQ:
+			switch(op.Operator)
+			{
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.EQ:
 				return new BoolConstNode(coords, a0 == a1);
-			case NE:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.NE:
 				return new BoolConstNode(coords, a0 != a1);
-			case LOG_AND:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_AND:
 				return new BoolConstNode(coords, a0 && a1);
-			case LOG_OR:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_OR:
 				return new BoolConstNode(coords, a0 || a1);
-			case LOG_NOT:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_NOT:
 				return new BoolConstNode(coords, !a0);
-			case BIT_OR:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_OR:
 				return new BoolConstNode(coords, a0 | a1);
-			case BIT_AND:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_AND:
 				return new BoolConstNode(coords, a0 & a1);
-			case BIT_XOR:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_XOR:
 				return new BoolConstNode(coords, a0 ^ a1);
 
 			default:
 				throw new NotEvaluatableException(coords);
 			}
 		}
-	};
+	}
 
-	public static final OperatorEvaluator condEvaluator = new OperatorEvaluator() {
-		@Override
-		public ExprNode evaluate(ExprNode expr, OperatorDeclNode op, ExprNode[] args)
+	public static readonly OperatorEvaluator condEvaluator = new OperatorEvaluatorAnonymousInnerClass11();
+
+	private class OperatorEvaluatorAnonymousInnerClass11 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		public override ExprNode evaluate(ExprNode expr, OperatorDeclNode op, ExprNode[] args)
 		{
-			try {
-				return ((Boolean)getArgValue(args, op, 0)).booleanValue() ? args[1] : args[2];
-			} catch(ValueException x) {
+			try
+			{
+				return ((bool?)GetArgValue(args, op, 0)).Value ? args[1] : args[2];
+			}
+			catch(ValueException)
+			{
 				return expr;
 			}
 		}
-	};
+	}
 
-	public static final OperatorEvaluator mapEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator mapEvaluator = new OperatorEvaluatorAnonymousInnerClass12();
+
+	private class OperatorEvaluatorAnonymousInnerClass12 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
-			switch(op.getOperator()) {
-			case IN:
+			switch(op.Operator)
 			{
-				if(e[1] instanceof ArithmeticOperatorNode) {
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.IN:
+			{
+				if(e[1] is ArithmeticOperatorNode)
+				{
 					ArithmeticOperatorNode opNode = (ArithmeticOperatorNode)e[1];
-					if(opNode.getOperator() == Operator.BIT_AND) {
-						ExprNode set1 = opNode.children.get(0);
-						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), Operator.IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), Operator.IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), Operator.LOG_AND, in1, in2).evaluate();
-					} else if(opNode.getOperator() == Operator.BIT_OR) {
-						ExprNode set1 = opNode.children.get(0);
-						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), Operator.IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), Operator.IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), Operator.LOG_OR, in1, in2).evaluate();
+					if(opNode.Operator == Operator.BIT_AND)
+					{
+						ExprNode set1 = opNode.children[0];
+						ExprNode set2 = opNode.children[1];
+						ExprNode in1 = (new ArithmeticOperatorNode(set1.Coords, Operator.IN, e[0], set1)).Evaluate();
+						ExprNode in2 = (new ArithmeticOperatorNode(set2.Coords, Operator.IN, e[0], set2)).Evaluate();
+						return (new ArithmeticOperatorNode(opNode.Coords, Operator.LOG_AND, in1, in2)).Evaluate();
 					}
-				} else if(e[0] instanceof ConstNode) {
+					else if(opNode.Operator == Operator.BIT_OR)
+					{
+						ExprNode set1 = opNode.children[0];
+						ExprNode set2 = opNode.children[1];
+						ExprNode in1 = (new ArithmeticOperatorNode(set1.Coords, Operator.IN, e[0], set1)).Evaluate();
+						ExprNode in2 = (new ArithmeticOperatorNode(set2.Coords, Operator.IN, e[0], set2)).Evaluate();
+						return (new ArithmeticOperatorNode(opNode.Coords, Operator.LOG_OR, in1, in2)).Evaluate();
+					}
+				}
+				else if(e[0] is ConstNode)
+				{
 					ConstNode val = (ConstNode)e[0];
 
 					MapInitNode mapInit = null;
-					if(e[1] instanceof MapInitNode) {
+					if(e[1] is MapInitNode)
 						mapInit = (MapInitNode)e[1];
-					} else if(e[1] instanceof MemberAccessExprNode) {
-						MemberDeclNode member = ((MemberAccessExprNode)e[1]).getDecl();
-						if(member.isConst() && member.getConstInitializer() != null)
-							mapInit = (MapInitNode)member.getConstInitializer();
+					else if(e[1] is MemberAccessExprNode)
+					{
+						MemberDeclNode member = ((MemberAccessExprNode)e[1]).Decl;
+						if(member.IsConst() && member.ConstInitializer != null)
+							mapInit = (MapInitNode)member.ConstInitializer;
 					}
-					if(mapInit != null) {
-						if(mapInit.contains(val))
+					if(mapInit != null)
+					{
+						if(mapInit.Contains(val))
 							return new BoolConstNode(coords, true);
-						else if(mapInit.areKeysConstant())
+						else if(mapInit.AreKeysConstant())
 							return new BoolConstNode(coords, false);
 						// Otherwise not decideable because of non-constant entries in map keys
 					}
 				}
 				break;
 			}
-			case INDEX:
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.INDEX:
 			{
-				if(e[1] instanceof ConstNode) {
+				if(e[1] is ConstNode)
+				{
 					ConstNode key = (ConstNode)e[1];
 
 					MapInitNode mapInit = null;
-					if(e[0] instanceof MapInitNode) {
+					if(e[0] is MapInitNode)
 						mapInit = (MapInitNode)e[0];
-					} else if(e[0] instanceof MemberAccessExprNode) {
-						MemberDeclNode member = ((MemberAccessExprNode)e[0]).getDecl();
-						if(member.isConst() && member.getConstInitializer() != null)
-							mapInit = (MapInitNode)member.getConstInitializer();
+					else if(e[0] is MemberAccessExprNode)
+					{
+						MemberDeclNode member = ((MemberAccessExprNode)e[0]).Decl;
+						if(member.IsConst() && member.ConstInitializer != null)
+							mapInit = (MapInitNode)member.ConstInitializer;
 					}
-					if(mapInit != null) {
-						ExprNode val = mapInit.getAtIndex(key);
-						if(mapInit.isConstant() && val instanceof ConstNode)
+					if(mapInit != null)
+					{
+						ExprNode val = mapInit.GetAtIndex(key);
+						if(mapInit.IsConstant() && val is ConstNode)
 							return val;
 					}
 				}
@@ -623,45 +742,58 @@ public class OperatorEvaluator
 			}
 			throw new NotEvaluatableException(coords);
 		}
-	};
+	}
 
-	public static final OperatorEvaluator setEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator setEvaluator = new OperatorEvaluatorAnonymousInnerClass13();
+
+	private class OperatorEvaluatorAnonymousInnerClass13 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
-			switch(op.getOperator()) {
-			case IN:
+			switch(op.Operator)
 			{
-				if(e[1] instanceof ArithmeticOperatorNode) {
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.IN:
+			{
+				if(e[1] is ArithmeticOperatorNode)
+				{
 					ArithmeticOperatorNode opNode = (ArithmeticOperatorNode)e[1];
-					if(opNode.getOperator() == Operator.BIT_AND) {
-						ExprNode set1 = opNode.children.get(0);
-						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), Operator.IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), Operator.IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), Operator.LOG_AND, in1, in2).evaluate();
-					} else if(opNode.getOperator() == Operator.BIT_OR) {
-						ExprNode set1 = opNode.children.get(0);
-						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), Operator.IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), Operator.IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), Operator.LOG_OR, in1, in2).evaluate();
+					if(opNode.Operator == Operator.BIT_AND)
+					{
+						ExprNode set1 = opNode.children[0];
+						ExprNode set2 = opNode.children[1];
+						ExprNode in1 = (new ArithmeticOperatorNode(set1.Coords, Operator.IN, e[0], set1)).Evaluate();
+						ExprNode in2 = (new ArithmeticOperatorNode(set2.Coords, Operator.IN, e[0], set2)).Evaluate();
+						return (new ArithmeticOperatorNode(opNode.Coords, Operator.LOG_AND, in1, in2)).Evaluate();
 					}
-				} else if(e[0] instanceof ConstNode) {
+					else if(opNode.Operator == Operator.BIT_OR)
+					{
+						ExprNode set1 = opNode.children[0];
+						ExprNode set2 = opNode.children[1];
+						ExprNode in1 = (new ArithmeticOperatorNode(set1.Coords, Operator.IN, e[0], set1)).Evaluate();
+						ExprNode in2 = (new ArithmeticOperatorNode(set2.Coords, Operator.IN, e[0], set2)).Evaluate();
+						return (new ArithmeticOperatorNode(opNode.Coords, Operator.LOG_OR, in1, in2)).Evaluate();
+					}
+				}
+				else if(e[0] is ConstNode)
+				{
 					ConstNode val = (ConstNode)e[0];
 
 					SetInitNode setInit = null;
-					if(e[1] instanceof SetInitNode) {
+					if(e[1] is SetInitNode)
 						setInit = (SetInitNode)e[1];
-					} else if(e[1] instanceof MemberAccessExprNode) {
-						MemberDeclNode member = ((MemberAccessExprNode)e[1]).getDecl();
-						if(member.isConst() && member.getConstInitializer() != null)
-							setInit = (SetInitNode)member.getConstInitializer();
+					else if(e[1] is MemberAccessExprNode)
+					{
+						MemberDeclNode member = ((MemberAccessExprNode)e[1]).Decl;
+						if(member.IsConst() && member.ConstInitializer != null)
+							setInit = (SetInitNode)member.ConstInitializer;
 					}
-					if(setInit != null) {
-						if(setInit.contains(val))
+					if(setInit != null)
+					{
+						if(setInit.Contains(val))
 							return new BoolConstNode(coords, true);
-						else if(setInit.isConstant())
+						else if(setInit.IsConstant())
 							return new BoolConstNode(coords, false);
 						// Otherwise not decideable because of non-constant entries in set
 					}
@@ -673,29 +805,37 @@ public class OperatorEvaluator
 			}
 			throw new NotEvaluatableException(coords);
 		}
-	};
+	}
 
-	public static final OperatorEvaluator arrayEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator arrayEvaluator = new OperatorEvaluatorAnonymousInnerClass14();
+
+	private class OperatorEvaluatorAnonymousInnerClass14 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
-			switch(op.getOperator()) {
-			case INDEX:
+			switch(op.Operator)
 			{
-				if(e[1] instanceof ConstNode) {
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.INDEX:
+			{
+				if(e[1] is ConstNode)
+				{
 					ConstNode index = (ConstNode)e[1];
 
 					ArrayInitNode arrayInit = null;
-					if(e[0] instanceof ArrayInitNode) {
+					if(e[0] is ArrayInitNode)
 						arrayInit = (ArrayInitNode)e[0];
-					} else if(e[0] instanceof MemberAccessExprNode) {
-						MemberDeclNode member = ((MemberAccessExprNode)e[0]).getDecl();
-						if(member.isConst() && member.getConstInitializer() != null)
-							arrayInit = (ArrayInitNode)member.getConstInitializer();
+					else if(e[0] is MemberAccessExprNode)
+					{
+						MemberDeclNode member = ((MemberAccessExprNode)e[0]).Decl;
+						if(member.IsConst() && member.ConstInitializer != null)
+							arrayInit = (ArrayInitNode)member.ConstInitializer;
 					}
-					if(arrayInit != null) {
-						ExprNode val = arrayInit.getAtIndex(index);
-						if(val instanceof ConstNode)
+					if(arrayInit != null)
+					{
+						ExprNode val = arrayInit.GetAtIndex(index);
+						if(val is ConstNode)
 							return val;
 					}
 				}
@@ -706,29 +846,37 @@ public class OperatorEvaluator
 			}
 			throw new NotEvaluatableException(coords);
 		}
-	};
+	}
 
-	public static final OperatorEvaluator dequeEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator dequeEvaluator = new OperatorEvaluatorAnonymousInnerClass15();
+
+	private class OperatorEvaluatorAnonymousInnerClass15 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
-			switch(op.getOperator()) {
-			case INDEX:
+			switch(op.Operator)
 			{
-				if(e[1] instanceof ConstNode) {
+			case de.unika.ipd.grgen.ast.decl.executable.Operator.INDEX:
+			{
+				if(e[1] is ConstNode)
+				{
 					ConstNode index = (ConstNode)e[1];
 
 					DequeInitNode dequeInit = null;
-					if(e[0] instanceof DequeInitNode) {
+					if(e[0] is DequeInitNode)
 						dequeInit = (DequeInitNode)e[0];
-					} else if(e[0] instanceof MemberAccessExprNode) {
-						MemberDeclNode member = ((MemberAccessExprNode)e[0]).getDecl();
-						if(member.isConst() && member.getConstInitializer() != null)
-							dequeInit = (DequeInitNode)member.getConstInitializer();
+					else if(e[0] is MemberAccessExprNode)
+					{
+						MemberDeclNode member = ((MemberAccessExprNode)e[0]).Decl;
+						if(member.IsConst() && member.ConstInitializer != null)
+							dequeInit = (DequeInitNode)member.ConstInitializer;
 					}
-					if(dequeInit != null) {
-						ExprNode val = dequeInit.getAtIndex(index);
-						if(val instanceof ConstNode)
+					if(dequeInit != null)
+					{
+						ExprNode val = dequeInit.GetAtIndex(index);
+						if(val is ConstNode)
 							return val;
 					}
 				}
@@ -739,21 +887,31 @@ public class OperatorEvaluator
 			}
 			throw new NotEvaluatableException(coords);
 		}
-	};
+	}
 
-	public static final OperatorEvaluator untypedEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator untypedEvaluator = new OperatorEvaluatorAnonymousInnerClass16();
+
+	private class OperatorEvaluatorAnonymousInnerClass16 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
 			throw new NotEvaluatableException(coords);
 		}
-	};
+	}
 
-	public static final OperatorEvaluator emptyEvaluator = new OperatorEvaluator() {
-		@Override
-		protected ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e) throws NotEvaluatableException
+	public static readonly OperatorEvaluator emptyEvaluator = new OperatorEvaluatorAnonymousInnerClass17();
+
+	private class OperatorEvaluatorAnonymousInnerClass17 : OperatorEvaluator
+	{
+		private readonly OperatorEvaluator outerInstance;
+
+		protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 		{
 			throw new NotEvaluatableException(coords);
 		}
-	};
+	}
+}
+
 }

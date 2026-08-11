@@ -1,49 +1,50 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.model.decl;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.PackageIdentNode;
-import de.unika.ipd.grgen.ast.expr.invocation.FunctionInvocationDecisionNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.IncidenceCountIndexTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.ir.model.type.NodeType;
-import de.unika.ipd.grgen.parser.ParserEnvironment;
-import de.unika.ipd.grgen.util.Direction;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-/**
- * AST node class representing incidence count index declarations
- */
-public class IncidenceCountIndexDeclNode extends IndexDeclNode
+namespace de.unika.ipd.grgen.ast.model.decl
 {
-	static {
-		setClassName(IncidenceCountIndexDeclNode.class, "incidence count index declaration");
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using PackageIdentNode = de.unika.ipd.grgen.ast.PackageIdentNode;
+using FunctionInvocationDecisionNode = de.unika.ipd.grgen.ast.expr.invocation.FunctionInvocationDecisionNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using IncidenceCountIndexTypeNode = de.unika.ipd.grgen.ast.model.type.IncidenceCountIndexTypeNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IntTypeNode = de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using IncidenceCountIndex = de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+using ParserEnvironment = de.unika.ipd.grgen.parser.ParserEnvironment;
+using Direction = de.unika.ipd.grgen.util.Direction;
+
+
+/// <summary>
+/// AST node class representing incidence count index declarations
+/// </summary>
+public class IncidenceCountIndexDeclNode : IndexDeclNode
+{
+	static IncidenceCountIndexDeclNode()
+	{
+		SetClassName(typeof(IncidenceCountIndexDeclNode), "incidence count index declaration");
 	}
 
-	private String functionName; // input string, "resolved" to direction
+	private string functionName; // input string, "resolved" to direction
 	private Direction direction;
 	private IdentNode startNodeTypeUnresolved;
 	private InheritanceTypeNode startNodeType;
@@ -52,84 +53,90 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 	private IdentNode adjacentNodeTypeUnresolved;
 	private InheritanceTypeNode adjacentNodeType;
 
-	private static final IncidenceCountIndexTypeNode incidenceCountIndexType =
+	private static readonly IncidenceCountIndexTypeNode incidenceCountIndexType =
 			new IncidenceCountIndexTypeNode();
 
-	private static final DeclarationTypeResolver<InheritanceTypeNode> typeResolver =
-			new DeclarationTypeResolver<InheritanceTypeNode>(InheritanceTypeNode.class);
+	private static readonly DeclarationTypeResolver<InheritanceTypeNode> typeResolver =
+			new DeclarationTypeResolver<InheritanceTypeNode>(typeof(InheritanceTypeNode));
 
-	public IncidenceCountIndexDeclNode(IdentNode id, String functionName,
+	public IncidenceCountIndexDeclNode(IdentNode id, string functionName,
 			IdentNode startNodeType, IdentNode incidentEdgeType, IdentNode adjacentNodeType,
 			ParserEnvironment env)
+		: base(id, incidenceCountIndexType)
 	{
-		super(id, incidenceCountIndexType);
 		this.functionName = functionName;
-		this.startNodeTypeUnresolved = becomeParent(startNodeType);
-		this.incidentEdgeTypeUnresolved = becomeParent(
-				incidentEdgeType != null ? incidentEdgeType : env.getDirectedEdgeRoot());
-		this.adjacentNodeTypeUnresolved = becomeParent(adjacentNodeType != null ? adjacentNodeType : env.getNodeRoot());
+		this.startNodeTypeUnresolved = BecomeParent(startNodeType);
+		this.incidentEdgeTypeUnresolved = BecomeParent(incidentEdgeType != null ? incidentEdgeType : env.DirectedEdgeRoot);
+		this.adjacentNodeTypeUnresolved = BecomeParent(adjacentNodeType != null ? adjacentNodeType : env.NodeRoot);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(startNodeTypeUnresolved, startNodeType));
-		children.add(getValidVersion(incidentEdgeTypeUnresolved, incidentEdgeType));
-		children.add(getValidVersion(adjacentNodeTypeUnresolved, adjacentNodeType));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(startNodeTypeUnresolved, startNodeType));
+		children.Add(GetValidVersion(incidentEdgeTypeUnresolved, incidentEdgeType));
+		children.Add(GetValidVersion(adjacentNodeTypeUnresolved, adjacentNodeType));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("startNodeType");
-		childrenNames.add("incidentEdgeType");
-		childrenNames.add("adjacentNodeType");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("startNodeType");
+		childrenNames.Add("incidentEdgeType");
+		childrenNames.Add("adjacentNodeType");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		if(startNodeTypeUnresolved == null) {
-			reportError(functionName + "() expects 1-3 parameters (but already the start node type is missing).");
+		if(startNodeTypeUnresolved == null)
+		{
+			ReportError(functionName + "() expects 1-3 parameters (but already the start node type is missing).");
 			return false;
 		}
 
-		if(startNodeTypeUnresolved instanceof PackageIdentNode)
-			Resolver.resolveOwner((PackageIdentNode)startNodeTypeUnresolved);
+		if(startNodeTypeUnresolved is PackageIdentNode)
+			Resolver.ResolveOwner((PackageIdentNode)startNodeTypeUnresolved);
 		else
-			fixupDefinition(startNodeTypeUnresolved, startNodeTypeUnresolved.getScope());
-		startNodeType = typeResolver.resolve(startNodeTypeUnresolved, this);
+			FixupDefinition(startNodeTypeUnresolved, startNodeTypeUnresolved.Scope);
+		startNodeType = typeResolver.Resolve(startNodeTypeUnresolved, this);
 		if(startNodeType == null)
 			return false;
 
-		if(incidentEdgeTypeUnresolved instanceof PackageIdentNode)
-			Resolver.resolveOwner((PackageIdentNode)incidentEdgeTypeUnresolved);
+		if(incidentEdgeTypeUnresolved is PackageIdentNode)
+			Resolver.ResolveOwner((PackageIdentNode)incidentEdgeTypeUnresolved);
 		else
-			fixupDefinition(incidentEdgeTypeUnresolved, incidentEdgeTypeUnresolved.getScope());
-		incidentEdgeType = typeResolver.resolve(incidentEdgeTypeUnresolved, this);
+			FixupDefinition(incidentEdgeTypeUnresolved, incidentEdgeTypeUnresolved.Scope);
+		incidentEdgeType = typeResolver.Resolve(incidentEdgeTypeUnresolved, this);
 		if(incidentEdgeType == null)
 			return false;
 
-		if(adjacentNodeTypeUnresolved instanceof PackageIdentNode)
-			Resolver.resolveOwner((PackageIdentNode)adjacentNodeTypeUnresolved);
+		if(adjacentNodeTypeUnresolved is PackageIdentNode)
+			Resolver.ResolveOwner((PackageIdentNode)adjacentNodeTypeUnresolved);
 		else
-			fixupDefinition(adjacentNodeTypeUnresolved, adjacentNodeTypeUnresolved.getScope());
-		adjacentNodeType = typeResolver.resolve(adjacentNodeTypeUnresolved, this);
+			FixupDefinition(adjacentNodeTypeUnresolved, adjacentNodeTypeUnresolved.Scope);
+		adjacentNodeType = typeResolver.Resolve(adjacentNodeTypeUnresolved, this);
 		if(adjacentNodeType == null)
 			return false;
 
-		direction = FunctionInvocationDecisionNode.getDirection(functionName);
-		if(direction == Direction.INVALID) {
-			reportError(functionName
+		direction = FunctionInvocationDecisionNode.GetDirection(functionName);
+		if(direction == Direction.INVALID)
+		{
+			ReportError(functionName
 					+ "() is not a valid incidence count index declaration, expected is one of the count incidence function names countIncoming|countOutgoing|countIncident.");
 			return false;
 		}
@@ -137,67 +144,79 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		if(!(startNodeType instanceof NodeTypeNode)) {
-			reportError("The incidence count function specification " + functionName + "()"
+		if(!(startNodeType is NodeTypeNode))
+		{
+			ReportError("The incidence count function specification " + functionName + "()"
 					+ " in the incidende count index " + ident + " declaration"
-					+ " expects as 1. type (start node type) a node type, but is given type " + startNodeType.getTypeName() + ".");
+					+ " expects as 1. type (start node type) a node type, but is given type " + startNodeType.TypeName + ".");
 			return false;
 		}
-		if(!(incidentEdgeType instanceof EdgeTypeNode)) {
-			reportError("The incidence count function specification " + functionName + "()"
+		if(!(incidentEdgeType is EdgeTypeNode))
+		{
+			ReportError("The incidence count function specification " + functionName + "()"
 					+ " in the incidende count index " + ident + " declaration"
-					+ " expects as 2. type (incident edge type) an edge type, but is given type " + incidentEdgeType.getTypeName() + ".");
+					+ " expects as 2. type (incident edge type) an edge type, but is given type " + incidentEdgeType.TypeName + ".");
 			return false;
 		}
-		if(!(adjacentNodeType instanceof NodeTypeNode)) {
-			reportError("The incidence count function specification " + functionName + "()"
+		if(!(adjacentNodeType is NodeTypeNode))
+		{
+			ReportError("The incidence count function specification " + functionName + "()"
 					+ " in the incidende count index " + ident + " declaration"
-					+ " expects as 3. type (adjacent node type) a node type, but is given type " + adjacentNodeType.getTypeName() + ".");
+					+ " expects as 3. type (adjacent node type) a node type, but is given type " + adjacentNodeType.TypeName + ".");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return incidenceCountIndexType;
+		}
 	}
 
-	@Override
-	public InheritanceTypeNode getType()
+	public override InheritanceTypeNode Type
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return startNodeType;
+		}
 	}
 
-	@Override
-	public TypeNode getExpectedAccessType()
+	public override TypeNode ExpectedAccessType
 	{
-		assert isResolved();
-		
+		get
+		{
+		Debug.Assert(IsResolved());
+
 		return IntTypeNode.intType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		IncidenceCountIndex incidenceCountIndex = new IncidenceCountIndex(getIdent().toString(),
-				getIdent().getIRIdent(), startNodeType.checkIR(NodeType.class),
-				incidentEdgeType.checkIR(EdgeType.class), direction,
-				adjacentNodeType.checkIR(NodeType.class));
+		IncidenceCountIndex incidenceCountIndex = new IncidenceCountIndex(Ident.ToString(),
+				Ident.IRIdent, startNodeType.CheckIR(typeof(NodeType)),
+				incidentEdgeType.CheckIR(typeof(EdgeType)), direction,
+				adjacentNodeType.CheckIR(typeof(NodeType)));
 		return incidenceCountIndex;
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "incidence count index";
+		}
 	}
+}
+
 }

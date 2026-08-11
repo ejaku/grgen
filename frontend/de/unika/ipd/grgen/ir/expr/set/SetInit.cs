@@ -1,80 +1,94 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr.set;
-
-import java.util.Collection;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.container.SetType;
-
-public class SetInit extends Expression
+namespace de.unika.ipd.grgen.ir.expr.set
 {
-	private Collection<Expression> setItems;
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
+
+public class SetInit : Expression
+{
+	private ICollection<Expression> setItems;
 	private Entity member;
 	private SetType setType;
-	private boolean isConst;
+	private bool isConst;
 
-	public SetInit(Collection<Expression> setItems, Entity member, SetType setType, boolean isConst)
+	public SetInit(ICollection<Expression> setItems, Entity member, SetType setType, bool isConst)
+		: base("set init", member != null ? member.Type : setType)
 	{
-		super("set init", member != null ? member.getType() : setType);
 		this.setItems = setItems;
 		this.member = member;
 		this.setType = setType;
 		this.isConst = isConst;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.add(this);
-		for(Expression setItem : setItems) {
-			setItem.collectNeededEntities(needs);
+		needs.Add(this);
+		foreach(Expression setItem in setItems)
+			setItem.CollectNeededEntities(needs);
+	}
+
+	public virtual ICollection<Expression> SetItems
+	{
+		get
+		{
+		return setItems;
 		}
 	}
 
-	public Collection<Expression> getSetItems()
+	public virtual Entity Member
 	{
-		return setItems;
-	}
-
-	public void setMember(Entity entity)
-	{
-		assert(member == null && entity != null);
-		member = entity;
-	}
-
-	public Entity getMember()
-	{
+		set
+		{
+		Debug.Assert((member == null && value != null));
+		member = value;
+		}
+		get
+		{
 		return member;
+		}
 	}
 
-	public SetType getSetType()
+
+	public virtual SetType SetType
 	{
+		get
+		{
 		return setType;
+		}
 	}
 
-	public void forceNotConstant()
+	public virtual void ForceNotConstant()
 	{
 		isConst = false;
 	}
 
-	public boolean isConstant()
+	public virtual bool IsConstant()
 	{
 		return isConst;
 	}
 
-	public String getAnonymousSetName()
+	public virtual string AnonymousSetName
 	{
-		return "anonymous_set_" + getId();
+		get
+		{
+		return "anonymous_set_" + Id;
+		}
 	}
+}
+
 }

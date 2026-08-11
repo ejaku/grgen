@@ -1,82 +1,87 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.numeric;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.numeric.SqrExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class SqrExprNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.numeric
 {
-	static {
-		setClassName(SqrExprNode.class, "sqr expr");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using SqrExpr = de.unika.ipd.grgen.ir.expr.numeric.SqrExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class SqrExprNode : BuiltinFunctionInvocationBaseNode
+{
+	static SqrExprNode()
+	{
+		SetClassName(typeof(SqrExprNode), "sqr expr");
 	}
 
 	private ExprNode expr;
 
 	public SqrExprNode(Coords coords, ExprNode expr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.expr = becomeParent(expr);
+		this.expr = BecomeParent(expr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(expr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(expr);
 		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("expr");
-		return childrenNames;
-	}
-
-	@Override
-	protected boolean checkLocal()
-	{
-		if(expr.getType().isEqual(BasicTypeNode.doubleType)) {
-			return true;
 		}
-		reportError("The function Math::sqr() expects as argument a value of type double"
-				+ " (but is given a value of type " + expr.getType().getTypeName() + ").");
+	}
+
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("expr");
+		return childrenNames;
+		}
+	}
+
+	protected internal override bool CheckLocal()
+	{
+		if(expr.Type.IsEqual(BasicTypeNode.doubleType))
+			return true;
+		ReportError("The function Math::sqr() expects as argument a value of type double"
+				+ " (but is given a value of type " + expr.Type.TypeName + ").");
 		return false;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		expr = expr.evaluate();
-		return new SqrExpr(expr.checkIR(Expression.class));
+		expr = expr.Evaluate();
+		return new SqrExpr(expr.CheckIR(typeof(Expression)));
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.doubleType;
+		}
 	}
+}
+
 }

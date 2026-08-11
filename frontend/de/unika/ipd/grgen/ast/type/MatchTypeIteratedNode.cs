@@ -1,46 +1,46 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.type;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.PackageIdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
-import de.unika.ipd.grgen.ast.decl.executable.TopLevelMatcherDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.type.MatchTypeIterated;
-import de.unika.ipd.grgen.parser.ParserEnvironment;
-import de.unika.ipd.grgen.parser.Symbol;
-import de.unika.ipd.grgen.parser.Symbol.Occurrence;
-
-public class MatchTypeIteratedNode extends MatchTypeNode
+namespace de.unika.ipd.grgen.ast.type
 {
-	static {
-		setClassName(MatchTypeIteratedNode.class, "match type iterated");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using PackageIdentNode = de.unika.ipd.grgen.ast.PackageIdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using OperatorDeclNode = de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+using OperatorEvaluator = de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
+using TopLevelMatcherDeclNode = de.unika.ipd.grgen.ast.decl.executable.TopLevelMatcherDeclNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using MatchTypeIterated = de.unika.ipd.grgen.ir.type.MatchTypeIterated;
+using ParserEnvironment = de.unika.ipd.grgen.parser.ParserEnvironment;
+using Symbol = de.unika.ipd.grgen.parser.Symbol;
+using Occurrence = de.unika.ipd.grgen.parser.Symbol.Occurrence;
+
+public class MatchTypeIteratedNode : MatchTypeNode
+{
+	static MatchTypeIteratedNode()
+	{
+		SetClassName(typeof(MatchTypeIteratedNode), "match type iterated");
 	}
 
 	private IdentNode topLevelMatcherUnresolved;
@@ -51,144 +51,160 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 
 	private MatchTypeIteratedNode(IdentNode topLevelMatcherIdent, IdentNode iteratedIdent)
 	{
-		topLevelMatcherUnresolved = becomeParent(topLevelMatcherIdent);
-		iteratedUnresolved = becomeParent(iteratedIdent);
+		topLevelMatcherUnresolved = BecomeParent(topLevelMatcherIdent);
+		iteratedUnresolved = BecomeParent(iteratedIdent);
 	}
 
-	public static IdentNode defineMatchType(ParserEnvironment env, IdentNode topLevelMatcherIdent, IdentNode iteratedIdent)
+	public static IdentNode DefineMatchType(ParserEnvironment env, IdentNode topLevelMatcherIdent, IdentNode iteratedIdent)
 	{
-		String topLevelMatcherString = topLevelMatcherIdent.toString();
-		String iteratedString = iteratedIdent.toString();
-		String matchTypeString = "match<" + topLevelMatcherString + "." + iteratedString + ">";
+		string topLevelMatcherString = topLevelMatcherIdent.ToString();
+		string iteratedString = iteratedIdent.ToString();
+		string matchTypeString = "match<" + topLevelMatcherString + "." + iteratedString + ">";
 		IdentNode matchTypeIteratedIdentNode = new IdentNode(
-				env.define(ParserEnvironment.TYPES, matchTypeString, iteratedIdent.getCoords()));
+				env.Define(ParserEnvironment.TYPES, matchTypeString, iteratedIdent.Coords));
 		MatchTypeIteratedNode matchTypeIteratedNode = new MatchTypeIteratedNode(topLevelMatcherIdent, iteratedIdent);
 		TypeDeclNode typeDeclNode = new TypeDeclNode(matchTypeIteratedIdentNode, matchTypeIteratedNode);
-		matchTypeIteratedIdentNode.setDecl(typeDeclNode);
+		matchTypeIteratedIdentNode.Decl = typeDeclNode;
 		return matchTypeIteratedIdentNode;
 	}
 
-	public static IdentNode getMatchTypeIdentNode(ParserEnvironment env, IdentNode topLevelMatcherIdent, IdentNode iteratedIdent)
+	public static IdentNode GetMatchTypeIdentNode(ParserEnvironment env, IdentNode topLevelMatcherIdent, IdentNode iteratedIdent)
 	{
-		Occurrence topLevelMatcherOccurrence = topLevelMatcherIdent.occ;
-		Symbol topLevelMatcherSymbol = topLevelMatcherOccurrence.getSymbol();
-		String topLevelMatcherString = topLevelMatcherSymbol.getText();
-		Occurrence iteratedOccurrence = iteratedIdent.occ;
-		String iteratedString = iteratedIdent.toString();
-		String matchTypeString = "match<" + topLevelMatcherString + "." + iteratedString + ">";
-		if(topLevelMatcherIdent instanceof PackageIdentNode) {
+		Symbol.Occurrence topLevelMatcherOccurrence = topLevelMatcherIdent.occ;
+		Symbol topLevelMatcherSymbol = topLevelMatcherOccurrence.Symbol;
+		string topLevelMatcherString = topLevelMatcherSymbol.Text;
+		Symbol.Occurrence iteratedOccurrence = iteratedIdent.occ;
+		string iteratedString = iteratedIdent.ToString();
+		string matchTypeString = "match<" + topLevelMatcherString + "." + iteratedString + ">";
+		if(topLevelMatcherIdent is PackageIdentNode)
+		{
 			PackageIdentNode packageTopLevelMatcherIdent = (PackageIdentNode)topLevelMatcherIdent;
-			Occurrence packageOccurrence = packageTopLevelMatcherIdent.owningPackage;
-			Symbol packageSymbol = packageOccurrence.getSymbol();
+			Symbol.Occurrence packageOccurrence = packageTopLevelMatcherIdent.owningPackage;
+			Symbol packageSymbol = packageOccurrence.Symbol;
 			return new PackageIdentNode(
-					env.occurs(ParserEnvironment.PACKAGES, packageSymbol.getText(), packageOccurrence.getCoords()),
-					env.occurs(ParserEnvironment.TYPES, matchTypeString, iteratedOccurrence.getCoords()));
-		} else {
-			return new IdentNode(env.occurs(ParserEnvironment.TYPES, matchTypeString, iteratedOccurrence.getCoords()));
+					env.Occurs(ParserEnvironment.PACKAGES, packageSymbol.Text, packageOccurrence.Coords),
+					env.Occurs(ParserEnvironment.TYPES, matchTypeString, iteratedOccurrence.Coords));
+		}
+		else
+			return new IdentNode(env.Occurs(ParserEnvironment.TYPES, matchTypeString, iteratedOccurrence.Coords));
+	}
+
+	public override string TypeName
+	{
+		get
+		{
+		return "match<" + topLevelMatcherUnresolved.ToString() + "." + iteratedUnresolved.ToString() + "> type";
 		}
 	}
 
-	@Override
-	public String getTypeName()
+	public override ICollection<BaseNode> Children
 	{
-		return "match<" + topLevelMatcherUnresolved.toString() + "." + iteratedUnresolved.toString() + "> type";
-	}
-
-	@Override
-	public Collection<BaseNode> getChildren()
-	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		//children.add(getValidVersion(topLevelMatcherUnresolved, topLevelMatcher));
 		//children.add(getValidVersion(iteratedUnresolved, iterated));
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		//childrenNames.add("topLevelMatcher");
 		//childrenNames.add("iterated");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<TopLevelMatcherDeclNode> topLevelMatcherResolver =
-			new DeclarationResolver<TopLevelMatcherDeclNode>(TopLevelMatcherDeclNode.class);
-	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
-			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
+	private static readonly DeclarationResolver<TopLevelMatcherDeclNode> topLevelMatcherResolver =
+			new DeclarationResolver<TopLevelMatcherDeclNode>(typeof(TopLevelMatcherDeclNode));
+	private static readonly DeclarationResolver<IteratedDeclNode> iteratedResolver =
+			new DeclarationResolver<IteratedDeclNode>(typeof(IteratedDeclNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		if(!(topLevelMatcherUnresolved instanceof PackageIdentNode)) {
-			fixupDefinition(topLevelMatcherUnresolved, topLevelMatcherUnresolved.getScope());
-		}
+		if(!(topLevelMatcherUnresolved is PackageIdentNode))
+			FixupDefinition(topLevelMatcherUnresolved, topLevelMatcherUnresolved.Scope);
 
-		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType,
+		OperatorDeclNode.MakeBinOp(Operator.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.nullEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType,
+		OperatorDeclNode.MakeBinOp(Operator.NE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.nullEvaluator);
 
-		topLevelMatcher = topLevelMatcherResolver.resolve(topLevelMatcherUnresolved, this);
+		topLevelMatcher = topLevelMatcherResolver.Resolve(topLevelMatcherUnresolved, this);
 		if(topLevelMatcher == null)
 			return false;
-		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
+		iterated = iteratedResolver.Resolve(iteratedUnresolved, this);
 		return iterated != null;
 	}
 
-	public TopLevelMatcherDeclNode getTopLevelMatcher()
+	public virtual TopLevelMatcherDeclNode TopLevelMatcher
 	{
-		assert(isResolved());
+		get
+		{
+		Debug.Assert((IsResolved()));
 		return topLevelMatcher;
+		}
 	}
 
-	public IteratedDeclNode getIterated()
+	public virtual IteratedDeclNode Iterated
 	{
-		assert(isResolved());
+		get
+		{
+		Debug.Assert((IsResolved()));
 		return iterated;
+		}
 	}
 
-	@Override
-	public DeclNode tryGetMember(String name)
+	public override DeclNode TryGetMember(string name)
 	{
-		NodeDeclNode node = iterated.pattern.tryGetNode(name);
+		NodeDeclNode node = iterated.pattern.TryGetNode(name);
 		if(node != null)
 			return node;
-		EdgeDeclNode edge = iterated.pattern.tryGetEdge(name);
+		EdgeDeclNode edge = iterated.pattern.TryGetEdge(name);
 		if(edge != null)
 			return edge;
-		return iterated.pattern.tryGetVar(name);
+		return iterated.pattern.TryGetVar(name);
 	}
 
-	@Override
-	public Set<DeclNode> getEntities()
+	public override ISet<DeclNode> Entities
 	{
-		return iterated.pattern.getEntities();
-	}
-	
-	/** Returns the IR object for this match type node. */
-	public MatchTypeIterated getIRMatchTypeIterated()
-	{
-		return checkIR(MatchTypeIterated.class);
-	}
-
-	@Override
-	protected IR constructIR()
-	{
-		if(isIRAlreadySet()) {
-			return (MatchTypeIterated)getIR();
+		get
+		{
+		return iterated.pattern.Entities;
 		}
+	}
 
-		MatchTypeIterated matchTypeIterated = new MatchTypeIterated(iterated.ident.getIRIdent());
+	/// <summary>
+	/// Returns the IR object for this match type node. </summary>
+	public virtual MatchTypeIterated IRMatchTypeIterated
+	{
+		get
+		{
+		return CheckIR(typeof(MatchTypeIterated));
+		}
+	}
 
-		setIR(matchTypeIterated);
+	protected internal override IR ConstructIR()
+	{
+		if(IsIRAlreadySet())
+			return (MatchTypeIterated)IR;
 
-		Rule matchAction = topLevelMatcher.getIRMatcher();
-		Rule iter = (Rule)iterated.getIR();
+		MatchTypeIterated matchTypeIterated = new MatchTypeIterated(iterated.ident.IRIdent);
 
-		matchTypeIterated.setAction(matchAction);
-		matchTypeIterated.setIterated(iter);
+		IR = matchTypeIterated;
+
+		Rule matchAction = topLevelMatcher.IRMatcher;
+		Rule iter = (Rule)iterated.IR;
+
+		matchTypeIterated.Action = matchAction;
+		matchTypeIterated.Iterated = iter;
 
 		return matchTypeIterated;
 	}
+}
+
 }

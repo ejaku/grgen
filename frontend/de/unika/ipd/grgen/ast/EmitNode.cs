@@ -1,98 +1,107 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Rubino Geiss
- */
+/// <summary>
+/// @author Rubino Geiss
+/// </summary>
 
-package de.unika.ipd.grgen.ast;
-
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.pattern.OrderedReplacementNode;
-import de.unika.ipd.grgen.ir.Emit;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class EmitNode extends OrderedReplacementNode
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(EmitNode.class, "emit");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using OrderedReplacementNode = de.unika.ipd.grgen.ast.pattern.OrderedReplacementNode;
+using Emit = de.unika.ipd.grgen.ir.Emit;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class EmitNode : OrderedReplacementNode
+{
+	static EmitNode()
+	{
+		SetClassName(typeof(EmitNode), "emit");
 	}
 
-	private List<ExprNode> childrenUnresolved = new ArrayList<ExprNode>();
-	public boolean isDebug;
+	private IList<ExprNode> childrenUnresolved = new List<ExprNode>();
+	public bool isDebug;
 
-	public EmitNode(Coords coords, boolean isDebug)
+	public EmitNode(Coords coords, bool isDebug)
+		: base(coords)
 	{
-		super(coords);
 		this.isDebug = isDebug;
 	}
 
-	public void addChild(ExprNode n)
+	public virtual void AddChild(ExprNode n)
 	{
-		assert(!isResolved());
-		becomeParent(n);
-		childrenUnresolved.add(n);
+		Debug.Assert((!IsResolved()));
+		BecomeParent(n);
+		childrenUnresolved.Add(n);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		return new ArrayList<BaseNode>(childrenUnresolved);
+		get
+		{
+		return new List<BaseNode>(childrenUnresolved);
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// nameless children
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if(childrenUnresolved.isEmpty()) {
-			reportError("The emit statement is empty.");
+		if(childrenUnresolved.Count == 0)
+		{
+			ReportError("The emit statement is empty.");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public Color getNodeColor()
+	public override Color NodeColor
 	{
+		get
+		{
 		return Color.PINK;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		ArrayList<Expression> arguments = new ArrayList<Expression>();
-		for(ExprNode child : childrenUnresolved) {
-			ExprNode childEvaluated = child.evaluate();
-			arguments.add(childEvaluated.checkIR(Expression.class));
+		List<Expression> arguments = new List<Expression>();
+		foreach(ExprNode child in childrenUnresolved)
+		{
+			ExprNode childEvaluated = child.Evaluate();
+			arguments.Add(childEvaluated.CheckIR(typeof(Expression)));
 		}
 		Emit res = new Emit(arguments, isDebug);
 		return res;
 	}
+}
+
 }

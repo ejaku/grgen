@@ -1,34 +1,36 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * Sys.java
- *
- * @author Sebastian Hack
- */
+/// <summary>
+/// Sys.java
+/// 
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen;
+namespace de.unika.ipd.grgen
+{
 
-import java.io.File;
-import java.io.OutputStream;
+using System.IO;
 
-import de.unika.ipd.grgen.util.report.ErrorReporter;
+using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
 public interface Sys
 {
-	File getModelPath();
+	File ModelPath {get;}
 
-	ErrorReporter getErrorReporter();
+	ErrorReporter ErrorReporter {get;}
 
-	OutputStream createDebugFile(File file);
+	Stream CreateDebugFile(File file);
 
-	boolean mayFireEvents();
+	bool MayFireEvents();
 
-	boolean mayFireDebugEvents();
+	bool MayFireDebugEvents();
 
-	boolean emitProfilingInstrumentation();
+	bool EmitProfilingInstrumentation();
+}
+
 }

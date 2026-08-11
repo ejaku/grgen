@@ -1,122 +1,132 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.executable.ExternalFunctionTypeNode;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.ExternalFunction;
-import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
-import de.unika.ipd.grgen.ir.type.Type;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-/**
- * AST node class representing external function declarations
- */
-public class ExternalFunctionDeclNode extends FunctionDeclBaseNode
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	static {
-		setClassName(ExternalFunctionDeclNode.class, "external function declaration");
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ExternalFunctionTypeNode = de.unika.ipd.grgen.ast.type.executable.ExternalFunctionTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;
+using ExternalFunctionMethod = de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+
+/// <summary>
+/// AST node class representing external function declarations
+/// </summary>
+public class ExternalFunctionDeclNode : FunctionDeclBaseNode
+{
+	static ExternalFunctionDeclNode()
+	{
+		SetClassName(typeof(ExternalFunctionDeclNode), "external function declaration");
 	}
 
-	protected CollectNode<BaseNode> parameterTypesUnresolved;
-	protected CollectNode<TypeNode> parameterTypesCollectNode;
+	protected internal CollectNode<BaseNode> parameterTypesUnresolved;
+	protected internal CollectNode<TypeNode> parameterTypesCollectNode;
 
-	boolean isMethod;
+	internal bool isMethod;
 
-	private static final ExternalFunctionTypeNode externalFunctionType = new ExternalFunctionTypeNode();
+	private static readonly ExternalFunctionTypeNode externalFunctionType = new ExternalFunctionTypeNode();
 
 
 	public ExternalFunctionDeclNode(IdentNode id, CollectNode<BaseNode> paramTypesUnresolved, BaseNode ret,
-			boolean isMethod)
+			bool isMethod)
+		: base(id, externalFunctionType)
 	{
-		super(id, externalFunctionType);
 		this.parameterTypesUnresolved = paramTypesUnresolved;
-		becomeParent(this.parameterTypesUnresolved);
+		BecomeParent(this.parameterTypesUnresolved);
 		this.resultUnresolved = ret;
-		becomeParent(this.resultUnresolved);
+		BecomeParent(this.resultUnresolved);
 		this.isMethod = isMethod;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersionCollectNode(parameterTypesUnresolved, parameterTypesCollectNode));
-		children.add(getValidVersion(resultUnresolved, resultType));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersionCollectNode(parameterTypesUnresolved, parameterTypesCollectNode));
+		children.Add(GetValidVersion(resultUnresolved, resultType));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("paramTypes");
-		childrenNames.add("ret");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("paramTypes");
+		childrenNames.Add("ret");
 		return childrenNames;
+		}
 	}
 
-	private static final CollectResolver<TypeNode> parametersTypeResolver =
-			new CollectResolver<TypeNode>(new DeclarationTypeResolver<TypeNode>(TypeNode.class));
+	private static readonly CollectResolver<TypeNode> parametersTypeResolver =
+			new CollectResolver<TypeNode>(new DeclarationTypeResolver<TypeNode>(typeof(TypeNode)));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		parameterTypesCollectNode = parametersTypeResolver.resolve(parameterTypesUnresolved, this);
-		
-		parameterTypes = parameterTypesCollectNode.getChildrenAsList();
-		
-		return parameterTypesCollectNode != null & super.resolveLocal();
+		parameterTypesCollectNode = parametersTypeResolver.Resolve(parameterTypesUnresolved, this);
+
+		parameterTypes = parameterTypesCollectNode.ChildrenAsList;
+
+		return parameterTypesCollectNode != null & base.ResolveLocal();
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 		return externalFunctionType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		ExternalFunction externalFunc = isMethod
-				? new ExternalFunctionMethod(getIdent().toString(), getIdent().getIRIdent(), resultType.checkIR(Type.class))
-				: new ExternalFunction(getIdent().toString(), getIdent().getIRIdent(), resultType.checkIR(Type.class));
-		for(TypeNode param : parameterTypesCollectNode.getChildrenExact()) {
-			externalFunc.addParameterType(param.checkIR(Type.class));
-		}
+				? new ExternalFunctionMethod(Ident.ToString(), Ident.IRIdent, resultType.CheckIR(typeof(Type)))
+				: new ExternalFunction(Ident.ToString(), Ident.IRIdent, resultType.CheckIR(typeof(Type)));
+		foreach(TypeNode param in parameterTypesCollectNode.ChildrenExact)
+			externalFunc.AddParameterType(param.CheckIR(typeof(Type)));
 		return externalFunc;
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "external function";
+		}
 	}
+}
+
 }

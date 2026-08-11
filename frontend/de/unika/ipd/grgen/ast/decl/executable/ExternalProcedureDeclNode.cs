@@ -1,126 +1,135 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.executable.ExternalProcedureTypeNode;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
-import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
-import de.unika.ipd.grgen.ir.type.Type;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-/**
- * AST node class representing external procedure declarations
- */
-public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	static {
-		setClassName(ExternalProcedureDeclNode.class, "external procedure declaration");
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ExternalProcedureTypeNode = de.unika.ipd.grgen.ast.type.executable.ExternalProcedureTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ExternalProcedure = de.unika.ipd.grgen.ir.executable.ExternalProcedure;
+using ExternalProcedureMethod = de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+
+/// <summary>
+/// AST node class representing external procedure declarations
+/// </summary>
+public class ExternalProcedureDeclNode : ProcedureDeclBaseNode
+{
+	static ExternalProcedureDeclNode()
+	{
+		SetClassName(typeof(ExternalProcedureDeclNode), "external procedure declaration");
 	}
 
-	protected CollectNode<BaseNode> parameterTypesUnresolved;
-	protected CollectNode<TypeNode> parameterTypesCollectNode;
+	protected internal CollectNode<BaseNode> parameterTypesUnresolved;
+	protected internal CollectNode<TypeNode> parameterTypesCollectNode;
 
-	boolean isMethod;
+	internal bool isMethod;
 
-	private static final ExternalProcedureTypeNode externalProcedureType = new ExternalProcedureTypeNode();
+	private static readonly ExternalProcedureTypeNode externalProcedureType = new ExternalProcedureTypeNode();
 
 
 	public ExternalProcedureDeclNode(IdentNode id, CollectNode<BaseNode> paramTypesUnresolved,
-			CollectNode<BaseNode> rets, boolean isMethod)
+			CollectNode<BaseNode> rets, bool isMethod)
+		: base(id, externalProcedureType)
 	{
-		super(id, externalProcedureType);
 		this.parameterTypesUnresolved = paramTypesUnresolved;
-		becomeParent(this.parameterTypesUnresolved);
+		BecomeParent(this.parameterTypesUnresolved);
 		this.resultsUnresolved = rets;
-		becomeParent(this.resultsUnresolved);
+		BecomeParent(this.resultsUnresolved);
 		this.isMethod = isMethod;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersionCollectNode(parameterTypesUnresolved, parameterTypesCollectNode));
-		children.add(getValidVersionCollectNode(resultsUnresolved, resultTypesCollectNode));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersionCollectNode(parameterTypesUnresolved, parameterTypesCollectNode));
+		children.Add(GetValidVersionCollectNode(resultsUnresolved, resultTypesCollectNode));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("paramTypes");
-		childrenNames.add("ret");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("paramTypes");
+		childrenNames.Add("ret");
 		return childrenNames;
+		}
 	}
 
-	private static final CollectResolver<TypeNode> parametersTypeResolver =
-			new CollectResolver<TypeNode>(new DeclarationTypeResolver<TypeNode>(TypeNode.class));
+	private static readonly CollectResolver<TypeNode> parametersTypeResolver =
+			new CollectResolver<TypeNode>(new DeclarationTypeResolver<TypeNode>(typeof(TypeNode)));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		parameterTypesCollectNode = parametersTypeResolver.resolve(parameterTypesUnresolved, this);
-		
-		parameterTypes = parameterTypesCollectNode.getChildrenAsList();
-		
-		return parameterTypesCollectNode != null & super.resolveLocal();
+		parameterTypesCollectNode = parametersTypeResolver.Resolve(parameterTypesUnresolved, this);
+
+		parameterTypes = parameterTypesCollectNode.ChildrenAsList;
+
+		return parameterTypesCollectNode != null & base.ResolveLocal();
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return externalProcedureType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		ExternalProcedure externalProc = isMethod
-				? new ExternalProcedureMethod(getIdent().toString(), getIdent().getIRIdent())
-				: new ExternalProcedure(getIdent().toString(), getIdent().getIRIdent());
-		for(TypeNode retType : resultTypesCollectNode.getChildrenExact()) {
-			externalProc.addReturnType(retType.checkIR(Type.class));
-		}
-		for(TypeNode param : parameterTypesCollectNode.getChildrenExact()) {
-			externalProc.addParameterType(param.checkIR(Type.class));
-		}
+				? new ExternalProcedureMethod(Ident.ToString(), Ident.IRIdent)
+				: new ExternalProcedure(Ident.ToString(), Ident.IRIdent);
+		foreach(TypeNode retType in resultTypesCollectNode.ChildrenExact)
+			externalProc.AddReturnType(retType.CheckIR(typeof(Type)));
+		foreach(TypeNode param in parameterTypesCollectNode.ChildrenExact)
+			externalProc.AddParameterType(param.CheckIR(typeof(Type)));
 		return externalProc;
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "external procedure";
+		}
 	}
+}
+
 }

@@ -1,41 +1,45 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt.set;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
-
-public class SetVarRemoveItem extends ContainerVarProcedureMethodInvocationBase
+namespace de.unika.ipd.grgen.ir.stmt.set
 {
-	Expression valueExpr;
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using ContainerVarProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerVarProcedureMethodInvocationBase;
+
+public class SetVarRemoveItem : ContainerVarProcedureMethodInvocationBase
+{
+	internal Expression valueExpr;
 
 	public SetVarRemoveItem(Variable target, Expression valueExpr)
+		: base("set var remove item", target)
 	{
-		super("set var remove item", target);
 		this.valueExpr = valueExpr;
 	}
 
-	public Expression getValueExpr()
+	public virtual Expression ValueExpr
 	{
+		get
+		{
 		return valueExpr;
+		}
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		super.collectNeededEntities(needs);
-		
-		valueExpr.collectNeededEntities(needs);
+		base.CollectNeededEntities(needs);
+
+		valueExpr.CollectNeededEntities(needs);
 	}
+}
+
 }

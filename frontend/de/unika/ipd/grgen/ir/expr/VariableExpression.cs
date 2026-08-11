@@ -1,57 +1,60 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll
- */
+/// <summary>
+/// @author Moritz Kroll
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr;
+namespace de.unika.ipd.grgen.ir.expr
+{
+using de.unika.ipd.grgen.ir;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-
-/**
- * A variable expression node.
- */
-public class VariableExpression extends Expression
+/// <summary>
+/// A variable expression node.
+/// </summary>
+public class VariableExpression : Expression
 {
 	private Variable var;
 
 	public VariableExpression(Variable var)
+		: base("variable", var.Type)
 	{
-		super("variable", var.getType());
 		this.var = var;
 	}
 
-	/** Returns the variable of this variable expression. */
-	public Variable getVariable()
+	/// <summary>
+	/// Returns the variable of this variable expression. </summary>
+	public virtual Variable Variable
 	{
+		get
+		{
 		return var;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(var))
-			needs.add(var);
+		if(!IsGlobalVariable(var))
+			needs.Add(var);
 	}
 
-	@Override
-	public boolean equals(Object other)
+	public override bool Equals(object other)
 	{
-		if(!(other instanceof VariableExpression))
+		if(!(other is VariableExpression))
 			return false;
-		return var == ((VariableExpression)other).getVariable();
+		return var == ((VariableExpression)other).Variable;
 	}
 
-	@Override
-	public int hashCode()
+	public override int GetHashCode()
 	{
-		return var.hashCode();
+		return var.GetHashCode();
 	}
+}
+
 }

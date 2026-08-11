@@ -1,143 +1,161 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.ExecNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.executable.SequenceTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.Exec;
-import de.unika.ipd.grgen.ir.ExecVariable;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Sequence;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-/**
- * AST node for a graph rewrite sequence definition.
- */
-public class SequenceDeclNode extends DeclNode
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	static {
-		setClassName(SequenceDeclNode.class, "sequence declaration");
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using ExecNode = de.unika.ipd.grgen.ast.ExecNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExecVarDeclNode = de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using SequenceTypeNode = de.unika.ipd.grgen.ast.type.executable.SequenceTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Exec = de.unika.ipd.grgen.ir.Exec;
+using ExecVariable = de.unika.ipd.grgen.ir.ExecVariable;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Sequence = de.unika.ipd.grgen.ir.executable.Sequence;
+
+
+/// <summary>
+/// AST node for a graph rewrite sequence definition.
+/// </summary>
+public class SequenceDeclNode : DeclNode
+{
+	static SequenceDeclNode()
+	{
+		SetClassName(typeof(SequenceDeclNode), "sequence declaration");
 	}
 
-	protected SequenceTypeNode type;
+	protected internal SequenceTypeNode type;
 
-	protected ExecNode exec;
+	protected internal ExecNode exec;
 	public CollectNode<ExecVarDeclNode> inParams;
 	public CollectNode<ExecVarDeclNode> outParams;
 
-	/** Type for this declaration. */
-	private static final TypeNode sequenceType = new SequenceTypeNode();
+	/// <summary>
+	/// Type for this declaration. </summary>
+	private static readonly TypeNode sequenceType = new SequenceTypeNode();
 
-	/** Make a sequence definition. */
+	/// <summary>
+	/// Make a sequence definition. </summary>
 	public SequenceDeclNode(IdentNode id, ExecNode exec,
 			CollectNode<ExecVarDeclNode> inParams, CollectNode<ExecVarDeclNode> outParams)
+		: base(id, sequenceType)
 	{
-		super(id, sequenceType);
 		this.exec = exec;
-		becomeParent(this.exec);
+		BecomeParent(this.exec);
 		this.inParams = inParams;
-		becomeParent(this.inParams);
+		BecomeParent(this.inParams);
 		this.outParams = outParams;
-		becomeParent(this.outParams);
+		BecomeParent(this.outParams);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(exec);
-		children.add(inParams);
-		children.add(outParams);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(exec);
+		children.Add(inParams);
+		children.Add(outParams);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("exec");
-		childrenNames.add("inParams");
-		childrenNames.add("outParams");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("exec");
+		childrenNames.Add("inParams");
+		childrenNames.Add("outParams");
 		return childrenNames;
+		}
 	}
 
-	protected static final DeclarationTypeResolver<SequenceTypeNode> typeResolver =
-			new DeclarationTypeResolver<SequenceTypeNode>(SequenceTypeNode.class);
+	protected internal static readonly DeclarationTypeResolver<SequenceTypeNode> typeResolver =
+			new DeclarationTypeResolver<SequenceTypeNode>(typeof(SequenceTypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		type = typeResolver.resolve(typeUnresolved, this);
+		type = typeResolver.Resolve(typeUnresolved, this);
 
 		return type != null;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	/** Returns the IR object for this sequence node. */
-	public Sequence getIRSequence()
+	/// <summary>
+	/// Returns the IR object for this sequence node. </summary>
+	public virtual Sequence IRSequence
 	{
-		return checkIR(Sequence.class);
+		get
+		{
+		return CheckIR(typeof(Sequence));
+		}
 	}
 
-	public List<DeclNode> getParamDecls()
+	public virtual IList<DeclNode> ParamDecls
 	{
-		return new ArrayList<DeclNode>(inParams.getChildrenExact());
+		get
+		{
+		return new List<DeclNode>(inParams.ChildrenExact);
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
-		Sequence sequence = new Sequence(getIdent().getIRIdent(), exec.checkIR(Exec.class));
-		for(ExecVarDeclNode inParam : inParams.getChildrenExact()) {
-			sequence.addInParam(inParam.checkIR(ExecVariable.class));
-		}
-		for(ExecVarDeclNode outParam : outParams.getChildrenExact()) {
-			sequence.addOutParam(outParam.checkIR(ExecVariable.class));
-		}
+		Sequence sequence = new Sequence(Ident.IRIdent, exec.CheckIR(typeof(Exec)));
+		foreach(ExecVarDeclNode inParam in inParams.ChildrenExact)
+			sequence.AddInParam(inParam.CheckIR(typeof(ExecVariable)));
+		foreach(ExecVarDeclNode outParam in outParams.ChildrenExact)
+			sequence.AddOutParam(outParam.CheckIR(typeof(ExecVariable)));
 		return sequence;
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return type;
+		}
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "sequence";
+		}
 	}
+}
+
 }

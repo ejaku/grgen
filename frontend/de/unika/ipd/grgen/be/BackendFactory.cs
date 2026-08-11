@@ -1,24 +1,25 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.be;
-
-/**
- * An interface for something that creates a backend.
- */
+namespace de.unika.ipd.grgen.be
+{
+/// <summary>
+/// An interface for something that creates a backend.
+/// </summary>
 public interface BackendFactory
 {
-	/**
-	 * Create a new backend.
-	 * @return A new backend.
-	 */
-	Backend getBackend();
+	/// <summary>
+	/// Create a new backend. </summary>
+	/// <returns> A new backend. </returns>
+	Backend Backend {get;}
+}
+
 }

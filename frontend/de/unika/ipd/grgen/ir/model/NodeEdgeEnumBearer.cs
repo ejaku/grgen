@@ -1,36 +1,39 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.model;
+namespace de.unika.ipd.grgen.ir.model
+{
 
-import java.util.Collection;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
-import de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
-import de.unika.ipd.grgen.ir.model.type.NodeType;
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
+using InternalObjectType = de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+using InternalTransientObjectType = de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
+using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
 
-/**
- * A type bearing nodes, edges, and enums.
- */
+/// <summary>
+/// A type bearing nodes, edges, and enums.
+/// </summary>
 public interface NodeEdgeEnumBearer
 {
-	public Collection<NodeType> getNodeTypes();
+	ICollection<NodeType> NodeTypes {get;}
 
-	public Collection<EdgeType> getEdgeTypes();
+	ICollection<EdgeType> EdgeTypes {get;}
 
-	public Collection<InternalObjectType> getObjectTypes();
+	ICollection<InternalObjectType> ObjectTypes {get;}
 
-	public Collection<InternalTransientObjectType> getTransientObjectTypes();
+	ICollection<InternalTransientObjectType> TransientObjectTypes {get;}
 
-	public Collection<EnumType> getEnumTypes();
+	ICollection<EnumType> EnumTypes {get;}
+}
+
 }

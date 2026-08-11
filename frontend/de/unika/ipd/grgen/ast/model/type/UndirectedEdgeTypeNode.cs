@@ -1,51 +1,58 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Buchwald
- */
+/// <summary>
+/// @author Sebastian Buchwald
+/// </summary>
 
-package de.unika.ipd.grgen.ast.model.type;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.model.ConnAssertNode;
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-
-public class UndirectedEdgeTypeNode extends EdgeTypeNode
+namespace de.unika.ipd.grgen.ast.model.type
 {
-	static {
-		setClassName(UndirectedEdgeTypeNode.class, "undirected edge type");
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using ConnAssertNode = de.unika.ipd.grgen.ast.model.ConnAssertNode;
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+
+public class UndirectedEdgeTypeNode : EdgeTypeNode
+{
+	static UndirectedEdgeTypeNode()
+	{
+		SetClassName(typeof(UndirectedEdgeTypeNode), "undirected edge type");
 	}
 
-	/**
-	 * Make a new undirected edge type node.
-	 * @param ext The collect node with all edge classes that this one extends.
-	 * @param cas The collect node with all connection assertion of this type.
-	 * @param body The body of the type declaration. It consists of basic
-	 * declarations.
-	 * @param modifiers The modifiers for this type.
-	 * @param externalName The name of the external implementation of this type or null.
-	 */
+	/// <summary>
+	/// Make a new undirected edge type node. </summary>
+	/// <param name="ext"> The collect node with all edge classes that this one extends. </param>
+	/// <param name="cas"> The collect node with all connection assertion of this type. </param>
+	/// <param name="body"> The body of the type declaration. It consists of basic
+	/// declarations. </param>
+	/// <param name="modifiers"> The modifiers for this type. </param>
+	/// <param name="externalName"> The name of the external implementation of this type or null. </param>
 	public UndirectedEdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas,
-			CollectNode<BaseNode> body, int modifiers, String externalName)
+			CollectNode<BaseNode> body, int modifiers, string externalName)
+		: base(ext, cas, body, modifiers, externalName)
 	{
-		super(ext, cas, body, modifiers, externalName);
 	}
 
-	@Override
-	protected void setDirectednessIR(EdgeType edgeType)
+	protected internal override EdgeType DirectednessIR
 	{
-		edgeType.setDirectedness(EdgeType.DirectednessKind.Undirected);
+		set
+		{
+		value.Directedness = EdgeType.DirectednessKind.Undirected;
+		}
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "undirected edge class";
+		}
 	}
+}
+
 }

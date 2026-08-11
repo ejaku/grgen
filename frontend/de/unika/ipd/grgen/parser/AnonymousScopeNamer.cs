@@ -1,27 +1,28 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * AnonymousPatternNamer.java
- *
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// AnonymousPatternNamer.java
+/// 
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.parser;
+namespace de.unika.ipd.grgen.parser
+{
 
-import java.util.Stack;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ast.IdentNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
 
 public class AnonymousScopeNamer
 {
 	public AnonymousScopeNamer(de.unika.ipd.grgen.parser.ParserEnvironment env)
+		: this()
 	{
-		this();
 		this.env = env;
 	}
 
@@ -33,9 +34,9 @@ public class AnonymousScopeNamer
 		curNeg = new Stack<IdentNode>();
 		curIdpt = new Stack<IdentNode>();
 
-		curYield = IdentNode.getInvalid();
-		curEval = IdentNode.getInvalid();
-		curExprBlock = IdentNode.getInvalid();
+		curYield = IdentNode.Invalid;
+		curEval = IdentNode.Invalid;
+		curExprBlock = IdentNode.Invalid;
 
 		altCount = 0;
 		altCaseCount = 0;
@@ -50,160 +51,163 @@ public class AnonymousScopeNamer
 
 	private static AnonymousScopeNamer dummy = new AnonymousScopeNamer();
 
-	public static AnonymousScopeNamer getDummyNamer() // returns dummy object needed in syntactic predicate parsing
+	public static AnonymousScopeNamer DummyNamer
 	{
+		get
+		{
 		return dummy;
+		}
 	}
 
-	public void defAlt(IdentNode maybeIdent, Coords coords)
+	public virtual void DefAlt(IdentNode maybeIdent, Coords coords)
 	{
 		if(maybeIdent != null)
-			curAlt.push(maybeIdent);
+			curAlt.Push(maybeIdent);
 		else
-			curAlt.push(new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, "alt_" + altCount, coords).declareAnonymous()));
+			curAlt.Push(new IdentNode(env.Define(ParserEnvironment.ALTERNATIVES, "alt_" + altCount, coords).DeclareAnonymous()));
 		++altCount;
 		altCaseCount = 0;
 	}
 
-	public void undefAlt()
+	public virtual void UndefAlt()
 	{
-		curAlt.pop();
+		curAlt.Pop();
 	}
 
-	public IdentNode alt()
+	public virtual IdentNode Alt()
 	{
-		return curAlt.empty() ? IdentNode.getInvalid() : curAlt.peek();
+		return curAlt.Count == 0 ? IdentNode.Invalid : curAlt.Peek();
 	}
 
-	public void defAltCase(IdentNode maybeIdent, Coords coords)
+	public virtual void DefAltCase(IdentNode maybeIdent, Coords coords)
 	{
 		if(maybeIdent != null)
-			curAltCase.push(maybeIdent);
+			curAltCase.Push(maybeIdent);
 		else
-			curAltCase.push(new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, "_" + altCaseCount, coords).declareAnonymous()));
+			curAltCase.Push(new IdentNode(env.Define(ParserEnvironment.ALTERNATIVES, "_" + altCaseCount, coords).DeclareAnonymous()));
 		++altCaseCount;
 	}
 
-	public void undefAltCase()
+	public virtual void UndefAltCase()
 	{
-		curAltCase.pop();
+		curAltCase.Pop();
 	}
 
-	public IdentNode altCase()
+	public virtual IdentNode AltCase()
 	{
-		return curAltCase.empty() ? IdentNode.getInvalid() : curAltCase.peek();
+		return curAltCase.Count == 0 ? IdentNode.Invalid : curAltCase.Peek();
 	}
 
-	public void defIter(IdentNode maybeIdent, Coords coords)
+	public virtual void DefIter(IdentNode maybeIdent, Coords coords)
 	{
 		if(maybeIdent != null)
-			curIter.push(maybeIdent);
+			curIter.Push(maybeIdent);
 		else
-			curIter.push(new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter_" + iterCount, coords).declareAnonymous()));
+			curIter.Push(new IdentNode(env.Define(ParserEnvironment.ITERATEDS, "iter_" + iterCount, coords).DeclareAnonymous()));
 		++iterCount;
 	}
 
-	public void undefIter()
+	public virtual void UndefIter()
 	{
-		curIter.pop();
+		curIter.Pop();
 	}
 
-	public IdentNode iter()
+	public virtual IdentNode Iter()
 	{
-		return curIter.empty() ? IdentNode.getInvalid() : curIter.peek();
+		return curIter.Count == 0 ? IdentNode.Invalid : curIter.Peek();
 	}
 
-	public void defNeg(IdentNode maybeIdent, Coords coords)
+	public virtual void DefNeg(IdentNode maybeIdent, Coords coords)
 	{
 		if(maybeIdent != null)
-			curNeg.push(maybeIdent);
+			curNeg.Push(maybeIdent);
 		else
-			curNeg.push(new IdentNode(env.define(ParserEnvironment.NEGATIVES, "neg_" + negCount, coords).declareAnonymous()));
+			curNeg.Push(new IdentNode(env.Define(ParserEnvironment.NEGATIVES, "neg_" + negCount, coords).DeclareAnonymous()));
 		++negCount;
 	}
 
-	public void undefNeg()
+	public virtual void UndefNeg()
 	{
-		curNeg.pop();
+		curNeg.Pop();
 	}
 
-	public IdentNode neg()
+	public virtual IdentNode Neg()
 	{
-		return curNeg.empty() ? IdentNode.getInvalid() : curNeg.peek();
+		return curNeg.Count == 0 ? IdentNode.Invalid : curNeg.Peek();
 	}
 
-	public void defIdpt(IdentNode maybeIdent, Coords coords)
+	public virtual void DefIdpt(IdentNode maybeIdent, Coords coords)
 	{
 		if(maybeIdent != null)
-			curIdpt.push(maybeIdent);
+			curIdpt.Push(maybeIdent);
 		else
-			curIdpt.push(new IdentNode(env.define(ParserEnvironment.INDEPENDENTS, "idpt_" + idptCount, coords).declareAnonymous()));
+			curIdpt.Push(new IdentNode(env.Define(ParserEnvironment.INDEPENDENTS, "idpt_" + idptCount, coords).DeclareAnonymous()));
 		++idptCount;
 	}
 
-	public void undefIdpt()
+	public virtual void UndefIdpt()
 	{
-		curIdpt.pop();
+		curIdpt.Pop();
 	}
 
-	public IdentNode idpt()
+	public virtual IdentNode Idpt()
 	{
-		return curIdpt.empty() ? IdentNode.getInvalid() : curIdpt.peek();
+		return curIdpt.Count == 0 ? IdentNode.Invalid : curIdpt.Peek();
 	}
 
-	public void defYield(IdentNode maybeIdent, Coords coords)
+	public virtual void DefYield(IdentNode maybeIdent, Coords coords)
 	{
 		if(maybeIdent != null)
 			curYield = maybeIdent;
 		else
-			curYield = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "yield_" + yieldCount, coords).declareAnonymous());
+			curYield = new IdentNode(env.Define(ParserEnvironment.COMPUTATION_BLOCKS, "yield_" + yieldCount, coords).DeclareAnonymous());
 		++yieldCount;
 	}
 
-	public void undefYield()
+	public virtual void UndefYield()
 	{
-		curYield = IdentNode.getInvalid();
+		curYield = IdentNode.Invalid;
 	}
 
-	public IdentNode yield()
+	public virtual IdentNode Yield()
 	{
 		return curYield;
 	}
 
-	public void defEval(IdentNode maybeIdent, Coords coords)
+	public virtual void DefEval(IdentNode maybeIdent, Coords coords)
 	{
 		if(maybeIdent != null)
 			curEval = maybeIdent;
 		else
-			curEval = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "eval_" + evalCount, coords).declareAnonymous());
+			curEval = new IdentNode(env.Define(ParserEnvironment.COMPUTATION_BLOCKS, "eval_" + evalCount, coords).DeclareAnonymous());
 		++evalCount;
 	}
 
-	public void undefEval()
+	public virtual void UndefEval()
 	{
-		curEval = IdentNode.getInvalid();
+		curEval = IdentNode.Invalid;
 	}
 
-	public IdentNode eval()
+	public virtual IdentNode Eval()
 	{
 		return curEval;
 	}
 
-	public void defExprBlock(IdentNode maybeIdent, Coords coords)
+	public virtual void DefExprBlock(IdentNode maybeIdent, Coords coords)
 	{
 		if(maybeIdent != null)
 			curExprBlock = maybeIdent;
 		else
-			curExprBlock = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "expr_block_" + exprBlockCount, coords).declareAnonymous());
+			curExprBlock = new IdentNode(env.Define(ParserEnvironment.COMPUTATION_BLOCKS, "expr_block_" + exprBlockCount, coords).DeclareAnonymous());
 		++exprBlockCount;
 	}
 
-	public void undefExprBlock()
+	public virtual void UndefExprBlock()
 	{
-		curExprBlock = IdentNode.getInvalid();
+		curExprBlock = IdentNode.Invalid;
 	}
 
-	public IdentNode exprBlock()
+	public virtual IdentNode ExprBlock()
 	{
 		return curExprBlock;
 	}
@@ -229,4 +233,6 @@ public class AnonymousScopeNamer
 	private IdentNode curExprBlock;
 
 	private ParserEnvironment env;
+}
+
 }

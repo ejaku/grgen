@@ -1,132 +1,141 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.procenv;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.GraphTypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.procenv.GetEquivalentOrAddProc;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class GetEquivalentOrAddProcNode extends BuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
-	static {
-		setClassName(GetEquivalentOrAddProcNode.class, "get equivalent or add procedure");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using GraphTypeNode = de.unika.ipd.grgen.ast.type.basic.GraphTypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using GetEquivalentOrAddProc = de.unika.ipd.grgen.ir.stmt.procenv.GetEquivalentOrAddProc;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class GetEquivalentOrAddProcNode : BuiltinProcedureInvocationBaseNode
+{
+	static GetEquivalentOrAddProcNode()
+	{
+		SetClassName(typeof(GetEquivalentOrAddProcNode), "get equivalent or add procedure");
 	}
 
 	private ExprNode subgraphExpr;
 	private ExprNode subgraphArrayExpr;
-	private boolean includingAttributes;
+	private bool includingAttributes;
 
-	List<TypeNode> returnTypes;
+	internal IList<TypeNode> returnTypes;
 
 	public GetEquivalentOrAddProcNode(Coords coords, ExprNode subgraphExpr,
-			ExprNode subgraphArrayExpr, boolean includingAttributes)
+			ExprNode subgraphArrayExpr, bool includingAttributes)
+		: base(coords)
 	{
-		super(coords);
 		this.subgraphExpr = subgraphExpr;
-		becomeParent(this.subgraphExpr);
+		BecomeParent(this.subgraphExpr);
 		this.subgraphArrayExpr = subgraphArrayExpr;
-		becomeParent(this.subgraphArrayExpr);
+		BecomeParent(this.subgraphArrayExpr);
 		this.includingAttributes = includingAttributes;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(subgraphExpr);
-		children.add(subgraphArrayExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(subgraphExpr);
+		children.Add(subgraphArrayExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("subgraphExpr");
-		childrenNames.add("subgraphArrayExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("subgraphExpr");
+		childrenNames.Add("subgraphArrayExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		TypeNode subgraphExprType = subgraphExpr.getType();
-		if(!(subgraphExprType instanceof GraphTypeNode)) {
-			subgraphExpr.reportError("The " + name() + " procedure expects as 1. argument (subgraph)"
+		TypeNode subgraphExprType = subgraphExpr.Type;
+		if(!(subgraphExprType is GraphTypeNode))
+		{
+			subgraphExpr.ReportError("The " + Name() + " procedure expects as 1. argument (subgraph)"
 					+ " a value of type graph"
-					+ " (but is given a value of type " + subgraphExprType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + subgraphExprType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
-		TypeNode subgraphArrayExprType = subgraphArrayExpr.getType();
-		if(!(subgraphArrayExprType instanceof ArrayTypeNode)) {
-			subgraphArrayExpr.reportError("The " + name() + " procedure expects as 2. argument"
+		TypeNode subgraphArrayExprType = subgraphArrayExpr.Type;
+		if(!(subgraphArrayExprType is ArrayTypeNode))
+		{
+			subgraphArrayExpr.ReportError("The " + Name() + " procedure expects as 2. argument"
 					+ " a value of type array<graph>"
-					+ " (but is given a value of type " + subgraphArrayExprType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + subgraphArrayExprType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode subgraphArrayExprValueType = ((ArrayTypeNode)subgraphArrayExprType).valueType;
-		if(!(subgraphArrayExprValueType instanceof GraphTypeNode)) {
-			subgraphArrayExpr.reportError("The " + name() + " procedure expects as 2. argument"
+		if(!(subgraphArrayExprValueType is GraphTypeNode))
+		{
+			subgraphArrayExpr.ReportError("The " + Name() + " procedure expects as 2. argument"
 					+ " a value of type array<graph>"
-					+ " (but is given a value of type " + subgraphArrayExprType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + subgraphArrayExprType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;
 	}
-	
-	public String name()
+
+	public virtual string Name()
 	{
 		return includingAttributes ? "getEquivalentOrAdd" : "getEquivalentStructurallyOrAdd";
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		subgraphExpr = subgraphExpr.evaluate();
-		subgraphArrayExpr = subgraphArrayExpr.evaluate();
-		GetEquivalentOrAddProc getEquivalentOrAdd = new GetEquivalentOrAddProc(BasicTypeNode.graphType.getIRType(), 
-				subgraphExpr.checkIR(Expression.class),
-				subgraphArrayExpr.checkIR(Expression.class),
+		subgraphExpr = subgraphExpr.Evaluate();
+		subgraphArrayExpr = subgraphArrayExpr.Evaluate();
+		GetEquivalentOrAddProc getEquivalentOrAdd = new GetEquivalentOrAddProc(BasicTypeNode.graphType.GetIRType(),
+				subgraphExpr.CheckIR(typeof(Expression)),
+				subgraphArrayExpr.CheckIR(typeof(Expression)),
 				includingAttributes);
 		return getEquivalentOrAdd;
 	}
 
-	@Override
-	public List<TypeNode> getType()
+	public override IList<TypeNode> Type
 	{
-		if(returnTypes == null) {
-			returnTypes = new ArrayList<TypeNode>();
-			returnTypes.add(BasicTypeNode.graphType);
+		get
+		{
+		if(returnTypes == null)
+		{
+			returnTypes = new List<TypeNode>();
+			returnTypes.Add(BasicTypeNode.graphType);
 		}
 		return returnTypes;
+		}
 	}
+}
+
 }

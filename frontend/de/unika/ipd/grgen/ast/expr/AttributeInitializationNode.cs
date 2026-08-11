@@ -1,38 +1,37 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr;
+namespace de.unika.ipd.grgen.ast.expr
+{
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
-import de.unika.ipd.grgen.ast.model.type.BaseInternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.AttributeInitialization;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.InternalObjectInit;
-import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using MemberDeclNode = de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
+using BaseInternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.BaseInternalObjectTypeNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using AttributeInitialization = de.unika.ipd.grgen.ir.expr.AttributeInitialization;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using InternalObjectInit = de.unika.ipd.grgen.ir.expr.InternalObjectInit;
+using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 
-public class AttributeInitializationNode extends BaseNode
+public class AttributeInitializationNode : BaseNode
 {
 	public ObjectInitNode objectInit;
 	public InternalObjectInit objectInitIR;
-	
+
 	public IdentNode ownerUnresolved;
 	public BaseInternalObjectTypeNode owner;
 
@@ -48,108 +47,115 @@ public class AttributeInitializationNode extends BaseNode
 		this.initialization = initialization;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(attributeUnresolved, attribute));
-		children.add(initialization);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(attributeUnresolved, attribute));
+		children.Add(initialization);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("attribute");
-		childrenNames.add("initialization");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("attribute");
+		childrenNames.Add("initialization");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationTypeResolver<BaseInternalObjectTypeNode> objectTypeResolver =
-			new DeclarationTypeResolver<BaseInternalObjectTypeNode>(BaseInternalObjectTypeNode.class);
+	private static readonly DeclarationTypeResolver<BaseInternalObjectTypeNode> objectTypeResolver =
+			new DeclarationTypeResolver<BaseInternalObjectTypeNode>(typeof(BaseInternalObjectTypeNode));
 
-	private static final DeclarationResolver<MemberDeclNode> memberResolver =
-			new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
+	private static readonly DeclarationResolver<MemberDeclNode> memberResolver =
+			new DeclarationResolver<MemberDeclNode>(typeof(MemberDeclNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		owner = objectTypeResolver.resolve(ownerUnresolved, this);
-		if(owner == null || !owner.resolve())
+		owner = objectTypeResolver.Resolve(ownerUnresolved, this);
+		if(owner == null || !owner.Resolve())
 			return false;
 
-		owner.fixupDefinition(attributeUnresolved);
-		attribute = memberResolver.resolve(attributeUnresolved, this);
+		owner.FixupDefinition(attributeUnresolved);
+		attribute = memberResolver.Resolve(attributeUnresolved, this);
 		return attribute != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if(attribute.isConst()) {
-			objectInit.reportError("An assignment to a const member is not allowed"
+		if(attribute.IsConst())
+		{
+			objectInit.ReportError("An assignment to a const member is not allowed"
 					+ " (but occurs for " + attribute + ").");
 			return false;
 		}
-		
-		if(owner.isConst()) {
-			objectInit.reportError("An assignment to an object of const type is not allowed"
-					+ " (but occurs for " + attribute + " of " + owner.getIdent() + ").");
+
+		if(owner.IsConst())
+		{
+			objectInit.ReportError("An assignment to an object of const type is not allowed"
+					+ " (but occurs for " + attribute + " of " + owner.Ident + ").");
 			return false;
 		}
 
-		TypeNode targetType = attribute.getDeclType();
-		TypeNode exprType = initialization.getType();
+		TypeNode targetType = attribute.DeclType;
+		TypeNode exprType = initialization.Type;
 
-		if(exprType.isEqual(targetType))
+		if(exprType.IsEqual(targetType))
 			return true;
 
-		initialization = becomeParent(initialization.adjustType(targetType, objectInit.getCoords()));
-		if(initialization == ConstNode.getInvalid())
+		initialization = BecomeParent(initialization.AdjustType(targetType, objectInit.Coords));
+		if(initialization == ConstNode.Invalid)
 			return false;
 
-		if(targetType instanceof NodeTypeNode && exprType instanceof NodeTypeNode
-				|| targetType instanceof EdgeTypeNode && exprType instanceof EdgeTypeNode) {
-			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
-			exprType.doGetCompatibleToTypes(superTypes);
-			if(!superTypes.contains(targetType)) {
-				objectInit.reportError("Cannot initialize-assign a value of " + exprType.toStringWithDeclarationCoords()
-						+ " to an attribute of " + targetType.toStringWithDeclarationCoords() + " (this occurs for " + attribute + ").");
+		if(targetType is NodeTypeNode && exprType is NodeTypeNode
+				|| targetType is EdgeTypeNode && exprType is EdgeTypeNode)
+		{
+			ICollection<TypeNode> superTypes = new HashSet<TypeNode>();
+			exprType.DoGetCompatibleToTypes(superTypes);
+			if(!superTypes.Contains(targetType))
+			{
+				objectInit.ReportError("Cannot initialize-assign a value of " + exprType.ToStringWithDeclarationCoords()
+						+ " to an attribute of " + targetType.ToStringWithDeclarationCoords() + " (this occurs for " + attribute + ").");
 				return false;
 			}
 		}
-		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
-				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-			objectInit.reportError("Cannot initialize-assign a value of " + exprType.toStringWithDeclarationCoords()
-					+ " to an attribute of " + targetType.toStringWithDeclarationCoords() + " (this occurs for " + attribute + ").");
+		if(targetType is NodeTypeNode && exprType is EdgeTypeNode
+				|| targetType is EdgeTypeNode && exprType is NodeTypeNode)
+		{
+			objectInit.ReportError("Cannot initialize-assign a value of " + exprType.ToStringWithDeclarationCoords()
+					+ " to an attribute of " + targetType.ToStringWithDeclarationCoords() + " (this occurs for " + attribute + ").");
 			return false;
 		}
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
-		if(isIRAlreadySet()) {
-			return getIR();
-		}
+		if(IsIRAlreadySet())
+			return IR;
 
 		AttributeInitialization ai = new AttributeInitialization();
 
 		// mark this node as already visited
-		setIR(ai);
+		IR = ai;
 
-		assert(objectInitIR != null);
+		Debug.Assert((objectInitIR != null));
 		ai.init = objectInitIR;
-		ai.owner = owner.checkIR(BaseInternalObjectType.class);
-		ai.attribute = attribute.checkIR(Entity.class);
-		initialization = initialization.evaluate();
-		ai.expr = initialization.checkIR(Expression.class);
+		ai.owner = owner.CheckIR(typeof(BaseInternalObjectType));
+		ai.attribute = attribute.CheckIR(typeof(Entity));
+		initialization = initialization.Evaluate();
+		ai.expr = initialization.CheckIR(typeof(Expression));
 
 		return ai;
 	}
+}
+
 }

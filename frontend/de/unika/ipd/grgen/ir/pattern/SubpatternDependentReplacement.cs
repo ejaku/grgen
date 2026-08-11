@@ -1,42 +1,51 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.pattern;
-
-import java.util.List;
-
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.expr.Expression;
-
-public class SubpatternDependentReplacement extends Identifiable implements OrderedReplacement
+namespace de.unika.ipd.grgen.ir.pattern
 {
-	SubpatternUsage subpatternUsage;
-	List<Expression> replConnections;
 
-	public SubpatternDependentReplacement(String name, Ident ident,
-			SubpatternUsage subpatternUsage, List<Expression> replConnections)
+using System.Collections.Generic;
+
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+
+public class SubpatternDependentReplacement : Identifiable, OrderedReplacement
+{
+	internal SubpatternUsage subpatternUsage;
+	internal IList<Expression> replConnections;
+
+	public SubpatternDependentReplacement(string name, Ident ident,
+			SubpatternUsage subpatternUsage, IList<Expression> replConnections)
+		: base(name, ident)
 	{
-		super(name, ident);
 		this.subpatternUsage = subpatternUsage;
 		this.replConnections = replConnections;
 	}
 
-	public SubpatternUsage getSubpatternUsage()
+	public virtual SubpatternUsage SubpatternUsage
 	{
+		get
+		{
 		return subpatternUsage;
+		}
 	}
 
-	public List<Expression> getReplConnections()
+	public virtual IList<Expression> ReplConnections
 	{
+		get
+		{
 		return replConnections;
+		}
 	}
+}
+
 }

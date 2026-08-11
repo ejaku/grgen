@@ -1,180 +1,194 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * ConstraintDeclNode.java
- *
- * @author Sebastian Hack
- */
+/// <summary>
+/// ConstraintDeclNode.java
+/// 
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.pattern;
+namespace de.unika.ipd.grgen.ast.decl.pattern
+{
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.TypeExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.type.TypeExpr;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using NameOrAttributeInitializationNode = de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using TypeExprNode = de.unika.ipd.grgen.ast.type.TypeExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using TypeExpr = de.unika.ipd.grgen.ir.type.TypeExpr;
 
-import java.util.Collection;
-import java.util.HashSet;
 
-public abstract class ConstraintDeclNode extends DeclNode
+public abstract class ConstraintDeclNode : DeclNode
 {
 	public enum CopyKind
 	{
-		None, Clone, Copy;
+		None,
+		Clone,
+		Copy
 	}
 
-	protected TypeExprNode constraints;
+	protected internal TypeExprNode constraints;
 
 	public int context; // context of declaration, contains CONTEXT_LHS if declaration is located on left hand side,
 						// or CONTEXT_RHS if declaration is located on right hand side
 
 	public PatternGraphLhsNode directlyNestingLHSGraph;
-	public boolean defEntityToBeYieldedTo;
+	public bool defEntityToBeYieldedTo;
 
-	protected CopyKind copyKind;
+	protected internal CopyKind copyKind;
 
-	/** The retyped version of this element if any. */
-	protected ConstraintDeclNode retypedElem = null;
+	/// <summary>
+	/// The retyped version of this element if any. </summary>
+	protected internal ConstraintDeclNode retypedElem = null;
 
-	public boolean maybeDeleted = false;
-	public boolean maybeRetyped = false;
-	protected boolean maybeNull = false;
+	public bool maybeDeleted = false;
+	public bool maybeRetyped = false;
+	protected internal bool maybeNull = false;
 
-	ExprNode initialization = null;
+	internal ExprNode initialization = null;
 
-	CollectNode<NameOrAttributeInitializationNode> nameOrAttributeInits =
+	internal CollectNode<NameOrAttributeInitializationNode> nameOrAttributeInits =
 			new CollectNode<NameOrAttributeInitializationNode>();
 
-	protected ConstraintDeclNode(IdentNode id, BaseNode type, CopyKind copyKind, int context, TypeExprNode constraints,
-			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
+	protected internal ConstraintDeclNode(IdentNode id, BaseNode type, CopyKind copyKind, int context, TypeExprNode constraints,
+			PatternGraphLhsNode directlyNestingLHSGraph, bool maybeNull, bool defEntityToBeYieldedTo)
+		: base(id, type)
 	{
-		super(id, type);
 		this.copyKind = copyKind;
 		this.constraints = constraints;
-		becomeParent(this.constraints);
+		BecomeParent(this.constraints);
 		this.context = context;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		this.maybeNull = maybeNull;
 		this.defEntityToBeYieldedTo = defEntityToBeYieldedTo;
 	}
 
-	/** sets an expression to be used to initialize the graph entity, only used for local variables, not pattern elements */
-	public void setInitialization(ExprNode initialization)
+	/// <summary>
+	/// sets an expression to be used to initialize the graph entity, only used for local variables, not pattern elements </summary>
+	public virtual ExprNode Initialization
 	{
-		this.initialization = initialization;
+		set
+		{
+		this.initialization = value;
+		}
 	}
 
-	public void addNameOrAttributeInitialization(NameOrAttributeInitializationNode nameOrAttributeInit)
+	public virtual void AddNameOrAttributeInitialization(NameOrAttributeInitializationNode nameOrAttributeInit)
 	{
-		this.nameOrAttributeInits.addChild(nameOrAttributeInit);
+		this.nameOrAttributeInits.AddChild(nameOrAttributeInit);
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		return initializationIsWellTyped()
-				& noRhsConstraint()
-				& noLhsCopy()
-				& noLhsNameOrAttributeInit()
-				& atMostOneNameInit();
+		return InitializationIsWellTyped()
+				& NoRhsConstraint()
+				& NoLhsCopy()
+				& NoLhsNameOrAttributeInit()
+				& AtMostOneNameInit();
 	}
 
-	private boolean initializationIsWellTyped()
+	private bool InitializationIsWellTyped()
 	{
 		if(initialization == null)
 			return true;
 
-		TypeNode targetType = getDeclType();
-		TypeNode exprType = initialization.getType();
+		TypeNode targetType = DeclType;
+		TypeNode exprType = initialization.Type;
 
-		if(exprType.isEqual(targetType))
+		if(exprType.IsEqual(targetType))
 			return true;
 
-		if(targetType instanceof NodeTypeNode && exprType instanceof NodeTypeNode
-				|| targetType instanceof EdgeTypeNode && exprType instanceof EdgeTypeNode) {
-			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
-			exprType.doGetCompatibleToTypes(superTypes);
-			if(superTypes.contains(targetType)) {
+		if(targetType is NodeTypeNode && exprType is NodeTypeNode
+				|| targetType is EdgeTypeNode && exprType is EdgeTypeNode)
+		{
+			ICollection<TypeNode> superTypes = new HashSet<TypeNode>();
+			exprType.DoGetCompatibleToTypes(superTypes);
+			if(superTypes.Contains(targetType))
 				return true;
-			}
 		}
 
-		reportError("Cannot initialize " + getKind() + " " + getIdent() + " of type " + targetType.toStringWithDeclarationCoords()
-				+ " with a value of type " + exprType.toStringWithDeclarationCoords() + ".");
+		ReportError("Cannot initialize " + Kind + " " + Ident + " of type " + targetType.ToStringWithDeclarationCoords()
+				+ " with a value of type " + exprType.ToStringWithDeclarationCoords() + ".");
 		return false;
 	}
 
-	private boolean noRhsConstraint()
+	private bool NoRhsConstraint()
 	{
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS)
 			return true;
 
-		if(constraints != TypeExprNode.getEmpty()) {
-			constraints.reportError("A rewrite part element is not allowed to be type constrained (only pattern elements are)"
-					+ " (but the rewrite part " + getKind() + " " + getIdent() + " is endowed with a type constraint).");
+		if(constraints != TypeExprNode.Empty)
+		{
+			constraints.ReportError("A rewrite part element is not allowed to be type constrained (only pattern elements are)"
+					+ " (but the rewrite part " + Kind + " " + Ident + " is endowed with a type constraint).");
 			return false;
 		}
-		
+
 		return true;
 	}
 
-	private boolean noLhsCopy()
+	private bool NoLhsCopy()
 	{
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS)
 			return true;
-		
-		if(copyKind != CopyKind.None) {
-			reportError("A copy<> construct is not allowed in the pattern part"
-					+ emptyWhenAnonymous(" (but comes with the declaration of " + getKind() + " " + getIdent() + ")") + ".");
+
+		if(copyKind != CopyKind.None)
+		{
+			ReportError("A copy<> construct is not allowed in the pattern part"
+					+ EmptyWhenAnonymous(" (but comes with the declaration of " + Kind + " " + Ident + ")") + ".");
 			return false;
 		}
-		
+
 		return true;
 	}
 
-	private boolean noLhsNameOrAttributeInit()
+	private bool NoLhsNameOrAttributeInit()
 	{
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) 
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS)
 			return true;
 
-		if(nameOrAttributeInits.size() > 0) {
-			NameOrAttributeInitializationNode nameOrAttributeInit = nameOrAttributeInits.get(0);
-			if(nameOrAttributeInit.attributeUnresolved != null) {
-				reportError("An attribute initialization is not allowed in the pattern part (but occurs for " + nameOrAttributeInit.attributeUnresolved
-						+ " of " + getKind() + " " + getIdent() + ").");
-			} else
-				reportError("A name initialization ($=) is not allowed in the pattern part (but occurs for " + getKind() + " " + getIdent() + ").");
+		if(nameOrAttributeInits.Size() > 0)
+		{
+			NameOrAttributeInitializationNode nameOrAttributeInit = nameOrAttributeInits.Get(0);
+			if(nameOrAttributeInit.attributeUnresolved != null)
+			{
+				ReportError("An attribute initialization is not allowed in the pattern part (but occurs for " + nameOrAttributeInit.attributeUnresolved
+						+ " of " + Kind + " " + Ident + ").");
+			}
+			else
+				ReportError("A name initialization ($=) is not allowed in the pattern part (but occurs for " + Kind + " " + Ident + ").");
 			return false;
 		}
-		
+
 		return true;
 	}
 
-	private boolean atMostOneNameInit()
+	private bool AtMostOneNameInit()
 	{
-		boolean atMostOneNameInit = true;
+		bool atMostOneNameInit = true;
 
-		boolean nameInitFound = false;
-		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildrenExact()) {
-			if(nain.attributeUnresolved == null) {
+		bool nameInitFound = false;
+		foreach(NameOrAttributeInitializationNode nain in nameOrAttributeInits.ChildrenExact)
+		{
+			if(nain.attributeUnresolved == null)
+			{
 				if(!nameInitFound)
 					nameInitFound = true;
-				else {
-					reportError("Only one name initialization ($=) is allowed (but multiple ones are given for " + getKind() + " " + getIdent() + ").");
+				else
+				{
+					ReportError("Only one name initialization ($=) is allowed (but multiple ones are given for " + Kind + " " + Ident + ").");
 					atMostOneNameInit = false;
 				}
 			}
@@ -183,33 +197,47 @@ public abstract class ConstraintDeclNode extends DeclNode
 		return atMostOneNameInit;
 	}
 
-	protected final TypeExpr getIRConstraints()
+	protected internal TypeExpr IRConstraints
 	{
-		return constraints.checkIR(TypeExpr.class);
+		get
+		{
+		return constraints.CheckIR(typeof(TypeExpr));
+		}
 	}
 
-	/** @returns True, if this element has eventually been deleted due to homomorphy */
-	protected boolean isMaybeDeleted()
+	/// <summary>
+	/// @returns True, if this element has eventually been deleted due to homomorphy </summary>
+	protected internal virtual bool IsMaybeDeleted()
 	{
 		return maybeDeleted;
 	}
 
-	/** @returns True, if this element has eventually been retyped due to homomorphy */
-	protected boolean isMaybeRetyped()
+	/// <summary>
+	/// @returns True, if this element has eventually been retyped due to homomorphy </summary>
+	protected internal virtual bool IsMaybeRetyped()
 	{
 		return maybeRetyped;
 	}
 
-	/** @returns the retyped version of this element or null. */
-	public ConstraintDeclNode getRetypedElement()
+	/// <summary>
+	/// @returns the retyped version of this element or null. </summary>
+	public virtual ConstraintDeclNode RetypedElement
 	{
+		get
+		{
 		return retypedElem;
+		}
 	}
 
-	public abstract InheritanceTypeNode getDeclInhType();
+	public abstract InheritanceTypeNode DeclInhType {get;}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "node or edge";
+		}
 	}
+}
+
 }

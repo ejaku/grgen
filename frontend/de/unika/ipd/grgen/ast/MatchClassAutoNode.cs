@@ -1,133 +1,138 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.function.Supplier;
-
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.DummyNodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
-import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
-import de.unika.ipd.grgen.ast.pattern.ExactNode;
-import de.unika.ipd.grgen.ast.pattern.HomNode;
-import de.unika.ipd.grgen.ast.pattern.InducedNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
-import de.unika.ipd.grgen.ast.pattern.SubpatternReplNode;
-import de.unika.ipd.grgen.ast.pattern.TotallyHomNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
-
-
-/**
- * AST node class representing auto-generated match classes / match class bodies
- * (combining matches under name merging, to be used as results of "natural joins" of matches)
- */
-public class MatchClassAutoNode extends BaseNode
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(MatchClassAutoNode.class, "match class auto");
+
+using System;
+using System.Collections.Generic;
+
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using AlternativeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
+using DummyNodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.DummyNodeDeclNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using SubpatternUsageDeclNode = de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using ConnectionCharacter = de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
+using ConnectionNode = de.unika.ipd.grgen.ast.pattern.ConnectionNode;
+using ExactNode = de.unika.ipd.grgen.ast.pattern.ExactNode;
+using HomNode = de.unika.ipd.grgen.ast.pattern.HomNode;
+using InducedNode = de.unika.ipd.grgen.ast.pattern.InducedNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using SingleNodeConnNode = de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
+using SubpatternReplNode = de.unika.ipd.grgen.ast.pattern.SubpatternReplNode;
+using TotallyHomNode = de.unika.ipd.grgen.ast.pattern.TotallyHomNode;
+using EvalStatementsNode = de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
+using MatchTypeActionNode = de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+
+/// <summary>
+/// AST node class representing auto-generated match classes / match class bodies
+/// (combining matches under name merging, to be used as results of "natural joins" of matches)
+/// </summary>
+public class MatchClassAutoNode : BaseNode
+{
+	static MatchClassAutoNode()
+	{
+		SetClassName(typeof(MatchClassAutoNode), "match class auto");
 	}
 
-	protected String nameOfGraph;
-	protected Coords coords;
-	protected int modifiers;
-	protected int context;
-	
-	protected CollectNode<IdentNode> matchTypesUnresolved;
-	protected CollectNode<MatchTypeActionNode> matchTypes;
+	protected internal string nameOfGraph;
+	protected internal Coords coords;
+	protected internal int modifiers;
+	protected internal int context;
 
-	CollectNode<BaseNode> connections;
-	CollectNode<BaseNode> params;
+	protected internal CollectNode<IdentNode> matchTypesUnresolved;
+	protected internal CollectNode<MatchTypeActionNode> matchTypes;
 
-	public MatchClassAutoNode(String nameOfGraph, Coords coords, int modifiers, int context, 
+	internal CollectNode<BaseNode> connections;
+	internal CollectNode<BaseNode> @params;
+
+	public MatchClassAutoNode(string nameOfGraph, Coords coords, int modifiers, int context,
 			CollectNode<IdentNode> matchTypes)
+		: base(coords)
 	{
-		super(coords);
 		this.nameOfGraph = nameOfGraph;
 		this.modifiers = modifiers;
 		this.context = context;
-		this.matchTypesUnresolved = becomeParent(matchTypes);
+		this.matchTypesUnresolved = BecomeParent(matchTypes);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersionCollectNode(matchTypesUnresolved, matchTypes));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersionCollectNode(matchTypesUnresolved, matchTypes));
 		return children;
-	}
-
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("matchTypes");
-		return childrenNames;
-	}
-
-	private static final CollectResolver<MatchTypeActionNode> matchTypesResolver =
-			new CollectResolver<MatchTypeActionNode>(new DeclarationTypeResolver<MatchTypeActionNode>(MatchTypeActionNode.class));
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
-	{
-		for(IdentNode mtid : matchTypesUnresolved.getChildrenExact()) {
-			if(!(mtid instanceof PackageIdentNode)) {
-				fixupDefinition(mtid, mtid.getScope());
-			}
 		}
-		matchTypes = matchTypesResolver.resolve(matchTypesUnresolved, this);
+	}
+
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("matchTypes");
+		return childrenNames;
+		}
+	}
+
+	private static readonly CollectResolver<MatchTypeActionNode> matchTypesResolver =
+			new CollectResolver<MatchTypeActionNode>(new DeclarationTypeResolver<MatchTypeActionNode>(typeof(MatchTypeActionNode)));
+
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
+	{
+		foreach(IdentNode mtid in matchTypesUnresolved.ChildrenExact)
+		{
+			if(!(mtid is PackageIdentNode))
+				FixupDefinition(mtid, mtid.Scope);
+		}
+		matchTypes = matchTypesResolver.Resolve(matchTypesUnresolved, this);
 
 		return matchTypes != null;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		if(matchTypes.getChildrenExact().size() != 2) {
-			reportError("The auto(match<T> | match<S>) construct is only supported on two types (given are " + matchTypes.getChildrenExact().size() + ").");
+		if(matchTypes.ChildrenExact.Count != 2)
+		{
+			ReportError("The auto(match<T> | match<S>) construct is only supported on two types (given are " + matchTypes.ChildrenExact.Count + ").");
 			return false;
 		}
-		
+
 		return true;
 	}
 
-	public PatternGraphLhsNode getPatternGraph()
+	public virtual PatternGraphLhsNode PatternGraph
 	{
+		get
+		{
 		connections = new CollectNode<BaseNode>();
-		params = new CollectNode<BaseNode>();
-		
+		@params = new CollectNode<BaseNode>();
+
 		CollectNode<SubpatternUsageDeclNode> subpatterns = new CollectNode<SubpatternUsageDeclNode>();
 		CollectNode<SubpatternReplNode> subpatternRepls = new CollectNode<SubpatternReplNode>();
 		CollectNode<AlternativeDeclNode> alts = new CollectNode<AlternativeDeclNode>();
@@ -140,143 +145,166 @@ public class MatchClassAutoNode extends BaseNode
 		CollectNode<TotallyHomNode> totallyhoms = new CollectNode<TotallyHomNode>();
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
-		PatternGraphLhsNode res = new PatternGraphLhsNode(nameOfGraph, coords, 
-				connections, params, subpatterns, subpatternRepls,
+		PatternGraphLhsNode res = new PatternGraphLhsNode(nameOfGraph, coords,
+				connections, @params, subpatterns, subpatternRepls,
 				alts, iters, negs, idpts, conds,
 				returnz, homs, totallyhoms, exact, induced, modifiers, context);
-		
+
 		return res;
+		}
 	}
 
-	public boolean fillPatternGraph(PatternGraphLhsNode patternGraph)
+	public virtual bool FillPatternGraph(PatternGraphLhsNode patternGraph)
 	{
-		boolean result = true;
-		
+		bool result = true;
+
 		CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
 		CollectNode<EvalStatementsNode> evals = new CollectNode<EvalStatementsNode>();
 
-		Map<String, TypeNode> entitiesToTypes = new HashMap<String, TypeNode>();
-		
-		for(MatchTypeActionNode matchType : matchTypes.getChildrenExact()) {
-			PatternGraphLhsNode lhsPattern = matchType.getAction().pattern;
-			for(ConnectionCharacter cc : lhsPattern.getConnections()) {
-				if(cc instanceof ConnectionNode) {
+		IDictionary<string, TypeNode> entitiesToTypes = new Dictionary<string, TypeNode>();
+
+		foreach(MatchTypeActionNode matchType in matchTypes.ChildrenExact)
+		{
+			PatternGraphLhsNode lhsPattern = matchType.Action.pattern;
+			foreach(ConnectionCharacter cc in lhsPattern.Connections)
+			{
+				if(cc is ConnectionNode)
+				{
 					ConnectionNode connection = (ConnectionNode)cc;
-					EdgeDeclNode edge = connection.getEdge();
-					String edgeName = edge.getIdent().getSymbol().getText();
-					if(edgeName.startsWith("$")) {
-						result &= addSourceAndTargetIfNotYetAddedOrTypeCheckIfDuplicate(connection,
-								entitiesToTypes, connections, patternGraph);
-					} else {
-						if(!entitiesToTypes.containsKey(edgeName)) {
-							ConnectionNode connectionClone = connection.cloneForAuto(patternGraph);
-							connections.addChild(connectionClone);
-							entitiesToTypes.put(edgeName, edge.getDeclType());
-							result &= replaceSourceAndTargetIfAlreadyAdded(connection,
+					EdgeDeclNode edge = connection.Edge;
+					string edgeName = edge.Ident.Symbol.Text;
+					if(edgeName.StartsWith("$", StringComparison.Ordinal))
+					{
+						result &= AddSourceAndTargetIfNotYetAddedOrTypeCheckIfDuplicate(connection,
+							entitiesToTypes, connections, patternGraph);
+					}
+					else
+					{
+						if(!entitiesToTypes.ContainsKey(edgeName))
+						{
+							ConnectionNode connectionClone = connection.CloneForAuto(patternGraph);
+							connections.AddChild(connectionClone);
+							entitiesToTypes[edgeName] = edge.DeclType;
+							result &= ReplaceSourceAndTargetIfAlreadyAdded(connection,
 									connectionClone, entitiesToTypes, patternGraph);
-						} else {
-							result &= addSourceAndTargetIfNotYetAddedOrTypeCheckIfDuplicate(connection,
+						}
+						else
+						{
+							result &= AddSourceAndTargetIfNotYetAddedOrTypeCheckIfDuplicate(connection,
 									entitiesToTypes, connections, patternGraph);
-							result &= isTypeMatching(edge, entitiesToTypes);
+							result &= IsTypeMatching(edge, entitiesToTypes);
 						}
 					}
-				} else {
+				}
+				else
+				{
 					SingleNodeConnNode singleNode = (SingleNodeConnNode)cc;
-					NodeDeclNode node = singleNode.getNode();
-					result &= addIfNotYetAddedOrTypeCheckIfDuplicate(node, entitiesToTypes,
-							connections, () -> singleNode.cloneForAuto(patternGraph));
+					NodeDeclNode node = singleNode.Node;
+					result &= AddIfNotYetAddedOrTypeCheckIfDuplicate(node, entitiesToTypes,
+							connections, () => singleNode.CloneForAuto(patternGraph));
 				}
 			}
-			
-			for(VarDeclNode defVar : lhsPattern.getDefVariablesToBeYieldedTo().getChildrenExact()) {
-				result &= addIfNotYetAddedOrTypeCheckIfDuplicate(defVar, entitiesToTypes,
-						params, () -> defVar.cloneForAuto(patternGraph));
+
+			foreach(VarDeclNode defVar in lhsPattern.DefVariablesToBeYieldedTo.ChildrenExact)
+			{
+				result &= AddIfNotYetAddedOrTypeCheckIfDuplicate(defVar, entitiesToTypes,
+						@params, () => defVar.CloneForAuto(patternGraph));
 			}
-			
-			for(BaseNode param : lhsPattern.params.getChildrenExact()) {
-				if(param instanceof VarDeclNode) {
+
+			foreach(BaseNode param in lhsPattern.@params.ChildrenExact)
+			{
+				if(param is VarDeclNode)
+				{
 					VarDeclNode var = (VarDeclNode)param;
-					result &= addIfNotYetAddedOrTypeCheckIfDuplicate(var, entitiesToTypes,
-							params, () -> var.cloneForAuto(patternGraph));
-				} 
+					result &= AddIfNotYetAddedOrTypeCheckIfDuplicate(var, entitiesToTypes,
+							@params, () => var.CloneForAuto(patternGraph));
+				}
 			}
 		}
 
-		patternGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
-		patternGraph.addYieldings(evals);
-		
+		patternGraph.AddDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
+		patternGraph.AddYieldings(evals);
+
 		return result;
 	}
 
-	private boolean addSourceAndTargetIfNotYetAddedOrTypeCheckIfDuplicate(ConnectionNode connection,
-			Map<String, TypeNode> entitiesToTypes, CollectNode<BaseNode> connections,
+	private bool AddSourceAndTargetIfNotYetAddedOrTypeCheckIfDuplicate(ConnectionNode connection,
+			IDictionary<string, TypeNode> entitiesToTypes, CollectNode<BaseNode> connections,
 			PatternGraphLhsNode patternGraph)
 	{
-		boolean result = true;
-		NodeDeclNode source = connection.getSrc();
-		if(!(source instanceof DummyNodeDeclNode)) {
-			result &= addIfNotYetAddedOrTypeCheckIfDuplicate(source, entitiesToTypes,
-					connections, () -> new SingleNodeConnNode(source.cloneForAuto(patternGraph)));
+		bool result = true;
+		NodeDeclNode source = connection.Src;
+		if(!(source is DummyNodeDeclNode))
+		{
+			result &= AddIfNotYetAddedOrTypeCheckIfDuplicate(source, entitiesToTypes,
+					connections, () => new SingleNodeConnNode(source.CloneForAuto(patternGraph)));
 		}
-		NodeDeclNode target = connection.getTgt();
-		if(!(target instanceof DummyNodeDeclNode)) {
-			result &= addIfNotYetAddedOrTypeCheckIfDuplicate(target, entitiesToTypes,
-					connections, () -> new SingleNodeConnNode(target.cloneForAuto(patternGraph)));
+		NodeDeclNode target = connection.Tgt;
+		if(!(target is DummyNodeDeclNode))
+		{
+			result &= AddIfNotYetAddedOrTypeCheckIfDuplicate(target, entitiesToTypes,
+					connections, () => new SingleNodeConnNode(target.CloneForAuto(patternGraph)));
 		}
 		return result;
 	}
-	
-	private boolean replaceSourceAndTargetIfAlreadyAdded(ConnectionNode connection,
-			ConnectionNode connectionClone, Map<String, TypeNode> entitiesToTypes,
+
+	private bool ReplaceSourceAndTargetIfAlreadyAdded(ConnectionNode connection,
+			ConnectionNode connectionClone, IDictionary<string, TypeNode> entitiesToTypes,
 			PatternGraphLhsNode patternGraph)
 	{
-		NodeDeclNode source = connection.getSrc();
-		String sourceName = source.getIdent().getSymbol().getText();
-		if(entitiesToTypes.containsKey(sourceName)) {
-			NodeDeclNode newSource = new DummyNodeDeclNode(source.getIdent(),
-					source.getDeclType(), source.context, patternGraph);
-			connectionClone.setSrc(newSource);
+		NodeDeclNode source = connection.Src;
+		string sourceName = source.Ident.Symbol.Text;
+		if(entitiesToTypes.ContainsKey(sourceName))
+		{
+			NodeDeclNode newSource = new DummyNodeDeclNode(source.Ident,
+					source.DeclType, source.context, patternGraph);
+			connectionClone.Src = newSource;
 		}
-		NodeDeclNode target = connection.getTgt();
-		String targetName = target.getIdent().getSymbol().getText();
-		if(entitiesToTypes.containsKey(targetName)) {
-			NodeDeclNode newTarget = new DummyNodeDeclNode(target.getIdent(),
-					target.getDeclType(), target.context, patternGraph);
-			connectionClone.setTgt(newTarget);
+		NodeDeclNode target = connection.Tgt;
+		string targetName = target.Ident.Symbol.Text;
+		if(entitiesToTypes.ContainsKey(targetName))
+		{
+			NodeDeclNode newTarget = new DummyNodeDeclNode(target.Ident,
+					target.DeclType, target.context, patternGraph);
+			connectionClone.Tgt = newTarget;
 		}
-		return isTypeMatching(source, entitiesToTypes) & isTypeMatching(target, entitiesToTypes);
+		return IsTypeMatching(source, entitiesToTypes) & IsTypeMatching(target, entitiesToTypes);
 	}
-	
-	private boolean addIfNotYetAddedOrTypeCheckIfDuplicate(DeclNode entity, Map<String, TypeNode> entitiesToTypes,
-			CollectNode<BaseNode> connections, Supplier<BaseNode> entityForAuto)
+
+	private bool AddIfNotYetAddedOrTypeCheckIfDuplicate(DeclNode entity, IDictionary<string, TypeNode> entitiesToTypes,
+			CollectNode<BaseNode> connections, Func<BaseNode> entityForAuto)
 	{
-		String nodeName = entity.getIdent().getSymbol().getText();
-		if(nodeName.startsWith("$"))
+		string nodeName = entity.Ident.Symbol.Text;
+		if(nodeName.StartsWith("$", StringComparison.Ordinal))
 			return true;
-		if(!entitiesToTypes.containsKey(nodeName)) {
-			connections.addChild(entityForAuto.get());
-			entitiesToTypes.put(nodeName, entity.getDeclType());
+		if(!entitiesToTypes.ContainsKey(nodeName))
+		{
+			connections.AddChild(entityForAuto());
+			entitiesToTypes[nodeName] = entity.DeclType;
 			return true;
-		} else
-			return isTypeMatching(entity, entitiesToTypes);
+		}
+		else
+			return IsTypeMatching(entity, entitiesToTypes);
 	}
-	
-	private boolean isTypeMatching(DeclNode decl, Map<String, TypeNode> entitiesToTypes)
+
+	private bool IsTypeMatching(DeclNode decl, IDictionary<string, TypeNode> entitiesToTypes)
 	{
-		String entity = decl.getIdent().getSymbol().getText();
-		TypeNode type = entitiesToTypes.get(entity);
-		if(!decl.getDeclType().isEqual(type)) {
-			reportError("Ambiguous resulting type: the entity " + entity
-					+ " is declared with type " + type.toStringWithDeclarationCoords()
-					+ " and with type + " + decl.getDeclType().toStringWithDeclarationCoords() + ".");
+		string entity = decl.Ident.Symbol.Text;
+		TypeNode type = entitiesToTypes[entity];
+		if(!decl.DeclType.IsEqual(type))
+		{
+			ReportError("Ambiguous resulting type: the entity " + entity
+					+ " is declared with type " + type.ToStringWithDeclarationCoords()
+					+ " and with type + " + decl.DeclType.ToStringWithDeclarationCoords() + ".");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		throw new RuntimeException("Not implemented");
+		throw new Exception("Not implemented");
 	}
+}
+
 }

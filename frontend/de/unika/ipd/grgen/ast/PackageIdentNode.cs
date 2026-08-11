@@ -1,149 +1,165 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ast;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Symbol;
-
-/**
- * AST node that represents an Identifier in a package (name that appears within the specification)
- */
-public class PackageIdentNode extends IdentNode
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(PackageIdentNode.class, "package identifier");
+
+using System;
+using System.Collections.Generic;
+
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Symbol = de.unika.ipd.grgen.parser.Symbol;
+
+/// <summary>
+/// AST node that represents an Identifier in a package (name that appears within the specification)
+/// </summary>
+public class PackageIdentNode : IdentNode
+{
+	static PackageIdentNode()
+	{
+		SetClassName(typeof(PackageIdentNode), "package identifier");
 	}
 
-	/** Occurrence of the package identifier owning the base identifier. */
+	/// <summary>
+	/// Occurrence of the package identifier owning the base identifier. </summary>
 	public Symbol.Occurrence owningPackage;
 
-	/** The declaration of the package owning the base identifier. */
-	protected DeclNode ownerDecl = DeclNode.getInvalid();
+	/// <summary>
+	/// The declaration of the package owning the base identifier. </summary>
+	protected internal DeclNode ownerDecl = DeclNode.Invalid;
 
-	/**
-	 * Make a new identifier node at a symbol's occurrence.
-	 * @param owningPackage The occurrence of the symbol of the package owning the identifier.
-	 * @param occ The occurrence of the symbol of the identifier.
-	 */
+	/// <summary>
+	/// Make a new identifier node at a symbol's occurrence. </summary>
+	/// <param name="owningPackage"> The occurrence of the symbol of the package owning the identifier. </param>
+	/// <param name="occ"> The occurrence of the symbol of the identifier. </param>
 	public PackageIdentNode(Symbol.Occurrence owningPackage, Symbol.Occurrence occ)
+		: base(occ)
 	{
-		super(occ);
 		this.owningPackage = owningPackage;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		// no children
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// no children
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		// there must be exactly one definition
-		return super.checkLocal() && (getOwnerSymbol().toString().equals("global") || getOwnerSymDef().isValid());
+		return base.CheckLocal() && (OwnerSymbol.ToString().Equals("global") || OwnerSymDef.IsValid());
 	}
 
-	private Symbol.Definition getOwnerSymDef()
+	private Symbol.Definition OwnerSymDef
 	{
-		if(owningPackage.getDefinition() == null 
-			|| !owningPackage.getDefinition().isValid()) {
-			Symbol.Definition def = owningPackage.getScope().getCurrDef(getOwnerSymbol());
-			if(def.isValid())
-				setOwnerSymDef(def);
+		get
+		{
+		if(owningPackage.Definition == null
+			|| !owningPackage.Definition.IsValid())
+		{
+			Symbol.Definition def = owningPackage.Scope.GetCurrDef(OwnerSymbol);
+			if(def.IsValid())
+				OwnerSymDef = def;
 		}
-		return owningPackage.getDefinition();
+		return owningPackage.Definition;
+		}
+		set
+		{
+		owningPackage.Definition = value;
+		}
 	}
 
-	private void setOwnerSymDef(Symbol.Definition def)
-	{
-		owningPackage.setDefinition(def);
-	}
 
-	public DeclNode getOwnerDecl()
+	public virtual DeclNode OwnerDecl
 	{
-		Symbol.Definition def = getOwnerSymDef();
+		get
+		{
+		Symbol.Definition def = OwnerSymDef;
 
-		if(def.isValid()) {
-			if(def.getNode() == this) {
+		if(def.IsValid())
+		{
+			if(def.Node == this)
 				return decl;
-			} else {
-				return def.getNode().getDecl();
-			}
-		} else {
-			return DeclNode.getInvalid(this);
+			else
+				return def.Node.Decl;
+		}
+		else
+			return DeclNode.GetInvalid(this);
 		}
 	}
 
-	public Symbol getOwnerSymbol()
+	public virtual Symbol OwnerSymbol
 	{
-		return owningPackage.getSymbol();
-	}
-
-	@Override
-	public DeclNode getDecl()
-	{
-		Resolver.resolveOwner(this);
-		if(getOwnerSymbol().toString().equals("global")) {
-			fixupDefinition(this, getScope().getRoot(), true);
+		get
+		{
+		return owningPackage.Symbol;
 		}
-		return super.getDecl();
 	}
 
-	@Override
-	public String toString()
+	public override DeclNode Decl
 	{
-		return owningPackage.getSymbol().toString() + "::" + occ.getSymbol().toString();
+		get
+		{
+		Resolver.ResolveOwner(this);
+		if(OwnerSymbol.ToString().Equals("global"))
+			FixupDefinition(this, Scope.Root, true);
+		return base.Decl;
+		}
 	}
 
-	public static String getKindStr()
+	public override string ToString()
 	{
+		return owningPackage.Symbol.ToString() + "::" + occ.Symbol.ToString();
+	}
+
+	public static string KindStr
+	{
+		get
+		{
 		return "package-prefixed identifier";
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
-	 */
-	@Override
-	protected String extraNodeInfo()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeInfo()"/>
+	protected internal override string ExtraNodeInfo()
 	{
-		return "package: " + owningPackage + "occurrence: " + occ + "\ndefinition: " + getSymDef();
+		return "package: " + owningPackage + "occurrence: " + occ + "\ndefinition: " + SymDef;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 * Package ident nodes are resolved to their targeted concept, the owning package is ignored thereafter.
-	 */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"
+	/// Package ident nodes are resolved to their targeted concept, the owning package is ignored thereafter./>
+	protected internal override IR ConstructIR()
 	{
-		throw new RuntimeException("internal compiler error");
+		throw new Exception("internal compiler error");
 	}
+}
+
 }

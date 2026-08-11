@@ -1,136 +1,141 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.TypeExprNode;
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-
-public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(EdgeInterfaceTypeChangeDeclNode.class, "edge interface type change decl");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using TypeExprNode = de.unika.ipd.grgen.ast.type.TypeExprNode;
+using Checker = de.unika.ipd.grgen.ast.util.Checker;
+using de.unika.ipd.grgen.ast.util;
+using TypeChecker = de.unika.ipd.grgen.ast.util.TypeChecker;
+using IR = de.unika.ipd.grgen.ir.IR;
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+
+public class EdgeInterfaceTypeChangeDeclNode : EdgeDeclNode
+{
+	static EdgeInterfaceTypeChangeDeclNode()
+	{
+		SetClassName(typeof(EdgeInterfaceTypeChangeDeclNode), "edge interface type change decl");
 	}
 
 	private IdentNode interfaceTypeUnresolved;
 	public TypeDeclNode interfaceType = null;
 
 	public EdgeInterfaceTypeChangeDeclNode(IdentNode id, BaseNode newType, int context, IdentNode interfaceType,
-			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull)
+			PatternGraphLhsNode directlyNestingLHSGraph, bool maybeNull)
+		: base(id, newType, CopyKind.None, context, TypeExprNode.Empty, directlyNestingLHSGraph, maybeNull, false)
 	{
-		super(id, newType, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull, false);
 		this.interfaceTypeUnresolved = interfaceType;
-		becomeParent(this.interfaceTypeUnresolved);
+		BecomeParent(this.interfaceTypeUnresolved);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
-		children.add(constraints);
-		children.add(getValidVersion(interfaceTypeUnresolved, interfaceType));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
+		children.Add(constraints);
+		children.Add(GetValidVersion(interfaceTypeUnresolved, interfaceType));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("constraints");
-		childrenNames.add("interfaceType");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("constraints");
+		childrenNames.Add("interfaceType");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<TypeDeclNode> typeResolver =
-			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class);
+	private new static readonly DeclarationResolver<TypeDeclNode> typeResolver =
+			new DeclarationResolver<TypeDeclNode>(typeof(TypeDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = super.resolveLocal();
-		interfaceType = typeResolver.resolve(interfaceTypeUnresolved, this);
+		bool successfullyResolved = base.ResolveLocal();
+		interfaceType = typeResolver.Resolve(interfaceTypeUnresolved, this);
 		if(interfaceType == null)
 			return false;
-		if(!interfaceType.resolve())
+		if(!interfaceType.Resolve())
 			return false;
-		if(!(interfaceType.getDeclType() instanceof EdgeTypeNode)) {
-			interfaceTypeUnresolved.reportError("The interface type of edge parameter " + getIdent() + " must be an edge type"
-					+ " (given is " + interfaceType.getDeclType().getKind() + " " + interfaceType.getDeclType().getTypeName() + ").");
+		if(!(interfaceType.DeclType is EdgeTypeNode))
+		{
+			interfaceTypeUnresolved.ReportError("The interface type of edge parameter " + Ident + " must be an edge type"
+					+ " (given is " + interfaceType.DeclType.Kind + " " + interfaceType.DeclType.TypeName + ").");
 			return false;
 		}
 		if(!successfullyResolved)
 			return false;
 
-		EdgeTypeNode interfaceEdgeTypeNode = (EdgeTypeNode)interfaceType.getDeclType();
-		EdgeTypeNode edgeTypeNode = (EdgeTypeNode)typeTypeDecl.getDeclType();
-		if(!edgeTypeNode.isA(interfaceEdgeTypeNode)) {
-			interfaceTypeUnresolved.reportWarning("The interface type " + interfaceEdgeTypeNode.toStringWithDeclarationCoords()
-					+ " of edge parameter " + ident.toString()
-					+ " is not a supertype of " + edgeTypeNode.toStringWithDeclarationCoords() + ".");
+		EdgeTypeNode interfaceEdgeTypeNode = (EdgeTypeNode)interfaceType.DeclType;
+		EdgeTypeNode edgeTypeNode = (EdgeTypeNode)typeTypeDecl.DeclType;
+		if(!edgeTypeNode.IsA(interfaceEdgeTypeNode))
+		{
+			interfaceTypeUnresolved.ReportWarning("The interface type " + interfaceEdgeTypeNode.ToStringWithDeclarationCoords()
+					+ " of edge parameter " + ident.ToString()
+					+ " is not a supertype of " + edgeTypeNode.ToStringWithDeclarationCoords() + ".");
 		}
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
-		boolean res = super.checkLocal() & edgeChecker.check(interfaceType, error);
+		Checker edgeChecker = new TypeChecker(typeof(EdgeTypeNode));
+		bool res = base.CheckLocal() & edgeChecker.Check(interfaceType, error);
 		if(!res)
 			return false;
 
-		return res & onlyPatternEdgesCanChangeInterfaceType();
+		return res & OnlyPatternEdgesCanChangeInterfaceType();
 	}
 
-	private boolean onlyPatternEdgesCanChangeInterfaceType()
+	private bool OnlyPatternEdgesCanChangeInterfaceType()
 	{
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS)
 			return true;
 
-		reportError("Rewrite part edge parameters cannot change the interface type, only pattern edges can"
-				+ " (this is violated by " + getIdent() + ").");
+		ReportError("Rewrite part edge parameters cannot change the interface type, only pattern edges can"
+				+ " (this is violated by " + Ident + ").");
 		return false;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
 	{
-		Edge edge = (Edge)super.constructIR();
-		EdgeTypeNode etn = (EdgeTypeNode)interfaceType.getDeclType();
-		EdgeType et = etn.getIREdgeType();
-		edge.setParameterInterfaceType(et);
+		Edge edge = (Edge)base.ConstructIR();
+		EdgeTypeNode etn = (EdgeTypeNode)interfaceType.DeclType;
+		EdgeType et = etn.IREdgeType;
+		edge.ParameterInterfaceType = et;
 		return edge;
 	}
+}
+
 }

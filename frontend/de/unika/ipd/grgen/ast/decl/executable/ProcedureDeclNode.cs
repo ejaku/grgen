@@ -1,174 +1,190 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
-import de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
-import de.unika.ipd.grgen.ast.type.executable.ProcedureTypeNode;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Procedure;
-import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
-
-/**
- * AST node class representing procedure declarations
- */
-public class ProcedureDeclNode extends ProcedureDeclBaseNode
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	static {
-		setClassName(ProcedureDeclNode.class, "procedure declaration");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ConnectionNode = de.unika.ipd.grgen.ast.pattern.ConnectionNode;
+using SingleNodeConnNode = de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ErrorTypeNode = de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
+using ProcedureTypeNode = de.unika.ipd.grgen.ast.type.executable.ProcedureTypeNode;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
+using ProcedureMethod = de.unika.ipd.grgen.ir.executable.ProcedureMethod;
+
+/// <summary>
+/// AST node class representing procedure declarations
+/// </summary>
+public class ProcedureDeclNode : ProcedureDeclBaseNode
+{
+	static ProcedureDeclNode()
+	{
+		SetClassName(typeof(ProcedureDeclNode), "procedure declaration");
 	}
 
-	protected CollectNode<BaseNode> parametersUnresolved;
-	protected CollectNode<DeclNode> parameters;
+	protected internal CollectNode<BaseNode> parametersUnresolved;
+	protected internal CollectNode<DeclNode> parameters;
 
 	public CollectNode<EvalStatementNode> evalStatements;
 
-	boolean isMethod;
+	internal bool isMethod;
 
-	static final ProcedureTypeNode procedureType = new ProcedureTypeNode();
+	internal static readonly ProcedureTypeNode procedureType = new ProcedureTypeNode();
 
-	
-	public ProcedureDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params,
-			CollectNode<BaseNode> rets, boolean isMethod)
+
+	public ProcedureDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> @params,
+			CollectNode<BaseNode> rets, bool isMethod)
+		: base(id, procedureType)
 	{
-		super(id, procedureType);
 		this.evalStatements = evals;
-		becomeParent(this.evalStatements);
-		this.parametersUnresolved = params;
-		becomeParent(this.parametersUnresolved);
+		BecomeParent(this.evalStatements);
+		this.parametersUnresolved = @params;
+		BecomeParent(this.parametersUnresolved);
 		this.resultsUnresolved = rets;
-		becomeParent(this.resultsUnresolved);
+		BecomeParent(this.resultsUnresolved);
 		this.isMethod = isMethod;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(evalStatements);
-		children.add(parametersUnresolved);
-		children.add(getValidVersionCollectNode(resultsUnresolved, resultTypesCollectNode));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(evalStatements);
+		children.Add(parametersUnresolved);
+		children.Add(GetValidVersionCollectNode(resultsUnresolved, resultTypesCollectNode));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("evals");
-		childrenNames.add("params");
-		childrenNames.add("ret");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("evals");
+		childrenNames.Add("params");
+		childrenNames.Add("ret");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		parameters = new CollectNode<DeclNode>();
-		for(BaseNode param : parametersUnresolved.getChildrenExact()) {
-			if(param instanceof ConnectionNode) {
+		foreach(BaseNode param in parametersUnresolved.ChildrenExact)
+		{
+			if(param is ConnectionNode)
+			{
 				ConnectionNode conn = (ConnectionNode)param;
-				parameters.addChild(conn.getEdge().getDecl());
-			} else if(param instanceof SingleNodeConnNode) {
-				NodeDeclNode node = ((SingleNodeConnNode)param).getNode();
-				parameters.addChild(node);
-			} else if(param instanceof VarDeclNode) {
-				parameters.addChild((VarDeclNode)param);
-			} else
-				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
+				parameters.AddChild(conn.Edge.Decl);
+			}
+			else if(param is SingleNodeConnNode)
+			{
+				NodeDeclNode node = ((SingleNodeConnNode)param).Node;
+				parameters.AddChild(node);
+			}
+			else if(param is VarDeclNode)
+				parameters.AddChild((VarDeclNode)param);
+			else
+				throw new System.NotSupportedException("Unsupported parameter (" + param + ")");
 		}
 
-		parameterTypes = new ArrayList<TypeNode>();
-		for(DeclNode decl : parameters.getChildrenExact()) {
-			parameterTypes.add(decl.getDeclType());
-		}
-		boolean res = true;
-		for(TypeNode parameterType : parameterTypes) {
-			if(parameterType == null || parameterType instanceof ErrorTypeNode) {
+		parameterTypes = new List<TypeNode>();
+		foreach(DeclNode decl in parameters.ChildrenExact)
+			parameterTypes.Add(decl.DeclType);
+		bool res = true;
+		foreach(TypeNode parameterType in parameterTypes)
+		{
+			if(parameterType == null || parameterType is ErrorTypeNode)
 				res = false;
-			}
 		}
 
 		return res;
 	}
 
-	/** Returns the IR object for this procedure node. */
-	public Procedure getIRProcedure()
+	/// <summary>
+	/// Returns the IR object for this procedure node. </summary>
+	public virtual Procedure IRProcedure
 	{
-		return checkIR(Procedure.class);
+		get
+		{
+		return CheckIR(typeof(Procedure));
+		}
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return procedureType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
-		if(isIRAlreadySet()) {
-			return getIR();
-		}
+		if(IsIRAlreadySet())
+			return IR;
 
-		Procedure procedure = isMethod ? new ProcedureMethod(getIdent().toString(), getIdent().getIRIdent())
-				: new Procedure(getIdent().toString(), getIdent().getIRIdent());
+		Procedure procedure = isMethod ? new ProcedureMethod(Ident.ToString(), Ident.IRIdent)
+				: new Procedure(Ident.ToString(), Ident.IRIdent);
 
 		// mark this node as already visited
-		setIR(procedure);
+		IR = procedure;
 
 		// add return types to the IR
-		for(TypeNode retType : resultTypesCollectNode.getChildrenExact()) {
-			procedure.addReturnType(retType.checkIR(Type.class));
-		}
+		foreach(TypeNode retType in resultTypesCollectNode.ChildrenExact)
+			procedure.AddReturnType(retType.CheckIR(typeof(Type)));
 
 		// add Params to the IR
-		for(DeclNode decl : parameters.getChildrenExact()) {
-			procedure.addParameter(decl.checkIR(Entity.class));
-		}
+		foreach(DeclNode decl in parameters.ChildrenExact)
+			procedure.AddParameter(decl.CheckIR(typeof(Entity)));
 
 		// add Computation Statements to the IR
-		for(EvalStatementNode eval : evalStatements.getChildrenExact()) {
-			procedure.addStatement(eval.checkIR(EvalStatement.class));
-		}
+		foreach(EvalStatementNode eval in evalStatements.ChildrenExact)
+			procedure.AddStatement(eval.CheckIR(typeof(EvalStatement)));
 
 		return procedure;
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "procedure";
+		}
 	}
+}
+
 }

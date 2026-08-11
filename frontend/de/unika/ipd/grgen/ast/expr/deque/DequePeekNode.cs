@@ -1,93 +1,100 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.deque;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.deque.DequePeekExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class DequePeekNode extends DequeFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.deque
 {
-	static {
-		setClassName(DequePeekNode.class, "deque peek");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using DequePeekExpr = de.unika.ipd.grgen.ir.expr.deque.DequePeekExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class DequePeekNode : DequeFunctionMethodInvocationBaseExprNode
+{
+	static DequePeekNode()
+	{
+		SetClassName(typeof(DequePeekNode), "deque peek");
 	}
 
 	private ExprNode numberExpr;
 
 	public DequePeekNode(Coords coords, ExprNode targetExpr, ExprNode numberExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
-		this.numberExpr = becomeParent(numberExpr);
+		this.numberExpr = BecomeParent(numberExpr);
 	}
 
 	public DequePeekNode(Coords coords, ExprNode targetExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(targetExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(targetExpr);
 		if(numberExpr != null)
-			children.add(numberExpr);
+			children.Add(numberExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("targetExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("targetExpr");
 		if(numberExpr != null)
-			childrenNames.add("numberExpr");
+			childrenNames.Add("numberExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		if(numberExpr != null && !numberExpr.getType().isEqual(BasicTypeNode.intType)) {
-			numberExpr.reportError("The deque function method peek expects as argument (number) a value of type int"
-					+ " (but is given a value of type " + numberExpr.getType().getTypeName() + ").");
+		if(numberExpr != null && !numberExpr.Type.IsEqual(BasicTypeNode.intType))
+		{
+			numberExpr.ReportError("The deque function method peek expects as argument (number) a value of type int"
+					+ " (but is given a value of type " + numberExpr.Type.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		return getTargetTypeExact().valueType;
+		get
+		{
+		return TargetTypeExact.valueType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		targetExpr = targetExpr.evaluate();
+		targetExpr = targetExpr.Evaluate();
 		if(numberExpr != null)
-			numberExpr = numberExpr.evaluate();
-		return new DequePeekExpr(targetExpr.checkIR(Expression.class),
-				numberExpr != null ? numberExpr.checkIR(Expression.class) : null);
+			numberExpr = numberExpr.Evaluate();
+		return new DequePeekExpr(targetExpr.CheckIR(typeof(Expression)),
+				numberExpr != null ? numberExpr.CheckIR(typeof(Expression)) : null);
 	}
+}
+
 }

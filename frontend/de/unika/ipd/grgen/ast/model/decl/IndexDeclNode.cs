@@ -1,41 +1,47 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.model.decl;
-
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-
-/**
- * AST node base base class representing index declarations (attribute index and incidence index being its specializations)
- */
-public abstract class IndexDeclNode extends DeclNode
+namespace de.unika.ipd.grgen.ast.model.decl
 {
-	static {
-		setClassName(IndexDeclNode.class, "index declaration");
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+
+/// <summary>
+/// AST node base base class representing index declarations (attribute index and incidence index being its specializations)
+/// </summary>
+public abstract class IndexDeclNode : DeclNode
+{
+	static IndexDeclNode()
+	{
+		SetClassName(typeof(IndexDeclNode), "index declaration");
 	}
 
 	public IndexDeclNode(IdentNode id, TypeNode indexType)
+		: base(id, indexType)
 	{
-		super(id, indexType);
 	}
-	
-	public abstract InheritanceTypeNode getType();
-	
-	public abstract TypeNode getExpectedAccessType();
 
-	public static String getKindStr()
+	public abstract InheritanceTypeNode Type {get;}
+
+	public abstract TypeNode ExpectedAccessType {get;}
+
+	public static string KindStr
 	{
+		get
+		{
 		return "index";
+		}
 	}
+}
+
 }

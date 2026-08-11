@@ -1,43 +1,47 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.executable;
-
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * An external function method.
- */
-public class ExternalFunctionMethod extends ExternalFunction
+namespace de.unika.ipd.grgen.ir.executable
 {
-	/** The owner of the function method. */
-	protected Type owner = null;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-	/**
-	 * @param name The name of the external function.
-	 * @param ident The identifier that identifies this object.
-	 */
-	public ExternalFunctionMethod(String name, Ident ident, Type retType)
+/// <summary>
+/// An external function method.
+/// </summary>
+public class ExternalFunctionMethod : ExternalFunction
+{
+	/// <summary>
+	/// The owner of the function method. </summary>
+	protected internal Type owner = null;
+
+	/// <param name="name"> The name of the external function. </param>
+	/// <param name="ident"> The identifier that identifies this object. </param>
+	public ExternalFunctionMethod(string name, Ident ident, Type retType)
+		: base(name, ident, retType)
 	{
-		super(name, ident, retType);
 	}
 
-	public Type getOwner()
+	public virtual Type Owner
 	{
+		get
+		{
 		return owner;
+		}
+		set
+		{
+		owner = value;
+		}
 	}
 
-	public void setOwner(Type type)
-	{
-		owner = type;
-	}
+}
+
 }

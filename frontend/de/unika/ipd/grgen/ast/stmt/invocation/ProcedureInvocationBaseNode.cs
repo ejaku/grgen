@@ -1,72 +1,79 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.invocation;
-
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-public abstract class ProcedureInvocationBaseNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.invocation
 {
-	static {
-		setClassName(ProcedureInvocationBaseNode.class, "procedure invocation base");
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using ProcedureDeclBaseNode = de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public abstract class ProcedureInvocationBaseNode : ProcedureOrBuiltinProcedureInvocationBaseNode
+{
+	static ProcedureInvocationBaseNode()
+	{
+		SetClassName(typeof(ProcedureInvocationBaseNode), "procedure invocation base");
 	}
 
-	protected CollectNode<ExprNode> arguments;
-	protected int context;
+	protected internal CollectNode<ExprNode> arguments;
+	protected internal int context;
 
-	protected ProcedureInvocationBaseNode(Coords coords, CollectNode<ExprNode> arguments, int context)
+	protected internal ProcedureInvocationBaseNode(Coords coords, CollectNode<ExprNode> arguments, int context)
+		: base(coords)
 	{
-		super(coords);
-		this.arguments = becomeParent(arguments);
+		this.arguments = BecomeParent(arguments);
 		this.context = context;
 	}
 
-	/** Check whether the usage adheres to the signature of the declaration */
-	protected boolean checkSignatureAdhered(ProcedureDeclBaseNode pb, IdentNode unresolved, boolean isMethod)
+	/// <summary>
+	/// Check whether the usage adheres to the signature of the declaration </summary>
+	protected internal virtual bool CheckSignatureAdhered(ProcedureDeclBaseNode pb, IdentNode unresolved, bool isMethod)
 	{
-		String procedureName = pb.ident.toString();
+		string procedureName = pb.ident.ToString();
 
 		// check if the number of parameters are correct
-		int expected = pb.getParameterTypes().size();
-		int actual = arguments.getChildrenExact().size();
-		if(expected != actual) {
-			unresolved.reportError("The procedure " + (isMethod ? "method " : "") + procedureName
+		int expected = pb.ParameterTypes.Count;
+		int actual = arguments.ChildrenExact.Count;
+		if(expected != actual)
+		{
+			unresolved.ReportError("The procedure " + (isMethod ? "method " : "") + procedureName
 					+ " expects " + expected + " arguments (given are " + actual + " arguments).");
 			return false;
 		}
 
 		// check if the types of the parameters are correct
-		boolean res = true;
-		for(int i = 0; i < arguments.size(); ++i) {
-			ExprNode actualParameter = arguments.get(i);
-			TypeNode actualParameterType = actualParameter.getType();
-			TypeNode formalParameterType = pb.getParameterTypes().get(i);
+		bool res = true;
+		for(int i = 0; i < arguments.Size(); ++i)
+		{
+			ExprNode actualParameter = arguments.Get(i);
+			TypeNode actualParameterType = actualParameter.Type;
+			TypeNode formalParameterType = pb.ParameterTypes[i];
 
-			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
+			if(!actualParameterType.IsCompatibleTo(formalParameterType))
+			{
 				res = false;
-				unresolved.reportError("Cannot convert " + (i + 1) + ". argument"
-						+ " from " + actualParameterType.getTypeName()
-						+ " to the expected " + formalParameterType.getTypeName()
-						+ " (when calling procedure " + (isMethod ? "method " : "") + pb.toStringWithDeclarationCoords() + ")"
-						+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
-						+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+				unresolved.ReportError("Cannot convert " + (i + 1) + ". argument"
+						+ " from " + actualParameterType.TypeName
+						+ " to the expected " + formalParameterType.TypeName
+						+ " (when calling procedure " + (isMethod ? "method " : "") + pb.ToStringWithDeclarationCoords() + ")"
+						+ actualParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
+						+ formalParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
 						+ ".");
 			}
 		}
 
 		return res;
 	}
+}
+
 }

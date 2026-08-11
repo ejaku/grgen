@@ -1,45 +1,52 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr;
-
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.container.ContainerType;
-
-public abstract class ContainerFunctionMethodInvocationBaseExpr extends BuiltinFunctionInvocationExpr
+namespace de.unika.ipd.grgen.ir.expr
 {
-	protected Expression targetExpr;
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using ContainerType = de.unika.ipd.grgen.ir.type.container.ContainerType;
 
-	protected ContainerFunctionMethodInvocationBaseExpr(String name, Type type, Expression targetExpr)
+public abstract class ContainerFunctionMethodInvocationBaseExpr : BuiltinFunctionInvocationExpr
+{
+	protected internal Expression targetExpr;
+
+	protected internal ContainerFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
+		: base(name, type)
 	{
-		super(name, type);
 		this.targetExpr = targetExpr;
 	}
 
-	public Expression getTargetExpr()
+	public virtual Expression TargetExpr
 	{
+		get
+		{
 		return targetExpr;
+		}
 	}
-	
-	public ContainerType getTargetType()
+
+	public virtual ContainerType TargetType
 	{
-		return (ContainerType)targetExpr.getType();
+		get
+		{
+		return (ContainerType)targetExpr.Type;
+		}
 	}
-	
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.add(this);
-		targetExpr.collectNeededEntities(needs);
+		needs.Add(this);
+		targetExpr.CollectNeededEntities(needs);
 	}
+}
+
 }

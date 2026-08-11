@@ -1,3 +1,7 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
 /*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
@@ -5,63 +9,59 @@
  * www.grgen.de / www.grgen.net
  */
 
-/*********************************************************************************
- * This file contains the code generator for firm-internal graph rewriting
- *********************************************************************************/
+/// <summary>
+///*******************************************************************************
+/// This file contains the code generator for firm-internal graph rewriting
+/// ********************************************************************************
+/// </summary>
 
-/**
- * A GrGen Backend which generates C code for a frame-based
- * graph model impl and a frame based graph matcher
- * @author Veit Batz, Rubino Geiss, Andreas Schoesser
- */
+/// <summary>
+/// A GrGen Backend which generates C code for a frame-based
+/// graph model impl and a frame based graph matcher
+/// @author Veit Batz, Rubino Geiss, Andreas Schoesser
+/// </summary>
 
-package de.unika.ipd.grgen.be.C;
-
-import java.io.File;
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Set;
-
-import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.BackendFactory;
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.expr.Cast;
-import de.unika.ipd.grgen.ir.expr.Constant;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Operator;
-import de.unika.ipd.grgen.ir.expr.OperatorCode;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.ir.model.type.InheritanceType;
-import de.unika.ipd.grgen.ir.model.type.NodeType;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.stmt.Assignment;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.Type.TypeClass;
-
-public class SearchPlanBackend extends MoreInformationCollector implements BackendFactory
+namespace de.unika.ipd.grgen.be.C
 {
-	private static final int nodesInUse = 1;
-	private static final int edgesInUse = 2;
+
+using Sys = de.unika.ipd.grgen.Sys;
+using Backend = de.unika.ipd.grgen.be.Backend;
+using BackendFactory = de.unika.ipd.grgen.be.BackendFactory;
+using de.unika.ipd.grgen.ir;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Cast = de.unika.ipd.grgen.ir.expr.Cast;
+using Constant = de.unika.ipd.grgen.ir.expr.Constant;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Operator = de.unika.ipd.grgen.ir.expr.Operator;
+using OperatorCode = de.unika.ipd.grgen.ir.expr.OperatorCode;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using Assignment = de.unika.ipd.grgen.ir.stmt.Assignment;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using TypeClass = de.unika.ipd.grgen.ir.type.Type.TypeClass;
+
+public class SearchPlanBackend : MoreInformationCollector, BackendFactory
+{
+	private const int nodesInUse = 1;
+	private const int edgesInUse = 2;
 
 	/* for modified-flags */
-	private static final int MOD_DELETED = 4;
-	private static final int MOD_ASSIGNED = 2;
-	private static final int MOD_RETYPED = 1;
+	private const int MOD_DELETED = 4;
+	private const int MOD_ASSIGNED = 2;
+	private const int MOD_RETYPED = 1;
 
-	private final String MODE_EDGE_NAME = "has_mode";
-	private final String LS_MODE_EDGE_NAME = "has_ls_mode";
+	private readonly string MODE_EDGE_NAME = "has_mode";
+	private readonly string LS_MODE_EDGE_NAME = "has_ls_mode";
 
-	protected final boolean emit_subgraph_info = false;
+	protected internal readonly bool emit_subgraph_info = false;
 
 	private enum GraphType
 	{
@@ -74,30 +74,50 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	// ATTENTION: the first two shift operations are signed shifts
 	// 		the second right shift is signed. This backend simply gens
 	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
-	private static String getOperatorSymbol(OperatorCode opCode)
+	private static string GetOperatorSymbol(OperatorCode opCode)
 	{
 		switch(opCode)
 		{
-		case LOG_OR: return "||";
-		case LOG_AND: return "&&";
-		case BIT_OR: return "|";
-		case BIT_XOR: return "^";
-		case BIT_AND: return "&";
-		case EQ: return "==";
-		case NE: return "!=";
-		case LT: return "<";
-		case LE: return "<=";
-		case GT: return ">";
-		case GE: return ">=";
-		case SHL: return "<<";
-		case SHR: return ">>";
-		case BIT_SHR: return ">>";
-		case ADD: return "+";
-		case SUB: return "-";
-		case MUL: return "*";
-		case DIV: return "/";
-		case MOD: return "%";
-		default: throw new RuntimeException("internal failure");
+		case OperatorCode.LOG_OR:
+			return "||";
+		case OperatorCode.LOG_AND:
+			return "&&";
+		case OperatorCode.BIT_OR:
+			return "|";
+		case OperatorCode.BIT_XOR:
+			return "^";
+		case OperatorCode.BIT_AND:
+			return "&";
+		case OperatorCode.EQ:
+			return "==";
+		case OperatorCode.NE:
+			return "!=";
+		case OperatorCode.LT:
+			return "<";
+		case OperatorCode.LE:
+			return "<=";
+		case OperatorCode.GT:
+			return ">";
+		case OperatorCode.GE:
+			return ">=";
+		case OperatorCode.SHL:
+			return "<<";
+		case OperatorCode.SHR:
+			return ">>";
+		case OperatorCode.BIT_SHR:
+			return ">>";
+		case OperatorCode.ADD:
+			return "+";
+		case OperatorCode.SUB:
+			return "-";
+		case OperatorCode.MUL:
+			return "*";
+		case OperatorCode.DIV:
+			return "/";
+		case OperatorCode.MOD:
+			return "%";
+		default:
+			throw new Exception("internal failure");
 		}
 	}
 
@@ -108,32 +128,44 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private class IdGenerator<T>
 	{
-		LinkedHashMap<T, Integer> idMap = new LinkedHashMap<T, Integer>();
+		private readonly SearchPlanBackend outerInstance;
 
-		int offset = 0;
-
-		public int getNewKey()
+		public IdGenerator(SearchPlanBackend outerInstance)
 		{
+			this.outerInstance = outerInstance;
+		}
+
+		internal LinkedHashMap<T, int> idMap = new LinkedHashMap<T, int>();
+
+		internal int offset = 0;
+
+		public virtual int NewKey
+		{
+			get
+			{
 			offset++;
-			return getMaxIndex();
-		}
-
-		private int computeId(T elem)
-		{
-			if(!idMap.containsKey(elem)) {
-				idMap.put(elem, Integer.valueOf(getMaxIndex() + 1));
+			return MaxIndex;
 			}
-			return idMap.get(elem).intValue();
 		}
 
-		private boolean isKnown(T elem)
+		internal virtual int ComputeId(T elem)
 		{
-			return idMap.containsKey(elem);
+			if(!idMap.ContainsKey(elem))
+				idMap.Put(elem, Convert.ToInt32(MaxIndex + 1));
+			return idMap.Get(elem).IntValue();
 		}
 
-		public int getMaxIndex()
+		internal virtual bool IsKnown(T elem)
 		{
-			return(idMap.size() + offset - 1);
+			return idMap.ContainsKey(elem);
+		}
+
+		public virtual int MaxIndex
+		{
+			get
+			{
+			return (idMap.Size() + offset - 1);
+			}
 		}
 	}
 
@@ -142,10 +174,12 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @return A new backend.
 	 * ------------------------------------------ */
 
-	@Override
-	public Backend getBackend()
+	public virtual Backend Backend
 	{
+		get
+		{
 		return this;
+		}
 	}
 
 	/* ---------------------------------------------------------------------------------------------------------
@@ -153,10 +187,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.Sys, java.io.File)
 	 * --------------------------------------------------------------------------------------------------------- */
 
-	@Override
-	public void init(Unit unit, Sys system, File outputPath)
+	public override void Init(Unit unit, Sys system, File outputPath)
 	{
-		super.init(unit, system, outputPath);
+		base.Init(unit, system, outputPath);
 		//		this.unit = unit;
 		//		this.path = outputPath;
 		//		this.system = system;
@@ -168,44 +201,43 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @see de.unika.ipd.grgen.be.Backend#generate()
 	 * ---------------------------------------------------- */
 
-	@Override
-	public void generate()
+	public override void Generate()
 	{
 		// Emit an include file for Makefiles
-		PrintStream ps = openFile("unit.mak");
-		ps.println("#\n# generated by grgen, don't edit\n#");
-		ps.println("UNIT_NAME = " + formatId(unit.getUnitName()));
-		closeFile(ps);
+		PrintStream ps = OpenFile("unit.mak");
+		ps.Println("#\n# generated by grgen, don't edit\n#");
+		ps.Println("UNIT_NAME = " + FormatId(unit.UnitName));
+		CloseFile(ps);
 
-		System.out.println("The frame-based GrGen backend...");
-		System.out.println("  generating the pattern...");
+		Console.WriteLine("The frame-based GrGen backend...");
+		Console.WriteLine("  generating the pattern...");
 
 		// Fill the StringBuffer to be written as a file
-		StringBuffer sb = new StringBuffer();
-		sb.append("/* generated by grgen, don't edit */\n\n");
-		sb.append("#include <assert.h>\n");
-		sb.append("#include \"config.h\"\n");
-		sb.append("#include \"benode_t.h\"\n");
-		sb.append("#include \"firm.h\"\n");
-		sb.append("#include \"grs.h\"\n");
-		sb.append("#include \"ia32_new_nodes.h\"\n");
-		sb.append("#include \"ia32_getset.h\"\n");
+		StringBuilder sb = new StringBuilder();
+		sb.Append("/* generated by grgen, don't edit */\n\n");
+		sb.Append("#include <assert.h>\n");
+		sb.Append("#include \"config.h\"\n");
+		sb.Append("#include \"benode_t.h\"\n");
+		sb.Append("#include \"firm.h\"\n");
+		sb.Append("#include \"grs.h\"\n");
+		sb.Append("#include \"ia32_new_nodes.h\"\n");
+		sb.Append("#include \"ia32_getset.h\"\n");
 
-		findModeType();
-		findConstType();
-		genTypes(sb);
-		genPatterns(sb);
-		genInterface(sb);
-		writeFile("gen_patterns.c", sb);
+		FindModeType();
+		FindConstType();
+		GenTypes(sb);
+		GenPatterns(sb);
+		GenInterface(sb);
+		WriteFile("gen_patterns.c", sb);
 
-		System.out.println("  generating XML overview...");
+		Console.WriteLine("  generating XML overview...");
 
 		// write an overview of all generated Ids
-		ps = openFile("overview.xml");
-		writeOverview(ps);
-		closeFile(ps);
+		ps = OpenFile("overview.xml");
+		WriteOverview(ps);
+		CloseFile(ps);
 
-		System.out.println("  done!");
+		Console.WriteLine("  done!");
 	}
 
 	/* -------------------------------------------------------------------
@@ -215,17 +247,19 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * FIRM modes;
 	 * ------------------------------------------------------------------- */
 
-	NodeType MODE_TYPE;
+	internal NodeType MODE_TYPE;
 
-	public void findModeType()
+	public virtual void FindModeType()
 	{
-		for(NodeType node : nodeTypeMap.keySet()) {
-			if(node.getIdent().toString().equals("Mode")) {
+		foreach(NodeType node in nodeTypeMap.Keys)
+		{
+			if(node.Ident.ToString().Equals("Mode"))
+			{
 				MODE_TYPE = node;
 				return;
 			}
 		}
-		System.out.println("Warning: MODE_TYPE not found!");
+		Console.WriteLine("Warning: MODE_TYPE not found!");
 	}
 
 	/* -------------------------------------------
@@ -235,52 +269,54 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * when dumping conditions and evals.
 	 * ------------------------------------------ */
 
-	NodeType CONST_TYPE = null;
-	NodeType COND_TYPE = null;
-	NodeType VPROJ_TYPE = null;
-	NodeType PROJ_TYPE = null;
-	NodeType SYM_CONST = null;
-	NodeType FRAMEADDR = null;
-	NodeType MULTIPLE_ADD_TYPE = null;
-	NodeType IA32_SUB = null;
+	internal NodeType CONST_TYPE = null;
+	internal NodeType COND_TYPE = null;
+	internal NodeType VPROJ_TYPE = null;
+	internal NodeType PROJ_TYPE = null;
+	internal NodeType SYM_CONST = null;
+	internal NodeType FRAMEADDR = null;
+	internal NodeType MULTIPLE_ADD_TYPE = null;
+	internal NodeType IA32_SUB = null;
 
-	EdgeType DF = null;
+	internal EdgeType DF = null;
 
-	public void findConstType()
+	public virtual void FindConstType()
 	{
-		for(NodeType node : nodeTypeMap.keySet()) {
-			if(node.getIdent().toString().equals("Const"))
+		foreach(NodeType node in nodeTypeMap.Keys)
+		{
+			if(node.Ident.ToString().Equals("Const"))
 				CONST_TYPE = node;
-			if(node.getIdent().toString().equals("Cond"))
+			if(node.Ident.ToString().Equals("Cond"))
 				COND_TYPE = node;
-			if(node.getIdent().toString().equals("VProj"))
+			if(node.Ident.ToString().Equals("VProj"))
 				VPROJ_TYPE = node;
-			if(node.getIdent().toString().equals("Proj"))
+			if(node.Ident.ToString().Equals("Proj"))
 				PROJ_TYPE = node;
-			if(node.getIdent().toString().equals("MultipleAdd"))
+			if(node.Ident.ToString().Equals("MultipleAdd"))
 				MULTIPLE_ADD_TYPE = node;
-			if(node.getIdent().toString().equals("SymConst"))
+			if(node.Ident.ToString().Equals("SymConst"))
 				SYM_CONST = node;
-			if(node.getIdent().toString().equals("ia32_Sub"))
+			if(node.Ident.ToString().Equals("ia32_Sub"))
 				IA32_SUB = node;
-			if(node.getIdent().toString().equals("be_FrameAddr"))
+			if(node.Ident.ToString().Equals("be_FrameAddr"))
 				FRAMEADDR = node;
 		}
 		if(CONST_TYPE == null)
-			System.out.println("Warning: CONST_TYPE not found!");
+			Console.WriteLine("Warning: CONST_TYPE not found!");
 		if(VPROJ_TYPE == null)
-			System.out.println("Warning: VPROJ_TYPE not found!");
+			Console.WriteLine("Warning: VPROJ_TYPE not found!");
 		if(PROJ_TYPE == null)
-			System.out.println("Warning: PROJ_TYPE not found!");
+			Console.WriteLine("Warning: PROJ_TYPE not found!");
 		if(IA32_SUB == null)
-			System.out.println("Warning: IA32_SUB not found!");
+			Console.WriteLine("Warning: IA32_SUB not found!");
 
-		for(EdgeType edge : edgeTypeMap.keySet()) {
-			if(edge.getIdent().toString().equals("df"))
+		foreach(EdgeType edge in edgeTypeMap.Keys)
+		{
+			if(edge.Ident.ToString().Equals("df"))
 				DF = edge;
 		}
 		if(DF == null)
-			System.out.println("Warning: DF not found!");
+			Console.WriteLine("Warning: DF not found!");
 	}
 
 	/* ---------------------------------------------------------------
@@ -290,28 +326,30 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * existing, or uses the existing one.
 	 * @param    sb		  a  StringBuffer
 	 * --------------------------------------------------------------- */
-	private void genTypes(StringBuffer sb)
+	private void GenTypes(StringBuilder sb)
 	{
-		String indent = "\t";
-		StringBuffer initsb = new StringBuffer();
-		sb.append("/* nodeTypeMap */ \n");
-		initsb.append("/* init node ops and modes */\n");
-		initsb.append("static void init(void) {\n");
-		for(NodeType nodeType : nodeTypeMap.keySet()) {
-			if(!nodeType.isCastableTo(MODE_TYPE)) {
+		string indent = "\t";
+		StringBuilder initsb = new StringBuilder();
+		sb.Append("/* nodeTypeMap */ \n");
+		initsb.Append("/* init node ops and modes */\n");
+		initsb.Append("static void init(void) {\n");
+		foreach(NodeType nodeType in nodeTypeMap.Keys)
+		{
+			if(!nodeType.IsCastableTo(MODE_TYPE))
+			{
 				// Only dump nodes that are real FIRM nodes
 				// => Skip the pseudo "Mode"-Nodes
-				String type = nodeType.getIdent().toString();
-				sb.append("ir_op* grs_op_" + type + ";\n");
-				initsb.append(indent + "grs_op_" + type + " = ext_grs_lookup_op(\"" + type + "\");\n");
-				initsb.append(indent + "grs_op_" + type + " = grs_op_" + type +
+				string type = nodeType.Ident.ToString();
+				sb.Append("ir_op* grs_op_" + type + ";\n");
+				initsb.Append(indent + "grs_op_" + type + " = ext_grs_lookup_op(\"" + type + "\");\n");
+				initsb.Append(indent + "grs_op_" + type + " = grs_op_" + type +
 						" ? grs_op_" + type + " : new_ir_op(get_next_ir_opcode(), \"" +
 						type + "\", op_pin_state_pinned,  irop_flag_none, oparity_dynamic,  0, 0, NULL);\n");
 			}
 		}
-		sb.append("/* nodeTypeMap END */\n\n");
-		initsb.append("} /* init node ops and modes */\n\n");
-		sb.append(initsb);
+		sb.Append("/* nodeTypeMap END */\n\n");
+		initsb.Append("} /* init node ops and modes */\n\n");
+		sb.Append(initsb);
 	}
 
 	/* ------------------------------------------------------------------
@@ -320,37 +358,39 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 *
 	 * @param    sb		  a  StringBuffer
 	 * ------------------------------------------------------------------ */
-	private void genPatterns(StringBuffer sb)
+	private void GenPatterns(StringBuilder sb)
 	{
-		String indent = "\t";
-		for(Rule action : unit.getActionRules()) {
-			if(action.getRight() != null) {
+		string indent = "\t";
+		foreach(Rule action in unit.ActionRules)
+		{
+			if(action.Right != null)
+			{
 
-				String actionName = action.getIdent().toString();
+				string actionName = action.Ident.ToString();
 
-				StringBuffer sb2 = new StringBuffer(); // append pattern after condition
-				IdGenerator<Node> nodeIds = new IdGenerator<Node>(); // To generate uique numbers per rule
-				IdGenerator<Edge> edgeIds = new IdGenerator<Edge>();
+				StringBuilder sb2 = new StringBuilder(); // append pattern after condition
+				IdGenerator<Node> nodeIds = new IdGenerator<Node>(this); // To generate uique numbers per rule
+				IdGenerator<Edge> edgeIds = new IdGenerator<Edge>(this);
 
 				// Initialize function
-				sb2.append("/* functions for building the pattern of action " + actionName + " */\n");
-				sb2.append("static INLINE ext_grs_action_t *grs_action_" + actionName + "_init(void) {\n");
-				sb2.append(indent + "ext_grs_action_t *act = ext_grs_new_action(ext_grs_k_rule, \"" +
-						actionName + "\");\n");
-				sb2.append(indent + "int check;\n");
+				sb2.Append("/* functions for building the pattern of action " + actionName + " */\n");
+				sb2.Append("static INLINE ext_grs_action_t *grs_action_" + actionName + "_init(void) {\n");
+				sb2.Append(indent + "ext_grs_action_t *act = ext_grs_new_action(ext_grs_k_rule, \"" + actionName + "\");\n");
+				sb2.Append(indent + "int check;\n");
 
-				genPattern(sb2, action, nodeIds, edgeIds);
+				GenPattern(sb2, action, nodeIds, edgeIds);
 
-				sb2.append(indent + "return act;\n");
-				sb2.append("} /* " + actionName + " */\n\n\n");
+				sb2.Append(indent + "return act;\n");
+				sb2.Append("} /* " + actionName + " */\n\n\n");
 
 				// Conditions and Evals
-				genConditionFunctions(sb, indent, actionName, action, nodeIds, edgeIds);
-				genEvalFunctions(sb, indent, action, nodeIds, edgeIds);
+				GenConditionFunctions(sb, indent, actionName, action, nodeIds, edgeIds);
+				GenEvalFunctions(sb, indent, action, nodeIds, edgeIds);
 
-				sb.append(sb2);
-			} else
-				throw new UnsupportedOperationException(action.toString());
+				sb.Append(sb2);
+			}
+			else
+				throw new System.NotSupportedException(action.ToString());
 		}
 	}
 
@@ -362,19 +402,17 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @param    actionName	  a  String
 	 * @param    rule		a  Rule
 	 * ---------------------------------------------------------------------------------------------- */
-	private void genConditionFunctions(StringBuffer sb, String indent, String actionName, Rule rule,
-			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
+	private void GenConditionFunctions(StringBuilder sb, string indent, string actionName, Rule rule, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
-		sb.append("/* functions for evaluation of conditions of action " + actionName + " */\n");
+		sb.Append("/* functions for evaluation of conditions of action " + actionName + " */\n");
 
 		// conditions for L
-		genConditionFunction(sb, indent, rule.getLeft(), nodeIds, edgeIds);
+		GenConditionFunction(sb, indent, rule.Left, nodeIds, edgeIds);
 
 		// conditions  for NACs
-		for(PatternGraphLhs neg : rule.getLeft().getNegs()) {
-			genConditionFunction(sb, indent, neg, nodeIds, edgeIds);
-		}
-		sb.append("\n");
+		foreach(PatternGraphLhs neg in rule.Left.Negs)
+			GenConditionFunction(sb, indent, neg, nodeIds, edgeIds);
+		sb.Append("\n");
 	}
 
 	/* -------------------------------------------
@@ -383,55 +421,54 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * Generate the function body for a condition
 	 * ------------------------------------------- */
 
-	private void genConditionFunction(StringBuffer sb, String indent, PatternGraphLhs graph,
-			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
+	private void GenConditionFunction(StringBuilder sb, string indent, PatternGraphLhs graph, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
-		for(Expression cond : graph.getConditions()) {
-			sb.append("static int grs_cond_func_" + cond.getId() +
-					"(ir_node **pat_node_map, const ir_edge_t **edge_map) {\n");
-			int useFlags = getUnusedEvalParams(cond);
-			if((useFlags & nodesInUse) == 0) {
-				sb.append(indent + "(void) pat_node_map;\n");
-			}
-			if((useFlags & edgesInUse) == 0) {
-				sb.append(indent + "(void) edge_map;\n");
-			}
-			sb.append(indent + "return ");
-			genConditionEval(sb, cond, nodeIds, edgeIds);
-			sb.append(";\n");
-			sb.append("}\n");
+		foreach(Expression cond in graph.Conditions)
+		{
+			sb.Append("static int grs_cond_func_" + cond.Id + "(ir_node **pat_node_map, const ir_edge_t **edge_map) {\n");
+			int useFlags = GetUnusedEvalParams(cond);
+			if((useFlags & nodesInUse) == 0)
+				sb.Append(indent + "(void) pat_node_map;\n");
+			if((useFlags & edgesInUse) == 0)
+				sb.Append(indent + "(void) edge_map;\n");
+			sb.Append(indent + "return ");
+			GenConditionEval(sb, cond, nodeIds, edgeIds);
+			sb.Append(";\n");
+			sb.Append("}\n");
 		}
 	}
 
-	private int getUnusedEvalParams(Expression cond)
+	private int GetUnusedEvalParams(Expression cond)
 	{
-		if(cond instanceof Operator) {
+		if(cond is Operator)
+		{
 			Operator op = (Operator)cond;
-			switch(op.arity()) {
+			switch(op.Arity())
+			{
 			case 1:
-				return getUnusedEvalParams(op.getOperand(0));
+				return GetUnusedEvalParams(op.GetOperand(0));
 			case 2:
-				return getUnusedEvalParams(op.getOperand(0))
-						| getUnusedEvalParams(op.getOperand(1));
+				return GetUnusedEvalParams(op.GetOperand(0)) | GetUnusedEvalParams(op.GetOperand(1));
 			case 3:
-				if(op.getOpCode() == OperatorCode.COND) {
-					return getUnusedEvalParams(op.getOperand(0))
-							| getUnusedEvalParams(op.getOperand(1))
-							| getUnusedEvalParams(op.getOperand(2));
-				}
+				if(op.OpCode == OperatorCode.COND)
+					return GetUnusedEvalParams(op.GetOperand(0))
+							| GetUnusedEvalParams(op.GetOperand(1))
+							| GetUnusedEvalParams(op.GetOperand(2));
 				//$FALL-THROUGH$
 			default:
 				// nothing to do
+					break;
 			}
-		} else if(cond instanceof Qualification) {
+		}
+		else if(cond is Qualification)
+		{
 			Qualification qual = (Qualification)cond;
-			Entity entity = qual.getOwner();
+			Entity entity = qual.Owner;
 
-			if(entity instanceof Node) {
+			if(entity is Node)
 				return nodesInUse;
-			} else if(entity instanceof Edge) {
+			else if(entity is Edge)
 				return edgesInUse;
-			}
 		}
 		return 0;
 	}
@@ -441,74 +478,78 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 *
 	 * Generates eval functions for each eval list
 	 * ------------------------------------------- */
-	private void genEvalFunctions(StringBuffer sb, String indent, Rule rule, IdGenerator<Node> nodeIds,
-			IdGenerator<Edge> edgeIds)
+	private void GenEvalFunctions(StringBuilder sb, string indent, Rule rule, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
-		sb.append("/* function to do eval assignments */\n");
+		sb.Append("/* function to do eval assignments */\n");
 
-		StringBuffer ins = new StringBuffer();
-		StringBuffer outs = new StringBuffer();
+		StringBuilder ins = new StringBuilder();
+		StringBuilder outs = new StringBuilder();
 
-		for(EvalStatements evalStmts : rule.getEvals()) {
-			for(EvalStatement evalStmt : evalStmts.evalStatements) {
-				if(!(evalStmt instanceof Assignment))
+		foreach(EvalStatements evalStmts in rule.Evals)
+		{
+			foreach(EvalStatement evalStmt in evalStmts.evalStatements)
+			{
+				if(!(evalStmt is Assignment))
 					continue;
 				Assignment eval = (Assignment)evalStmt;
-				Expression targetExpr = eval.getTarget();
-				if(!(targetExpr instanceof Qualification)) {
-					throw new UnsupportedOperationException(
-							"The C backend only supports assignments to qualified expressions, yet!");
-				}
+				Expression targetExpr = eval.Target;
+				if(!(targetExpr is Qualification))
+					throw new System.NotSupportedException("The C backend only supports assignments to qualified expressions, yet!");
 				Qualification target = (Qualification)targetExpr;
-				Entity targetOwner = target.getOwner();
-				Entity targetMember = target.getMember();
-				Expression expr = eval.getExpression();
-				StringBuffer cond_dummy = new StringBuffer();
+				Entity targetOwner = target.Owner;
+				Entity targetMember = target.Member;
+				Expression expr = eval.Expression;
+				StringBuilder cond_dummy = new StringBuilder();
 
-				outs.append("static void grs_eval_out_func_" + eval.getId()
+				outs.Append("static void grs_eval_out_func_" + eval.Id
 						+ "(ir_node ** const rpl_node_map, ir_edge_t ** const rpl_edge_map, ir_node **pat_node_map, ");
-				if(eval.getExpression().getType().classify() == TypeClass.IS_INTEGER) {
-					outs.append("int data) {\n");
-				} else {
-					outs.append("void *data) {\n");
-				}
+				if(eval.Expression.Type.Classify() == Type.TypeClass.IS_INTEGER)
+					outs.Append("int data) {\n");
+				else
+					outs.Append("void *data) {\n");
 
-				outs.append(indent + "(void) pat_node_map;\n");
-				outs.append(indent + "(void) rpl_edge_map;\n");
-				outs.append(indent + "(void) data;\n");
-				outs.append(indent + "set_grgen_" + targetMember.getIdent() + "(");
+				outs.Append(indent + "(void) pat_node_map;\n");
+				outs.Append(indent + "(void) rpl_edge_map;\n");
+				outs.Append(indent + "(void) data;\n");
+				outs.Append(indent + "set_grgen_" + targetMember.Ident + "(");
 				// Each node type has to be treated differently when accessing attributes
 				// Care about that here.
-				if(targetOwner instanceof Node) {
+				if(targetOwner is Node)
+				{
 					Node n = (Node)targetOwner;
-					outs.append("rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
-				} else if(targetOwner instanceof Edge) {
+					outs.Append("rpl_node_map[" + nodeIds.ComputeId(n) + "/* " + n.Ident + " */], ");
+				}
+				else if(targetOwner is Edge)
+				{
 					Edge e = (Edge)targetOwner;
-					outs.append("rpl_edge_map[" + edgeIds.computeId(e) + "/* " + e.getIdent() + " */], ");
-				} else {
-					throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
+					outs.Append("rpl_edge_map[" + edgeIds.ComputeId(e) + "/* " + e.Ident + " */], ");
 				}
+				else
+					throw new System.NotSupportedException("Unsupported Entity (" + targetOwner + ")");
 
-				if(expr instanceof Constant) {
+				if(expr is Constant)
+				{
 					/* we don't need eval_in functions for constant values */
-					genConditionEval(cond_dummy, expr, nodeIds, edgeIds);
-					outs.append(cond_dummy);
-				} else {
+					GenConditionEval(cond_dummy, expr, nodeIds, edgeIds);
+					outs.Append(cond_dummy);
+				}
+				else
+				{
 					/* generate the eval_in function */
-					ins.append("static void *grs_eval_in_func_" + eval.getId()
+					ins.Append("static void *grs_eval_in_func_" + eval.Id
 							+ "(ir_node ** const pat_node_map, ir_edge_t ** pat_edge_map) {\n");
-					ins.append(indent + "(void) pat_edge_map;\n");
-					ins.append(indent + "return (void*)");
-					genConditionEval(ins, expr, nodeIds, edgeIds);
-					ins.append(";\n}\n\n");
-					outs.append("data");
+					ins.Append(indent + "(void) pat_edge_map;\n");
+					ins.Append(indent + "return (void*)");
+					GenConditionEval(ins, expr, nodeIds, edgeIds);
+					ins.Append(";\n}\n\n");
+					outs.Append("data");
 				}
 
-				outs.append(");\n}\n");
+				outs.Append(");\n}\n");
 			}
 		}
-		sb.append(ins);
-		sb.append(outs);
+		sb.Append(ins);
+		sb.Append(outs);
 	}
 
 	/* ------------------------------------------------------------------
@@ -516,21 +557,22 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 *
 	 * Generates code to register an eval function to the pattern matcher
 	 * ------------------------------------------------------------------ */
-	private static void registerEvalFunctions(StringBuffer sb, String indent, Rule rule)
+	private static void RegisterEvalFunctions(StringBuilder sb, string indent, Rule rule)
 	{
-		for(EvalStatements evalStmts : rule.getEvals()) {
-			for(EvalStatement evalStmt : evalStmts.evalStatements) {
-				if(!(evalStmt instanceof Assignment))
+		foreach(EvalStatements evalStmts in rule.Evals)
+		{
+			foreach(EvalStatement evalStmt in evalStmts.evalStatements)
+			{
+				if(!(evalStmt is Assignment))
 					continue;
 				Assignment eval = (Assignment)evalStmt;
 
-				sb.append(indent + "ext_grs_act_register_eval(act, ");
-				if(eval.getExpression() instanceof Constant) {
-					sb.append("NULL");
-				} else {
-					sb.append("(ext_grs_eval_in_func_t) &grs_eval_in_func_" + eval.getId());
-				}
-				sb.append(", (ext_grs_eval_out_func_t) &grs_eval_out_func_" + eval.getId() + ");\n");
+				sb.Append(indent + "ext_grs_act_register_eval(act, ");
+				if(eval.Expression is Constant)
+					sb.Append("NULL");
+				else
+					sb.Append("(ext_grs_eval_in_func_t) &grs_eval_in_func_" + eval.Id);
+				sb.Append(", (ext_grs_eval_out_func_t) &grs_eval_out_func_" + eval.Id + ");\n");
 			}
 		}
 	}
@@ -541,48 +583,45 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @param    sb		  a  StringBuffer
 	 * @param    rule		a  Rule
 	 * ------------------------------------------------------ */
-	private void genPattern(StringBuffer sb, Rule rule,
-			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
+	private void GenPattern(StringBuilder sb, Rule rule, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
-		String indent = "\t";
+		string indent = "\t";
 
 		// code for the pattern graph
-		sb.append(indent + "{ /* The action */\n");
-		genPatternGraph(sb, indent + "\t", "ext_grs_act_get_pattern", rule.getLeft(), nodeIds, edgeIds,
-				GraphType.Pattern, rule);
+		sb.Append(indent + "{ /* The action */\n");
+		GenPatternGraph(sb, indent + "\t", "ext_grs_act_get_pattern", rule.Left, nodeIds, edgeIds, GraphType.Pattern, rule);
 
 		// code for the negative graphs
-		sb.append(indent + "  /* The negative parts of the pattern */\n");
+		sb.Append(indent + "  /* The negative parts of the pattern */\n");
 		int i = 0;
-		for(PatternGraphLhs neg : rule.getLeft().getNegs()) {
-			sb.append(indent + "  { /* NAC " + i + "  */\n");
-			genPatternGraph(sb, indent + "    ", "ext_grs_act_impose_negative",
-					neg, nodeIds, edgeIds, GraphType.Negative, rule);
-			sb.append(indent + "  } /* NAC " + i + "  */\n");
-			sb.append("\n");
+		foreach(PatternGraphLhs neg in rule.Left.Negs)
+		{
+			sb.Append(indent + "  { /* NAC " + i + "  */\n");
+			GenPatternGraph(sb, indent + "    ", "ext_grs_act_impose_negative", neg, nodeIds, edgeIds, GraphType.Negative, rule);
+			sb.Append(indent + "  } /* NAC " + i + "  */\n");
+			sb.Append("\n");
 			i++;
 		}
 
-		sb.append("\n\n");
+		sb.Append("\n\n");
 
 		// Code for the replacement
-		sb.append(indent + "  { /* The replacement */\n");
-		genGraph(sb, indent + "     ", "ext_grs_act_get_replacement", rule.getRight(), nodeIds, edgeIds,
-				GraphType.Replacement, rule);
-		sb.append(indent + "  } /* The replacement */\n\n");
+		sb.Append(indent + "  { /* The replacement */\n");
+		GenGraph(sb, indent + "     ", "ext_grs_act_get_replacement", rule.Right, nodeIds, edgeIds, GraphType.Replacement, rule);
+		sb.Append(indent + "  } /* The replacement */\n\n");
 
 		// Code for registering eval functions
-		sb.append(indent + "  /* Eval functions */\n");
-		registerEvalFunctions(sb, indent + "\t", rule);
+		sb.Append(indent + "  /* Eval functions */\n");
+		RegisterEvalFunctions(sb, indent + "\t", rule);
 
 		// This is necessary to set the hom statements
-		sb.append(indent + "check = ext_grs_act_mature(act);\n");
-		sb.append(indent + "assert(check);\n");
+		sb.Append(indent + "check = ext_grs_act_mature(act);\n");
+		sb.Append(indent + "assert(check);\n");
 
 		// Generate the hom statements.
-		genHom(sb, rule.getLeft(), nodeIds, edgeIds, rule);
+		GenHom(sb, rule.Left, nodeIds, edgeIds, rule);
 
-		sb.append(indent + "} /* The Action */\n\n");
+		sb.Append(indent + "} /* The Action */\n\n");
 	}
 
 	/* -----------------------------------------------------------------------------------
@@ -601,51 +640,54 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	// Remember the changed name in here in relatedNodes. The connection between related nodes
 	// is not announced by name like in the GrGen Syntax but by special announce-functions
 
-	HashMap<Node, String> relatedNodes;
+	internal Dictionary<Node, string> relatedNodes;
 
-	private void genPatternGraph(StringBuffer sb, String indent, String funcName,
+	private void GenPatternGraph(StringBuilder sb, string indent, string funcName,
 			PatternGraphLhs graph,
 			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds,
 			GraphType graphType, Rule rule)
 	{
 		// Generate the graph
-		genGraph(sb, indent, funcName, graph, nodeIds, edgeIds, graphType, rule);
+		GenGraph(sb, indent, funcName, graph, nodeIds, edgeIds, graphType, rule);
 
 		// code for the conditions
-		genConditions(sb, indent, graph);
+		GenConditions(sb, indent, graph);
 
 	}
 
-	private static void genHom(StringBuffer sb, PatternGraphLhs graph,
+	private static void GenHom(StringBuilder sb, PatternGraphLhs graph,
 			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds, Rule rule)
 	{
-		for(Node n1 : graph.getNodes()) {
-			for(Node n2 : graph.getNodes()) {
-				if(n1 != n2 && graph.isHomomorphic(n1, n2)) {
-					sb.append("ext_grs_act_allow_nodes_hom(");
-					sb.append("n_" + n1.getIdent() + ", " + "n_" + n2.getIdent() + ");\n");
+		foreach(Node n1 in graph.Nodes)
+		{
+			foreach(Node n2 in graph.Nodes)
+			{
+				if(n1 != n2 && graph.IsHomomorphic(n1, n2))
+				{
+					sb.Append("ext_grs_act_allow_nodes_hom(");
+					sb.Append("n_" + n1.Ident + ", " + "n_" + n2.Ident + ");\n");
 				}
 			}
 		}
 	}
 
-	private void genGraph(StringBuffer sb, String indent, String funcName,
+	private void GenGraph(StringBuilder sb, string indent, string funcName,
 			PatternGraphBase graph,
 			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds,
 			GraphType graphType, Rule rule)
 	{
-		sb.append(indent + "ext_grs_graph_t *pattern = " + funcName + "(act);\n\n");
+		sb.Append(indent + "ext_grs_graph_t *pattern = " + funcName + "(act);\n\n");
 
 		// nodes
-		relatedNodes = new HashMap<Node, String>();
-		genPatternNodes(sb, indent, graph, nodeIds, graphType, rule);
-		sb.append("\n");
+		relatedNodes = new Dictionary<Node, string>();
+		GenPatternNodes(sb, indent, graph, nodeIds, graphType, rule);
+		sb.Append("\n");
 
 		//edges
-		genPatternEdges(sb, indent, graph, edgeIds, graphType);
+		GenPatternEdges(sb, indent, graph, edgeIds, graphType);
 
 		// Clean up
-		relatedNodes.clear();
+		relatedNodes.Clear();
 	}
 
 	/* --------------------------------------
@@ -656,66 +698,73 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private int uin = 0;
 
-	private void genPatternNodes(StringBuffer sb, String indent, PatternGraphBase graph, IdGenerator<Node> nodeIds,
+	private void GenPatternNodes(StringBuilder sb, string indent, PatternGraphBase graph, IdGenerator<Node> nodeIds,
 			GraphType graphType, Rule rule)
 	{
-		sb.append(indent + "/* The nodes of the pattern */\n");
+		sb.Append(indent + "/* The nodes of the pattern */\n");
 
-		for(Node node : graph.getNodes()) {
+		foreach(Node node in graph.Nodes)
+		{
 			// Don't dump mode nodes
-			if(node.getNodeType().isCastableTo(MODE_TYPE))
+			if(node.NodeType.IsCastableTo(MODE_TYPE))
 				continue;
 
-			boolean related = false;
-			String nameSuffix = "";
-			if(nodeIds.isKnown(node)) {
+			bool related = false;
+			string nameSuffix = "";
+			if(nodeIds.IsKnown(node))
+			{
 				nameSuffix = "_" + uin; // Node is already known (positive pattern), make sure that names are different
 				uin++;
 				related = true; // Flag indicates to emit an relation statement afterwards
 			}
 
 			int nodeId;
-			String name, type;
-			if(node.getRetypedNode(graph) == null || graphType != GraphType.Replacement) {
-				nodeId = nodeIds.computeId(node);
-				name = node.getIdent().toString() + nameSuffix;
-				type = node.getNodeType().getIdent().toString();
-			} else { // node gets retyped
-				nodeId = nodeIds.computeId(node.getRetypedNode(graph));
-				name = node.getRetypedNode(graph).getIdent().toString() + nameSuffix;
-				type = node.getRetypedNode(graph).getNodeType().getIdent().toString();
+			string name, type;
+			if(node.GetRetypedNode(graph) == null || graphType != GraphType.Replacement)
+			{
+				nodeId = nodeIds.ComputeId(node);
+				name = node.Ident.ToString() + nameSuffix;
+				type = node.NodeType.Ident.ToString();
 			}
-			String mode = "ANY";
-			String lsmode = "ANY"; // just for Load/Store nodes!
+			else
+			{ // node gets retyped
+				nodeId = nodeIds.ComputeId(node.GetRetypedNode(graph));
+				name = node.GetRetypedNode(graph).GetIdent().ToString() + nameSuffix;
+				type = node.GetRetypedNode(graph).GetNodeType().Ident.ToString();
+			}
+			string mode = "ANY";
+			string lsmode = "ANY"; // just for Load/Store nodes!
 
 			// define the create_func
-			String create_func = "new_rd_" + type;
+			string create_func = "new_rd_" + type;
 			// TODO be_* nodes will become _bd_ t some point!
-			final String[] starts = { "ia32_", "arm_", "mips_", "ppc32_" };
-			for(String start : starts) {
-				if(type.startsWith(start)) {
+// JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+// ORIGINAL LINE: final String[] starts = { "ia32_", "arm_", "mips_", "ppc32_" };
+			string[] starts = new string[] {"ia32_", "arm_", "mips_", "ppc32_"};
+			foreach(string start in starts)
+			{
+				if(type.StartsWith(start, StringComparison.Ordinal))
 					create_func = "new_bd_" + type;
-				}
 			}
-			if(type.equals("IR_node")) {
+			if(type.Equals("IR_node"))
 				create_func = "new_ir_node";
-			}
 
 			// Search for the "Mode"- and "LS Mode"-edge
-			for(Edge e : graph.getOutgoing(node)) { // test iff we got an Mode-node
-				if(e.getEdgeType().getIdent().toString().equals(MODE_EDGE_NAME)) {
+			foreach(Edge e in graph.GetOutgoing(node))
+			{ // test iff we got an Mode-node
+				if(e.EdgeType.Ident.ToString().Equals(MODE_EDGE_NAME))
+				{
 					// Found the "mode" edge. Save the mode of the current node for dumping
-					Node modeNode = graph.getTarget(e);
+					Node modeNode = graph.GetTarget(e);
 					//System.out.println("'" + modeNode.getNodeType().getIdent().toString() + "'");
-					if(null != modeNode && (mode.equals("ANY") || !rule.getCommonEdges().contains(e))) {
-						mode = modeNode.getNodeType().getIdent().toString().substring(5);
-					}
+					if(null != modeNode && (mode.Equals("ANY") || !rule.CommonEdges.Contains(e)))
+						mode = modeNode.NodeType.Ident.ToString().Substring(5);
 				}
-				if(e.getEdgeType().getIdent().toString().equals(LS_MODE_EDGE_NAME)) {
-					Node modeNode = graph.getTarget(e);
-					if(null != modeNode) {
-						lsmode = modeNode.getNodeType().getIdent().toString().substring(5);
-					}
+				if(e.EdgeType.Ident.ToString().Equals(LS_MODE_EDGE_NAME))
+				{
+					Node modeNode = graph.GetTarget(e);
+					if(null != modeNode)
+						lsmode = modeNode.NodeType.Ident.ToString().Substring(5);
 				}
 			}
 
@@ -723,66 +772,68 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			// sb.append(indent + "/* TODO typeof("+name+") = " + type +
 			//			  " \\ " + node.getConstraints()  +"*/\n");
 
-			name = name.replace('$', '_');
+			name = name.Replace('$', '_');
 
 			// Check if the node is related to a positive node
-			if(!related) {
-				sb.append(indent + "ext_grs_node_t *n_" + name + // No, Write statement to file
+			if(!related)
+				sb.Append(indent + "ext_grs_node_t *n_" + name + // No, Write statement to file
 						" = ext_grs_act_add_node(pattern, \"" +
 						name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
 						", " + nodeId + ", &" + create_func +
-						", " + getModifiedFlags(rule, node) + ");\n");
+						", " + GetModifiedFlags(rule, node) + ");\n");
 
-			} else {
-				String related_name = node.getIdent().toString(); // Yes, the regular node name without suffix
+			else
+			{
+				string related_name = node.Ident.ToString(); // Yes, the regular node name without suffix
 
-				sb.append(indent + "ext_grs_node_t *n_" + name + " = ");
-				if(graphType == GraphType.Negative) {
-					sb.append("ext_grs_act_add_related_node(pattern, \"" +
+				sb.Append(indent + "ext_grs_node_t *n_" + name + " = ");
+				if(graphType == GraphType.Negative)
+				{
+					sb.Append("ext_grs_act_add_related_node(pattern, \"" +
 							name + "\", mode_" + mode + ", mode_" + lsmode + ", n_" +
-							related_name + ", " + nodeIds.getNewKey());
-				} else {
-					sb.append("ext_grs_act_add_node_to_keep(pattern, \"" +
+							related_name + ", " + nodeIds.NewKey);
+				}
+				else
+				{
+					sb.Append("ext_grs_act_add_node_to_keep(pattern, \"" +
 							name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
 							", " + nodeId + ", n_" + related_name +
-							", &" + create_func + ", " + getModifiedFlags(rule, node));
-
+							", &" + create_func + ", " + GetModifiedFlags(rule, node));
 				}
-				sb.append(");\n");
-				sb.append(indent + "(void) n_" + name + ";\n");
+
+				sb.Append(");\n");
+				sb.Append(indent + "(void) n_" + name + ";\n");
 				//System.out.println(relatedNodes + "; " + node + "; " + name);
-				relatedNodes.put(node, name); // Name was changed for neg nodes. Remember new
+				relatedNodes[node] = name; // Name was changed for neg nodes. Remember new
 												// name for the creation of edges.
 			}
 		}
 	}
 
-	private static int getModifiedFlags(Rule rule, Node node)
+	private static int GetModifiedFlags(Rule rule, Node node)
 	{
 		int flags = 0;
-		if(node.isRetyped() || node.getRetypedEntity(rule.getRight()) != null) {
+		if(node.IsRetyped() || node.GetRetypedEntity(rule.Right) != null)
 			flags |= MOD_RETYPED;
-		}
 
-		if(!rule.getCommonNodes().contains(node)) {
+		if(!rule.CommonNodes.Contains(node))
 			flags |= MOD_DELETED;
-		}
 
-		for(EvalStatements evalStmts : rule.getEvals()) {
-			for(EvalStatement evalStmt : evalStmts.evalStatements) {
-				if(!(evalStmt instanceof Assignment))
+		foreach(EvalStatements evalStmts in rule.Evals)
+		{
+			foreach(EvalStatement evalStmt in evalStmts.evalStatements)
+			{
+				if(!(evalStmt is Assignment))
 					continue;
 				Assignment a = (Assignment)evalStmt;
 
-				Expression targetExpr = a.getTarget();
-				if(!(targetExpr instanceof Qualification))
-					throw new UnsupportedOperationException(
-							"The C backend only supports assignments to qualified expressions, yet!");
+				Expression targetExpr = a.Target;
+				if(!(targetExpr is Qualification))
+					throw new System.NotSupportedException("The C backend only supports assignments to qualified expressions, yet!");
 				Qualification target = (Qualification)targetExpr;
 
-				if(target.getOwner().compareTo(node) == 0) {
+				if(target.Owner.CompareTo(node) == 0)
 					flags |= MOD_ASSIGNED;
-				}
 			}
 		}
 
@@ -794,37 +845,40 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 *
 	 * Dumps the edges of a pattern
 	 * ---------------------------- */
-	private void genPatternEdges(StringBuffer sb, String indent, PatternGraphBase graph, IdGenerator<Edge> edgeIds,
-			GraphType graphType)
+	private void GenPatternEdges(StringBuilder sb, string indent, PatternGraphBase graph, IdGenerator<Edge> edgeIds, GraphType graphType)
 	{
-		sb.append(indent + "/* The edges of the pattern */\n");
-		for(Edge edge : graph.getEdges()) {
+		sb.Append(indent + "/* The edges of the pattern */\n");
+		foreach(Edge edge in graph.Edges)
+		{
 			// Don't dump edges to mode nodes
-			if(edge.getEdgeType().getIdent().toString().equals(MODE_EDGE_NAME))
+			if(edge.EdgeType.Ident.ToString().Equals(MODE_EDGE_NAME))
 				continue;
-			if(edge.getEdgeType().getIdent().toString().equals(LS_MODE_EDGE_NAME))
+			if(edge.EdgeType.Ident.ToString().Equals(LS_MODE_EDGE_NAME))
 				continue;
 
-			String nameSuffix = "";
-			boolean related = false;
+			string nameSuffix = "";
+			bool related = false;
 
-			if(edgeIds.isKnown(edge)) {
+			if(edgeIds.IsKnown(edge))
+			{
 				nameSuffix = "_" + uin; // Edge is already known (positive pattern), make sure the names are different
 				uin++;
 				related = true; // Flag indicates to emit an relation statement afterwards
-			} else if(graphType != GraphType.Pattern) {
+			}
+			else if(graphType != GraphType.Pattern)
+			{
 				nameSuffix = "_" + uin; // We're in a negative or replacement graph: Add suffix to avoid name
 				uin++; // collision with positive edge names
 			}
 
-			int edgeId = edgeIds.computeId(edge);
-			String edgePos = "ext_grs_NO_EDGE_POS";
-			String name = edge.getIdent().toString().replace('$', '_') + nameSuffix;
+			int edgeId = edgeIds.ComputeId(edge);
+			string edgePos = "ext_grs_NO_EDGE_POS";
+			string name = edge.Ident.ToString().Replace('$', '_') + nameSuffix;
 			//System.out.println("'" + edge.getIdent().toString() + "'\n");
-			if(name.length() > 4 && name.substring(0, 4).matches("pos[0123456789]")) {
-				edgePos = edge.getIdent().toString().substring(3, 4);
-			}
-			if(edge.getEdgeType().getIdent().toString().equals("dep")) {
+			if(name.Length > 4 && name.Substring(0, 4).Matches("pos[0123456789]"))
+				edgePos = edge.Ident.ToString().Substring(3, 1);
+			if(edge.EdgeType.Ident.ToString().Equals("dep"))
+			{
 				/* dependency edges don't have a position.
 				 * The edge type isn't put out, so we code the dep
 				 * kindness into the position.
@@ -832,49 +886,53 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				edgePos = "ext_grs_DEPENDENCY_EDGE_POS";
 			}
 
-			Node src = graph.getSource(edge);
-			Node tgt = graph.getTarget(edge);
+			Node src = graph.GetSource(edge);
+			Node tgt = graph.GetTarget(edge);
 
-			String sourceName = "";
-			String targetName = "";
+			string sourceName = "";
+			string targetName = "";
 
 			// Check if source node is a negative node
-			if(relatedNodes.containsKey(src))
+			if(relatedNodes.ContainsKey(src))
+			{
 				// Yes, get negative node name
-				sourceName = relatedNodes.get(src);
+				sourceName = relatedNodes[src];
+			}
 			else
-				sourceName = src.getIdent().toString(); // No, get regular node name
+				sourceName = src.Ident.ToString(); // No, get regular node name
 
 			// Check if dest node is a negative node
-			if(relatedNodes.containsKey(tgt))
-				targetName = relatedNodes.get(tgt); // Yes, get negative node name
+			if(relatedNodes.ContainsKey(tgt))
+				targetName = relatedNodes[tgt]; // Yes, get negative node name
 			else
-				targetName = tgt.getIdent().toString(); // No, get regular node name
+				targetName = tgt.Ident.ToString(); // No, get regular node name
 
-			sourceName = sourceName.replace('$', '_');
-			targetName = targetName.replace('$', '_');
+			sourceName = sourceName.Replace('$', '_');
+			targetName = targetName.Replace('$', '_');
 
 			// Check if the edge is related to a positive edge
-			if(!related) {
+			if(!related)
+			{
 				// Create a regular, independent edge
-				sb.append(indent + "ext_grs_edge_t *e_" + name + // Write statement to file
+				sb.Append(indent + "ext_grs_edge_t *e_" + name + // Write statement to file
 						" = ext_grs_act_add_edge(pattern, \"" + name +
 						"\", " + edgePos + ", n_" + targetName + ", n_" +
 						sourceName + ", " + edgeId + ");\n");
-				sb.append(indent + "(void) e_" + name + ";\n");
-			} else {
+				sb.Append(indent + "(void) e_" + name + ";\n");
+			}
+			else
+			{
 				// Create a related edge
-				String addRelatedEdgeFunc = (graphType == GraphType.Negative) ? "ext_grs_act_add_related_edge"
-						: "ext_grs_act_add_edge_to_keep";
-				String related_name = edge.getIdent().toString().replace('$', '_'); // The original name without suffix
-				sb.append(indent + "ext_grs_edge_t *e_" + name + // Write statement to file
+				string addRelatedEdgeFunc = (graphType == GraphType.Negative) ? "ext_grs_act_add_related_edge" : "ext_grs_act_add_edge_to_keep";
+				string related_name = edge.Ident.ToString().Replace('$', '_'); // The original name without suffix
+				sb.Append(indent + "ext_grs_edge_t *e_" + name + // Write statement to file
 						" = " + addRelatedEdgeFunc + "(pattern, \"" + name +
 						"\", " + edgePos + ", n_" + targetName + ", n_" +
 						sourceName + ", " + edgeId + ", e_" + related_name + ");\n");
-				sb.append(indent + "(void) e_" + name + ";\n");
+				sb.Append(indent + "(void) e_" + name + ";\n");
 			}
 		}
-		sb.append("\n");
+		sb.Append("\n");
 	}
 
 	/* ---------------------------------------------
@@ -885,39 +943,40 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @param    graph	       a  PatternGraph
 	 * --------------------------------------------- */
 
-	private void genConditions(StringBuffer sb, String indent, PatternGraphLhs graph)
+	private void GenConditions(StringBuilder sb, string indent, PatternGraphLhs graph)
 	{
-		sb.append(indent + "/* The conditions of the pattern */\n");
-		for(Expression cond : graph.getConditions()) {
-			String indent2 = indent + "\t";
-			Set<Node> nodes = new HashSet<Node>();
-			Set<Edge> edges = new HashSet<Edge>();
+		sb.Append(indent + "/* The conditions of the pattern */\n");
+		foreach(Expression cond in graph.Conditions)
+		{
+			string indent2 = indent + "\t";
+			ISet<Node> nodes = new HashSet<Node>();
+			ISet<Edge> edges = new HashSet<Edge>();
 
-			collectNodesnEdges(nodes, edges, cond);
+			CollectNodesnEdges(nodes, edges, cond);
 
-			sb.append(indent + "{ /* if */\n");
+			sb.Append(indent + "{ /* if */\n");
 
-			if(nodes.size() > 0) {
-				sb.append(indent2 + "ext_grs_node_t *nodes[" + nodes.size() + "] = ");
-				genSet(sb, nodes);
-			} else {
-				sb.append(indent2 + "ext_grs_node_t **nodes = NULL");
+			if(nodes.Count > 0)
+			{
+				sb.Append(indent2 + "ext_grs_node_t *nodes[" + nodes.Count + "] = ");
+				GenSet(sb, nodes);
 			}
-			sb.append(";\n");
+			else
+				sb.Append(indent2 + "ext_grs_node_t **nodes = NULL");
+			sb.Append(";\n");
 
-			if(edges.size() > 0) {
-				sb.append(indent2 + "ext_grs_edge_t *edges[" + edges.size() + "] = ");
-				genSet(sb, edges);
-			} else {
-				sb.append(indent2 + "ext_grs_edge_t **edges = NULL");
+			if(edges.Count > 0)
+			{
+				sb.Append(indent2 + "ext_grs_edge_t *edges[" + edges.Count + "] = ");
+				GenSet(sb, edges);
 			}
-			sb.append(";\n\n");
+			else
+				sb.Append(indent2 + "ext_grs_edge_t **edges = NULL");
+			sb.Append(";\n\n");
 
-			sb.append(indent2 + "ext_grs_act_register_condition(grs_cond_func_"
-					+ cond.getId() + ", pattern, " +
-					nodes.size() + ", nodes, " + edges.size() + ", edges);\n");
+			sb.Append(indent2 + "ext_grs_act_register_condition(grs_cond_func_" + cond.Id + ", pattern, " + nodes.Count + ", nodes, " + edges.Count + ", edges);\n");
 
-			sb.append(indent + "} /* if */\n\n");
+			sb.Append(indent + "} /* if */\n\n");
 		}
 	}
 
@@ -937,15 +996,16 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 		 * Register eval using func_in and func_out parameters
 	 		 * At some other place:
 	 		 * Generate eval function
-	 		 *//*
-				
+	 		 */
+			  /*
+
 				}
 				else
 				{
 				System.out.println("Action has no evals!");
 				}
-				
-				
+
+
 				}*/
 
 	/* ----------------------------------------------
@@ -954,22 +1014,23 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @param    sb		  a  StringBuffer
 	 * @param    set		 a  Set
 	 * ---------------------------------------------- */
-	private static void genSet(StringBuffer sb, Set<? extends Entity> set)
+	private static void GenSet<T1>(StringBuilder sb, ISet<T1> set) where T1 : Entity
 	{
-		sb.append('{');
+		sb.Append('{');
 
-		String sep = "";
-		for(Entity e : set) {
-			sb.append(sep);
-			if(e instanceof Node)
-				sb.append("n_" + e.getIdent().toString());
-			else if(e instanceof Edge)
-				sb.append("e_" + e.getIdent().toString());
+		string sep = "";
+		foreach(Entity e in set)
+		{
+			sb.Append(sep);
+			if(e is Node)
+				sb.Append("n_" + e.Ident.ToString());
+			else if(e is Edge)
+				sb.Append("e_" + e.Ident.ToString());
 			else
-				sb.append(e.getIdent().toString());
+				sb.Append(e.Ident.ToString());
 			sep = ", ";
 		}
-		sb.append('}');
+		sb.Append('}');
 	}
 
 	/* ---------------------------------------------------------------------------------
@@ -979,20 +1040,23 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @param    edges	       a  Set to contain the edges of cond
 	 * @param    cond		an Expression
 	 * --------------------------------------------------------------------------------- */
-	private void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges, Expression cond)
+	private void CollectNodesnEdges(ISet<Node> nodes, ISet<Edge> edges, Expression cond)
 	{
-		if(cond instanceof Qualification) {
-			Entity entity = ((Qualification)cond).getOwner();
-			if(entity instanceof Node)
-				nodes.add((Node)entity);
-			else if(entity instanceof Edge)
-				edges.add((Edge)entity);
+		if(cond is Qualification)
+		{
+			Entity entity = ((Qualification)cond).Owner;
+			if(entity is Node)
+				nodes.Add((Node)entity);
+			else if(entity is Edge)
+				edges.Add((Edge)entity);
 			else
-				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
-		} else if(cond instanceof Operator)
-			for(Expression child : ((Operator)cond).getWalkableChildren()) {
-				collectNodesnEdges(nodes, edges, child);
-			}
+				throw new System.NotSupportedException("Unsupported Entity (" + entity + ")");
+		}
+		else if(cond is Operator)
+		{
+			foreach(Expression child in ((Operator)cond).WalkableChildren)
+				CollectNodesnEdges(nodes, edges, child);
+		}
 	}
 
 	/* ---------------------------------------------
@@ -1001,108 +1065,114 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * Generates C code for evaluating an expression
 	 * in conditions and eval statements
 	 * --------------------------------------------- */
-	private void genConditionEval(StringBuffer sb, Expression cond,
-			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
+	private void GenConditionEval(StringBuilder sb, Expression cond, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
-		if(cond instanceof Operator) {
+		if(cond is Operator)
+		{
 			Operator op = (Operator)cond;
-			switch(op.arity()) {
+			switch(op.Arity())
+			{
 			case 1:
-				genConditionEval(sb, op.getOperand(0), nodeIds, edgeIds);
+				GenConditionEval(sb, op.GetOperand(0), nodeIds, edgeIds);
 				break;
 			case 2:
-				genConditionEval(sb, op.getOperand(0), nodeIds, edgeIds);
-				sb.append(" " + getOperatorSymbol(op.getOpCode()) + " ");
-				genConditionEval(sb, op.getOperand(1), nodeIds, edgeIds);
+				GenConditionEval(sb, op.GetOperand(0), nodeIds, edgeIds);
+				sb.Append(" " + GetOperatorSymbol(op.OpCode) + " ");
+				GenConditionEval(sb, op.GetOperand(1), nodeIds, edgeIds);
 				break;
 			case 3:
-				if(op.getOpCode() == OperatorCode.COND) {
-					sb.append("(");
-					genConditionEval(sb, op.getOperand(0), nodeIds, edgeIds);
-					sb.append(") ? (");
-					genConditionEval(sb, op.getOperand(1), nodeIds, edgeIds);
-					sb.append(") : (");
-					genConditionEval(sb, op.getOperand(2), nodeIds, edgeIds);
-					sb.append(")");
+				if(op.OpCode == OperatorCode.COND)
+				{
+					sb.Append("(");
+					GenConditionEval(sb, op.GetOperand(0), nodeIds, edgeIds);
+					sb.Append(") ? (");
+					GenConditionEval(sb, op.GetOperand(1), nodeIds, edgeIds);
+					sb.Append(") : (");
+					GenConditionEval(sb, op.GetOperand(2), nodeIds, edgeIds);
+					sb.Append(")");
 					break;
 				}
 				//$FALL-THROUGH$
 			default:
-				throw new UnsupportedOperationException("Unsupported Operation arrity (" + op.arity() + ")");
+				throw new System.NotSupportedException("Unsupported Operation arrity (" + op.Arity() + ")");
 			}
-		} else if(cond instanceof Qualification) {
+		}
+		else if(cond is Qualification)
+		{
 			Qualification qual = (Qualification)cond;
-			Entity entity = qual.getOwner();
+			Entity entity = qual.Owner;
 
-			if(entity instanceof Node) {
+			if(entity is Node)
+			{
 				Node n = (Node)entity;
 
 				// We have to treat special FIRM nodes specially
 
 				// Query the proj_nr of a vproj_node
-				if(n.getNodeType().isCastableTo(VPROJ_TYPE)) {
-					sb.append("get_VProj_proj(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent()
-							+ " */])");
-				} else if(n.getNodeType().isCastableTo(MULTIPLE_ADD_TYPE)) {
-					sb.append("get_irn_arity(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent()
-							+ " */])");
-				} else if(n.getNodeType().isCastableTo(SYM_CONST)) {
-					sb.append("get_SymConst_entity(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent()
-							+ " */])");
-				} else if(n.getNodeType().isCastableTo(COND_TYPE)) {
-					sb.append("get_Cond_default_proj(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent()
-							+ " */])");
-				} else {
-					String attribute = qual.getMember().getIdent().toString();
+				if(n.NodeType.IsCastableTo(VPROJ_TYPE))
+					sb.Append("get_VProj_proj(pat_node_map[" + nodeIds.ComputeId(n) + "/* " + entity.Ident + " */])");
+				else if(n.NodeType.IsCastableTo(MULTIPLE_ADD_TYPE))
+					sb.Append("get_irn_arity(pat_node_map[" + nodeIds.ComputeId(n) + "/* " + entity.Ident + " */])");
+				else if(n.NodeType.IsCastableTo(SYM_CONST))
+					sb.Append("get_SymConst_entity(pat_node_map[" + nodeIds.ComputeId(n) + "/* " + entity.Ident + " */])");
+				else if(n.NodeType.IsCastableTo(COND_TYPE))
+					sb.Append("get_Cond_default_proj(pat_node_map[" + nodeIds.ComputeId(n) + "/* " + entity.Ident + " */])");
+				else
+				{
+					string attribute = qual.Member.Ident.ToString();
 
-					sb.append("get_grgen_" + attribute +
-							"(pat_node_map[" + nodeIds.computeId(n) +
-							"/* " + entity.getIdent() + " */])");
+					sb.Append("get_grgen_" + attribute + "(pat_node_map[" + nodeIds.ComputeId(n) + "/* " + entity.Ident + " */])");
 				}
 
-			} else if(entity instanceof Edge) {
-				// Query the position of a MATCHED egde.
-				if(qual.getMember().getIdent().toString().equals("pos")) {
-					sb.append("get_edge_src_pos(edge_map[" + edgeIds.computeId((Edge)entity) +
-							"/* " + entity.getIdent() + " */])");
-				} else {
-					throw new UnsupportedOperationException("Unsupported Edge attribute (" + entity + ")");
-				}
-			} else {
-				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
 			}
-		} else if(cond instanceof Constant) { // gen C-code for constant expressions
+			else if(entity is Edge)
+			{
+				// Query the position of a MATCHED egde.
+				if(qual.Member.Ident.ToString().Equals("pos"))
+					sb.Append("get_edge_src_pos(edge_map[" + edgeIds.ComputeId((Edge)entity) + "/* " + entity.Ident + " */])");
+				else
+					throw new System.NotSupportedException("Unsupported Edge attribute (" + entity + ")");
+			}
+			else
+				throw new System.NotSupportedException("Unsupported Entity (" + entity + ")");
+		}
+		else if(cond is Constant)
+		{ // gen C-code for constant expressions
 			Constant constant = (Constant)cond;
-			Type type = constant.getType();
+			Type type = constant.Type;
 
-			switch(type.classify()) {
-			case IS_STRING: //emit C-code for string constants
+			switch(type.Classify())
+			{
+			case Type.TypeClass.IS_STRING: //emit C-code for string constants
 				// CAUTION! This was modified for INTEGET CONSTANTS!
 				// TODO: Make it general if you need it!
 				// sb.append("\"" + constant.getValue() + "\"");
-				sb.append(constant.getValue().toString());
+				sb.Append(constant.Value.ToString());
 
 				break;
-			case IS_BOOLEAN: //emit C-code for boolean constans
-				Boolean bool_const = (Boolean)constant.getValue();
-				if(bool_const.booleanValue())
-					sb.append("1"); /* true-value */
+			case Type.TypeClass.IS_BOOLEAN: //emit C-code for boolean constans
+				bool? bool_const = (bool?)constant.Value;
+				if(bool_const.Value)
+					sb.Append("1"); // true-value
 				else
-					sb.append("0"); /* false-value */
+					sb.Append("0"); // false-value
 				break;
-			case IS_INTEGER: //emit C-code for integer constants
-				sb.append(constant.getValue().toString()); /* this also applys to enum constants */
+			case Type.TypeClass.IS_INTEGER: //emit C-code for integer constants
+				sb.Append(constant.Value.ToString()); // this also applys to enum constants
 				break;
 			default:
 				break;
 			}
-		} else if(cond instanceof Cast) {
+		}
+		else if(cond is Cast)
+		{
 			// Assumption: generated getter and setter have compatible types,
 			// so ignore the cast.
 			Cast cast = (Cast)cond;
-			genConditionEval(sb, cast.getExpression(), nodeIds, edgeIds);
-		} else
-			throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
+			GenConditionEval(sb, cast.Expression, nodeIds, edgeIds);
+		}
+		else
+			throw new System.NotSupportedException("Unsupported expression type (" + cond + ")");
 	}
 
 	/* -------------------------------------------------------------------------------
@@ -1110,86 +1180,92 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * Generates the init() functions and code to create all the ext_grs_op's
 	 * if no corresponding FIRM op exists. Also appoints heritage between IR_OP Types.
 	 * ------------------------------------------------------------------------------- */
-	private void genInterface(StringBuffer sb)
+	private void GenInterface(StringBuilder sb)
 	{
-		String indent = "\t";
-		StringBuffer initsb = new StringBuffer();
-		StringBuffer array_sb = new StringBuffer();
-		String unitName = unit.getUnitName();
+		string indent = "\t";
+		StringBuilder initsb = new StringBuilder();
+		StringBuilder array_sb = new StringBuilder();
+		string unitName = unit.UnitName;
 
-		initsb.append("static int init_firm_actions_done = 0;\n");
+		initsb.Append("static int init_firm_actions_done = 0;\n");
 
-		initsb.append("/* function for initializing the actions */\n");
-		array_sb.append("/* array of all actions */\n");
-		int action_count = unit.getActionRules().size();
-		array_sb.append("unsigned int ext_grs_all_actions_count = " + action_count + ";\n");
-		array_sb.append("ext_grs_action_t **ext_grs_all_actions[" + action_count + "] = {\n");
-		sb.append("/* global variables containing the actions */\n");
+		initsb.Append("/* function for initializing the actions */\n");
+		array_sb.Append("/* array of all actions */\n");
+		int action_count = unit.ActionRules.Count;
+		array_sb.Append("unsigned int ext_grs_all_actions_count = " + action_count + ";\n");
+		array_sb.Append("ext_grs_action_t **ext_grs_all_actions[" + action_count + "] = {\n");
+		sb.Append("/* global variables containing the actions */\n");
 
 		// Initialize the actions.
-		initsb.append("void ext_grs_action_init_" + unitName + "(void) {\n");
-		initsb.append("if (init_firm_actions_done) return;\n");
-		initsb.append("init_firm_actions_done = 1;\n");
-		initsb.append(indent + "init();\n");
-		for(Rule action : unit.getActionRules()) {
-			if(action.getRight() != null) {
-				String actionName = action.getIdent().toString();
-				String fqactionName = "ext_grs_action_" + unitName + "_" + actionName;
+		initsb.Append("void ext_grs_action_init_" + unitName + "(void) {\n");
+		initsb.Append("if (init_firm_actions_done) return;\n");
+		initsb.Append("init_firm_actions_done = 1;\n");
+		initsb.Append(indent + "init();\n");
+		foreach(Rule action in unit.ActionRules)
+		{
+			if(action.Right != null)
+			{
+				string actionName = action.Ident.ToString();
+				string fqactionName = "ext_grs_action_" + unitName + "_" + actionName;
 
-				initsb.append(indent + fqactionName + " = grs_action_" + actionName + "_init();\n");
-				sb.append("ext_grs_action_t *" + fqactionName + ";\n");
-				array_sb.append(indent + "&" + fqactionName + ",\n");
+				initsb.Append(indent + fqactionName + " = grs_action_" + actionName + "_init();\n");
+				sb.Append("ext_grs_action_t *" + fqactionName + ";\n");
+				array_sb.Append(indent + "&" + fqactionName + ",\n");
 			}
 		}
-		initsb.append("\n" + indent + "/* establish inheritance */\n");
-		for(InheritanceType type : nodeTypeMap.keySet()) {
+		initsb.Append("\n" + indent + "/* establish inheritance */\n");
+		foreach(InheritanceType type in nodeTypeMap.Keys)
+		{
 
-			if(!type.isCastableTo(MODE_TYPE)) {
+			if(!type.IsCastableTo(MODE_TYPE))
+			{
 				// Don't dump the inheritance of the pseudo "Mode"-Nodes
 
-				String typeName = type.getIdent().toString();
-				for(InheritanceType superType : type.getAllSuperTypes())
-					initsb.append(indent + "ext_grs_appoint_heir(grs_op_" + typeName + ", grs_op_"
-							+ superType.getIdent() + ");\n");
-				initsb.append("\n");
+				string typeName = type.Ident.ToString();
+				foreach(InheritanceType superType in type.AllSuperTypes)
+					initsb.Append(indent + "ext_grs_appoint_heir(grs_op_" + typeName + ", grs_op_" + superType.Ident + ");\n");
+				initsb.Append("\n");
 			}
 		}
-		sb.append("\n" + array_sb + "};\n");
+		sb.Append("\n" + array_sb + "};\n");
 
-		initsb.append(indent + "ext_grs_inheritance_mature();\n");
-		initsb.append(indent + "return;\n");
-		initsb.append("}\n\n");
+		initsb.Append(indent + "ext_grs_inheritance_mature();\n");
+		initsb.Append(indent + "return;\n");
+		initsb.Append("}\n\n");
 
 		// Delete functions
-		for(Rule action : unit.getActionRules()) {
-			if(action.getRight() != null) {
-				String actionName = action.getIdent().toString();
+		foreach(Rule action in unit.ActionRules)
+		{
+			if(action.Right != null)
+			{
+				string actionName = action.Ident.ToString();
 
-				initsb.append("/* functions for building the pattern of action " + actionName + " */\n");
-				initsb.append("static INLINE void grs_action_" + actionName + "_del(void) {\n");
-				initsb.append(indent + "ext_grs_del_action(ext_grs_action_" +
-						unit.getUnitName() + "_" + actionName + ");\n");
-				initsb.append(indent + "return;\n");
+				initsb.Append("/* functions for building the pattern of action " + actionName + " */\n");
+				initsb.Append("static INLINE void grs_action_" + actionName + "_del(void) {\n");
+				initsb.Append(indent + "ext_grs_del_action(ext_grs_action_" + unit.UnitName + "_" + actionName + ");\n");
+				initsb.Append(indent + "return;\n");
 
-				initsb.append("} /* " + actionName + " */\n\n\n");
+				initsb.Append("} /* " + actionName + " */\n\n\n");
 			}
 		}
 
 		// Delete the actions.
-		initsb.append("void ext_grs_action_del_" + unitName + "(void) {\n");
-		initsb.append("if(!init_firm_actions_done) return;\n");
-		initsb.append("init_firm_actions_done = 0;\n");
-		for(Rule action : unit.getActionRules()) {
-			if(action.getRight() != null) {
-				String actionName = action.getIdent().toString();
+		initsb.Append("void ext_grs_action_del_" + unitName + "(void) {\n");
+		initsb.Append("if(!init_firm_actions_done) return;\n");
+		initsb.Append("init_firm_actions_done = 0;\n");
+		foreach(Rule action in unit.ActionRules)
+		{
+			if(action.Right != null)
+			{
+				string actionName = action.Ident.ToString();
 
-				initsb.append(indent + "grs_action_" + actionName + "_del();\n");
+				initsb.Append(indent + "grs_action_" + actionName + "_del();\n");
 			}
 		}
-		initsb.append(indent + "return;\n");
-		initsb.append("}\n\n");
+		initsb.Append(indent + "return;\n");
+		initsb.Append("}\n\n");
 
-		sb.append("\n" + initsb);
+		sb.Append("\n" + initsb);
 	}
 
 	/* --------------
@@ -1213,4 +1289,6 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			err.printStackTrace();
 		}
 	}*/
+}
+
 }

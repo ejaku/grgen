@@ -1,62 +1,67 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.array;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-public abstract class ArrayAccumulationMethodNode extends ArrayFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.array
 {
-	static {
-		setClassName(ArrayAccumulationMethodNode.class, "array accumulation method");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public abstract class ArrayAccumulationMethodNode : ArrayFunctionMethodInvocationBaseExprNode
+{
+	static ArrayAccumulationMethodNode()
+	{
+		SetClassName(typeof(ArrayAccumulationMethodNode), "array accumulation method");
 	}
 
-	protected ArrayAccumulationMethodNode(Coords coords, ExprNode targetExpr)
+	protected internal ArrayAccumulationMethodNode(Coords coords, ExprNode targetExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(targetExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(targetExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("targetExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("targetExpr");
 		return childrenNames;
+		}
 	}
 
 	// returns whether an array of the given type can be accumulated by this accumulation method
-	public abstract boolean isValidTargetTypeOfAccumulation(TypeNode type);
+	public abstract bool IsValidTargetTypeOfAccumulation(TypeNode type);
 
 	// returns the types allowed as target types of this accumulation method
-	public abstract String getValidTargetTypesOfAccumulation();
+	public abstract string ValidTargetTypesOfAccumulation {get;}
 
 	// returns DUMMY object only to be used for checking with isValidTargetTypeOfAccumulation
-	public static ArrayAccumulationMethodNode getArrayMethodNode(String method)
+	public static ArrayAccumulationMethodNode GetArrayMethodNode(string method)
 	{
-		switch(method) {
+		switch(method)
+		{
 		case "sum":
 			return new ArraySumNode(null, null);
 		case "prod":
@@ -83,4 +88,6 @@ public abstract class ArrayAccumulationMethodNode extends ArrayFunctionMethodInv
 			return null;
 		}
 	}
+}
+
 }

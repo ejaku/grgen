@@ -1,50 +1,56 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.decl.executable;
+namespace de.unika.ipd.grgen.ast.decl.executable
+{
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using RhsDeclNode = de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-
-/**
- * Base class for top level pattern matching related ast nodes
- */
-public abstract class TopLevelMatcherDeclNode extends MatcherDeclNode
+/// <summary>
+/// Base class for top level pattern matching related ast nodes
+/// </summary>
+public abstract class TopLevelMatcherDeclNode : MatcherDeclNode
 {
 	public TopLevelMatcherDeclNode(IdentNode id, TypeNode type, PatternGraphLhsNode left)
+		: base(id, type, left)
 	{
-		super(id, type, left);
 	}
-	
-	protected boolean noAbstractElementInstantiated(RhsDeclNode right)
-	{
-		boolean abstr = true;
 
-		for(NodeDeclNode node : right.patternGraph.getNodes()) {
-			if(!node.inheritsType() && node.getDeclInhType().isAbstract() && !pattern.getNodes().contains(node)
-					&& (node.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER) {
-				node.reportError("Instances of abstract node classes are not allowed (node" + node.emptyWhenAnonymousPostfix(" ")
-						+ " is declared with the abstract type " + node.getDeclType().toStringWithDeclarationCoords() + ").");
+	protected internal virtual bool NoAbstractElementInstantiated(RhsDeclNode right)
+	{
+		bool abstr = true;
+
+		foreach(NodeDeclNode node in right.patternGraph.Nodes)
+		{
+			if(!node.InheritsType() && node.DeclInhType.IsAbstract() && !pattern.Nodes.Contains(node)
+					&& (node.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER)
+			{
+				node.ReportError("Instances of abstract node classes are not allowed (node" + node.EmptyWhenAnonymousPostfix(" ")
+						+ " is declared with the abstract type " + node.DeclType.ToStringWithDeclarationCoords() + ").");
 				abstr = false;
 			}
 		}
-		for(EdgeDeclNode edge : right.patternGraph.getEdges()) {
-			if(!edge.inheritsType() && edge.getDeclInhType().isAbstract() && !pattern.getEdges().contains(edge)
-					&& (edge.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER) {
-				edge.reportError("Instances of abstract edge classes are not allowed (edge" + edge.emptyWhenAnonymousPostfix(" ")
-						+ " is declared with the abstract type " + edge.getDeclType().toStringWithDeclarationCoords() + ").");
+		foreach(EdgeDeclNode edge in right.patternGraph.Edges)
+		{
+			if(!edge.InheritsType() && edge.DeclInhType.IsAbstract() && !pattern.Edges.Contains(edge)
+					&& (edge.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER)
+			{
+				edge.ReportError("Instances of abstract edge classes are not allowed (edge" + edge.EmptyWhenAnonymousPostfix(" ")
+						+ " is declared with the abstract type " + edge.DeclType.ToStringWithDeclarationCoords() + ").");
 				abstr = false;
 			}
 		}
 
 		return abstr;
 	}
+}
+
 }

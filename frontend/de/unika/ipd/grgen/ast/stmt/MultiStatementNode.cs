@@ -1,94 +1,97 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.stmt.MultiStatement;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing a multi statement.
- * Just a container for statements invisible to the user, esp. it does _not_ open a block, 
- * used to break a return assignment to declarations into a series of declarations and a return assignment.
- */
-public class MultiStatementNode extends EvalStatementNode
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	static {
-		setClassName(MultiStatementNode.class, "MultiStatement");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using MultiStatement = de.unika.ipd.grgen.ir.stmt.MultiStatement;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing a multi statement.
+/// Just a container for statements invisible to the user, esp. it does _not_ open a block, 
+/// used to break a return assignment to declarations into a series of declarations and a return assignment.
+/// </summary>
+public class MultiStatementNode : EvalStatementNode
+{
+	static MultiStatementNode()
+	{
+		SetClassName(typeof(MultiStatementNode), "MultiStatement");
 	}
 
-	CollectNode<EvalStatementNode> statements = new CollectNode<EvalStatementNode>();
+	internal CollectNode<EvalStatementNode> statements = new CollectNode<EvalStatementNode>();
 
 	public MultiStatementNode()
+		: base(Coords.Invalid)
 	{
-		super(Coords.getInvalid());
-		becomeParent(this.statements);
+		BecomeParent(this.statements);
 	}
 
-	public void addStatement(EvalStatementNode statement)
+	public virtual void AddStatement(EvalStatementNode statement)
 	{
-		statements.addChild(statement);
+		statements.AddChild(statement);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(statements);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(statements);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("statements");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("statements");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		MultiStatement ms = new MultiStatement();
-		for(EvalStatementNode statement : statements.getChildrenExact()) {
-			ms.addStatement(statement.checkIR(EvalStatement.class));
-		}
+		foreach(EvalStatementNode statement in statements.ChildrenExact)
+			ms.AddStatement(statement.CheckIR(typeof(EvalStatement)));
 		return ms;
 	}
+}
+
 }

@@ -1,40 +1,41 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
-import de.unika.ipd.grgen.ast.util.Triple;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Typeof;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node representing the current type of a
- * certain node/edge.
- */
-public class TypeofNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(TypeofNode.class, "typeof");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Typeof = de.unika.ipd.grgen.ir.expr.Typeof;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node representing the current type of a
+/// certain node/edge.
+/// </summary>
+public class TypeofNode : ExprNode
+{
+	static TypeofNode()
+	{
+		SetClassName(typeof(TypeofNode), "typeof");
 	}
 
 	private IdentNode entityUnresolved;
@@ -43,41 +44,47 @@ public class TypeofNode extends ExprNode
 	private VarDeclNode entityVarDecl = null;
 
 	public TypeofNode(Coords coords, IdentNode entity)
+		: base(coords)
 	{
-		super(coords);
 		this.entityUnresolved = entity;
-		becomeParent(this.entityUnresolved);
+		BecomeParent(this.entityUnresolved);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl, entityVarDecl));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl, entityVarDecl));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("entity");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("entity");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationTripleResolver<EdgeDeclNode, NodeDeclNode, VarDeclNode> entityResolver =
-			new DeclarationTripleResolver<EdgeDeclNode, NodeDeclNode, VarDeclNode>(EdgeDeclNode.class, NodeDeclNode.class, VarDeclNode.class);
+	private static readonly DeclarationTripleResolver<EdgeDeclNode, NodeDeclNode, VarDeclNode> entityResolver =
+			new DeclarationTripleResolver<EdgeDeclNode, NodeDeclNode, VarDeclNode>(typeof(EdgeDeclNode), typeof(NodeDeclNode), typeof(VarDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean res = fixupDefinition(entityUnresolved, entityUnresolved.getScope());
+		bool res = FixupDefinition(entityUnresolved, entityUnresolved.Scope);
 
-		Triple<EdgeDeclNode, NodeDeclNode, VarDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
-		if(resolved != null) {
+		Triple<EdgeDeclNode, NodeDeclNode, VarDeclNode> resolved = entityResolver.Resolve(entityUnresolved, this);
+		if(resolved != null)
+		{
 			entityEdgeDecl = resolved.first;
 			entityNodeDecl = resolved.second;
 			entityVarDecl = resolved.third;
@@ -86,68 +93,77 @@ public class TypeofNode extends ExprNode
 		return res && resolved != null;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal()"/>
+	protected internal override bool CheckLocal()
 	{
 		if(entityVarDecl != null
-				&& !(entityVarDecl.getDeclType() instanceof NodeTypeNode)
-				&& !(entityVarDecl.getDeclType() instanceof EdgeTypeNode)) {
-			reportError("The variable in a typeof (" + entityUnresolved + ") must be of node or edge type,"
-					+ " but is of type " + entityVarDecl.getDeclType().getTypeName()
-					+ " (which is a " + entityVarDecl.getDeclType().getKind() + ").");
+				&& !(entityVarDecl.DeclType is NodeTypeNode)
+				&& !(entityVarDecl.DeclType is EdgeTypeNode))
+		{
+			ReportError("The variable in a typeof (" + entityUnresolved + ") must be of node or edge type,"
+					+ " but is of type " + entityVarDecl.DeclType.TypeName
+					+ " (which is a " + entityVarDecl.DeclType.Kind + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		Entity entity = getValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl).checkIR(Entity.class);
+		Entity entity = GetValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl).CheckIR(typeof(Entity));
 
 		return new Typeof(entity);
 	}
 
-	public DeclNode getEntity()
+	public virtual DeclNode Entity
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
-		return getValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl);
+		return GetValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl);
+		}
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.typeType;
+		}
 	}
 
-	@Override
-	public boolean noDefElement(String containingConstruct)
+	public override bool NoDefElement(string containingConstruct)
 	{
-		if(entityEdgeDecl != null) {
-			if(entityEdgeDecl.defEntityToBeYieldedTo) {
-				entityEdgeDecl.reportError("A def edge (" + entityUnresolved + ")"
+		if(entityEdgeDecl != null)
+		{
+			if(entityEdgeDecl.defEntityToBeYieldedTo)
+			{
+				entityEdgeDecl.ReportError("A def edge (" + entityUnresolved + ")"
 						+ " cannot be accessed from a(n) " + containingConstruct + ".");
 				return false;
 			}
 		}
-		if(entityNodeDecl != null) {
-			if(entityNodeDecl.defEntityToBeYieldedTo) {
-				entityNodeDecl.reportError("A def node (" + entityUnresolved + ")"
+		if(entityNodeDecl != null)
+		{
+			if(entityNodeDecl.defEntityToBeYieldedTo)
+			{
+				entityNodeDecl.ReportError("A def node (" + entityUnresolved + ")"
 						+ " cannot be accessed from a(n) " + containingConstruct + ".");
 				return false;
 			}
 		}
-		if(entityVarDecl != null) {
-			if(entityVarDecl.defEntityToBeYieldedTo && !entityVarDecl.lambdaExpressionVariable) {
-				entityVarDecl.reportError("A def variable (" + entityUnresolved + ")"
+		if(entityVarDecl != null)
+		{
+			if(entityVarDecl.defEntityToBeYieldedTo && !entityVarDecl.lambdaExpressionVariable)
+			{
+				entityVarDecl.ReportError("A def variable (" + entityUnresolved + ")"
 						+ " cannot be accessed from a(n) " + containingConstruct + ".");
 				return false;
 			}
 		}
 		return true;
 	}
+}
+
 }

@@ -1,121 +1,130 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.stmt.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.graph.GraphRetypeEdgeProc;
-import de.unika.ipd.grgen.ir.stmt.graph.GraphRetypeNodeProc;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node for retyping a node or an edge to a new type.
- */
-public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.graph
 {
-	static {
-		setClassName(GraphRetypeProcNode.class, "retype procedure");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using GraphRetypeEdgeProc = de.unika.ipd.grgen.ir.stmt.graph.GraphRetypeEdgeProc;
+using GraphRetypeNodeProc = de.unika.ipd.grgen.ir.stmt.graph.GraphRetypeNodeProc;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node for retyping a node or an edge to a new type.
+/// </summary>
+public class GraphRetypeProcNode : BuiltinProcedureInvocationBaseNode
+{
+	static GraphRetypeProcNode()
+	{
+		SetClassName(typeof(GraphRetypeProcNode), "retype procedure");
 	}
 
 	private ExprNode entityExpr;
 	private ExprNode entityTypeExpr;
 
-	List<TypeNode> returnTypes;
+	internal IList<TypeNode> returnTypes;
 
 	public GraphRetypeProcNode(Coords coords, ExprNode entity, ExprNode entityType)
+		: base(coords)
 	{
-		super(coords);
 		this.entityExpr = entity;
-		becomeParent(this.entityExpr);
+		BecomeParent(this.entityExpr);
 		this.entityTypeExpr = entityType;
-		becomeParent(this.entityTypeExpr);
+		BecomeParent(this.entityTypeExpr);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(entityExpr);
-		children.add(entityTypeExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(entityExpr);
+		children.Add(entityTypeExpr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("entity");
-		childrenNames.add("new type");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("entity");
+		childrenNames.Add("new type");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		TypeNode entityExprType = entityExpr.getType();
-		TypeNode entityTypeExprType = entityTypeExpr.getType();
-		if(entityExprType instanceof NodeTypeNode && entityTypeExprType instanceof NodeTypeNode) {
+		TypeNode entityExprType = entityExpr.Type;
+		TypeNode entityTypeExprType = entityTypeExpr.Type;
+		if(entityExprType is NodeTypeNode && entityTypeExprType is NodeTypeNode)
 			return true;
-		}
-		if(entityExprType instanceof EdgeTypeNode && entityTypeExprType instanceof EdgeTypeNode) {
+		if(entityExprType is EdgeTypeNode && entityTypeExprType is EdgeTypeNode)
 			return true;
-		}
-		reportError("The retype procedure expects as 1. argument (node) a value of type Node and as 2. argument (nodeType) a value of type node type,"
+		ReportError("The retype procedure expects as 1. argument (node) a value of type Node and as 2. argument (nodeType) a value of type node type,"
 				+ " or as 1. argument (edge) a value of type Edge and as 2. argument (edgeType) a value of type edge type "
-				+ " (but is given values of type " + entityExprType.toStringWithDeclarationCoords()
-				+ " and " + entityTypeExprType.toStringWithDeclarationCoords() + ").");
+				+ " (but is given values of type " + entityExprType.ToStringWithDeclarationCoords()
+				+ " and " + entityTypeExprType.ToStringWithDeclarationCoords() + ").");
 		return false;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		entityExpr = entityExpr.evaluate();
-		entityTypeExpr = entityTypeExpr.evaluate();
-		if(entityTypeExpr.getType() instanceof NodeTypeNode) {
-			GraphRetypeNodeProc retypeNode = new GraphRetypeNodeProc(entityExpr.checkIR(Expression.class),
-					entityTypeExpr.checkIR(Expression.class), entityTypeExpr.getType().getIRType());
+		entityExpr = entityExpr.Evaluate();
+		entityTypeExpr = entityTypeExpr.Evaluate();
+		if(entityTypeExpr.Type is NodeTypeNode)
+		{
+			GraphRetypeNodeProc retypeNode = new GraphRetypeNodeProc(entityExpr.CheckIR(typeof(Expression)),
+					entityTypeExpr.CheckIR(typeof(Expression)), entityTypeExpr.Type.IRType);
 			return retypeNode;
-		} else {
-			GraphRetypeEdgeProc retypeEdge = new GraphRetypeEdgeProc(entityExpr.checkIR(Expression.class),
-					entityTypeExpr.checkIR(Expression.class), entityTypeExpr.getType().getIRType());
+		}
+		else
+		{
+			GraphRetypeEdgeProc retypeEdge = new GraphRetypeEdgeProc(entityExpr.CheckIR(typeof(Expression)),
+					entityTypeExpr.CheckIR(typeof(Expression)), entityTypeExpr.Type.IRType);
 			return retypeEdge;
 		}
 	}
 
-	@Override
-	public List<TypeNode> getType()
+	public override IList<TypeNode> Type
 	{
-		if(returnTypes == null) {
-			returnTypes = new ArrayList<TypeNode>();
-			returnTypes.add(entityTypeExpr.getType());
+		get
+		{
+		if(returnTypes == null)
+		{
+			returnTypes = new List<TypeNode>();
+			returnTypes.Add(entityTypeExpr.Type);
 		}
 		return returnTypes;
+		}
 	}
+}
+
 }

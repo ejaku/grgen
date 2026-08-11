@@ -1,58 +1,67 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.TypeExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-
-public abstract class MatchNodeFromByStorageDeclNode extends NodeDeclNode
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(MatchNodeFromByStorageDeclNode.class, "match node from by storage decl");
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using TypeExprNode = de.unika.ipd.grgen.ast.type.TypeExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+
+public abstract class MatchNodeFromByStorageDeclNode : NodeDeclNode
+{
+	static MatchNodeFromByStorageDeclNode()
+	{
+		SetClassName(typeof(MatchNodeFromByStorageDeclNode), "match node from by storage decl");
 	}
 
-	protected BaseNode storageUnresolved;
-	protected VarDeclNode storage = null;
-	protected QualIdentNode storageAttribute = null;
-	protected NodeDeclNode storageGlobalVariable = null;
+	protected internal BaseNode storageUnresolved;
+	protected internal VarDeclNode storage = null;
+	protected internal QualIdentNode storageAttribute = null;
+	protected internal NodeDeclNode storageGlobalVariable = null;
 
-	protected MatchNodeFromByStorageDeclNode(IdentNode id, BaseNode type, int context, BaseNode storage,
+	protected internal MatchNodeFromByStorageDeclNode(IdentNode id, BaseNode type, int context, BaseNode storage,
 			PatternGraphLhsNode directlyNestingLHSGraph)
+		: base(id, type, CopyKind.None, context, TypeExprNode.Empty, directlyNestingLHSGraph)
 	{
-		super(id, type, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.storageUnresolved = storage;
-		becomeParent(this.storageUnresolved);
+		BecomeParent(this.storageUnresolved);
 	}
-	
-	protected TypeNode getStorageType()
+
+	protected internal virtual TypeNode StorageType
 	{
+		get
+		{
 		if(storage != null)
-			return storage.getDeclType();
+			return storage.DeclType;
 		else if(storageGlobalVariable != null)
-			return storageGlobalVariable.getDeclType();
+			return storageGlobalVariable.DeclType;
 		else
-			return storageAttribute.getDecl().getDeclType();
+			return storageAttribute.Decl.DeclType;
+		}
 	}
-	
-	protected String getStorageName()
+
+	protected internal virtual string StorageName
 	{
+		get
+		{
 		if(storage != null)
-			return storage.toString();
+			return storage.ToString();
 		else if(storageGlobalVariable != null)
-			return storageGlobalVariable.toString();
+			return storageGlobalVariable.ToString();
 		else
-			return storageAttribute.toString();
+			return storageAttribute.ToString();
+		}
 	}
+}
+
 }

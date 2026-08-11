@@ -1,44 +1,47 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
+namespace de.unika.ipd.grgen.ir
+{
 
-import java.util.Collection;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ir.executable.FilterFunction;
-import de.unika.ipd.grgen.ir.executable.Function;
-import de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
-import de.unika.ipd.grgen.ir.executable.Procedure;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.executable.Sequence;
-import de.unika.ipd.grgen.ir.type.DefinedMatchType;
+using FilterFunction = de.unika.ipd.grgen.ir.executable.FilterFunction;
+using Function = de.unika.ipd.grgen.ir.executable.Function;
+using MatchClassFilterFunction = de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
+using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Sequence = de.unika.ipd.grgen.ir.executable.Sequence;
+using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
 
-/**
- * A type bearing all the different actions available in the rules language.
- */
+/// <summary>
+/// A type bearing all the different actions available in the rules language.
+/// </summary>
 public interface ActionsBearer
 {
-	public Collection<Rule> getSubpatternRules();
+	ICollection<Rule> SubpatternRules {get;}
 
-	public Collection<Rule> getActionRules();
+	ICollection<Rule> ActionRules {get;}
 
-	public Collection<FilterFunction> getFilterFunctions();
+	ICollection<FilterFunction> FilterFunctions {get;}
 
-	public Collection<DefinedMatchType> getMatchClasses();
+	ICollection<DefinedMatchType> MatchClasses {get;}
 
-	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions();
+	ICollection<MatchClassFilterFunction> MatchClassFilterFunctions {get;}
 
-	public Collection<Function> getFunctions();
+	ICollection<Function> Functions {get;}
 
-	public Collection<Procedure> getProcedures();
+	ICollection<Procedure> Procedures {get;}
 
-	public Collection<Sequence> getSequences();
+	ICollection<Sequence> Sequences {get;}
+}
+
 }

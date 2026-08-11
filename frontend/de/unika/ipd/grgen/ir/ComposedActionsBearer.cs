@@ -1,152 +1,168 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
-import de.unika.ipd.grgen.ir.executable.FilterFunction;
-import de.unika.ipd.grgen.ir.executable.Function;
-import de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
-import de.unika.ipd.grgen.ir.executable.Procedure;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.executable.Sequence;
-import de.unika.ipd.grgen.ir.type.DefinedMatchType;
-
-/**
- * Offers all the actions in the unit including all the packages for flat iteration.
- * TODO: offer this by implementing iterators instead of collection building
- */
-public class ComposedActionsBearer implements ActionsBearer
+namespace de.unika.ipd.grgen.ir
 {
-	Unit unit;
 
-	ArrayList<Rule> subpatRules;
-	ArrayList<Rule> rules;
-	ArrayList<FilterFunction> filterFunctions;
-	ArrayList<DefinedMatchType> matchClasses;
-	ArrayList<MatchClassFilterFunction> matchClassFilterFunctions;
-	ArrayList<Function> functions;
-	ArrayList<Procedure> procedures;
-	ArrayList<Sequence> sequences;
+using System.Collections.Generic;
+
+using FilterFunction = de.unika.ipd.grgen.ir.executable.FilterFunction;
+using Function = de.unika.ipd.grgen.ir.executable.Function;
+using MatchClassFilterFunction = de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
+using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Sequence = de.unika.ipd.grgen.ir.executable.Sequence;
+using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+
+/// <summary>
+/// Offers all the actions in the unit including all the packages for flat iteration.
+/// TODO: offer this by implementing iterators instead of collection building
+/// </summary>
+public class ComposedActionsBearer : ActionsBearer
+{
+	internal Unit unit;
+
+	internal List<Rule> subpatRules;
+	internal List<Rule> rules;
+	internal List<FilterFunction> filterFunctions;
+	internal List<DefinedMatchType> matchClasses;
+	internal List<MatchClassFilterFunction> matchClassFilterFunctions;
+	internal List<Function> functions;
+	internal List<Procedure> procedures;
+	internal List<Sequence> sequences;
 
 	public ComposedActionsBearer(Unit unit)
 	{
 		this.unit = unit;
 	}
 
-	@Override
-	public Collection<Rule> getSubpatternRules()
+	public virtual ICollection<Rule> SubpatternRules
 	{
-		if(subpatRules == null) {
-			ArrayList<Rule> subpatRules = new ArrayList<Rule>(unit.getSubpatternRules());
-			for(ActionsBearer p : unit.getPackages()) {
-				subpatRules.addAll(p.getSubpatternRules());
-			}
+		get
+		{
+		if(subpatRules == null)
+		{
+			List<Rule> subpatRules = new List<Rule>(unit.SubpatternRules);
+			foreach(ActionsBearer p in unit.Packages)
+				subpatRules.AddRange(p.SubpatternRules);
 			this.subpatRules = subpatRules;
 		}
-		return Collections.unmodifiableList(subpatRules);
+		return subpatRules.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<Rule> getActionRules()
+	public virtual ICollection<Rule> ActionRules
 	{
-		if(rules == null) {
-			ArrayList<Rule> rules = new ArrayList<Rule>(unit.getActionRules());
-			for(ActionsBearer p : unit.getPackages()) {
-				rules.addAll(p.getActionRules());
-			}
+		get
+		{
+		if(rules == null)
+		{
+			List<Rule> rules = new List<Rule>(unit.ActionRules);
+			foreach(ActionsBearer p in unit.Packages)
+				rules.AddRange(p.ActionRules);
 			this.rules = rules;
 		}
-		return Collections.unmodifiableList(rules);
+		return rules.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<FilterFunction> getFilterFunctions()
+	public virtual ICollection<FilterFunction> FilterFunctions
 	{
-		if(filterFunctions == null) {
-			ArrayList<FilterFunction> filterFunctions = new ArrayList<FilterFunction>(unit.getFilterFunctions());
-			for(ActionsBearer p : unit.getPackages()) {
-				filterFunctions.addAll(p.getFilterFunctions());
-			}
+		get
+		{
+		if(filterFunctions == null)
+		{
+			List<FilterFunction> filterFunctions = new List<FilterFunction>(unit.FilterFunctions);
+			foreach(ActionsBearer p in unit.Packages)
+				filterFunctions.AddRange(p.FilterFunctions);
 			this.filterFunctions = filterFunctions;
 		}
-		return Collections.unmodifiableList(filterFunctions);
+		return filterFunctions.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<DefinedMatchType> getMatchClasses()
+	public virtual ICollection<DefinedMatchType> MatchClasses
 	{
-		if(matchClasses == null) {
-			ArrayList<DefinedMatchType> matchClasses = new ArrayList<DefinedMatchType>(unit.getMatchClasses());
-			for(ActionsBearer p : unit.getPackages()) {
-				matchClasses.addAll(p.getMatchClasses());
-			}
+		get
+		{
+		if(matchClasses == null)
+		{
+			List<DefinedMatchType> matchClasses = new List<DefinedMatchType>(unit.MatchClasses);
+			foreach(ActionsBearer p in unit.Packages)
+				matchClasses.AddRange(p.MatchClasses);
 			this.matchClasses = matchClasses;
 		}
-		return Collections.unmodifiableList(matchClasses);
+		return matchClasses.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions()
+	public virtual ICollection<MatchClassFilterFunction> MatchClassFilterFunctions
 	{
-		if(matchClassFilterFunctions == null) {
-			ArrayList<MatchClassFilterFunction> matchClassFilterFunctions =
-					new ArrayList<MatchClassFilterFunction>(unit.getMatchClassFilterFunctions());
-			for(ActionsBearer p : unit.getPackages()) {
-				matchClassFilterFunctions.addAll(p.getMatchClassFilterFunctions());
-			}
+		get
+		{
+		if(matchClassFilterFunctions == null)
+		{
+			List<MatchClassFilterFunction> matchClassFilterFunctions = new List<MatchClassFilterFunction>(unit.MatchClassFilterFunctions);
+			foreach(ActionsBearer p in unit.Packages)
+				matchClassFilterFunctions.AddRange(p.MatchClassFilterFunctions);
 			this.matchClassFilterFunctions = matchClassFilterFunctions;
 		}
-		return Collections.unmodifiableList(matchClassFilterFunctions);
+		return matchClassFilterFunctions.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<Function> getFunctions()
+	public virtual ICollection<Function> Functions
 	{
-		if(functions == null) {
-			ArrayList<Function> functions = new ArrayList<Function>(unit.getFunctions());
-			for(ActionsBearer p : unit.getPackages()) {
-				functions.addAll(p.getFunctions());
-			}
+		get
+		{
+		if(functions == null)
+		{
+			List<Function> functions = new List<Function>(unit.Functions);
+			foreach(ActionsBearer p in unit.Packages)
+				functions.AddRange(p.Functions);
 			this.functions = functions;
 		}
-		return Collections.unmodifiableList(functions);
+		return functions.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<Procedure> getProcedures()
+	public virtual ICollection<Procedure> Procedures
 	{
-		if(procedures == null) {
-			ArrayList<Procedure> procedures = new ArrayList<Procedure>(unit.getProcedures());
-			for(ActionsBearer p : unit.getPackages()) {
-				procedures.addAll(p.getProcedures());
-			}
+		get
+		{
+		if(procedures == null)
+		{
+			List<Procedure> procedures = new List<Procedure>(unit.Procedures);
+			foreach(ActionsBearer p in unit.Packages)
+				procedures.AddRange(p.Procedures);
 			this.procedures = procedures;
 		}
-		return Collections.unmodifiableList(procedures);
+		return procedures.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<Sequence> getSequences()
+	public virtual ICollection<Sequence> Sequences
 	{
-		if(sequences == null) {
-			ArrayList<Sequence> sequences = new ArrayList<Sequence>(unit.getSequences());
-			for(ActionsBearer p : unit.getPackages()) {
-				sequences.addAll(p.getSequences());
-			}
+		get
+		{
+		if(sequences == null)
+		{
+			List<Sequence> sequences = new List<Sequence>(unit.Sequences);
+			foreach(ActionsBearer p in unit.Packages)
+				sequences.AddRange(p.Sequences);
 			this.sequences = sequences;
 		}
-		return Collections.unmodifiableList(sequences);
+		return sequences.AsReadOnly();
+		}
 	}
+}
+
 }

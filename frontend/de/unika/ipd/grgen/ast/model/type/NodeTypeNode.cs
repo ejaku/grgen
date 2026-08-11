@@ -1,203 +1,215 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
-package de.unika.ipd.grgen.ast.model.type;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.ConstructorDeclNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
-import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.expr.ContainerInitNode;
-import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
-import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
-import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
-import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
-import de.unika.ipd.grgen.ast.model.MemberInitNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.model.type.NodeType;
-
-/**
- * A class representing a node type
- */
-public class NodeTypeNode extends InheritanceTypeNode
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
+namespace de.unika.ipd.grgen.ast.model.type
 {
-	static {
-		setClassName(NodeTypeNode.class, "node type");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using ConstructorDeclNode = de.unika.ipd.grgen.ast.decl.ConstructorDeclNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using FunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+using OperatorDeclNode = de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+using OperatorEvaluator = de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
+using ProcedureDeclNode = de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using ContainerInitNode = de.unika.ipd.grgen.ast.expr.ContainerInitNode;
+using ArrayInitNode = de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
+using DequeInitNode = de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
+using MapInitNode = de.unika.ipd.grgen.ast.expr.map.MapInitNode;
+using SetInitNode = de.unika.ipd.grgen.ast.expr.set.SetInitNode;
+using MemberInitNode = de.unika.ipd.grgen.ast.model.MemberInitNode;
+using MemberDeclNode = de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+
+/// <summary>
+/// A class representing a node type
+/// </summary>
+public class NodeTypeNode : InheritanceTypeNode
+{
+	static NodeTypeNode()
+	{
+		SetClassName(typeof(NodeTypeNode), "node type");
 	}
 
 	public static NodeTypeNode nodeType;
 
 	private CollectNode<NodeTypeNode> extend;
 
-	/**
-	 * Create a new node type
-	 * @param ext The collect node containing the node types which are extended by this type.
-	 * @param body the collect node with body declarations
-	 * @param modifiers Type modifiers for this type.
-	 * @param externalName The name of the external implementation of this type or null.
-	 */
-	public NodeTypeNode(CollectNode<IdentNode> ext, CollectNode<BaseNode> body, int modifiers, String externalName)
+	/// <summary>
+	/// Create a new node type </summary>
+	/// <param name="ext"> The collect node containing the node types which are extended by this type. </param>
+	/// <param name="body"> the collect node with body declarations </param>
+	/// <param name="modifiers"> Type modifiers for this type. </param>
+	/// <param name="externalName"> The name of the external implementation of this type or null. </param>
+	public NodeTypeNode(CollectNode<IdentNode> ext, CollectNode<BaseNode> body, int modifiers, string externalName)
 	{
 		this.extendUnresolved = ext;
-		becomeParent(this.extendUnresolved);
+		BecomeParent(this.extendUnresolved);
 		this.bodyUnresolved = body;
-		becomeParent(this.bodyUnresolved);
-		setModifiers(modifiers);
-		setExternalName(externalName);
+		BecomeParent(this.bodyUnresolved);
+		Modifiers = modifiers;
+		ExternalName = externalName;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersionCollectNode(extendUnresolved, extend));
-		children.add(getValidVersionCollectNode(bodyUnresolved, body));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersionCollectNode(extendUnresolved, extend));
+		children.Add(GetValidVersionCollectNode(bodyUnresolved, body));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("extends");
-		childrenNames.add("body");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("extends");
+		childrenNames.Add("body");
 		return childrenNames;
+		}
 	}
 
-	private static final CollectResolver<NodeTypeNode> extendResolver =
-			new CollectResolver<NodeTypeNode>(new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class));
+	private static readonly CollectResolver<NodeTypeNode> extendResolver =
+			new CollectResolver<NodeTypeNode>(new DeclarationTypeResolver<NodeTypeNode>(typeof(NodeTypeNode)));
 
-	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
-			new DeclarationResolver<BaseNode>(MemberDeclNode.class, MemberInitNode.class, ConstructorDeclNode.class,
-					MapInitNode.class, SetInitNode.class, ArrayInitNode.class, DequeInitNode.class,
-					FunctionDeclNode.class, ProcedureDeclNode.class));
+	private static readonly CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
+			new DeclarationResolver<BaseNode>(typeof(MemberDeclNode), typeof(MemberInitNode), typeof(ConstructorDeclNode),
+					typeof(MapInitNode), typeof(SetInitNode), typeof(ArrayInitNode), typeof(DequeInitNode),
+					typeof(FunctionDeclNode), typeof(ProcedureDeclNode)));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		OperatorDeclNode.makeOp(Operator.COND, this, new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
+		OperatorDeclNode.MakeOp(Operator.COND, this, new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
 
-		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.SE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.EQ, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.NE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.SE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
 
-		body = bodyResolver.resolve(bodyUnresolved, this);
-		extend = extendResolver.resolve(extendUnresolved, this);
+		body = bodyResolver.Resolve(bodyUnresolved, this);
+		extend = extendResolver.Resolve(extendUnresolved, this);
 
 		// Initialize direct sub types
-		if(extend != null) {
-			for(InheritanceTypeNode type : extend.getChildrenExact()) {
-				type.addDirectSubType(this);
-			}
+		if(extend != null)
+		{
+			foreach(InheritanceTypeNode type in extend.ChildrenExact)
+				type.AddDirectSubType(this);
 		}
 
 		return body != null && extend != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		boolean res = super.checkLocal();
+		bool res = base.CheckLocal();
 
-		for(BaseNode child : body.getChildrenExact()) {
-			if(child instanceof ConstructorDeclNode
-					|| child instanceof MemberInitNode
-					|| child instanceof ContainerInitNode
-					|| child instanceof FunctionDeclNode
-					|| child instanceof ProcedureDeclNode)
+		foreach(BaseNode child in body.ChildrenExact)
+		{
+			if(child is ConstructorDeclNode
+					|| child is MemberInitNode
+					|| child is ContainerInitNode
+					|| child is FunctionDeclNode
+					|| child is ProcedureDeclNode)
 				continue;
-			
+
 			DeclNode decl = (DeclNode)child;
-			if(decl.getDeclType() instanceof InternalTransientObjectTypeNode) {
-				decl.reportError("Only transient object classes may contain attributes of transient object class types"
-						+ " (but the attribute " + decl.getIdent()
-						+ " is of transient object class type " + decl.getDeclType().toStringWithDeclarationCoords()
-						+ " in node class " + getIdent() + ").");
+			if(decl.DeclType is InternalTransientObjectTypeNode)
+			{
+				decl.ReportError("Only transient object classes may contain attributes of transient object class types"
+						+ " (but the attribute " + decl.Ident
+						+ " is of transient object class type " + decl.DeclType.ToStringWithDeclarationCoords()
+						+ " in node class " + Ident + ").");
 				res &= false;
 			}
 		}
-		
+
 		return res;
 	}
 
-	/**
-	 * Get the IR node type for this AST node.
-	 * @return The correctly casted IR node type.
-	 */
-	public NodeType getIRNodeType()
+	/// <summary>
+	/// Get the IR node type for this AST node. </summary>
+	/// <returns> The correctly casted IR node type. </returns>
+	public virtual NodeType IRNodeType
 	{
-		return checkIR(NodeType.class);
+		get
+		{
+		return CheckIR(typeof(NodeType));
+		}
 	}
 
-	/**
-	 * Construct IR object for this AST node.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+	/// <summary>
+	/// Construct IR object for this AST node. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
 	{
-		if(isIRAlreadySet()) { // break endless recursion in case of a member of node or container of node type
-			return getIR();
-		}
+		if(IsIRAlreadySet()) // break endless recursion in case of a member of node or container of node type
+			return IR;
 
-		NodeType nt = new NodeType(getDecl().getIdent().getIRIdent(), getIRModifiers(), getExternalName());
+		NodeType nt = new NodeType(Decl.GetIdent().GetIRIdent(), IRModifiers, ExternalName);
 
-		setIR(nt);
+		IR = nt;
 
-		constructIR(nt);
+		ConstructIR(nt);
 
 		return nt;
 	}
 
-	@Override
-	public void doGetCompatibleToTypes(Collection<TypeNode> coll)
+	public override void DoGetCompatibleToTypes(ICollection<TypeNode> coll)
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		for(NodeTypeNode inh : extend.getChildrenExact()) {
-			coll.add(inh);
-			coll.addAll(inh.getCompatibleToTypes());
+		foreach(NodeTypeNode inh in extend.ChildrenExact)
+		{
+			coll.Add(inh);
+			coll.AddAll(inh.CompatibleToTypes);
 		}
-		
-		coll.add(BasicTypeNode.typeType); // ~~ addCompatibility(this, BasicTypeNode.typeType);
+
+		coll.Add(BasicTypeNode.typeType); // ~~ addCompatibility(this, BasicTypeNode.typeType);
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "node class";
+		}
 	}
 
-	@Override
-	public Collection<InheritanceTypeNode> getDirectSuperTypes()
+	public override ICollection<InheritanceTypeNode> DirectSuperTypes
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
-		return new ArrayList<InheritanceTypeNode>(extend.getChildrenExact());
+		return new List<InheritanceTypeNode>(extend.ChildrenExact);
+		}
 	}
+}
+
 }

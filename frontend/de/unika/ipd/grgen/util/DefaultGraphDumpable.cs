@@ -1,36 +1,34 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.util;
-
-import java.awt.Color;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-
-/**
- * Some base class for a graph dumpable thing.
- */
-public abstract class DefaultGraphDumpable extends Base implements GraphDumpable, Walkable
+namespace de.unika.ipd.grgen.util
 {
-	private Collection<BaseNode> children = null;
 
-	private final Color color;
-	private final int shape;
-	private final String label;
-	private final String info;
+using System.Collections.Generic;
 
-	protected DefaultGraphDumpable(String label, String info, Color col, int shape)
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+
+/// <summary>
+/// Some base class for a graph dumpable thing.
+/// </summary>
+public abstract class DefaultGraphDumpable : Base, GraphDumpable, Walkable
+{
+	private ICollection<BaseNode> children = null;
+
+	private readonly Color color;
+	private readonly int shape;
+	private readonly string label;
+	private readonly string info;
+
+	protected internal DefaultGraphDumpable(string label, string info, Color col, int shape)
 	{
 		this.label = label;
 		this.shape = shape;
@@ -38,92 +36,91 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 		this.info = info;
 	}
 
-	protected DefaultGraphDumpable(String label, String info, Color col)
+	protected internal DefaultGraphDumpable(string label, string info, Color col)
+		: this(label, info, col, GraphDumper.DEFAULT)
 	{
-		this(label, info, col, GraphDumper.DEFAULT);
 	}
 
-	protected DefaultGraphDumpable(String label, String info)
+	protected internal DefaultGraphDumpable(string label, string info)
+		: this(label, info, Color.WHITE)
 	{
-		this(label, info, Color.WHITE);
 	}
 
-	protected DefaultGraphDumpable(String label)
+	protected internal DefaultGraphDumpable(string label)
+		: this(label, null)
 	{
-		this(label, null);
 	}
 
-	protected final void setChildren(Collection<BaseNode> children)
+	protected internal void setChildren(ICollection<BaseNode> children)
 	{
 		this.children = children;
 	}
 
-	protected final void setChildren(BaseNode[] children)
+	protected internal void SetChildren(BaseNode[] children)
 	{
-		setChildren(Arrays.asList(children));
+		setChildren(children);
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
-	 */
-	@Override
-	public String getNodeId()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeId()"/>
+	public virtual string NodeId
 	{
-		return getId();
+		get
+		{
+		return Id;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
-	 */
-	@Override
-	public Color getNodeColor()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor()"/>
+	public virtual Color NodeColor
 	{
+		get
+		{
 		return color;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeShape()
-	 */
-	@Override
-	public int getNodeShape()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeShape()"/>
+	public virtual int NodeShape
 	{
+		get
+		{
 		return shape;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
-	 */
-	@Override
-	public String getNodeLabel()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel()"/>
+	public virtual string NodeLabel
 	{
+		get
+		{
 		return label;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
-	 */
-	@Override
-	public String getNodeInfo()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeInfo()"/>
+	public virtual string NodeInfo
 	{
+		get
+		{
 		return info;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
-	 */
-	@Override
-	public String getEdgeLabel(int edge)
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getEdgeLabel(int)"/>
+	public virtual string GetEdgeLabel(int edge)
 	{
 		return "" + edge;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	 */
-	@Override
-	public Collection<BaseNode> getWalkableChildren()
+	/// <seealso cref="de.unika.ipd.grgen.util.Walkable.getWalkableChildren()"/>
+	public virtual ICollection<BaseNode> WalkableChildren
 	{
-		Collection<BaseNode> empty = Collections.emptySet();
+		get
+		{
+		ICollection<BaseNode> empty = Collections.EmptySet();
 		return children == null ? empty : children;
+		}
 	}
+}
+
 }

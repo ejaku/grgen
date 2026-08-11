@@ -1,215 +1,241 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.model.decl;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.EnumConstNode;
-import de.unika.ipd.grgen.ast.expr.EnumExprNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.InvalidConstNode;
-import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.model.EnumItem;
-import de.unika.ipd.grgen.util.Walkable;
-
-/**
- * A class for enum items.
- */
-public class EnumItemDeclNode extends MemberDeclNode
+namespace de.unika.ipd.grgen.ast.model.decl
 {
-	static {
-		setClassName(EnumItemDeclNode.class, "enum item decl");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using EnumConstNode = de.unika.ipd.grgen.ast.expr.EnumConstNode;
+using EnumExprNode = de.unika.ipd.grgen.ast.expr.EnumExprNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using InvalidConstNode = de.unika.ipd.grgen.ast.expr.InvalidConstNode;
+using EnumTypeNode = de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using EnumItem = de.unika.ipd.grgen.ir.model.EnumItem;
+using Walkable = de.unika.ipd.grgen.util.Walkable;
+
+/// <summary>
+/// A class for enum items.
+/// </summary>
+public class EnumItemDeclNode : MemberDeclNode
+{
+	static EnumItemDeclNode()
+	{
+		SetClassName(typeof(EnumItemDeclNode), "enum item decl");
 	}
 
 	private ExprNode value;
 	private EnumConstNode constValue;
 
-	/** Position of this item in the enum. */
-	private final int pos;
+	/// <summary>
+	/// Position of this item in the enum. </summary>
+	private readonly int pos;
 
-	/**
-	 * Make a new enum item decl node.
-	 */
+	/// <summary>
+	/// Make a new enum item decl node.
+	/// </summary>
 	public EnumItemDeclNode(IdentNode identifier, IdentNode type, ExprNode value, int pos)
+		: base(identifier, type, true)
 	{
-		super(identifier, type, true);
 		this.value = value;
-		becomeParent(this.value);
+		BecomeParent(this.value);
 		this.pos = pos;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
-		children.add(value);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, type));
+		children.Add(value);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("value");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("value");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationTypeResolver<EnumTypeNode> typeResolver =
-			new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
+	private static readonly DeclarationTypeResolver<EnumTypeNode> typeResolver =
+			new DeclarationTypeResolver<EnumTypeNode>(typeof(EnumTypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		type = typeResolver.resolve(typeUnresolved, this);
+		type = typeResolver.Resolve(typeUnresolved, this);
 		return type != null;
 	}
 
-	/**
-	 * Check the validity of the initialisation expression.
-	 * @return true, if the init expression is ok, false if not.
-	 */
-	@Override
-	protected boolean checkLocal()
+	/// <summary>
+	/// Check the validity of the initialisation expression. </summary>
+	/// <returns> true, if the init expression is ok, false if not. </returns>
+	protected internal override bool CheckLocal()
 	{
-		boolean res = super.checkLocal();
+		bool res = base.CheckLocal();
 		// Check, if this enum item was defined with a latter one.
 		// This may not be.
 		HashSet<EnumItemDeclNode> visitedEnumItems = new HashSet<EnumItemDeclNode>();
-		if(!checkValue(value, visitedEnumItems))
+		if(!CheckValue(value, visitedEnumItems))
 			return false;
 
-		ExprNode newValue = value.evaluate();
-		if(!(newValue instanceof ConstNode)) {
-			reportError("The enum item " + ident + " expects a constant initialization expression.");
+		ExprNode newValue = value.Evaluate();
+		if(!(newValue is ConstNode))
+		{
+			ReportError("The enum item " + ident + " expects a constant initialization expression.");
 			return false;
 		}
 
 		// Adjust the values type to int, else emit an error.
-		if(!newValue.getType().isCompatibleTo(BasicTypeNode.intType)) {
-			reportError("The enum item " + ident + " expects an initialization expression of type int, but is given an expression of type " + newValue.getType().getTypeName() + ".");
+		if(!newValue.Type.IsCompatibleTo(BasicTypeNode.intType))
+		{
+			ReportError("The enum item " + ident + " expects an initialization expression of type int, but is given an expression of type " + newValue.Type.TypeName + ".");
 			return false;
 		}
 
-		newValue = ((ConstNode)newValue).castTo(BasicTypeNode.intType);
-		if(value != newValue) {
-			if(newValue instanceof InvalidConstNode) {
-				reportError("The enum item " + ident + " cannot be casted to int (INTERNAL FAILURE).");
+		newValue = ((ConstNode)newValue).CastTo(BasicTypeNode.intType);
+		if(value != newValue)
+		{
+			if(newValue is InvalidConstNode)
+			{
+				ReportError("The enum item " + ident + " cannot be casted to int (INTERNAL FAILURE).");
 				return false;
 			}
-			switchParenthood(value, newValue);
+			SwitchParenthood(value, newValue);
 			value = newValue;
 		}
 
 		return res;
 	}
 
-	/**
-	 * Used to check the value of an EnumItemNode for circular dependencies
-	 * and accesses to enum item declared after use
-	 * @returns false, if an illegal use has been found
-	 */
-	private boolean checkValue(Walkable cur, HashSet<EnumItemDeclNode> visitedEnumItems)
+	/// <summary>
+	/// Used to check the value of an EnumItemNode for circular dependencies
+	/// and accesses to enum item declared after use
+	/// @returns false, if an illegal use has been found
+	/// </summary>
+	private bool CheckValue(Walkable cur, HashSet<EnumItemDeclNode> visitedEnumItems)
 	{
 		EnumItemDeclNode enumItem = null;
-		if(cur instanceof EnumItemDeclNode) {
+		if(cur is EnumItemDeclNode)
+		{
 			enumItem = (EnumItemDeclNode)cur;
-			if(pos == enumItem.pos) {
-				reportError("The enum item " + ident + " is not allowed to depend on its own value.");
-				return false;
-			} else if(pos < enumItem.pos) {
-				reportError("The enum item " + ident + " is not allowed to depend on a following one.");
-				return false;
-			} else if(visitedEnumItems.contains(enumItem)) {
-				reportError("Circular dependency found on value of enum item " + enumItem.getIdent() + ".");
+			if(pos == enumItem.pos)
+			{
+				ReportError("The enum item " + ident + " is not allowed to depend on its own value.");
 				return false;
 			}
-			visitedEnumItems.add(enumItem);
-		} else if(cur instanceof EnumTypeNode) // EnumTypeNode has all EnumItemNodes as children => don't check them
+			else if(pos < enumItem.pos)
+			{
+				ReportError("The enum item " + ident + " is not allowed to depend on a following one.");
+				return false;
+			}
+			else if(visitedEnumItems.Contains(enumItem))
+			{
+				ReportError("Circular dependency found on value of enum item " + enumItem.Ident + ".");
+				return false;
+			}
+			visitedEnumItems.Add(enumItem);
+		}
+		else if(cur is EnumTypeNode) // EnumTypeNode has all EnumItemNodes as children => don't check them
 			return true;
-		else if(cur instanceof EnumExprNode) // Enum item from another, already declared enum => skip it
+		else if(cur is EnumExprNode) // Enum item from another, already declared enum => skip it
 			return true;
 
-		for(Walkable child : cur.getWalkableChildren()) {
-			if(!checkValue(child, visitedEnumItems))
+		foreach(Walkable child in cur.WalkableChildren)
+		{
+			if(!CheckValue(child, visitedEnumItems))
 				return false;
 		}
 
 		// If cur is an EnumItemNode, mark it as unvisited again
 		// (needed for "a, b, c = a * b")
 		if(enumItem != null)
-			visitedEnumItems.remove(enumItem);
+			visitedEnumItems.Remove(enumItem);
 
 		return true;
 	}
 
-	/** @return The type node of the declaration */
-	@Override
-	public TypeNode getDeclType()
+	/// <returns> The type node of the declaration </returns>
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return type;
+		}
 	}
 
-	public ExprNode getValue()
+	public virtual ExprNode Value
 	{
+		get
+		{
 		if(constValue != null)
 			return constValue;
 
-		if(!(value instanceof ConstNode))
+		if(!(value is ConstNode))
 			return value;
 
-		Object obj = ((ConstNode)value).getValue();
-		int v = ((Integer)obj).intValue();
-		debug.report(NOTE, "result: " + value);
+		object obj = ((ConstNode)value).Value;
+		int v = ((int?)obj).Value;
+		debug.Report(NOTE, "result: " + value);
 
-		constValue = new EnumConstNode(getCoords(), getIdent(), v);
+		constValue = new EnumConstNode(Coords, Ident, v);
 		return constValue;
+		}
 	}
 
-	public final EnumItem getItem()
+	public EnumItem Item
 	{
-		return checkIR(EnumItem.class);
+		get
+		{
+		return CheckIR(typeof(EnumItem));
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
 	{
-		EnumConstNode c = (EnumConstNode)getValue();
+		EnumConstNode c = (EnumConstNode)Value;
 
-		return new EnumItem(ident.getIRIdent(), c.getIREnumExpression());
+		return new EnumItem(ident.IRIdent, c.IREnumExpression);
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "enum item";
+		}
 	}
+}
+
 }

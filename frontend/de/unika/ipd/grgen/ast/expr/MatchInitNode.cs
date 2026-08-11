@@ -1,102 +1,119 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.MatchInit;
-import de.unika.ipd.grgen.ir.type.DefinedMatchType;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class MatchInitNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(MatchInitNode.class, "match init");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DefinedMatchTypeNode = de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using MatchInit = de.unika.ipd.grgen.ir.expr.MatchInit;
+using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class MatchInitNode : ExprNode
+{
+	static MatchInitNode()
+	{
+		SetClassName(typeof(MatchInitNode), "match init");
 	}
 
 	private IdentNode matchTypeUnresolved;
 	private DefinedMatchTypeNode matchType;
-	
+
 	public MatchInitNode(Coords coords, IdentNode matchType)
+		: base(coords)
 	{
-		super(coords);
 		this.matchTypeUnresolved = matchType;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationTypeResolver<DefinedMatchTypeNode> matchTypeResolver =
-			new DeclarationTypeResolver<DefinedMatchTypeNode>(DefinedMatchTypeNode.class);
+	private static readonly DeclarationTypeResolver<DefinedMatchTypeNode> matchTypeResolver =
+			new DeclarationTypeResolver<DefinedMatchTypeNode>(typeof(DefinedMatchTypeNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		matchType = matchTypeResolver.resolve(matchTypeUnresolved, this);
-		return matchType != null && matchType.resolve();
+		matchType = matchTypeResolver.Resolve(matchTypeUnresolved, this);
+		return matchType != null && matchType.Resolve();
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		return getMatchType();
+		get
+		{
+		return MatchType;
+		}
 	}
 
-	public DefinedMatchTypeNode getMatchType()
+	public virtual DefinedMatchTypeNode MatchType
 	{
-		assert(isResolved());
+		get
+		{
+		Debug.Assert((IsResolved()));
 		return matchType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		DefinedMatchType type = matchType.checkIR(DefinedMatchType.class);
+		DefinedMatchType type = matchType.CheckIR(typeof(DefinedMatchType));
 		return new MatchInit(type);
 	}
 
-	public MatchInit getIRMatchInit()
+	public virtual MatchInit IRMatchInit
 	{
-		return checkIR(MatchInit.class);
+		get
+		{
+		return CheckIR(typeof(MatchInit));
+		}
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "match initialization";
+		}
 	}
+}
+
 }

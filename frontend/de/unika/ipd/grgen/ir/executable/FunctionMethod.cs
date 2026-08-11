@@ -1,39 +1,45 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.executable;
-
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * A function method.
- */
-public class FunctionMethod extends Function
+namespace de.unika.ipd.grgen.ir.executable
 {
-	/** The owner of the function method. */
-	protected Type owner = null;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-	public FunctionMethod(String name, Ident ident, Type retType)
+/// <summary>
+/// A function method.
+/// </summary>
+public class FunctionMethod : Function
+{
+	/// <summary>
+	/// The owner of the function method. </summary>
+	protected internal Type owner = null;
+
+	public FunctionMethod(string name, Ident ident, Type retType)
+		: base(name, ident, retType)
 	{
-		super(name, ident, retType);
 	}
 
-	public Type getOwner()
+	public virtual Type Owner
 	{
+		get
+		{
 		return owner;
+		}
+		set
+		{
+		owner = value;
+		}
 	}
 
-	public void setOwner(Type type)
-	{
-		owner = type;
-	}
+}
+
 }

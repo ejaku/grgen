@@ -1,51 +1,55 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt.graph;
-
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.AssignmentBase;
-
-/**
- * Represents a nameof assignment statement in the IR.
- */
-public class AssignmentNameof extends AssignmentBase
+namespace de.unika.ipd.grgen.ir.stmt.graph
 {
-	/** The lhs of the assignment. */
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using AssignmentBase = de.unika.ipd.grgen.ir.stmt.AssignmentBase;
+
+/// <summary>
+/// Represents a nameof assignment statement in the IR.
+/// </summary>
+public class AssignmentNameof : AssignmentBase
+{
+	/// <summary>
+	/// The lhs of the assignment. </summary>
 	private Expression target;
 
 	public AssignmentNameof(Expression target, Expression expr)
+		: base("assignment nameof")
 	{
-		super("assignment nameof");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public Expression getTarget()
+	public virtual Expression Target
 	{
+		get
+		{
 		return target;
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return "nameof(" + (getTarget() != null ? getTarget().toString() : "") + ") = " + getExpression();
+		return "nameof(" + (Target != null ? Target.ToString() : "") + ") = " + Expression;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
 		if(target != null)
-			target.collectNeededEntities(needs);
-		getExpression().collectNeededEntities(needs);
+			target.CollectNeededEntities(needs);
+		Expression.CollectNeededEntities(needs);
 	}
+}
+
 }

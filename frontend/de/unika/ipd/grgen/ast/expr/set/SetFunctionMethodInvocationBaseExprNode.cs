@@ -1,63 +1,70 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.set;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.expr.ContainerFunctionMethodInvocationBaseExprNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-public abstract class SetFunctionMethodInvocationBaseExprNode extends ContainerFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.set
 {
-	static {
-		setClassName(SetFunctionMethodInvocationBaseExprNode.class,
-				"set function method invocation base expression");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using ContainerFunctionMethodInvocationBaseExprNode = de.unika.ipd.grgen.ast.expr.ContainerFunctionMethodInvocationBaseExprNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public abstract class SetFunctionMethodInvocationBaseExprNode : ContainerFunctionMethodInvocationBaseExprNode
+{
+	static SetFunctionMethodInvocationBaseExprNode()
+	{
+		SetClassName(typeof(SetFunctionMethodInvocationBaseExprNode), "set function method invocation base expression");
 	}
 
 	public SetFunctionMethodInvocationBaseExprNode(Coords coords, ExprNode targetExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
 	}
 
-	protected SetTypeNode getTargetTypeExact()
+	protected internal virtual SetTypeNode TargetTypeExact
 	{
-		return (SetTypeNode)getTargetType();
+		get
+		{
+		return (SetTypeNode)TargetType;
+		}
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(targetExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(targetExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("targetExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("targetExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
 		return true;
 	}
+}
+
 }

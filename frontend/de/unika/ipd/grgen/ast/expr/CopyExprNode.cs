@@ -1,125 +1,137 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.GraphTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
-import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.CopyExpr;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node yielding the copy of a subgraph, or a match, or a container.
- */
-public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(CopyExprNode.class, "copy expr");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ExternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
+using InternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
+using InternalTransientObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
+using MatchTypeNode = de.unika.ipd.grgen.ast.type.MatchTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using GraphTypeNode = de.unika.ipd.grgen.ast.type.basic.GraphTypeNode;
+using ObjectTypeNode = de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
+using ContainerTypeNode = de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using CopyExpr = de.unika.ipd.grgen.ir.expr.CopyExpr;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node yielding the copy of a subgraph, or a match, or a container.
+/// </summary>
+public class CopyExprNode : BuiltinFunctionInvocationBaseNode
+{
+	static CopyExprNode()
+	{
+		SetClassName(typeof(CopyExprNode), "copy expr");
 	}
 
 	private ExprNode sourceExpr;
-	private boolean deep;
+	private bool deep;
 
-	public CopyExprNode(Coords coords, ExprNode sourceExpr, boolean deep)
+	public CopyExprNode(Coords coords, ExprNode sourceExpr, bool deep)
+		: base(coords)
 	{
-		super(coords);
 		this.sourceExpr = sourceExpr;
-		becomeParent(this.sourceExpr);
+		BecomeParent(this.sourceExpr);
 		this.deep = deep;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(sourceExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(sourceExpr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("source expression");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("source expression");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		TypeNode type = sourceExpr.getType();
-		if(deep) {
-			if(!(type instanceof GraphTypeNode)
-					&& !(type instanceof ContainerTypeNode)
-					&& !(type instanceof InternalObjectTypeNode)
-					&& !(type instanceof InternalTransientObjectTypeNode)
-					&& !(type instanceof ExternalObjectTypeNode)
-					&& !(type instanceof ObjectTypeNode)) {
-				sourceExpr.reportError("The copy construct expects as argument a value of type container or graph or class object or transient class object or external object"
-						+ " (but is given a value of " + type.getKind() + " " + type.getTypeName() + ").");
+		TypeNode type = sourceExpr.Type;
+		if(deep)
+		{
+			if(!(type is GraphTypeNode)
+					&& !(type is ContainerTypeNode)
+					&& !(type is InternalObjectTypeNode)
+					&& !(type is InternalTransientObjectTypeNode)
+					&& !(type is ExternalObjectTypeNode)
+					&& !(type is ObjectTypeNode))
+			{
+				sourceExpr.ReportError("The copy construct expects as argument a value of type container or graph or class object or transient class object or external object"
+						 + " (but is given a value of " + type.Kind + " " + type.TypeName + ").");
 				return false;
 			}
-		} else {
-			if(!(type instanceof MatchTypeNode)
-					&& !(type instanceof ContainerTypeNode)
-					&& !(type instanceof InternalObjectTypeNode)
-					&& !(type instanceof InternalTransientObjectTypeNode)
-					&& !(type instanceof ExternalObjectTypeNode)
-					&& !(type instanceof ObjectTypeNode)) {
-				sourceExpr.reportError("The clone construct expects as argument a value of type container or match or class object or transient class object or external object"
-						+ " (but is given a value of " + type.getKind() + " " + type.getTypeName() + ").");
+		}
+		else
+		{
+			if(!(type is MatchTypeNode)
+					&& !(type is ContainerTypeNode)
+					&& !(type is InternalObjectTypeNode)
+					&& !(type is InternalTransientObjectTypeNode)
+					&& !(type is ExternalObjectTypeNode)
+					&& !(type is ObjectTypeNode))
+			{
+				sourceExpr.ReportError("The clone construct expects as argument a value of type container or match or class object or transient class object or external object"
+						+ " (but is given a value of " + type.Kind + " " + type.TypeName + ").");
 				return false;
 			}
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		sourceExpr = sourceExpr.evaluate();
-		return new CopyExpr(sourceExpr.checkIR(Expression.class), getType().getIRType(), deep);
+		sourceExpr = sourceExpr.Evaluate();
+		return new CopyExpr(sourceExpr.CheckIR(typeof(Expression)), Type.IRType, deep);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		if(sourceExpr.getType() instanceof MatchTypeNode
-				|| sourceExpr.getType() instanceof ContainerTypeNode
-				|| sourceExpr.getType() instanceof InternalObjectTypeNode
-				|| sourceExpr.getType() instanceof InternalTransientObjectTypeNode
-				|| sourceExpr.getType() instanceof ExternalObjectTypeNode
-				|| sourceExpr.getType() instanceof ObjectTypeNode)
-			return sourceExpr.getType();
+		get
+		{
+		if(sourceExpr.Type is MatchTypeNode
+				|| sourceExpr.Type is ContainerTypeNode
+				|| sourceExpr.Type is InternalObjectTypeNode
+				|| sourceExpr.Type is InternalTransientObjectTypeNode
+				|| sourceExpr.Type is ExternalObjectTypeNode
+				|| sourceExpr.Type is ObjectTypeNode)
+			return sourceExpr.Type;
 		else
 			return BasicTypeNode.graphType;
+		}
 	}
+}
+
 }

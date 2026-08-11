@@ -1,4 +1,4 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
@@ -9,49 +9,44 @@
  * @author Sebastian Hack
  */
 
-package de.unika.ipd.grgen.util;
-
-import java.awt.Color;
+namespace de.unika.ipd.grgen.util
+{
 
 public interface GraphDumpable
 {
-	/**
-	 * Get the unique id of a node.
-	 * Only one node with this id can be in the graph.
-	 * @return A unique id of this node.
-	 */
-	String getNodeId();
+	/// <summary>
+	/// Get the unique id of a node.
+	/// Only one node with this id can be in the graph. </summary>
+	/// <returns> A unique id of this node. </returns>
+	string NodeId {get;}
 
-	/**
-	 * Get the color of this node.
-	 * @return The color.
-	 */
-	Color getNodeColor();
+	/// <summary>
+	/// Get the color of this node. </summary>
+	/// <returns> The color. </returns>
+	Color NodeColor {get;}
 
-	/**
-	 * Get the shape of this node.
-	 * @see GraphDumper
-	 * @return The node's shape
-	 */
-	int getNodeShape();
+	/// <summary>
+	/// Get the shape of this node. </summary>
+	/// <seealso cref="GraphDumper"/>
+	/// <returns> The node's shape </returns>
+	int NodeShape {get;}
 
-	/**
-	 * Get the label for a node.
-	 * This should be the string the user sees in the output.
-	 * @return The label of the node.
-	 */
-	String getNodeLabel();
+	/// <summary>
+	/// Get the label for a node.
+	/// This should be the string the user sees in the output. </summary>
+	/// <returns> The label of the node. </returns>
+	string NodeLabel {get;}
 
-	/**
-	 * Get node info.
-	 * @return Some additional information of the node.
-	 */
-	String getNodeInfo();
+	/// <summary>
+	/// Get node info. </summary>
+	/// <returns> Some additional information of the node. </returns>
+	string NodeInfo {get;}
 
-	/**
-	 * Gets the label for an edge outgoing from this node.
-	 * @param edge The number of the edge.
-	 * @return The label for edge <code>edge</code>
-	 */
-	String getEdgeLabel(int edge);
+	/// <summary>
+	/// Gets the label for an edge outgoing from this node. </summary>
+	/// <param name="edge"> The number of the edge. </param>
+	/// <returns> The label for edge <code>edge</code> </returns>
+	string GetEdgeLabel(int edge);
+}
+
 }

@@ -1,110 +1,120 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ir.type;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.executable.FunctionMethod;
-import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
-
-/**
- * Abstract base class for compound types containing members.
- */
-public abstract class CompoundType extends Type
+namespace de.unika.ipd.grgen.ir.type
 {
-	/** Collection containing all members defined in that type. */
-	private ArrayList<Entity> members = new ArrayList<Entity>();
 
-	private ArrayList<FunctionMethod> functionMethods = new ArrayList<FunctionMethod>();
-	private ArrayList<ProcedureMethod> procedureMethods = new ArrayList<ProcedureMethod>();
+using System.Collections.Generic;
+using System.Text;
 
-	/**
-	 * Make a new compound type.
-	 * @param name The name of the type.
-	 * @param ident The identifier used to declare this type.
-	 */
-	public CompoundType(String name, Ident ident)
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+using FunctionMethod = de.unika.ipd.grgen.ir.executable.FunctionMethod;
+using ProcedureMethod = de.unika.ipd.grgen.ir.executable.ProcedureMethod;
+
+/// <summary>
+/// Abstract base class for compound types containing members.
+/// </summary>
+public abstract class CompoundType : Type
+{
+	/// <summary>
+	/// Collection containing all members defined in that type. </summary>
+	private List<Entity> members = new List<Entity>();
+
+	private List<FunctionMethod> functionMethods = new List<FunctionMethod>();
+	private List<ProcedureMethod> procedureMethods = new List<ProcedureMethod>();
+
+	/// <summary>
+	/// Make a new compound type. </summary>
+	/// <param name="name"> The name of the type. </param>
+	/// <param name="ident"> The identifier used to declare this type. </param>
+	public CompoundType(string name, Ident ident)
+		: base(name, ident)
 	{
-		super(name, ident);
 	}
 
-	/** Get all members of this compound type. */
-	public Collection<Entity> getMembers()
+	/// <summary>
+	/// Get all members of this compound type. </summary>
+	public virtual ICollection<Entity> Members
 	{
-		return Collections.unmodifiableList(members);
+		get
+		{
+		return members.AsReadOnly();
+		}
 	}
 
-	/** Add a member entity to the compound type. */
-	public void addMember(Entity member)
+	/// <summary>
+	/// Add a member entity to the compound type. </summary>
+	public virtual void AddMember(Entity member)
 	{
-		members.add(member);
-		member.setOwner(this);
+		members.Add(member);
+		member.Owner = this;
 	}
 
-	public Collection<FunctionMethod> getFunctionMethods()
+	public virtual ICollection<FunctionMethod> FunctionMethods
 	{
-		return Collections.unmodifiableList(functionMethods);
+		get
+		{
+		return functionMethods.AsReadOnly();
+		}
 	}
 
-	public void addFunctionMethod(FunctionMethod method)
+	public virtual void AddFunctionMethod(FunctionMethod method)
 	{
-		functionMethods.add(method);
-		method.setOwner(this);
+		functionMethods.Add(method);
+		method.Owner = this;
 	}
 
-	public void addProcedureMethod(ProcedureMethod method)
+	public virtual void AddProcedureMethod(ProcedureMethod method)
 	{
-		procedureMethods.add(method);
-		method.setOwner(this);
+		procedureMethods.Add(method);
+		method.Owner = this;
 	}
 
-	public Collection<ProcedureMethod> getProcedureMethods()
+	public virtual ICollection<ProcedureMethod> ProcedureMethods
 	{
-		return Collections.unmodifiableList(procedureMethods);
+		get
+		{
+		return procedureMethods.AsReadOnly();
+		}
 	}
 
-	@Override
-	protected void canonicalizeLocal()
+	protected internal override void CanonicalizeLocal()
 	{
-		Collections.sort(members, Identifiable.COMPARATOR);
+		members.Sort(Identifiable.COMPARATOR);
 	}
 
-	@Override
-	public void addFields(Map<String, Object> fields)
+	public override void AddFields(IDictionary<string, object> fields)
 	{
-		super.addFields(fields);
-		fields.put("members", members.iterator());
+		base.AddFields(fields);
+		fields["members"] = members.GetEnumerator();
 	}
 
-	@Override
-	public void addToDigest(StringBuffer sb)
+	public override void AddToDigest(StringBuilder sb)
 	{
-		sb.append(this);
-		sb.append('[');
+		sb.Append(this);
+		sb.Append('[');
 
 		int i = 0;
-		for(Entity ent :  members) {
+		foreach(Entity ent in members)
+		{
 			if(i > 0)
-				sb.append(',');
-			sb.append(ent);
+				sb.Append(',');
+			sb.Append(ent);
 			++i;
 		}
 
-		sb.append(']');
+		sb.Append(']');
 	}
+}
+
 }

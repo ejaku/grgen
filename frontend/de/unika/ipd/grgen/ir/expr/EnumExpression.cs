@@ -1,55 +1,64 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * EnumExpression.java
- *
- * @author Sebastian Hack
- */
+/// <summary>
+/// EnumExpression.java
+/// 
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr;
+namespace de.unika.ipd.grgen.ir.expr
+{
+using System;
 
-import de.unika.ipd.grgen.ir.model.EnumItem;
-import de.unika.ipd.grgen.ir.model.type.EnumType;
+using EnumItem = de.unika.ipd.grgen.ir.model.EnumItem;
+using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
 
-public class EnumExpression extends Constant
+public class EnumExpression : Constant
 {
 	private EnumItem item;
 
 	// Constructor for later initialization when EnumType and EnumItem have been constructed.
 	// See EnumTypeNode.constructIR().
 	public EnumExpression(int value)
+		: base(null, Convert.ToInt32(value))
 	{
-		super(null, Integer.valueOf(value));
-		setName("enum expression");
+		Name = "enum expression";
 	}
 
 	public EnumExpression(EnumType type, EnumItem item)
+		: base(type, item.Value.Value)
 	{
-		super(type, item.getValue().getValue());
 		this.item = item;
-		setName("enum expression");
+		Name = "enum expression";
 	}
 
-	public void lateInit(EnumType type, EnumItem item)
+	public virtual void LateInit(EnumType type, EnumItem item)
 	{
 		this.type = type;
 		this.item = item;
 	}
 
-	public EnumItem getEnumItem()
+	public virtual EnumItem EnumItem
 	{
+		get
+		{
 		return item;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
-	@Override
-	public String getNodeLabel()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel() "/>
+	public override string NodeLabel
 	{
-		return item + " " + getValue();
+		get
+		{
+		return item + " " + Value;
+		}
 	}
+}
+
 }

@@ -1,35 +1,34 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ir.model.type;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Map;
-
-import de.unika.ipd.grgen.ir.ContainedInPackage;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.model.ConnAssert;
-
-/**
- * IR class that represents edge types.
- */
-public class EdgeType extends InheritanceType implements ContainedInPackage
+namespace de.unika.ipd.grgen.ir.model.type
 {
-	private String packageContainedIn;
 
-	/** The connection assertions. */
-	private final ArrayList<ConnAssert> connectionAsserts = new ArrayList<ConnAssert>();
+using System.Collections.Generic;
+using System.Text;
+
+using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using ConnAssert = de.unika.ipd.grgen.ir.model.ConnAssert;
+
+/// <summary>
+/// IR class that represents edge types.
+/// </summary>
+public class EdgeType : InheritanceType, ContainedInPackage
+{
+	private string packageContainedIn;
+
+	/// <summary>
+	/// The connection assertions. </summary>
+	private readonly List<ConnAssert> connectionAsserts = new List<ConnAssert>();
 
 	public enum DirectednessKind
 	{
@@ -38,95 +37,113 @@ public class EdgeType extends InheritanceType implements ContainedInPackage
 		Undirected
 	}
 
-	protected DirectednessKind directedness;
+	protected internal DirectednessKind directedness;
 
-	/**
-	 * Make a new edge type.
-	 * @param ident The identifier declaring this type.
-	 * @param modifiers The modifiers for this type.
-	 * @param externalName The name of the external implementation of this type or null.
-	 */
-	public EdgeType(Ident ident, int modifiers, String externalName)
+	/// <summary>
+	/// Make a new edge type. </summary>
+	/// <param name="ident"> The identifier declaring this type. </param>
+	/// <param name="modifiers"> The modifiers for this type. </param>
+	/// <param name="externalName"> The name of the external implementation of this type or null. </param>
+	public EdgeType(Ident ident, int modifiers, string externalName)
+		: base("edge type", ident, modifiers, externalName)
 	{
-		super("edge type", ident, modifiers, externalName);
 	}
 
-	public DirectednessKind getDirectedness()
+	public virtual DirectednessKind Directedness
 	{
+		get
+		{
 		return directedness;
+		}
+		set
+		{
+		directedness = value;
+		}
 	}
 
-	public void setDirectedness(DirectednessKind dir)
+
+	/// <summary>
+	/// Sorts the Connection assertion of this edge type,
+	/// so that the computed graph model digest is stable according to semantically equivalent connection assertions.
+	/// The order of the sorting is given by the <code>compareTo</code> method.
+	/// </summary>
+	public virtual void CanonicalizeConnectionAsserts()
 	{
-		directedness = dir;
+		connectionAsserts.Sort(new ComparatorAnonymousInnerClass(this));
 	}
 
-	/**
-	 * Sorts the Connection assertion of this edge type,
-	 * so that the computed graph model digest is stable according to semantically equivalent connection assertions.
-	 * The order of the sorting is given by the <code>compareTo</code> method.
-	 */
-	public void canonicalizeConnectionAsserts()
+	private class ComparatorAnonymousInnerClass : IComparer<ConnAssert>
 	{
-		Collections.sort(connectionAsserts, new Comparator<ConnAssert>() {
-			@Override
-			public int compare(ConnAssert ca1, ConnAssert ca2)
-			{
-				return ca1.compareTo(ca2);
-			}
-		});
+		private readonly EdgeType outerInstance;
+
+		public ComparatorAnonymousInnerClass(EdgeType outerInstance)
+		{
+			this.outerInstance = outerInstance;
+		}
+
+		public int Compare(ConnAssert ca1, ConnAssert ca2)
+		{
+			return ca1.CompareTo(ca2);
+		}
 	}
 
-	/** Add the given connection assertion to this edge type. */
-	public void addConnAssert(ConnAssert ca)
+	/// <summary>
+	/// Add the given connection assertion to this edge type. </summary>
+	public virtual void AddConnAssert(ConnAssert ca)
 	{
-		connectionAsserts.add(ca);
+		connectionAsserts.Add(ca);
 	}
 
-	/** Get all connection assertions. */
-	public Collection<ConnAssert> getConnAsserts()
+	/// <summary>
+	/// Get all connection assertions. </summary>
+	public virtual ICollection<ConnAssert> ConnAsserts
 	{
-		return Collections.unmodifiableList(connectionAsserts);
+		get
+		{
+		return connectionAsserts.AsReadOnly();
+		}
 	}
 
-	@Override
-	public void addFields(Map<String, Object> fields)
+	public override void AddFields(IDictionary<string, object> fields)
 	{
-		super.addFields(fields);
-		fields.put("conn_asserts", connectionAsserts.iterator());
+		base.AddFields(fields);
+		fields["conn_asserts"] = connectionAsserts.GetEnumerator();
 	}
 
-	@Override
-	public void addToDigest(StringBuffer sb)
+	public override void AddToDigest(StringBuilder sb)
 	{
-		super.addToDigest(sb);
+		base.AddToDigest(sb);
 
-		sb.append('[');
+		sb.Append('[');
 		int i = 0;
-		for(ConnAssert ca : connectionAsserts) {
+		foreach(ConnAssert ca in connectionAsserts)
+		{
 			if(i > 0)
-				sb.append(',');
-			sb.append(ca.toString());
+				sb.Append(',');
+			sb.Append(ca.ToString());
 			++i;
 		}
-		sb.append(']');
+		sb.Append(']');
 	}
 
-	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
-	@Override
-	public TypeClass classify()
+	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+	public override TypeClass Classify()
 	{
 		return TypeClass.IS_EDGE;
 	}
 
-	@Override
-	public String getPackageContainedIn()
+	public virtual string PackageContainedIn
 	{
+		get
+		{
 		return packageContainedIn;
+		}
+		set
+		{
+		this.packageContainedIn = value;
+		}
 	}
 
-	public void setPackageContainedIn(String packageContainedIn)
-	{
-		this.packageContainedIn = packageContainedIn;
-	}
+}
+
 }

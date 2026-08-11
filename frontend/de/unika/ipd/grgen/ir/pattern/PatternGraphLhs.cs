@@ -1,445 +1,488 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * PatternGraph.java
- *
- * @author Sebastian Hack
- */
+/// <summary>
+/// PatternGraph.java
+/// 
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ir.pattern;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.NeededEntities.Needs;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.expr.Constant;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
-import de.unika.ipd.grgen.ast.BaseNode; // for the context constants
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-
-/**
- * A pattern graph lhs is a graph pattern as it occurs on the left hand side of rules.
- * It includes nested alternative-case and iterated rules, as well as nested patterns (negative and independent).
- * It extends the pattern graph base class, additionally offering conditions that restrict the set of possible matches, 
- * lhs yield statements, homomorphy handling and further things.
- */
-public class PatternGraphLhs extends PatternGraphBase
+namespace de.unika.ipd.grgen.ir.pattern
 {
-	/** The alternative statements of the pattern graph */
-	private final ArrayList<Alternative> alts = new ArrayList<Alternative>();
 
-	/** The iterated statements of the pattern graph */
-	private final ArrayList<Rule> iters = new ArrayList<Rule>();
+using System.Collections.Generic;
 
-	/** The negative patterns(NAC) of the rule. */
-	private final ArrayList<PatternGraphLhs> negs = new ArrayList<PatternGraphLhs>();
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Needs = de.unika.ipd.grgen.ir.NeededEntities.Needs;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Constant = de.unika.ipd.grgen.ir.expr.Constant;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode; // for the context constants
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 
-	/** The independent patterns(PAC) of the rule. */
-	private final ArrayList<PatternGraphLhs> idpts = new ArrayList<PatternGraphLhs>();
+/// <summary>
+/// A pattern graph lhs is a graph pattern as it occurs on the left hand side of rules.
+/// It includes nested alternative-case and iterated rules, as well as nested patterns (negative and independent).
+/// It extends the pattern graph base class, additionally offering conditions that restrict the set of possible matches, 
+/// lhs yield statements, homomorphy handling and further things.
+/// </summary>
+public class PatternGraphLhs : PatternGraphBase
+{
+	private void InitializeInstanceFields()
+	{
+		mayPatternBeEmptyComputationState = PATTERN_NOT_YET_VISITED;
+	}
 
-	/** A list of all condition expressions. */
-	private final ArrayList<Expression> conds = new ArrayList<Expression>();
+	/// <summary>
+	/// The alternative statements of the pattern graph </summary>
+	private readonly List<Alternative> alts = new List<Alternative>();
 
-	/** A list of all yield assignments. */
-	private final ArrayList<EvalStatements> yields = new ArrayList<EvalStatements>();
+	/// <summary>
+	/// The iterated statements of the pattern graph </summary>
+	private readonly List<Rule> iters = new List<Rule>();
 
-	/** A list of all potentially homomorphic node sets. */
-	private final List<Collection<Node>> homNodesLists = new ArrayList<Collection<Node>>();
+	/// <summary>
+	/// The negative patterns(NAC) of the rule. </summary>
+	private readonly List<PatternGraphLhs> negs = new List<PatternGraphLhs>();
 
-	/** A list of all potentially homomorphic edge sets. */
-	private final List<Collection<Edge>> homEdgesLists = new ArrayList<Collection<Edge>>();
+	/// <summary>
+	/// The independent patterns(PAC) of the rule. </summary>
+	private readonly List<PatternGraphLhs> idpts = new List<PatternGraphLhs>();
 
-	/** A map of nodes which will be matched homomorphically to any other node
-	 *  to the isomorphy exceptions, requested by independent(node); */
-	private final HashMap<Node, HashSet<Node>> totallyHomNodes = new HashMap<Node, HashSet<Node>>();
+	/// <summary>
+	/// A list of all condition expressions. </summary>
+	private readonly List<Expression> conds = new List<Expression>();
 
-	/** A map of edges which will be matched homomorphically to any other edge
-	 *  to the isomorphy exceptions, requested by independent(edge); */
-	private final HashMap<Edge, HashSet<Edge>> totallyHomEdges = new HashMap<Edge, HashSet<Edge>>();
+	/// <summary>
+	/// A list of all yield assignments. </summary>
+	private readonly List<EvalStatements> yields = new List<EvalStatements>();
 
-	/** modifiers of pattern as defined in PatternGraphNode, only pattern locked, pattern path locked relevant */
-	int modifiers;
+	/// <summary>
+	/// A list of all potentially homomorphic node sets. </summary>
+	private readonly IList<ICollection<Node>> homNodesLists = new List<ICollection<Node>>();
 
-	final int PATTERN_NOT_YET_VISITED = 0;
-	final int PATTERN_MAYBE_EMPTY = 1;
-	final int PATTERN_NOT_EMPTY = 2;
-	int mayPatternBeEmptyComputationState = PATTERN_NOT_YET_VISITED;
+	/// <summary>
+	/// A list of all potentially homomorphic edge sets. </summary>
+	private readonly IList<ICollection<Edge>> homEdgesLists = new List<ICollection<Edge>>();
+
+	/// <summary>
+	/// A map of nodes which will be matched homomorphically to any other node
+	///  to the isomorphy exceptions, requested by independent(node); 
+	/// </summary>
+	private readonly Dictionary<Node, HashSet<Node>> totallyHomNodes = new Dictionary<Node, HashSet<Node>>();
+
+	/// <summary>
+	/// A map of edges which will be matched homomorphically to any other edge
+	///  to the isomorphy exceptions, requested by independent(edge); 
+	/// </summary>
+	private readonly Dictionary<Edge, HashSet<Edge>> totallyHomEdges = new Dictionary<Edge, HashSet<Edge>>();
+
+	/// <summary>
+	/// modifiers of pattern as defined in PatternGraphNode, only pattern locked, pattern path locked relevant </summary>
+	internal int modifiers;
+
+	internal readonly int PATTERN_NOT_YET_VISITED = 0;
+	internal readonly int PATTERN_MAYBE_EMPTY = 1;
+	internal readonly int PATTERN_NOT_EMPTY = 2;
+	internal int mayPatternBeEmptyComputationState;
 
 	// if this pattern graph is a negative or independent nested inside an iterated
 	// it might break the iterated instead of only the current iterated case, if specified
-	private boolean iterationBreaking = false;
+	private bool iterationBreaking = false;
 
 
-	/** Make a new pattern graph. */
-	public PatternGraphLhs(String nameOfGraph, int modifiers)
+	/// <summary>
+	/// Make a new pattern graph. </summary>
+	public PatternGraphLhs(string nameOfGraph, int modifiers)
+		: base(nameOfGraph)
 	{
-		super(nameOfGraph);
+		InitializeInstanceFields();
 		this.modifiers = modifiers;
 	}
 
-	public void addAlternative(Alternative alternative)
+	public virtual void AddAlternative(Alternative alternative)
 	{
-		alts.add(alternative);
+		alts.Add(alternative);
 	}
 
-	public Collection<Alternative> getAlts()
+	public virtual ICollection<Alternative> Alts
 	{
-		return Collections.unmodifiableList(alts);
+		get
+		{
+		return alts.AsReadOnly();
+		}
 	}
 
-	public void addIterated(Rule iter)
+	public virtual void AddIterated(Rule iter)
 	{
-		iters.add(iter);
+		iters.Add(iter);
 	}
 
-	public Collection<Rule> getIters()
+	public virtual ICollection<Rule> Iters
 	{
-		return Collections.unmodifiableList(iters);
+		get
+		{
+		return iters.AsReadOnly();
+		}
 	}
 
-	public void addNegGraph(PatternGraphLhs neg)
+	public virtual void AddNegGraph(PatternGraphLhs neg)
 	{
-		int patternNameNumber = negs.size();
-		neg.setName("N" + patternNameNumber);
-		negs.add(neg);
+		int patternNameNumber = negs.Count;
+		neg.Name = "N" + patternNameNumber;
+		negs.Add(neg);
 	}
 
-	/** @return The negative graphs of the rule. */
-	public Collection<PatternGraphLhs> getNegs()
+	/// <returns> The negative graphs of the rule. </returns>
+	public virtual ICollection<PatternGraphLhs> Negs
 	{
-		return Collections.unmodifiableList(negs);
+		get
+		{
+		return negs.AsReadOnly();
+		}
 	}
 
-	public void addIdptGraph(PatternGraphLhs idpt)
+	public virtual void AddIdptGraph(PatternGraphLhs idpt)
 	{
-		int patternNameNumber = idpts.size();
-		idpt.setName("I" + patternNameNumber);
-		idpts.add(idpt);
+		int patternNameNumber = idpts.Count;
+		idpt.Name = "I" + patternNameNumber;
+		idpts.Add(idpt);
 	}
 
-	/** @return The independent graphs of the rule. */
-	public Collection<PatternGraphLhs> getIdpts()
+	/// <returns> The independent graphs of the rule. </returns>
+	public virtual ICollection<PatternGraphLhs> Idpts
 	{
-		return Collections.unmodifiableList(idpts);
+		get
+		{
+		return idpts.AsReadOnly();
+		}
 	}
 
-	/** Add a condition given by it's expression expr to the graph. */
-	public void addCondition(Expression expr)
+	/// <summary>
+	/// Add a condition given by it's expression expr to the graph. </summary>
+	public virtual void AddCondition(Expression expr)
 	{
-		conds.add(expr);
+		conds.Add(expr);
 	}
 
-	/** Add an assignment to the list of evaluations. */
-	public void addYield(EvalStatements stmts)
+	/// <summary>
+	/// Add an assignment to the list of evaluations. </summary>
+	public virtual void AddYield(EvalStatements stmts)
 	{
-		yields.add(stmts);
+		yields.Add(stmts);
 	}
 
-	/** Add a potentially homomorphic set to the graph. */
-	public void addHomomorphicNodes(Collection<Node> hom)
+	/// <summary>
+	/// Add a potentially homomorphic set to the graph. </summary>
+	public virtual void AddHomomorphicNodes(ICollection<Node> hom)
 	{
-		homNodesLists.add(hom);
+		homNodesLists.Add(hom);
 	}
 
-	/** Add a potentially homomorphic set to the graph. */
-	public void addHomomorphicEdges(Collection<Edge> hom)
+	/// <summary>
+	/// Add a potentially homomorphic set to the graph. </summary>
+	public virtual void AddHomomorphicEdges(ICollection<Edge> hom)
 	{
-		homEdgesLists.add(hom);
+		homEdgesLists.Add(hom);
 	}
 
-	public void addTotallyHomomorphic(Node node, HashSet<Node> isoNodes)
+	public virtual void AddTotallyHomomorphic(Node node, HashSet<Node> isoNodes)
 	{
-		totallyHomNodes.put(node, isoNodes);
+		totallyHomNodes[node] = isoNodes;
 	}
 
-	public void addTotallyHomomorphic(Edge edge, HashSet<Edge> isoEdges)
+	public virtual void AddTotallyHomomorphic(Edge edge, HashSet<Edge> isoEdges)
 	{
-		totallyHomEdges.put(edge, isoEdges);
+		totallyHomEdges[edge] = isoEdges;
 	}
 
-	public void setIterationBreaking(boolean value)
+	public virtual bool IterationBreaking
 	{
+		set
+		{
 		iterationBreaking = value;
+		}
 	}
 
-	public boolean isIterationBreaking()
+	public virtual bool IsIterationBreaking()
 	{
 		return iterationBreaking;
 	}
 
-	/** Get a collection with all conditions in this graph. */
-	public Collection<Expression> getConditions()
+	/// <summary>
+	/// Get a collection with all conditions in this graph. </summary>
+	public virtual ICollection<Expression> Conditions
 	{
-		return Collections.unmodifiableList(conds);
-	}
-
-	/** @return A collection containing all yield assignments of this graph. */
-	public Collection<EvalStatements> getYields()
-	{
-		return Collections.unmodifiableList(yields);
-	}
-
-	/** Get all potentially homomorphic sets in this graph. */
-	public Collection<Collection<GraphEntity>> getHomomorphic()
-	{
-		Set<Collection<GraphEntity>> homs = new LinkedHashSet<Collection<GraphEntity>>();
-		for(Collection<Edge> edges : homEdgesLists)
+		get
 		{
-			homs.add(getGraphEntities(edges));
+		return conds.AsReadOnly();
 		}
-		for(Collection<Node> nodes : homNodesLists)
-		{
-			homs.add(getGraphEntities(nodes));
-		}
-		return Collections.unmodifiableSet(homs);
 	}
 
-	private static Collection<GraphEntity> getGraphEntities(Collection<? extends GraphEntity> graphEntities)
+	/// <returns> A collection containing all yield assignments of this graph. </returns>
+	public virtual ICollection<EvalStatements> Yields
+	{
+		get
+		{
+		return yields.AsReadOnly();
+		}
+	}
+
+	/// <summary>
+	/// Get all potentially homomorphic sets in this graph. </summary>
+	public virtual ICollection<ICollection<GraphEntity>> Homomorphic
+	{
+		get
+		{
+		ISet<ICollection<GraphEntity>> homs = new LinkedHashSet<ICollection<GraphEntity>>();
+		foreach(ICollection<Edge> edges in homEdgesLists)
+			homs.Add(GetGraphEntities(edges));
+		foreach(ICollection<Node> nodes in homNodesLists)
+			homs.Add(GetGraphEntities(nodes));
+		return Collections.UnmodifiableSet(homs);
+		}
+	}
+
+	private static ICollection<GraphEntity> GetGraphEntities<T1>(ICollection<T1> graphEntities) where T1 : GraphEntity
 	{
 		return new HashSet<GraphEntity>(graphEntities);
 	}
 
-	public Collection<Node> getHomomorphic(Node node)
+	public virtual ICollection<Node> GetHomomorphic(Node node)
 	{
-		ArrayList<Node> homNodesOfNode = new ArrayList<Node>();
+		List<Node> homNodesOfNode = new List<Node>();
 
-		for(Collection<Node> homNodes : homNodesLists) {
-			if(homNodes.contains(node)) {
-				homNodesOfNode.addAll(homNodes);
-			}
+		foreach(ICollection<Node> homNodes in homNodesLists)
+		{
+			if(homNodes.Contains(node))
+				homNodesOfNode.AddRange(homNodes);
 		}
-		homNodesOfNode.add(node);
-		
-		return Collections.unmodifiableList(homNodesOfNode);
+		homNodesOfNode.Add(node);
+
+		return homNodesOfNode.AsReadOnly();
 	}
 
-	public Collection<Edge> getHomomorphic(Edge edge)
+	public virtual ICollection<Edge> GetHomomorphic(Edge edge)
 	{
-		ArrayList<Edge> homEdgesOfEdge = new ArrayList<Edge>();
+		List<Edge> homEdgesOfEdge = new List<Edge>();
 
-		for(Collection<Edge> homEdges : homEdgesLists) {
-			if(homEdges.contains(edge)) {
-				homEdgesOfEdge.addAll(homEdges);
-			}
+		foreach(ICollection<Edge> homEdges in homEdgesLists)
+		{
+			if(homEdges.Contains(edge))
+				homEdgesOfEdge.AddRange(homEdges);
 		}
-		homEdgesOfEdge.add(edge);
-		
-		return Collections.unmodifiableList(homEdgesOfEdge);
+		homEdgesOfEdge.Add(edge);
+
+		return homEdgesOfEdge.AsReadOnly();
 	}
 
-	public boolean isHomomorphic(Node node1, Node node2)
+	public virtual bool IsHomomorphic(Node node1, Node node2)
 	{
-		if(isTotallyHomomorphic(node1, node2))
+		if(IsTotallyHomomorphic(node1, node2))
 			return true;
-		return homToAllNodes.contains(node1) || homToAllNodes.contains(node2)
-				|| getHomomorphic(node1).contains(node2);
+		return homToAllNodes.Contains(node1) || homToAllNodes.Contains(node2)
+				|| GetHomomorphic(node1).Contains(node2);
 	}
 
-	public boolean isHomomorphic(Edge edge1, Edge edge2)
+	public virtual bool IsHomomorphic(Edge edge1, Edge edge2)
 	{
-		if(isTotallyHomomorphic(edge1, edge2))
+		if(IsTotallyHomomorphic(edge1, edge2))
 			return true;
-		return homToAllEdges.contains(edge1) || homToAllEdges.contains(edge2)
-				|| getHomomorphic(edge1).contains(edge2);
+		return homToAllEdges.Contains(edge1) || homToAllEdges.Contains(edge2)
+				|| GetHomomorphic(edge1).Contains(edge2);
 	}
 
-	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Node node1, Node node2)
+	public virtual bool IsHomomorphicGlobal(Dictionary<Entity, string> alreadyDefinedEntityToName, Node node1, Node node2)
 	{
-		if(isTotallyHomomorphic(node1, node2))
+		if(IsTotallyHomomorphic(node1, node2))
 			return true;
-		if(!getHomomorphic(node1).contains(node2))
+		if(!GetHomomorphic(node1).Contains(node2))
 			return false;
-		return alreadyDefinedEntityToName.containsKey(node1) != alreadyDefinedEntityToName.containsKey(node2);
+		return alreadyDefinedEntityToName.ContainsKey(node1) != alreadyDefinedEntityToName.ContainsKey(node2);
 	}
 
-	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Edge edge1, Edge edge2)
+	public virtual bool IsHomomorphicGlobal(Dictionary<Entity, string> alreadyDefinedEntityToName, Edge edge1, Edge edge2)
 	{
-		if(isTotallyHomomorphic(edge1, edge2))
+		if(IsTotallyHomomorphic(edge1, edge2))
 			return true;
-		if(!getHomomorphic(edge1).contains(edge2))
+		if(!GetHomomorphic(edge1).Contains(edge2))
 			return false;
-		return alreadyDefinedEntityToName.containsKey(edge1) != alreadyDefinedEntityToName.containsKey(edge2);
+		return alreadyDefinedEntityToName.ContainsKey(edge1) != alreadyDefinedEntityToName.ContainsKey(edge2);
 	}
 
-	public boolean isTotallyHomomorphic(Node node1, Node node2)
+	public virtual bool IsTotallyHomomorphic(Node node1, Node node2)
 	{
-		if(isTotallyHomomorphic(node1)) {
-			if(totallyHomNodes.get(node1).contains(node2))
+		if(IsTotallyHomomorphic(node1))
+		{
+			if(totallyHomNodes[node1].Contains(node2))
 				return false;
 		}
-		if(isTotallyHomomorphic(node2)) {
-			if(totallyHomNodes.get(node2).contains(node1))
+		if(IsTotallyHomomorphic(node2))
+		{
+			if(totallyHomNodes[node2].Contains(node1))
 				return false;
 		}
-		if(isTotallyHomomorphic(node1) || isTotallyHomomorphic(node2)) {
+		if(IsTotallyHomomorphic(node1) || IsTotallyHomomorphic(node2))
 			return true;
-		}
 		return false;
 	}
 
-	public boolean isTotallyHomomorphic(Edge edge1, Edge edge2)
+	public virtual bool IsTotallyHomomorphic(Edge edge1, Edge edge2)
 	{
-		if(isTotallyHomomorphic(edge1)) {
-			if(totallyHomEdges.get(edge1).contains(edge2))
+		if(IsTotallyHomomorphic(edge1))
+		{
+			if(totallyHomEdges[edge1].Contains(edge2))
 				return false;
 		}
-		if(isTotallyHomomorphic(edge2)) {
-			if(totallyHomEdges.get(edge2).contains(edge1))
+		if(IsTotallyHomomorphic(edge2))
+		{
+			if(totallyHomEdges[edge2].Contains(edge1))
 				return false;
 		}
-		if(isTotallyHomomorphic(edge1) || isTotallyHomomorphic(edge2)) {
+		if(IsTotallyHomomorphic(edge1) || IsTotallyHomomorphic(edge2))
 			return true;
-		}
 		return false;
 	}
 
-	public boolean isTotallyHomomorphic(Node node)
+	public virtual bool IsTotallyHomomorphic(Node node)
 	{
-		if(totallyHomNodes.containsKey(node))
+		if(totallyHomNodes.ContainsKey(node))
 			return true;
 		else
 			return false;
 	}
 
-	public boolean isTotallyHomomorphic(Edge edge)
+	public virtual bool IsTotallyHomomorphic(Edge edge)
 	{
-		if(totallyHomEdges.containsKey(edge))
+		if(totallyHomEdges.ContainsKey(edge))
 			return true;
 		else
 			return false;
 	}
 
-	public boolean isPatternpathLocked()
+	public virtual bool IsPatternpathLocked()
 	{
 		return (modifiers & PatternGraphLhsNode.MOD_PATTERNPATH_LOCKED) == PatternGraphLhsNode.MOD_PATTERNPATH_LOCKED;
 	}
 
-	public void resolvePatternLockedModifier()
+	public virtual void ResolvePatternLockedModifier()
 	{
 		// in pre-order walk: add all elements of parent to child if child requests so by pattern locked modifier
 
 		// if nested negative requests so, add all of our elements to it
-		for(PatternGraphLhs negative : getNegs()) {
+		foreach(PatternGraphLhs negative in Negs)
+		{
 			if((negative.modifiers & PatternGraphLhsNode.MOD_PATTERN_LOCKED) != PatternGraphLhsNode.MOD_PATTERN_LOCKED)
 				continue;
 
-			for(Node node : getNodes()) {
-				if(!negative.hasNode(node)) {
-					negative.addSingleNode(node);
-				}
+			foreach(Node node in Nodes)
+			{
+				if(!negative.HasNode(node))
+					negative.AddSingleNode(node);
 			}
-			for(Edge edge : getEdges()) {
-				if(!negative.hasEdge(edge)) {
-					negative.addSingleEdge(edge);
-				}
+			foreach(Edge edge in Edges)
+			{
+				if(!negative.HasEdge(edge))
+					negative.AddSingleEdge(edge);
 			}
 		}
 
 		// if nested independent requests so, add all of our elements to it
-		for(PatternGraphLhs independent : getIdpts()) {
+		foreach(PatternGraphLhs independent in Idpts)
+		{
 			if((independent.modifiers & PatternGraphLhsNode.MOD_PATTERN_LOCKED) != PatternGraphLhsNode.MOD_PATTERN_LOCKED)
 				continue;
 
-			for(Node node : getNodes()) {
-				if(!independent.hasNode(node)) {
-					independent.addSingleNode(node);
-				}
+			foreach(Node node in Nodes)
+			{
+				if(!independent.HasNode(node))
+					independent.AddSingleNode(node);
 			}
-			for(Edge edge : getEdges()) {
-				if(!independent.hasEdge(edge)) {
-					independent.addSingleEdge(edge);
-				}
+			foreach(Edge edge in Edges)
+			{
+				if(!independent.HasEdge(edge))
+					independent.AddSingleEdge(edge);
 			}
 		}
 
 		// recursive descend
-		for(PatternGraphLhs negative : getNegs()) {
-			negative.resolvePatternLockedModifier();
-		}
-		for(PatternGraphLhs independent : getIdpts()) {
-			independent.resolvePatternLockedModifier();
-		}
+		foreach(PatternGraphLhs negative in Negs)
+			negative.ResolvePatternLockedModifier();
+		foreach(PatternGraphLhs independent in Idpts)
+			independent.ResolvePatternLockedModifier();
 	}
 
-	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+	public virtual void EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 			HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
 			HashSet<Variable> alreadyDefinedVariables,
 			PatternGraphRhs right)
 	{
 		// first local corrections, then global consistency
 		if(right != null)
-			insertElementsFromRhsDeclaredInNestingRhsToReplParams(right);
+			InsertElementsFromRhsDeclaredInNestingRhsToReplParams(right);
 		if(right != null)
-			insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(right);
+			InsertElementsFromRhsDeclaredInNestingLhsToLocalLhs(right);
 
 		///////////////////////////////////////////////////////////////////////////////
 		// pre: add locally referenced/defined elements to already referenced/defined elements
 
-		for(Node node : getNodes()) {
-			alreadyDefinedNodes.add(node);
-		}
-		for(Edge edge : getEdges()) {
-			alreadyDefinedEdges.add(edge);
-		}
-		for(Variable var : getVars()) {
-			alreadyDefinedVariables.add(var);
-		}
+		foreach(Node node in Nodes)
+			alreadyDefinedNodes.Add(node);
+		foreach(Edge edge in Edges)
+			alreadyDefinedEdges.Add(edge);
+		foreach(Variable var in Vars)
+			alreadyDefinedVariables.Add(var);
 
 		///////////////////////////////////////////////////////////////////////////////
 		// depth first walk over IR-pattern-graph tree structure
-		for(Alternative alternative : getAlts()) {
-			for(Rule altCase : alternative.getAlternativeCases()) {
-				PatternGraphLhs altCasePattern = altCase.getLeft();
+		foreach(Alternative alternative in Alts)
+		{
+			foreach(Rule altCase in alternative.AlternativeCases)
+			{
+				PatternGraphLhs altCasePattern = altCase.Left;
 				HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 				HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 				HashSet<Variable> alreadyDefinedVariablesClone = new HashSet<Variable>(alreadyDefinedVariables);
-				altCasePattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+				altCasePattern.EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 						alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone,
-						altCase.getRight());
+						altCase.Right);
 			}
 		}
 
-		for(Rule iterated : getIters()) {
-			PatternGraphLhs iteratedPattern = iterated.getLeft();
+		foreach(Rule iterated in Iters)
+		{
+			PatternGraphLhs iteratedPattern = iterated.Left;
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			HashSet<Variable> alreadyDefinedVariablesClone = new HashSet<Variable>(alreadyDefinedVariables);
-			iteratedPattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+			iteratedPattern.EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone,
-					iterated.getRight());
+					iterated.Right);
 		}
 
-		for(PatternGraphLhs negative : getNegs()) {
+		foreach(PatternGraphLhs negative in Negs)
+		{
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			HashSet<Variable> alreadyDefinedVariablesClone = new HashSet<Variable>(alreadyDefinedVariables);
-			negative.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+			negative.EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone,
 					null);
 		}
 
-		for(PatternGraphLhs independent : getIdpts()) {
+		foreach(PatternGraphLhs independent in Idpts)
+		{
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			HashSet<Variable> alreadyDefinedVariablesClone = new HashSet<Variable>(alreadyDefinedVariables);
-			independent.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+			independent.EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone,
 					null);
 		}
@@ -449,70 +492,81 @@ public class PatternGraphLhs extends PatternGraphBase
 
 		// add elements needed in alternative cases, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
-		for(Alternative alternative : getAlts()) {
-			for(Rule altCase : alternative.getAlternativeCases()) {
-				PatternGraphLhs altCasePattern = altCase.getLeft();
-				for(Node node : altCasePattern.getNodes()) {
-					if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
-						addSingleNode(node);
-						addHomToAll(node);
-						PatternGraphBase altCaseReplacement = altCase.getRight();
-						if(altCaseReplacement != null && !altCaseReplacement.hasNode(node)) {
+		foreach(Alternative alternative in Alts)
+		{
+			foreach(Rule altCase in alternative.AlternativeCases)
+			{
+				PatternGraphLhs altCasePattern = altCase.Left;
+				foreach(Node node in altCasePattern.Nodes)
+				{
+					if(!HasNode(node) && alreadyDefinedNodes.Contains(node))
+					{
+						AddSingleNode(node);
+						AddHomToAll(node);
+						PatternGraphBase altCaseReplacement = altCase.Right;
+						if(altCaseReplacement != null && !altCaseReplacement.HasNode(node))
+						{
 							// prevent deletion of elements inserted for pattern completion
-							altCaseReplacement.addSingleNode(node);
+							altCaseReplacement.AddSingleNode(node);
 						}
-						if(right != null && !right.hasNode(node) && !right.getDeletedElements().contains(node)) {
-							right.addSingleNode(node);
-						}
+						if(right != null && !right.HasNode(node) && !right.DeletedElements.Contains(node))
+							right.AddSingleNode(node);
 					}
 				}
-				for(Edge edge : altCasePattern.getEdges()) {
-					if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
-						addSingleEdge(edge);
-						addHomToAll(edge);
-						PatternGraphBase altCaseReplacement = altCase.getRight();
-						if(altCaseReplacement != null && !altCaseReplacement.hasEdge(edge)) {
+				foreach(Edge edge in altCasePattern.Edges)
+				{
+					if(!HasEdge(edge) && alreadyDefinedEdges.Contains(edge))
+					{
+						AddSingleEdge(edge);
+						AddHomToAll(edge);
+						PatternGraphBase altCaseReplacement = altCase.Right;
+						if(altCaseReplacement != null && !altCaseReplacement.HasEdge(edge))
+						{
 							// prevent deletion of elements inserted for pattern completion
-							altCaseReplacement.addSingleEdge(edge);
+							altCaseReplacement.AddSingleEdge(edge);
 						}
-						if(right != null && !right.hasEdge(edge) && !right.getDeletedElements().contains(edge)) {
-							right.addSingleEdge(edge);
-						}
+						if(right != null && !right.HasEdge(edge) && !right.DeletedElements.Contains(edge))
+							right.AddSingleEdge(edge);
 					}
 				}
-				for(Variable var : altCasePattern.getVars()) {
-					if(!hasVar(var) && alreadyDefinedVariables.contains(var)) {
-						addVariable(var);
-					}
+				foreach(Variable var in altCasePattern.Vars)
+				{
+					if(!HasVar(var) && alreadyDefinedVariables.Contains(var))
+						AddVariable(var);
 				}
 
 				// add rhs parameters from nested alternative cases if they are not used or defined here to our rhs parameters,
 				// so we get them, so we're able to forward them
-				if(right != null) {
-					List<Entity> altCaseReplParameters = altCase.getRight().getReplParameters();
-					for(Entity entity : altCaseReplParameters) {
-						if(entity instanceof Node) {
+				if(right != null)
+				{
+					IList<Entity> altCaseReplParameters = altCase.Right.ReplParameters;
+					foreach(Entity entity in altCaseReplParameters)
+					{
+						if(entity is Node)
+						{
 							Node node = (Node)entity;
-							if(node.directlyNestingLHSGraph != this) {
-								if(!right.getReplParameters().contains(node)) {
-									right.addReplParameter(node);
-								}
+							if(node.directlyNestingLHSGraph != this)
+							{
+								if(!right.ReplParameters.Contains(node))
+									right.AddReplParameter(node);
 							}
 						}
-						if(entity instanceof Edge) {
+						if(entity is Edge)
+						{
 							Edge edge = (Edge)entity;
-							if(edge.directlyNestingLHSGraph != this) {
-								if(!right.getReplParameters().contains(edge)) {
-									right.addReplParameter(edge);
-								}
+							if(edge.directlyNestingLHSGraph != this)
+							{
+								if(!right.ReplParameters.Contains(edge))
+									right.AddReplParameter(edge);
 							}
 						}
-						if(entity instanceof Variable) {
+						if(entity is Variable)
+						{
 							Variable var = (Variable)entity;
-							if(var.directlyNestingLHSGraph != this) {
-								if(!right.getReplParameters().contains(var)) {
-									right.addReplParameter(var);
-								}
+							if(var.directlyNestingLHSGraph != this)
+							{
+								if(!right.ReplParameters.Contains(var))
+									right.AddReplParameter(var);
 							}
 						}
 					}
@@ -522,69 +576,79 @@ public class PatternGraphLhs extends PatternGraphBase
 
 		// add elements needed in iterated, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
-		for(Rule iterated : getIters()) {
-			PatternGraphLhs iteratedPattern = iterated.getLeft();
-			for(Node node : iteratedPattern.getNodes()) {
-				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
-					addSingleNode(node);
-					addHomToAll(node);
-					PatternGraphBase allReplacement = iterated.getRight();
-					if(allReplacement != null && !allReplacement.hasNode(node)) {
+		foreach(Rule iterated in Iters)
+		{
+			PatternGraphLhs iteratedPattern = iterated.Left;
+			foreach(Node node in iteratedPattern.Nodes)
+			{
+				if(!HasNode(node) && alreadyDefinedNodes.Contains(node))
+				{
+					AddSingleNode(node);
+					AddHomToAll(node);
+					PatternGraphBase allReplacement = iterated.Right;
+					if(allReplacement != null && !allReplacement.HasNode(node))
+					{
 						// prevent deletion of elements inserted for pattern completion
-						allReplacement.addSingleNode(node);
+						allReplacement.AddSingleNode(node);
 					}
-					if(right != null && !right.hasNode(node) && !right.getDeletedElements().contains(node)) {
-						right.addSingleNode(node);
-					}
+					if(right != null && !right.HasNode(node) && !right.DeletedElements.Contains(node))
+						right.AddSingleNode(node);
 				}
 			}
-			for(Edge edge : iteratedPattern.getEdges()) {
-				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
-					addSingleEdge(edge);
-					addHomToAll(edge);
-					PatternGraphBase allReplacement = iterated.getRight();
-					if(allReplacement != null && !allReplacement.hasEdge(edge)) {
+			foreach(Edge edge in iteratedPattern.Edges)
+			{
+				if(!HasEdge(edge) && alreadyDefinedEdges.Contains(edge))
+				{
+					AddSingleEdge(edge);
+					AddHomToAll(edge);
+					PatternGraphBase allReplacement = iterated.Right;
+					if(allReplacement != null && !allReplacement.HasEdge(edge))
+					{
 						// prevent deletion of elements inserted for pattern completion
-						allReplacement.addSingleEdge(edge);
+						allReplacement.AddSingleEdge(edge);
 					}
-					if(right != null && !right.hasEdge(edge) && !right.getDeletedElements().contains(edge)) {
-						right.addSingleEdge(edge);
-					}
+					if(right != null && !right.HasEdge(edge) && !right.DeletedElements.Contains(edge))
+						right.AddSingleEdge(edge);
 				}
 			}
-			for(Variable var : iteratedPattern.getVars()) {
-				if(!hasVar(var) && alreadyDefinedVariables.contains(var)) {
-					addVariable(var);
-				}
+			foreach(Variable var in iteratedPattern.Vars)
+			{
+				if(!HasVar(var) && alreadyDefinedVariables.Contains(var))
+					AddVariable(var);
 			}
 
 			// add rhs parameters from nested iterateds if they are not used or defined here to our rhs parameters,
 			// so we get them, so we're able to forward them
-			if(right != null) {
-				List<Entity> iteratedReplParameters = iterated.getRight().getReplParameters();
-				for(Entity iteratedReplParameter : iteratedReplParameters) {
-					if(iteratedReplParameter instanceof Node) {
+			if(right != null)
+			{
+				IList<Entity> iteratedReplParameters = iterated.Right.ReplParameters;
+				foreach(Entity iteratedReplParameter in iteratedReplParameters)
+				{
+					if(iteratedReplParameter is Node)
+					{
 						Node node = (Node)iteratedReplParameter;
-						if(node.directlyNestingLHSGraph != this) {
-							if(!right.getReplParameters().contains(node)) {
-								right.addReplParameter(node);
-							}
+						if(node.directlyNestingLHSGraph != this)
+						{
+							if(!right.ReplParameters.Contains(node))
+								right.AddReplParameter(node);
 						}
 					}
-					if(iteratedReplParameter instanceof Edge) {
+					if(iteratedReplParameter is Edge)
+					{
 						Edge edge = (Edge)iteratedReplParameter;
-						if(edge.directlyNestingLHSGraph != this) {
-							if(!right.getReplParameters().contains(edge)) {
-								right.addReplParameter(edge);
-							}
+						if(edge.directlyNestingLHSGraph != this)
+						{
+							if(!right.ReplParameters.Contains(edge))
+								right.AddReplParameter(edge);
 						}
 					}
-					if(iteratedReplParameter instanceof Variable) {
+					if(iteratedReplParameter is Variable)
+					{
 						Variable var = (Variable)iteratedReplParameter;
-						if(var.directlyNestingLHSGraph != this) {
-							if(!right.getReplParameters().contains(var)) {
-								right.addReplParameter(var);
-							}
+						if(var.directlyNestingLHSGraph != this)
+						{
+							if(!right.ReplParameters.Contains(var))
+								right.AddReplParameter(var);
 						}
 					}
 				}
@@ -593,85 +657,92 @@ public class PatternGraphLhs extends PatternGraphBase
 
 		// add elements needed in nested neg, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
-		for(PatternGraphLhs negative : getNegs()) {
-			for(Node node : negative.getNodes()) {
-				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
-					addSingleNode(node);
-					addHomToAll(node);
-					if(right != null && !right.hasNode(node) && !right.getDeletedElements().contains(node)) {
-						right.addSingleNode(node);
-					}
+		foreach(PatternGraphLhs negative in Negs)
+		{
+			foreach(Node node in negative.Nodes)
+			{
+				if(!HasNode(node) && alreadyDefinedNodes.Contains(node))
+				{
+					AddSingleNode(node);
+					AddHomToAll(node);
+					if(right != null && !right.HasNode(node) && !right.DeletedElements.Contains(node))
+						right.AddSingleNode(node);
 				}
 			}
-			for(Edge edge : negative.getEdges()) {
-				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
-					addSingleEdge(edge);
-					addHomToAll(edge);
-					if(right != null && !right.hasEdge(edge) && !right.getDeletedElements().contains(edge)) {
-						right.addSingleEdge(edge);
-					}
+			foreach(Edge edge in negative.Edges)
+			{
+				if(!HasEdge(edge) && alreadyDefinedEdges.Contains(edge))
+				{
+					AddSingleEdge(edge);
+					AddHomToAll(edge);
+					if(right != null && !right.HasEdge(edge) && !right.DeletedElements.Contains(edge))
+						right.AddSingleEdge(edge);
 				}
 			}
-			for(Variable var : negative.getVars()) {
-				if(!hasVar(var) && alreadyDefinedVariables.contains(var)) {
-					addVariable(var);
-				}
+			foreach(Variable var in negative.Vars)
+			{
+				if(!HasVar(var) && alreadyDefinedVariables.Contains(var))
+					AddVariable(var);
 			}
 		}
 
 		// add elements needed in nested idpt, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
-		for(PatternGraphLhs independent : getIdpts()) {
-			for(Node node : independent.getNodes()) {
-				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
-					addSingleNode(node);
-					addHomToAll(node);
-					if(right != null && !right.hasNode(node) && !right.getDeletedElements().contains(node)) {
-						right.addSingleNode(node);
-					}
+		foreach(PatternGraphLhs independent in Idpts)
+		{
+			foreach(Node node in independent.Nodes)
+			{
+				if(!HasNode(node) && alreadyDefinedNodes.Contains(node))
+				{
+					AddSingleNode(node);
+					AddHomToAll(node);
+					if(right != null && !right.HasNode(node) && !right.DeletedElements.Contains(node))
+						right.AddSingleNode(node);
 				}
 			}
-			for(Edge edge : independent.getEdges()) {
-				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
-					addSingleEdge(edge);
-					addHomToAll(edge);
-					if(right != null && !right.hasEdge(edge) && !right.getDeletedElements().contains(edge)) {
-						right.addSingleEdge(edge);
-					}
+			foreach(Edge edge in independent.Edges)
+			{
+				if(!HasEdge(edge) && alreadyDefinedEdges.Contains(edge))
+				{
+					AddSingleEdge(edge);
+					AddHomToAll(edge);
+					if(right != null && !right.HasEdge(edge) && !right.DeletedElements.Contains(edge))
+						right.AddSingleEdge(edge);
 				}
 			}
-			for(Variable var : independent.getVars()) {
-				if(!hasVar(var) && alreadyDefinedVariables.contains(var)) {
-					addVariable(var);
-				}
+			foreach(Variable var in independent.Vars)
+			{
+				if(!HasVar(var) && alreadyDefinedVariables.Contains(var))
+					AddVariable(var);
 			}
 		}
 	}
 
 	// construct implicit rhs replace parameters
-	public void insertElementsFromRhsDeclaredInNestingRhsToReplParams(PatternGraphRhs right)
+	public virtual void InsertElementsFromRhsDeclaredInNestingRhsToReplParams(PatternGraphRhs right)
 	{
-		if(right == null) {
+		if(right == null)
 			return;
-		}
 
 		// insert all nodes and variables, which are used (not declared) on the right hand side and not declared on left hand side,
 		// and are declared in some nesting right hand side,
 		// to the replacement parameters (so that they get handed down from the nesting replacement)
 
-		for(Node node : right.getNodes()) {
-			if(node.directlyNestingLHSGraph != this && !right.replParametersContain(node)) {
-				if((node.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-					right.addReplParameter(node);
-				}
+		foreach(Node node in right.Nodes)
+		{
+			if(node.directlyNestingLHSGraph != this && !right.ReplParametersContain(node))
+			{
+				if((node.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
+					right.AddReplParameter(node);
 			}
 		}
 
-		for(Variable var : right.getVars()) {
-			if(var.directlyNestingLHSGraph != this && !right.replParametersContain(var)) {
-				if((var.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-					right.addReplParameter(var);
-				}
+		foreach(Variable var in right.Vars)
+		{
+			if(var.directlyNestingLHSGraph != this && !right.ReplParametersContain(var))
+			{
+				if((var.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
+					right.AddReplParameter(var);
 			}
 		}
 
@@ -680,43 +751,49 @@ public class PatternGraphLhs extends PatternGraphBase
 		// as they are only created after the replacement code of the nested pattern is left, 
 		// that's because node retyping occurs only afterwards, 
 		// and we maybe want to create edges in between retyped=newly created nodes
-		for(Edge edge : right.getEdges()) {
-			if(edge.directlyNestingLHSGraph != this) {
-				if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-					error.error(edge.getIdent().getCoords(), "Cannot access a newly created edge (" + edge.getIdent() + ")"
-							+ " in a nested rewrite part.");
-				}
+		foreach(Edge edge in right.Edges)
+		{
+			if(edge.directlyNestingLHSGraph != this)
+			{
+				if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
+					error.Error(edge.Ident.GetCoords(), "Cannot access a newly created edge (" + edge.Ident + ")" + " in a nested rewrite part.");
 			}
 		}
 
 		// some check which is easier on ir
-		checkThatEvalhereIsNotAccessingCreatedEdges(right);
+		CheckThatEvalhereIsNotAccessingCreatedEdges(right);
 	}
 
-	public static void checkThatEvalhereIsNotAccessingCreatedEdges(PatternGraphRhs right)
+	public static void CheckThatEvalhereIsNotAccessingCreatedEdges(PatternGraphRhs right)
 	{
-		if(right == null) {
+		if(right == null)
 			return;
-		}
 
 		// emit error on accessing freshly created edges from evalhere statements as they are not available there
 		// because they are only created after the evalhere statements are evaluated 
 
-		for(OrderedReplacements orderedRepls : right.getOrderedReplacements()) {
-			for(OrderedReplacement orderedRepl : orderedRepls.orderedReplacements) {
-				if(orderedRepl instanceof EvalStatement) {
+		foreach(OrderedReplacements orderedRepls in right.OrderedReplacements)
+		{
+			foreach(OrderedReplacement orderedRepl in orderedRepls.orderedReplacements)
+			{
+				if(orderedRepl is EvalStatement)
+				{
 					EvalStatement evalStmt = (EvalStatement)orderedRepl;
-					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.EDGES, Needs.ALL_ATTRIBUTES));
-					evalStmt.collectNeededEntities(needs);
-					for(Edge edge : needs.edges) {
-						if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-							error.error(edge.getIdent().getCoords(), "Cannot access a newly created edge (" + edge.getIdent() + ")"
+					NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.EDGES, NeededEntities.Needs.ALL_ATTRIBUTES));
+					evalStmt.CollectNeededEntities(needs);
+					foreach(Edge edge in needs.edges)
+					{
+						if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
+						{
+							error.Error(edge.Ident.GetCoords(), "Cannot access a newly created edge (" + edge.Ident + ")"
 									+ " from an evalhere statement.");
 						}
 					}
-					for(Edge edge : needs.attrEdges) {
-						if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-							error.error(edge.getIdent().getCoords(), "Cannot access a newly created edge (" + edge.getIdent() + ")"
+					foreach(Edge edge in needs.attrEdges)
+					{
+						if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
+						{
+							error.Error(edge.Ident.GetCoords(), "Cannot access a newly created edge (" + edge.Ident + ")"
 									+ " from an evalhere statement.");
 						}
 					}
@@ -726,11 +803,10 @@ public class PatternGraphLhs extends PatternGraphBase
 	}
 
 	// constructs implicit lhs elements
-	public void insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(PatternGraphRhs right)
+	public virtual void InsertElementsFromRhsDeclaredInNestingLhsToLocalLhs(PatternGraphRhs right)
 	{
-		if(right == null) {
+		if(right == null)
 			return;
-		}
 
 		// insert all elements, which are used (not declared) on the right hand side and not declared on left hand side,
 		//   and are not amongst the replacement parameters
@@ -738,32 +814,38 @@ public class PatternGraphLhs extends PatternGraphBase
 		// to the left hand side (so that they get handed down from the nesting pattern;
 		// otherwise they would be created (code generation by locally comparing lhs and rhs))
 
-		for(Node node : right.getNodes()) {
-			if(node.directlyNestingLHSGraph != this && !right.replParametersContain(node)) {
-				if(!hasNode(node)) {
-					addSingleNode(node);
-					addHomToAll(node);
+		foreach(Node node in right.Nodes)
+		{
+			if(node.directlyNestingLHSGraph != this && !right.ReplParametersContain(node))
+			{
+				if(!HasNode(node))
+				{
+					AddSingleNode(node);
+					AddHomToAll(node);
 				}
 			}
 		}
 
-		for(Edge edge : right.getEdges()) {
-			if(edge.directlyNestingLHSGraph != this && !right.replParametersContain(edge)) {
-				if(!hasEdge(edge)) {
-					addSingleEdge(edge);
-					addHomToAll(edge);
+		foreach(Edge edge in right.Edges)
+		{
+			if(edge.directlyNestingLHSGraph != this && !right.ReplParametersContain(edge))
+			{
+				if(!HasEdge(edge))
+				{
+					AddSingleEdge(edge);
+					AddHomToAll(edge);
 				}
 			}
 		}
 
-		for(Variable var : right.getVars()) {
-			if(var.directlyNestingLHSGraph != this && !right.replParametersContain(var)) {
-				addVariable(var);
-			}
+		foreach(Variable var in right.Vars)
+		{
+			if(var.directlyNestingLHSGraph != this && !right.ReplParametersContain(var))
+				AddVariable(var);
 		}
 	}
 
-	public void checkForEmptyPatternsInIterateds()
+	public virtual void CheckForEmptyPatternsInIterateds()
 	{
 		if(mayPatternBeEmptyComputationState != PATTERN_NOT_YET_VISITED)
 			return;
@@ -773,265 +855,314 @@ public class PatternGraphLhs extends PatternGraphBase
 		///////////////////////////////////////////////////
 		// have a look at the local pattern
 
-nodeHom:
-		for(Node node : getNodes()) {
+		foreach(Node node in Nodes)
+		{
 			if(node.directlyNestingLHSGraph != this)
-				continue nodeHom;
-			for(Node homNode : getHomomorphic(node)) {
+				goto nodeHomContinue;
+			foreach(Node homNode in GetHomomorphic(node))
+			{
 				if(homNode.directlyNestingLHSGraph != this)
-					continue nodeHom;
+					goto nodeHomContinue;
 			}
 			mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
 			break;
+	nodeHomContinue:;
 		}
-		if(mayPatternBeEmptyComputationState != PATTERN_NOT_EMPTY) {
-edgeHom:
-			for(Edge edge : getEdges()) {
+nodeHomBreak:
+		if(mayPatternBeEmptyComputationState != PATTERN_NOT_EMPTY)
+		{
+			foreach(Edge edge in Edges)
+			{
 				if(edge.directlyNestingLHSGraph != this)
-					continue edgeHom;
-				for(Edge homEdge : getHomomorphic(edge)) {
+					goto edgeHomContinue;
+				foreach(Edge homEdge in GetHomomorphic(edge))
+				{
 					if(homEdge.directlyNestingLHSGraph != this)
-						continue edgeHom;
+						goto edgeHomContinue;
 				}
 				mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
 				break;
+	edgeHomContinue:;
 			}
+edgeHomBreak:;
 		}
 
 		///////////////////////////////////////////////////
 		// go through the nested patterns, check the iterateds
 
-		for(Alternative alternative : getAlts()) {
-			boolean allCasesNonEmpty = true;
-			for(Rule altCase : alternative.getAlternativeCases()) {
-				altCase.pattern.checkForEmptyPatternsInIterateds();
-				if(altCase.pattern.mayPatternBeEmptyComputationState == PATTERN_MAYBE_EMPTY) {
+		foreach(Alternative alternative in Alts)
+		{
+			bool allCasesNonEmpty = true;
+			foreach(Rule altCase in alternative.AlternativeCases)
+			{
+				altCase.pattern.CheckForEmptyPatternsInIterateds();
+				if(altCase.pattern.mayPatternBeEmptyComputationState == PATTERN_MAYBE_EMPTY)
 					allCasesNonEmpty = false;
-				}
 			}
-			if(allCasesNonEmpty) {
+			if(allCasesNonEmpty)
 				mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
-			}
 		}
 
-		for(Rule iterated : getIters()) {
-			iterated.pattern.checkForEmptyPatternsInIterateds();
-			if(iterated.pattern.mayPatternBeEmptyComputationState == PATTERN_MAYBE_EMPTY) {
+		foreach(Rule iterated in Iters)
+		{
+			iterated.pattern.CheckForEmptyPatternsInIterateds();
+			if(iterated.pattern.mayPatternBeEmptyComputationState == PATTERN_MAYBE_EMPTY)
+			{
 				// emit error if the iterated pattern might be empty
-				if(iterated.getMaxMatches() == 0) {
-					error.error(iterated.getIdent().getCoords(),
+				if(iterated.MaxMatches == 0)
+				{
+					error.Error(iterated.Ident.GetCoords(),
 							"An unbounded pattern cardinality construct (iterated, multiple, [*])"
 									+ " must contain at least one locally defined node or edge (not being homomorphic to an enclosing element)"
 									+ " or a nested subpattern or alternative not being empty.");
-				} else if(iterated.getMaxMatches() > 1) {
-					error.warning(iterated.getIdent().getCoords(),
+				}
+				else if(iterated.MaxMatches > 1)
+				{
+					error.Warning(iterated.Ident.GetCoords(),
 							"Maybe empty pattern in pattern cardinality construct (you must expect empty matches).");
 				}
-			} else {
-				if(iterated.getMinMatches() > 0) {
+			}
+			else
+			{
+				if(iterated.MinMatches > 0)
 					mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
-				}
 			}
 		}
 
-		for(SubpatternUsage sub : getSubpatternUsages()) {
-			sub.subpatternAction.pattern.checkForEmptyPatternsInIterateds();
-			if(sub.subpatternAction.pattern.mayPatternBeEmptyComputationState == PATTERN_NOT_EMPTY) {
+		foreach(SubpatternUsage sub in SubpatternUsages)
+		{
+			sub.subpatternAction.pattern.CheckForEmptyPatternsInIterateds();
+			if(sub.subpatternAction.pattern.mayPatternBeEmptyComputationState == PATTERN_NOT_EMPTY)
 				mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
-			}
 		}
 
-		for(PatternGraphLhs negative : getNegs()) {
-			negative.checkForEmptyPatternsInIterateds();
-		}
+		foreach(PatternGraphLhs negative in Negs)
+			negative.CheckForEmptyPatternsInIterateds();
 
-		for(PatternGraphLhs independent : getIdpts()) {
-			independent.checkForEmptyPatternsInIterateds();
-		}
+		foreach(PatternGraphLhs independent in Idpts)
+			independent.CheckForEmptyPatternsInIterateds();
 	}
 
-	public void checkForEmptySubpatternRecursions(HashSet<PatternGraphLhs> subpatternsAlreadyVisited)
+	public virtual void CheckForEmptySubpatternRecursions(HashSet<PatternGraphLhs> subpatternsAlreadyVisited)
 	{
-nodeHom:
-		for(Node node : getNodes()) {
+		foreach(Node node in Nodes)
+		{
 			if(node.directlyNestingLHSGraph != this)
-				continue nodeHom;
-			for(Node homNode : getHomomorphic(node)) {
+				goto nodeHomContinue;
+			foreach(Node homNode in GetHomomorphic(node))
+			{
 				if(homNode.directlyNestingLHSGraph != this)
-					continue nodeHom;
+					goto nodeHomContinue;
 			}
 			return; // node which must get matched found -> can't build empty path
+	nodeHomContinue:;
 		}
-edgeHom:
-		for(Edge edge : getEdges()) {
+nodeHomBreak:
+		foreach(Edge edge in Edges)
+		{
 			if(edge.directlyNestingLHSGraph != this)
-				continue edgeHom;
-			for(Edge homEdge : getHomomorphic(edge)) {
+				goto edgeHomContinue;
+			foreach(Edge homEdge in GetHomomorphic(edge))
+			{
 				if(homEdge.directlyNestingLHSGraph != this)
-					continue edgeHom;
+					goto edgeHomContinue;
 			}
 			return; // edge which must get matched found -> can't build empty path
+	edgeHomContinue:;
 		}
+edgeHomBreak:
 
-		for(Expression cond : getConditions()) {
-			if(cond instanceof Constant) {
-				if(((Constant)cond).value instanceof Boolean) {
+		foreach(Expression cond in Conditions)
+		{
+			if(cond is Constant)
+			{
+				if(((Constant)cond).value is bool?)
+				{
 					Constant constCond = (Constant)cond;
-					if(((Boolean)constCond.value).booleanValue()) {
+					if(((bool?)constCond.value).Value)
 						continue;
-					}
 				}
 			}
 			return; // a non-const or non-true const condition is a sign that the recursion will terminate
 		}
 
-		for(Alternative alternative : getAlts()) {
-			for(Rule altCase : alternative.getAlternativeCases()) {
+		foreach(Alternative alternative in Alts)
+		{
+			foreach(Rule altCase in alternative.AlternativeCases)
+			{
 				HashSet<PatternGraphLhs> subpatternsAlreadyVisitedClone =
 						new HashSet<PatternGraphLhs>(subpatternsAlreadyVisited);
-				altCase.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
+				altCase.pattern.CheckForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
 			}
 		}
 
-		for(Rule iterated : getIters()) {
+		foreach(Rule iterated in Iters)
+		{
 			HashSet<PatternGraphLhs> subpatternsAlreadyVisitedClone = new HashSet<PatternGraphLhs>(subpatternsAlreadyVisited);
-			iterated.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
+			iterated.pattern.CheckForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
 		}
 
-		for(PatternGraphLhs negative : getNegs()) {
+		foreach(PatternGraphLhs negative in Negs)
+		{
 			HashSet<PatternGraphLhs> subpatternsAlreadyVisitedClone = new HashSet<PatternGraphLhs>(subpatternsAlreadyVisited);
-			negative.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
+			negative.CheckForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
 		}
 
-		for(PatternGraphLhs independent : getIdpts()) {
+		foreach(PatternGraphLhs independent in Idpts)
+		{
 			HashSet<PatternGraphLhs> subpatternsAlreadyVisitedClone = new HashSet<PatternGraphLhs>(subpatternsAlreadyVisited);
-			independent.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
+			independent.CheckForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
 		}
 
-		for(SubpatternUsage sub : getSubpatternUsages()) {
-			if(!subpatternsAlreadyVisited.contains(sub.subpatternAction.pattern)) {
+		foreach(SubpatternUsage sub in SubpatternUsages)
+		{
+			if(!subpatternsAlreadyVisited.Contains(sub.subpatternAction.pattern))
+			{
 				HashSet<PatternGraphLhs> subpatternsAlreadyVisitedClone =
 						new HashSet<PatternGraphLhs>(subpatternsAlreadyVisited);
-				subpatternsAlreadyVisitedClone.add(sub.subpatternAction.pattern);
-				sub.subpatternAction.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
-			} else {
+				subpatternsAlreadyVisitedClone.Add(sub.subpatternAction.pattern);
+				sub.subpatternAction.pattern.CheckForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
+			}
+			else
+			{
 				// we're on path of only (maybe) empty patterns and see a subpattern already on it again
 				// -> endless loop of this subpattern matching only empty patterns until it gets matched again 
-				error.error(sub.subpatternAction.getIdent().getCoords(), "The (sub)pattern " + sub.subpatternAction.getIdent()
+				error.Error(sub.subpatternAction.Ident.GetCoords(), "The (sub)pattern " + sub.subpatternAction.Ident
 						+ " (potentially) calls itself again with only empty patterns in between, yielding an endless loop during pattern matching.");
 			}
 		}
 	}
 
-	public boolean isNeverTerminatingSuccessfully(HashSet<PatternGraphLhs> subpatternsAlreadyVisited)
+	public virtual bool IsNeverTerminatingSuccessfully(HashSet<PatternGraphLhs> subpatternsAlreadyVisited)
 	{
-		boolean neverTerminatingSuccessfully = false;
+		bool neverTerminatingSuccessfully = false;
 
-		for(Alternative alternative : getAlts()) {
-			boolean allCasesNotTerminating = true;
-			for(Rule altCase : alternative.getAlternativeCases()) {
+		foreach(Alternative alternative in Alts)
+		{
+			bool allCasesNotTerminating = true;
+			foreach(Rule altCase in alternative.AlternativeCases)
+			{
 				HashSet<PatternGraphLhs> subpatternsAlreadyVisitedClone =
 						new HashSet<PatternGraphLhs>(subpatternsAlreadyVisited);
-				allCasesNotTerminating &= altCase.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
+				allCasesNotTerminating &= altCase.pattern.IsNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
 			}
 			neverTerminatingSuccessfully |= allCasesNotTerminating;
 		}
 
-		for(Rule iterated : getIters()) {
+		foreach(Rule iterated in Iters)
+		{
 			HashSet<PatternGraphLhs> subpatternsAlreadyVisitedClone = new HashSet<PatternGraphLhs>(subpatternsAlreadyVisited);
-			if(iterated.getMinMatches() > 0)
-				neverTerminatingSuccessfully |= iterated.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
+			if(iterated.MinMatches > 0)
+				neverTerminatingSuccessfully |= iterated.pattern.IsNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
 		}
 
-		for(PatternGraphLhs negative : getNegs()) {
+		foreach(PatternGraphLhs negative in Negs)
+		{
 			HashSet<PatternGraphLhs> subpatternsAlreadyVisitedClone = new HashSet<PatternGraphLhs>(subpatternsAlreadyVisited);
-			neverTerminatingSuccessfully |= negative.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
+			neverTerminatingSuccessfully |= negative.IsNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
 		}
 
-		for(PatternGraphLhs independent : getIdpts()) {
+		foreach(PatternGraphLhs independent in Idpts)
+		{
 			HashSet<PatternGraphLhs> subpatternsAlreadyVisitedClone = new HashSet<PatternGraphLhs>(subpatternsAlreadyVisited);
-			neverTerminatingSuccessfully |= independent.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
+			neverTerminatingSuccessfully |= independent.IsNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
 		}
 
-		for(SubpatternUsage sub : getSubpatternUsages()) {
-			if(!subpatternsAlreadyVisited.contains(sub.subpatternAction.pattern)) {
+		foreach(SubpatternUsage sub in SubpatternUsages)
+		{
+			if(!subpatternsAlreadyVisited.Contains(sub.subpatternAction.pattern))
+			{
 				HashSet<PatternGraphLhs> subpatternsAlreadyVisitedClone =
 						new HashSet<PatternGraphLhs>(subpatternsAlreadyVisited);
-				subpatternsAlreadyVisitedClone.add(sub.subpatternAction.pattern);
-				neverTerminatingSuccessfully |= sub.subpatternAction.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
-			} else {
-				return true;
+				subpatternsAlreadyVisitedClone.Add(sub.subpatternAction.pattern);
+				neverTerminatingSuccessfully |= sub.subpatternAction.pattern.IsNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
 			}
+			else
+				return true;
 		}
 
 		return neverTerminatingSuccessfully;
 	}
 
-	public void checkForMultipleRetypes(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
+	public virtual void CheckForMultipleRetypes(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
 			PatternGraphBase right)
 	{
-		for(Node node : getNodes()) {
-			alreadyDefinedNodes.add(node);
-		}
-		for(Edge edge : getEdges()) {
-			alreadyDefinedEdges.add(edge);
-		}
+		foreach(Node node in Nodes)
+			alreadyDefinedNodes.Add(node);
+		foreach(Edge edge in Edges)
+			alreadyDefinedEdges.Add(edge);
 
-		for(Alternative alternative : getAlts()) {
-			for(Rule altCase : alternative.getAlternativeCases()) {
-				PatternGraphLhs altCasePattern = altCase.getLeft();
+		foreach(Alternative alternative in Alts)
+		{
+			foreach(Rule altCase in alternative.AlternativeCases)
+			{
+				PatternGraphLhs altCasePattern = altCase.Left;
 				HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 				HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
-				altCasePattern.checkForMultipleRetypes(
-						alreadyDefinedNodesClone, alreadyDefinedEdgesClone, altCase.getRight());
+				altCasePattern.CheckForMultipleRetypes(
+						alreadyDefinedNodesClone, alreadyDefinedEdgesClone, altCase.Right);
 			}
 		}
 
-		for(Rule iterated : getIters()) {
-			PatternGraphLhs iteratedPattern = iterated.getLeft();
+		foreach(Rule iterated in Iters)
+		{
+			PatternGraphLhs iteratedPattern = iterated.Left;
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
-			iteratedPattern.checkForMultipleRetypes(
-					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, iterated.getRight());
+			iteratedPattern.CheckForMultipleRetypes(
+					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, iterated.Right);
 
-			if(iterated.getMaxMatches() != 1) {
-				iteratedPattern.checkForMultipleRetypesDoCheck(alreadyDefinedNodes, alreadyDefinedEdges,
-						iterated.getRight());
+			if(iterated.MaxMatches != 1)
+			{
+				iteratedPattern.CheckForMultipleRetypesDoCheck(alreadyDefinedNodes, alreadyDefinedEdges,
+						iterated.Right);
 			}
 		}
 	}
 
-	public void checkForMultipleRetypesDoCheck(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
+	public virtual void CheckForMultipleRetypesDoCheck(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
 			PatternGraphBase right)
 	{
-		for(Node node : right.getNodes()) {
-			if(node.getRetypedNode(right) == null)
+		foreach(Node node in right.Nodes)
+		{
+			if(node.GetRetypedNode(right) == null)
 				continue;
-			if(alreadyDefinedNodes.contains(node)) {
-				error.error(node.getIdent().getCoords(), "A retyping of nodes from a nesting pattern is forbidden"
+			if(alreadyDefinedNodes.Contains(node))
+			{
+				error.Error(node.Ident.GetCoords(), "A retyping of nodes from a nesting pattern is forbidden"
 						+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
 						+ " (this occurs for " + node + ").");
-			} else {
-				for(Node homToRetypedNode : getHomomorphic(node)) {
-					if(alreadyDefinedNodes.contains(homToRetypedNode)) {
-						error.error(node.getIdent().getCoords(), "A retyping of nodes which might be hom to nodes from a nesting pattern is forbidden"
+			}
+			else
+			{
+				foreach(Node homToRetypedNode in GetHomomorphic(node))
+				{
+					if(alreadyDefinedNodes.Contains(homToRetypedNode))
+					{
+						error.Error(node.Ident.GetCoords(), "A retyping of nodes which might be hom to nodes from a nesting pattern is forbidden"
 								+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
 								+ " (this occurs for " + node + ").");
 					}
 				}
 			}
 		}
-		for(Edge edge : right.getEdges()) {
-			if(edge.getRetypedEdge(right) == null)
+		foreach(Edge edge in right.Edges)
+		{
+			if(edge.GetRetypedEdge(right) == null)
 				continue;
-			if(alreadyDefinedEdges.contains(edge)) {
-				error.error(edge.getIdent().getCoords(), "A retyping of edges from a nesting pattern is forbidden"
+			if(alreadyDefinedEdges.Contains(edge))
+			{
+				error.Error(edge.Ident.GetCoords(), "A retyping of edges from a nesting pattern is forbidden"
 						+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
 						+ " (this occurs for " + edge + ").");
-			} else {
-				for(Edge homToRetypedEdge : getHomomorphic(edge)) {
-					if(alreadyDefinedEdges.contains(homToRetypedEdge)) {
-						error.error(edge.getIdent().getCoords(), "A retyping of edges which might be hom to edges from a nesting pattern is forbidden"
+			}
+			else
+			{
+				foreach(Edge homToRetypedEdge in GetHomomorphic(edge))
+				{
+					if(alreadyDefinedEdges.Contains(homToRetypedEdge))
+					{
+						error.Error(edge.Ident.GetCoords(), "A retyping of edges which might be hom to edges from a nesting pattern is forbidden"
 								+ " if they are contained in construct which can get matched more than once (due to some kind of iterated)"
 								+ " (this occurs for " + edge + ").");
 					}
@@ -1039,18 +1170,23 @@ edgeHom:
 			}
 		}
 
-		for(Alternative alternative : getAlts()) {
-			for(Rule altCase : alternative.getAlternativeCases()) {
-				PatternGraphLhs altCasePattern = altCase.getLeft();
-				altCasePattern.checkForMultipleRetypesDoCheck(
-						alreadyDefinedNodes, alreadyDefinedEdges, altCase.getRight());
+		foreach(Alternative alternative in Alts)
+		{
+			foreach(Rule altCase in alternative.AlternativeCases)
+			{
+				PatternGraphLhs altCasePattern = altCase.Left;
+				altCasePattern.CheckForMultipleRetypesDoCheck(
+						alreadyDefinedNodes, alreadyDefinedEdges, altCase.Right);
 			}
 		}
 
-		for(Rule iterated : getIters()) {
-			PatternGraphLhs iteratedPattern = iterated.getLeft();
-			iteratedPattern.checkForMultipleRetypesDoCheck(
-					alreadyDefinedNodes, alreadyDefinedEdges, iterated.getRight());
+		foreach(Rule iterated in Iters)
+		{
+			PatternGraphLhs iteratedPattern = iterated.Left;
+			iteratedPattern.CheckForMultipleRetypesDoCheck(
+					alreadyDefinedNodes, alreadyDefinedEdges, iterated.Right);
 		}
 	}
+}
+
 }

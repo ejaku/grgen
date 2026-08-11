@@ -1,48 +1,57 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Rubino Geiss
- */
+/// <summary>
+/// @author Rubino Geiss
+/// </summary>
 
-package de.unika.ipd.grgen.ir.model;
-
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-
-public class MemberInit extends IR
+namespace de.unika.ipd.grgen.ir.model
 {
-	/** The lhs of the assignment. */
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+
+public class MemberInit : IR
+{
+	/// <summary>
+	/// The lhs of the assignment. </summary>
 	private Entity member;
 
-	/** The rhs of the assignment. */
+	/// <summary>
+	/// The rhs of the assignment. </summary>
 	private Expression expr;
 
 	public MemberInit(Entity member, Expression expr)
+		: base("memberinit")
 	{
-		super("memberinit");
 		this.member = member;
 		this.expr = expr;
 	}
 
-	public Entity getMember()
+	public virtual Entity Member
 	{
+		get
+		{
 		return member;
+		}
 	}
 
-	public Expression getExpression()
+	public virtual Expression Expression
 	{
+		get
+		{
 		return expr;
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return getMember() + " = " + getExpression();
+		return Member + " = " + Expression;
 	}
+}
+
 }

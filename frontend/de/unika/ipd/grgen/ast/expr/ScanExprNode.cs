@@ -1,37 +1,37 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
-import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
-import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.ScanExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node yielding an object of the specified type derived from scanning the string input parameter.
- */
-public class ScanExprNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(ScanExprNode.class, "scan expr");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using InternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
+using InternalTransientObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using StringTypeNode = de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
+using ContainerTypeNode = de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
+using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ScanExpr = de.unika.ipd.grgen.ir.expr.ScanExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node yielding an object of the specified type derived from scanning the string input parameter.
+/// </summary>
+public class ScanExprNode : BuiltinFunctionInvocationBaseNode
+{
+	static ScanExprNode()
+	{
+		SetClassName(typeof(ScanExprNode), "scan expr");
 	}
 
 	private BaseNode typeUnresolved;
@@ -39,117 +39,138 @@ public class ScanExprNode extends BuiltinFunctionInvocationBaseNode
 	private ExprNode stringExpr;
 
 	public ScanExprNode(Coords coords, BaseNode type, ExprNode stringExpr)
+		: base(coords)
 	{
-		super(coords);
-		if(type != null) {
+		if(type != null)
+		{
 			this.typeUnresolved = type;
-			becomeParent(this.typeUnresolved);
+			BecomeParent(this.typeUnresolved);
 		}
 		this.stringExpr = stringExpr;
-		becomeParent(this.stringExpr);
+		BecomeParent(this.stringExpr);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(stringExpr);
-		if(typeUnresolved != null) {
-			children.add(getValidVersion(typeUnresolved, type));
-		}
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(stringExpr);
+		if(typeUnresolved != null)
+			children.Add(GetValidVersion(typeUnresolved, type));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("string expr");
-		if(typeUnresolved != null) {
-			childrenNames.add("type");
-		}
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("string expr");
+		if(typeUnresolved != null)
+			childrenNames.Add("type");
 		return childrenNames;
+		}
 	}
 
-	protected static final DeclarationTypeResolver<TypeNode> typeResolver =
-			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+	protected internal static readonly DeclarationTypeResolver<TypeNode> typeResolver =
+			new DeclarationTypeResolver<TypeNode>(typeof(TypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		if(typeUnresolved == null) {
+		if(typeUnresolved == null)
 			type = BasicTypeNode.objectType;
-		} else {
-			type = typeResolver.resolve(typeUnresolved, this);
-		}
-		
+		else
+			type = typeResolver.Resolve(typeUnresolved, this);
+
 		return type != null;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		if(!(stringExpr.getType() instanceof StringTypeNode)) {
-			if(type != null) {
-				reportError("The construct scan<" + type.getTypeName() + "> expects as argument a value of type string"
-						+ " (but is given a value of type " + stringExpr.getType().getTypeName() + ").");
-			} else {
-				reportError("The construct scan expects as argument a value of type string"
-						+ " (but is given a value of type " + stringExpr.getType().getTypeName() + ").");
+		if(!(stringExpr.Type is StringTypeNode))
+		{
+			if(type != null)
+			{
+				ReportError("The construct scan<" + type.TypeName + "> expects as argument a value of type string"
+						+ " (but is given a value of type " + stringExpr.Type.TypeName + ").");
+			}
+			else
+			{
+				ReportError("The construct scan expects as argument a value of type string"
+						+ " (but is given a value of type " + stringExpr.Type.TypeName + ").");
 			}
 			return false;
 		}
 
-		if(type != null) {
-			if(type instanceof InternalObjectTypeNode) {
-				reportError("The construct scan<T> disallows a type argument containing a class object type"
-						+ " (but is given " + type.getKind() + " " + type.getTypeName() + ").");
-			} else if(type instanceof InternalTransientObjectTypeNode) {
-				reportError("The construct scan<T> disallows a type argument containing a transient class object type"
-						+ " (but is given " + type.getKind() + " " + type.getTypeName() + ").");
+		if(type != null)
+		{
+			if(type is InternalObjectTypeNode)
+			{
+				ReportError("The construct scan<T> disallows a type argument containing a class object type"
+						+ " (but is given " + type.Kind + " " + type.TypeName + ").");
 			}
-			if(type instanceof ContainerTypeNode) {
+			else if(type is InternalTransientObjectTypeNode)
+			{
+				ReportError("The construct scan<T> disallows a type argument containing a transient class object type"
+						+ " (but is given " + type.Kind + " " + type.TypeName + ").");
+			}
+			if(type is ContainerTypeNode)
+			{
 				ContainerTypeNode containerType = (ContainerTypeNode)type;
-				if(containerType.getElementType() instanceof InternalObjectTypeNode) {
-					reportError("The construct scan<T> disallows a type argument (of a container type) containing a class object type"
-							+ " (but is given type " + type.getTypeName() + ").");
-				} else if(containerType.getElementType() instanceof InternalTransientObjectTypeNode) {
-					reportError("The construct scan<T> disallows a type argument (of a container type) containing a transient class object type"
-							+ " (but is given type " + type.getTypeName() + ").");
+				if(containerType.ElementType is InternalObjectTypeNode)
+				{
+					ReportError("The construct scan<T> disallows a type argument (of a container type) containing a class object type"
+							+ " (but is given type " + type.TypeName + ").");
 				}
-				if(type instanceof MapTypeNode) {
+				else if(containerType.ElementType is InternalTransientObjectTypeNode)
+				{
+					ReportError("The construct scan<T> disallows a type argument (of a container type) containing a transient class object type"
+							+ " (but is given type " + type.TypeName + ").");
+				}
+				if(type is MapTypeNode)
+				{
 					MapTypeNode mapType = (MapTypeNode)type;
-					if(mapType.keyType instanceof InternalObjectTypeNode) {
-						reportError("The construct scan<T> disallows a type argument (of a container type) containing a class object type"
-								+ " (but is given type " + type.getTypeName() + ").");
-					} else if(mapType.keyType instanceof InternalTransientObjectTypeNode) {
-						reportError("The construct scan<T> disallows a type argument (of a container type) containing a transient class object type"
-								+ " (but is given type " + type.getTypeName() + ").");
+					if(mapType.keyType is InternalObjectTypeNode)
+					{
+						ReportError("The construct scan<T> disallows a type argument (of a container type) containing a class object type"
+								+ " (but is given type " + type.TypeName + ").");
+					}
+					else if(mapType.keyType is InternalTransientObjectTypeNode)
+					{
+						ReportError("The construct scan<T> disallows a type argument (of a container type) containing a transient class object type"
+								+ " (but is given type " + type.TypeName + ").");
 					}
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		stringExpr = stringExpr.evaluate();
-		return new ScanExpr(stringExpr.checkIR(Expression.class), getType().getIRType());
+		stringExpr = stringExpr.Evaluate();
+		return new ScanExpr(stringExpr.CheckIR(typeof(Expression)), Type.IRType);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		if(type != null)
 			return type;
 		else
 			return BasicTypeNode.objectType;
+		}
 	}
+}
+
 }

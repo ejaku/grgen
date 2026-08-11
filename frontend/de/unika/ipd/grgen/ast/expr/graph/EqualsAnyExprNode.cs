@@ -1,115 +1,125 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.GraphTypeNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node comparing a subgraph against a subgraph set.
- */
-public class EqualsAnyExprNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.graph
 {
-	static {
-		setClassName(EqualsAnyExprNode.class, "equals any expr");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using GraphTypeNode = de.unika.ipd.grgen.ast.type.basic.GraphTypeNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using EqualsAnyExpr = de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node comparing a subgraph against a subgraph set.
+/// </summary>
+public class EqualsAnyExprNode : BuiltinFunctionInvocationBaseNode
+{
+	static EqualsAnyExprNode()
+	{
+		SetClassName(typeof(EqualsAnyExprNode), "equals any expr");
 	}
 
 	private ExprNode subgraphExpr;
 	private ExprNode subgraphSetExpr;
-	private boolean includingAttributes;
+	private bool includingAttributes;
 
 	public EqualsAnyExprNode(Coords coords, ExprNode subgraphExpr,
-			ExprNode subgraphSetExpr, boolean includingAttributes)
+			ExprNode subgraphSetExpr, bool includingAttributes)
+		: base(coords)
 	{
-		super(coords);
 		this.subgraphExpr = subgraphExpr;
-		becomeParent(this.subgraphExpr);
+		BecomeParent(this.subgraphExpr);
 		this.subgraphSetExpr = subgraphSetExpr;
-		becomeParent(this.subgraphSetExpr);
+		BecomeParent(this.subgraphSetExpr);
 		this.includingAttributes = includingAttributes;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(subgraphExpr);
-		children.add(subgraphSetExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(subgraphExpr);
+		children.Add(subgraphSetExpr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("subgraphExpr");
-		childrenNames.add("subgraphSetExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("subgraphExpr");
+		childrenNames.Add("subgraphSetExpr");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		if(!(subgraphExpr.getType() instanceof GraphTypeNode)) {
-			subgraphExpr.reportError("The function equalsAny expects as 1. argument (subgraphToCompare) a value of type graph"
-					+ " (but is given a value of type " + subgraphExpr.getType().getTypeName() + ").");
+		if(!(subgraphExpr.Type is GraphTypeNode))
+		{
+			subgraphExpr.ReportError("The function equalsAny expects as 1. argument (subgraphToCompare) a value of type graph"
+					+ " (but is given a value of type " + subgraphExpr.Type.TypeName + ").");
 			return false;
 		}
-		if(!(subgraphSetExpr.getType() instanceof SetTypeNode)) {
-			subgraphSetExpr.reportError("The function equalsAny expects as 2. argument (setOfSubgraphsToCompareAgainst) a value of type set"
-					+ " (but is given a value of type " + subgraphSetExpr.getType().getTypeName() + ").");
+		if(!(subgraphSetExpr.Type is SetTypeNode))
+		{
+			subgraphSetExpr.ReportError("The function equalsAny expects as 2. argument (setOfSubgraphsToCompareAgainst) a value of type set"
+					+ " (but is given a value of type " + subgraphSetExpr.Type.TypeName + ").");
 			return false;
 		}
-		SetTypeNode type = (SetTypeNode)subgraphSetExpr.getType();
-		if(!(type.valueType instanceof GraphTypeNode)) {
-			subgraphSetExpr.reportError("The function equalsAny expects as 2. argument (setOfSubgraphsToCompareAgainst) a value of type set<graph>"
-					+ " (but is given a value of type " + subgraphSetExpr.getType().getTypeName() + ").");
+		SetTypeNode type = (SetTypeNode)subgraphSetExpr.Type;
+		if(!(type.valueType is GraphTypeNode))
+		{
+			subgraphSetExpr.ReportError("The function equalsAny expects as 2. argument (setOfSubgraphsToCompareAgainst) a value of type set<graph>"
+					+ " (but is given a value of type " + subgraphSetExpr.Type.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		subgraphExpr = subgraphExpr.evaluate();
-		subgraphSetExpr = subgraphSetExpr.evaluate();
-		return new EqualsAnyExpr(subgraphExpr.checkIR(Expression.class),
-				subgraphSetExpr.checkIR(Expression.class),
-				includingAttributes, getType().getIRType());
+		subgraphExpr = subgraphExpr.Evaluate();
+		subgraphSetExpr = subgraphSetExpr.Evaluate();
+		return new EqualsAnyExpr(subgraphExpr.CheckIR(typeof(Expression)),
+				subgraphSetExpr.CheckIR(typeof(Expression)),
+				includingAttributes, Type.IRType);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.booleanType;
+		}
 	}
+}
+
 }

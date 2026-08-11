@@ -1,28 +1,33 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.util.collection;
-
+namespace de.unika.ipd.grgen.util.collection
+{
 public class Mutable<T>
 {
-	T value;
+	internal T value;
 
 	public Mutable(T v)
 	{
 		value = v;
 	}
 
-	public T getValue()
+	public virtual T Value
 	{
+		get
+		{
 		return value;
+		}
+		set
+		{
+		this.value = value;
+		}
 	}
 
-	public void setValue(T value)
-	{
-		this.value = value;
-	}
+}
+
 }

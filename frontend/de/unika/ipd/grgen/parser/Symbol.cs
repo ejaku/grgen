@@ -1,49 +1,54 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.parser;
+namespace de.unika.ipd.grgen.parser
+{
+using System;
+using System.Diagnostics;
 
-import de.unika.ipd.grgen.ast.IdentNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
 
-/**
- * A lexical symbol.
- */
+/// <summary>
+/// A lexical symbol.
+/// </summary>
 public class Symbol
 {
-	/**
-	 * An occurrence of a symbol.
-	 */
-	public static class Occurrence
+	/// <summary>
+	/// An occurrence of a symbol.
+	/// </summary>
+	public class Occurrence
 	{
-		/** The scope in which the symbol occurred. */
-		protected final Scope scope;
+		/// <summary>
+		/// The scope in which the symbol occurred. </summary>
+		protected internal readonly Scope scope;
 
-		/** The source file coordinates where the symbol occurred. */
-		protected final Coords coords;
+		/// <summary>
+		/// The source file coordinates where the symbol occurred. </summary>
+		protected internal readonly Coords coords;
 
-		/** The symbol that occurred. */
-		protected final Symbol symbol;
+		/// <summary>
+		/// The symbol that occurred. </summary>
+		protected internal readonly Symbol symbol;
 
-		/**
-		 * The corresponding definition of the symbol.
-		 * Points to itself, if this occurrence is a definition,
-		 */
-		protected Definition def;
+		/// <summary>
+		/// The corresponding definition of the symbol.
+		/// Points to itself, if this occurrence is a definition,
+		/// </summary>
+		protected internal Definition def;
 
-		/**
-		 * Make a new occurrence.
-		 * @param sc The scope where the symbol occurred,
-		 * @param c The source file coordinates.
-		 * @param sym The symbol that occurred.
-		 */
+		/// <summary>
+		/// Make a new occurrence. </summary>
+		/// <param name="sc"> The scope where the symbol occurred, </param>
+		/// <param name="c"> The source file coordinates. </param>
+		/// <param name="sym"> The symbol that occurred. </param>
 		public Occurrence(Scope sc, Coords c, Symbol sym)
 		{
 			symbol = sym;
@@ -51,159 +56,161 @@ public class Symbol
 			coords = c;
 		}
 
-		/**
-		 * @see java.lang.Object#toString()
-		 */
-		@Override
-		public String toString()
+		/// <seealso cref="java.lang.Object.toString()"/>
+		public override string ToString()
 		{
 			return "" + symbol + "(" + coords + "," + scope + ")";
 		}
 
-		/**
-		 * Get the occurring symbol.
-		 * @return The symbol.
-		 */
-		public Symbol getSymbol()
+		/// <summary>
+		/// Get the occurring symbol. </summary>
+		/// <returns> The symbol. </returns>
+		public virtual Symbol Symbol
 		{
+			get
+			{
 			return symbol;
+			}
 		}
 
-		/**
-		 * Get the source code coordinates.
-		 * @return The coordinates.
-		 */
-		public Coords getCoords()
+		/// <summary>
+		/// Get the source code coordinates. </summary>
+		/// <returns> The coordinates. </returns>
+		public virtual Coords Coords
 		{
+			get
+			{
 			return coords;
+			}
 		}
 
-		/**
-		 * Get the scope of occurrence.
-		 * @return The scope.
-		 */
-		public Scope getScope()
+		/// <summary>
+		/// Get the scope of occurrence. </summary>
+		/// <returns> The scope. </returns>
+		public virtual Scope Scope
 		{
+			get
+			{
 			return scope;
+			}
 		}
 
-		/**
-		 * Get the symbol's definition.
-		 * @return The definition.
-		 */
-		public Definition getDefinition()
+		/// <summary>
+		/// Get the symbol's definition. </summary>
+		/// <returns> The definition. </returns>
+		public virtual Definition Definition
 		{
+			get
+			{
 			return def;
+			}
+			set
+			{
+			this.def = value;
+			}
 		}
 
-		/**
-		 * Set the definition for a symbol occurrence.
-		 * @param def The corresponding definition.
-		 */
-		public void setDefinition(Definition def)
+
+		public virtual bool IsAnonymous()
 		{
-			this.def = def;
-		}
-		
-		public boolean isAnonymous()
-		{
-			return symbol.text.startsWith("$") || def.anonymous;
+			return symbol.text.StartsWith("$", StringComparison.Ordinal) || def.anonymous;
 		}
 	}
 
-	/**
-	 * The definition of a symbol.
-	 * Especially, a definition is an occurrence, that defines an identifier.
-	 */
-	public static class Definition extends Occurrence
+	/// <summary>
+	/// The definition of a symbol.
+	/// Especially, a definition is an occurrence, that defines an identifier.
+	/// </summary>
+	public class Definition : Occurrence
 	{
-		/**
-		 * An AST ident node for this definition.
-		 * This is needed, because other ident nodes representing the same
-		 * identifier have to resolve the ident node of the definition to
-		 * get the defined entity.
-		 */
-		protected IdentNode node;
-		
-		protected boolean anonymous = false;
+		/// <summary>
+		/// An AST ident node for this definition.
+		/// This is needed, because other ident nodes representing the same
+		/// identifier have to resolve the ident node of the definition to
+		/// get the defined entity.
+		/// </summary>
+		protected internal IdentNode node;
 
-		private static final Definition INVALID = new Definition(Scope.getInvalid(), Coords.INVALID, Symbol.INVALID);
+		protected internal bool anonymous = false;
 
-		/**
-		 * Make an invalid definition.
-		 * @return An invalid definition.
-		 */
-		public static Definition getInvalid()
+		internal static readonly Definition INVALID = new Definition(Scope.Invalid, Coords.INVALID, Symbol.INVALID);
+
+		/// <summary>
+		/// Make an invalid definition. </summary>
+		/// <returns> An invalid definition. </returns>
+		public static Definition Invalid
 		{
+			get
+			{
 			return INVALID;
+			}
 		}
 
-		/**
-		 * Make a new symbol definition.
-		 * @param sc The scope in which the symbol is defined.
-		 * @param c The source code coordinates where the symbol was defined.
-		 * @param sym The symbol, that was defined.
-		 */
+		/// <summary>
+		/// Make a new symbol definition. </summary>
+		/// <param name="sc"> The scope in which the symbol is defined. </param>
+		/// <param name="c"> The source code coordinates where the symbol was defined. </param>
+		/// <param name="sym"> The symbol, that was defined. </param>
 		public Definition(Scope sc, Coords c, Symbol sym)
+			 : base(sc, c, sym)
 		{
-			super(sc, c, sym);
 			def = this;
 		}
-		
-		public Definition declareAnonymous()
+
+		public virtual Definition DeclareAnonymous()
 		{
 			anonymous = true;
 			return this;
 		}
 
-		/**
-		 * Checks the validity of a definition.
-		 * @return true, if the definition is valid.
-		 */
-		public boolean isValid()
+		/// <summary>
+		/// Checks the validity of a definition. </summary>
+		/// <returns> true, if the definition is valid. </returns>
+		public virtual bool IsValid()
 		{
 			return symbol != Symbol.INVALID;
 		}
 
-		/**
-		 * Get the AST ident node for this definition.
-		 * @return The AST node for this definition.
-		 */
-		public IdentNode getNode()
+		/// <summary>
+		/// Get the AST ident node for this definition. </summary>
+		/// <returns> The AST node for this definition. </returns>
+		public virtual IdentNode Node
 		{
+			get
+			{
 			return node;
+			}
+			set // Set an AST node for this definition. An AST ident node.
+			{
+			this.node = value;
+			}
 		}
 
-		/**
-		 * Set an AST node for this definition.
-		 * @param node An AST ident node.
-		 */
-		public void setNode(IdentNode node)
-		{
-			this.node = node;
-		}
 	}
 
-	/** An invalid symbol. */
-	private static final Symbol INVALID = new Symbol("<invalid>",
-			SymbolTable.getInvalid());
+	/// <summary>
+	/// An invalid symbol. </summary>
+	private static readonly Symbol INVALID = new Symbol("<invalid>",
+			SymbolTable.Invalid);
 
-	/** The number of definitions concerning this symbol. */
+	/// <summary>
+	/// The number of definitions concerning this symbol. </summary>
 	private int definitions = 0;
 
-	/** The symbol table the symbol was defined in. */
-	private final SymbolTable symbolTable;
+	/// <summary>
+	/// The symbol table the symbol was defined in. </summary>
+	private readonly SymbolTable symbolTable;
 
-	/** The string of the symbol. */
-	private final String text;
+	/// <summary>
+	/// The string of the symbol. </summary>
+	private readonly string text;
 
-	/**
-	 * Make a new symbol.
-	 * @param text The text of the symbol.
-	 */
-	public Symbol(String text, SymbolTable symbolTable)
+	/// <summary>
+	/// Make a new symbol. </summary>
+	/// <param name="text"> The text of the symbol. </param>
+	public Symbol(string text, SymbolTable symbolTable)
 	{
-		assert(text != null);
+		Debug.Assert((!string.ReferenceEquals(text, null)));
 		this.text = text;
 		this.symbolTable = symbolTable;
 	}
@@ -212,84 +219,89 @@ public class Symbol
 	// are defined in the same symbol table.
 	// This holds if they are compared for object/reference identity.
 	// Removed the equals implementation (previously available at this place).
-	
-	/**
-	 * Get the symbol table, the symbol was defined in.
-	 * @param The symbol table.
-	 */
-	public SymbolTable getSymbolTable()
+
+	/// <summary>
+	/// Get the symbol table, the symbol was defined in. </summary>
+	/// <param name="The"> symbol table. </param>
+	public virtual SymbolTable SymbolTable
 	{
+		get
+		{
 		return symbolTable;
+		}
 	}
 
-	/**
-	 * Get an occurrence of this symbol.
-	 * @param sc The current scope.
-	 * @param c The coordinates the occurrence happened.
-	 * @return An occurrence of the current symbol.
-	 */
-	public Occurrence occurs(Scope sc, Coords c)
+	/// <summary>
+	/// Get an occurrence of this symbol. </summary>
+	/// <param name="sc"> The current scope. </param>
+	/// <param name="c"> The coordinates the occurrence happened. </param>
+	/// <returns> An occurrence of the current symbol. </returns>
+	public virtual Occurrence Occurs(Scope sc, Coords c)
 	{
 		return new Occurrence(sc, c, this);
 	}
 
-	/**
-	 * Get a definition of the symbol.
-	 * @param sc The scope the definition occurrs in.
-	 * @param c The coordinates of the definition.
-	 * @return The definition.
-	 */
-	public Definition define(Scope sc, Coords c) throws SymbolTableException
+	/// <summary>
+	/// Get a definition of the symbol. </summary>
+	/// <param name="sc"> The scope the definition occurrs in. </param>
+	/// <param name="c"> The coordinates of the definition. </param>
+	/// <returns> The definition. </returns>
+	public virtual Definition Define(Scope sc, Coords c)
 	{
-		if(isKeyword() && definitions > 0)
+		if(IsKeyword() && definitions > 0)
 			throw new SymbolTableException(c, "keyword cannot be redefined");
-		else {
+		else
+		{
 			definitions++;
 			return new Definition(sc, c, this);
 		}
 	}
 
-	public String getText()
+	public virtual string Text
 	{
+		get
+		{
 		return /*text != null ? */text/* : "<invalid>"*/;
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return getText();
+		return Text;
 	}
 
-	/**
-	 * Is this symbol a keyword.
-	 * A keyword symbol cannot be defined.
-	 * @return true, if the symbol is a keyword, false if not.
-	 */
-	public boolean isKeyword()
+	/// <summary>
+	/// Is this symbol a keyword.
+	/// A keyword symbol cannot be defined. </summary>
+	/// <returns> true, if the symbol is a keyword, false if not. </returns>
+	public virtual bool IsKeyword()
 	{
 		return false; // overridden in anonymous class created in SymbolTable.enterKeyword
 	}
 
-	/**
-	 * Get the number of definitions.
-	 * @return The number of times the symbol has been defined.
-	 */
-	public int getDefinitionCount()
+	/// <summary>
+	/// Get the number of definitions. </summary>
+	/// <returns> The number of times the symbol has been defined. </returns>
+	public virtual int DefinitionCount
 	{
+		get
+		{
 		return definitions;
+		}
 	}
 
-	/**
-	 * Make an anonymous symbol.
-	 * This symbol could not have been declared somewhere in the parsed text.
-	 * So, it must contain a character, that is not allowed in the language's
-	 * identifier rule.
-	 * @param name An addition to the name of the symbol.
-	 * @param symTab The symbol table the symbol occurs in.
-	 * @return An anonymous symbol.
-	 */
-	public static Symbol makeAnonymous(String name, SymbolTable symTab)
+	/// <summary>
+	/// Make an anonymous symbol.
+	/// This symbol could not have been declared somewhere in the parsed text.
+	/// So, it must contain a character, that is not allowed in the language's
+	/// identifier rule. </summary>
+	/// <param name="name"> An addition to the name of the symbol. </param>
+	/// <param name="symTab"> The symbol table the symbol occurs in. </param>
+	/// <returns> An anonymous symbol. </returns>
+	public static Symbol MakeAnonymous(string name, SymbolTable symTab)
 	{
 		return new Symbol("$" + name, symTab);
 	}
+}
+
 }

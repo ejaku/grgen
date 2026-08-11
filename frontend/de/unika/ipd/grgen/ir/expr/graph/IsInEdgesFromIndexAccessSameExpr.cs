@@ -1,45 +1,52 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr.graph;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
-import de.unika.ipd.grgen.ir.type.Type;
-
-public class IsInEdgesFromIndexAccessSameExpr extends EdgesFromIndexAccessExpr
+namespace de.unika.ipd.grgen.ir.expr.graph
 {
-	private final Expression candidateExpr;
-	private final IndexAccessEquality indexAccess;
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using IndexAccessEquality = de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+public class IsInEdgesFromIndexAccessSameExpr : EdgesFromIndexAccessExpr
+{
+	private readonly Expression candidateExpr;
+	private readonly IndexAccessEquality indexAccess;
 
 	public IsInEdgesFromIndexAccessSameExpr(Expression candidateExpr, IndexAccessEquality indexAccess, Type type)
+		: base(indexAccess.index, type)
 	{
-		super(indexAccess.index, type);
 		this.candidateExpr = candidateExpr;
 		this.indexAccess = indexAccess;
 	}
 
-	public Expression getCandidateExpr()
+	public virtual Expression CandidateExpr
 	{
+		get
+		{
 		return candidateExpr;
+		}
 	}
 
-	public IndexAccessEquality getIndexAccessEquality()
+	public virtual IndexAccessEquality IndexAccessEquality
 	{
+		get
+		{
 		return indexAccess;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.needsGraph();
-		candidateExpr.collectNeededEntities(needs);
-		indexAccess.collectNeededEntities(needs);
+		needs.NeedsGraph();
+		candidateExpr.CollectNeededEntities(needs);
+		indexAccess.CollectNeededEntities(needs);
 	}
+}
+
 }

@@ -1,76 +1,85 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt;
-
-import java.util.HashSet;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-
-/**
- * Represents a compound assignment var changed statement in the IR.
- */
-public class CompoundAssignmentVarChanged extends CompoundAssignmentVar
+namespace de.unika.ipd.grgen.ir.stmt
 {
-	/** The change assignment. */
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+
+/// <summary>
+/// Represents a compound assignment var changed statement in the IR.
+/// </summary>
+public class CompoundAssignmentVarChanged : CompoundAssignmentVar
+{
+	/// <summary>
+	/// The change assignment. </summary>
 	private Qualification changedTarget;
 
-	/** The operation of the change assignment */
+	/// <summary>
+	/// The operation of the change assignment </summary>
 	private CompoundAssignmentType changedOperation;
 
 	public CompoundAssignmentVarChanged(Variable target,
 			CompoundAssignmentType compoundAssignmentType, Expression expr,
 			CompoundAssignmentType changedAssignmentType, Qualification changedTarget)
+		: base(target, compoundAssignmentType, expr)
 	{
-		super(target, compoundAssignmentType, expr);
 		this.changedOperation = changedAssignmentType;
 		this.changedTarget = changedTarget;
 	}
 
-	public Qualification getChangedTarget()
+	public virtual Qualification ChangedTarget
 	{
+		get
+		{
 		return changedTarget;
+		}
 	}
 
-	public CompoundAssignmentType getChangedOperation()
+	public virtual CompoundAssignmentType ChangedOperation
 	{
+		get
+		{
 		return changedOperation;
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return super.toString()
+		return base.ToString()
 				+ (changedOperation == CompoundAssignmentType.UNION ?
 						" |> " : changedOperation == CompoundAssignmentType.INTERSECTION ? " &> " : " => ")
-				+ changedTarget.toString();
+				+ changedTarget.ToString();
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		super.collectNeededEntities(needs);
+		base.CollectNeededEntities(needs);
 
-		Entity entity = changedTarget.getOwner();
-		if(!isGlobalVariable(entity))
-			needs.add((GraphEntity)entity);
+		Entity entity = changedTarget.Owner;
+		if(!IsGlobalVariable(entity))
+			needs.Add((GraphEntity)entity);
 
 		// Temporarily do not collect variables for changed target
 		HashSet<Variable> varSet = needs.variables;
 		needs.variables = null;
-		changedTarget.collectNeededEntities(needs);
+		changedTarget.CollectNeededEntities(needs);
 		needs.variables = varSet;
 	}
+}
+
 }

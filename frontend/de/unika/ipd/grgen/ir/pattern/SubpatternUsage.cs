@@ -1,50 +1,62 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.pattern;
+namespace de.unika.ipd.grgen.ir.pattern
+{
 
-import java.util.List;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.expr.Expression;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-public class SubpatternUsage extends Identifiable
+public class SubpatternUsage : Identifiable
 {
 	public Rule subpatternAction;
-	public List<Expression> subpatternConnections;
-	List<Expression> subpatternYields;
+	public IList<Expression> subpatternConnections;
+	internal IList<Expression> subpatternYields;
 
-	public SubpatternUsage(String name, Ident ident, Rule subpatternAction,
-			List<Expression> connections, List<Expression> yields)
+	public SubpatternUsage(string name, Ident ident, Rule subpatternAction,
+			IList<Expression> connections, IList<Expression> yields)
+		: base(name, ident)
 	{
-		super(name, ident);
 		this.subpatternAction = subpatternAction;
 		this.subpatternConnections = connections;
 		this.subpatternYields = yields;
 	}
 
-	public Rule getSubpatternAction()
+	public virtual Rule SubpatternAction
 	{
+		get
+		{
 		return subpatternAction;
+		}
 	}
 
-	public List<Expression> getSubpatternConnections()
+	public virtual IList<Expression> SubpatternConnections
 	{
+		get
+		{
 		return subpatternConnections;
+		}
 	}
 
-	public List<Expression> getSubpatternYields()
+	public virtual IList<Expression> SubpatternYields
 	{
+		get
+		{
 		return subpatternYields;
+		}
 	}
+}
+
 }

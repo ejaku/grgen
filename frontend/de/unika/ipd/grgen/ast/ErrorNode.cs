@@ -1,83 +1,91 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ast;
-
-import java.awt.Color;
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-/**
- * Dummy AST node, that is used in the case of an error.
- * children: none
- */
-public class ErrorNode extends BaseNode
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(ErrorNode.class, "error node");
+
+using System.Collections.Generic;
+
+/// <summary>
+/// Dummy AST node, that is used in the case of an error.
+/// children: none
+/// </summary>
+public class ErrorNode : BaseNode
+{
+	static ErrorNode()
+	{
+		SetClassName(typeof(ErrorNode), "error node");
 	}
 
-	protected ErrorNode()
+	protected internal ErrorNode()
+		: base()
 	{
-		super();
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		// no children
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// no children
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public Color getNodeColor()
+	public override Color NodeColor
 	{
+		get
+		{
 		return Color.RED;
+		}
 	}
 
-	@Override
-	public String getNodeLabel()
+	public override string NodeLabel
 	{
+		get
+		{
 		return "Error";
+		}
 	}
 
-	@Override
-	public final boolean isError()
+	public override sealed bool IsError()
 	{
 		return true;
 	}
+}
+
 }

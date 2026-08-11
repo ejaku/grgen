@@ -1,33 +1,33 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.expr.IteratedQueryExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class IteratedQueryExprNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(IteratedQueryExprNode.class, "iterated query");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using IteratedQueryExpr = de.unika.ipd.grgen.ir.expr.IteratedQueryExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class IteratedQueryExprNode : ExprNode
+{
+	static IteratedQueryExprNode()
+	{
+		SetClassName(typeof(IteratedQueryExprNode), "iterated query");
 	}
 
 	private IdentNode iteratedUnresolved;
@@ -37,80 +37,82 @@ public class IteratedQueryExprNode extends ExprNode
 	private TypeNode arrayOfMatchType;
 
 	public IteratedQueryExprNode(Coords coords, IdentNode iterated, TypeNode arrayOfMatchType)
+		: base(coords)
 	{
-		super(coords);
 
-		this.iteratedUnresolved = becomeParent(iterated);
-		this.arrayOfMatchTypeUnresolved = becomeParent(arrayOfMatchType);
+		this.iteratedUnresolved = BecomeParent(iterated);
+		this.arrayOfMatchTypeUnresolved = BecomeParent(arrayOfMatchType);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(iteratedUnresolved, iterated));
-		children.add(getValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(iteratedUnresolved, iterated));
+		children.Add(GetValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("iterated");
-		childrenNames.add("arrayOfMatchType");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("iterated");
+		childrenNames.Add("arrayOfMatchType");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
-			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
+	private static readonly DeclarationResolver<IteratedDeclNode> iteratedResolver =
+			new DeclarationResolver<IteratedDeclNode>(typeof(IteratedDeclNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
-		if(iterated == null) {
+		iterated = iteratedResolver.Resolve(iteratedUnresolved, this);
+		if(iterated == null)
 			return false;
-		}
-		if(arrayOfMatchTypeUnresolved.resolve()) {
+		if(arrayOfMatchTypeUnresolved.Resolve())
 			arrayOfMatchType = arrayOfMatchTypeUnresolved;
-		}
 		return arrayOfMatchType != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return new IteratedQueryExpr(iteratedUnresolved.getIRIdent(), iterated.checkIR(Rule.class), getType().getIRType());
+		return new IteratedQueryExpr(iteratedUnresolved.IRIdent, iterated.CheckIR(typeof(Rule)), Type.IRType);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return arrayOfMatchType;
+		}
 	}
 
-	@Override
-	public boolean noIteratedReference(String containingConstruct)
+	public override bool NoIteratedReference(string containingConstruct)
 	{
-		reportError("The matches of an iterated cannot be accessed with an iterated query [?" + iteratedUnresolved + "]"
+		ReportError("The matches of an iterated cannot be accessed with an iterated query [?" + iteratedUnresolved + "]"
 				+ " from a " + containingConstruct + ", only from a yield block or yield expression or eval.");
 		return false;
 	}
 
-	@Override
-	public boolean iteratedNotReferenced(String iterName)
+	public override bool IteratedNotReferenced(string iterName)
 	{
-		if(iterated.getIdent().toString().equals(iterName)) {
-			reportError("An iterated query cannot access an iterated it is contained in, as it occurs with [?" + iteratedUnresolved + "].");
+		if(iterated.Ident.ToString().Equals(iterName))
+		{
+			ReportError("An iterated query cannot access an iterated it is contained in, as it occurs with [?" + iteratedUnresolved + "].");
 			return false;
 		}
 		return true;
 	}
+}
+
 }

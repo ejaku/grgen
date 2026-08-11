@@ -1,49 +1,48 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.util;
-
-/**
- * A visitor that takes a parameter array.
- */
-public abstract class ParamVisitor implements Visitor
+namespace de.unika.ipd.grgen.util
 {
-	private Object[] parameters;
+/// <summary>
+/// A visitor that takes a parameter array.
+/// </summary>
+public abstract class ParamVisitor : Visitor
+{
+	public abstract void visit(Walkable n);
+	private object[] parameters;
 
-	/**
-	 * Get the i-th parameter.
-	 * @param i The number of the parameter.
-	 * @return The i-th parameter, null, if i was greater than the number of
-	 * parameters.
-	 */
-	protected Object getParameter(int i)
+	/// <summary>
+	/// Get the i-th parameter. </summary>
+	/// <param name="i"> The number of the parameter. </param>
+	/// <returns> The i-th parameter, null, if i was greater than the number of
+	/// parameters. </returns>
+	protected internal virtual object GetParameter(int i)
 	{
-		return i < parameters.length ? parameters[i] : null;
+		return i < parameters.Length ? parameters[i] : null;
 	}
 
-	/**
-	 * Make a new parameter visitor.
-	 * @param params The parameter for the visitor.
-	 */
-	public ParamVisitor(Object[] params)
+	/// <summary>
+	/// Make a new parameter visitor. </summary>
+	/// <param name="params"> The parameter for the visitor. </param>
+	public ParamVisitor(object[] @params)
 	{
-		parameters = params;
+		parameters = @params;
 	}
 
-	/**
-	 * Make a new parameter visitor with one parameter.
-	 * @param param The parameter.
-	 */
-	public ParamVisitor(Object param)
+	/// <summary>
+	/// Make a new parameter visitor with one parameter. </summary>
+	/// <param name="param"> The parameter. </param>
+	public ParamVisitor(object param) : this(new object[] {param})
 	{
-		this(new Object[] { param });
 	}
+}
+
 }

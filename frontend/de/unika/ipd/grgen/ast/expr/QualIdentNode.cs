@@ -1,200 +1,227 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
-import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node that represents a qualified identifier
- * i.e. expressions like this one: a.b.c.d
- */
-public class QualIdentNode extends BaseNode implements DeclaredCharacter
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(QualIdentNode.class, "Qualification");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using MemberDeclNode = de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
+using InternalTransientObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node that represents a qualified identifier
+/// i.e. expressions like this one: a.b.c.d
+/// </summary>
+public class QualIdentNode : BaseNode, DeclaredCharacter
+{
+	static QualIdentNode()
+	{
+		SetClassName(typeof(QualIdentNode), "Qualification");
 	}
 
-	protected IdentNode ownerUnresolved;
+	protected internal IdentNode ownerUnresolved;
 	private DeclNode owner;
 
-	protected IdentNode memberUnresolved;
+	protected internal IdentNode memberUnresolved;
 	private DeclNode member;
 
-	/**
-	 * Make a new identifier qualify node.
-	 * @param coords The coordinates.
-	 */
+	/// <summary>
+	/// Make a new identifier qualify node. </summary>
+	/// <param name="coords"> The coordinates. </param>
 	public QualIdentNode(Coords coords, IdentNode owner, IdentNode member)
+		: base(coords)
 	{
-		super(coords);
 		this.ownerUnresolved = owner;
-		ownerUnresolved.getCoords();
-		becomeParent(this.ownerUnresolved);
+		ownerUnresolved.Coords;
+		BecomeParent(this.ownerUnresolved);
 		this.memberUnresolved = member;
-		becomeParent(this.memberUnresolved);
+		BecomeParent(this.memberUnresolved);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(ownerUnresolved, owner));
-		children.add(getValidVersion(memberUnresolved, member));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(ownerUnresolved, owner));
+		children.Add(GetValidVersion(memberUnresolved, member));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("owner");
-		childrenNames.add("member");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("owner");
+		childrenNames.Add("member");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<DeclNode> ownerResolver =
-			new DeclarationResolver<DeclNode>(DeclNode.class);
-	private static final DeclarationResolver<MemberDeclNode> memberResolver =
-			new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
+	private static readonly DeclarationResolver<DeclNode> ownerResolver =
+			new DeclarationResolver<DeclNode>(typeof(DeclNode));
+	private static readonly DeclarationResolver<MemberDeclNode> memberResolver =
+			new DeclarationResolver<MemberDeclNode>(typeof(MemberDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope
 		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
 		 * 3) resolve now complete/correct right hand side identifier into its declaration */
-		boolean res = fixupDefinition(ownerUnresolved, ownerUnresolved.getScope());
+		bool res = FixupDefinition(ownerUnresolved, ownerUnresolved.Scope);
 		if(!res)
 			return false;
 
-		boolean successfullyResolved = true;
-		owner = ownerResolver.resolve(ownerUnresolved, this);
+		bool successfullyResolved = true;
+		owner = ownerResolver.Resolve(ownerUnresolved, this);
 		successfullyResolved = owner != null && successfullyResolved;
-		boolean ownerResolveResult = owner != null && owner.resolve();
+		bool ownerResolveResult = owner != null && owner.Resolve();
 
-		if(!ownerResolveResult) {
+		if(!ownerResolveResult)
+		{
 			// member can not be resolved due to inaccessible owner
 			return false;
 		}
 
-		TypeNode ownerType = owner.getDeclType();
+		TypeNode ownerType = owner.DeclType;
 
-		if(owner instanceof NodeDeclNode || owner instanceof EdgeDeclNode) {
-			if(ownerType instanceof ScopeOwner) {
+		if(owner is NodeDeclNode || owner is EdgeDeclNode)
+		{
+			if(ownerType is ScopeOwner)
+			{
 				ScopeOwner o = (ScopeOwner)ownerType;
-				o.fixupDefinition(memberUnresolved);
-				member = memberResolver.resolve(memberUnresolved, this);
+				o.FixupDefinition(memberUnresolved);
+				member = memberResolver.Resolve(memberUnresolved, this);
 				successfullyResolved = member != null && successfullyResolved;
-			} else {
-				reportError("Left hand side of '.' does not own a scope (in " + this + ").");
+			}
+			else
+			{
+				ReportError("Left hand side of '.' does not own a scope (in " + this + ").");
 				successfullyResolved = false;
 			}
-		} else if(owner instanceof VarDeclNode) {
-			member = Resolver.resolveMember(ownerType, memberUnresolved);
+		}
+		else if(owner is VarDeclNode)
+		{
+			member = Resolver.ResolveMember(ownerType, memberUnresolved);
 			if(member == null)
 				successfullyResolved = false;
-		} else {
-			reportError("Left hand side of '.' is neither a node nor an edge, nor a variable (in " + this + ").");
+		}
+		else
+		{
+			ReportError("Left hand side of '.' is neither a node nor an edge, nor a variable (in " + this + ").");
 			successfullyResolved = false;
 		}
 
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
-	@Override
-	public DeclNode getDecl()
+	/// <seealso cref="de.unika.ipd.grgen.ast.DeclaredCharacter.getDecl() "/>
+	public virtual DeclNode Decl
 	{
-		return getMemberDecl();
+		get
+		{
+		return MemberDecl;
+		}
 	}
 
-	public MemberDeclNode getMemberDecl()
+	public virtual MemberDeclNode MemberDecl
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
-		return member instanceof MemberDeclNode ? (MemberDeclNode)member : null;
+		return member is MemberDeclNode ? (MemberDeclNode)member : null;
+		}
 	}
 
-	public DeclNode getOwner()
+	public virtual DeclNode Owner
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return owner;
+		}
 	}
 
-	public boolean isMatchAssignment()
+	public virtual bool IsMatchAssignment()
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		return !(member instanceof MemberDeclNode);
+		return !(member is MemberDeclNode);
 	}
 
-	public boolean isTransientObjectAssignment()
+	public virtual bool IsTransientObjectAssignment()
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		return owner.getDeclType() instanceof InternalTransientObjectTypeNode;
+		return owner.DeclType is InternalTransientObjectTypeNode;
 	}
 
-	public DeclNode getMember()
+	public virtual DeclNode Member
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return member;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		Entity ownerIR = owner.checkIR(Entity.class);
-		Entity memberIR = member.checkIR(Entity.class);
+		Entity ownerIR = owner.CheckIR(typeof(Entity));
+		Entity memberIR = member.CheckIR(typeof(Entity));
 		return new Qualification(ownerIR, memberIR);
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "qualified identifier";
+		}
 	}
-	
-	@Override
-	public String toString()
+
+	public override string ToString()
 	{
 		return ownerUnresolved + "." + memberUnresolved;
 	}
+}
+
 }

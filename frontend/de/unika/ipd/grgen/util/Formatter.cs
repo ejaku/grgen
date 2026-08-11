@@ -1,34 +1,37 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * ExpressionFormatter.java
- *
- * @author Created by Omnicore CodeGuide
- */
+/// <summary>
+/// ExpressionFormatter.java
+/// 
+/// @author Created by Omnicore CodeGuide
+/// </summary>
 
-package de.unika.ipd.grgen.util;
+namespace de.unika.ipd.grgen.util
+{
+using System;
+using System.Text;
 
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Cast;
-import de.unika.ipd.grgen.ir.expr.Constant;
-import de.unika.ipd.grgen.ir.expr.EnumExpression;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Operator;
-import de.unika.ipd.grgen.ir.expr.OperatorCode;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.expr.Typeof;
-import de.unika.ipd.grgen.ir.expr.VariableExpression;
-import de.unika.ipd.grgen.ir.expr.graph.Visited;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.Type.TypeClass;
+using de.unika.ipd.grgen.ir;
+using Cast = de.unika.ipd.grgen.ir.expr.Cast;
+using Constant = de.unika.ipd.grgen.ir.expr.Constant;
+using EnumExpression = de.unika.ipd.grgen.ir.expr.EnumExpression;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Operator = de.unika.ipd.grgen.ir.expr.Operator;
+using OperatorCode = de.unika.ipd.grgen.ir.expr.OperatorCode;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using Typeof = de.unika.ipd.grgen.ir.expr.Typeof;
+using VariableExpression = de.unika.ipd.grgen.ir.expr.VariableExpression;
+using Visited = de.unika.ipd.grgen.ir.expr.graph.Visited;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using TypeClass = de.unika.ipd.grgen.ir.type.Type.TypeClass;
 
 public class Formatter
 {
@@ -36,164 +39,214 @@ public class Formatter
 	// ATTENTION: the first two shift operations are signed shifts
 	// 		the second right shift is signed. This Backend simply gens
 	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
-	private static String getOperatorSymbol(OperatorCode opCode)
+	private static string GetOperatorSymbol(OperatorCode opCode)
 	{
 		switch(opCode)
 		{
-		case LOG_OR: return "||";
-		case LOG_AND: return "&&";
-		case BIT_OR: return "|";
-		case BIT_XOR: return "^";
-		case BIT_AND: return "&";
-		case EQ: return "==";
-		case NE: return "!=";
-		case LT: return "<";
-		case LE: return "<=";
-		case GT: return ">";
-		case GE: return ">=";
-		case SHL: return "<<";
-		case SHR: return ">>";
-		case BIT_SHR: return ">>";
-		case ADD: return "+";
-		case SUB: return "-";
-		case MUL: return "*";
-		case DIV: return "/";
-		case MOD: return "%";
-		case LOG_NOT: return "!";
-		case BIT_NOT: return "~";
-		case NEG: return "-";
-		case IN: return "in";
-		case EXCEPT: return "\\";
-		case SE: return "~~";
-		default: throw new RuntimeException("internal failure");
+		case OperatorCode.LOG_OR:
+			return "||";
+		case OperatorCode.LOG_AND:
+			return "&&";
+		case OperatorCode.BIT_OR:
+			return "|";
+		case OperatorCode.BIT_XOR:
+			return "^";
+		case OperatorCode.BIT_AND:
+			return "&";
+		case OperatorCode.EQ:
+			return "==";
+		case OperatorCode.NE:
+			return "!=";
+		case OperatorCode.LT:
+			return "<";
+		case OperatorCode.LE:
+			return "<=";
+		case OperatorCode.GT:
+			return ">";
+		case OperatorCode.GE:
+			return ">=";
+		case OperatorCode.SHL:
+			return "<<";
+		case OperatorCode.SHR:
+			return ">>";
+		case OperatorCode.BIT_SHR:
+			return ">>";
+		case OperatorCode.ADD:
+			return "+";
+		case OperatorCode.SUB:
+			return "-";
+		case OperatorCode.MUL:
+			return "*";
+		case OperatorCode.DIV:
+			return "/";
+		case OperatorCode.MOD:
+			return "%";
+		case OperatorCode.LOG_NOT:
+			return "!";
+		case OperatorCode.BIT_NOT:
+			return "~";
+		case OperatorCode.NEG:
+			return "-";
+		case OperatorCode.IN:
+			return "in";
+		case OperatorCode.EXCEPT:
+			return "\\";
+		case OperatorCode.SE:
+			return "~~";
+		default:
+			throw new Exception("internal failure");
 		}
 	}
 
-	public static String formatConditionEval(Expression cond)
+	public static string FormatConditionEval(Expression cond)
 	{
-		StringBuffer sb = new StringBuffer();
-		formatConditionEvalAux(sb, cond);
-		return sb.toString();
+		StringBuilder sb = new StringBuilder();
+		FormatConditionEvalAux(sb, cond);
+		return sb.ToString();
 	}
 
-	private static void formatConditionEvalAux(StringBuffer sb, Expression cond)
+	private static void FormatConditionEvalAux(StringBuilder sb, Expression cond)
 	{
-		if(cond instanceof Operator) {
+		if(cond is Operator)
+		{
 			Operator op = (Operator)cond;
-			switch(op.arity()) {
+			switch(op.Arity())
+			{
 			case 1:
-				sb.append("(" + getOperatorSymbol(op.getOpCode()) + " ");
-				formatConditionEvalAux(sb, op.getOperand(0));
-				sb.append(")");
+				sb.Append("(" + GetOperatorSymbol(op.OpCode) + " ");
+				FormatConditionEvalAux(sb, op.GetOperand(0));
+				sb.Append(")");
 				break;
 			case 2:
-				formatConditionEvalAux(sb, op.getOperand(0));
-				sb.append(" " + getOperatorSymbol(op.getOpCode()) + " ");
-				formatConditionEvalAux(sb, op.getOperand(1));
+				FormatConditionEvalAux(sb, op.GetOperand(0));
+				sb.Append(" " + GetOperatorSymbol(op.OpCode) + " ");
+				FormatConditionEvalAux(sb, op.GetOperand(1));
 				break;
 			case 3:
-				if(op.getOpCode() == OperatorCode.COND) {
-					sb.append("(");
-					formatConditionEvalAux(sb, op.getOperand(0));
-					sb.append(") ? (");
-					formatConditionEvalAux(sb, op.getOperand(1));
-					sb.append(") : (");
-					formatConditionEvalAux(sb, op.getOperand(2));
-					sb.append(")");
+				if(op.OpCode == OperatorCode.COND)
+				{
+					sb.Append("(");
+					FormatConditionEvalAux(sb, op.GetOperand(0));
+					sb.Append(") ? (");
+					FormatConditionEvalAux(sb, op.GetOperand(1));
+					sb.Append(") : (");
+					FormatConditionEvalAux(sb, op.GetOperand(2));
+					sb.Append(")");
 					break;
 				}
 				//$FALL-THROUGH$
 			default:
-				throw new UnsupportedOperationException("Unsupported Operation arrity (" + op.arity() + ")");
+				throw new System.NotSupportedException("Unsupported Operation arrity (" + op.Arity() + ")");
 			}
-		} else if(cond instanceof Qualification) {
+		}
+		else if(cond is Qualification)
+		{
 			Qualification qual = (Qualification)cond;
-			Entity entity = qual.getOwner();
+			Entity entity = qual.Owner;
 
-			if(entity instanceof Node) {
-				sb.append(formatIdentifiable(entity) + "." + formatIdentifiable(qual.getMember()));
-			} else if(entity instanceof Edge) {
-				sb.append(formatIdentifiable(entity) + "." + formatIdentifiable(qual.getMember()));
-			} else
-				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
-		} else if(cond instanceof Constant) { // gen C-code for constant expressions
+			if(entity is Node)
+				sb.Append(FormatIdentifiable(entity) + "." + FormatIdentifiable(qual.Member));
+			else if(entity is Edge)
+				sb.Append(FormatIdentifiable(entity) + "." + FormatIdentifiable(qual.Member));
+			else
+				throw new System.NotSupportedException("Unsupported Entity (" + entity + ")");
+		}
+		else if(cond is Constant)
+		{ // gen C-code for constant expressions
 			Constant constant = (Constant)cond;
-			Type type = constant.getType();
+			Type type = constant.Type;
 
-			switch(type.classify()) {
-			case IS_STRING: //emit C-code for string constants
-				sb.append("'" + constant.getValue() + "'");
+			switch(type.Classify())
+			{
+			case Type.TypeClass.IS_STRING: //emit C-code for string constants
+				sb.Append("'" + constant.Value + "'");
 				break;
-			case IS_BOOLEAN: //emit C-code for boolean constans
-				Boolean bool_const = (Boolean)constant.getValue();
-				if(bool_const.booleanValue())
-					sb.append("true"); /* true-value */
+			case Type.TypeClass.IS_BOOLEAN: //emit C-code for boolean constans
+				bool? bool_const = (bool?)constant.Value;
+				if(bool_const.Value)
+					sb.Append("true"); // true-value
 				else
-					sb.append("false"); /* false-value */
+					sb.Append("false"); // false-value
 				break;
-			case IS_INTEGER: //emit C-code for integer constants
-				sb.append(constant.getValue().toString()); /* this also applys to enum constants */
+			case Type.TypeClass.IS_INTEGER: //emit C-code for integer constants
+				sb.Append(constant.Value.ToString()); // this also applys to enum constants
 				break;
 			default:
 				break;
 			}
-		} else if(cond instanceof EnumExpression) {
+		}
+		else if(cond is EnumExpression)
+		{
 			EnumExpression enumExp = (EnumExpression)cond;
-			sb.append("ENUM_" + enumExp.getType().getIdent().toString() + ".@" + enumExp.getEnumItem().toString());
-		} else if(cond instanceof Typeof) {
+			sb.Append("ENUM_" + enumExp.Type.Ident.ToString() + ".@" + enumExp.EnumItem.ToString());
+		}
+		else if(cond is Typeof)
+		{
 			Typeof to = (Typeof)cond;
-			sb.append(formatIdentifiable(to.getEntity()) + ".type");
-		} else if(cond instanceof Cast) {
+			sb.Append(FormatIdentifiable(to.Entity) + ".type");
+		}
+		else if(cond is Cast)
+		{
 			Cast cast = (Cast)cond;
-			Type type = cast.getType();
+			Type type = cast.Type;
 
-			if(type.classify() == TypeClass.IS_STRING) {
-				formatConditionEvalAux(sb, cast.getExpression());
-				sb.append(".ToString()");
-			} else {
-				String typeName = "";
+			if(type.Classify() == Type.TypeClass.IS_STRING)
+			{
+				FormatConditionEvalAux(sb, cast.Expression);
+				sb.Append(".ToString()");
+			}
+			else
+			{
+				string typeName = "";
 
-				switch(type.classify()) {
-				case IS_INTEGER:
+				switch(type.Classify())
+				{
+				case Type.TypeClass.IS_INTEGER:
 					typeName = "int";
 					break;
-				case IS_FLOAT:
+				case Type.TypeClass.IS_FLOAT:
 					typeName = "float";
 					break;
-				case IS_DOUBLE:
+				case Type.TypeClass.IS_DOUBLE:
 					typeName = "double";
 					break;
-				case IS_BOOLEAN:
+				case Type.TypeClass.IS_BOOLEAN:
 					typeName = "bool";
 					break;
 				default:
-					throw new UnsupportedOperationException(
+					throw new System.NotSupportedException(
 							"This is either a forbidden cast, which should have been " +
 									"rejected on building the IR, or an allowed cast, which " +
 									"should have been processed by the above code.");
 				}
 
-				sb.append("((" + typeName + ") ");
-				formatConditionEvalAux(sb, cast.getExpression());
-				sb.append(")");
+				sb.Append("((" + typeName + ") ");
+				FormatConditionEvalAux(sb, cast.Expression);
+				sb.Append(")");
 			}
-		} else if(cond instanceof VariableExpression) {
-			Variable var = ((VariableExpression)cond).getVariable();
-			sb.append(var.getIdent());
-		} else if(cond instanceof Visited) {
-			Visited vis = (Visited)cond;
-			formatConditionEvalAux(sb, vis.getEntity());
-			sb.append(".visited[");
-			formatConditionEvalAux(sb, vis.getVisitorID());
-			sb.append("]");
-		} else {
-			sb.append("Unsupported expression type (" + cond + ")");
 		}
+		else if(cond is VariableExpression)
+		{
+			Variable var = ((VariableExpression)cond).Variable;
+			sb.Append(var.Ident);
+		}
+		else if(cond is Visited)
+		{
+			Visited vis = (Visited)cond;
+			FormatConditionEvalAux(sb, vis.Entity);
+			sb.Append(".visited[");
+			FormatConditionEvalAux(sb, vis.VisitorID);
+			sb.Append("]");
+		}
+		else
+			sb.Append("Unsupported expression type (" + cond + ")");
 	}
 
-	private static String formatIdentifiable(Identifiable id)
+	private static string FormatIdentifiable(Identifiable id)
 	{
-		String res = id.getIdent().toString();
-		return res.replace('$', '_');
+		string res = id.Ident.ToString();
+		return res.Replace('$', '_');
 	}
+}
+
 }

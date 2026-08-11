@@ -1,148 +1,150 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.graph.AssignmentNameof;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing a name assignment.
- */
-public class AssignNameofNode extends EvalStatementNode
+namespace de.unika.ipd.grgen.ast.stmt.graph
 {
-	static {
-		setClassName(AssignNameofNode.class, "Assign name");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using AssignmentNameof = de.unika.ipd.grgen.ir.stmt.graph.AssignmentNameof;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing a name assignment.
+/// </summary>
+public class AssignNameofNode : EvalStatementNode
+{
+	static AssignNameofNode()
+	{
+		SetClassName(typeof(AssignNameofNode), "Assign name");
 	}
 
-	ExprNode lhs;
-	ExprNode rhs;
+	internal ExprNode lhs;
+	internal ExprNode rhs;
 
-	int context;
+	internal int context;
 
-	/**
-	 * @param coords The source code coordinates of = operator.
-	 * @param target The left hand side.
-	 * @param expr The expression, that is assigned.
-	 */
+	/// <param name="coords"> The source code coordinates of = operator. </param>
+	/// <param name="target"> The left hand side. </param>
+	/// <param name="expr"> The expression, that is assigned. </param>
 	public AssignNameofNode(Coords coords, ExprNode target, ExprNode expr, int context)
+		: base(coords)
 	{
-		super(coords);
 		this.lhs = target;
-		becomeParent(this.lhs);
+		BecomeParent(this.lhs);
 		this.rhs = expr;
-		becomeParent(this.rhs);
+		BecomeParent(this.rhs);
 		this.context = context;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		if(lhs != null)
-			children.add(lhs);
-		children.add(rhs);
+			children.Add(lhs);
+		children.Add(rhs);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		if(lhs != null)
-			childrenNames.add("lhs");
-		childrenNames.add("rhs");
+			childrenNames.Add("lhs");
+		childrenNames.Add("rhs");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			reportError("The nameof() assignment is not allowed in function or pattern part context.");
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION)
+		{
+			ReportError("The nameof() assignment is not allowed in function or pattern part context.");
 			return false;
 		}
 
-		TypeNode rhsType = rhs.getType();
-		if(rhsType != BasicTypeNode.stringType) {
-			reportError("The nameof() assignment expects as name to be assigned"
+		TypeNode rhsType = rhs.Type;
+		if(rhsType != BasicTypeNode.stringType)
+		{
+			ReportError("The nameof() assignment expects as name to be assigned"
 					+ " a value of type string"
-					+ " (but is given a value of type " + rhsType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + rhsType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 
-		if(lhs != null) {
-			TypeNode lhsType = lhs.getType();
-			if(lhsType.isEqual(BasicTypeNode.graphType)) {
+		if(lhs != null)
+		{
+			TypeNode lhsType = lhs.Type;
+			if(lhsType.IsEqual(BasicTypeNode.graphType))
 				return true;
-			}
-			if(lhsType instanceof EdgeTypeNode) {
+			if(lhsType is EdgeTypeNode)
 				return true;
-			}
-			if(lhsType instanceof NodeTypeNode) {
+			if(lhsType is NodeTypeNode)
 				return true;
-			}
 
-			reportError("The nameof() assignment expects as entity to assign to its name"
+			ReportError("The nameof() assignment expects as entity to assign to its name"
 					+ " a value of type Node or Edge or graph"
-					+ " (but is given a value of type " + lhsType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + lhsType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	/**
-	 * Construct the immediate representation from an assignment node.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+	/// <summary>
+	/// Construct the immediate representation from an assignment node. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
 	{
 		Expression lhsExpr = null;
-		if(lhs != null) {
-			lhs = lhs.evaluate();
-			lhsExpr = lhs.checkIR(Expression.class);
+		if(lhs != null)
+		{
+			lhs = lhs.Evaluate();
+			lhsExpr = lhs.CheckIR(typeof(Expression));
 		}
-		rhs = rhs.evaluate();
-		return new AssignmentNameof(lhsExpr, rhs.checkIR(Expression.class));
+		rhs = rhs.Evaluate();
+		return new AssignmentNameof(lhsExpr, rhs.CheckIR(typeof(Expression)));
 	}
+}
+
 }

@@ -1,99 +1,109 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.decl;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-
-/**
- * AST node class representing invalid declarations.
- */
-public class InvalidDeclNode extends DeclNode
+namespace de.unika.ipd.grgen.ast.decl
 {
-	static {
-		setClassName(InvalidDeclNode.class, "invalid declaration");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using ErrorTypeNode = de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
+using de.unika.ipd.grgen.ast.util;
+
+/// <summary>
+/// AST node class representing invalid declarations.
+/// </summary>
+public class InvalidDeclNode : DeclNode
+{
+	static InvalidDeclNode()
+	{
+		SetClassName(typeof(InvalidDeclNode), "invalid declaration");
 	}
 
 	private ErrorTypeNode type;
 
-	/**
-	 * Create a resolved and checked invalid DeclNode.
-	 */
+	/// <summary>
+	/// Create a resolved and checked invalid DeclNode.
+	/// </summary>
 	public InvalidDeclNode(IdentNode id)
+		: base(id, BasicTypeNode.GetErrorType(id))
 	{
-		super(id, BasicTypeNode.getErrorType(id));
-		resolve();
-		check();
+		Resolve();
+		Check();
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, type));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
 		return childrenNames;
+		}
 	}
 
-	private static DeclarationResolver<ErrorTypeNode> typeResolver =
-			new DeclarationResolver<ErrorTypeNode>(ErrorTypeNode.class);
+	private static DeclarationResolver<ErrorTypeNode> typeResolver = new DeclarationResolver<ErrorTypeNode>(typeof(ErrorTypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		type = typeResolver.resolve(typeUnresolved, this);
+		type = typeResolver.Resolve(typeUnresolved, this);
 
 		return type != null;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	public static String getKindStr()
+	public static string KindStr
+	{
+		get
+		{
+		return "undeclared identifier";
+		}
+	}
+
+	public override string ToString()
 	{
 		return "undeclared identifier";
 	}
 
-	@Override
-	public String toString()
+	public override TypeNode DeclType
 	{
-		return "undeclared identifier";
-	}
-
-	@Override
-	public TypeNode getDeclType()
-	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return type;
+		}
 	}
+}
+
 }

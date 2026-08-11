@@ -1,109 +1,109 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * ModelNode.java
- *
- * @author Sebastian Hack
- */
+/// <summary>
+/// ModelNode.java
+/// 
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.model.decl;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.ModelTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.executable.ExternalFunction;
-import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
-import de.unika.ipd.grgen.ir.model.Index;
-import de.unika.ipd.grgen.ir.model.Model;
-import de.unika.ipd.grgen.ir.model.type.PackageType;
-
-public class ModelNode extends DeclNode
+namespace de.unika.ipd.grgen.ast.model.decl
 {
-	static {
-		setClassName(ModelNode.class, "model declaration");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+using ExternalFunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
+using ExternalProcedureDeclNode = de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using OperatorDeclNode = de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+using OperatorEvaluator = de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using ExternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using InternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
+using InternalTransientObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
+using ModelTypeNode = de.unika.ipd.grgen.ast.model.type.ModelTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;
+using ExternalProcedure = de.unika.ipd.grgen.ir.executable.ExternalProcedure;
+using Index = de.unika.ipd.grgen.ir.model.Index;
+using Model = de.unika.ipd.grgen.ir.model.Model;
+using PackageType = de.unika.ipd.grgen.ir.model.type.PackageType;
+
+public class ModelNode : DeclNode
+{
+	static ModelNode()
+	{
+		SetClassName(typeof(ModelNode), "model declaration");
 	}
 
-	private static final TypeNode modelType = new ModelTypeNode();
+	private static readonly TypeNode modelType = new ModelTypeNode();
 
 	private CollectNode<ModelNode> usedModels;
 
 	private CollectNode<IdentNode> packagesUnresolved;
-	protected CollectNode<TypeDeclNode> packages;
+	protected internal CollectNode<TypeDeclNode> packages;
 	private CollectNode<IdentNode> declsUnresolved;
 	public CollectNode<TypeDeclNode> decls;
 	private CollectNode<IdentNode> externalFuncDeclsUnresolved;
-	protected CollectNode<ExternalFunctionDeclNode> externalFuncDecls;
+	protected internal CollectNode<ExternalFunctionDeclNode> externalFuncDecls;
 	private CollectNode<IdentNode> externalProcDeclsUnresolved;
-	protected CollectNode<ExternalProcedureDeclNode> externalProcDecls;
+	protected internal CollectNode<ExternalProcedureDeclNode> externalProcDecls;
 	private CollectNode<IdentNode> indicesUnresolved;
-	protected CollectNode<IndexDeclNode> indices;
+	protected internal CollectNode<IndexDeclNode> indices;
 	private ModelTypeNode type;
-	private boolean isEmitClassDefined;
-	private boolean isEmitGraphClassDefined;
-	private boolean isCopyClassDefined;
-	private boolean isEqualClassDefined;
-	private boolean isLowerClassDefined;
-	private boolean isGraphofDefined;
-	private boolean isUniqueDefined;
-	private boolean isUniqueClassDefined;
-	private boolean isUniqueIndexDefined;
-	private boolean areFunctionsParallel;
+	private bool isEmitClassDefined;
+	private bool isEmitGraphClassDefined;
+	private bool isCopyClassDefined;
+	private bool isEqualClassDefined;
+	private bool isLowerClassDefined;
+	private bool isGraphofDefined;
+	private bool isUniqueDefined;
+	private bool isUniqueClassDefined;
+	private bool isUniqueIndexDefined;
+	private bool areFunctionsParallel;
 	private int isoParallel;
 	private int sequencesParallel;
 
 	public ModelNode(IdentNode id, CollectNode<IdentNode> packages, CollectNode<IdentNode> decls,
 			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs,
 			CollectNode<IdentNode> indices, CollectNode<ModelNode> usedModels,
-			boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
-			boolean isEqualClassDefined, boolean isLowerClassDefined, boolean isGraphofDefined,
-			boolean isUniqueDefined, boolean isUniqueClassDefined, boolean isUniqueIndexDefined,
-			boolean areFunctionsParallel, int isoParallel, int sequencesParallel)
+			bool isEmitClassDefined, bool isEmitGraphClassDefined, bool isCopyClassDefined,
+			bool isEqualClassDefined, bool isLowerClassDefined, bool isGraphofDefined,
+			bool isUniqueDefined, bool isUniqueClassDefined, bool isUniqueIndexDefined,
+			bool areFunctionsParallel, int isoParallel, int sequencesParallel)
+		: base(id, modelType)
 	{
-		super(id, modelType);
 
 		this.packagesUnresolved = packages;
-		becomeParent(this.packagesUnresolved);
+		BecomeParent(this.packagesUnresolved);
 		this.declsUnresolved = decls;
-		becomeParent(this.declsUnresolved);
+		BecomeParent(this.declsUnresolved);
 		this.externalFuncDeclsUnresolved = externalFuncs;
-		becomeParent(this.externalFuncDeclsUnresolved);
+		BecomeParent(this.externalFuncDeclsUnresolved);
 		this.externalProcDeclsUnresolved = externalProcs;
-		becomeParent(this.externalProcDeclsUnresolved);
+		BecomeParent(this.externalProcDeclsUnresolved);
 		this.indicesUnresolved = indices;
-		becomeParent(this.indicesUnresolved);
+		BecomeParent(this.indicesUnresolved);
 		this.usedModels = usedModels;
-		becomeParent(this.usedModels);
+		BecomeParent(this.usedModels);
 		this.isEmitClassDefined = isEmitClassDefined;
 		this.isEmitGraphClassDefined = isEmitGraphClassDefined;
 		this.isCopyClassDefined = isCopyClassDefined;
@@ -118,289 +118,305 @@ public class ModelNode extends DeclNode
 		this.sequencesParallel = sequencesParallel;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
-		children.add(getValidVersionCollectNode(packagesUnresolved, packages));
-		children.add(getValidVersionCollectNode(declsUnresolved, decls));
-		children.add(getValidVersionCollectNode(externalFuncDeclsUnresolved, externalFuncDecls));
-		children.add(getValidVersionCollectNode(externalProcDeclsUnresolved, externalProcDecls));
-		children.add(getValidVersionCollectNode(indicesUnresolved, indices));
-		children.add(usedModels);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, type));
+		children.Add(GetValidVersionCollectNode(packagesUnresolved, packages));
+		children.Add(GetValidVersionCollectNode(declsUnresolved, decls));
+		children.Add(GetValidVersionCollectNode(externalFuncDeclsUnresolved, externalFuncDecls));
+		children.Add(GetValidVersionCollectNode(externalProcDeclsUnresolved, externalProcDecls));
+		children.Add(GetValidVersionCollectNode(indicesUnresolved, indices));
+		children.Add(usedModels);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("packages");
-		childrenNames.add("decls");
-		childrenNames.add("externalFuncDecls");
-		childrenNames.add("externalProcDecls");
-		childrenNames.add("indices");
-		childrenNames.add("usedModels");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("packages");
+		childrenNames.Add("decls");
+		childrenNames.Add("externalFuncDecls");
+		childrenNames.Add("externalProcDecls");
+		childrenNames.Add("indices");
+		childrenNames.Add("usedModels");
 		return childrenNames;
+		}
 	}
 
 	private static CollectResolver<TypeDeclNode> packagesResolver = new CollectResolver<TypeDeclNode>(
-			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
+			new DeclarationResolver<TypeDeclNode>(typeof(TypeDeclNode)));
 	private static CollectResolver<TypeDeclNode> declsResolver = new CollectResolver<TypeDeclNode>(
-			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
+			new DeclarationResolver<TypeDeclNode>(typeof(TypeDeclNode)));
 	private static CollectResolver<IndexDeclNode> indicesResolver = new CollectResolver<IndexDeclNode>(
-			new DeclarationResolver<IndexDeclNode>(IndexDeclNode.class));
+			new DeclarationResolver<IndexDeclNode>(typeof(IndexDeclNode)));
 	private static CollectResolver<ExternalFunctionDeclNode> externalFunctionsResolver = new CollectResolver<ExternalFunctionDeclNode>(
-			new DeclarationResolver<ExternalFunctionDeclNode>(ExternalFunctionDeclNode.class));
+			new DeclarationResolver<ExternalFunctionDeclNode>(typeof(ExternalFunctionDeclNode)));
 	private static CollectResolver<ExternalProcedureDeclNode> externalProceduresResolver = new CollectResolver<ExternalProcedureDeclNode>(
-			new DeclarationResolver<ExternalProcedureDeclNode>(ExternalProcedureDeclNode.class));
+			new DeclarationResolver<ExternalProcedureDeclNode>(typeof(ExternalProcedureDeclNode)));
 
 	private static DeclarationTypeResolver<ModelTypeNode> typeResolver =
-			new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
+			new DeclarationTypeResolver<ModelTypeNode>(typeof(ModelTypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		if(isLowerClassDefined) {
-			OperatorDeclNode.makeBinOp(Operator.GE, BasicTypeNode.booleanType,
+		if(isLowerClassDefined)
+		{
+			OperatorDeclNode.MakeBinOp(Operator.GE, BasicTypeNode.booleanType,
 					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
-			OperatorDeclNode.makeBinOp(Operator.GT, BasicTypeNode.booleanType,
+			OperatorDeclNode.MakeBinOp(Operator.GT, BasicTypeNode.booleanType,
 					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
-			OperatorDeclNode.makeBinOp(Operator.LE, BasicTypeNode.booleanType,
+			OperatorDeclNode.MakeBinOp(Operator.LE, BasicTypeNode.booleanType,
 					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
-			OperatorDeclNode.makeBinOp(Operator.LT, BasicTypeNode.booleanType,
+			OperatorDeclNode.MakeBinOp(Operator.LT, BasicTypeNode.booleanType,
 					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorEvaluator.objectEvaluator);
 		}
 
-		packages = packagesResolver.resolve(packagesUnresolved, this);
-		decls = declsResolver.resolve(declsUnresolved, this);
-		indices = indicesResolver.resolve(indicesUnresolved, this);
-		externalFuncDecls = externalFunctionsResolver.resolve(externalFuncDeclsUnresolved, this);
-		externalProcDecls = externalProceduresResolver.resolve(externalProcDeclsUnresolved, this);
-		type = typeResolver.resolve(typeUnresolved, this);
+		packages = packagesResolver.Resolve(packagesUnresolved, this);
+		decls = declsResolver.Resolve(declsUnresolved, this);
+		indices = indicesResolver.Resolve(indicesUnresolved, this);
+		externalFuncDecls = externalFunctionsResolver.Resolve(externalFuncDeclsUnresolved, this);
+		externalProcDecls = externalProceduresResolver.Resolve(externalProcDeclsUnresolved, this);
+		type = typeResolver.Resolve(typeUnresolved, this);
 
 		return decls != null && externalFuncDecls != null && externalProcDecls != null && type != null;
 	}
 
-	/**
-	 * The main node has an ident node and a collect node with
-	 * - group declarations
-	 * - edge class decls
-	 * - node class decls
-	 * - object class decls
-	 * - transient object class decls
-	 * as child.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
-	@Override
-	protected boolean checkLocal()
+	/// <summary>
+	/// The main node has an ident node and a collect node with
+	/// - group declarations
+	/// - edge class decls
+	/// - node class decls
+	/// - object class decls
+	/// - transient object class decls
+	/// as child. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal()"/>
+	protected internal override bool CheckLocal()
 	{
-		return checkInhCycleFree() && equalityMustBeDefinedIfLowerIsDefined();
+		return CheckInhCycleFree() && EqualityMustBeDefinedIfLowerIsDefined();
 	}
 
-	public boolean IsEmitClassDefined()
+	public virtual bool IsEmitClassDefined()
 	{
 		return isEmitClassDefined;
 	}
 
-	public boolean IsEmitGraphClassDefined()
+	public virtual bool IsEmitGraphClassDefined()
 	{
 		return isEmitGraphClassDefined;
 	}
 
-	public boolean IsCopyClassDefined()
+	public virtual bool IsCopyClassDefined()
 	{
 		return isCopyClassDefined;
 	}
 
-	public boolean IsEqualClassDefined()
+	public virtual bool IsEqualClassDefined()
 	{
 		return isEqualClassDefined;
 	}
 
-	public boolean IsLowerClassDefined()
+	public virtual bool IsLowerClassDefined()
 	{
 		return isLowerClassDefined;
 	}
 
-	public boolean IsGraphofDefined()
+	public virtual bool IsGraphofDefined()
 	{
 		return isGraphofDefined;
 	}
 
-	public boolean IsUniqueDefined()
+	public virtual bool IsUniqueDefined()
 	{
 		return isUniqueDefined;
 	}
 
-	public boolean IsUniqueClassDefined()
+	public virtual bool IsUniqueClassDefined()
 	{
 		return isUniqueClassDefined;
 	}
 
-	public boolean IsUniqueIndexDefined()
+	public virtual bool IsUniqueIndexDefined()
 	{
 		return isUniqueIndexDefined;
 	}
 
-	public boolean AreFunctionsParallel()
+	public virtual bool AreFunctionsParallel()
 	{
 		return areFunctionsParallel;
 	}
 
-	public int IsoParallel()
+	public virtual int IsoParallel()
 	{
 		return isoParallel;
 	}
 
-	public int SequencesParallel()
+	public virtual int SequencesParallel()
 	{
 		return sequencesParallel;
 	}
-	
-	public CollectNode<TypeDeclNode> getTypeDecls()
+
+	public virtual CollectNode<TypeDeclNode> TypeDecls
 	{
+		get
+		{
 		return decls;
+		}
 	}
 
-	public CollectNode<IndexDeclNode> getIndices()
+	public virtual CollectNode<IndexDeclNode> Indices
 	{
+		get
+		{
 		return indices;
+		}
 	}
 
-	public CollectNode<ModelNode> getUsedModels()
+	public virtual CollectNode<ModelNode> UsedModels
 	{
+		get
+		{
 		return usedModels;
+		}
 	}
 
-	public CollectNode<TypeDeclNode> getPackages()
+	public virtual CollectNode<TypeDeclNode> Packages
 	{
+		get
+		{
 		return packages;
+		}
 	}
 
-	/**
-	 * Get the IR model node for this AST node.
-	 * @return The model for this AST node.
-	 */
-	public Model getIRModel()
+	/// <summary>
+	/// Get the IR model node for this AST node. </summary>
+	/// <returns> The model for this AST node. </returns>
+	public virtual Model IRModel
 	{
-		return checkIR(Model.class);
+		get
+		{
+		return CheckIR(typeof(Model));
+		}
 	}
 
-	/**
-	 * Construct the IR object for this AST node.
-	 * For a main node, this is a unit.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+	/// <summary>
+	/// Construct the IR object for this AST node.
+	/// For a main node, this is a unit. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
 	{
-		Ident id = ident.checkIR(Ident.class);
+		Ident id = ident.CheckIR(typeof(Ident));
 		Model res = new Model(id, isEmitClassDefined, isEmitGraphClassDefined, isCopyClassDefined,
 				isEqualClassDefined, isLowerClassDefined, isGraphofDefined,
 				isUniqueDefined, isUniqueClassDefined, isUniqueIndexDefined,
 				areFunctionsParallel, isoParallel, sequencesParallel);
-		for(ModelNode model : usedModels.getChildrenExact()) {
-			res.addUsedModel(model.getIRModel());
-		}
-		for(TypeDeclNode typeDecl : packages.getChildrenExact()) {
-			res.addPackage((PackageType)typeDecl.getDeclType().getIRType());
-		}
-		for(TypeDeclNode typeDecl : decls.getChildrenExact()) {
-			res.addType(typeDecl.getDeclType().getIRType());
-		}
-		for(IndexDeclNode indexDecl : indices.getChildrenExact()) {
-			res.addIndex(indexDecl.checkIR(Index.class));
-		}
-		for(ExternalFunctionDeclNode externalFunctionDecl : externalFuncDecls.getChildrenExact()) {
-			res.addExternalFunction(externalFunctionDecl.checkIR(ExternalFunction.class));
-		}
-		for(ExternalProcedureDeclNode externalProcedureDecl : externalProcDecls.getChildrenExact()) {
-			res.addExternalProcedure(externalProcedureDecl.checkIR(ExternalProcedure.class));
-		}
+		foreach(ModelNode model in usedModels.ChildrenExact)
+			res.AddUsedModel(model.IRModel);
+		foreach(TypeDeclNode typeDecl in packages.ChildrenExact)
+			res.AddPackage((PackageType)typeDecl.DeclType.IRType);
+		foreach(TypeDeclNode typeDecl in decls.ChildrenExact)
+			res.AddType(typeDecl.DeclType.IRType);
+		foreach(IndexDeclNode indexDecl in indices.ChildrenExact)
+			res.AddIndex(indexDecl.CheckIR(typeof(Index)));
+		foreach(ExternalFunctionDeclNode externalFunctionDecl in externalFuncDecls.ChildrenExact)
+			res.AddExternalFunction(externalFunctionDecl.CheckIR(typeof(ExternalFunction)));
+		foreach(ExternalProcedureDeclNode externalProcedureDecl in externalProcDecls.ChildrenExact)
+			res.AddExternalProcedure(externalProcedureDecl.CheckIR(typeof(ExternalProcedure)));
 		return res;
 	}
 
-	private boolean checkInhCycleFree_rec(InheritanceTypeNode inhType,
-			Collection<BaseNode> inProgress, Collection<BaseNode> done)
+	private bool CheckInhCycleFreeRec(InheritanceTypeNode inhType,
+			ICollection<BaseNode> inProgress, ICollection<BaseNode> done)
 	{
-		inProgress.add(inhType);
-		for(InheritanceTypeNode superType : inhType.getDirectSuperTypes()) {
-			assert(
-				((inhType instanceof NodeTypeNode) && (superType instanceof NodeTypeNode)) ||
-				((inhType instanceof EdgeTypeNode) && (superType instanceof EdgeTypeNode)) ||
-				((inhType instanceof InternalObjectTypeNode) && (superType instanceof InternalObjectTypeNode)) ||
-				((inhType instanceof InternalTransientObjectTypeNode) && (superType instanceof InternalTransientObjectTypeNode)) ||
-				((inhType instanceof ExternalObjectTypeNode) && (superType instanceof ExternalObjectTypeNode))
-			) : "nodes should extend nodes and edges should extend edges";
+		inProgress.Add(inhType);
+		foreach(InheritanceTypeNode superType in inhType.DirectSuperTypes)
+		{
+			Debug.Assert((((inhType is NodeTypeNode) && (superType is NodeTypeNode)) ||
+				((inhType is EdgeTypeNode) && (superType is EdgeTypeNode)) ||
+				((inhType is InternalObjectTypeNode) && (superType is InternalObjectTypeNode)) ||
+				((inhType is InternalTransientObjectTypeNode) && (superType is InternalTransientObjectTypeNode)) ||
+				((inhType is ExternalObjectTypeNode) && (superType is ExternalObjectTypeNode))),
+			"nodes should extend nodes and edges should extend edges");
 
-			if(inProgress.contains(superType)) {
-				inhType.getIdent().reportError("The class " + inhType.getTypeName()
-					+ " extends " + superType.toStringWithDeclarationCoords()
+			if(inProgress.Contains(superType))
+			{
+				inhType.Ident.ReportError("The class " + inhType.TypeName
+					+ " extends " + superType.ToStringWithDeclarationCoords()
 					+ " - this introduces a cycle into the type hierarchy.");
 				return false;
 			}
-			if(!done.contains(superType)) {
-				if(!checkInhCycleFree_rec(superType, inProgress, done)) {
+			if(!done.Contains(superType))
+			{
+				if(!CheckInhCycleFreeRec(superType, inProgress, done))
 					return false;
-				}
 			}
 		}
-		inProgress.remove(inhType);
-		done.add(inhType);
+		inProgress.Remove(inhType);
+		done.Add(inhType);
 		return true;
 	}
 
-	/**
-	 * ensure there are no cycles in the inheritance hierarchy
-	 * @return	<code>true</code> if there are no cycles,
-	 * 			<code>false</code> otherwise
-	 */
-	private boolean checkInhCycleFree()
+	/// <summary>
+	/// ensure there are no cycles in the inheritance hierarchy
+	/// @return	<code>true</code> if there are no cycles,
+	/// 			<code>false</code> otherwise
+	/// </summary>
+	private bool CheckInhCycleFree()
 	{
-		Collection<TypeDeclNode> coll = decls.getChildrenExact();
-		for(TypeDeclNode t : coll) {
-			TypeNode type = t.getDeclType();
+		ICollection<TypeDeclNode> coll = decls.ChildrenExact;
+		foreach(TypeDeclNode t in coll)
+		{
+			TypeNode type = t.DeclType;
 
-			if(!(type instanceof InheritanceTypeNode)) {
+			if(!(type is InheritanceTypeNode))
 				continue;
-			}
 
-			Collection<BaseNode> inProgress = new HashSet<BaseNode>();
-			Collection<BaseNode> done = new HashSet<BaseNode>();
+			ICollection<BaseNode> inProgress = new HashSet<BaseNode>();
+			ICollection<BaseNode> done = new HashSet<BaseNode>();
 
-			boolean isCycleFree = checkInhCycleFree_rec((InheritanceTypeNode)type, inProgress, done);
+			bool isCycleFree = CheckInhCycleFreeRec((InheritanceTypeNode)type, inProgress, done);
 
-			if(!isCycleFree) {
+			if(!isCycleFree)
+				return false;
+		}
+		return true;
+	}
+
+	private bool EqualityMustBeDefinedIfLowerIsDefined()
+	{
+		if(isLowerClassDefined)
+		{
+			if(!isEqualClassDefined)
+			{
+				ReportError("A \"< class;\" requires a \"== class;\"");
 				return false;
 			}
 		}
 		return true;
 	}
 
-	private boolean equalityMustBeDefinedIfLowerIsDefined()
+	public override TypeNode DeclType
 	{
-		if(isLowerClassDefined) {
-			if(!isEqualClassDefined) {
-				reportError("A \"< class;\" requires a \"== class;\"");
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public TypeNode getDeclType()
-	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return type;
+		}
 	}
+}
+
 }

@@ -1,52 +1,58 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr.graph;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.util.Direction;
-
-public class IsBoundedReachableEdgeExpr extends NeighborhoodQueryExpr
+namespace de.unika.ipd.grgen.ir.expr.graph
 {
-	private final Expression endEdgeExpr;
-	private final Expression depthExpr;
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using Direction = de.unika.ipd.grgen.util.Direction;
+
+public class IsBoundedReachableEdgeExpr : NeighborhoodQueryExpr
+{
+	private readonly Expression endEdgeExpr;
+	private readonly Expression depthExpr;
 
 	public IsBoundedReachableEdgeExpr(Expression startNodeExpression,
 			Expression endNodeExpression, Expression depthExpression,
 			Expression incidentEdgeTypeExpr, Direction direction,
 			Expression adjacentNodeTypeExpr, Type type)
+		: base("is bounded reachable edge expression", type, startNodeExpression, incidentEdgeTypeExpr, direction, adjacentNodeTypeExpr)
 	{
-		super("is bounded reachable edge expression", type, startNodeExpression,
-				incidentEdgeTypeExpr, direction, adjacentNodeTypeExpr);
 		this.endEdgeExpr = endNodeExpression;
 		this.depthExpr = depthExpression;
 	}
 
-	public Expression getEndEdgeExpr()
+	public virtual Expression EndEdgeExpr
 	{
+		get
+		{
 		return endEdgeExpr;
+		}
 	}
 
-	public Expression getDepthExpr()
+	public virtual Expression DepthExpr
 	{
+		get
+		{
 		return depthExpr;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.needsGraph();
-		startNodeExpr.collectNeededEntities(needs);
-		endEdgeExpr.collectNeededEntities(needs);
-		depthExpr.collectNeededEntities(needs);
-		incidentEdgeTypeExpr.collectNeededEntities(needs);
-		adjacentNodeTypeExpr.collectNeededEntities(needs);
+		needs.NeedsGraph();
+		startNodeExpr.CollectNeededEntities(needs);
+		endEdgeExpr.CollectNeededEntities(needs);
+		depthExpr.CollectNeededEntities(needs);
+		incidentEdgeTypeExpr.CollectNeededEntities(needs);
+		adjacentNodeTypeExpr.CollectNeededEntities(needs);
 	}
+}
+
 }

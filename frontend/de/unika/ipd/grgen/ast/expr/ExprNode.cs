@@ -1,242 +1,257 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.awt.Color;
-import java.util.Set;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.NullTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.TypeTypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * Base class for all AST nodes representing expressions.
- */
-public abstract class ExprNode extends BaseNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(ExprNode.class, "expression");
-	}
 
-	private static final ExprNode INVALID = new InvalidExprNode();
+using System.Collections.Generic;
+using System.Diagnostics;
 
-	/**
-	 * Make a new expression
-	 */
-	public ExprNode(Coords coords)
+using de.unika.ipd.grgen.ast;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using ConstraintDeclNode = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using ExternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using MatchTypeNode = de.unika.ipd.grgen.ast.type.MatchTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using NullTypeNode = de.unika.ipd.grgen.ast.type.basic.NullTypeNode;
+using ObjectTypeNode = de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
+using TypeTypeNode = de.unika.ipd.grgen.ast.type.basic.TypeTypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// Base class for all AST nodes representing expressions.
+/// </summary>
+public abstract class ExprNode : BaseNode
+{
+	static ExprNode()
 	{
-		super(coords);
+		SetClassName(typeof(ExprNode), "expression");
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	private static readonly ExprNode INVALID = new InvalidExprNode();
+
+	/// <summary>
+	/// Make a new expression
+	/// </summary>
+	public ExprNode(Coords coords)
+		: base(coords)
+	{
+	}
+
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	public static ExprNode getInvalid()
+	public static ExprNode Invalid
 	{
+		get
+		{
 		return INVALID;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
-	 */
-	@Override
-	public Color getNodeColor()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor()"/>
+	public override Color NodeColor
 	{
+		get
+		{
 		return Color.PINK;
+		}
 	}
 
-	/**
-	 * Get the type of the expression.
-	 * @return The type of this expression node.
-	 */
-	public abstract TypeNode getType();
+	/// <summary>
+	/// Get the type of the expression. </summary>
+	/// <returns> The type of this expression node. </returns>
+	public abstract TypeNode Type {get;}
 
-	/**
-	 * Adjust the type of the expression.
-	 * The type can be adjusted by inserting an implicit cast.
-	 * @param type The type the expression should be adjusted to. It must be
-	 * compatible with the type of the expression.
-	 * @return A new expression, that is of a valid type and represents
-	 * this expression, if <code>type</code> was compatible with the type of
-	 * this expression, an invalid expression otherwise (one of an error type).
-	 */
-	protected ExprNode adjustType(TypeNode tgt)
+	/// <summary>
+	/// Adjust the type of the expression.
+	/// The type can be adjusted by inserting an implicit cast. </summary>
+	/// <param name="type"> The type the expression should be adjusted to. It must be
+	/// compatible with the type of the expression. </param>
+	/// <returns> A new expression, that is of a valid type and represents
+	/// this expression, if <code>type</code> was compatible with the type of
+	/// this expression, an invalid expression otherwise (one of an error type). </returns>
+	protected internal virtual ExprNode AdjustType(TypeNode tgt)
 	{
-		TypeNode src = getType();
+		TypeNode src = Type;
 
-		if(src.isEqual(tgt)
-				|| src instanceof NodeTypeNode && tgt instanceof TypeTypeNode
-				|| src instanceof EdgeTypeNode && tgt instanceof TypeTypeNode) {
+		if(src.IsEqual(tgt)
+				|| src is NodeTypeNode && tgt is TypeTypeNode
+				|| src is EdgeTypeNode && tgt is TypeTypeNode)
 			return this;
-		}
 
-		if(tgt instanceof MatchTypeNode
-				&& src instanceof NullTypeNode) {
+		if(tgt is MatchTypeNode
+				&& src is NullTypeNode)
 			return this;
-		}
 
-		if(src.isCompatibleTo(tgt)) {
-			return new CastNode(getCoords(), tgt, this, this);
-		}
+		if(src.IsCompatibleTo(tgt))
+			return new CastNode(Coords, tgt, this, this);
 
 		/* in general we would have to compute a shortest path in the conceptual
 		 * compatibility graph. But as it is very small we do it shortly
 		 * and nicely with this little piece of code finding a compatibility
 		 * with only one indirection */
-		for(TypeNode t : src.getCompatibleToTypes()) {
-			if(t.isCompatibleTo(tgt) && t != BasicTypeNode.untypedType) {
-				return new CastNode(getCoords(), tgt, new CastNode(getCoords(), t, this, this), this);
-			}
+		foreach(TypeNode t in src.CompatibleToTypes)
+		{
+			if(t.IsCompatibleTo(tgt) && t != BasicTypeNode.untypedType)
+				return new CastNode(Coords, tgt, new CastNode(Coords, t, this, this), this);
 		}
 
-		if(src instanceof ExternalObjectTypeNode && tgt instanceof ObjectTypeNode) {
-			return new CastNode(getCoords(), tgt, this, this);
-		}
+		if(src is ExternalObjectTypeNode && tgt is ObjectTypeNode)
+			return new CastNode(Coords, tgt, this, this);
 
-		return ConstNode.getInvalid();
+		return ConstNode.Invalid;
 	}
 
-	public ExprNode adjustType(TypeNode targetType, Coords errorCoords)
+	public virtual ExprNode AdjustType(TypeNode targetType, Coords errorCoords)
 	{
-		ExprNode expr = adjustType(targetType);
+		ExprNode expr = AdjustType(targetType);
 
-		if(expr == ConstNode.getInvalid()) {
-			TypeNode src = getType();
-			String msg;
-			if(src.isCastableTo(targetType)) {
-				msg = "Assignment of " + src.toStringWithDeclarationCoords()
-							+ " to " + targetType.toStringWithDeclarationCoords()
+		if(expr == ConstNode.Invalid)
+		{
+			TypeNode src = Type;
+			string msg;
+			if(src.IsCastableTo(targetType))
+			{
+				msg = "Assignment of " + src.ToStringWithDeclarationCoords()
+							+ " to " + targetType.ToStringWithDeclarationCoords()
 							+ " without a cast.";
-			} else {
-				msg = "Incompatible assignment from " + src.toStringWithDeclarationCoords()
-							+ " to " + targetType.toStringWithDeclarationCoords() + ".";
 			}
-			error.error(errorCoords, msg);
-			if(src.toString().equals(targetType.toString()))
-				error.warning(errorCoords, "Check package prefix.");
+			else
+			{
+				msg = "Incompatible assignment from " + src.ToStringWithDeclarationCoords()
+							+ " to " + targetType.ToStringWithDeclarationCoords() + ".";
+			}
+			error.Error(errorCoords, msg);
+			if(src.ToString().Equals(targetType.ToString()))
+				error.Warning(errorCoords, "Check package prefix.");
 		}
 		return expr;
 	}
 
-	/**
-	 * Tries to simplify this node.
-	 * @return The possibly simplified value of the expression.
-	 */
-	public ExprNode evaluate()
+	/// <summary>
+	/// Tries to simplify this node. </summary>
+	/// <returns> The possibly simplified value of the expression. </returns>
+	public virtual ExprNode Evaluate()
 	{
 		return this;
 	}
 
-	public boolean noDefElement(String containingConstruct)
+	public virtual bool NoDefElement(string containingConstruct)
 	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noDefElement(containingConstruct);
-			else if(child instanceof CollectBaseNode)
-				res &= ((CollectBaseNode)child).noDefElement(containingConstruct);
+		bool res = true;
+		foreach(BaseNode child in Children)
+		{
+			if(child is ExprNode)
+				res &= ((ExprNode)child).NoDefElement(containingConstruct);
+			else if(child is CollectBaseNode)
+				res &= ((CollectBaseNode)child).NoDefElement(containingConstruct);
 		}
 		return res;
 	}
 
-	public boolean noIteratedReference(String containingConstruct)
+	public virtual bool NoIteratedReference(string containingConstruct)
 	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noIteratedReference(containingConstruct);
-			else if(child instanceof CollectBaseNode)
-				res &= ((CollectBaseNode)child).noIteratedReference(containingConstruct);
+		bool res = true;
+		foreach(BaseNode child in Children)
+		{
+			if(child is ExprNode)
+				res &= ((ExprNode)child).NoIteratedReference(containingConstruct);
+			else if(child is CollectBaseNode)
+				res &= ((CollectBaseNode)child).NoIteratedReference(containingConstruct);
 		}
 		return res;
 	}
 
-	public boolean iteratedNotReferenced(String iterName)
+	public virtual bool IteratedNotReferenced(string iterName)
 	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).iteratedNotReferenced(iterName);
-			else if(child instanceof CollectBaseNode)
-				res &= ((CollectBaseNode)child).iteratedNotReferenced(iterName);
+		bool res = true;
+		foreach(BaseNode child in Children)
+		{
+			if(child is ExprNode)
+				res &= ((ExprNode)child).IteratedNotReferenced(iterName);
+			else if(child is CollectBaseNode)
+				res &= ((CollectBaseNode)child).IteratedNotReferenced(iterName);
 		}
 		return res;
 	}
 
-	public static IdentNode getEdgeRootOfMatchingDirectedness(ExprNode edgeTypeExpr)
+	public static IdentNode GetEdgeRootOfMatchingDirectedness(ExprNode edgeTypeExpr)
 	{
 		IdentExprNode ident = (IdentExprNode)edgeTypeExpr;
-		TypeNode type = ident.getType();
-		if(type.isCompatibleTo(EdgeTypeNode.directedEdgeType))
-			return EdgeTypeNode.directedEdgeType.getIdent();
-		if(type.isCompatibleTo(EdgeTypeNode.undirectedEdgeType))
-			return EdgeTypeNode.undirectedEdgeType.getIdent();
-		return EdgeTypeNode.arbitraryEdgeType.getIdent();
+		TypeNode type = ident.Type;
+		if(type.IsCompatibleTo(EdgeTypeNode.directedEdgeType))
+			return EdgeTypeNode.directedEdgeType.GetIdent();
+		if(type.IsCompatibleTo(EdgeTypeNode.undirectedEdgeType))
+			return EdgeTypeNode.undirectedEdgeType.GetIdent();
+		return EdgeTypeNode.arbitraryEdgeType.GetIdent();
 	}
 
-	public static IdentNode getEdgeRoot()
+	public static IdentNode EdgeRoot
 	{
-		return EdgeTypeNode.arbitraryEdgeType.getIdent();
+		get
+		{
+		return EdgeTypeNode.arbitraryEdgeType.GetIdent();
+		}
 	}
 
-	public static IdentNode getNodeRoot(ExprNode nodeTypeExpr)
+	public static IdentNode GetNodeRoot(ExprNode nodeTypeExpr)
 	{
-		return NodeTypeNode.nodeType.getIdent();
+		return NodeTypeNode.nodeType.GetIdent();
 	}
 
-	public static IdentNode getNodeRoot() 
+	public static IdentNode NodeRoot
 	{
-		return NodeTypeNode.nodeType.getIdent();
+		get
+		{
+		return NodeTypeNode.nodeType.GetIdent();
+		}
 	}
 
-	protected boolean checkCopyConstructorTypes(TypeNode declaredType, TypeNode givenType,
-			String containerType, boolean isKeyType)
+	protected internal virtual bool CheckCopyConstructorTypes(TypeNode declaredType, TypeNode givenType,
+			string containerType, bool isKeyType)
 	{
-		String containerCompartmentAmendment = "";
-		if(containerType.equals("map"))
+		string containerCompartmentAmendment = "";
+		if(containerType.Equals("map"))
 			containerCompartmentAmendment = isKeyType ? " key" : " value";
-		
-		String errorMessage = "The " + containerType + " copy constructor expects a(n) " + containerType + containerCompartmentAmendment +  " of type " + declaredType.getTypeName()
-				+ " but is given a(n) " + containerType + containerCompartmentAmendment + " of type " + givenType.getTypeName();
-		
-		if(declaredType instanceof NodeTypeNode && !(givenType instanceof NodeTypeNode)) {
-			reportError(errorMessage + " (which is not a node type).");
+
+		string errorMessage = "The " + containerType + " copy constructor expects a(n) " + containerType + containerCompartmentAmendment + " of type " + declaredType.TypeName
+				+ " but is given a(n) " + containerType + containerCompartmentAmendment + " of type " + givenType.TypeName;
+
+		if(declaredType is NodeTypeNode && !(givenType is NodeTypeNode))
+		{
+			ReportError(errorMessage + " (which is not a node type).");
 			return false;
 		}
-		if(declaredType instanceof EdgeTypeNode && !(givenType instanceof EdgeTypeNode)) {
-			reportError(errorMessage + " (which is not an edge type).");
+		if(declaredType is EdgeTypeNode && !(givenType is EdgeTypeNode))
+		{
+			ReportError(errorMessage + " (which is not an edge type).");
 			return false;
 		}
-		if(!(declaredType instanceof NodeTypeNode) && !(declaredType instanceof EdgeTypeNode)) {
-			if(givenType instanceof NodeTypeNode || givenType instanceof EdgeTypeNode) {
-				reportError(errorMessage + ".");
+		if(!(declaredType is NodeTypeNode) && !(declaredType is EdgeTypeNode))
+		{
+			if(givenType is NodeTypeNode || givenType is EdgeTypeNode)
+			{
+				ReportError(errorMessage + ".");
 				return false;
 			}
-			if(!declaredType.isEqual(givenType)) {
-				reportError(errorMessage + ".");
+			if(!declaredType.IsEqual(givenType))
+			{
+				ReportError(errorMessage + ".");
 				return false;
 			}
 		}
@@ -244,22 +259,26 @@ public abstract class ExprNode extends BaseNode
 	}
 
 	// returns elements used/referenced by the expression
-	public void collectElements(Set<ConstraintDeclNode> elements)
+	public virtual void CollectElements(ISet<ConstraintDeclNode> elements)
 	{
-		assert isResolved();
-		if(this instanceof DeclExprNode) {
-			ConstraintDeclNode decl = ((DeclExprNode)this).getConstraintDecl();
+		Debug.Assert(IsResolved());
+		if(this is DeclExprNode)
+		{
+			ConstraintDeclNode decl = ((DeclExprNode)this).ConstraintDecl;
 			if(decl != null)
-				elements.add(decl);
+				elements.Add(decl);
 		}
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode) {
-				((ExprNode)child).collectElements(elements);
-			} else if(child instanceof CollectBaseNode) {
+		foreach(BaseNode child in Children)
+		{
+			if(child is ExprNode)
+				((ExprNode)child).CollectElements(elements);
+			else if(child is CollectBaseNode)
+			{
 				CollectBaseNode collectNode = (CollectBaseNode)child;
-				for(BaseNode grandchild : collectNode.getChildren()) {
-					if(grandchild instanceof ExprNode)
-						((ExprNode)grandchild).collectElements(elements);
+				foreach(BaseNode grandchild in collectNode.Children)
+				{
+					if(grandchild is ExprNode)
+						((ExprNode)grandchild).CollectElements(elements);
 				}
 			}
 		}
@@ -268,20 +287,25 @@ public abstract class ExprNode extends BaseNode
 	// returns elements that are potentially resulting from the expression
 	// (not all potentially resulting elements are returned, this is only an approximation
 	// by the directly resulting element and elements resulting from the condition operator cases)
-	public void getPotentiallyResultingElements(Set<ConstraintDeclNode> elements)
+	public virtual void GetPotentiallyResultingElements(ISet<ConstraintDeclNode> elements)
 	{
-		assert isResolved();
-		if(this instanceof DeclExprNode) {
-			ConstraintDeclNode decl = ((DeclExprNode)this).getConstraintDecl();
+		Debug.Assert(IsResolved());
+		if(this is DeclExprNode)
+		{
+			ConstraintDeclNode decl = ((DeclExprNode)this).ConstraintDecl;
 			if(decl != null)
-				elements.add(decl);
+				elements.Add(decl);
 		}
-		if(this instanceof ArithmeticOperatorNode) {
-			ArithmeticOperatorNode operator = (ArithmeticOperatorNode)this;
-			if(operator.getOperator() == Operator.COND) {
-				operator.getChildrenAsList().get(1).getPotentiallyResultingElements(elements);
-				operator.getChildrenAsList().get(2).getPotentiallyResultingElements(elements);
+		if(this is ArithmeticOperatorNode)
+		{
+			ArithmeticOperatorNode @operator = (ArithmeticOperatorNode)this;
+			if(@operator.Operator == Operator.COND)
+			{
+				@operator.ChildrenAsList[1].GetPotentiallyResultingElements(elements);
+				@operator.ChildrenAsList[2].GetPotentiallyResultingElements(elements);
 			}
 		}
 	}
+}
+
 }

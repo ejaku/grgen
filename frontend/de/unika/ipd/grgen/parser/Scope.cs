@@ -1,85 +1,91 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.parser;
+namespace de.unika.ipd.grgen.parser
+{
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+using System;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.parser.Symbol.Definition;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using Definition = de.unika.ipd.grgen.parser.Symbol.Definition;
+using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
-/**
- * A namespace.
- */
+/// <summary>
+/// A namespace.
+/// </summary>
 public class Scope
 {
-	/** This scope's parent scope. */
-	private final Scope parent;
+	/// <summary>
+	/// This scope's parent scope. </summary>
+	private readonly Scope parent;
 
-	/** The name of this scope. */
-	private final IdentNode ident;
+	/// <summary>
+	/// The name of this scope. </summary>
+	private readonly IdentNode ident;
 
-	/** An error reporter for error reporting. */
-	private final ErrorReporter reporter;
+	/// <summary>
+	/// An error reporter for error reporting. </summary>
+	private readonly ErrorReporter reporter;
 
-	/** All definitions of this scope. Map from symbol to Symbol.Definition */
-	private final Map<Symbol, Symbol.Definition> defs = new HashMap<Symbol, Symbol.Definition>();
+	/// <summary>
+	/// All definitions of this scope. Map from symbol to Symbol.Definition </summary>
+	private readonly IDictionary<Symbol, Symbol.Definition> defs = new Dictionary<Symbol, Symbol.Definition>();
 
-	/** A map for numbering of anonymous id's */
-	private final Map<String, Integer> anonIds = new HashMap<String, Integer>();
+	/// <summary>
+	/// A map for numbering of anonymous id's </summary>
+	private readonly IDictionary<string, int> anonIds = new Dictionary<string, int>();
 
-	/** The children scopes. */
-	private final List<Scope> childs = new ArrayList<Scope>();
+	/// <summary>
+	/// The children scopes. </summary>
+	private readonly IList<Scope> childs = new List<Scope>();
 
-	/**
-	 * A list of all occurrences without a definition in this scope.
-	 * Will be used to enter the proper definition in {@link #leaveScope()}
-	 */
-	private final List<Symbol.Occurrence> occFixup = new ArrayList<Symbol.Occurrence>();
+	/// <summary>
+	/// A list of all occurrences without a definition in this scope.
+	/// Will be used to enter the proper definition in <seealso cref="leaveScope()"/>
+	/// </summary>
+	private readonly IList<Symbol.Occurrence> occFixup = new List<Symbol.Occurrence>();
 
-	/** An invalid scope. */
-	private static final Scope INVALID = null;//new Scope(null, -1, new IdentNode(new Definition(null, Coords.getBuiltin(), new Symbol("<invalid>", SymbolTable.getInvalid()))));
+	/// <summary>
+	/// An invalid scope. </summary>
+	private const Scope INVALID = null; //new Scope(null, -1, new IdentNode(new Definition(null, Coords.getBuiltin(), new Symbol("<invalid>", SymbolTable.getInvalid()))));
 
-	/**
-	 * Get an invalid scope.
-	 * @return An invalid scope.
-	 */
-	public static Scope getInvalid()
+	/// <summary>
+	/// Get an invalid scope. </summary>
+	/// <returns> An invalid scope. </returns>
+	public static Scope Invalid
 	{
+		get
+		{
 		return INVALID;
+		}
 	}
 
-	/**
-	 * Make a new root scope.
-	 * This constructor may only used for initial root scopes.
-	 * @param reporter An error reporter for error message reporting.
-	 */
+	/// <summary>
+	/// Make a new root scope.
+	/// This constructor may only used for initial root scopes. </summary>
+	/// <param name="reporter"> An error reporter for error message reporting. </param>
 	public Scope(ErrorReporter reporter)
 	{
 		this.parent = null;
 		this.reporter = reporter;
-		this.ident = null;//new IdentNode(new Definition(null, Coords.getBuiltin(), new Symbol("ROOT", SymbolTable.getInvalid())));
+		this.ident = null; //new IdentNode(new Definition(null, Coords.getBuiltin(), new Symbol("ROOT", SymbolTable.getInvalid())));
 	}
 
-	/**
-	 * Internal constructor used by {@link #newScope(String)}.
-	 * @param parent The parent scope.
-	 * @param id The numeral id of this scope.
-	 * @param ident The ident node of this scope (commonly this is the ident
-	 * that opened the scope).
-	 */
+	/// <summary>
+	/// Internal constructor used by <seealso cref="newScope(String)"/>. </summary>
+	/// <param name="parent"> The parent scope. </param>
+	/// <param name="id"> The numeral id of this scope. </param>
+	/// <param name="ident"> The ident node of this scope (commonly this is the ident
+	/// that opened the scope). </param>
 	private Scope(Scope parent, IdentNode ident)
 	{
 		this.parent = parent;
@@ -87,257 +93,267 @@ public class Scope
 		this.reporter = parent != null ? parent.reporter : null;
 	}
 
-	/**
-	 * Checks, if a symbol has been defined in the current scope.
-	 * Subscopes are not considered.
-	 * @param sym The symbol to check for.
-	 * @return true, if the symbol was defined in <b>this</b> scope, false
-	 * otherwise.
-	 */
-	public boolean definedHere(Symbol sym)
+	/// <summary>
+	/// Checks, if a symbol has been defined in the current scope.
+	/// Subscopes are not considered. </summary>
+	/// <param name="sym"> The symbol to check for. </param>
+	/// <returns> true, if the symbol was defined in <b>this</b> scope, false
+	/// otherwise. </returns>
+	public virtual bool DefinedHere(Symbol sym)
 	{
-		return getLocalDef(sym).isValid();
+		return GetLocalDef(sym).IsValid();
 	}
 
-	/**
-	 * Checks, if a symbol is legally defined at this position.
-	 * First, it is checked, if the symbol has been  defined in this scope, if
-	 * not subscopes a visited recursively.
-	 * @param sym The symbol to check for.
-	 * @return true, if a definition of this symbol is visible in this scope,
-	 * false, if not.
-	 */
-	public boolean defined(Symbol sym)
+	/// <summary>
+	/// Checks, if a symbol is legally defined at this position.
+	/// First, it is checked, if the symbol has been  defined in this scope, if
+	/// not subscopes a visited recursively. </summary>
+	/// <param name="sym"> The symbol to check for. </param>
+	/// <returns> true, if a definition of this symbol is visible in this scope,
+	/// false, if not. </returns>
+	public virtual bool Defined(Symbol sym)
 	{
-		return getCurrDef(sym).isValid();
+		return GetCurrDef(sym).IsValid();
 	}
 
-	/**
-	 * Returns the local definition of a symbol.
-	 * @param sym The symbol whose definition to get.
-	 * @return The definition of the symbol, or an invalid definition,
-	 * if the symbol has not been defined in this scope.
-	 */
-	public Symbol.Definition getLocalDef(Symbol sym)
+	/// <summary>
+	/// Returns the local definition of a symbol. </summary>
+	/// <param name="sym"> The symbol whose definition to get. </param>
+	/// <returns> The definition of the symbol, or an invalid definition,
+	/// if the symbol has not been defined in this scope. </returns>
+	public virtual Symbol.Definition GetLocalDef(Symbol sym)
 	{
-		Symbol.Definition res = Symbol.Definition.getInvalid();
+		Symbol.Definition res = Symbol.Definition.Invalid;
 
-		if(defs.containsKey(sym))
-			res = defs.get(sym);
+		if(defs.ContainsKey(sym))
+			res = defs[sym];
 
 		return res;
 	}
 
-	/**
-	 * Get the current definition of a symbol.
-	 * @param symbol The symbol whose definition to get.
-	 * @return The visible (local or non-local) definition of the symbol,
-	 * or an invalid definition, if the symbol's definition is not visible
-	 * in this scope.
-	 */
-	public Definition getCurrDef(Symbol symbol)
+	/// <summary>
+	/// Get the current definition of a symbol. </summary>
+	/// <param name="symbol"> The symbol whose definition to get. </param>
+	/// <returns> The visible (local or non-local) definition of the symbol,
+	/// or an invalid definition, if the symbol's definition is not visible
+	/// in this scope. </returns>
+	public virtual Definition GetCurrDef(Symbol symbol)
 	{
-		Symbol.Definition def = getLocalDef(symbol);
+		Symbol.Definition def = GetLocalDef(symbol);
 
-		if(!(def.isValid() || isRoot()))
-			def = parent.getCurrDef(symbol);
+		if(!(def.IsValid() || IsRoot()))
+			def = parent.GetCurrDef(symbol);
 
 		return def;
 	}
 
-	/**
-	 * Signal the occurrence of a symbol.
-	 * The scope remembers the occurrence and enters the correct definition
-	 * at the moment the scope is left. This can be a local definition in the
-	 * scope, or a visible definition in a subscope, or an invalid definition,
-	 * if the symbol was used in this scope, but has never been defined to be
-	 * visible in this scope.
-	 * @param sym The symbol, that occurs.
-	 * @param coords The source code coordinates.
-	 * @return The symbol's occurrence.
-	 */
-	public Symbol.Occurrence occurs(Symbol sym, Coords coords)
+	/// <summary>
+	/// Signal the occurrence of a symbol.
+	/// The scope remembers the occurrence and enters the correct definition
+	/// at the moment the scope is left. This can be a local definition in the
+	/// scope, or a visible definition in a subscope, or an invalid definition,
+	/// if the symbol was used in this scope, but has never been defined to be
+	/// visible in this scope. </summary>
+	/// <param name="sym"> The symbol, that occurs. </param>
+	/// <param name="coords"> The source code coordinates. </param>
+	/// <returns> The symbol's occurrence. </returns>
+	public virtual Symbol.Occurrence Occurs(Symbol sym, Coords coords)
 	{
-		Symbol.Occurrence occ = sym.occurs(this, coords);
-		occFixup.add(occ);
+		Symbol.Occurrence occ = sym.Occurs(this, coords);
+		occFixup.Add(occ);
 
 		return occ;
 	}
 
-	/**
-	 * Signal the definition of a symbol.
-	 * @param sym The symbol that is occurring as a definition.
-	 * @return The symbol's definition.
-	 */
-	public Symbol.Definition define(Symbol sym)
+	/// <summary>
+	/// Signal the definition of a symbol. </summary>
+	/// <param name="sym"> The symbol that is occurring as a definition. </param>
+	/// <returns> The symbol's definition. </returns>
+	public virtual Symbol.Definition Define(Symbol sym)
 	{
-		return define(sym, new Coords());
+		return Define(sym, new Coords());
 	}
 
-	/**
-	 * Signal the definition of a symbol.
-	 * This method should be called, if the parser encounters a symbol in
-	 * a define situation.
-	 * @param sym The symbol that is being defined.
-	 * @param coords The source code coordinates for the definition.
-	 * @return The symbol's definition.
-	 */
-	public Symbol.Definition define(Symbol sym, Coords coords)
+	/// <summary>
+	/// Signal the definition of a symbol.
+	/// This method should be called, if the parser encounters a symbol in
+	/// a define situation. </summary>
+	/// <param name="sym"> The symbol that is being defined. </param>
+	/// <param name="coords"> The source code coordinates for the definition. </param>
+	/// <returns> The symbol's definition. </returns>
+	public virtual Symbol.Definition Define(Symbol sym, Coords coords)
 	{
-		Symbol.Definition def = Symbol.Definition.getInvalid();
+		Symbol.Definition def = Symbol.Definition.Invalid;
 
-		if(sym.isKeyword() && sym.getDefinitionCount() > 0) {
-			reporter.error(coords, "Cannot redefine keyword " + sym + ".");
-			def = Symbol.Definition.getInvalid(); // do not redefine a keyword
-		} else if(definedHere(sym)) {
-			def = getLocalDef(sym); // the previous definition
-			reporter.error(coords, "Symbol " + sym + " has already been defined in this scope"
+		if(sym.IsKeyword() && sym.DefinitionCount > 0)
+		{
+			reporter.Error(coords, "Cannot redefine keyword " + sym + ".");
+			def = Symbol.Definition.Invalid; // do not redefine a keyword
+		}
+		else if(DefinedHere(sym))
+		{
+			def = GetLocalDef(sym); // the previous definition
+			reporter.Error(coords, "Symbol " + sym + " has already been defined in this scope"
 						+ " [at: " + def.coords + "].");
-			def = Symbol.Definition.getInvalid(); // do not redefine a symbol
-		} else if(defined(sym)
-				&& sym.getSymbolTable().getSymbolTableId() != ParserEnvironment.ITERATEDS
-				&& this.getIdent().getSymbol().getSymbolTable().getSymbolTableId() != ParserEnvironment.PACKAGES) {
-			def = getCurrDef(sym); // the previous definition
-			reporter.error(coords, "Symbol " + sym + " has already been defined in some parent scope"
+			def = Symbol.Definition.Invalid; // do not redefine a symbol
+		}
+		else if(Defined(sym)
+				&& sym.SymbolTable.SymbolTableId != ParserEnvironment.ITERATEDS
+				&& this.Ident.Symbol.SymbolTable.SymbolTableId != ParserEnvironment.PACKAGES)
+		{
+			def = GetCurrDef(sym); // the previous definition
+			reporter.Error(coords, "Symbol " + sym + " has already been defined in some parent scope"
 						+ " [at: " + def.coords + "].");
-			def = Symbol.Definition.getInvalid(); // do not redefine a symbol from a parent scope
-		} else {
-			try {
-				def = sym.define(this, coords);
-				defs.put(sym, def);
-			} catch(SymbolTableException e) {
-				reporter.error(coords, e.getMessage());
+			def = Symbol.Definition.Invalid; // do not redefine a symbol from a parent scope
+		}
+		else
+		{
+			try
+			{
+				def = sym.Define(this, coords);
+				defs[sym] = def;
+			}
+			catch(SymbolTableException e)
+			{
+				reporter.Error(coords, e.Message);
 			}
 		}
 
 		return def;
 	}
 
-	/**
-	 * Define an unique anonymous symbol in this scope.
-	 * Especially, this can also be done after parsing.
-	 * @param name An addition to the symbol's name (for easier readability).
-	 * @param symTab The symbol table the symbol is defined in.
-	 * @param coords The source code coordinates, that are associated with this
-	 * anonymous symbol.
-	 * @return A symbol, that could not have been defined in the parsed text,
-	 * unique in this scope.
-	 */
-	public Symbol.Definition defineAnonymous(String name, SymbolTable symTab,
+	/// <summary>
+	/// Define an unique anonymous symbol in this scope.
+	/// Especially, this can also be done after parsing. </summary>
+	/// <param name="name"> An addition to the symbol's name (for easier readability). </param>
+	/// <param name="symTab"> The symbol table the symbol is defined in. </param>
+	/// <param name="coords"> The source code coordinates, that are associated with this
+	/// anonymous symbol. </param>
+	/// <returns> A symbol, that could not have been defined in the parsed text,
+	/// unique in this scope. </returns>
+	public virtual Symbol.Definition DefineAnonymous(string name, SymbolTable symTab,
 			Coords coords)
 	{
 		int currId = 0;
-		if(anonIds.containsKey(name))
-			currId = anonIds.get(name).intValue();
+		if(anonIds.ContainsKey(name))
+			currId = anonIds[name];
 
-		anonIds.put(name, Integer.valueOf(currId + 1));
+		anonIds[name] = Convert.ToInt32(currId + 1);
 
-		return define(Symbol.makeAnonymous(name + currId, symTab), coords);
+		return Define(Symbol.MakeAnonymous(name + currId, symTab), coords);
 	}
 
-	/**
-	 * Enter a new subscope.
-	 * @param name The name of the new subscope.
-	 * @return The newly entered scope.
-	 */
-	public Scope newScope(IdentNode name)
+	/// <summary>
+	/// Enter a new subscope. </summary>
+	/// <param name="name"> The name of the new subscope. </param>
+	/// <returns> The newly entered scope. </returns>
+	public virtual Scope NewScope(IdentNode name)
 	{
 		Scope s = new Scope(this, name);
-		childs.add(s);
+		childs.Add(s);
 		return s;
 	}
 
-	/**
-	 * Enter a new or re-enter an already defined subscope.
-	 * @param name The name of the new subscope.
-	 * @return The newly entered scope.
-	 */
-	public Scope newOrReuseScope(IdentNode name)
+	/// <summary>
+	/// Enter a new or re-enter an already defined subscope. </summary>
+	/// <param name="name"> The name of the new subscope. </param>
+	/// <returns> The newly entered scope. </returns>
+	public virtual Scope NewOrReuseScope(IdentNode name)
 	{
-		for(Scope child : childs) {
-			if(child.getIdent().toString().equals(name.toString()))
+		foreach(Scope child in childs)
+		{
+			if(child.Ident.ToString().Equals(name.ToString()))
 				return child;
 		}
 		Scope s = new Scope(this, name);
-		childs.add(s);
+		childs.Add(s);
 		return s;
 	}
 
-	/**
-	 * Leave a scope.
-	 * @return The parent scope of the one to leave.
-	 */
-	public Scope leaveScope()
+	/// <summary>
+	/// Leave a scope. </summary>
+	/// <returns> The parent scope of the one to leave. </returns>
+	public virtual Scope LeaveScope()
 	{
 		// fixup all occurrences by entering the correct definition.
-		for(Symbol.Occurrence occ : occFixup) {
-			occ.def = getCurrDef(occ.symbol);
-		}
+		foreach(Symbol.Occurrence occ in occFixup)
+			occ.def = GetCurrDef(occ.symbol);
 
 		return parent;
 	}
 
-	/**
-	 * Check, if a scope is the root scope.
-	 * @return true, if the scope is the root scope, false, if not.
-	 */
-	public boolean isRoot()
+	/// <summary>
+	/// Check, if a scope is the root scope. </summary>
+	/// <returns> true, if the scope is the root scope, false, if not. </returns>
+	public virtual bool IsRoot()
 	{
 		return parent == null;
 	}
 
-	/**
-	 * Get the parent of the scope.
-	 * @return The parent of the scope, or null, if it is the root scope.
-	 */
-	public Scope getParent()
+	/// <summary>
+	/// Get the parent of the scope. </summary>
+	/// <returns> The parent of the scope, or null, if it is the root scope. </returns>
+	public virtual Scope Parent
 	{
+		get
+		{
 		return parent;
-	}
-
-	public Scope getRoot()
-	{
-		Scope curScope = this;
-		while(!curScope.isRoot()) {
-			curScope = curScope.getParent();
 		}
-		return curScope;
 	}
 
-	public String getName()
+	public virtual Scope Root
 	{
+		get
+		{
+		Scope curScope = this;
+		while(!curScope.IsRoot())
+			curScope = curScope.Parent;
+		return curScope;
+		}
+	}
+
+	public virtual string Name
+	{
+		get
+		{
 		if(ident == null)
 			return "<ROOT>";
-		return ident.toString();
+		return ident.ToString();
+		}
 	}
 
-	/**
-	 * Returns the defining ident.
-	 */
-	public IdentNode getIdent()
+	/// <summary>
+	/// Returns the defining ident.
+	/// </summary>
+	public virtual IdentNode Ident
 	{
+		get
+		{
 		return ident;
+		}
 	}
 
-	public String getPath()
+	public virtual string Path
 	{
-		String res = "";
-		if(!isRoot())
+		get
+		{
+		string res = "";
+		if(!IsRoot())
 			res = res + parent + ".";
-		return res + getName();
+		return res + Name;
+		}
 	}
 
-	public final String toStringWithOpeningCoords()
+	public string ToStringWithOpeningCoords()
 	{
-		return toString() + " [opened at " + (ident != null ? ident.getCoords() : "0,0") + "]";
+		return ToString() + " [opened at " + (ident != null ? ident.Coords : "0,0") + "]";
 	}
 
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString()
+	/// <seealso cref="java.lang.Object.toString()"/>
+	public override string ToString()
 	{
-		return getName();
+		return Name;
 	}
+}
+
 }

@@ -1,39 +1,42 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.deque;
-
-import java.util.List;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ContainerSingleElementInitNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
-import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
-import de.unika.ipd.grgen.ast.util.MemberResolver;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.type.container.DequeType;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class DequeInitNode extends ContainerSingleElementInitNode
+namespace de.unika.ipd.grgen.ast.expr.deque
 {
-	static {
-		setClassName(DequeInitNode.class, "deque init");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ContainerSingleElementInitNode = de.unika.ipd.grgen.ast.expr.ContainerSingleElementInitNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using DeclaredTypeNode = de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ContainerTypeNode = de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
+using DequeTypeNode = de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using DequeInit = de.unika.ipd.grgen.ir.expr.deque.DequeInit;
+using DequeType = de.unika.ipd.grgen.ir.type.container.DequeType;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class DequeInitNode : ContainerSingleElementInitNode
+{
+	static DequeInitNode()
+	{
+		SetClassName(typeof(DequeInitNode), "deque init");
 	}
 
 	// if deque init node is used in model, for member init
@@ -45,97 +48,107 @@ public class DequeInitNode extends ContainerSingleElementInitNode
 	private DequeTypeNode dequeType;
 
 	public DequeInitNode(Coords coords, IdentNode member, DequeTypeNode dequeType)
+		: base(coords)
 	{
-		super(coords);
 
-		if(member != null) {
-			lhsUnresolved = becomeParent(member);
-		} else {
+		if(member != null)
+			lhsUnresolved = BecomeParent(member);
+		else
 			this.dequeType = dequeType;
-		}
 	}
 
-	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
+	private static readonly MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		if(lhsUnresolved != null) {
-			if(!lhsResolver.resolve(lhsUnresolved))
+		if(lhsUnresolved != null)
+		{
+			if(!lhsResolver.Resolve(lhsUnresolved))
 				return false;
-			lhs = lhsResolver.getResult(DeclNode.class);
-			return lhsResolver.finish();
-		} else {
+			lhs = lhsResolver.GetResult(typeof(DeclNode));
+			return lhsResolver.Finish();
+		}
+		else
+		{
 			if(dequeType == null)
-				dequeType = createDequeType();
-			return dequeType.resolve();
+				dequeType = CreateDequeType();
+			return dequeType.Resolve();
 		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		boolean success = checkContainerItems();
+		bool success = CheckContainerItems();
 
-		if(!isConstant() && lhs != null) {
-			reportError("Only constant items are allowed in a deque initialization in the model.");
+		if(!IsConstant() && lhs != null)
+		{
+			ReportError("Only constant items are allowed in a deque initialization in the model.");
 			success = false;
 		}
 
 		return success;
 	}
 
-	protected DequeTypeNode createDequeType()
+	protected internal virtual DequeTypeNode CreateDequeType()
 	{
-		TypeNode itemTypeNode = containerItems.getChildrenExact().iterator().next().getType();
-		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdent();
+		TypeNode itemTypeNode = containerItems.ChildrenExact.GetEnumerator().Next().GetType();
+		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).Ident;
 		return new DequeTypeNode(itemTypeIdent);
 	}
 
-	@Override
-	public ContainerTypeNode getContainerType()
+	public override ContainerTypeNode ContainerType
 	{
-		assert(isResolved());
-		if(lhs != null) {
-			TypeNode type = lhs.getDeclType();
+		get
+		{
+		Debug.Assert((IsResolved()));
+		if(lhs != null)
+		{
+			TypeNode type = lhs.DeclType;
 			return (DequeTypeNode)type;
-		} else {
+		}
+		else
 			return dequeType;
 		}
 	}
 
-	@Override
-	public boolean isInitInModel()
+	public override bool IsInitInModel()
 	{
 		return dequeType == null;
 	}
 
-	public ExprNode getAtIndex(ConstNode node)
+	public virtual ExprNode GetAtIndex(ConstNode node)
 	{
-		Integer index = (Integer)node.getValue();
-		if(index.intValue() < 0)
+		int? index = (int?)node.Value;
+		if(index.Value < 0)
 			return null;
-		if(index.intValue() >= containerItems.size())
+		if(index.Value >= containerItems.Size())
 			return null;
-		return containerItems.getChildrenAsList().get(index.intValue());
+		return containerItems.ChildrenAsList[index.Value];
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		List<Expression> items = constructItems();
-		Entity member = lhs != null ? lhs.getIREntity() : null;
-		DequeType type = dequeType != null ? dequeType.checkIR(DequeType.class) : null;
-		return new DequeInit(items, member, type, isConstant());
+		IList<Expression> items = ConstructItems();
+		Entity member = lhs != null ? lhs.IREntity : null;
+		DequeType type = dequeType != null ? dequeType.CheckIR(typeof(DequeType)) : null;
+		return new DequeInit(items, member, type, IsConstant());
 	}
 
-	public DequeInit getIRDequeInit()
+	public virtual DequeInit IRDequeInit
 	{
-		return checkIR(DequeInit.class);
+		get
+		{
+		return CheckIR(typeof(DequeInit));
+		}
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "deque initialization";
+		}
 	}
+}
+
 }

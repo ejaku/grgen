@@ -1,121 +1,145 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ir.executable;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-
-/**
- * An action that represents something that does graph matching.
- */
-public abstract class MatchingAction extends Action
+namespace de.unika.ipd.grgen.ir.executable
 {
-	/** Children names of this node. */
-	private static final String[] childrenNames = {
-			"pattern"
-	};
 
-	/** The graph pattern to match against. */
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+
+/// <summary>
+/// An action that represents something that does graph matching.
+/// </summary>
+public abstract class MatchingAction : Action
+{
+	/// <summary>
+	/// Children names of this node. </summary>
+	private static readonly string[] childrenNames = new string[] { "pattern" };
+
+	/// <summary>
+	/// The graph pattern to match against. </summary>
 	public PatternGraphLhs pattern;
 
-	/** A list of the pattern parameters */
-	private final ArrayList<Entity> params = new ArrayList<Entity>();
+	/// <summary>
+	/// A list of the pattern parameters </summary>
+	private readonly List<Entity> @params = new List<Entity>();
 
-	/** A list of the pattern def parameters which get yielded */
-	private final ArrayList<Entity> defParams = new ArrayList<Entity>();
+	/// <summary>
+	/// A list of the pattern def parameters which get yielded </summary>
+	private readonly List<Entity> defParams = new List<Entity>();
 
-	/** A list of the return-parameters */
-	private final ArrayList<Expression> returns = new ArrayList<Expression>();
+	/// <summary>
+	/// A list of the return-parameters </summary>
+	private readonly List<Expression> returns = new List<Expression>();
 
-	/** A list of the filters */
-	private final ArrayList<Filter> filters = new ArrayList<Filter>();
+	/// <summary>
+	/// A list of the filters </summary>
+	private readonly List<Filter> filters = new List<Filter>();
 
-	/**
-	 * @param name The name of this action.
-	 * @param ident The identifier that identifies this object.
-	 */
-	protected MatchingAction(String name, Ident ident)
+	/// <param name="name"> The name of this action. </param>
+	/// <param name="ident"> The identifier that identifies this object. </param>
+	protected internal MatchingAction(string name, Ident ident)
+		: base(name, ident)
 	{
-		super(name, ident);
-		setChildrenNames(childrenNames);
+		ChildrenNames = childrenNames;
 	}
 
-	/**
-	 * @param pattern The graph pattern to match against.
-	 */
-	protected void setPattern(PatternGraphLhs pattern)
+	/// <param name="pattern"> The graph pattern to match against. </param>
+	protected internal virtual PatternGraphLhs Pattern
 	{
-		assert(pattern != null);
-		this.pattern = pattern;
-		pattern.setNameSuffix("pattern");
-	}
-
-	/** @return The graph pattern. */
-	public PatternGraphLhs getPattern()
-	{
+		set
+		{
+		Debug.Assert((value != null));
+		this.pattern = value;
+		value.NameSuffix = "pattern";
+		}
+		get
+		{
 		return pattern;
+		}
 	}
 
-	/** Add a parameter to the graph. */
-	public void addParameter(Entity id)
+
+	/// <summary>
+	/// Add a parameter to the graph. </summary>
+	public virtual void AddParameter(Entity id)
 	{
-		params.add(id);
+		@params.Add(id);
 	}
 
-	/** Get all Parameters of this graph. */
-	public List<Entity> getParameters()
+	/// <summary>
+	/// Get all Parameters of this graph. </summary>
+	public virtual IList<Entity> Parameters
 	{
-		return Collections.unmodifiableList(params);
+		get
+		{
+		return @params.AsReadOnly();
+		}
 	}
 
-	/** Add a def parameter which gets yielded to the graph. */
-	public void addDefParameter(Entity id)
+	/// <summary>
+	/// Add a def parameter which gets yielded to the graph. </summary>
+	public virtual void AddDefParameter(Entity id)
 	{
-		defParams.add(id);
+		defParams.Add(id);
 	}
 
-	/** Get all def Parameters which get yielded of this graph. */
-	public List<Entity> getDefParameters()
+	/// <summary>
+	/// Get all def Parameters which get yielded of this graph. </summary>
+	public virtual IList<Entity> DefParameters
 	{
-		return Collections.unmodifiableList(defParams);
+		get
+		{
+		return defParams.AsReadOnly();
+		}
 	}
 
-	/** Add a return-value to the graph. */
-	public void addReturn(Expression expr)
+	/// <summary>
+	/// Add a return-value to the graph. </summary>
+	public virtual void AddReturn(Expression expr)
 	{
-		returns.add(expr);
+		returns.Add(expr);
 	}
 
-	/** Get all Returns of this graph. */
-	public List<Expression> getReturns()
+	/// <summary>
+	/// Get all Returns of this graph. </summary>
+	public virtual IList<Expression> Returns
 	{
-		return Collections.unmodifiableList(returns);
+		get
+		{
+		return returns.AsReadOnly();
+		}
 	}
 
-	/** Add a filter to the action. */
-	public void addFilter(Filter filter)
+	/// <summary>
+	/// Add a filter to the action. </summary>
+	public virtual void AddFilter(Filter filter)
 	{
-		filters.add(filter);
+		filters.Add(filter);
 	}
 
-	/** Get all filters of this action. */
-	public List<Filter> getFilters()
+	/// <summary>
+	/// Get all filters of this action. </summary>
+	public virtual IList<Filter> Filters
 	{
-		return Collections.unmodifiableList(filters);
+		get
+		{
+		return filters.AsReadOnly();
+		}
 	}
+}
+
 }

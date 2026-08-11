@@ -1,38 +1,38 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll
- */
+/// <summary>
+/// @author Moritz Kroll
+/// </summary>
 
-package de.unika.ipd.grgen.ast;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.MemberResolver;
-import de.unika.ipd.grgen.ir.ConstructorParam;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-
-/**
- * AST node representing a parameter of a constructor.
- * children: LHS:IdentNode, RHS:optional ExprNode
- */
-public class ConstructorParamNode extends BaseNode
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(ConstructorParamNode.class, "constructor parameter declaration");
+
+using System.Collections.Generic;
+
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using ConstructorParam = de.unika.ipd.grgen.ir.ConstructorParam;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+
+/// <summary>
+/// AST node representing a parameter of a constructor.
+/// children: LHS:IdentNode, RHS:optional ExprNode
+/// </summary>
+public class ConstructorParamNode : BaseNode
+{
+	static ConstructorParamNode()
+	{
+		SetClassName(typeof(ConstructorParamNode), "constructor parameter declaration");
 	}
 
 	private IdentNode lhsUnresolved;
@@ -40,72 +40,74 @@ public class ConstructorParamNode extends BaseNode
 	public ExprNode rhs;
 
 	public ConstructorParamNode(IdentNode paramNode, ExprNode expr)
+		: base(paramNode.Coords)
 	{
-		super(paramNode.getCoords());
-		lhsUnresolved = becomeParent(paramNode);
-		rhs = becomeParent(expr);
+		lhsUnresolved = BecomeParent(paramNode);
+		rhs = BecomeParent(expr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(lhsUnresolved, lhs));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(lhsUnresolved, lhs));
 		if(rhs != null)
-			children.add(rhs);
+			children.Add(rhs);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("lhs");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("lhs");
 		if(rhs != null)
-			childrenNames.add("rhs");
+			childrenNames.Add("rhs");
 		return childrenNames;
+		}
 	}
 
-	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
+	private static readonly MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		if(!lhsResolver.resolve(lhsUnresolved))
+		if(!lhsResolver.Resolve(lhsUnresolved))
 			return false;
-		lhs = lhsResolver.getResult(DeclNode.class);
+		lhs = lhsResolver.GetResult(typeof(DeclNode));
 
-		return lhsResolver.finish();
+		return lhsResolver.Finish();
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		return rhs == null || typeCheckLocal();
+		return rhs == null || TypeCheckLocal();
 	}
 
-	/**
-	 * Checks whether the expression has a type equal, compatible or castable
-	 * to the type of the target. Inserts implicit cast if compatible.
-	 * @return true, if the types are equal or compatible, false otherwise
-	 */
-	private boolean typeCheckLocal()
+	/// <summary>
+	/// Checks whether the expression has a type equal, compatible or castable
+	/// to the type of the target. Inserts implicit cast if compatible. </summary>
+	/// <returns> true, if the types are equal or compatible, false otherwise </returns>
+	private bool TypeCheckLocal()
 	{
-		TypeNode targetType = lhs.getDeclType();
-		TypeNode exprType = rhs.getType();
+		TypeNode targetType = lhs.DeclType;
+		TypeNode exprType = rhs.Type;
 
-		if(exprType.isEqual(targetType))
+		if(exprType.IsEqual(targetType))
 			return true;
 
-		rhs = becomeParent(rhs.adjustType(targetType, getCoords()));
-		return rhs != ConstNode.getInvalid();
+		rhs = BecomeParent(rhs.AdjustType(targetType, Coords));
+		return rhs != ConstNode.Invalid;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		if(rhs != null)
-			rhs = rhs.evaluate();
-		return new ConstructorParam(lhs.checkIR(Entity.class), rhs != null ? rhs.checkIR(Expression.class) : null);
+			rhs = rhs.Evaluate();
+		return new ConstructorParam(lhs.CheckIR(typeof(Entity)), rhs != null ? rhs.CheckIR(typeof(Expression)) : null);
 	}
+}
+
 }

@@ -1,76 +1,82 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr.numeric;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.numeric.AbsExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class AbsExprNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.numeric
 {
-	static {
-		setClassName(AbsExprNode.class, "abs expr");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using AbsExpr = de.unika.ipd.grgen.ir.expr.numeric.AbsExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class AbsExprNode : BuiltinFunctionInvocationBaseNode
+{
+	static AbsExprNode()
+	{
+		SetClassName(typeof(AbsExprNode), "abs expr");
 	}
 
 	private ExprNode argumentExpr;
 
 	public AbsExprNode(Coords coords, ExprNode argumentExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.argumentExpr = becomeParent(argumentExpr);
+		this.argumentExpr = BecomeParent(argumentExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(argumentExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(argumentExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("arg");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("arg");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if(argumentExpr.getType().isNumericType())
+		if(argumentExpr.Type.IsNumericType())
 			return true;
-		reportError("The function Math::abs() expects as argument a value of type " + TypeNode.getNumericTypesAsString()
-				+ " (but is given a value of type " + argumentExpr.getType().getTypeName() + ").");
+		ReportError("The function Math::abs() expects as argument a value of type " + TypeNode.NumericTypesAsString
+				+ " (but is given a value of type " + argumentExpr.Type.TypeName + ").");
 		return false;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		argumentExpr = argumentExpr.evaluate();
-		return new AbsExpr(argumentExpr.checkIR(Expression.class));
+		argumentExpr = argumentExpr.Evaluate();
+		return new AbsExpr(argumentExpr.CheckIR(typeof(Expression)));
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		return argumentExpr.getType();
+		get
+		{
+		return argumentExpr.Type;
+		}
 	}
+}
+
 }

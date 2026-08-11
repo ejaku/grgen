@@ -1,40 +1,46 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.set;
-
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-public abstract class SetProcedureMethodInvocationBaseNode extends ContainerProcedureMethodInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.set
 {
-	static {
-		setClassName(SetProcedureMethodInvocationBaseNode.class, "set procedure method invocation base");
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+using ContainerProcedureMethodInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.ContainerProcedureMethodInvocationBaseNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public abstract class SetProcedureMethodInvocationBaseNode : ContainerProcedureMethodInvocationBaseNode
+{
+	static SetProcedureMethodInvocationBaseNode()
+	{
+		SetClassName(typeof(SetProcedureMethodInvocationBaseNode), "set procedure method invocation base");
 	}
 
-	protected SetProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
+	protected internal SetProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
+		: base(coords, target)
 	{
-		super(coords, target);
 	}
 
-	protected SetProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
+	protected internal SetProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
+		: base(coords, targetVar)
 	{
-		super(coords, targetVar);
 	}
 
-	protected SetTypeNode getTargetTypeExact()
+	protected internal virtual SetTypeNode TargetTypeExact
 	{
-		return (SetTypeNode)getTargetType();
+		get
+		{
+		return (SetTypeNode)TargetType;
+		}
 	}
+}
+
 }

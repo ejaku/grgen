@@ -1,33 +1,33 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.stmt.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.graph.GraphMergeProc;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class GraphMergeProcNode extends BuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.graph
 {
-	static {
-		setClassName(GraphMergeProcNode.class, "graph merge procedure");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using GraphMergeProc = de.unika.ipd.grgen.ir.stmt.graph.GraphMergeProc;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class GraphMergeProcNode : BuiltinProcedureInvocationBaseNode
+{
+	static GraphMergeProcNode()
+	{
+		SetClassName(typeof(GraphMergeProcNode), "graph merge procedure");
 	}
 
 	private ExprNode targetExpr;
@@ -35,89 +35,95 @@ public class GraphMergeProcNode extends BuiltinProcedureInvocationBaseNode
 	private ExprNode sourceNameExpr;
 
 	public GraphMergeProcNode(Coords coords, ExprNode targetExpr, ExprNode sourceExpr, ExprNode sourceNameExpr)
+		: base(coords)
 	{
-		super(coords);
 
 		this.targetExpr = targetExpr;
-		becomeParent(targetExpr);
+		BecomeParent(targetExpr);
 		this.sourceExpr = sourceExpr;
-		becomeParent(sourceExpr);
+		BecomeParent(sourceExpr);
 		this.sourceNameExpr = sourceNameExpr;
 		if(sourceNameExpr != null)
-			becomeParent(sourceNameExpr);
+			BecomeParent(sourceNameExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(targetExpr);
-		children.add(sourceExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(targetExpr);
+		children.Add(sourceExpr);
 		if(sourceNameExpr != null)
-			children.add(sourceNameExpr);
+			children.Add(sourceNameExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("target");
-		childrenNames.add("source");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("target");
+		childrenNames.Add("source");
 		if(sourceNameExpr != null)
-			childrenNames.add("sourceName");
+			childrenNames.Add("sourceName");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		TypeNode targetExprType = targetExpr.getType();
-		if(!(targetExprType instanceof NodeTypeNode)) {
-			reportError("The merge procedure expects as 1. argument (target)"
+		TypeNode targetExprType = targetExpr.Type;
+		if(!(targetExprType is NodeTypeNode))
+		{
+			ReportError("The merge procedure expects as 1. argument (target)"
 					+ " a value of type Node"
-					+ " (but is given a value of type " + targetExprType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + targetExprType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
-		TypeNode sourceExprType = sourceExpr.getType();
-		if(!(sourceExprType instanceof NodeTypeNode)) {
-			reportError("The merge procedure expects as 2. argument (source)"
+		TypeNode sourceExprType = sourceExpr.Type;
+		if(!(sourceExprType is NodeTypeNode))
+		{
+			ReportError("The merge procedure expects as 2. argument (source)"
 					+ " a value of type Node"
-					+ " (but is given a value of type " + sourceExprType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + sourceExprType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
-		if(sourceNameExpr != null) {
-			TypeNode sourceNameExprType = sourceNameExpr.getType();
-			if(!(sourceNameExprType.equals(BasicTypeNode.stringType))) {
-				reportError("The merge procedure expects as 3. argument (sourceName)"
+		if(sourceNameExpr != null)
+		{
+			TypeNode sourceNameExprType = sourceNameExpr.Type;
+			if(!(sourceNameExprType.Equals(BasicTypeNode.stringType)))
+			{
+				ReportError("The merge procedure expects as 3. argument (sourceName)"
 						+ " a value of type string"
-						+ " (but is given a value of type " + sourceNameExprType.toStringWithDeclarationCoords() + ").");
+						+ " (but is given a value of type " + sourceNameExprType.ToStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		targetExpr = targetExpr.evaluate();
-		sourceExpr = sourceExpr.evaluate();
+		targetExpr = targetExpr.Evaluate();
+		sourceExpr = sourceExpr.Evaluate();
 		if(sourceNameExpr != null)
-			sourceNameExpr = sourceNameExpr.evaluate();
-		return new GraphMergeProc(targetExpr.checkIR(Expression.class), sourceExpr.checkIR(Expression.class),
-				sourceNameExpr != null ? sourceNameExpr.checkIR(Expression.class) : null);
+			sourceNameExpr = sourceNameExpr.Evaluate();
+		return new GraphMergeProc(targetExpr.CheckIR(typeof(Expression)), sourceExpr.CheckIR(typeof(Expression)),
+				sourceNameExpr != null ? sourceNameExpr.CheckIR(typeof(Expression)) : null);
 	}
+}
+
 }

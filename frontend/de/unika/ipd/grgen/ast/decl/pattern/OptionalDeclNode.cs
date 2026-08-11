@@ -1,47 +1,57 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-
-/**
- * AST node for an optional pattern, maybe including replacements.
- */
-public class OptionalDeclNode extends IteratedDeclNode
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(OptionalDeclNode.class, "optional");
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+
+/// <summary>
+/// AST node for an optional pattern, maybe including replacements.
+/// </summary>
+public class OptionalDeclNode : IteratedDeclNode
+{
+	static OptionalDeclNode()
+	{
+		SetClassName(typeof(OptionalDeclNode), "optional");
 	}
 
 	public OptionalDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)
+		: base(id, left, right)
 	{
-		super(id, left, right);
 	}
 
-	@Override
-	protected int getMinMatches()
+	protected internal override int MinMatches
 	{
+		get
+		{
 		return 0;
-	}
-	
-	@Override
-	protected int getMaxMatches()
-	{
-		return 1;
+		}
 	}
 
-	public static String getKindStr()
+	protected internal override int MaxMatches
 	{
-		return "optional";
+		get
+		{
+		return 1;
+		}
 	}
+
+	public static string KindStr
+	{
+		get
+		{
+		return "optional";
+		}
+	}
+}
+
 }

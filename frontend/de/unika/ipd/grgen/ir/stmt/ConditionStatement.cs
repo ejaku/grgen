@@ -1,65 +1,70 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt;
+namespace de.unika.ipd.grgen.ir.stmt
+{
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/**
- * Represents a condition statement in the IR.
- */
-public class ConditionStatement extends BlockNestingStatement
+/// <summary>
+/// Represents a condition statement in the IR.
+/// </summary>
+public class ConditionStatement : BlockNestingStatement
 {
 	private Expression conditionExpr;
-	private ArrayList<EvalStatement> falseCaseStatements = null;
+	private List<EvalStatement> falseCaseStatements = null;
 
 	public ConditionStatement(Expression conditionExpr)
+		: base("condition statement")
 	{
-		super("condition statement");
 		this.conditionExpr = conditionExpr;
 	}
 
-	public void addFalseCaseStatement(EvalStatement falseCaseStatement)
+	public virtual void AddFalseCaseStatement(EvalStatement falseCaseStatement)
 	{
 		if(falseCaseStatements == null)
-			falseCaseStatements = new ArrayList<EvalStatement>();
-		falseCaseStatements.add(falseCaseStatement);
+			falseCaseStatements = new List<EvalStatement>();
+		falseCaseStatements.Add(falseCaseStatement);
 	}
 
-	public Expression getConditionExpr()
+	public virtual Expression ConditionExpr
 	{
+		get
+		{
 		return conditionExpr;
-	}
-
-	public Collection<EvalStatement> getFalseCaseStatements()
-	{
-		return falseCaseStatements != null ? Collections.unmodifiableList(falseCaseStatements) : null;
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		conditionExpr.collectNeededEntities(needs);
-		for(EvalStatement trueCaseStatement : statements) {
-			trueCaseStatement.collectNeededEntities(needs);
-		}
-		if(falseCaseStatements != null) {
-			for(EvalStatement falseCaseStatement : falseCaseStatements) {
-				falseCaseStatement.collectNeededEntities(needs);
-			}
 		}
 	}
+
+	public virtual ICollection<EvalStatement> FalseCaseStatements
+	{
+		get
+		{
+		return falseCaseStatements != null ? falseCaseStatements.AsReadOnly() : null;
+		}
+	}
+
+	public override void CollectNeededEntities(NeededEntities needs)
+	{
+		conditionExpr.CollectNeededEntities(needs);
+		foreach(EvalStatement trueCaseStatement in statements)
+			trueCaseStatement.CollectNeededEntities(needs);
+		if(falseCaseStatements != null)
+		{
+			foreach(EvalStatement falseCaseStatement in falseCaseStatements)
+				falseCaseStatement.CollectNeededEntities(needs);
+		}
+	}
+}
+
 }

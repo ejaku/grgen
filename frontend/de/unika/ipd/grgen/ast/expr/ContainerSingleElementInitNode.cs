@@ -1,82 +1,92 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.parser.Coords;
-
-public abstract class ContainerSingleElementInitNode extends ContainerInitNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(ContainerSingleElementInitNode.class, "container single element init");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public abstract class ContainerSingleElementInitNode : ContainerInitNode
+{
+	static ContainerSingleElementInitNode()
+	{
+		SetClassName(typeof(ContainerSingleElementInitNode), "container single element init");
 	}
 
-	protected CollectNode<ExprNode> containerItems = new CollectNode<ExprNode>();
+	protected internal CollectNode<ExprNode> containerItems = new CollectNode<ExprNode>();
 
-	
+
 	public ContainerSingleElementInitNode(Coords coords)
+		: base(coords)
 	{
-		super(coords);
-	}
-	
-	public void addItem(ExprNode item)
-	{
-		containerItems.addChild(item);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public virtual void AddItem(ExprNode item)
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(containerItems);
+		containerItems.AddChild(item);
+	}
+
+	public override ICollection<BaseNode> Children
+	{
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(containerItems);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("containerItems");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("containerItems");
 		return childrenNames;
+		}
 	}
 
-	protected boolean checkContainerItems()
+	protected internal virtual bool CheckContainerItems()
 	{
-		boolean success = true;
+		bool success = true;
 
-		TypeNode containerElementType = getContainerType().getElementType();
-		for(ExprNode item : containerItems.getChildrenExact()) {
-			if(item.getType() != containerElementType) {
-				if(!isInitInModel()) {
+		TypeNode containerElementType = ContainerType.ElementType;
+		foreach(ExprNode item in containerItems.ChildrenExact)
+		{
+			if(item.Type != containerElementType)
+			{
+				if(!IsInitInModel())
+				{
 					ExprNode oldValueExpr = item;
-					ExprNode newValueExpr = item.adjustType(containerElementType, getCoords());
-					containerItems.replace(oldValueExpr, newValueExpr);
-					if(newValueExpr == ConstNode.getInvalid()) {
+					ExprNode newValueExpr = item.AdjustType(containerElementType, Coords);
+					containerItems.Replace(oldValueExpr, newValueExpr);
+					if(newValueExpr == ConstNode.Invalid)
+					{
 						success = false;
-						oldValueExpr.reportError("The value type " + oldValueExpr.getType().toStringWithDeclarationCoords()
-								+ " of the initializer does not fit to the value type " + containerElementType.toStringWithDeclarationCoords()
-								+ " of the container (" + getContainerType().getTypeName() + ").");
+						oldValueExpr.ReportError("The value type " + oldValueExpr.Type.ToStringWithDeclarationCoords()
+								+ " of the initializer does not fit to the value type " + containerElementType.ToStringWithDeclarationCoords()
+								+ " of the container (" + ContainerType.TypeName + ").");
 					}
-				} else {
+				}
+				else
+				{
 					success = false;
-					item.reportError("The value type " + item.getType().toStringWithDeclarationCoords()
-							+ " of the initializer does not fit to the value type " + containerElementType.toStringWithDeclarationCoords()
-							+ " of the container (" + getContainerType().getTypeName()
+					item.ReportError("The value type " + item.Type.ToStringWithDeclarationCoords()
+							+ " of the initializer does not fit to the value type " + containerElementType.ToStringWithDeclarationCoords()
+							+ " of the container (" + ContainerType.TypeName
 							+ " -- all items must be of exactly the same type).");
 				}
 			}
@@ -85,43 +95,51 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 		return success;
 	}
 
-	/**
-	 * Checks whether the container only contains constants.
-	 * @return True, if all container items are constant.
-	 */
-	public boolean isConstant()
+	/// <summary>
+	/// Checks whether the container only contains constants. </summary>
+	/// <returns> True, if all container items are constant. </returns>
+	public virtual bool IsConstant()
 	{
-		for(ExprNode item : containerItems.getChildrenExact()) {
-			if(!(item instanceof ConstNode || isEnumValue(item)))
+		foreach(ExprNode item in containerItems.ChildrenExact)
+		{
+			if(!(item is ConstNode || IsEnumValue(item)))
 				return false;
 		}
 		return true;
 	}
 
-	public boolean contains(ConstNode node)
+	public virtual bool Contains(ConstNode node)
 	{
-		for(ExprNode item : containerItems.getChildrenExact()) {
-			if(item instanceof ConstNode) {
+		foreach(ExprNode item in containerItems.ChildrenExact)
+		{
+			if(item is ConstNode)
+			{
 				ConstNode itemConst = (ConstNode)item;
-				if(node.getValue().equals(itemConst.getValue()))
+				if(node.Value.Equals(itemConst.Value))
 					return true;
 			}
 		}
 		return false;
 	}
-	
-	protected CollectNode<ExprNode> getItems()
+
+	protected internal virtual CollectNode<ExprNode> Items
 	{
+		get
+		{
 		return containerItems;
+		}
 	}
 
-	protected List<Expression> constructItems()
+	protected internal virtual IList<Expression> ConstructItems()
 	{
-		List<Expression> items = new ArrayList<Expression>();
-		for(ExprNode item : containerItems.getChildrenExact()) {
-			item = item.evaluate();
-			items.add(item.checkIR(Expression.class));
+		IList<Expression> items = new List<Expression>();
+		foreach(ExprNode item in containerItems.ChildrenExact)
+		{
+			item = item.Evaluate();
+			items.Add(item.CheckIR(typeof(Expression)));
 		}
 		return items;
 	}
+}
+
 }

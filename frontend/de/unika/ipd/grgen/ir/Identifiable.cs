@@ -1,101 +1,114 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
-
-import java.util.Comparator;
-import java.util.Map;
-
-import de.unika.ipd.grgen.util.Annotated;
-import de.unika.ipd.grgen.util.Annotations;
-
-/**
- * Identifiable with an identifier.
- * This is a super class for all classes which are associated with an identifier.
- */
-public abstract class Identifiable extends IR implements Annotated, Comparable<Identifiable>
+namespace de.unika.ipd.grgen.ir
 {
-	/** helper class for comparing objects of type Identifiable, used in compareTo */
-	protected static final Comparator<Identifiable> COMPARATOR = new Comparator<Identifiable>() {
-		@Override
-		public int compare(Identifiable lt, Identifiable rt)
-		{
-			return lt.getIdent().compareTo(rt.getIdent());
-		}
-	};
 
-	/** The identifier */
+using System;
+using System.Collections.Generic;
+
+using Annotated = de.unika.ipd.grgen.util.Annotated;
+using Annotations = de.unika.ipd.grgen.util.Annotations;
+
+/// <summary>
+/// Identifiable with an identifier.
+/// This is a super class for all classes which are associated with an identifier.
+/// </summary>
+public abstract class Identifiable : IR, Annotated, IComparable<Identifiable>
+{
+	/// <summary>
+	/// helper class for comparing objects of type Identifiable, used in compareTo </summary>
+	protected internal static readonly IComparer<Identifiable> COMPARATOR = new ComparatorAnonymousInnerClass();
+
+	private class ComparatorAnonymousInnerClass : IComparer<Identifiable>
+	{
+		private readonly Identifiable outerInstance;
+
+		public int Compare(Identifiable lt, Identifiable rt)
+		{
+			return lt.Ident.CompareTo(rt.Ident);
+		}
+	}
+
+	/// <summary>
+	/// The identifier </summary>
 	private Ident ident;
 
-	/** @param name The name of the IR class
-	 *  @param ident The identifier associated with this IR object */
-	public Identifiable(String name, Ident ident)
+	/// <param name="name"> The name of the IR class </param>
+	///  <param name="ident"> The identifier associated with this IR object  </param>
+	public Identifiable(string name, Ident ident)
+		: base(name)
 	{
-		super(name);
 		this.ident = ident;
 	}
 
-	/** @return The identifier that identifies this IR structure. */
-	public Ident getIdent()
+	/// <returns> The identifier that identifies this IR structure. </returns>
+	public virtual Ident Ident
 	{
+		get
+		{
 		return ident;
+		}
+		set
+		{
+		this.ident = value;
+		}
 	}
 
-	/** Set the identifier for this object. */
-	public void setIdent(Ident ident)
+
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel() "/>
+	public override string NodeLabel
 	{
-		this.ident = ident;
+		get
+		{
+		return ToString();
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
-	@Override
-	public String getNodeLabel()
+	public override string NodeInfo
 	{
-		return toString();
+		get
+		{
+		return ident.NodeInfo;
+		}
 	}
 
-	@Override
-	public String getNodeInfo()
+	public override string ToString()
 	{
-		return ident.getNodeInfo();
+		return Name + " " + ident;
 	}
 
-	@Override
-	public String toString()
+	public override void AddFields(IDictionary<string, object> fields)
 	{
-		return getName() + " " + ident;
+		fields["ident"] = ident.ToString();
 	}
 
-	@Override
-	public void addFields(Map<String, Object> fields)
+	public override int GetHashCode()
 	{
-		fields.put("ident", ident.toString());
+		return Ident.hashCode();
 	}
 
-	@Override
-	public int hashCode()
+	public virtual int CompareTo(Identifiable id)
 	{
-		return getIdent().hashCode();
+		return COMPARATOR.Compare(this, id);
 	}
 
-	@Override
-	public int compareTo(Identifiable id)
+	/// <returns> The annotations. </returns>
+	public virtual Annotations Annotations
 	{
-		return COMPARATOR.compare(this, id);
+		get
+		{
+		return Ident.GetCustomAttributes(true);
+		}
 	}
+}
 
-	/** @return The annotations. */
-	@Override
-	public Annotations getAnnotations()
-	{
-		return getIdent().getAnnotations();
-	}
 }

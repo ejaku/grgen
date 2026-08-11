@@ -1,82 +1,89 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.string;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.string.StringToLower;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class StringToLowerNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.@string
 {
-	static {
-		setClassName(StringToLowerNode.class, "string toLower");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using StringToLower = de.unika.ipd.grgen.ir.expr.@string.StringToLower;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class StringToLowerNode : BuiltinFunctionInvocationBaseNode
+{
+	static StringToLowerNode()
+	{
+		SetClassName(typeof(StringToLowerNode), "string toLower");
 	}
 
 	private ExprNode stringExpr;
 
 	public StringToLowerNode(Coords coords, ExprNode stringExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.stringExpr = becomeParent(stringExpr);
+		this.stringExpr = BecomeParent(stringExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(stringExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(stringExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("string");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("string");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("The string function method toLower can only be employed on an object of type string"
-					+ " (but is employed on an object of type " + stringExpr.getType().getTypeName() + ").");
+		if(!stringExpr.Type.IsEqual(BasicTypeNode.stringType))
+		{
+			stringExpr.ReportError("The string function method toLower can only be employed on an object of type string"
+					+ " (but is employed on an object of type " + stringExpr.Type.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		stringExpr = stringExpr.evaluate();
-		return new StringToLower(stringExpr.checkIR(Expression.class));
+		stringExpr = stringExpr.Evaluate();
+		return new StringToLower(stringExpr.CheckIR(typeof(Expression)));
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.stringType;
+		}
 	}
+}
+
 }

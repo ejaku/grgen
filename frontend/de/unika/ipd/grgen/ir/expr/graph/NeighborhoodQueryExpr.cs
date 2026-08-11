@@ -1,53 +1,64 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr.graph;
-
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.util.Direction;
-
-public abstract class NeighborhoodQueryExpr extends BuiltinFunctionInvocationExpr
+namespace de.unika.ipd.grgen.ir.expr.graph
 {
-	protected final Expression startNodeExpr;
-	protected final Expression incidentEdgeTypeExpr;
-	protected final Direction direction;
-	protected final Expression adjacentNodeTypeExpr;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using Direction = de.unika.ipd.grgen.util.Direction;
 
-	public NeighborhoodQueryExpr(String name, Type type,
+public abstract class NeighborhoodQueryExpr : BuiltinFunctionInvocationExpr
+{
+	protected internal readonly Expression startNodeExpr;
+	protected internal readonly Expression incidentEdgeTypeExpr;
+	protected internal readonly Direction direction;
+	protected internal readonly Expression adjacentNodeTypeExpr;
+
+	public NeighborhoodQueryExpr(string name, Type type,
 			Expression startNodeExpression,
 			Expression incidentEdgeTypeExpr, Direction direction,
 			Expression adjacentNodeTypeExpr)
+		: base(name, type)
 	{
-		super(name, type);
 		this.startNodeExpr = startNodeExpression;
 		this.incidentEdgeTypeExpr = incidentEdgeTypeExpr;
 		this.direction = direction;
 		this.adjacentNodeTypeExpr = adjacentNodeTypeExpr;
 	}
 
-	public Expression getStartNodeExpr()
+	public virtual Expression StartNodeExpr
 	{
+		get
+		{
 		return startNodeExpr;
+		}
 	}
 
-	public Expression getIncidentEdgeTypeExpr()
+	public virtual Expression IncidentEdgeTypeExpr
 	{
+		get
+		{
 		return incidentEdgeTypeExpr;
+		}
 	}
 
-	public Direction Direction()
+	public virtual Direction Direction()
 	{
 		return direction;
 	}
 
-	public Expression getAdjacentNodeTypeExpr()
+	public virtual Expression AdjacentNodeTypeExpr
 	{
+		get
+		{
 		return adjacentNodeTypeExpr;
+		}
 	}
+}
+
 }

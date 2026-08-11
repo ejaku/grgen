@@ -1,56 +1,59 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll
- */
+/// <summary>
+/// @author Moritz Kroll
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr;
+namespace de.unika.ipd.grgen.ir.expr
+{
+using de.unika.ipd.grgen.ir;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
 
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-
-/**
- * A graph entity expression node.
- */
-public class GraphEntityExpression extends Expression
+/// <summary>
+/// A graph entity expression node.
+/// </summary>
+public class GraphEntityExpression : Expression
 {
 	private GraphEntity graphEntity;
 
 	public GraphEntityExpression(GraphEntity graphEntity)
+		: base("graph entity", graphEntity.Type)
 	{
-		super("graph entity", graphEntity.getType());
 		this.graphEntity = graphEntity;
 	}
 
-	/** Returns the graph entity of this graph entity expression. */
-	public GraphEntity getGraphEntity()
+	/// <summary>
+	/// Returns the graph entity of this graph entity expression. </summary>
+	public virtual GraphEntity GraphEntity
 	{
+		get
+		{
 		return graphEntity;
+		}
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(graphEntity))
-			needs.add(graphEntity);
+		if(!IsGlobalVariable(graphEntity))
+			needs.Add(graphEntity);
 	}
 
-	@Override
-	public boolean equals(Object other)
+	public override bool Equals(object other)
 	{
-		if(!(other instanceof GraphEntityExpression))
+		if(!(other is GraphEntityExpression))
 			return false;
-		return graphEntity == ((GraphEntityExpression)other).getGraphEntity();
+		return graphEntity == ((GraphEntityExpression)other).GraphEntity;
 	}
 
-	@Override
-	public int hashCode()
+	public override int GetHashCode()
 	{
-		return graphEntity.hashCode();
+		return graphEntity.GetHashCode();
 	}
+}
+
 }

@@ -1,85 +1,86 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * Interface giving access to the state needed for generating eval statements.
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// Interface giving access to the state needed for generating eval statements.
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.be.Csharp;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-
-public interface ModifyGenerationStateConst extends ExpressionGenerationState
+namespace de.unika.ipd.grgen.be.Csharp
 {
-	String getName();
 
-	Collection<Node> getCommonNodes();
+using System.Collections.Generic;
 
-	Collection<Edge> getCommonEdges();
+using de.unika.ipd.grgen.ir;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using SubpatternUsage = de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 
-	Collection<SubpatternUsage> getCommonSubpatternUsages();
+public interface ModifyGenerationStateConst : ExpressionGenerationState
+{
+	string Name {get;}
 
-	Collection<Node> getNewNodes();
+	ICollection<Node> CommonNodes {get;}
 
-	Collection<Edge> getNewEdges();
+	ICollection<Edge> CommonEdges {get;}
 
-	Collection<SubpatternUsage> getNewSubpatternUsages();
+	ICollection<SubpatternUsage> CommonSubpatternUsages {get;}
 
-	Collection<Node> getDelNodes();
+	ICollection<Node> NewNodes {get;}
 
-	Collection<Edge> getDelEdges();
+	ICollection<Edge> NewEdges {get;}
 
-	boolean isDeleted(Entity entity);
+	ICollection<SubpatternUsage> NewSubpatternUsages {get;}
 
-	Collection<SubpatternUsage> getDelSubpatternUsages();
+	ICollection<Node> DelNodes {get;}
 
-	Collection<Node> getYieldedNodes();
+	ICollection<Edge> DelEdges {get;}
 
-	Collection<Edge> getYieldedEdges();
+	bool IsDeleted(Entity entity);
 
-	Collection<Variable> getYieldedVariables();
+	ICollection<SubpatternUsage> DelSubpatternUsages {get;}
 
-	Collection<Node> getNewOrRetypedNodes();
+	ICollection<Node> YieldedNodes {get;}
 
-	Collection<Edge> getNewOrRetypedEdges();
+	ICollection<Edge> YieldedEdges {get;}
 
-	Collection<GraphEntity> getAccessViaInterface();
+	ICollection<Variable> YieldedVariables {get;}
 
-	Map<GraphEntity, HashSet<Entity>> getNeededAttributes();
+	ICollection<Node> NewOrRetypedNodes {get;}
 
-	Map<GraphEntity, HashSet<Entity>> getAttributesStoredBeforeDelete();
+	ICollection<Edge> NewOrRetypedEdges {get;}
 
-	Collection<Variable> getNeededVariables();
+	ICollection<GraphEntity> AccessViaInterface {get;}
 
-	Collection<Node> getNodesNeededAsElements();
+	IDictionary<GraphEntity, HashSet<Entity>> NeededAttributes {get;}
 
-	Collection<Edge> getEdgesNeededAsElements();
+	IDictionary<GraphEntity, HashSet<Entity>> AttributesStoredBeforeDelete {get;}
 
-	Collection<Node> getNodesNeededAsAttributes();
+	ICollection<Variable> NeededVariables {get;}
 
-	Collection<Edge> getEdgesNeededAsAttributes();
+	ICollection<Node> NodesNeededAsElements {get;}
 
-	Collection<Node> getNodesNeededAsTypes();
+	ICollection<Edge> EdgesNeededAsElements {get;}
 
-	Collection<Edge> getEdgesNeededAsTypes();
+	ICollection<Node> NodesNeededAsAttributes {get;}
 
-	Map<GraphEntity, HashSet<Entity>> getForceAttributeToVar();
+	ICollection<Edge> EdgesNeededAsAttributes {get;}
 
-	String getMatchClassName();
+	ICollection<Node> NodesNeededAsTypes {get;}
 
-	String getPackagePrefix();
+	ICollection<Edge> EdgesNeededAsTypes {get;}
+
+	IDictionary<GraphEntity, HashSet<Entity>> ForceAttributeToVar {get;}
+
+	string MatchClassName {get;}
+
+	string PackagePrefix {get;}
+}
+
 }

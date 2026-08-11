@@ -1,77 +1,82 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.pattern;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
-
-/**
- * Adapter wrapping an lhs pattern graph, yielding an rhs pattern graph.
- */
-public class PatternGraphRhsFromLhs extends PatternGraphRhs
+namespace de.unika.ipd.grgen.ir.pattern
 {
-	PatternGraphLhs patternGraph; // wrapped and adapted lhs pattern graph
-	
-	/** Make a new pattern graph. */
+
+using System;
+using System.Collections.Generic;
+
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using ImperativeStmt = de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
+
+/// <summary>
+/// Adapter wrapping an lhs pattern graph, yielding an rhs pattern graph.
+/// </summary>
+public class PatternGraphRhsFromLhs : PatternGraphRhs
+{
+	internal PatternGraphLhs patternGraph; // wrapped and adapted lhs pattern graph
+
+	/// <summary>
+	/// Make a new pattern graph. </summary>
 	public PatternGraphRhsFromLhs(PatternGraphLhs patternGraph)
+		: base(patternGraph.NameOfGraph,
+				patternGraph.nodes, patternGraph.edges, patternGraph.subpatternUsages)
 	{
-		super(patternGraph.getNameOfGraph(),
-				patternGraph.nodes, patternGraph.edges, patternGraph.subpatternUsages);
 		this.patternGraph = patternGraph;
 	}
 
-	@Override
-	public void addDeletedElement(GraphEntity entity)
+	public override void AddDeletedElement(GraphEntity entity)
 	{
-		throw new RuntimeException("not implemented");
+		throw new Exception("not implemented");
 	}
 
-	@Override
-	public HashSet<GraphEntity> getDeletedElements()
+	public override HashSet<GraphEntity> DeletedElements
 	{
+		get
+		{
 		return new HashSet<GraphEntity>();
+		}
 	}
 
-	/** Add a replacement parameter to the rule. */
-	@Override
-	public void addReplParameter(Entity entity)
+	/// <summary>
+	/// Add a replacement parameter to the rule. </summary>
+	public override void AddReplParameter(Entity entity)
 	{
-		throw new RuntimeException("not implemented");
+		throw new Exception("not implemented");
 	}
 
-	/** Get all replacement parameters of this rule (may currently contain only nodes). */
-	@Override
-	public List<Entity> getReplParameters()
+	/// <summary>
+	/// Get all replacement parameters of this rule (may currently contain only nodes). </summary>
+	public override IList<Entity> ReplParameters
 	{
-		return Collections.unmodifiableList(new ArrayList<Entity>());
+		get
+		{
+		return (new List<Entity>()).AsReadOnly();
+		}
 	}
 
-	@Override
-	public boolean replParametersContain(Entity entity)
+	public override bool ReplParametersContain(Entity entity)
 	{
 		return false;
 	}
 
-	@Override
-	public void addImperativeStmt(ImperativeStmt emit)
+	public override void AddImperativeStmt(ImperativeStmt emit)
 	{
-		throw new RuntimeException("not implemented");
+		throw new Exception("not implemented");
 	}
 
-	@Override
-	public Collection<ImperativeStmt> getImperativeStmts()
+	public override ICollection<ImperativeStmt> ImperativeStmts
 	{
-		return Collections.unmodifiableList(new ArrayList<ImperativeStmt>());
+		get
+		{
+		return (new List<ImperativeStmt>()).AsReadOnly();
+		}
 	}
+}
+
 }

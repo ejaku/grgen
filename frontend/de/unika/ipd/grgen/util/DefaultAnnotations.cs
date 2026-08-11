@@ -1,81 +1,74 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.util;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-/**
- * Default annotations implementation.
- */
-public class DefaultAnnotations implements Annotations
+namespace de.unika.ipd.grgen.util
 {
-	private final Map<String, Object> annots = new HashMap<String, Object>();
 
-	/** @see de.unika.ipd.grgen.util.Annotations#containsKey(java.lang.String) */
-	@Override
-	public boolean containsKey(String key)
+using System.Collections.Generic;
+
+/// <summary>
+/// Default annotations implementation.
+/// </summary>
+public class DefaultAnnotations : Annotations
+{
+	private readonly IDictionary<string, object> annots = new Dictionary<string, object>();
+
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.containsKey(java.lang.String) "/>
+	public virtual bool ContainsKey(string key)
 	{
-		return annots.containsKey(key);
+		return annots.ContainsKey(key);
 	}
 
-	/** @see de.unika.ipd.grgen.util.Annotations#get(java.lang.String) */
-	@Override
-	public Object get(String key)
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.get(java.lang.String) "/>
+	public virtual object Get(string key)
 	{
-		return annots.get(key);
+		return annots[key];
 	}
 
-	/** @see de.unika.ipd.grgen.util.Annotations#isBoolean(java.lang.String) */
-	@Override
-	public boolean isBoolean(String key)
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isBoolean(java.lang.String) "/>
+	public virtual bool IsBoolean(string key)
 	{
-		return containsKey(key) && get(key) instanceof Boolean;
+		return ContainsKey(key) && Get(key) is bool?;
 	}
 
-	/** @see de.unika.ipd.grgen.util.Annotations#isInteger(java.lang.String) */
-	@Override
-	public boolean isInteger(String key)
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isInteger(java.lang.String) "/>
+	public virtual bool IsInteger(string key)
 	{
-		return containsKey(key) && get(key) instanceof Integer;
+		return ContainsKey(key) && Get(key) is int?;
 	}
 
-	/** @see de.unika.ipd.grgen.util.Annotations#isString(java.lang.String) */
-	@Override
-	public boolean isString(String key)
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isString(java.lang.String) "/>
+	public virtual bool IsString(string key)
 	{
-		return containsKey(key) && get(key) instanceof String;
+		return ContainsKey(key) && Get(key) is string;
 	}
 
-	@Override
-	public boolean isFlagSet(String key)
+	public virtual bool IsFlagSet(string key)
 	{
-		if(!containsKey(key))
+		if(!ContainsKey(key))
 			return false;
-		Object val = get(key);
-		return val instanceof Boolean && ((Boolean)val).booleanValue();
+		object val = Get(key);
+		return val is bool? && ((bool?)val).Value;
 	}
 
-	/** @see de.unika.ipd.grgen.util.Annotations#put(java.lang.String, java.lang.Object) */
-	@Override
-	public void put(String key, Object value)
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.put(java.lang.String, java.lang.Object) "/>
+	public virtual void Put(string key, object value)
 	{
-		annots.put(key, value);
+		annots[key] = value;
 	}
 
-	@Override
-	public Set<String> keySet()
+	public virtual ISet<string> KeySet()
 	{
-		return annots.keySet();
+		return annots.Keys;
 	}
+}
+
 }

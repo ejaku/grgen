@@ -1,46 +1,49 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt;
+namespace de.unika.ipd.grgen.ir.stmt
+{
+using de.unika.ipd.grgen.ir;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
 
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-
-/**
- * Represents a declaration of a local variable of graph element type in the IR.
- */
-public class DefDeclGraphEntityStatement extends EvalStatement
+/// <summary>
+/// Represents a declaration of a local variable of graph element type in the IR.
+/// </summary>
+public class DefDeclGraphEntityStatement : EvalStatement
 {
 	private GraphEntity target;
 
 	public DefDeclGraphEntityStatement(GraphEntity target)
+		: base("def decl graph entity")
 	{
-		super("def decl graph entity");
 		this.target = target;
 	}
 
-	public GraphEntity getTarget()
+	public virtual GraphEntity Target
 	{
+		get
+		{
 		return target;
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return target.getIdent().toString();
+		return target.Ident.ToString();
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
 		//needs.add(target); needed?
 	}
+}
+
 }

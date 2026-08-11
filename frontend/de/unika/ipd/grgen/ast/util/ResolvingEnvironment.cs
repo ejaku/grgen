@@ -1,15 +1,15 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.util;
-
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.parser.ParserEnvironment;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
+namespace de.unika.ipd.grgen.ast.util
+{
+using Coords = de.unika.ipd.grgen.parser.Coords;
+using ParserEnvironment = de.unika.ipd.grgen.parser.ParserEnvironment;
+using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
 
 public class ResolvingEnvironment
@@ -20,23 +20,31 @@ public class ResolvingEnvironment
 		this.errorReporter = errorReporter;
 		this.coords = coords;
 	}
-	
-	public void reportError(String message)
+
+	public virtual void ReportError(string message)
 	{
-		errorReporter.error(coords, message);
+		errorReporter.Error(coords, message);
 	}
-	
-	public Coords getCoords()
+
+	public virtual Coords Coords
 	{
+		get
+		{
 		return coords;
+		}
 	}
-	
-	public ParserEnvironment getParserEnvironment()
+
+	public virtual ParserEnvironment ParserEnvironment
 	{
+		get
+		{
 		return env;
+		}
 	}
-	
-	ParserEnvironment env;
-	ErrorReporter errorReporter;
-	Coords coords;
+
+	internal ParserEnvironment env;
+	internal ErrorReporter errorReporter;
+	internal Coords coords;
+}
+
 }

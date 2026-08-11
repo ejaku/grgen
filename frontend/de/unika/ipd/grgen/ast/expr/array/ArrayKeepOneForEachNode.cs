@@ -1,57 +1,59 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.array;
-
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEach;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ArrayKeepOneForEachNode extends ArrayFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.array
 {
-	static {
-		setClassName(ArrayKeepOneForEachNode.class, "array keep one for each");
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayKeepOneForEach = de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEach;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ArrayKeepOneForEachNode : ArrayFunctionMethodInvocationBaseExprNode
+{
+	static ArrayKeepOneForEachNode()
+	{
+		SetClassName(typeof(ArrayKeepOneForEachNode), "array keep one for each");
 	}
 
 	public ArrayKeepOneForEachNode(Coords coords, ExprNode targetExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = getTargetTypeExact();
-		if(!(arrayType.valueType.isFilterableType())) {
-			targetExpr.reportError("The array function method keepOneForEach can only be employed on an object of type array<" + TypeNode.getFilterableTypesAsString() + ">"
-					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
-		}
+		ArrayTypeNode arrayType = TargetTypeExact;
+		if(!(arrayType.valueType.IsFilterableType()))
+			targetExpr.ReportError("The array function method keepOneForEach can only be employed on an object of type array<" + TypeNode.FilterableTypesAsString + ">"
+					+ " (but is employed on an object of type " + arrayType.TypeName + ").");
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		return getTargetType();
+		get
+		{
+		return TargetType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		targetExpr = targetExpr.evaluate();
-		return new ArrayKeepOneForEach(targetExpr.checkIR(Expression.class));
+		targetExpr = targetExpr.Evaluate();
+		return new ArrayKeepOneForEach(targetExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

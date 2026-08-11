@@ -1,210 +1,233 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.MatchClassFilterCharacter;
-import de.unika.ipd.grgen.ast.PackageIdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
-import de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.executable.FilterFunctionTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
-import de.unika.ipd.grgen.ir.executable.MatchClassFilterFunctionExternal;
-import de.unika.ipd.grgen.ir.executable.MatchClassFilterFunctionInternal;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.type.DefinedMatchType;
-
-/**
- * AST node class representing match class filter function declarations
- */
-public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchClassFilterCharacter
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	static {
-		setClassName(MatchClassFilterFunctionDeclNode.class, "match class filter function declaration");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using MatchClassFilterCharacter = de.unika.ipd.grgen.ast.MatchClassFilterCharacter;
+using PackageIdentNode = de.unika.ipd.grgen.ast.PackageIdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ConnectionNode = de.unika.ipd.grgen.ast.pattern.ConnectionNode;
+using SingleNodeConnNode = de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using DefinedMatchTypeNode = de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using FilterFunctionTypeNode = de.unika.ipd.grgen.ast.type.executable.FilterFunctionTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using MatchClassFilterFunction = de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
+using MatchClassFilterFunctionExternal = de.unika.ipd.grgen.ir.executable.MatchClassFilterFunctionExternal;
+using MatchClassFilterFunctionInternal = de.unika.ipd.grgen.ir.executable.MatchClassFilterFunctionInternal;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+
+/// <summary>
+/// AST node class representing match class filter function declarations
+/// </summary>
+public class MatchClassFilterFunctionDeclNode : DeclNode, MatchClassFilterCharacter
+{
+	static MatchClassFilterFunctionDeclNode()
+	{
+		SetClassName(typeof(MatchClassFilterFunctionDeclNode), "match class filter function declaration");
 	}
 
-	protected CollectNode<BaseNode> paramsUnresolved;
-	protected CollectNode<DeclNode> params;
+	protected internal CollectNode<BaseNode> paramsUnresolved;
+	protected internal CollectNode<DeclNode> @params;
 
 	public CollectNode<EvalStatementNode> evalStatements;
-	static final FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode();
+	internal static readonly FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode();
 
-	protected IdentNode matchTypeUnresolved;
+	protected internal IdentNode matchTypeUnresolved;
 	public DefinedMatchTypeNode matchType;
 
 	public MatchClassFilterFunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals,
-			CollectNode<BaseNode> params, IdentNode matchType)
+			CollectNode<BaseNode> @params, IdentNode matchType)
+		: base(id, filterFunctionType)
 	{
-		super(id, filterFunctionType);
 		this.evalStatements = evals;
-		becomeParent(this.evalStatements);
-		this.paramsUnresolved = params;
-		becomeParent(this.paramsUnresolved);
+		BecomeParent(this.evalStatements);
+		this.paramsUnresolved = @params;
+		BecomeParent(this.paramsUnresolved);
 		this.matchTypeUnresolved = matchType;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
 		if(evalStatements != null)
-			children.add(evalStatements);
-		children.add(paramsUnresolved);
-		children.add(matchTypeUnresolved);
+			children.Add(evalStatements);
+		children.Add(paramsUnresolved);
+		children.Add(matchTypeUnresolved);
 		return children;
-	}
-
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		if(evalStatements != null)
-			childrenNames.add("evals");
-		childrenNames.add("params");
-		childrenNames.add("matchType");
-		return childrenNames;
-	}
-
-	private static final DeclarationTypeResolver<DefinedMatchTypeNode> matchTypeResolver =
-			new DeclarationTypeResolver<DefinedMatchTypeNode>(DefinedMatchTypeNode.class);
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
-	{
-		if(!(matchTypeUnresolved instanceof PackageIdentNode)) {
-			fixupDefinition(matchTypeUnresolved, matchTypeUnresolved.getScope());
 		}
-		matchType = matchTypeResolver.resolve(matchTypeUnresolved, this);
+	}
+
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		if(evalStatements != null)
+			childrenNames.Add("evals");
+		childrenNames.Add("params");
+		childrenNames.Add("matchType");
+		return childrenNames;
+		}
+	}
+
+	private static readonly DeclarationTypeResolver<DefinedMatchTypeNode> matchTypeResolver =
+			new DeclarationTypeResolver<DefinedMatchTypeNode>(typeof(DefinedMatchTypeNode));
+
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
+	{
+		if(!(matchTypeUnresolved is PackageIdentNode))
+			FixupDefinition(matchTypeUnresolved, matchTypeUnresolved.Scope);
+		matchType = matchTypeResolver.Resolve(matchTypeUnresolved, this);
 		return matchType != null;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		params = new CollectNode<DeclNode>();
-		for(BaseNode param : paramsUnresolved.getChildrenExact()) {
-			if(param instanceof ConnectionNode) {
+		@params = new CollectNode<DeclNode>();
+		foreach(BaseNode param in paramsUnresolved.ChildrenExact)
+		{
+			if(param is ConnectionNode)
+			{
 				ConnectionNode conn = (ConnectionNode)param;
-				params.addChild(conn.getEdge().getDecl());
-			} else if(param instanceof SingleNodeConnNode) {
-				NodeDeclNode node = ((SingleNodeConnNode)param).getNode();
-				params.addChild(node);
-			} else if(param instanceof VarDeclNode) {
-				params.addChild((VarDeclNode)param);
-			} else
-				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
+				@params.AddChild(conn.Edge.Decl);
+			}
+			else if(param is SingleNodeConnNode)
+			{
+				NodeDeclNode node = ((SingleNodeConnNode)param).Node;
+				@params.AddChild(node);
+			}
+			else if(param is VarDeclNode)
+				@params.AddChild((VarDeclNode)param);
+			else
+				throw new System.NotSupportedException("Unsupported parameter (" + param + ")");
 		}
 
 		return true;
 	}
 
-	@Override
-	public String getFilterName()
+	public virtual string FilterName
 	{
-		return getIdent().toString();
+		get
+		{
+		return Ident.ToString();
+		}
 	}
 
-	@Override
-	public DefinedMatchTypeNode getMatchType()
+	public virtual DefinedMatchTypeNode MatchType
 	{
+		get
+		{
 		return matchType;
+		}
 	}
 
-	/** Returns the IR object for this match class function filter node. */
-	public MatchClassFilterFunction getIRMatchClassFilterFunction()
+	/// <summary>
+	/// Returns the IR object for this match class function filter node. </summary>
+	public virtual MatchClassFilterFunction IRMatchClassFilterFunction
 	{
-		return checkIR(MatchClassFilterFunction.class);
+		get
+		{
+		return CheckIR(typeof(MatchClassFilterFunction));
+		}
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return filterFunctionType;
+		}
 	}
 
-	public List<TypeNode> getParameterTypes()
+	public virtual IList<TypeNode> ParameterTypes
 	{
-		assert isChecked();
+		get
+		{
+		Debug.Assert(IsChecked());
 
-		List<TypeNode> types = new ArrayList<TypeNode>();
-		for(DeclNode decl : params.getChildrenExact()) {
-			types.add(decl.getDeclType());
-		}
+		IList<TypeNode> types = new List<TypeNode>();
+		foreach(DeclNode decl in @params.ChildrenExact)
+			types.Add(decl.DeclType);
 
 		return types;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
-		if(isIRAlreadySet()) {
-			return getIR();
-		}
+		if(IsIRAlreadySet())
+			return IR;
 
 		MatchClassFilterFunction filterFunction;
 		if(evalStatements != null)
-			filterFunction = new MatchClassFilterFunctionInternal(getIdent().toString(), getIdent().getIRIdent());
+			filterFunction = new MatchClassFilterFunctionInternal(Ident.ToString(), Ident.IRIdent);
 		else
-			filterFunction = new MatchClassFilterFunctionExternal(getIdent().toString(), getIdent().getIRIdent());
+			filterFunction = new MatchClassFilterFunctionExternal(Ident.ToString(), Ident.IRIdent);
 
 		// mark this node as already visited
-		setIR(filterFunction);
+		IR = filterFunction;
 
-		DefinedMatchType definedMatchType = matchType.checkIR(DefinedMatchType.class);
-		filterFunction.setMatchClass(definedMatchType);
-		definedMatchType.addMatchClassFilter(filterFunction);
+		DefinedMatchType definedMatchType = matchType.CheckIR(typeof(DefinedMatchType));
+		filterFunction.MatchClass = definedMatchType;
+		definedMatchType.AddMatchClassFilter(filterFunction);
 
 		// add Params to the IR
-		for(DeclNode decl : params.getChildrenExact()) {
-			filterFunction.addParameter(decl.checkIR(Entity.class));
-		}
+		foreach(DeclNode decl in @params.ChildrenExact)
+			filterFunction.AddParameter(decl.CheckIR(typeof(Entity)));
 
-		if(evalStatements != null) {
+		if(evalStatements != null)
+		{
 			// add Computation Statements to the IR
-			for(EvalStatementNode eval : evalStatements.getChildrenExact()) {
-				((MatchClassFilterFunctionInternal)filterFunction).addStatement(eval.checkIR(EvalStatement.class));
-			}
+			foreach(EvalStatementNode eval in evalStatements.ChildrenExact)
+				((MatchClassFilterFunctionInternal)filterFunction).AddStatement(eval.CheckIR(typeof(EvalStatement)));
 		}
 
 		return filterFunction;
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "match class filter function";
+		}
 	}
+}
+
 }

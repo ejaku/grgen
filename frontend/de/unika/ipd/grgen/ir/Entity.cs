@@ -1,146 +1,162 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
-
-import java.util.Collections;
-import java.util.Map;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * An instantiation of a type.
- */
-public class Entity extends Identifiable
+namespace de.unika.ipd.grgen.ir
 {
-	protected static final String[] childrenNames = { "type" };
 
-	/** Type of the entity. */
-	protected final Type type;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-	/** The entity's owner. */
-	protected Type owner = null;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-	/** Is the entity constant - (only) relevant in backend for node/edge attributes. */
-	protected boolean isConst = false;
+/// <summary>
+/// An instantiation of a type.
+/// </summary>
+public class Entity : Identifiable
+{
+	protected internal static readonly string[] childrenNames = new string[] { "type" };
 
-	/** Is the entity a defined entity only, to be filled with yields from nested patterns? */
-	protected boolean isDefToBeYieldedTo = false;
+	/// <summary>
+	/// Type of the entity. </summary>
+	protected internal readonly Type type;
 
-	/** Only in case of isDefToBeYieldedTo: gives the pattern graph in which the entity is to be deleted (can't use LHS\RHS for deciding this)*/
-	protected PatternGraphBase patternGraphDefYieldedIsToBeDeleted = null; // todo: DELETE=LHS\RHS does not work any more due to nesting and def entities, switch to delete annotations in AST, IR
+	/// <summary>
+	/// The entity's owner. </summary>
+	protected internal Type owner = null;
 
-	/** Context of the declaration */
+	/// <summary>
+	/// Is the entity constant - (only) relevant in backend for node/edge attributes. </summary>
+	protected internal bool isConst = false;
+
+	/// <summary>
+	/// Is the entity a defined entity only, to be filled with yields from nested patterns? </summary>
+	protected internal bool isDefToBeYieldedTo = false;
+
+	/// <summary>
+	/// Only in case of isDefToBeYieldedTo: gives the pattern graph in which the entity is to be deleted (can't use LHS\RHS for deciding this) </summary>
+	protected internal PatternGraphBase patternGraphDefYieldedIsToBeDeleted = null; // todo: DELETE=LHS\RHS does not work any more due to nesting and def entities, switch to delete annotations in AST, IR
+
+	/// <summary>
+	/// Context of the declaration </summary>
 	public int context;
 
-	/**
-	 * Make a new entity of a given type
-	 * @param name The name of the entity.
-	 * @param ident The declaring identifier.
-	 * @param type The type used in the declaration.
-	 * @param isConst Is the entity constant.
-	 * @param isDefToBeYieldedTo Is the entity a defined entity only, to be filled with yields from nested patterns.
-	 * @param context The context of the declaration
-	 */
-	public Entity(String name, Ident ident, Type type, boolean isConst, boolean isDefToBeYieldedTo, int context)
+	/// <summary>
+	/// Make a new entity of a given type </summary>
+	/// <param name="name"> The name of the entity. </param>
+	/// <param name="ident"> The declaring identifier. </param>
+	/// <param name="type"> The type used in the declaration. </param>
+	/// <param name="isConst"> Is the entity constant. </param>
+	/// <param name="isDefToBeYieldedTo"> Is the entity a defined entity only, to be filled with yields from nested patterns. </param>
+	/// <param name="context"> The context of the declaration </param>
+	public Entity(string name, Ident ident, Type type, bool isConst, bool isDefToBeYieldedTo, int context)
+		: base(name, ident)
 	{
-		super(name, ident);
-		setChildrenNames(childrenNames);
+		ChildrenNames = childrenNames;
 		this.type = type;
 		this.isConst = isConst;
 		this.isDefToBeYieldedTo = isDefToBeYieldedTo;
 		this.context = context;
 	}
 
-	/** @return The entity's type. */
-	public Type getType()
+	/// <returns> The entity's type. </returns>
+	public virtual Type Type
 	{
+		get
+		{
 		return type;
+		}
 	}
 
-	/** @return The entity's owner. */
-	public Type getOwner()
+	/// <returns> The entity's owner. </returns>
+	public virtual Type Owner
 	{
+		get
+		{
 		return owner;
+		}
+		set // Set the owner of the entity.  This function is just called from other IR classes.
+		{
+		owner = value;
+		}
 	}
 
-	/**
-	 * Set the owner of the entity.
-	 * This function is just called from other IR classes.
-	 * @param type The owner of the entity.
-	 */
-	public void setOwner(Type type)
-	{
-		owner = type;
-	}
 
-	/** @return true, if the entity has an owner, else false */
-	public boolean hasOwner()
+	/// <returns> true, if the entity has an owner, else false </returns>
+	public virtual bool HasOwner()
 	{
 		return owner != null;
 	}
 
-	@Override
-	public void addFields(Map<String, Object> fields)
+	public override void AddFields(IDictionary<string, object> fields)
 	{
-		super.addFields(fields);
-		fields.put("type", Collections.singleton(type));
-		fields.put("owner", Collections.singleton(owner));
+		base.AddFields(fields);
+		fields["type"] = Collections.Singleton(type);
+		fields["owner"] = Collections.Singleton(owner);
 	}
 
-	/** @return true, if this is a retyped entity, i.e. the result of a retype, else false */
-	public boolean isRetyped()
+	/// <returns> true, if this is a retyped entity, i.e. the result of a retype, else false </returns>
+	public virtual bool IsRetyped()
 	{
 		return false;
 	}
 
-	/** @return true, if this is a constant entity, else false */
-	public boolean isConst()
+	/// <returns> true, if this is a constant entity, else false </returns>
+	public virtual bool IsConst()
 	{
 		return isConst;
 	}
 
-	/** @return true, if this is an entity declared in the right pattern, else false */
-	public boolean isRHSEntity()
+	/// <returns> true, if this is an entity declared in the right pattern, else false </returns>
+	public virtual bool IsRHSEntity()
 	{
 		return (context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS;
 	}
 
-	/** @return true, if this is a defined only entity to be filled from nested patterns, else false */
-	public boolean isDefToBeYieldedTo()
+	/// <returns> true, if this is a defined only entity to be filled from nested patterns, else false </returns>
+	public virtual bool IsDefToBeYieldedTo()
 	{
 		return isDefToBeYieldedTo;
 	}
 
-	public int getContext()
+	public virtual int Context
 	{
+		get
+		{
 		return context;
+		}
 	}
 
-	public void setPatternGraphDefYieldedIsToBeDeleted(PatternGraphBase graph)
+	public virtual PatternGraphBase PatternGraphDefYieldedIsToBeDeleted
 	{
-		assert isDefToBeYieldedTo;
-		patternGraphDefYieldedIsToBeDeleted = graph;
-	}
-
-	/** @return the pattern graph this defined entity to be yielded to is to be deleted, else null; null if not isDefToBeYieldedTo*/
-	public PatternGraphBase getPatternGraphDefYieldedIsToBeDeleted()
-	{
+		set
+		{
+		Debug.Assert(isDefToBeYieldedTo);
+		patternGraphDefYieldedIsToBeDeleted = value;
+		}
+		get
+		{
 		return patternGraphDefYieldedIsToBeDeleted;
+		}
 	}
-	
-	public String getKind()
+
+
+	public virtual string Kind
 	{
+		get
+		{
 		return "entity";
+		}
 	}
+}
+
 }

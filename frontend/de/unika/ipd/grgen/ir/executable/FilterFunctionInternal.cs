@@ -1,49 +1,54 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.executable;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.NestingStatement;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-
-/**
- * An internal filter function
- * (is a top-level object that contains nested statements).
- */
-public class FilterFunctionInternal extends FilterFunction implements NestingStatement
+namespace de.unika.ipd.grgen.ir.executable
 {
-	/** The computation statements */
-	private ArrayList<EvalStatement> computationStatements = new ArrayList<EvalStatement>();
 
-	public FilterFunctionInternal(String name, Ident ident)
+using System.Collections.Generic;
+
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using NestingStatement = de.unika.ipd.grgen.ir.NestingStatement;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+
+/// <summary>
+/// An internal filter function
+/// (is a top-level object that contains nested statements).
+/// </summary>
+public class FilterFunctionInternal : FilterFunction, NestingStatement
+{
+	/// <summary>
+	/// The computation statements </summary>
+	private List<EvalStatement> computationStatements = new List<EvalStatement>();
+
+	public FilterFunctionInternal(string name, Ident ident)
+		: base(name, ident)
 	{
-		super(name, ident);
 	}
 
-	/** Add a computation statement to the filter function. */
-	@Override
-	public void addStatement(EvalStatement eval)
+	/// <summary>
+	/// Add a computation statement to the filter function. </summary>
+	public virtual void AddStatement(EvalStatement eval)
 	{
-		computationStatements.add(eval);
+		computationStatements.Add(eval);
 	}
 
-	/** Get all computation statements of this filter function. */
-	@Override
-	public Collection<EvalStatement> getStatements()
+	/// <summary>
+	/// Get all computation statements of this filter function. </summary>
+	public virtual ICollection<EvalStatement> Statements
 	{
-		return Collections.unmodifiableList(computationStatements);
+		get
+		{
+		return computationStatements.AsReadOnly();
+		}
 	}
+}
+
 }

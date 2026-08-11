@@ -1,102 +1,104 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * A GrGen backend which generates C# code for a searchplan-based implementation
- * @author Rubino Geiss
- */
+/// <summary>
+/// A GrGen backend which generates C# code for a searchplan-based implementation
+/// @author Rubino Geiss
+/// </summary>
 
-package de.unika.ipd.grgen.be.Csharp;
-
-import java.io.File;
-import java.util.HashSet;
-
-import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.BackendFactory;
-import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.ir.model.Index;
-import de.unika.ipd.grgen.ir.model.Model;
-import de.unika.ipd.grgen.ir.model.type.InheritanceType;
-import de.unika.ipd.grgen.ir.type.Type;
-
-public class SearchPlanBackend2 implements Backend, BackendFactory
+namespace de.unika.ipd.grgen.be.Csharp
 {
-	/** The unit to generate code for. */
-	protected Unit unit;
 
-	protected Sys sys;
+using System;
+using System.Collections.Generic;
 
-	/** The output path as handed over by the frontend. */
+using Sys = de.unika.ipd.grgen.Sys;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using Backend = de.unika.ipd.grgen.be.Backend;
+using BackendFactory = de.unika.ipd.grgen.be.BackendFactory;
+using Unit = de.unika.ipd.grgen.ir.Unit;
+using Index = de.unika.ipd.grgen.ir.model.Index;
+using Model = de.unika.ipd.grgen.ir.model.Model;
+using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+public class SearchPlanBackend2 : Backend, BackendFactory
+{
+	/// <summary>
+	/// The unit to generate code for. </summary>
+	protected internal Unit unit;
+
+	protected internal Sys sys;
+
+	/// <summary>
+	/// The output path as handed over by the frontend. </summary>
 	public File path;
 
-	private HashSet<String> reservedWords;
+	private HashSet<string> reservedWords;
 
-	/**
-	 * Returns this backend.
-	 * @return This backend.
-	 */
-	@Override
-	public Backend getBackend()
+	/// <summary>
+	/// Returns this backend. </summary>
+	/// <returns> This backend. </returns>
+	public virtual Backend Backend
 	{
+		get
+		{
 		return this;
+		}
 	}
 
-	/**
-	 * Initializes this backend.
-	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)
-	 */
-	@Override
-	public void init(Unit unit, Sys sys, File outputPath)
+	/// <summary>
+	/// Initializes this backend. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.be.Backend.init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)"/>
+	public virtual void Init(Unit unit, Sys sys, File outputPath)
 	{
 		this.unit = unit;
 		this.sys = sys;
 		this.path = outputPath;
-		path.mkdirs();
+		path.Mkdirs();
 
 		// These names are declared as "reserved" as most of them
 		// are needed in their original meaning in the generated code.
-		reservedWords = new HashSet<String>();
-		reservedWords.add("bool");
-		reservedWords.add("char");
-		reservedWords.add("decimal");
-		reservedWords.add("double");
-		reservedWords.add("float");
-		reservedWords.add("int");
-		reservedWords.add("object");
-		reservedWords.add("string");
-		reservedWords.add("void");
+		reservedWords = new HashSet<string>();
+		reservedWords.Add("bool");
+		reservedWords.Add("char");
+		reservedWords.Add("decimal");
+		reservedWords.Add("double");
+		reservedWords.Add("float");
+		reservedWords.Add("int");
+		reservedWords.Add("object");
+		reservedWords.Add("string");
+		reservedWords.Add("void");
 	}
 
-	/**
-	 * Starts the C#-code Generation of the SearchPlanBackend2
-	 * @see de.unika.ipd.grgen.be.Backend#generate()
-	 */
-	@Override
-	public void generate()
+	/// <summary>
+	/// Starts the C#-code Generation of the SearchPlanBackend2 </summary>
+	/// <seealso cref="de.unika.ipd.grgen.be.Backend.generate()"/>
+	public virtual void Generate()
 	{
-		System.out.println("The " + this.getClass() + " GrGen backend...");
+		Console.WriteLine("The " + this.GetType() + " GrGen backend...");
 
 		// Check whether type prefixes are needed because type names
 		// use one of the names from reservedWords (results in a warning)
-		String nodeTypePrefix = "";
-		String edgeTypePrefix = "";
-		String objectTypePrefix = "";
-		String transientObjectTypePrefix = "";
-modloop:
-		for(Model model : unit.getModels()) {
-			for(Type type : model.getTypes()) {
-				if(!(type instanceof InheritanceType))
+		string nodeTypePrefix = "";
+		string edgeTypePrefix = "";
+		string objectTypePrefix = "";
+		string transientObjectTypePrefix = "";
+		foreach(Model model in unit.Models)
+		{
+			foreach(Type type in model.Types)
+			{
+				if(!(type is InheritanceType))
 					continue;
 
-				String typeName = type.getIdent().toString();
-				if(reservedWords.contains(typeName)) {
-					BaseNode.error.warning(type.getIdent().getCoords(),
+				string typeName = type.Ident.ToString();
+				if(reservedWords.Contains(typeName))
+				{
+					BaseNode.error.Warning(type.Ident.GetCoords(),
 							"The reserved name \"" + typeName
 									+ "\" has been used for a type. \"Node_\" and \"Edge_\" and \"Object_\" and \"TransientObject_\""
 									+ " prefixes are applied to the C# element class names to avoid errors.");
@@ -104,42 +106,47 @@ modloop:
 					edgeTypePrefix = "Edge_";
 					objectTypePrefix = "Object_";
 					transientObjectTypePrefix = "TransientObject_";
-					break modloop;
+					goto modloopBreak;
 				}
 			}
+	modloopContinue:;
 		}
+modloopBreak:
 
-		boolean forceUniqueDefined = false;
-		for(Model model : unit.getModels()) {
-			if(model.isUniqueIndexDefined())
+		bool forceUniqueDefined = false;
+		foreach(Model model in unit.Models)
+		{
+			if(model.IsUniqueIndexDefined())
 				forceUniqueDefined = true;
 		}
 
-		boolean forceUniqueResulting = forceUniqueDefined;
-		for(Model model : unit.getModels()) {
-			if(model.areFunctionsParallel())
+		bool forceUniqueResulting = forceUniqueDefined;
+		foreach(Model model in unit.Models)
+		{
+			if(model.AreFunctionsParallel())
 				forceUniqueResulting = true;
-			if(model.getIsoParallel() > 0)
+			if(model.IsoParallel > 0)
 				forceUniqueResulting = true;
-			for(@SuppressWarnings("unused") Index index : model.getIndices()) {
+// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
+// ORIGINAL LINE: for(@SuppressWarnings("unused") de.unika.ipd.grgen.ir.model.Index index : model.getIndices())
+			foreach(Index index in model.Indices)
 				forceUniqueResulting = true;
-			}
 		}
 
 		// Generate graph models for all top level models
 		ModelGen modelGen = new ModelGen(this, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
-		boolean modelGenerated = false;
-		for(Model model : unit.getModels()) {
+		bool modelGenerated = false;
+		foreach(Model model in unit.Models)
+		{
 			if(forceUniqueDefined)
-				model.forceUniqueDefined();
+				model.ForceUniqueDefined();
 			if(forceUniqueResulting)
-				model.forceUniqueResulting();
+				model.ForceUniqueResulting();
 
-			modelGen.genModel(model);
+			modelGen.GenModel(model);
 
 			if(modelGenerated)
-				throw new UnsupportedOperationException(
-						"Internal error: Only one model supported, and that was already generated");
+				throw new System.NotSupportedException("Internal error: Only one model supported, and that was already generated");
 			else
 				modelGenerated = true;
 		}
@@ -147,14 +154,15 @@ modloop:
 		modelGen = null; // throw away model generator (including filled output buffer) not needed any more -> reduce memory requirements
 
 		//if(unit.getActionRules().size() != 0 || unit.getSubpatternRules().size() != 0)
-		new ActionsGen(this, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix).genActionlike();
+		(new ActionsGen(this, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix)).GenActionlike();
 
-		System.out.println("done!");
+		Console.WriteLine("done!");
 	}
 
-	@Override
-	public void done()
+	public virtual void Done()
 	{
 		// nothing to do
 	}
+}
+
 }

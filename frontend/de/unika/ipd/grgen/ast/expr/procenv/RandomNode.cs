@@ -1,85 +1,92 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr.procenv;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.procenv.RandomExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class RandomNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.procenv
 {
-	static {
-		setClassName(RandomNode.class, "random");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using RandomExpr = de.unika.ipd.grgen.ir.expr.procenv.RandomExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class RandomNode : BuiltinFunctionInvocationBaseNode
+{
+	static RandomNode()
+	{
+		SetClassName(typeof(RandomNode), "random");
 	}
 
 	private ExprNode numExpr;
 
 	public RandomNode(Coords coords, ExprNode numExpr)
+		: base(coords)
 	{
-		super(coords);
 
 		this.numExpr = numExpr;
-		becomeParent(numExpr);
+		BecomeParent(numExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		if(numExpr != null)
-			children.add(numExpr);
+			children.Add(numExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		if(numExpr != null)
-			childrenNames.add("maximum random number");
+			childrenNames.Add("maximum random number");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		if(numExpr != null
-				&& !numExpr.getType().isEqual(BasicTypeNode.intType)) {
-			reportError("The function random() expects as argument (maximumRandomNumber) a value of type int"
-					+ " (but is given a value of type " + numExpr.getType().getTypeName() + ").");
+				&& !numExpr.Type.IsEqual(BasicTypeNode.intType))
+		{
+			ReportError("The function random() expects as argument (maximumRandomNumber) a value of type int"
+					+ " (but is given a value of type " + numExpr.Type.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		if(numExpr != null)
-			numExpr = numExpr.evaluate();
-		return new RandomExpr(numExpr != null ? numExpr.checkIR(Expression.class) : null);
+			numExpr = numExpr.Evaluate();
+		return new RandomExpr(numExpr != null ? numExpr.CheckIR(typeof(Expression)) : null);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		// if a parameter was given random returns an random integer number from 0 up to excluding numExpr,
 		// otherwise a random double in the range [0,1] is returned
 		return numExpr != null ? BasicTypeNode.intType : BasicTypeNode.doubleType;
+		}
 	}
+}
+
 }

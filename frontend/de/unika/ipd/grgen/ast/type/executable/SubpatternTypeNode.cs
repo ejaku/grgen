@@ -1,43 +1,51 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.type.executable;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-
-/**
- * Type of pattern decl node declaration.
- */
-public class SubpatternTypeNode extends TypeNode
+namespace de.unika.ipd.grgen.ast.type.executable
 {
-	static {
-		setClassName(SubpatternTypeNode.class, "subpattern type");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+
+/// <summary>
+/// Type of pattern decl node declaration.
+/// </summary>
+public class SubpatternTypeNode : TypeNode
+{
+	static SubpatternTypeNode()
+	{
+		SetClassName(typeof(SubpatternTypeNode), "subpattern type");
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		// no children
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// no children
 		return childrenNames;
+		}
 	}
+}
+
 }

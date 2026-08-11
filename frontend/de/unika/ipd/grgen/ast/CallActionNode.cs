@@ -1,54 +1,54 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Rubino Geiss
- */
+/// <summary>
+/// @author Rubino Geiss
+/// </summary>
 
-package de.unika.ipd.grgen.ast;
+namespace de.unika.ipd.grgen.ast
+{
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FilterFunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.SequenceDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeInterfaceTypeChangeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeInterfaceTypeChangeDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.TypeTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.UntypedExecVarTypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
-import de.unika.ipd.grgen.ast.util.Triple;
-import de.unika.ipd.grgen.ir.Bad;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.parser.Symbol;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExecVarDeclNode = de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
+using ActionDeclNode = de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
+using FilterFunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FilterFunctionDeclNode;
+using SequenceDeclNode = de.unika.ipd.grgen.ast.decl.executable.SequenceDeclNode;
+using EdgeInterfaceTypeChangeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeInterfaceTypeChangeDeclNode;
+using NodeInterfaceTypeChangeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeInterfaceTypeChangeDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using TypeTypeNode = de.unika.ipd.grgen.ast.type.basic.TypeTypeNode;
+using UntypedExecVarTypeNode = de.unika.ipd.grgen.ast.type.basic.UntypedExecVarTypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using Bad = de.unika.ipd.grgen.ir.Bad;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+using Symbol = de.unika.ipd.grgen.parser.Symbol;
 
 // todo: the entire exec handling in the frontend is nothing but a dirty hack, clean this
 
-/**
- * Call of an action with parameters and returns.
- */
-public class CallActionNode extends BaseNode
+/// <summary>
+/// Call of an action with parameters and returns.
+/// </summary>
+public class CallActionNode : BaseNode
 {
-	static {
-		setClassName(CallActionNode.class, "call action");
+	static CallActionNode()
+	{
+		SetClassName(typeof(CallActionNode), "call action");
 	}
 
 	private IdentNode actionUnresolved;
@@ -57,26 +57,24 @@ public class CallActionNode extends BaseNode
 	private CollectNode<BaseNode> returnsUnresolved;
 	private CollectNode<BaseNode> filterFunctionsUnresolved; // only IdentNode in CallActionNode
 
-	private boolean isAllBracketed;
+	private bool isAllBracketed;
 
 	private ActionDeclNode action;
 	private SequenceDeclNode sequence;
 	private ExecVarDeclNode boolVar;
 
-	public CollectNode<ExprNode> params;
-	protected CollectNode<ExecVarDeclNode> returns;
-	protected CollectNode<FilterFunctionDeclNode> filterFunctions;
+	public CollectNode<ExprNode> @params;
+	protected internal CollectNode<ExecVarDeclNode> returns;
+	protected internal CollectNode<FilterFunctionDeclNode> filterFunctions;
 
-	/**
-	 * @param    ruleUnresolved      an IdentNode: thr rule/test name
-	 * @param    paramsUnresolved    a  CollectNode<BaseNode>
-	 * @param    returnsUnresolved   a  CollectNode<BaseNode>
-	 */
+	/// <param name="ruleUnresolved">      an IdentNode: thr rule/test name </param>
+	/// <param name="paramsUnresolved">    a  CollectNode<BaseNode> </param>
+	/// <param name="returnsUnresolved">   a  CollectNode<BaseNode> </param>
 	public CallActionNode(Coords coords, IdentNode ruleUnresolved, CollectNode<BaseNode> paramsUnresolved,
 			CollectNode<BaseNode> returnsUnresolved, CollectNode<BaseNode> filterFunctionsUnresolved,
-			boolean isAllBracketed)
+			bool isAllBracketed)
+		: base(coords)
 	{
-		super(coords);
 		this.actionUnresolved = ruleUnresolved;
 		this.paramsUnresolved = paramsUnresolved;
 		this.returnsUnresolved = returnsUnresolved;
@@ -84,44 +82,55 @@ public class CallActionNode extends BaseNode
 		this.isAllBracketed = isAllBracketed;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(actionUnresolved, action, sequence, boolVar));
-		children.add(getValidVersionCollectNode(paramsUnresolved, params));
-		children.add(getValidVersionCollectNode(returnsUnresolved, returns));
-		children.add(getValidVersionCollectNode(filterFunctionsUnresolved, filterFunctions));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(actionUnresolved, action, sequence, boolVar));
+		children.Add(GetValidVersionCollectNode(paramsUnresolved, @params));
+		children.Add(GetValidVersionCollectNode(returnsUnresolved, returns));
+		children.Add(GetValidVersionCollectNode(filterFunctionsUnresolved, filterFunctions));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("action");
-		childrenNames.add("params");
-		childrenNames.add("returns");
-		childrenNames.add("filter");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("action");
+		childrenNames.Add("params");
+		childrenNames.Add("returns");
+		childrenNames.Add("filter");
 		return childrenNames;
+		}
 	}
 
-	/**
-	 * Returns Params
-	 *
-	 * @return    a  CollectNode<IdentNode>
-	 */
-	protected CollectNode<ExprNode> getParams()
+	/// <summary>
+	/// Returns Params
+	/// </summary>
+	/// <returns>    a  CollectNode<IdentNode> </returns>
+	protected internal virtual CollectNode<ExprNode> Params
 	{
-		assert isResolved();
-		return params;
+		get
+		{
+		Debug.Assert(IsResolved());
+		return @params;
+		}
 	}
 
-	public ActionDeclNode getAction()
+	public virtual ActionDeclNode Action
 	{
+		get
+		{
 		return action;
+		}
 	}
 
 	/*
@@ -132,63 +141,62 @@ public class CallActionNode extends BaseNode
 	 * (which makes sense for every other construct of the grgen language);
 	 * this error will be caught later on when the xgrs is processed by the libgr sequence parser and symbol table.
 	 */
-	public void addImplicitDefinitions()
+	public virtual void AddImplicitDefinitions()
 	{
-		for(int i = 0; i < returnsUnresolved.size(); ++i) {
-			if(!(returnsUnresolved.get(i) instanceof IdentNode)) {
+		for(int i = 0; i < returnsUnresolved.Size(); ++i)
+		{
+			if(!(returnsUnresolved.Get(i) is IdentNode))
 				continue;
-			}
-			IdentNode id = (IdentNode)returnsUnresolved.get(i);
+			IdentNode id = (IdentNode)returnsUnresolved.Get(i);
 
-			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
+			debug.Report(NOTE, "Implicit definition for " + id + " in scope " + Scope);
 
 			// Get the definition of the ident's symbol local to the owned scope.
-			Symbol.Definition def = getScope().getCurrDef(id.getSymbol());
-			debug.report(NOTE, "definition is: " + def);
+			Symbol.Definition def = Scope.GetCurrDef(id.Symbol);
+			debug.Report(NOTE, "definition is: " + def);
 
 			// If this definition is valid, i.e. it exists, it will be used
 			// else, an ExecVarDeclNode of this name is added to the scope
-			if(def.isValid()) {
-				id.setSymDef(def);
-			} else {
-				Symbol.Definition vdef = getScope().define(id.getSymbol(), id.getCoords());
-				id.setSymDef(vdef);
-				vdef.setNode(id);
-				getScope().leaveScope();
+			if(def.IsValid())
+				id.SymDef = def;
+			else
+			{
+				Symbol.Definition vdef = Scope.Define(id.Symbol, id.Coords);
+				id.SymDef = vdef;
+				vdef.Node = id;
+				Scope.LeaveScope();
 				ExecVarDeclNode evd = new ExecVarDeclNode(id, BasicTypeNode.untypedType);
-				id.setDecl(evd);
-				returnsUnresolved.set(i, evd);
+				id.Decl = evd;
+				returnsUnresolved.Set(i, evd);
 			}
 		}
 	}
 
-	private static final DeclarationTripleResolver<ActionDeclNode, SequenceDeclNode, ExecVarDeclNode> actionResolver =
+	private static readonly DeclarationTripleResolver<ActionDeclNode, SequenceDeclNode, ExecVarDeclNode> actionResolver =
 		new DeclarationTripleResolver<ActionDeclNode, SequenceDeclNode, ExecVarDeclNode>(
-				ActionDeclNode.class, SequenceDeclNode.class, ExecVarDeclNode.class);
+				typeof(ActionDeclNode), typeof(SequenceDeclNode), typeof(ExecVarDeclNode));
 
-	private static final CollectResolver<ExprNode> paramNodeResolver =
-		new CollectResolver<ExprNode>(new DeclarationResolver<ExprNode>(ExprNode.class));
+	private static readonly CollectResolver<ExprNode> paramNodeResolver =
+		new CollectResolver<ExprNode>(new DeclarationResolver<ExprNode>(typeof(ExprNode)));
 
-	private static final CollectResolver<ExecVarDeclNode> varDeclNodeResolver =
-		new CollectResolver<ExecVarDeclNode>(new DeclarationResolver<ExecVarDeclNode>(ExecVarDeclNode.class));
+	private static readonly CollectResolver<ExecVarDeclNode> varDeclNodeResolver =
+		new CollectResolver<ExecVarDeclNode>(new DeclarationResolver<ExecVarDeclNode>(typeof(ExecVarDeclNode)));
 
-	private static final CollectResolver<FilterFunctionDeclNode> filterResolver =
+	private static readonly CollectResolver<FilterFunctionDeclNode> filterResolver =
 		new CollectResolver<FilterFunctionDeclNode>(new DeclarationResolver<FilterFunctionDeclNode>(
-				FilterFunctionDeclNode.class));
+				typeof(FilterFunctionDeclNode)));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = true;
-		addImplicitDefinitions();
-		if(!(actionUnresolved instanceof PackageIdentNode)) {
-			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
-		}
+		bool successfullyResolved = true;
+		AddImplicitDefinitions();
+		if(!(actionUnresolved is PackageIdentNode))
+			FixupDefinition(actionUnresolved, actionUnresolved.Scope);
 
-		Triple<ActionDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved =
-				actionResolver.resolve(actionUnresolved, this);
-		if(resolved != null) {
+		Triple<ActionDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved = actionResolver.Resolve(actionUnresolved, this);
+		if(resolved != null)
+		{
 			if(resolved.first != null)
 				action = resolved.first;
 			else if(resolved.second != null)
@@ -199,33 +207,34 @@ public class CallActionNode extends BaseNode
 
 		successfullyResolved &= resolved != null && (action != null || sequence != null || boolVar != null);
 
-		if(action != null) {
-			for(BaseNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildrenExact()) {
-				if(!(filterFunctionUnresolved instanceof PackageIdentNode)) {
-					if(!tryFixupDefinition(filterFunctionUnresolved, action.getScope().getParent())) {
-						fixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.getScope());
-					}
+		if(action != null)
+		{
+			foreach(BaseNode filterFunctionUnresolved in filterFunctionsUnresolved.ChildrenExact)
+			{
+				if(!(filterFunctionUnresolved is PackageIdentNode))
+				{
+					if(!TryFixupDefinition(filterFunctionUnresolved, action.Scope.Parent))
+						FixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.Scope);
 				}
 			}
 		}
 
-		params = paramNodeResolver.resolve(paramsUnresolved, this);
-		successfullyResolved &= params != null;
+		@params = paramNodeResolver.Resolve(paramsUnresolved, this);
+		successfullyResolved &= @params != null;
 
-		returns = varDeclNodeResolver.resolve(returnsUnresolved, this);
+		returns = varDeclNodeResolver.Resolve(returnsUnresolved, this);
 		successfullyResolved &= returns != null;
 
-		filterFunctions = filterResolver.resolve(filterFunctionsUnresolved, this);
+		filterFunctions = filterResolver.Resolve(filterFunctionsUnresolved, this);
 		successfullyResolved &= filterFunctions != null;
 
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		boolean res = true;
+		bool res = true;
 
 		/* cannot be checked here, because type info is not yet computed
 		 res &= checkParams(action.getParamDecls(), params.getChildrenExact());
@@ -235,174 +244,196 @@ public class CallActionNode extends BaseNode
 		return res;
 	}
 
-	/** check after the IR is built */
-	protected boolean checkPost()
+	/// <summary>
+	/// check after the IR is built </summary>
+	protected internal virtual bool CheckPost()
 	{
-		boolean res = true;
+		bool res = true;
 
-		if(action != null) {
-			res &= checkParams(action.pattern.getParamDecls(), params.getChildrenExact());
-			res &= checkReturns(action.returnFormalParameters.getChildrenExact(), returns);
-		} else if(sequence != null) {
-			List<TypeNode> outTypes = new ArrayList<TypeNode>();
-			for(ExecVarDeclNode varDecl : sequence.outParams.getChildrenExact())
-				outTypes.add(varDecl.getDeclType());
-			res &= checkParams(sequence.getParamDecls(), params.getChildrenExact());
-			res &= checkReturns(outTypes, returns);
+		if(action != null)
+		{
+			res &= CheckParams(action.pattern.ParamDecls, @params.ChildrenExact);
+			res &= CheckReturns(action.returnFormalParameters.ChildrenExact, returns);
+		}
+		else if(sequence != null)
+		{
+			IList<TypeNode> outTypes = new List<TypeNode>();
+			foreach(ExecVarDeclNode varDecl in sequence.outParams.ChildrenExact)
+				outTypes.Add(varDecl.DeclType);
+			res &= CheckParams(sequence.ParamDecls, @params.ChildrenExact);
+			res &= CheckReturns(outTypes, returns);
 		}
 
-		if(action != null) {
-			for(FilterFunctionDeclNode filter : filterFunctions.getChildrenExact()) {
-				if(filter.action != action) {
-					reportError("The filter " + filter.toStringWithDeclarationCoords()
-							+ " is defined for the action " + filter.action.toStringWithDeclarationCoords() + "."
-							+ " It cannot be applied to the action " + action.toStringWithDeclarationCoords() + ".");
+		if(action != null)
+		{
+			foreach(FilterFunctionDeclNode filter in filterFunctions.ChildrenExact)
+			{
+				if(filter.action != action)
+				{
+					ReportError("The filter " + filter.ToStringWithDeclarationCoords()
+							+ " is defined for the action " + filter.action.ToStringWithDeclarationCoords() + "."
+							+ " It cannot be applied to the action " + action.ToStringWithDeclarationCoords() + ".");
 				}
 			}
-		} else {
-			if(filterFunctionsUnresolved.size() > 0)
-				reportError("Match filters can only be applied to tests or rules (but not to " + actionUnresolved + ").");
+		}
+		else
+		{
+			if(filterFunctionsUnresolved.Size() > 0)
+				ReportError("Match filters can only be applied to tests or rules (but not to " + actionUnresolved + ").");
 		}
 
 		return res;
 	}
 
-	/**
-	 * Method checkParams
-	 * @param    formalParams        a  Collection<? extends DeclNode>
-	 * @param    actualParams        a  Collection<? extends DeclNode>
-	 * @return   a  boolean
-	 */
-	private boolean checkParams(Collection<DeclNode> formalParams,
-			Collection<ExprNode> actualParams)
+	/// <summary>
+	/// Method checkParams </summary>
+	/// <param name="formalParams">        a  Collection<? extends DeclNode> </param>
+	/// <param name="actualParams">        a  Collection<? extends DeclNode> </param>
+	/// <returns>   a  boolean </returns>
+	private bool CheckParams(ICollection<DeclNode> formalParams,
+			ICollection<ExprNode> actualParams)
 	{
-		if(formalParams.size() != actualParams.size()) {
-			reportError("The " + (action != null ? action.getKind() + " " + action.toStringWithDeclarationCoords() : sequence.getKind() + " " + sequence.toStringWithDeclarationCoords())
-					+ " expects " + formalParams.size() + " arguments,"
-					+ " but is given " + actualParams.size() + " arguments.");
+		if(formalParams.Count != actualParams.Count)
+		{
+			ReportError("The " + (action != null ? action.Kind + " " + action.ToStringWithDeclarationCoords() : sequence.Kind + " " + sequence.ToStringWithDeclarationCoords())
+					+ " expects " + formalParams.Count + " arguments,"
+					+ " but is given " + actualParams.Count + " arguments.");
 			return false;
 		}
-		
-		boolean res = true;
-		if(actualParams.size() > 0) {
-			Iterator<ExprNode> iterAP = actualParams.iterator();
-			int paramCounter = 1;
-			for(DeclNode formalParam : formalParams) {
-				ExprNode actualParam = iterAP.next();
 
-				res &= checkParam(paramCounter, formalParam, actualParam);
-				
+		bool res = true;
+		if(actualParams.Count > 0)
+		{
+			IEnumerator<ExprNode> iterAP = actualParams.GetEnumerator();
+			int paramCounter = 1;
+			foreach(DeclNode formalParam in formalParams)
+			{
+// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
+				ExprNode actualParam = iterAP.Next();
+
+				res &= CheckParam(paramCounter, formalParam, actualParam);
+
 				++paramCounter;
 			}
 		}
 		return res;
 	}
 
-	private boolean checkParam(int paramPos, DeclNode formalParam, ExprNode actualParam)
+	private bool CheckParam(int paramPos, DeclNode formalParam, ExprNode actualParam)
 	{
 		TypeNode formalParameterType;
-		if(formalParam instanceof EdgeInterfaceTypeChangeDeclNode) {
+		if(formalParam is EdgeInterfaceTypeChangeDeclNode)
+		{
 			EdgeInterfaceTypeChangeDeclNode typeChangeFormalParam = (EdgeInterfaceTypeChangeDeclNode)formalParam;
-			formalParameterType = typeChangeFormalParam.interfaceType.getDeclType();
-		} else if(formalParam instanceof NodeInterfaceTypeChangeDeclNode) {
-			NodeInterfaceTypeChangeDeclNode typeChangeFormalParam = (NodeInterfaceTypeChangeDeclNode)formalParam;
-			formalParameterType = typeChangeFormalParam.interfaceType.getDeclType();
-		} else {
-			formalParameterType = formalParam.getDecl().getDeclType();
+			formalParameterType = typeChangeFormalParam.interfaceType.DeclType;
 		}
+		else if(formalParam is NodeInterfaceTypeChangeDeclNode)
+		{
+			NodeInterfaceTypeChangeDeclNode typeChangeFormalParam = (NodeInterfaceTypeChangeDeclNode)formalParam;
+			formalParameterType = typeChangeFormalParam.interfaceType.DeclType;
+		}
+		else
+			formalParameterType = formalParam.Decl.GetDeclType();
 
-		TypeNode actualParameterType = actualParam.getType();
+		TypeNode actualParameterType = actualParam.Type;
 
-		if(actualParameterType instanceof UntypedExecVarTypeNode)
+		if(actualParameterType is UntypedExecVarTypeNode)
 			return true;
 
-		if(actualParameterType instanceof TypeTypeNode
-				&& (formalParameterType instanceof NodeTypeNode || formalParameterType instanceof EdgeTypeNode))
+		if(actualParameterType is TypeTypeNode
+				&& (formalParameterType is NodeTypeNode || formalParameterType is EdgeTypeNode))
 			return true;
 
-		if(!actualParameterType.isCompatibleTo(formalParameterType)) {
-			String actionOrSequence;
+		if(!actualParameterType.IsCompatibleTo(formalParameterType))
+		{
+			string actionOrSequence;
 			if(action != null)
-				actionOrSequence = action.getKind() + " " + action.toStringWithDeclarationCoords();
+				actionOrSequence = action.Kind + " " + action.ToStringWithDeclarationCoords();
 			else
-				actionOrSequence = sequence.getKind() + " " + sequence.toStringWithDeclarationCoords();
-			reportError("Cannot convert " + paramPos + ". argument"
-					+ " from " + actualParameterType.getTypeName()
-					+ " to the expected " + formalParameterType.getTypeName()
+				actionOrSequence = sequence.Kind + " " + sequence.ToStringWithDeclarationCoords();
+			ReportError("Cannot convert " + paramPos + ". argument"
+					+ " from " + actualParameterType.TypeName
+					+ " to the expected " + formalParameterType.TypeName
 					+ " (when calling " + actionOrSequence + ")"
-					+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
-					+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ actualParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ formalParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
 					+ ".");
 			return false;
 		}
-		
+
 		return true;
 	}
 
-	/**
-	 * Method checkReturns
-	 * @param    formalReturns a  Collection<? extends TypeNode>
-	 * @param    actualReturns a  CollectNode<ExecVarDeclNode>
-	 * @return   a  boolean
-	 */
-	private boolean checkReturns(Collection<? extends TypeNode> formalReturns,
-			CollectNode<ExecVarDeclNode> actualReturns)
+	/// <summary>
+	/// Method checkReturns </summary>
+	/// <param name="formalReturns"> a  Collection<? extends TypeNode> </param>
+	/// <param name="actualReturns"> a  CollectNode<ExecVarDeclNode> </param>
+	/// <returns>   a  boolean </returns>
+	private bool CheckReturns<T1>(ICollection<T1> formalReturns,
+			CollectNode<ExecVarDeclNode> actualReturns) where T1 : de.unika.ipd.grgen.ast.type.TypeNode
 	{
 		// It is ok to have no actual returns, but if there are some, then they have to fit.
-		if(actualReturns.size() > 0 && formalReturns.size() != actualReturns.size()) {
-			reportError("The " + (action != null ? action.getKind() + " " + action.toStringWithDeclarationCoords() : sequence.getKind() + " " + sequence.toStringWithDeclarationCoords())
-					+ " expects " + formalReturns.size() + " return arguments,"
-					+ " but is given " + actualReturns.size() + " return arguments.");
+		if(actualReturns.Size() > 0 && formalReturns.Count != actualReturns.Size())
+		{
+			ReportError("The " + (action != null ? action.Kind + " " + action.ToStringWithDeclarationCoords() : sequence.Kind + " " + sequence.ToStringWithDeclarationCoords())
+					+ " expects " + formalReturns.Count + " return arguments,"
+					+ " but is given " + actualReturns.Size() + " return arguments.");
 			return false;
-		} 
-		
-		boolean res = true;
-		if(actualReturns.size() > 0) {
-			Iterator<ExecVarDeclNode> iterAR = actualReturns.getChildrenExact().iterator();
+		}
+
+		bool res = true;
+		if(actualReturns.Size() > 0)
+		{
+			IEnumerator<ExecVarDeclNode> iterAR = actualReturns.ChildrenExact.GetEnumerator();
 			int returnPos = 0;
-			for(TypeNode formalReturn : formalReturns) {
-				ExecVarDeclNode actualReturn = iterAR.next();
-				res &= checkReturn(formalReturn, actualReturn, returnPos);
+			foreach(TypeNode formalReturn in formalReturns)
+			{
+// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
+				ExecVarDeclNode actualReturn = iterAR.Next();
+				res &= CheckReturn(formalReturn, actualReturn, returnPos);
 				++returnPos;
 			}
 		}
 		return res;
 	}
 
-	private boolean checkReturn(TypeNode formalReturn, ExecVarDeclNode actualReturn, int returnPos)
+	private bool CheckReturn(TypeNode formalReturn, ExecVarDeclNode actualReturn, int returnPos)
 	{
 		TypeNode formalReturnType = formalReturn;
-		TypeNode actualReturnType = actualReturn.getDecl().getDeclType();
+		TypeNode actualReturnType = actualReturn.Decl.GetDeclType();
 
-		if(actualReturnType instanceof UntypedExecVarTypeNode)
+		if(actualReturnType is UntypedExecVarTypeNode)
 			return true;
 
-		boolean incommensurable = false;
+		bool incommensurable = false;
 
-		if(isAllBracketed) {
-			if(!(actualReturnType instanceof ArrayTypeNode))
+		if(isAllBracketed)
+		{
+			if(!(actualReturnType is ArrayTypeNode))
 				incommensurable = true;
-			else {
+			else
+			{
 				ArrayTypeNode arrayType = (ArrayTypeNode)actualReturnType;
-				if(!formalReturnType.isCompatibleTo(arrayType.valueType))
+				if(!formalReturnType.IsCompatibleTo(arrayType.valueType))
 					incommensurable = true;
 			}
 		}
-		else if(!formalReturnType.isCompatibleTo(actualReturnType))
+		else if(!formalReturnType.IsCompatibleTo(actualReturnType))
 			incommensurable = true;
 
-		if(incommensurable) {
-			String actionOrSequence;
+		if(incommensurable)
+		{
+			string actionOrSequence;
 			if(action != null)
-				actionOrSequence = action.getKind() + " " + action.toStringWithDeclarationCoords();
+				actionOrSequence = action.Kind + " " + action.ToStringWithDeclarationCoords();
 			else
-				actionOrSequence = sequence.getKind() + " " + sequence.toStringWithDeclarationCoords();
-			reportError("Cannot assign " + (returnPos + 1) + ". return argument of type " + formalReturnType.getTypeName()
-					+ (isAllBracketed ? " (array<" + formalReturnType.getTypeName() + ">)" : "")
-					+ " to a variable " + actualReturn + " of type " + actualReturnType.getTypeName()
+				actionOrSequence = sequence.Kind + " " + sequence.ToStringWithDeclarationCoords();
+			ReportError("Cannot assign " + (returnPos + 1) + ". return argument of type " + formalReturnType.TypeName
+					+ (isAllBracketed ? " (array<" + formalReturnType.TypeName + ">)" : "")
+					+ " to a variable " + actualReturn + " of type " + actualReturnType.TypeName
 					+ " (when calling " + actionOrSequence + ")"
-					+ formalReturnType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
-					+ actualReturnType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ formalReturnType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ actualReturnType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
 					+ ".");
 			return false;
 		}
@@ -410,11 +441,12 @@ public class CallActionNode extends BaseNode
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
-		assert false;
-		return Bad.getBadObject(); // TODO fix this
+		Debug.Assert(false);
+		return Bad.BadObject; // TODO fix this
 	}
+}
+
 }

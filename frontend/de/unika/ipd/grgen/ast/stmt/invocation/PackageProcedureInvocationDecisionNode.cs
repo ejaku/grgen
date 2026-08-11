@@ -1,220 +1,243 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.invocation;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.CommitTransactionProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DebugAddProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DebugEmitProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DebugHaltProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DebugHighlightProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DebugRemProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.DeleteFileProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.ExportProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.PauseTransactionProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.ResumeTransactionProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.RollbackTransactionProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.StartTransactionProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.SynchronizationEnterProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.SynchronizationExitProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.SynchronizationTryEnterProcNode;
-import de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
-import de.unika.ipd.grgen.parser.ParserEnvironment;
-
-public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationDecisionNode
+namespace de.unika.ipd.grgen.ast.stmt.invocation
 {
-	static {
-		setClassName(PackageProcedureInvocationDecisionNode.class, "package procedure invocation decision");
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using CommitTransactionProcNode = de.unika.ipd.grgen.ast.stmt.procenv.CommitTransactionProcNode;
+using DebugAddProcNode = de.unika.ipd.grgen.ast.stmt.procenv.DebugAddProcNode;
+using DebugEmitProcNode = de.unika.ipd.grgen.ast.stmt.procenv.DebugEmitProcNode;
+using DebugHaltProcNode = de.unika.ipd.grgen.ast.stmt.procenv.DebugHaltProcNode;
+using DebugHighlightProcNode = de.unika.ipd.grgen.ast.stmt.procenv.DebugHighlightProcNode;
+using DebugRemProcNode = de.unika.ipd.grgen.ast.stmt.procenv.DebugRemProcNode;
+using DeleteFileProcNode = de.unika.ipd.grgen.ast.stmt.procenv.DeleteFileProcNode;
+using ExportProcNode = de.unika.ipd.grgen.ast.stmt.procenv.ExportProcNode;
+using PauseTransactionProcNode = de.unika.ipd.grgen.ast.stmt.procenv.PauseTransactionProcNode;
+using ResumeTransactionProcNode = de.unika.ipd.grgen.ast.stmt.procenv.ResumeTransactionProcNode;
+using RollbackTransactionProcNode = de.unika.ipd.grgen.ast.stmt.procenv.RollbackTransactionProcNode;
+using StartTransactionProcNode = de.unika.ipd.grgen.ast.stmt.procenv.StartTransactionProcNode;
+using SynchronizationEnterProcNode = de.unika.ipd.grgen.ast.stmt.procenv.SynchronizationEnterProcNode;
+using SynchronizationExitProcNode = de.unika.ipd.grgen.ast.stmt.procenv.SynchronizationExitProcNode;
+using SynchronizationTryEnterProcNode = de.unika.ipd.grgen.ast.stmt.procenv.SynchronizationTryEnterProcNode;
+using ResolvingEnvironment = de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
+using ParserEnvironment = de.unika.ipd.grgen.parser.ParserEnvironment;
+
+public class PackageProcedureInvocationDecisionNode : ProcedureInvocationDecisionNode
+{
+	static PackageProcedureInvocationDecisionNode()
+	{
+		SetClassName(typeof(PackageProcedureInvocationDecisionNode), "package procedure invocation decision");
 	}
 
-	private String package_;
+	private string package_;
 
-	public PackageProcedureInvocationDecisionNode(String package_, IdentNode procedureIdent,
+	public PackageProcedureInvocationDecisionNode(string package_, IdentNode procedureIdent,
 			CollectNode<ExprNode> arguments, int context, ParserEnvironment env)
+		: base(procedureIdent, arguments, context, env)
 	{
-		super(procedureIdent, arguments, context, env);
 		this.package_ = package_;
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(env, error, getCoords());
-		result = decide(package_ + "::" + procedureIdent.toString(), arguments, resolvingEnvironment);
+		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(env, error, Coords);
+		result = Decide(package_ + "::" + procedureIdent.ToString(), arguments, resolvingEnvironment);
 		return result != null;
 	}
 
-	private static BuiltinProcedureInvocationBaseNode decide(String procedureName, CollectNode<ExprNode> arguments,
+	private static BuiltinProcedureInvocationBaseNode Decide(string procedureName, CollectNode<ExprNode> arguments,
 			ResolvingEnvironment env)
 	{
-		switch(procedureName) {
+		switch(procedureName)
+		{
 		case "Transaction::start":
-			if(arguments.size() != 0) {
-				env.reportError("Transaction::start() expects 0 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 0)
+			{
+				env.ReportError("Transaction::start() expects 0 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else
-				return new StartTransactionProcNode(env.getCoords());
+			}
+			else
+				return new StartTransactionProcNode(env.Coords);
 		case "File::export":
-			if(arguments.size() == 1) {
-				return new ExportProcNode(env.getCoords(), arguments.get(0), null);
-			} else if(arguments.size() == 2) {
-				return new ExportProcNode(env.getCoords(), arguments.get(1), arguments.get(0));
-			} else {
-				env.reportError("File::export() expects 1 (filepath) or 2 (graph, filepath) arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() == 1)
+				return new ExportProcNode(env.Coords, arguments.Get(0), null);
+			else if(arguments.Size() == 2)
+				return new ExportProcNode(env.Coords, arguments.Get(1), arguments.Get(0));
+			else
+			{
+				env.ReportError("File::export() expects 1 (filepath) or 2 (graph, filepath) arguments (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "File::delete":
-			if(arguments.size() == 1) {
-				return new DeleteFileProcNode(env.getCoords(), arguments.get(0));
-			} else {
-				env.reportError("File::delete() expects 1 (filepath) argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() == 1)
+				return new DeleteFileProcNode(env.Coords, arguments.Get(0));
+			else
+			{
+				env.ReportError("File::delete() expects 1 (filepath) argument (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "Debug::add":
-			if(arguments.size() >= 1) {
-				DebugAddProcNode add = new DebugAddProcNode(env.getCoords());
-				for(ExprNode param : arguments.getChildrenExact()) {
-					add.addExpression(param);
-				}
+			if(arguments.Size() >= 1)
+			{
+				DebugAddProcNode add = new DebugAddProcNode(env.Coords);
+				foreach(ExprNode param in arguments.ChildrenExact)
+					add.AddExpression(param);
 				return add;
-			} else {
-				env.reportError("Debug::add() expects at least one argument, the message/computation entered (given are " + arguments.size() + " arguments).");
+			}
+			else
+			{
+				env.ReportError("Debug::add() expects at least one argument, the message/computation entered (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "Debug::rem":
-			if(arguments.size() >= 1) {
-				DebugRemProcNode rem = new DebugRemProcNode(env.getCoords());
-				for(ExprNode param : arguments.getChildrenExact()) {
-					rem.addExpression(param);
-				}
+			if(arguments.Size() >= 1)
+			{
+				DebugRemProcNode rem = new DebugRemProcNode(env.Coords);
+				foreach(ExprNode param in arguments.ChildrenExact)
+					rem.AddExpression(param);
 				return rem;
-			} else {
-				env.reportError("Debug::rem() expects at least one argument, the message/computation left (given are " + arguments.size() + " arguments).");
+			}
+			else
+			{
+				env.ReportError("Debug::rem() expects at least one argument, the message/computation left (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "Debug::emit":
-			if(arguments.size() >= 1) {
-				DebugEmitProcNode emit = new DebugEmitProcNode(env.getCoords());
-				for(ExprNode param : arguments.getChildrenExact()) {
-					emit.addExpression(param);
-				}
+			if(arguments.Size() >= 1)
+			{
+				DebugEmitProcNode emit = new DebugEmitProcNode(env.Coords);
+				foreach(ExprNode param in arguments.ChildrenExact)
+					emit.AddExpression(param);
 				return emit;
-			} else {
-				env.reportError("Debug::emit() expects at least one argument, the message to report (given are " + arguments.size() + " arguments).");
+			}
+			else
+			{
+				env.ReportError("Debug::emit() expects at least one argument, the message to report (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "Debug::halt":
-			if(arguments.size() >= 1) {
-				DebugHaltProcNode halt = new DebugHaltProcNode(env.getCoords());
-				for(ExprNode param : arguments.getChildrenExact()) {
-					halt.addExpression(param);
-				}
+			if(arguments.Size() >= 1)
+			{
+				DebugHaltProcNode halt = new DebugHaltProcNode(env.Coords);
+				foreach(ExprNode param in arguments.ChildrenExact)
+					halt.AddExpression(param);
 				return halt;
-			} else {
-				env.reportError("Debug::halt() expects at least one argument, the message to report (given are " + arguments.size() + " arguments).");
+			}
+			else
+			{
+				env.ReportError("Debug::halt() expects at least one argument, the message to report (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "Debug::highlight":
-			if(arguments.size() % 2 == 1) {
-				DebugHighlightProcNode highlight = new DebugHighlightProcNode(env.getCoords());
-				for(ExprNode param : arguments.getChildrenExact()) {
-					highlight.addExpression(param);
-				}
+			if(arguments.Size() % 2 == 1)
+			{
+				DebugHighlightProcNode highlight = new DebugHighlightProcNode(env.Coords);
+				foreach(ExprNode param in arguments.ChildrenExact)
+					highlight.AddExpression(param);
 				return highlight;
-			} else {
-				env.reportError("Debug::highlight() expects an odd number of arguments, first the message, then a series of pairs of the value to highlight followed by its annotation (given are " + arguments.size() + " arguments).");
+			}
+			else
+			{
+				env.ReportError("Debug::highlight() expects an odd number of arguments, first the message, then a series of pairs of the value to highlight followed by its annotation (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "Transaction::pause":
-			if(arguments.size() != 0) {
-				env.reportError("Transaction::pause() expects 0 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 0)
+			{
+				env.ReportError("Transaction::pause() expects 0 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new PauseTransactionProcNode(env.getCoords());
 			}
+			else
+				return new PauseTransactionProcNode(env.Coords);
 		case "Transaction::resume":
-			if(arguments.size() != 0) {
-				env.reportError("Transaction::resume() expects 0 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 0)
+			{
+				env.ReportError("Transaction::resume() expects 0 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new ResumeTransactionProcNode(env.getCoords());
 			}
+			else
+				return new ResumeTransactionProcNode(env.Coords);
 		case "Transaction::commit":
-			if(arguments.size() != 1) {
-				env.reportError("Transaction::commit(transactionId) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("Transaction::commit(transactionId) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new CommitTransactionProcNode(env.getCoords(), arguments.get(0));
 			}
+			else
+				return new CommitTransactionProcNode(env.Coords, arguments.Get(0));
 		case "Transaction::rollback":
-			if(arguments.size() != 1) {
-				env.reportError("Transaction::rollback(transactionId) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("Transaction::rollback(transactionId) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new RollbackTransactionProcNode(env.getCoords(), arguments.get(0));
 			}
+			else
+				return new RollbackTransactionProcNode(env.Coords, arguments.Get(0));
 		case "Synchronization::enter":
-			if(arguments.size() != 1) {
-				env.reportError("Synchronization::enter(criticalSectionObject) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("Synchronization::enter(criticalSectionObject) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new SynchronizationEnterProcNode(env.getCoords(), arguments.get(0));
 			}
+			else
+				return new SynchronizationEnterProcNode(env.Coords, arguments.Get(0));
 		case "Synchronization::tryenter":
-			if(arguments.size() != 1) {
-				env.reportError("Synchronization::tryenter(criticalSectionObject) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("Synchronization::tryenter(criticalSectionObject) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else
-				return new SynchronizationTryEnterProcNode(env.getCoords(), arguments.get(0));
-		case "Synchronization::exit":
-			if(arguments.size() != 1) {
-				env.reportError("Synchronization::exit(criticalSectionObject) expects 1 argument (given are " + arguments.size() + " arguments).");
-				return null;
-			} else {
-				return new SynchronizationExitProcNode(env.getCoords(), arguments.get(0));
 			}
+			else
+				return new SynchronizationTryEnterProcNode(env.Coords, arguments.Get(0));
+		case "Synchronization::exit":
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("Synchronization::exit(criticalSectionObject) expects 1 argument (given are " + arguments.Size() + " arguments).");
+				return null;
+			}
+			else
+				return new SynchronizationExitProcNode(env.Coords, arguments.Get(0));
 		default:
-			env.reportError("A procedure of name " + procedureName + " is not known.");
+			env.ReportError("A procedure of name " + procedureName + " is not known.");
 			return null;
 		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			if(isDebugProcedure()) { // allowed exceptions
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION)
+		{
+			if(IsDebugProcedure()) // allowed exceptions
 				return true;
-			} else {
-				reportError("A package procedure call (built-in-procedure " + procedureIdent + ") is not allowed in function or pattern part context.");
+			else
+			{
+				ReportError("A package procedure call (built-in-procedure " + procedureIdent + ") is not allowed in function or pattern part context.");
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	// procedures for debugging purpose, allowed also on lhs
-	@Override
-	public boolean isEmitOrDebugProcedure()
+	public override bool IsEmitOrDebugProcedure()
 	{
-		return isEmitProcedure() || isDebugProcedure();
+		return IsEmitProcedure() || IsDebugProcedure();
 	}
 
-	@Override
-	protected boolean isDebugProcedure()
+	protected internal override bool IsDebugProcedure()
 	{
-		switch(package_ + "::" + procedureIdent.toString()) {
+		switch(package_ + "::" + procedureIdent.ToString())
+		{
 		case "Debug::add":
 		case "Debug::rem":
 		case "Debug::emit":
@@ -225,4 +248,6 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 			return false;
 		}
 	}
+}
+
 }

@@ -1,191 +1,209 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
-import de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
-import de.unika.ipd.grgen.ast.type.executable.FunctionTypeNode;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Function;
-import de.unika.ipd.grgen.ir.executable.FunctionMethod;
-
-/**
- * AST node class representing function declarations
- */
-public class FunctionDeclNode extends FunctionDeclBaseNode
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	static {
-		setClassName(FunctionDeclNode.class, "function declaration");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ConnectionNode = de.unika.ipd.grgen.ast.pattern.ConnectionNode;
+using SingleNodeConnNode = de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ErrorTypeNode = de.unika.ipd.grgen.ast.type.basic.ErrorTypeNode;
+using FunctionTypeNode = de.unika.ipd.grgen.ast.type.executable.FunctionTypeNode;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Function = de.unika.ipd.grgen.ir.executable.Function;
+using FunctionMethod = de.unika.ipd.grgen.ir.executable.FunctionMethod;
+
+/// <summary>
+/// AST node class representing function declarations
+/// </summary>
+public class FunctionDeclNode : FunctionDeclBaseNode
+{
+	static FunctionDeclNode()
+	{
+		SetClassName(typeof(FunctionDeclNode), "function declaration");
 	}
 
-	protected CollectNode<BaseNode> parametersUnresolved;
-	protected CollectNode<DeclNode> parameters;
+	protected internal CollectNode<BaseNode> parametersUnresolved;
+	protected internal CollectNode<DeclNode> parameters;
 
 	public CollectNode<EvalStatementNode> evalStatements;
 	public FunctionAutoNode functionAuto;
 
-	boolean isMethod;
+	internal bool isMethod;
 
-	protected static final FunctionTypeNode functionType = new FunctionTypeNode();
+	protected internal static readonly FunctionTypeNode functionType = new FunctionTypeNode();
 
 
 	public FunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, FunctionAutoNode functionAuto,
-			CollectNode<BaseNode> params, BaseNode ret, boolean isMethod)
+			CollectNode<BaseNode> @params, BaseNode ret, bool isMethod)
+		: base(id, functionType)
 	{
-		super(id, functionType);
 		this.evalStatements = evals;
-		becomeParent(this.evalStatements);
+		BecomeParent(this.evalStatements);
 		this.functionAuto = functionAuto;
-		this.parametersUnresolved = params;
-		becomeParent(this.parametersUnresolved);
+		this.parametersUnresolved = @params;
+		BecomeParent(this.parametersUnresolved);
 		this.resultUnresolved = ret;
-		becomeParent(this.resultUnresolved);
+		BecomeParent(this.resultUnresolved);
 		this.isMethod = isMethod;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(evalStatements);
-		children.add(parametersUnresolved);
-		children.add(getValidVersion(resultUnresolved, resultType));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(evalStatements);
+		children.Add(parametersUnresolved);
+		children.Add(GetValidVersion(resultUnresolved, resultType));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("evals");
-		childrenNames.add("params");
-		childrenNames.add("ret");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("evals");
+		childrenNames.Add("params");
+		childrenNames.Add("ret");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		boolean result = super.resolveLocal();
-		
+		bool result = base.ResolveLocal();
+
 		if(functionAuto != null)
-			result &= functionAuto.resolveLocalBypass();
-		
+			result &= functionAuto.ResolveLocalBypass();
+
 		return result;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean checkLocal()
+
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		parameters = new CollectNode<DeclNode>();
-		for(BaseNode param : parametersUnresolved.getChildrenExact()) {
-			if(param instanceof ConnectionNode) {
+		foreach(BaseNode param in parametersUnresolved.ChildrenExact)
+		{
+			if(param is ConnectionNode)
+			{
 				ConnectionNode conn = (ConnectionNode)param;
-				parameters.addChild(conn.getEdge().getDecl());
-			} else if(param instanceof SingleNodeConnNode) {
-				NodeDeclNode node = ((SingleNodeConnNode)param).getNode();
-				parameters.addChild(node);
-			} else if(param instanceof VarDeclNode) {
-				parameters.addChild((VarDeclNode)param);
-			} else
-				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
-		}
-
-		parameterTypes = new ArrayList<TypeNode>();
-		for(DeclNode decl : parameters.getChildrenExact()) {
-			parameterTypes.add(decl.getDeclType());
-		}
-		boolean res = true;
-		for(TypeNode parameterType : parameterTypes) {
-			if(parameterType == null || parameterType instanceof ErrorTypeNode) {
-				res = false;
+				parameters.AddChild(conn.Edge.Decl);
 			}
+			else if(param is SingleNodeConnNode)
+			{
+				NodeDeclNode node = ((SingleNodeConnNode)param).Node;
+				parameters.AddChild(node);
+			}
+			else if(param is VarDeclNode)
+				parameters.AddChild((VarDeclNode)param);
+			else
+				throw new System.NotSupportedException("Unsupported parameter (" + param + ")");
 		}
 
-		if(functionAuto != null) {
-			res &= functionAuto.checkLocalBypass();
-			res &= functionAuto.checkLocal(this);
+		parameterTypes = new List<TypeNode>();
+		foreach(DeclNode decl in parameters.ChildrenExact)
+			parameterTypes.Add(decl.DeclType);
+		bool res = true;
+		foreach(TypeNode parameterType in parameterTypes)
+		{
+			if(parameterType == null || parameterType is ErrorTypeNode)
+				res = false;
+		}
+
+		if(functionAuto != null)
+		{
+			res &= functionAuto.CheckLocalBypass();
+			res &= functionAuto.CheckLocal(this);
 		}
 
 		return res;
 	}
 
-	/** Returns the IR object for this function node. */
-	public Function getIRFunction()
+	/// <summary>
+	/// Returns the IR object for this function node. </summary>
+	public virtual Function IRFunction
 	{
-		return checkIR(Function.class);
+		get
+		{
+		return CheckIR(typeof(Function));
+		}
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 		return functionType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
-		if(isIRAlreadySet()) {
-			return getIR();
-		}
+		if(IsIRAlreadySet())
+			return IR;
 
 		Function function = isMethod
-				? new FunctionMethod(getIdent().toString(), getIdent().getIRIdent(), resultType.checkIR(Type.class))
-				: new Function(getIdent().toString(), getIdent().getIRIdent(), resultType.checkIR(Type.class));
+				? new FunctionMethod(Ident.ToString(), Ident.IRIdent, resultType.CheckIR(typeof(Type)))
+				: new Function(Ident.ToString(), Ident.IRIdent, resultType.CheckIR(typeof(Type)));
 
 		// mark this node as already visited
-		setIR(function);
+		IR = function;
 
 		// add Params to the IR
-		for(DeclNode decl : parameters.getChildrenExact()) {
-			function.addParameter(decl.checkIR(Entity.class));
-		}
+		foreach(DeclNode decl in parameters.ChildrenExact)
+			function.AddParameter(decl.CheckIR(typeof(Entity)));
 
 		// add Computation Statements to the IR
-		if(functionAuto != null) {
-			functionAuto.getStatements(this, function);
-		} else {
-			for(EvalStatementNode eval : evalStatements.getChildrenExact()) {
-				function.addStatement(eval.checkIR(EvalStatement.class));
-			}
+		if(functionAuto != null)
+			functionAuto.GetStatements(this, function);
+		else
+		{
+			foreach(EvalStatementNode eval in evalStatements.ChildrenExact)
+				function.AddStatement(eval.CheckIR(typeof(EvalStatement)));
 		}
 
 		return function;
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "function";
+		}
 	}
+}
+
 }

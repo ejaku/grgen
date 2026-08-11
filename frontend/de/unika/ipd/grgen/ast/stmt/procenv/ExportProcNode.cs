@@ -1,117 +1,125 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.procenv;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.procenv.ExportProc;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ExportProcNode extends BuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
-	static {
-		setClassName(ExportProcNode.class, "export procedure");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ExportProc = de.unika.ipd.grgen.ir.stmt.procenv.ExportProc;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ExportProcNode : BuiltinProcedureInvocationBaseNode
+{
+	static ExportProcNode()
+	{
+		SetClassName(typeof(ExportProcNode), "export procedure");
 	}
 
 	private ExprNode pathExpr;
 	private ExprNode graphExpr; // maybe null, then the current graph is to be exported
 
 	public ExportProcNode(Coords coords, ExprNode pathExpr, ExprNode graphExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.pathExpr = becomeParent(pathExpr);
-		this.graphExpr = becomeParent(graphExpr);
+		this.pathExpr = BecomeParent(pathExpr);
+		this.graphExpr = BecomeParent(graphExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(pathExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(pathExpr);
 		if(graphExpr != null)
-			children.add(graphExpr);
+			children.Add(graphExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("path");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("path");
 		if(graphExpr != null)
-			childrenNames.add("graph");
+			childrenNames.Add("graph");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		TypeNode pathExprType = pathExpr.getType();
-		if(graphExpr != null) {
-			TypeNode graphExprType = graphExpr.getType();
-			if(!(graphExprType.equals(BasicTypeNode.graphType))) {
-				reportError("The File::export procedure expects as 1. argument (subgraphToExport)"
+		TypeNode pathExprType = pathExpr.Type;
+		if(graphExpr != null)
+		{
+			TypeNode graphExprType = graphExpr.Type;
+			if(!(graphExprType.Equals(BasicTypeNode.graphType)))
+			{
+				ReportError("The File::export procedure expects as 1. argument (subgraphToExport)"
 						+ " a value of type graph"
-						+ " (but is given a value of type " + graphExprType.toStringWithDeclarationCoords() + ").");
+						+ " (but is given a value of type " + graphExprType.ToStringWithDeclarationCoords() + ").");
 				return false;
 			}
-			if(!(pathExprType.equals(BasicTypeNode.stringType))) {
-				reportError("The File::export procedure expects as 2. argument (filePath)"
+			if(!(pathExprType.Equals(BasicTypeNode.stringType)))
+			{
+				ReportError("The File::export procedure expects as 2. argument (filePath)"
 						+ " a value of type string"
-						+ " (but is given a value of type " + pathExprType.toStringWithDeclarationCoords() + ").");
+						+ " (but is given a value of type " + pathExprType.ToStringWithDeclarationCoords() + ").");
 				return false;
 			}
-		} else {
-			if(!(pathExprType.equals(BasicTypeNode.stringType))) {
-				reportError("The File::export procedure expects as argument (filePath)"
+		}
+		else
+		{
+			if(!(pathExprType.Equals(BasicTypeNode.stringType)))
+			{
+				ReportError("The File::export procedure expects as argument (filePath)"
 						+ " a value of type string"
-						+ " (but is given a value of type " + pathExprType.toStringWithDeclarationCoords() + ").");
+						+ " (but is given a value of type " + pathExprType.ToStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		pathExpr = pathExpr.evaluate();
+		pathExpr = pathExpr.Evaluate();
 		if(graphExpr != null)
-			graphExpr = graphExpr.evaluate();
-		return new ExportProc(pathExpr.checkIR(Expression.class),
-				graphExpr != null ? graphExpr.checkIR(Expression.class) : null);
+			graphExpr = graphExpr.Evaluate();
+		return new ExportProc(pathExpr.CheckIR(typeof(Expression)),
+				graphExpr != null ? graphExpr.CheckIR(typeof(Expression)) : null);
 	}
+}
+
 }

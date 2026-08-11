@@ -1,52 +1,51 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll
- */
+/// <summary>
+/// @author Moritz Kroll
+/// </summary>
 
-package de.unika.ipd.grgen.ast.type.basic;
-
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.basic.ObjectType;
-
-public class NullTypeNode extends BasicTypeNode
+namespace de.unika.ipd.grgen.ast.type.basic
 {
-	static {
-		setClassName(NullTypeNode.class, "null type");
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ObjectType = de.unika.ipd.grgen.ir.type.basic.ObjectType;
+
+public class NullTypeNode : BasicTypeNode
+{
+	static NullTypeNode()
+	{
+		SetClassName(typeof(NullTypeNode), "null type");
 	}
 
-	@Override
-	public boolean isCompatibleTo(TypeNode t)
+	public override bool IsCompatibleTo(TypeNode t)
 	{
 		// null is compatible to all graph element types, object, string, and graph
-		if(!(t instanceof BasicTypeNode))
+		if(!(t is BasicTypeNode))
 			return true;
 		if(t == BasicTypeNode.objectType || t == BasicTypeNode.stringType || t == BasicTypeNode.graphType)
 			return true;
 		return false;
 	}
 
-	@Override
-	public boolean isCastableTo(TypeNode t)
+	public override bool IsCastableTo(TypeNode t)
 	{
-		return isCompatibleTo(t);
+		return IsCompatibleTo(t);
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return new ObjectType(getIdent().getIRIdent());
+		return new ObjectType(Ident.IRIdent);
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
 		return "null";
 	}
+}
+
 }

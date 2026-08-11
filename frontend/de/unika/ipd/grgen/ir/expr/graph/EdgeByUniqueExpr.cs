@@ -1,45 +1,52 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr.graph;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.type.Type;
-
-public class EdgeByUniqueExpr extends BuiltinFunctionInvocationExpr
+namespace de.unika.ipd.grgen.ir.expr.graph
 {
-	private final Expression unique;
-	private final Expression edgeType;
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+public class EdgeByUniqueExpr : BuiltinFunctionInvocationExpr
+{
+	private readonly Expression unique;
+	private readonly Expression edgeType;
 
 	public EdgeByUniqueExpr(Expression unique, Expression edgeType, Type type)
+		: base("edge by unique id expression", type)
 	{
-		super("edge by unique id expression", type);
 		this.unique = unique;
 		this.edgeType = edgeType;
 	}
 
-	public Expression getUniqueExpr()
+	public virtual Expression UniqueExpr
 	{
+		get
+		{
 		return unique;
+		}
 	}
 
-	public Expression getEdgeTypeExpr()
+	public virtual Expression EdgeTypeExpr
 	{
+		get
+		{
 		return edgeType;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.needsGraph();
-		unique.collectNeededEntities(needs);
-		edgeType.collectNeededEntities(needs);
+		needs.NeedsGraph();
+		unique.CollectNeededEntities(needs);
+		edgeType.CollectNeededEntities(needs);
 	}
+}
+
 }

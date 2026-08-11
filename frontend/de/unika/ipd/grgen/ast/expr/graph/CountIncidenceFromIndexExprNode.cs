@@ -1,39 +1,39 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.decl.IncidenceCountIndexDeclNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.graph.CountIncidenceFromIndexExpr;
-import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class CountIncidenceFromIndexExprNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.graph
 {
-	static {
-		setClassName(CountIncidenceFromIndexExprNode.class, "count incidence from index access expression");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using IncidenceCountIndexDeclNode = de.unika.ipd.grgen.ast.model.decl.IncidenceCountIndexDeclNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IntTypeNode = de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using CountIncidenceFromIndexExpr = de.unika.ipd.grgen.ir.expr.graph.CountIncidenceFromIndexExpr;
+using IncidenceCountIndex = de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class CountIncidenceFromIndexExprNode : BuiltinFunctionInvocationBaseNode
+{
+	static CountIncidenceFromIndexExprNode()
+	{
+		SetClassName(typeof(CountIncidenceFromIndexExprNode), "count incidence from index access expression");
 	}
 
 	private BaseNode indexUnresolved;
@@ -41,83 +41,90 @@ public class CountIncidenceFromIndexExprNode extends BuiltinFunctionInvocationBa
 	private ExprNode keyExpr;
 
 	public CountIncidenceFromIndexExprNode(Coords coords, BaseNode index, ExprNode keyExpr)
+		: base(coords)
 	{
-		super(coords);
-		this.indexUnresolved = becomeParent(index);
-		this.keyExpr = becomeParent(keyExpr);
+		this.indexUnresolved = BecomeParent(index);
+		this.keyExpr = BecomeParent(keyExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(indexUnresolved, index));
-		children.add(keyExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(indexUnresolved, index));
+		children.Add(keyExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("index");
-		childrenNames.add("keyExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("index");
+		childrenNames.Add("keyExpr");
 		return childrenNames;
+		}
 	}
 
 	private static DeclarationResolver<IncidenceCountIndexDeclNode> indexResolver =
-			new DeclarationResolver<IncidenceCountIndexDeclNode>(IncidenceCountIndexDeclNode.class);
+			new DeclarationResolver<IncidenceCountIndexDeclNode>(typeof(IncidenceCountIndexDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = super.resolveLocal();
-		index = indexResolver.resolve(indexUnresolved, this);
-		if(index == null) {
-			reportError("The function countFromIndex(.,.) expects as 1. argument (index) an incidence count index"
-							+ " (but is given " + indexUnresolved.toStringWithDeclarationCoords() + ").");
-		}
+		bool successfullyResolved = base.ResolveLocal();
+		index = indexResolver.Resolve(indexUnresolved, this);
+		if(index == null)
+			ReportError("The function countFromIndex(.,.) expects as 1. argument (index) an incidence count index"
+							+ " (but is given " + indexUnresolved.ToStringWithDeclarationCoords() + ").");
 		successfullyResolved &= index != null;
 		return successfullyResolved;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		TypeNode keyType = index.getType();
-		TypeNode keyExprType = keyExpr.getType();
+		TypeNode keyType = index.Type;
+		TypeNode keyExprType = keyExpr.Type;
 
-		if(keyExprType instanceof InheritanceTypeNode) {
-			if(keyExprType.isCompatibleTo(keyType))
+		if(keyExprType is InheritanceTypeNode)
+		{
+			if(keyExprType.IsCompatibleTo(keyType))
 				return true;
 
-			String givenTypeName = keyExprType.getTypeName();
-			String expectedTypeName = keyType.getTypeName();
-			reportError("The function countFromIndex(.,.) expects as 2. argument (keyExpr) a value of type " + expectedTypeName
+			string givenTypeName = keyExprType.TypeName;
+			string expectedTypeName = keyType.TypeName;
+			ReportError("The function countFromIndex(.,.) expects as 2. argument (keyExpr) a value of type " + expectedTypeName
 							+ " (but is given a value of type " + givenTypeName + ").");
 
 			return false;
-		} else {
-			if(keyExprType.isEqual(keyType))
+		}
+		else
+		{
+			if(keyExprType.IsEqual(keyType))
 				return true;
 
-			keyExpr = becomeParent(keyExpr.adjustType(keyType, getCoords()));
-			return keyExpr != ConstNode.getInvalid();
+			keyExpr = BecomeParent(keyExpr.AdjustType(keyType, Coords));
+			return keyExpr != ConstNode.Invalid;
 		}
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return IntTypeNode.intType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		keyExpr = keyExpr.evaluate();
-		return new CountIncidenceFromIndexExpr(index.checkIR(IncidenceCountIndex.class),
-				keyExpr.checkIR(Expression.class));
+		keyExpr = keyExpr.Evaluate();
+		return new CountIncidenceFromIndexExpr(index.CheckIR(typeof(IncidenceCountIndex)),
+				keyExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

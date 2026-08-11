@@ -1,81 +1,95 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Rubino Geiss
- */
+/// <summary>
+/// @author Rubino Geiss
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
-
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import de.unika.ipd.grgen.ir.NeededEntities.Needs;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
-
-/**
- * A XGRS in an exec statement.
- */
-public class Exec extends IR implements ImperativeStmt
+namespace de.unika.ipd.grgen.ir
 {
-	private Set<Expression> parameters = new LinkedHashSet<Expression>();
-	private Set<Entity> neededEntities;
-	private Set<Entity> neededEntitiesForComputation;
-	private String xgrsString;
+
+using System.Collections.Generic;
+
+using Needs = de.unika.ipd.grgen.ir.NeededEntities.Needs;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ImperativeStmt = de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
+
+/// <summary>
+/// A XGRS in an exec statement.
+/// </summary>
+public class Exec : IR, ImperativeStmt
+{
+	private ISet<Expression> parameters = new LinkedHashSet<Expression>();
+	private ISet<Entity> neededEntities;
+	private ISet<Entity> neededEntitiesForComputation;
+	private string xgrsString;
 	private int lineNr;
 
-	public Exec(String xgrsString, Set<Expression> parameters, int lineNr)
+	public Exec(string xgrsString, ISet<Expression> parameters, int lineNr)
+		: base("exec")
 	{
-		super("exec");
 		this.xgrsString = xgrsString;
 		this.parameters = parameters;
 		this.lineNr = lineNr;
 	}
 
-	/** Returns XGRS as an String */
-	public String getXGRSString()
+	/// <summary>
+	/// Returns XGRS as an String </summary>
+	public virtual string XGRSString
 	{
+		get
+		{
 		return xgrsString;
+		}
 	}
 
-	public int getLineNr()
+	public virtual int LineNr
 	{
+		get
+		{
 		return lineNr;
+		}
 	}
 
-	/** Returns Parameters */
-	public Set<Expression> getArguments()
+	/// <summary>
+	/// Returns Parameters </summary>
+	public virtual ISet<Expression> Arguments
 	{
-		return Collections.unmodifiableSet(parameters);
+		get
+		{
+		return Collections.UnmodifiableSet(parameters);
+		}
 	}
 
-	public Set<Entity> getNeededEntities(boolean forComputation)
+	public virtual ISet<Entity> GetNeededEntities(bool forComputation)
 	{
-		if(forComputation) {
-			if(neededEntitiesForComputation == null) {
-				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.ALL_ENTITIES, Needs.COMPUTATION_CONTEXT));
-				for(Expression param : getArguments()) {
-					param.collectNeededEntities(needs);
-				}
+		if(forComputation)
+		{
+			if(neededEntitiesForComputation == null)
+			{
+				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.ALL_ENTITIES, Needs.COMPUTATION_CONTEXT));
+				foreach(Expression param in Arguments)
+					param.CollectNeededEntities(needs);
 				neededEntitiesForComputation = needs.entities;
 			}
 			return neededEntitiesForComputation;
-		} else {
-			if(neededEntities == null) {
-				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.ALL_ENTITIES));
-				for(Expression param : getArguments()) {
-					param.collectNeededEntities(needs);
-				}
+		}
+		else
+		{
+			if(neededEntities == null)
+			{
+				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.ALL_ENTITIES));
+				foreach(Expression param in Arguments)
+					param.CollectNeededEntities(needs);
 				neededEntities = needs.entities;
 			}
 			return neededEntities;
 		}
 	}
+}
+
 }

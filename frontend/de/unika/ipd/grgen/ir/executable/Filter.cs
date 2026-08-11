@@ -1,20 +1,22 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.executable;
-
-/**
- * A filter (base type for auto-generated filters and filter functions (internal and external)).
- */
+namespace de.unika.ipd.grgen.ir.executable
+{
+/// <summary>
+/// A filter (base type for auto-generated filters and filter functions (internal and external)).
+/// </summary>
 public interface Filter
 {
-	Rule getAction();
+	Rule Action {get;}
+}
+
 }

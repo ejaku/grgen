@@ -1,76 +1,80 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.set;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.set.SetVarAddAll;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class SetAddAllNode extends SetProcedureMethodInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.set
 {
-	static {
-		setClassName(SetAddAllNode.class, "set add all statement");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using SetVarAddAll = de.unika.ipd.grgen.ir.stmt.set.SetVarAddAll;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class SetAddAllNode : SetProcedureMethodInvocationBaseNode
+{
+	static SetAddAllNode()
+	{
+		SetClassName(typeof(SetAddAllNode), "set add all statement");
 	}
 
 	private ExprNode valueExpr;
 
 	public SetAddAllNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr)
+		: base(coords, targetVar)
 	{
-		super(coords, targetVar);
-		this.valueExpr = becomeParent(valueExpr);
+		this.valueExpr = BecomeParent(valueExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidTarget());
-		children.add(valueExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ValidTarget);
+		children.Add(valueExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("target");
-		childrenNames.add("valueExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("target");
+		childrenNames.Add("valueExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		SetTypeNode targetType = getTargetTypeExact();
-		boolean success = true;
-		success &= checkType(valueExpr, targetType, "set add all statement", "value");
+		SetTypeNode targetType = TargetTypeExact;
+		bool success = true;
+		success &= CheckType(valueExpr, targetType, "set add all statement", "value");
 		return success;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		valueExpr = valueExpr.evaluate();
-		return new SetVarAddAll(targetVar.checkIR(Variable.class), valueExpr.checkIR(Expression.class));
+		valueExpr = valueExpr.Evaluate();
+		return new SetVarAddAll(targetVar.CheckIR(typeof(Variable)), valueExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

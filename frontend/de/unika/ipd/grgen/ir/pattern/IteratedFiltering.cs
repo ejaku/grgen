@@ -1,77 +1,91 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.pattern;
-
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ir.FilterInvocation;
-import de.unika.ipd.grgen.ir.FilterInvocationBase;
-import de.unika.ipd.grgen.ir.FilterInvocationLambdaExpression;
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-
-public class IteratedFiltering extends EvalStatement
+namespace de.unika.ipd.grgen.ir.pattern
 {
-	Rule actionOrSubpattern;
-	Rule iterated;
-	ArrayList<FilterInvocationBase> filterInvocations = new ArrayList<FilterInvocationBase>();
 
-	public IteratedFiltering(String name, Rule actionOrSubpattern, Rule iterated)
+using System.Collections.Generic;
+
+using FilterInvocation = de.unika.ipd.grgen.ir.FilterInvocation;
+using FilterInvocationBase = de.unika.ipd.grgen.ir.FilterInvocationBase;
+using FilterInvocationLambdaExpression = de.unika.ipd.grgen.ir.FilterInvocationLambdaExpression;
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+
+public class IteratedFiltering : EvalStatement
+{
+	internal Rule actionOrSubpattern;
+	internal Rule iterated;
+	internal List<FilterInvocationBase> filterInvocations = new List<FilterInvocationBase>();
+
+	public IteratedFiltering(string name, Rule actionOrSubpattern, Rule iterated)
+		: base(name)
 	{
-		super(name);
 		this.actionOrSubpattern = actionOrSubpattern;
 		this.iterated = iterated;
 	}
 
-	public void addFilterInvocation(FilterInvocationBase filterInvocation)
+	public virtual void AddFilterInvocation(FilterInvocationBase filterInvocation)
 	{
-		filterInvocations.add(filterInvocation);
+		filterInvocations.Add(filterInvocation);
 	}
 
-	public Rule getActionOrSubpattern()
+	public virtual Rule ActionOrSubpattern
 	{
+		get
+		{
 		return actionOrSubpattern;
+		}
 	}
 
-	public Rule getIterated()
+	public virtual Rule Iterated
 	{
+		get
+		{
 		return iterated;
+		}
 	}
 
-	public ArrayList<FilterInvocationBase> getFilterInvocations()
+	public virtual List<FilterInvocationBase> FilterInvocations
 	{
+		get
+		{
 		return filterInvocations;
+		}
 	}
 
-	public FilterInvocationBase getFilterInvocation(int i)
+	public virtual FilterInvocationBase GetFilterInvocation(int i)
 	{
-		return filterInvocations.get(i);
+		return filterInvocations[i];
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		for(FilterInvocationBase filterInvocation : filterInvocations) {
-			if(filterInvocation instanceof FilterInvocation) {
+		foreach(FilterInvocationBase filterInvocation in filterInvocations)
+		{
+			if(filterInvocation is FilterInvocation)
+			{
 				FilterInvocation fi = (FilterInvocation)filterInvocation;
-				for(Expression filterArgument : fi.getFilterArguments()) {
-					filterArgument.collectNeededEntities(needs);
-				}
-			} else {
+				foreach(Expression filterArgument in fi.FilterArguments)
+					filterArgument.CollectNeededEntities(needs);
+			}
+			else
+			{
 				FilterInvocationLambdaExpression file = (FilterInvocationLambdaExpression)filterInvocation;
-				file.collectNeededEntities(needs);
+				file.CollectNeededEntities(needs);
 			}
 		}
 	}
+}
+
 }

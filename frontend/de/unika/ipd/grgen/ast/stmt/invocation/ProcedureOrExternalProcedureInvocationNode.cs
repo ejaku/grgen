@@ -1,45 +1,46 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.invocation;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclBaseNode;
-import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
-import de.unika.ipd.grgen.ir.executable.Procedure;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ExternalProcedureInvocation;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureInvocation;
-
-/**
- * Invocation of a procedure or an external procedure
- */
-public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.invocation
 {
-	static {
-		setClassName(ProcedureOrExternalProcedureInvocationNode.class, "procedure or external procedure invocation");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExternalProcedureDeclNode = de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
+using ProcedureDeclBaseNode = de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclBaseNode;
+using ProcedureDeclNode = de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ExternalProcedure = de.unika.ipd.grgen.ir.executable.ExternalProcedure;
+using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ExternalProcedureInvocation = de.unika.ipd.grgen.ir.stmt.invocation.ExternalProcedureInvocation;
+using ProcedureInvocation = de.unika.ipd.grgen.ir.stmt.invocation.ProcedureInvocation;
+
+/// <summary>
+/// Invocation of a procedure or an external procedure
+/// </summary>
+public class ProcedureOrExternalProcedureInvocationNode : ProcedureInvocationBaseNode
+{
+	static ProcedureOrExternalProcedureInvocationNode()
+	{
+		SetClassName(typeof(ProcedureOrExternalProcedureInvocationNode), "procedure or external procedure invocation");
 	}
 
 	private IdentNode procedureOrExternalProcedureUnresolved;
@@ -48,41 +49,44 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 
 	public ProcedureOrExternalProcedureInvocationNode(IdentNode procedureOrExternalProcedureUnresolved,
 			CollectNode<ExprNode> arguments, int context)
+		: base(procedureOrExternalProcedureUnresolved.Coords, arguments, context)
 	{
-		super(procedureOrExternalProcedureUnresolved.getCoords(), arguments, context);
-		this.procedureOrExternalProcedureUnresolved = becomeParent(procedureOrExternalProcedureUnresolved);
+		this.procedureOrExternalProcedureUnresolved = BecomeParent(procedureOrExternalProcedureUnresolved);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(procedureOrExternalProcedureUnresolved, procedureDecl, externalProcedureDecl));
-		children.add(arguments);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(procedureOrExternalProcedureUnresolved, procedureDecl, externalProcedureDecl));
+		children.Add(arguments);
 		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("procedure or external procedure");
-		childrenNames.add("arguments");
-		return childrenNames;
-	}
-
-	private static final DeclarationPairResolver<ProcedureDeclNode, ExternalProcedureDeclNode> resolver =
-			new DeclarationPairResolver<ProcedureDeclNode, ExternalProcedureDeclNode>(ProcedureDeclNode.class, ExternalProcedureDeclNode.class);
-
-	@Override
-	protected boolean resolveLocal()
-	{
-		if(!(procedureOrExternalProcedureUnresolved instanceof PackageIdentNode)) {
-			fixupDefinition(procedureOrExternalProcedureUnresolved, procedureOrExternalProcedureUnresolved.getScope());
 		}
-		Pair<ProcedureDeclNode, ExternalProcedureDeclNode> resolved = resolver.resolve(procedureOrExternalProcedureUnresolved, this);
-		if(resolved == null) {
-			procedureOrExternalProcedureUnresolved.reportError("Unknown procedure called."
+	}
+
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("procedure or external procedure");
+		childrenNames.Add("arguments");
+		return childrenNames;
+		}
+	}
+
+	private static readonly DeclarationPairResolver<ProcedureDeclNode, ExternalProcedureDeclNode> resolver =
+			new DeclarationPairResolver<ProcedureDeclNode, ExternalProcedureDeclNode>(typeof(ProcedureDeclNode), typeof(ExternalProcedureDeclNode));
+
+	protected internal override bool ResolveLocal()
+	{
+		if(!(procedureOrExternalProcedureUnresolved is PackageIdentNode))
+			FixupDefinition(procedureOrExternalProcedureUnresolved, procedureOrExternalProcedureUnresolved.Scope);
+		Pair<ProcedureDeclNode, ExternalProcedureDeclNode> resolved = resolver.Resolve(procedureOrExternalProcedureUnresolved, this);
+		if(resolved == null)
+		{
+			procedureOrExternalProcedureUnresolved.ReportError("Unknown procedure called."
 					+ " (Maybe a misspelled procedure name? Or is a function call intended?"
 					+ " An assignment target within parenthesis denotes a procedure call, as in "
 					+ "(var) = " + procedureOrExternalProcedureUnresolved + "(...)).");
@@ -93,73 +97,85 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			reportError("Procedure call not allowed in function or pattern part context (attempted on " + procedureOrExternalProcedureUnresolved + ").");
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION)
+		{
+			ReportError("Procedure call not allowed in function or pattern part context (attempted on " + procedureOrExternalProcedureUnresolved + ").");
 			return false;
 		}
-		return checkSignatureAdhered();
+		return CheckSignatureAdhered();
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	/** Check whether the usage adheres to the signature of the declaration */
-	private boolean checkSignatureAdhered()
+	/// <summary>
+	/// Check whether the usage adheres to the signature of the declaration </summary>
+	private bool CheckSignatureAdhered()
 	{
-		ProcedureDeclBaseNode pb = procedureDecl != null ? procedureDecl : externalProcedureDecl;
-		return checkSignatureAdhered(pb, procedureOrExternalProcedureUnresolved, false);
+		ProcedureDeclBaseNode pb = procedureDecl != null ? (ProcedureDeclBaseNode)procedureDecl : externalProcedureDecl;
+		return CheckSignatureAdhered(pb, procedureOrExternalProcedureUnresolved, false);
 	}
 
-	@Override
-	public List<TypeNode> getType()
+	public override IList<TypeNode> Type
 	{
-		assert isResolved();
-		return procedureDecl != null ? procedureDecl.getResultTypes() : externalProcedureDecl.getResultTypes();
+		get
+		{
+		Debug.Assert(IsResolved());
+		return procedureDecl != null ? procedureDecl.ResultTypes : externalProcedureDecl.ResultTypes;
+		}
 	}
 
-	public int getNumReturnTypes()
+	public virtual int NumReturnTypes
+	{
+		get
+		{
+		if(procedureDecl != null)
+			return procedureDecl.resultTypesCollectNode.Size();
+		else
+			return externalProcedureDecl.resultTypesCollectNode.Size();
+		}
+	}
+
+	public virtual IdentNode Ident
+	{
+		get
+		{
+		return procedureOrExternalProcedureUnresolved;
+		}
+	}
+
+	protected internal override IR ConstructIR()
 	{
 		if(procedureDecl != null)
-			return procedureDecl.resultTypesCollectNode.size();
-		else
-			return externalProcedureDecl.resultTypesCollectNode.size();
-	}
-
-	public IdentNode getIdent()
-	{
-		return procedureOrExternalProcedureUnresolved;
-	}
-
-	@Override
-	protected IR constructIR()
-	{
-		if(procedureDecl != null) {
-			ProcedureInvocation pi = new ProcedureInvocation(procedureDecl.checkIR(Procedure.class));
-			for(ExprNode argument : arguments.getChildrenExact()) {
-				ExprNode argumentEvaluated = argument.evaluate();
-				pi.addArgument(argumentEvaluated.checkIR(Expression.class));
+		{
+			ProcedureInvocation pi = new ProcedureInvocation(procedureDecl.CheckIR(typeof(Procedure)));
+			foreach(ExprNode argument in arguments.ChildrenExact)
+			{
+				ExprNode argumentEvaluated = argument.Evaluate();
+				pi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
 			}
-			for(TypeNode type : procedureDecl.resultTypesCollectNode.getChildrenExact()) {
-				pi.addReturnType(type.checkIR(Type.class));
-			}
+			foreach(TypeNode type in procedureDecl.resultTypesCollectNode.ChildrenExact)
+				pi.AddReturnType(type.CheckIR(typeof(Type)));
 			return pi;
-		} else {
+		}
+		else
+		{
 			ExternalProcedureInvocation epi = new ExternalProcedureInvocation(
-					externalProcedureDecl.checkIR(ExternalProcedure.class));
-			for(ExprNode argument : arguments.getChildrenExact()) {
-				ExprNode argumentEvaluated = argument.evaluate();
-				epi.addArgument(argumentEvaluated.checkIR(Expression.class));
+					externalProcedureDecl.CheckIR(typeof(ExternalProcedure)));
+			foreach(ExprNode argument in arguments.ChildrenExact)
+			{
+				ExprNode argumentEvaluated = argument.Evaluate();
+				epi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
 			}
-			for(TypeNode type : externalProcedureDecl.resultTypesCollectNode.getChildrenExact()) {
-				epi.addReturnType(type.checkIR(Type.class));
-			}
+			foreach(TypeNode type in externalProcedureDecl.resultTypesCollectNode.ChildrenExact)
+				epi.AddReturnType(type.CheckIR(typeof(Type)));
 			return epi;
 		}
 	}
+}
+
 }

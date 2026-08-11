@@ -1,91 +1,95 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.numeric.ByteConstNode;
-import de.unika.ipd.grgen.ast.expr.numeric.DoubleConstNode;
-import de.unika.ipd.grgen.ast.expr.numeric.FloatConstNode;
-import de.unika.ipd.grgen.ast.expr.numeric.IntConstNode;
-import de.unika.ipd.grgen.ast.expr.numeric.LongConstNode;
-import de.unika.ipd.grgen.ast.expr.numeric.ShortConstNode;
-import de.unika.ipd.grgen.ast.expr.string.StringConstNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.EnumExpression;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * An enum item value.
- */
-public class EnumConstNode extends ConstNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	/** The name of the enum item. */
+using de.unika.ipd.grgen.ast;
+using ByteConstNode = de.unika.ipd.grgen.ast.expr.numeric.ByteConstNode;
+using DoubleConstNode = de.unika.ipd.grgen.ast.expr.numeric.DoubleConstNode;
+using FloatConstNode = de.unika.ipd.grgen.ast.expr.numeric.FloatConstNode;
+using IntConstNode = de.unika.ipd.grgen.ast.expr.numeric.IntConstNode;
+using LongConstNode = de.unika.ipd.grgen.ast.expr.numeric.LongConstNode;
+using ShortConstNode = de.unika.ipd.grgen.ast.expr.numeric.ShortConstNode;
+using StringConstNode = de.unika.ipd.grgen.ast.expr.@string.StringConstNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using EnumExpression = de.unika.ipd.grgen.ir.expr.EnumExpression;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// An enum item value.
+/// </summary>
+public class EnumConstNode : ConstNode
+{
+	/// <summary>
+	/// The name of the enum item. </summary>
 	private IdentNode id;
 
-	/**
-	 * @param coords The source code coordinates.
-	 * @param id The name of the enum item.
-	 * @param value The value of the enum item.
-	 */
+	/// <param name="coords"> The source code coordinates. </param>
+	/// <param name="id"> The name of the enum item. </param>
+	/// <param name="value"> The value of the enum item. </param>
 	public EnumConstNode(Coords coords, IdentNode id, int value)
+		: base(coords, "enum item", new int?(value))
 	{
-		super(coords, "enum item", new Integer(value));
 		this.id = id;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.expr.ConstNode#doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) */
-	@Override
-	protected ConstNode doCastTo(TypeNode type)
+	/// <seealso cref="de.unika.ipd.grgen.ast.expr.ConstNode.doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) "/>
+	protected internal override ConstNode DoCastTo(TypeNode type)
 	{
-		Integer value = (Integer)getValue();
-		int unboxed = value.intValue();
+		int? value = (int?)Value;
+		int unboxed = value.Value;
 
-		if(type.isEqual(BasicTypeNode.byteType)) {
-			return new ByteConstNode(getCoords(), (byte)unboxed);
-		} else if(type.isEqual(BasicTypeNode.shortType)) {
-			return new ShortConstNode(getCoords(), (short)unboxed);
-		} else if(type.isEqual(BasicTypeNode.intType)) {
-			return new IntConstNode(getCoords(), unboxed);
-		} else if(type.isEqual(BasicTypeNode.longType)) {
-			return new LongConstNode(getCoords(), unboxed);
-		} else if(type.isEqual(BasicTypeNode.floatType)) {
-			return new FloatConstNode(getCoords(), unboxed);
-		} else if(type.isEqual(BasicTypeNode.doubleType)) {
-			return new DoubleConstNode(getCoords(), unboxed);
-		} else if(type.isEqual(BasicTypeNode.stringType)) {
-			return new StringConstNode(getCoords(), id.toString());
-		} else
-			throw new UnsupportedOperationException();
+		if(type.IsEqual(BasicTypeNode.byteType))
+			return new ByteConstNode(Coords, (sbyte)unboxed);
+		else if(type.IsEqual(BasicTypeNode.shortType))
+			return new ShortConstNode(Coords, (short)unboxed);
+		else if(type.IsEqual(BasicTypeNode.intType))
+			return new IntConstNode(Coords, unboxed);
+		else if(type.IsEqual(BasicTypeNode.longType))
+			return new LongConstNode(Coords, unboxed);
+		else if(type.IsEqual(BasicTypeNode.floatType))
+			return new FloatConstNode(Coords, unboxed);
+		else if(type.IsEqual(BasicTypeNode.doubleType))
+			return new DoubleConstNode(Coords, unboxed);
+		else if(type.IsEqual(BasicTypeNode.stringType))
+			return new StringConstNode(Coords, id.ToString());
+		else
+			throw new System.NotSupportedException();
 	}
 
-	/** @see de.unika.ipd.grgen.ast.expr.ExprNode#getType() */
-	@Override
-	public TypeNode getType()
+	/// <seealso cref="de.unika.ipd.grgen.ast.expr.ExprNode.getType() "/>
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.enumItemType;
+		}
 	}
 
-	public EnumExpression getIREnumExpression()
+	public virtual EnumExpression IREnumExpression
 	{
-		return checkIR(EnumExpression.class);
+		get
+		{
+		return CheckIR(typeof(EnumExpression));
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		// The EnumExpression is initialized later in EnumTypeNode.constructIR()
 		// to break the circular dependency.
-		return new EnumExpression(((Integer)value).intValue());
+		return new EnumExpression(((int?)value).Value);
 	}
+}
+
 }

@@ -1,41 +1,46 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr.graph;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.basic.GraphType;
-
-public class Uniqueof extends BuiltinFunctionInvocationExpr
+namespace de.unika.ipd.grgen.ir.expr.graph
 {
-	/** The entity whose unique id we want to know. */
-	private final Expression entity;
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using GraphType = de.unika.ipd.grgen.ir.type.basic.GraphType;
+
+public class Uniqueof : BuiltinFunctionInvocationExpr
+{
+	/// <summary>
+	/// The entity whose unique id we want to know. </summary>
+	private readonly Expression entity;
 
 	public Uniqueof(Expression entity, Type type)
+		: base("uniqueof", type)
 	{
-		super("uniqueof", type);
 		this.entity = entity;
 	}
 
-	public Expression getEntity()
+	public virtual Expression Entity
 	{
+		get
+		{
 		return entity;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		if(entity == null || entity.getType() instanceof GraphType)
-			needs.needsGraph();
+		if(entity == null || entity.Type is GraphType)
+			needs.NeedsGraph();
 		if(entity != null)
-			entity.collectNeededEntities(needs);
+			entity.CollectNeededEntities(needs);
 	}
+}
+
 }

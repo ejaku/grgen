@@ -1,42 +1,43 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll
- */
+/// <summary>
+/// @author Moritz Kroll
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.UntypedExecVarTypeNode;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
-import de.unika.ipd.grgen.ir.expr.MatchAccess;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.expr.VariableExpression;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class MemberAccessExprNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(MemberAccessExprNode.class, "member access expression");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+using MemberDeclNode = de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
+using MatchTypeNode = de.unika.ipd.grgen.ast.type.MatchTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using UntypedExecVarTypeNode = de.unika.ipd.grgen.ast.type.basic.UntypedExecVarTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using GraphEntityExpression = de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
+using MatchAccess = de.unika.ipd.grgen.ir.expr.MatchAccess;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using VariableExpression = de.unika.ipd.grgen.ir.expr.VariableExpression;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class MemberAccessExprNode : ExprNode
+{
+	static MemberAccessExprNode()
+	{
+		SetClassName(typeof(MemberAccessExprNode), "member access expression");
 	}
 
 	private ExprNode targetExpr; // resulting from primary expression, most often an IdentExprNode
@@ -44,122 +45,142 @@ public class MemberAccessExprNode extends ExprNode
 	private DeclNode member;
 
 	public MemberAccessExprNode(Coords coords, ExprNode targetExpr, IdentNode memberIdent)
+		: base(coords)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
-		this.memberIdent = becomeParent(memberIdent);
+		this.targetExpr = BecomeParent(targetExpr);
+		this.memberIdent = BecomeParent(memberIdent);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		if(isResolved() && resolutionResult()) {
-			if(targetExpr.getType() instanceof MatchTypeNode) {
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		if(IsResolved() && ResolutionResult())
+		{
+			if(targetExpr.Type is MatchTypeNode)
 				return children; // behave like a nop in case we're a match access
-			}
 		}
-		children.add(targetExpr);
-		children.add(memberIdent);
+		children.Add(targetExpr);
+		children.Add(memberIdent);
 		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("targetExpr");
-		childrenNames.add("memberIdent");
-		return childrenNames;
-	}
-
-	@Override
-	protected boolean resolveLocal()
-	{
-		if(!targetExpr.resolve()) {
-			return false;
 		}
+	}
 
-		if(targetExpr instanceof IdentExprNode) {
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("targetExpr");
+		childrenNames.Add("memberIdent");
+		return childrenNames;
+		}
+	}
+
+	protected internal override bool ResolveLocal()
+	{
+		if(!targetExpr.Resolve())
+			return false;
+
+		if(targetExpr is IdentExprNode)
+		{
 			IdentExprNode identExpr = (IdentExprNode)targetExpr;
-			if(identExpr.decl instanceof TypeDeclNode) {
+			if(identExpr.decl is TypeDeclNode)
+			{
 				TypeDeclNode typeNode = (TypeDeclNode)identExpr.decl;
-				reportError("Member access expects an entity, but is given a type"
-						+ " (unexpected " + typeNode.getIdent() + " when accessing " + memberIdent + ").");
+				ReportError("Member access expects an entity, but is given a type"
+						+ " (unexpected " + typeNode.Ident + " when accessing " + memberIdent + ").");
 			}
 		}
-		if(targetExpr instanceof TypeofNode) {
+		if(targetExpr is TypeofNode)
+		{
 			TypeofNode typeofExpr = (TypeofNode)targetExpr;
-			reportError("Member access expects an entity, but is given a type"
-					+ " (unexpected typeof(" + typeofExpr.getEntity().getDecl().getIdent() + ") when accessing " + memberIdent + ").");
+			ReportError("Member access expects an entity, but is given a type"
+					+ " (unexpected typeof(" + typeofExpr.Entity.Decl.GetIdent() + ") when accessing " + memberIdent + ").");
 		}
 
-		TypeNode ownerType = targetExpr.getType();
+		TypeNode ownerType = targetExpr.Type;
 
-		if(ownerType instanceof UntypedExecVarTypeNode) {
+		if(ownerType is UntypedExecVarTypeNode)
+		{
 			member = new MemberDeclNode(memberIdent, BasicTypeNode.untypedType, false);
-			member.resolve();
-			setCheckVisited();
+			member.Resolve();
+			SetCheckVisited();
 			return true;
 		}
 
-		member = Resolver.resolveMember(ownerType, memberIdent);
+		member = Resolver.ResolveMember(ownerType, memberIdent);
 
 		return member != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	public final ExprNode getTarget()
+	public ExprNode Target
 	{
+		get
+		{
 		return targetExpr; // resulting from primary expression, most often an IdentExprNode
+		}
 	}
 
-	public final MemberDeclNode getDecl()
+	public MemberDeclNode Decl
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
-		return member instanceof MemberDeclNode ? (MemberDeclNode)member : null;
+		return member is MemberDeclNode ? (MemberDeclNode)member : null;
+		}
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		TypeNode declType = null;
-		if(targetExpr.getType() instanceof MatchTypeNode) {
-			declType = member.getDeclType();
-		} else {
-			declType = member.getDecl().getDeclType(); // untyped exec var type in case owner is an untyped exec var
-		}
+		if(targetExpr.Type is MatchTypeNode)
+			declType = member.DeclType;
+		else
+			declType = member.Decl.GetDeclType(); // untyped exec var type in case owner is an untyped exec var
 		return declType;
-	}
-
-	@Override
-	protected IR constructIR()
-	{
-		targetExpr = targetExpr.evaluate();
-		if(targetExpr.getType() instanceof MatchTypeNode) {
-			return new MatchAccess(targetExpr.checkIR(Expression.class), member.checkIR(Entity.class));
-		}
-
-		if(targetExpr.getIR() instanceof VariableExpression) {
-			return new Qualification(targetExpr.checkIR(VariableExpression.class).getVariable(),
-					member.checkIR(Entity.class));
-		} else if(targetExpr.getIR() instanceof GraphEntityExpression) {
-			return new Qualification(targetExpr.checkIR(GraphEntityExpression.class).getGraphEntity(),
-					member.checkIR(Entity.class));
-		} else {
-			return new Qualification(targetExpr.checkIR(Expression.class), // normally a Cast (or an untyped exec var)
-					member.checkIR(Entity.class));
 		}
 	}
 
-	public static String getKindStr()
+	protected internal override IR ConstructIR()
 	{
+		targetExpr = targetExpr.Evaluate();
+		if(targetExpr.Type is MatchTypeNode)
+			return new MatchAccess(targetExpr.CheckIR(typeof(Expression)), member.CheckIR(typeof(Entity)));
+
+		if(targetExpr.IR is VariableExpression)
+		{
+			return new Qualification(targetExpr.CheckIR(typeof(VariableExpression)).GetVariable(),
+					member.CheckIR(typeof(Entity)));
+		}
+		else if(targetExpr.IR is GraphEntityExpression)
+		{
+			return new Qualification(targetExpr.CheckIR(typeof(GraphEntityExpression)).GetGraphEntity(),
+					member.CheckIR(typeof(Entity)));
+		}
+		else
+		{
+			return new Qualification(targetExpr.CheckIR(typeof(Expression)), // normally a Cast (or an untyped exec var)
+					member.CheckIR(typeof(Entity)));
+		}
+	}
+
+	public static string KindStr
+	{
+		get
+		{
 		return "member";
+		}
 	}
+}
+
 }

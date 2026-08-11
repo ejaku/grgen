@@ -1,56 +1,56 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.invocation;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.IdentExprNode;
-import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.stmt.array.ArrayAddAllNode;
-import de.unika.ipd.grgen.ast.stmt.array.ArrayAddItemNode;
-import de.unika.ipd.grgen.ast.stmt.array.ArrayClearNode;
-import de.unika.ipd.grgen.ast.stmt.array.ArrayRemoveItemNode;
-import de.unika.ipd.grgen.ast.stmt.deque.DequeAddItemNode;
-import de.unika.ipd.grgen.ast.stmt.deque.DequeClearNode;
-import de.unika.ipd.grgen.ast.stmt.deque.DequeRemoveItemNode;
-import de.unika.ipd.grgen.ast.stmt.map.MapAddItemNode;
-import de.unika.ipd.grgen.ast.stmt.map.MapClearNode;
-import de.unika.ipd.grgen.ast.stmt.map.MapRemoveItemNode;
-import de.unika.ipd.grgen.ast.stmt.set.SetAddAllNode;
-import de.unika.ipd.grgen.ast.stmt.set.SetAddItemNode;
-import de.unika.ipd.grgen.ast.stmt.set.SetClearNode;
-import de.unika.ipd.grgen.ast.stmt.set.SetRemoveItemNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
-import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
-import de.unika.ipd.grgen.ir.IR;
-
-public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.invocation
 {
-	static {
-		setClassName(ProcedureMethodInvocationDecisionNode.class, "procedure method invocation decision statement");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using IdentExprNode = de.unika.ipd.grgen.ast.expr.IdentExprNode;
+using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+using ExternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using ArrayAddAllNode = de.unika.ipd.grgen.ast.stmt.array.ArrayAddAllNode;
+using ArrayAddItemNode = de.unika.ipd.grgen.ast.stmt.array.ArrayAddItemNode;
+using ArrayClearNode = de.unika.ipd.grgen.ast.stmt.array.ArrayClearNode;
+using ArrayRemoveItemNode = de.unika.ipd.grgen.ast.stmt.array.ArrayRemoveItemNode;
+using DequeAddItemNode = de.unika.ipd.grgen.ast.stmt.deque.DequeAddItemNode;
+using DequeClearNode = de.unika.ipd.grgen.ast.stmt.deque.DequeClearNode;
+using DequeRemoveItemNode = de.unika.ipd.grgen.ast.stmt.deque.DequeRemoveItemNode;
+using MapAddItemNode = de.unika.ipd.grgen.ast.stmt.map.MapAddItemNode;
+using MapClearNode = de.unika.ipd.grgen.ast.stmt.map.MapClearNode;
+using MapRemoveItemNode = de.unika.ipd.grgen.ast.stmt.map.MapRemoveItemNode;
+using SetAddAllNode = de.unika.ipd.grgen.ast.stmt.set.SetAddAllNode;
+using SetAddItemNode = de.unika.ipd.grgen.ast.stmt.set.SetAddItemNode;
+using SetClearNode = de.unika.ipd.grgen.ast.stmt.set.SetClearNode;
+using SetRemoveItemNode = de.unika.ipd.grgen.ast.stmt.set.SetRemoveItemNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using DequeTypeNode = de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
+using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using ResolvingEnvironment = de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
+using IR = de.unika.ipd.grgen.ir.IR;
+
+public class ProcedureMethodInvocationDecisionNode : ProcedureInvocationBaseNode
+{
+	static ProcedureMethodInvocationDecisionNode()
+	{
+		SetClassName(typeof(ProcedureMethodInvocationDecisionNode), "procedure method invocation decision statement");
 	}
 
 	private BaseNode target;
@@ -59,322 +59,409 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 
 	public ProcedureMethodInvocationDecisionNode(BaseNode target, IdentNode methodIdent, CollectNode<ExprNode> arguments,
 			int context)
+		: base(methodIdent.Coords, arguments, context)
 	{
-		super(methodIdent.getCoords(), arguments, context);
-		this.target = becomeParent(target);
-		this.methodIdent = becomeParent(methodIdent);
+		this.target = BecomeParent(target);
+		this.methodIdent = BecomeParent(methodIdent);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(target);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(target);
 		//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
-		children.add(arguments);
-		if(isResolved())
-			children.add(result);
+		children.Add(arguments);
+		if(IsResolved())
+			children.Add(result);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("target");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("target");
 		//childrenNames.add("methodIdent");
-		childrenNames.add("params");
-		if(isResolved())
-			childrenNames.add("result");
+		childrenNames.Add("params");
+		if(IsResolved())
+			childrenNames.Add("result");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		if(!target.resolve())
+		if(!target.Resolve())
 			return false;
 
-		String methodName = methodIdent.toString();
+		string methodName = methodIdent.ToString();
 		VarDeclNode targetVar = null;
 		QualIdentNode targetQual = null;
 		TypeNode targetType = null;
-		if(target instanceof QualIdentNode) {
+		if(target is QualIdentNode)
+		{
 			targetQual = (QualIdentNode)target;
-			targetType = targetQual.getDecl().getDeclType();
-		} else if(((IdentExprNode)target).decl instanceof VarDeclNode) {
-			targetVar = (VarDeclNode)((IdentExprNode)target).decl;
-			targetType = targetVar.getDeclType();
-		} else {
-			targetType = ((IdentExprNode)target).getType();
+			targetType = targetQual.Decl.DeclType;
 		}
+		else if(((IdentExprNode)target).decl is VarDeclNode)
+		{
+			targetVar = (VarDeclNode)((IdentExprNode)target).decl;
+			targetType = targetVar.DeclType;
+		}
+		else
+			targetType = ((IdentExprNode)target).Type;
 
-		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(null, error, getCoords());
-		if(targetType instanceof MapTypeNode) {
-			result = decideMap(targetQual, targetVar, methodName, arguments, resolvingEnvironment);
-		} else if(targetType instanceof SetTypeNode) {
-			result = decideSet(targetQual, targetVar, methodName, arguments, resolvingEnvironment);
-		} else if(targetType instanceof ArrayTypeNode) {
-			result = decideArray(targetQual, targetVar, methodName, arguments, resolvingEnvironment);
-		} else if(targetType instanceof DequeTypeNode) {
-			result = decideDeque(targetQual, targetVar, methodName, arguments, resolvingEnvironment);
-		} else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalObjectTypeNode)) {
+		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(null, error, Coords);
+		if(targetType is MapTypeNode)
+			result = DecideMap(targetQual, targetVar, methodName, arguments, resolvingEnvironment);
+		else if(targetType is SetTypeNode)
+			result = DecideSet(targetQual, targetVar, methodName, arguments, resolvingEnvironment);
+		else if(targetType is ArrayTypeNode)
+			result = DecideArray(targetQual, targetVar, methodName, arguments, resolvingEnvironment);
+		else if(targetType is DequeTypeNode)
+			result = DecideDeque(targetQual, targetVar, methodName, arguments, resolvingEnvironment);
+		else if(targetType is InheritanceTypeNode && !(targetType is ExternalObjectTypeNode))
+		{
 			// we don't support calling a method from a graph element typed attribute contained in a graph element, only calling the method directly on the graph element
-			result = new ProcedureMethodInvocationNode(((IdentExprNode)target).getIdent(), methodIdent, arguments, context);
-			result.resolve();
-		} else if(targetType instanceof ExternalObjectTypeNode) {
+			result = new ProcedureMethodInvocationNode(((IdentExprNode)target).Ident, methodIdent, arguments, context);
+			result.Resolve();
+		}
+		else if(targetType is ExternalObjectTypeNode)
+		{
 			if(targetQual != null)
 				result = new ExternalProcedureMethodInvocationNode(targetQual, methodIdent, arguments, context);
 			else
 				result = new ExternalProcedureMethodInvocationNode(targetVar, methodIdent, arguments, context);
-			result.resolve();
-		} else {
-			reportError(targetType.getTypeName() + " does not have any procedure methods.");
+			result.Resolve();
 		}
-		
+		else
+			ReportError(targetType.TypeName + " does not have any procedure methods.");
+
 		return result != null;
 	}
 
-	private static BuiltinProcedureInvocationBaseNode decideMap(QualIdentNode targetQual, VarDeclNode targetVar,
-			String methodName, CollectNode<ExprNode> arguments,
+	private static BuiltinProcedureInvocationBaseNode DecideMap(QualIdentNode targetQual, VarDeclNode targetVar,
+			string methodName, CollectNode<ExprNode> arguments,
 			ResolvingEnvironment env)
 	{
-		switch(methodName) {
+		switch(methodName)
+		{
 		case "add":
-			if(arguments.size() != 2) {
-				env.reportError("map<S,T>.add(key, value) expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("map<S,T>.add(key, value) expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(targetQual != null)
-					return new MapAddItemNode(env.getCoords(), targetQual, arguments.get(0), arguments.get(1));
-				else
-					return new MapAddItemNode(env.getCoords(), targetVar, arguments.get(0), arguments.get(1));
 			}
+			else
+			{
+				if(targetQual != null)
+					return new MapAddItemNode(env.Coords, targetQual, arguments.Get(0), arguments.Get(1));
+				else
+					return new MapAddItemNode(env.Coords, targetVar, arguments.Get(0), arguments.Get(1));
+			}
+			goto case "rem";
 		case "rem":
-			if(arguments.size() != 1) {
-				env.reportError("map<S,T>.rem(key) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("map<S,T>.rem(key) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(targetQual != null)
-					return new MapRemoveItemNode(env.getCoords(), targetQual, arguments.get(0));
-				else
-					return new MapRemoveItemNode(env.getCoords(), targetVar, arguments.get(0));
 			}
+			else
+			{
+				if(targetQual != null)
+					return new MapRemoveItemNode(env.Coords, targetQual, arguments.Get(0));
+				else
+					return new MapRemoveItemNode(env.Coords, targetVar, arguments.Get(0));
+			}
+			goto case "clear";
 		case "clear":
-			if(arguments.size() != 0) {
-				env.reportError("map<S,T>.clear() expects 0 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 0)
+			{
+				env.ReportError("map<S,T>.clear() expects 0 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(targetQual != null)
-					return new MapClearNode(env.getCoords(), targetQual);
-				else
-					return new MapClearNode(env.getCoords(), targetVar);
 			}
+			else
+			{
+				if(targetQual != null)
+					return new MapClearNode(env.Coords, targetQual);
+				else
+					return new MapClearNode(env.Coords, targetVar);
+			}
+			goto default;
 		default:
-			env.reportError("map<S,T> does not have a procedure method named " + methodName
+			env.ReportError("map<S,T> does not have a procedure method named " + methodName
 					+ " (available are add, rem, clear).");
 			return null;
 		}
 	}
 
-	private static BuiltinProcedureInvocationBaseNode decideSet(QualIdentNode targetQual, VarDeclNode targetVar,
-			String methodName, CollectNode<ExprNode> arguments,
+	private static BuiltinProcedureInvocationBaseNode DecideSet(QualIdentNode targetQual, VarDeclNode targetVar,
+			string methodName, CollectNode<ExprNode> arguments,
 			ResolvingEnvironment env)
 	{
-		switch(methodName) {
+		switch(methodName)
+		{
 		case "add":
-			if(arguments.size() != 1) {
-				env.reportError("set<T>.add(value) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("set<T>.add(value) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(targetQual != null)
-					return new SetAddItemNode(env.getCoords(), targetQual, arguments.get(0));
-				else
-					return new SetAddItemNode(env.getCoords(), targetVar, arguments.get(0));
 			}
+			else
+			{
+				if(targetQual != null)
+					return new SetAddItemNode(env.Coords, targetQual, arguments.Get(0));
+				else
+					return new SetAddItemNode(env.Coords, targetVar, arguments.Get(0));
+			}
+			goto case "addAll";
 		case "addAll":
-			if(arguments.size() != 1) {
-				env.reportError("set<T>.addAll(set<T>) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("set<T>.addAll(set<T>) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(targetQual != null) {
-					env.reportError("set<T>.addAll(set<T>) is not available on attributes (only variables; so you have to copy-assign or have to use a loop).");
-				} else {
-					return new SetAddAllNode(env.getCoords(), targetVar, arguments.get(0));
-				}
 			}
+			else
+			{
+				if(targetQual != null)
+					env.ReportError("set<T>.addAll(set<T>) is not available on attributes (only variables; so you have to copy-assign or have to use a loop).");
+				else
+					return new SetAddAllNode(env.Coords, targetVar, arguments.Get(0));
+			}
+			goto case "rem";
 		case "rem":
-			if(arguments.size() != 1) {
-				env.reportError("set<T>.rem(value) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("set<T>.rem(value) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(targetQual != null)
-					return new SetRemoveItemNode(env.getCoords(), targetQual, arguments.get(0));
-				else
-					return new SetRemoveItemNode(env.getCoords(), targetVar, arguments.get(0));
 			}
+			else
+			{
+				if(targetQual != null)
+					return new SetRemoveItemNode(env.Coords, targetQual, arguments.Get(0));
+				else
+					return new SetRemoveItemNode(env.Coords, targetVar, arguments.Get(0));
+			}
+			goto case "clear";
 		case "clear":
-			if(arguments.size() != 0) {
-				env.reportError("set<T>.clear() expects 0 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 0)
+			{
+				env.ReportError("set<T>.clear() expects 0 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(targetQual != null)
-					return new SetClearNode(env.getCoords(), targetQual);
-				else
-					return new SetClearNode(env.getCoords(), targetVar);
 			}
+			else
+			{
+				if(targetQual != null)
+					return new SetClearNode(env.Coords, targetQual);
+				else
+					return new SetClearNode(env.Coords, targetVar);
+			}
+			goto default;
 		default:
-			env.reportError("set<T> does not have a procedure method named " + methodName
+			env.ReportError("set<T> does not have a procedure method named " + methodName
 					+ " (available are add, addAll, rem, clear).");
 			return null;
 		}
 	}
 
-	private static BuiltinProcedureInvocationBaseNode decideArray(QualIdentNode targetQual, VarDeclNode targetVar,
-			String methodName, CollectNode<ExprNode> arguments,
+	private static BuiltinProcedureInvocationBaseNode DecideArray(QualIdentNode targetQual, VarDeclNode targetVar,
+			string methodName, CollectNode<ExprNode> arguments,
 			ResolvingEnvironment env)
 	{
-		switch(methodName) {
+		switch(methodName)
+		{
 		case "add":
-			if(arguments.size() != 1 && arguments.size() != 2) {
-				env.reportError("array<T>.add(value)/array<T>.add(value, index) expects 1 or 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1 && arguments.Size() != 2)
+			{
+				env.ReportError("array<T>.add(value)/array<T>.add(value, index) expects 1 or 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(targetQual != null) {
-					return new ArrayAddItemNode(env.getCoords(), targetQual, arguments.get(0),
-							arguments.size() != 1 ? arguments.get(1) : null);
-				} else {
-					return new ArrayAddItemNode(env.getCoords(), targetVar, arguments.get(0),
-							arguments.size() != 1 ? arguments.get(1) : null);
-				}
 			}
-		case "addAll":
-			if(arguments.size() != 1) {
-				env.reportError("array<T>.addAll(array<T>) expects 1 argument (given are " + arguments.size() + " arguments).");
-				return null;
-			} else {
-				if(targetQual != null) {
-					env.reportError("array<T>.addAll(array<T>) is not available on attributes (only variables; so you have to copy-assign or have to use a loop).");
-				} else {
-					return new ArrayAddAllNode(env.getCoords(), targetVar, arguments.get(0));
-				}
-			}
-		case "rem":
-			if(arguments.size() != 1 && arguments.size() != 0) {
-				env.reportError("array<T>.rem()/array<T>.rem(index) expects 0 or 1 arguments (given are " + arguments.size() + " arguments).");
-				return null;
-			} else {
-				if(targetQual != null) {
-					return new ArrayRemoveItemNode(env.getCoords(), targetQual,
-							arguments.size() != 0 ? arguments.get(0) : null);
-				} else {
-					return new ArrayRemoveItemNode(env.getCoords(), targetVar,
-							arguments.size() != 0 ? arguments.get(0) : null);
-				}
-			}
-		case "clear":
-			if(arguments.size() != 0) {
-				env.reportError("array<T>.clear() expects no arguments (given are " + arguments.size() + " arguments).");
-				return null;
-			} else {
+			else
+			{
 				if(targetQual != null)
-					return new ArrayClearNode(env.getCoords(), targetQual);
+				{
+					return new ArrayAddItemNode(env.Coords, targetQual, arguments.Get(0),
+							arguments.Size() != 1 ? arguments.Get(1) : null);
+				}
 				else
-					return new ArrayClearNode(env.getCoords(), targetVar);
+				{
+					return new ArrayAddItemNode(env.Coords, targetVar, arguments.Get(0),
+							arguments.Size() != 1 ? arguments.Get(1) : null);
+				}
 			}
+			goto case "addAll";
+		case "addAll":
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("array<T>.addAll(array<T>) expects 1 argument (given are " + arguments.Size() + " arguments).");
+				return null;
+			}
+			else
+			{
+				if(targetQual != null)
+					env.ReportError("array<T>.addAll(array<T>) is not available on attributes (only variables; so you have to copy-assign or have to use a loop).");
+				else
+					return new ArrayAddAllNode(env.Coords, targetVar, arguments.Get(0));
+			}
+			goto case "rem";
+		case "rem":
+			if(arguments.Size() != 1 && arguments.Size() != 0)
+			{
+				env.ReportError("array<T>.rem()/array<T>.rem(index) expects 0 or 1 arguments (given are " + arguments.Size() + " arguments).");
+				return null;
+			}
+			else
+			{
+				if(targetQual != null)
+				{
+					return new ArrayRemoveItemNode(env.Coords, targetQual,
+							arguments.Size() != 0 ? arguments.Get(0) : null);
+				}
+				else
+				{
+					return new ArrayRemoveItemNode(env.Coords, targetVar,
+							arguments.Size() != 0 ? arguments.Get(0) : null);
+				}
+			}
+			goto case "clear";
+		case "clear":
+			if(arguments.Size() != 0)
+			{
+				env.ReportError("array<T>.clear() expects no arguments (given are " + arguments.Size() + " arguments).");
+				return null;
+			}
+			else
+			{
+				if(targetQual != null)
+					return new ArrayClearNode(env.Coords, targetQual);
+				else
+					return new ArrayClearNode(env.Coords, targetVar);
+			}
+			goto default;
 		default:
-			env.reportError("array<T> does not have a procedure method named " + methodName
+			env.ReportError("array<T> does not have a procedure method named " + methodName
 					+ " (available are add, addAll, rem, clear).");
 			return null;
 		}
 	}
 
-	private static BuiltinProcedureInvocationBaseNode decideDeque(QualIdentNode targetQual, VarDeclNode targetVar,
-			String methodName, CollectNode<ExprNode> arguments,
+	private static BuiltinProcedureInvocationBaseNode DecideDeque(QualIdentNode targetQual, VarDeclNode targetVar,
+			string methodName, CollectNode<ExprNode> arguments,
 			ResolvingEnvironment env)
 	{
-		switch(methodName) {
+		switch(methodName)
+		{
 		case "add":
-			if(arguments.size() != 1 && arguments.size() != 2) {
-				env.reportError("deque<T>.add(value)/deque<T>.add(value, index) expects 1 or 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1 && arguments.Size() != 2)
+			{
+				env.ReportError("deque<T>.add(value)/deque<T>.add(value, index) expects 1 or 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(targetQual != null) {
-					return new DequeAddItemNode(env.getCoords(), targetQual, arguments.get(0),
-							arguments.size() != 1 ? arguments.get(1) : null);
-				} else {
-					return new DequeAddItemNode(env.getCoords(), targetVar, arguments.get(0),
-							arguments.size() != 1 ? arguments.get(1) : null);
-				}
 			}
-		case "rem":
-			if(arguments.size() != 1 && arguments.size() != 0) {
-				env.reportError("deque<T>.rem()/deque<T>.rem(index) expects 0 or 1 arguments (given are " + arguments.size() + " arguments).");
-				return null;
-			} else {
-				if(targetQual != null) {
-					return new DequeRemoveItemNode(env.getCoords(), targetQual,
-							arguments.size() != 0 ? arguments.get(0) : null);
-				} else {
-					return new DequeRemoveItemNode(env.getCoords(), targetVar,
-							arguments.size() != 0 ? arguments.get(0) : null);
-				}
-			}
-		case "clear":
-			if(arguments.size() != 0) {
-				env.reportError("deque<T>.clear() expects 0 arguments (given are " + arguments.size() + " arguments).");
-				return null;
-			} else {
+			else
+			{
 				if(targetQual != null)
-					return new DequeClearNode(env.getCoords(), targetQual);
+				{
+					return new DequeAddItemNode(env.Coords, targetQual, arguments.Get(0),
+							arguments.Size() != 1 ? arguments.Get(1) : null);
+				}
 				else
-					return new DequeClearNode(env.getCoords(), targetVar);
+				{
+					return new DequeAddItemNode(env.Coords, targetVar, arguments.Get(0),
+							arguments.Size() != 1 ? arguments.Get(1) : null);
+				}
 			}
+			goto case "rem";
+		case "rem":
+			if(arguments.Size() != 1 && arguments.Size() != 0)
+			{
+				env.ReportError("deque<T>.rem()/deque<T>.rem(index) expects 0 or 1 arguments (given are " + arguments.Size() + " arguments).");
+				return null;
+			}
+			else
+			{
+				if(targetQual != null)
+				{
+					return new DequeRemoveItemNode(env.Coords, targetQual,
+							arguments.Size() != 0 ? arguments.Get(0) : null);
+				}
+				else
+				{
+					return new DequeRemoveItemNode(env.Coords, targetVar,
+							arguments.Size() != 0 ? arguments.Get(0) : null);
+				}
+			}
+			goto case "clear";
+		case "clear":
+			if(arguments.Size() != 0)
+			{
+				env.ReportError("deque<T>.clear() expects 0 arguments (given are " + arguments.Size() + " arguments).");
+				return null;
+			}
+			else
+			{
+				if(targetQual != null)
+					return new DequeClearNode(env.Coords, targetQual);
+				else
+					return new DequeClearNode(env.Coords, targetVar);
+			}
+			goto default;
 		default:
-			env.reportError("deque<T> does not have a procedure method named " + methodName
+			env.ReportError("deque<T> does not have a procedure method named " + methodName
 					+ " (available are add, rem, clear).");
 			return null;
 		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION
-				&& !(result instanceof ProcedureMethodInvocationNode
-						|| result instanceof ExternalProcedureMethodInvocationNode)
-				&& target instanceof QualIdentNode) {
-			reportError("A procedure method call (built-in-procedure-method " + methodIdent + ") is not allowed in function or pattern part context.");
+				&& !(result is ProcedureMethodInvocationNode
+						|| result is ExternalProcedureMethodInvocationNode)
+				&& target is QualIdentNode)
+		{
+			ReportError("A procedure method call (built-in-procedure-method " + methodIdent + ") is not allowed in function or pattern part context.");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	public List<TypeNode> getType()
+	public override IList<TypeNode> Type
 	{
-		return result.getType();
+		get
+		{
+		return result.Type;
+		}
 	}
 
-	public int getNumReturnTypes()
+	public virtual int NumReturnTypes
 	{
-		return result.getType().size();
+		get
+		{
+		return result.Type.Count;
+		}
 	}
-	
-	public IdentNode getIdent()
+
+	public virtual IdentNode Ident
 	{
+		get
+		{
 		return methodIdent;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return result.getIR();
+		return result.IR;
 	}
+}
+
 }

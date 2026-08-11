@@ -1,34 +1,35 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.deque;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.deque.DequeCopyConstructor;
-import de.unika.ipd.grgen.ir.type.container.DequeType;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class DequeCopyConstructorNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr.deque
 {
-	static {
-		setClassName(DequeInitNode.class, "deque copy constructor");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using DequeTypeNode = de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using DequeCopyConstructor = de.unika.ipd.grgen.ir.expr.deque.DequeCopyConstructor;
+using DequeType = de.unika.ipd.grgen.ir.type.container.DequeType;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class DequeCopyConstructorNode : ExprNode
+{
+	static DequeCopyConstructorNode()
+	{
+		SetClassName(typeof(DequeInitNode), "deque copy constructor");
 	}
 
 	private DequeTypeNode dequeType;
@@ -36,58 +37,64 @@ public class DequeCopyConstructorNode extends ExprNode
 	private BaseNode lhsUnresolved;
 
 	public DequeCopyConstructorNode(Coords coords, IdentNode member, DequeTypeNode dequeType, ExprNode dequeToCopy)
+		: base(coords)
 	{
-		super(coords);
 
-		if(member != null) {
-			lhsUnresolved = becomeParent(member);
-		} else {
+		if(member != null)
+			lhsUnresolved = BecomeParent(member);
+		else
 			this.dequeType = dequeType;
-		}
 		this.dequeToCopy = dequeToCopy;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(dequeToCopy);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(dequeToCopy);
 		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("dequeToCopy");
-		return childrenNames;
-	}
-
-	@Override
-	protected boolean resolveLocal()
-	{
-		if(dequeType != null) {
-			return dequeType.resolve();
-		} else {
-			return true;
 		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	public override ICollection<string> ChildrenNames
 	{
-		boolean success = true;
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("dequeToCopy");
+		return childrenNames;
+		}
+	}
 
-		if(lhsUnresolved != null) {
-			reportError("A deque copy constructor is not allowed in a deque initialization in the model.");
+	protected internal override bool ResolveLocal()
+	{
+		if(dequeType != null)
+			return dequeType.Resolve();
+		else
+			return true;
+	}
+
+	protected internal override bool CheckLocal()
+	{
+		bool success = true;
+
+		if(lhsUnresolved != null)
+		{
+			ReportError("A deque copy constructor is not allowed in a deque initialization in the model.");
 			success = false;
-		} else {
-			if(dequeToCopy.getType() instanceof DequeTypeNode) {
-				DequeTypeNode sourceDequeType = (DequeTypeNode)dequeToCopy.getType();
-				success &= checkCopyConstructorTypes(dequeType.valueType, sourceDequeType.valueType, "deque", false);
-			} else {
-				reportError("A deque copy constructor expects a value of deque type to copy"
-						+ " (but is given " + dequeToCopy.getType().getTypeName() + ").");
+		}
+		else
+		{
+			if(dequeToCopy.Type is DequeTypeNode)
+			{
+				DequeTypeNode sourceDequeType = (DequeTypeNode)dequeToCopy.Type;
+				success &= CheckCopyConstructorTypes(dequeType.valueType, sourceDequeType.valueType, "deque", false);
+			}
+			else
+			{
+				ReportError("A deque copy constructor expects a value of deque type to copy"
+						+ " (but is given " + dequeToCopy.Type.TypeName + ").");
 				success = false;
 			}
 		}
@@ -95,22 +102,28 @@ public class DequeCopyConstructorNode extends ExprNode
 		return success;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		assert(isResolved());
+		get
+		{
+		Debug.Assert((IsResolved()));
 		return dequeType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		dequeToCopy = dequeToCopy.evaluate();
-		return new DequeCopyConstructor(dequeToCopy.checkIR(Expression.class), dequeType.checkIR(DequeType.class));
+		dequeToCopy = dequeToCopy.Evaluate();
+		return new DequeCopyConstructor(dequeToCopy.CheckIR(typeof(Expression)), dequeType.CheckIR(typeof(DequeType)));
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "deque copy constructor";
+		}
 	}
+}
+
 }

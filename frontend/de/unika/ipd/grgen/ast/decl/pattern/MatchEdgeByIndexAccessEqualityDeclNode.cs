@@ -1,124 +1,130 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.model.Index;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
-
-public class MatchEdgeByIndexAccessEqualityDeclNode extends MatchEdgeByIndexDeclNode
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(MatchEdgeByIndexAccessEqualityDeclNode.class, "match edge by index access equality decl");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Index = de.unika.ipd.grgen.ir.model.Index;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using IndexAccessEquality = de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
+
+public class MatchEdgeByIndexAccessEqualityDeclNode : MatchEdgeByIndexDeclNode
+{
+	static MatchEdgeByIndexAccessEqualityDeclNode()
+	{
+		SetClassName(typeof(MatchEdgeByIndexAccessEqualityDeclNode), "match edge by index access equality decl");
 	}
 
 	private ExprNode expr;
 
 	public MatchEdgeByIndexAccessEqualityDeclNode(IdentNode id, BaseNode type, int context,
 			IdentNode index, ExprNode expr, PatternGraphLhsNode directlyNestingLHSGraph)
+		: base(id, type, context, index, directlyNestingLHSGraph)
 	{
-		super(id, type, context, index, directlyNestingLHSGraph);
 		this.expr = expr;
-		becomeParent(this.expr);
+		BecomeParent(this.expr);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
-		children.add(constraints);
-		children.add(getValidVersion(indexUnresolved, index));
-		children.add(expr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
+		children.Add(constraints);
+		children.Add(GetValidVersion(indexUnresolved, index));
+		children.Add(expr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("constraints");
-		childrenNames.add("index");
-		childrenNames.add("expression");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("constraints");
+		childrenNames.Add("index");
+		childrenNames.Add("expression");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = super.resolveLocal();
-		successfullyResolved &= expr.resolve();
+		bool successfullyResolved = base.ResolveLocal();
+		successfullyResolved &= expr.Resolve();
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		boolean res = super.checkLocal();
-		TypeNode expectedIndexAccessType = index.getExpectedAccessType();
-		TypeNode indexAccessType = expr.getType();
-		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
-			String expTypeName = expectedIndexAccessType.getTypeName();
-			String typeName = indexAccessType.getTypeName();
-			ident.reportError("Cannot convert type used in accessing index from " + typeName
+		bool res = base.CheckLocal();
+		TypeNode expectedIndexAccessType = index.ExpectedAccessType;
+		TypeNode indexAccessType = expr.Type;
+		if(!indexAccessType.IsCompatibleTo(expectedIndexAccessType))
+		{
+			string expTypeName = expectedIndexAccessType.TypeName;
+			string typeName = indexAccessType.TypeName;
+			ident.ReportError("Cannot convert type used in accessing index from " + typeName
 					+ " to the expected " + expTypeName
-					+ " (in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
+					+ " (in match edge" + EmptyWhenAnonymousPostfix(" ") + " by index access of " + index.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
-		TypeNode expectedEntityType = getDeclType();
-		InheritanceTypeNode entityType = index.getType();
-		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
-			String expTypeName = expectedEntityType.toStringWithDeclarationCoords();
-			String typeName = entityType.toStringWithDeclarationCoords();
-			ident.reportError("Cannot convert index type from " + typeName
+		TypeNode expectedEntityType = DeclType;
+		InheritanceTypeNode entityType = index.Type;
+		if(!entityType.IsCompatibleTo(expectedEntityType) && !expectedEntityType.IsCompatibleTo(entityType))
+		{
+			string expTypeName = expectedEntityType.ToStringWithDeclarationCoords();
+			string typeName = entityType.ToStringWithDeclarationCoords();
+			ident.ReportError("Cannot convert index type from " + typeName
 					+ " to the expected pattern element type " + expTypeName
-					+ " (in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
+					+ " (in match edge" + EmptyWhenAnonymousPostfix(" ") + " by index access of " + index.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return res;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
-		if(isIRAlreadySet()) { // break endless recursion in case of cycle in usage
-			return getIR();
-		}
+		if(IsIRAlreadySet()) // break endless recursion in case of cycle in usage
+			return IR;
 
-		Edge edge = (Edge)super.constructIR();
+		Edge edge = (Edge)base.ConstructIR();
 
-		setIR(edge);
+		IR = edge;
 
-		expr = expr.evaluate();
-		edge.setIndex(new IndexAccessEquality(index.checkIR(Index.class), expr.checkIR(Expression.class)));
+		expr = expr.Evaluate();
+		edge.Index = new IndexAccessEquality(index.CheckIR(typeof(Index)), expr.CheckIR(typeof(Expression)));
 		return edge;
 	}
+}
+
 }

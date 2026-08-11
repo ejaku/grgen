@@ -1,50 +1,52 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.procenv;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.procenv.DebugHaltProc;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class DebugHaltProcNode extends DebugProcNode
+namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
-	static {
-		setClassName(DebugHaltProcNode.class, "debug halt procedure");
+
+using System.Collections.Generic;
+
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using DebugHaltProc = de.unika.ipd.grgen.ir.stmt.procenv.DebugHaltProc;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class DebugHaltProcNode : DebugProcNode
+{
+	static DebugHaltProcNode()
+	{
+		SetClassName(typeof(DebugHaltProcNode), "debug halt procedure");
 	}
 
 	public DebugHaltProcNode(Coords coords)
+		: base(coords)
 	{
-		super(coords);
 	}
 
-	@Override
-	protected String shortSignature()
+	protected internal override string ShortSignature()
 	{
 		return "Debug::halt()";
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		List<Expression> expressions = new ArrayList<Expression>();
-		for(ExprNode expr : exprs.getChildrenExact()) {
-			ExprNode exprEvaluated = expr.evaluate();
-			expressions.add(exprEvaluated.checkIR(Expression.class));
+		IList<Expression> expressions = new List<Expression>();
+		foreach(ExprNode expr in exprs.GetChildrenExact())
+		{
+			ExprNode exprEvaluated = expr.Evaluate();
+			expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
 		}
 		return new DebugHaltProc(expressions);
 	}
+}
+
 }

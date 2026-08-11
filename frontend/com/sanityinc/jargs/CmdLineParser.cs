@@ -1,685 +1,695 @@
-/**
- * Copyright (c) 2001-2012 Steve Purcell.
- * Copyright (c) 2002      Vidar Holen.
- * Copyright (c) 2002      Michal Ceresna.
- * Copyright (c) 2005      Ewan Mellor.
- * Copyright (c) 2010-2012 penSec.IT UG (haftungsbeschränkt).
- * 
- * (c) 2026 adaptations to port to C# and to the GrGen project coding style by Edgar Jakumeit
- *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright notice, this
- * list of conditions and the following disclaimer. Redistributions in binary
- * form must reproduce the above copyright notice, this list of conditions and
- * the following disclaimer in the documentation and/or other materials provided
- * with the distribution. Neither the name of the copyright holder nor the names
- * of its contributors may be used to endorse or promote products derived from
- * this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+﻿/// <summary>
+/// Copyright (c) 2001-2012 Steve Purcell.
+/// Copyright (c) 2002      Vidar Holen.
+/// Copyright (c) 2002      Michal Ceresna.
+/// Copyright (c) 2005      Ewan Mellor.
+/// Copyright (c) 2010-2012 penSec.IT UG (haftungsbeschränkt).
+/// 
+/// (c) 2026 adaptations to port to C# and to the GrGen project coding style by Edgar Jakumeit
+/// 
+/// All rights reserved.
+/// 
+/// Redistribution and use in source and binary forms, with or without
+/// modification, are permitted provided that the following conditions are met:
+/// Redistributions of source code must retain the above copyright notice, this
+/// list of conditions and the following disclaimer. Redistributions in binary
+/// form must reproduce the above copyright notice, this list of conditions and
+/// the following disclaimer in the documentation and/or other materials provided
+/// with the distribution. Neither the name of the copyright holder nor the names
+/// of its contributors may be used to endorse or promote products derived from
+/// this software without specific prior written permission.
+/// 
+/// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+/// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+/// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+/// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+/// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+/// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+/// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+/// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+/// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+/// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+/// POSSIBILITY OF SUCH DAMAGE.
+/// </summary>
 
-package com.sanityinc.jargs;
+namespace com.sanityinc.jargs
+{
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+using System;
+using System.Collections.Generic;
 
-/**
- * Largely GNU-compatible command-line options parser. Has short (-v) and
- * long-form (--verbose) option support, and also allows options with
- * associated values (-d 2, --debug 2, --debug=2). Option processing
- * can be explicitly terminated by the argument '--'.
- *
- * @author Steve Purcell
- * @author penSec.IT UG (haftungsbeschränkt)
- *
- * @version 2.0
- * @see com.sanityinc.jargs.examples.OptionTest
- */
+/// <summary>
+/// Largely GNU-compatible command-line options parser. Has short (-v) and
+/// long-form (--verbose) option support, and also allows options with
+/// associated values (-d 2, --debug 2, --debug=2). Option processing
+/// can be explicitly terminated by the argument '--'.
+/// 
+/// @author Steve Purcell
+/// @author penSec.IT UG (haftungsbeschränkt)
+/// 
+/// @version 2.0 </summary>
+/// <seealso cref="com.sanityinc.jargs.examples.OptionTest"/>
 public class CmdLineParser
 {
-	/**
-	 * Base class for exceptions that may be thrown when options are parsed
-	 */
-	public static abstract class OptionException extends Exception
+	/// <summary>
+	/// Base class for exceptions that may be thrown when options are parsed
+	/// </summary>
+	public abstract class OptionException : Exception
 	{
-		OptionException(String msg)
+		internal OptionException(string msg) : base(msg)
 		{
-			super(msg);
 		}
 	}
 
-	/**
-	 * Thrown when the parsed command-line contains an option that is not
-	 * recognised. <code>getMessage()</code> returns
-	 * an error string suitable for reporting the error to the user (in
-	 * English).
-	 */
-	public static class UnknownOptionException extends OptionException
+	/// <summary>
+	/// Thrown when the parsed command-line contains an option that is not
+	/// recognised. <code>getMessage()</code> returns
+	/// an error string suitable for reporting the error to the user (in
+	/// English).
+	/// </summary>
+	public class UnknownOptionException : OptionException
 	{
-		UnknownOptionException( String optionName )
+		internal UnknownOptionException(string optionName)
+			: this(optionName, "Unknown option '" + optionName + "'")
 		{
-			this(optionName, "Unknown option '" + optionName + "'");
 		}
 
-		UnknownOptionException( String optionName, String msg )
+		internal UnknownOptionException(string optionName, string msg)
+			: base(msg)
 		{
-			super(msg);
 			this.optionName = optionName;
 		}
 
-		/**
-		 * @return the name of the option that was unknown (e.g. "-u")
-		 */
-		public String getOptionName()
+		/// <returns> the name of the option that was unknown (e.g. "-u") </returns>
+		public virtual string OptionName
 		{
+			get
+			{
 			return this.optionName;
+			}
 		}
 
-		private final String optionName;
+		internal readonly string optionName;
 	}
 
-	/**
-	 * Thrown when the parsed commandline contains multiple concatenated
-	 * short options, such as -abcd, where one is unknown.
-	 * <code>getMessage()</code> returns an english human-readable error
-	 * string.
-	 * @author Vidar Holen
-	 */
-	public static class UnknownSuboptionException extends UnknownOptionException
+	/// <summary>
+	/// Thrown when the parsed commandline contains multiple concatenated
+	/// short options, such as -abcd, where one is unknown.
+	/// <code>getMessage()</code> returns an english human-readable error
+	/// string.
+	/// @author Vidar Holen
+	/// </summary>
+	public class UnknownSuboptionException : UnknownOptionException
 	{
-		private char suboption;
+		internal char suboption;
 
-		UnknownSuboptionException( String option, char suboption )
+		internal UnknownSuboptionException(string option, char suboption)
+			: base(option, "Illegal option: '" + suboption + "' in '" + option + "'")
 		{
-			super(option, "Illegal option: '"+suboption+"' in '"+option+"'");
-			this.suboption=suboption;
+			this.suboption = suboption;
 		}
 
-		public char getSuboption()
+		public virtual char Suboption
 		{
+			get
+			{
 			return suboption;
+			}
 		}
 	}
 
-	/**
-	 * Thrown when the parsed commandline contains multiple concatenated
-	 * short options, such as -abcd, where one or more requires a value.
-	 * <code>getMessage()</code> returns an english human-readable error
-	 * string.
-	 * @author Vidar Holen
-	 */
-	public static class NotFlagException extends UnknownOptionException
+	/// <summary>
+	/// Thrown when the parsed commandline contains multiple concatenated
+	/// short options, such as -abcd, where one or more requires a value.
+	/// <code>getMessage()</code> returns an english human-readable error
+	/// string.
+	/// @author Vidar Holen
+	/// </summary>
+	public class NotFlagException : UnknownOptionException
 	{
-		private char notflag;
+		internal char notflag;
 
-		NotFlagException( String option, char unflaggish )
+		internal NotFlagException(string option, char unflaggish)
+			: base(option, "Illegal option: '" + option + "', '" +
+				unflaggish + "' requires a value")
 		{
-			super(option, "Illegal option: '"+option+"', '"+
-					unflaggish+"' requires a value");
-			notflag=unflaggish;
+			notflag = unflaggish;
 		}
 
-		/**
-		 * @return the first character which wasn't a boolean (e.g 'c')
-		 */
-		public char getOptionChar()
+		/// <returns> the first character which wasn't a boolean (e.g 'c') </returns>
+		public virtual char OptionChar
 		{
+			get
+			{
 			return notflag;
+			}
 		}
 	}
 
-	/**
-	 * Thrown when an illegal or missing value is given by the user for
-	 * an option that takes a value. <code>getMessage()</code> returns
-	 * an error string suitable for reporting the error to the user (in
-	 * English).
-	 *
-	 * No generic class can ever extend <code>java.lang.Throwable</code>, so we
-	 * have to return <code>Option&lt;?&gt;</code> instead of
-	 * <code>Option&lt;T&gt;</code>.
-	 */
-	public static class IllegalOptionValueException extends OptionException
+	/// <summary>
+	/// Thrown when an illegal or missing value is given by the user for
+	/// an option that takes a value. <code>getMessage()</code> returns
+	/// an error string suitable for reporting the error to the user (in
+	/// English).
+	/// 
+	/// No generic class can ever extend <code>java.lang.Throwable</code>, so we
+	/// have to return <code>Option&lt;?&gt;</code> instead of
+	/// <code>Option&lt;T&gt;</code>.
+	/// </summary>
+	public class IllegalOptionValueException : OptionException
 	{
-		private IllegalOptionValueException( String msg, OptionBase opt, String value )
+		internal IllegalOptionValueException(string msg, OptionBase opt, string value)
+			: base(msg)
 		{
-			super(msg);
 			this.option = opt;
 			this.value = value;
 		}
 
-		public static <T> IllegalOptionValueException CreateIllegalOptionValueException( Option<T> opt, String value )
+		public static IllegalOptionValueException CreateIllegalOptionValueException<T>(Option<T> opt, string value)
 		{
 			return new IllegalOptionValueException("Illegal value '" + value + "' for option " +
-					(opt.getShortForm() != null ? "-" + opt.getShortForm() + "/" : "") +
-					"--" + opt.getLongForm(), opt, value);
+					(!string.ReferenceEquals(opt.ShortForm, null) ? "-" + opt.ShortForm + "/" : "") +
+					"--" + opt.LongForm, opt, value);
 		}
 
-		/**
-		 * @return the name of the option whose value was illegal (e.g. "-u")
-		 */
-		public OptionBase getOption()
+		/// <returns> the name of the option whose value was illegal (e.g. "-u") </returns>
+		public virtual OptionBase Option
 		{
+			get
+			{
 			return this.option;
-		}
-
-		/**
-		 * @return the illegal value
-		 */
-		public String getValue()
-		{
-			return this.value;
-		}
-
-		private final OptionBase option;
-		private final String value;
-	}
-
-	public static abstract class OptionBase
-	{
-		public abstract boolean wantsValue();
-		public abstract String getShortForm();
-		public abstract String getLongForm();
-		public abstract Object getValue( String arg, Locale locale ) throws IllegalOptionValueException;
-	}
-
-	/**
-	 * Representation of a command-line option
-	 *
-	 * @param T Type of data configured by this option
-	 */
-	public static abstract class Option<T> extends OptionBase
-	{
-		protected Option( String longForm, boolean wantsValue )
-		{
-			this(null, longForm, wantsValue);
-		}
-
-		protected Option( char shortForm, String longForm, boolean wantsValue )
-		{
-			this(new String(new char[]{shortForm}), longForm, wantsValue);
-		}
-
-		private Option( String shortForm, String longForm, boolean wantsValue )
-		{
-			if ( longForm == null ) {
-				throw new IllegalArgumentException("Null longForm not allowed");
 			}
+		}
+
+		/// <returns> the illegal value </returns>
+		public virtual string Value
+		{
+			get
+			{
+			return this.value;
+			}
+		}
+
+		internal readonly OptionBase option;
+		internal readonly string value;
+	}
+
+	public abstract class OptionBase
+	{
+		public abstract bool WantsValue();
+		public abstract string ShortForm {get;}
+		public abstract string LongForm {get;}
+		public abstract object GetValue(string arg, Locale locale);
+	}
+
+	/// <summary>
+	/// Representation of a command-line option
+	/// </summary>
+	/// <param name="T"> Type of data configured by this option </param>
+	public abstract class Option<T> : OptionBase
+	{
+		protected internal Option(string longForm, bool wantsValue)
+			: this(null, longForm, wantsValue)
+		{
+		}
+
+		protected internal Option(char shortForm, string longForm, bool wantsValue)
+			: this(new string(new char[]{shortForm}), longForm, wantsValue)
+		{
+		}
+
+		internal Option(string shortForm, string longForm, bool wantsValue)
+		{
+			if(string.ReferenceEquals(longForm, null))
+				throw new ArgumentException("Null longForm not allowed");
 			this.shortForm = shortForm;
 			this.longForm = longForm;
 			this.wantsValue_ = wantsValue;
 		}
 
-		public String getShortForm()
+		public override string ShortForm
 		{
+			get
+			{
 			return this.shortForm;
+			}
 		}
 
-		public String getLongForm()
+		public override string LongForm
 		{
+			get
+			{
 			return this.longForm;
+			}
 		}
 
-		/**
-		 * Tells whether or not this option wants a value
-		 */
-		public boolean wantsValue()
+		/// <summary>
+		/// Tells whether or not this option wants a value
+		/// </summary>
+		public override bool WantsValue()
 		{
 			return this.wantsValue_;
 		}
 
-		public final T getValueExact( String arg, Locale locale ) throws IllegalOptionValueException
+		public T GetValueExact(string arg, Locale locale)
 		{
-			if ( this.wantsValue_ ) {
-				if ( arg == null ) {
+			if(this.wantsValue_)
+			{
+				if(string.ReferenceEquals(arg, null))
 					throw IllegalOptionValueException.CreateIllegalOptionValueException(this, "");
-				}
-				return this.parseValue(arg, locale);
-			} else {
-				return this.getDefaultValue();
+				return this.ParseValue(arg, locale);
+			}
+			else
+				return this.DefaultValue;
+		}
+
+		public sealed override object GetValue(string arg, Locale locale)
+		{
+			return this.GetValueExact(arg, locale);
+		}
+
+		/// <summary>
+		/// Override to extract and convert an option value passed on the
+		/// command-line
+		/// </summary>
+		protected internal virtual T ParseValue(string arg, Locale locale)
+		{
+			return default(T);
+		}
+
+		/// <summary>
+		/// Override to define default value returned by getValue if option does
+		/// not want a value
+		/// </summary>
+		protected internal virtual T DefaultValue
+		{
+			get
+			{
+			return default(T);
 			}
 		}
 
-		public final Object getValue( String arg, Locale locale ) throws IllegalOptionValueException
-		{
-			return this.getValueExact(arg, locale);
-		}
-
-		/**
-		 * Override to extract and convert an option value passed on the
-		 * command-line
-		 */
-		protected T parseValue(String arg, Locale locale) throws IllegalOptionValueException
-		{
-			return null;
-		}
-
-		/**
-		 * Override to define default value returned by getValue if option does
-		 * not want a value
-		 */
-		protected T getDefaultValue()
-		{
-			return null;
-		}
-
-		private final String shortForm;
-		private final String longForm;
-		private final boolean wantsValue_;
+		internal readonly string shortForm;
+		internal readonly string longForm;
+		internal readonly bool wantsValue_;
 	}
 
-	/**
-	 * An option that expects a boolean value
-	 */
-	public static class BooleanOption extends Option<Boolean>
+	/// <summary>
+	/// An option that expects a boolean value
+	/// </summary>
+	public class BooleanOption : Option<bool>
 	{
-		public BooleanOption( char shortForm, String longForm )
+		public BooleanOption(char shortForm, string longForm)
+			: base(shortForm, longForm, false)
 		{
-			super(shortForm, longForm, false);
 		}
 
-		public BooleanOption( String longForm )
+		public BooleanOption(string longForm)
+			: base(longForm, false)
 		{
-			super(longForm, false);
 		}
 
-		@Override
-		protected Boolean parseValue(String arg, Locale lcoale)
+		protected internal override bool? ParseValue(string arg, Locale lcoale)
 		{
-			return Boolean.TRUE;
+			return true;
 		}
 
-		@Override
-		protected Boolean getDefaultValue()
+		protected internal override bool? DefaultValue
 		{
-			return Boolean.TRUE;
+			get
+			{
+			return true;
+			}
 		}
 	}
 
-	/**
-	 * An option that expects an integer value
-	 */
-	public static class IntegerOption extends Option<Integer>
+	/// <summary>
+	/// An option that expects an integer value
+	/// </summary>
+	public class IntegerOption : Option<int>
 	{
-		public IntegerOption( char shortForm, String longForm )
+		public IntegerOption(char shortForm, string longForm)
+			: base(shortForm, longForm, true)
 		{
-			super(shortForm, longForm, true);
 		}
 
-		public IntegerOption( String longForm )
+		public IntegerOption(string longForm)
+			: base(longForm, true)
 		{
-			super(longForm, true);
 		}
 
-		@Override
-		protected Integer parseValue( String arg, Locale locale ) throws IllegalOptionValueException
+		protected internal override int? ParseValue(string arg, Locale locale)
 		{
-			try {
-				return new Integer(arg);
-			} catch (NumberFormatException e) {
+			try
+			{
+				return Convert.ToInt32(arg);
+			}
+			catch(System.FormatException)
+			{
 				throw IllegalOptionValueException.CreateIllegalOptionValueException(this, arg);
 			}
 		}
 	}
 
-	/**
-	 * An option that expects a long integer value
-	 */
-	public static class LongOption extends Option<Long>
+	/// <summary>
+	/// An option that expects a long integer value
+	/// </summary>
+	public class LongOption : Option<long>
 	{
-		public LongOption( char shortForm, String longForm )
+		public LongOption(char shortForm, string longForm)
+			: base(shortForm, longForm, true)
 		{
-			super(shortForm, longForm, true);
 		}
 
-		public LongOption( String longForm )
+		public LongOption(string longForm)
+			: base(longForm, true)
 		{
-			super(longForm, true);
 		}
 
-		@Override
-		protected Long parseValue( String arg, Locale locale ) throws IllegalOptionValueException
+		protected internal override long? ParseValue(string arg, Locale locale)
 		{
-			try {
-				return new Long(arg);
-			} catch (NumberFormatException e) {
+			try
+			{
+				return Convert.ToInt64(arg);
+			}
+			catch(System.FormatException)
+			{
 				throw IllegalOptionValueException.CreateIllegalOptionValueException(this, arg);
 			}
 		}
 	}
 
-	/**
-	 * An option that expects a floating-point value
-	 */
-	public static class DoubleOption extends Option<Double>
+	/// <summary>
+	/// An option that expects a floating-point value
+	/// </summary>
+	public class DoubleOption : Option<double>
 	{
-		public DoubleOption( char shortForm, String longForm )
+		public DoubleOption(char shortForm, string longForm)
+			: base(shortForm, longForm, true)
 		{
-			super(shortForm, longForm, true);
 		}
 
-		public DoubleOption( String longForm )
+		public DoubleOption(string longForm)
+			: base(longForm, true)
 		{
-			super(longForm, true);
 		}
 
-		@Override
-		protected Double parseValue( String arg, Locale locale ) throws IllegalOptionValueException
+		protected internal override double? ParseValue(string arg, Locale locale)
 		{
-			try {
-				NumberFormat format = NumberFormat.getNumberInstance(locale);
-				Number num = (Number)format.parse(arg);
-				return new Double(num.doubleValue());
-			} catch (ParseException e) {
+			try
+			{
+				NumberFormat format = NumberFormat.GetNumberInstance(locale);
+				Number num = (Number)format.Parse(arg);
+				return new double?(num.DoubleValue());
+			}
+			catch(ParseException)
+			{
 				throw IllegalOptionValueException.CreateIllegalOptionValueException(this, arg);
 			}
 		}
 	}
 
-	/**
-	 * An option that expects a string value
-	 */
-	public static class StringOption extends Option<String>
+	/// <summary>
+	/// An option that expects a string value
+	/// </summary>
+	public class StringOption : Option<string>
 	{
-		public StringOption( char shortForm, String longForm )
+		public StringOption(char shortForm, string longForm)
+			: base(shortForm, longForm, true)
 		{
-			super(shortForm, longForm, true);
 		}
 
-		public StringOption( String longForm )
+		public StringOption(string longForm)
+			: base(longForm, true)
 		{
-			super(longForm, true);
 		}
 
-		@Override
-		protected String parseValue( String arg, Locale locale )
+		protected internal override string ParseValue(string arg, Locale locale)
 		{
 			return arg;
 		}
 	}
 
-	/**
-	 * Add the specified Option to the list of accepted options
-	 */
-	public final <T> Option<T> addOption( Option<T> opt )
+	/// <summary>
+	/// Add the specified Option to the list of accepted options
+	/// </summary>
+	public Option<T> AddOption<T>(Option<T> opt)
 	{
-		if ( opt.getShortForm() != null ) {
-			this.options.put("-" + opt.getShortForm(), opt);
-		}
-		this.options.put("--" + opt.getLongForm(), opt);
+		if(!string.ReferenceEquals(opt.ShortForm, null))
+			this.options["-" + opt.ShortForm] = opt;
+		this.options["--" + opt.LongForm] = opt;
 		return opt;
 	}
 
-	/**
-	 * Convenience method for adding a string option.
-	 * @return the new Option
-	 */
-	public final Option<String> addStringOption( char shortForm, String longForm )
+	/// <summary>
+	/// Convenience method for adding a string option. </summary>
+	/// <returns> the new Option </returns>
+	public Option<string> AddStringOption(char shortForm, string longForm)
 	{
-		return addOption(new StringOption(shortForm, longForm));
+		return AddOption(new StringOption(shortForm, longForm));
 	}
 
-	/**
-	 * Convenience method for adding a string option.
-	 * @return the new Option
-	 */
-	public final Option<String> addStringOption( String longForm )
+	/// <summary>
+	/// Convenience method for adding a string option. </summary>
+	/// <returns> the new Option </returns>
+	public Option<string> AddStringOption(string longForm)
 	{
-		return addOption(new StringOption(longForm));
+		return AddOption(new StringOption(longForm));
 	}
 
-	/**
-	 * Convenience method for adding an integer option.
-	 * @return the new Option
-	 */
-	public final Option<Integer> addIntegerOption( char shortForm, String longForm )
+	/// <summary>
+	/// Convenience method for adding an integer option. </summary>
+	/// <returns> the new Option </returns>
+	public Option<int> AddIntegerOption(char shortForm, string longForm)
 	{
-		return addOption(new IntegerOption(shortForm, longForm));
+		return AddOption(new IntegerOption(shortForm, longForm));
 	}
 
-	/**
-	 * Convenience method for adding an integer option.
-	 * @return the new Option
-	 */
-	public final Option<Integer> addIntegerOption( String longForm )
+	/// <summary>
+	/// Convenience method for adding an integer option. </summary>
+	/// <returns> the new Option </returns>
+	public Option<int> AddIntegerOption(string longForm)
 	{
-		return addOption(new IntegerOption(longForm));
+		return AddOption(new IntegerOption(longForm));
 	}
 
-	/**
-	 * Convenience method for adding a long integer option.
-	 * @return the new Option
-	 */
-	public final Option<Long> addLongOption( char shortForm, String longForm )
+	/// <summary>
+	/// Convenience method for adding a long integer option. </summary>
+	/// <returns> the new Option </returns>
+	public Option<long> AddLongOption(char shortForm, string longForm)
 	{
-		return addOption(new LongOption(shortForm, longForm));
+		return AddOption(new LongOption(shortForm, longForm));
 	}
 
-	/**
-	 * Convenience method for adding a long integer option.
-	 * @return the new Option
-	 */
-	public final Option<Long> addLongOption( String longForm )
+	/// <summary>
+	/// Convenience method for adding a long integer option. </summary>
+	/// <returns> the new Option </returns>
+	public Option<long> AddLongOption(string longForm)
 	{
-		return addOption(new LongOption(longForm));
+		return AddOption(new LongOption(longForm));
 	}
 
-	/**
-	 * Convenience method for adding a double option.
-	 * @return the new Option
-	 */
-	public final Option<Double> addDoubleOption( char shortForm, String longForm )
+	/// <summary>
+	/// Convenience method for adding a double option. </summary>
+	/// <returns> the new Option </returns>
+	public Option<double> AddDoubleOption(char shortForm, string longForm)
 	{
-		return addOption(new DoubleOption(shortForm, longForm));
+		return AddOption(new DoubleOption(shortForm, longForm));
 	}
 
-	/**
-	 * Convenience method for adding a double option.
-	 * @return the new Option
-	 */
-	public final Option<Double> addDoubleOption( String longForm )
+	/// <summary>
+	/// Convenience method for adding a double option. </summary>
+	/// <returns> the new Option </returns>
+	public Option<double> AddDoubleOption(string longForm)
 	{
-		return addOption(new DoubleOption(longForm));
+		return AddOption(new DoubleOption(longForm));
 	}
 
-	/**
-	 * Convenience method for adding a boolean option.
-	 * @return the new Option
-	 */
-	public final Option<Boolean> addBooleanOption( char shortForm, String longForm )
+	/// <summary>
+	/// Convenience method for adding a boolean option. </summary>
+	/// <returns> the new Option </returns>
+	public Option<bool> AddBooleanOption(char shortForm, string longForm)
 	{
-		return addOption(new BooleanOption(shortForm, longForm));
+		return AddOption(new BooleanOption(shortForm, longForm));
 	}
 
-	/**
-	 * Convenience method for adding a boolean option.
-	 * @return the new Option
-	 */
-	public final Option<Boolean> addBooleanOption( String longForm )
+	/// <summary>
+	/// Convenience method for adding a boolean option. </summary>
+	/// <returns> the new Option </returns>
+	public Option<bool> AddBooleanOption(string longForm)
 	{
-		return addOption(new BooleanOption(longForm));
+		return AddOption(new BooleanOption(longForm));
 	}
 
-	/**
-	 * Equivalent to {@link #getOptionValue(Option, Object) getOptionValue(o,
-	 * null)}.
-	 */
-	public final <T> T getOptionValue( Option<T> o )
+	/// <summary>
+	/// Equivalent to {@link #getOptionValue(Option, Object) getOptionValue(o,
+	/// null)}.
+	/// </summary>
+	public T GetOptionValue<T>(Option<T> o)
 	{
-		return getOptionValue(o, null);
+		return GetOptionValue(o, default(T));
 	}
 
 
-	/**
-	 * @return the parsed value of the given Option, or the given default 'def'
-	 * if the option was not set
-	 */
-	public final <T> T getOptionValue( Option<T> o, T def )
+	/// <returns> the parsed value of the given Option, or the given default 'def'
+	/// if the option was not set </returns>
+	public T GetOptionValue<T>(Option<T> o, T def)
 	{
-		List<Object> v = values.get(o.getLongForm());
+		IList<object> v = values[o.LongForm];
 
-		if (v == null) {
+		if(v == null)
 			return def;
-		} else if (v.isEmpty()) {
-			return null;
-		} else {
+		else if(v.Count == 0)
+			return default(T);
+		else
+		{
 			/* Cast should be safe because Option.parseValue has to return an
 			 * instance of type T or null
 			 */
-			@SuppressWarnings("unchecked")
-			T result = (T)v.remove(0);
+// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
+// ORIGINAL LINE: @SuppressWarnings("unchecked") T result = (T)v.remove(0);
+			T result = (T)v.RemoveAndReturn(0);
 			return result;
 		}
 	}
 
 
-	/**
-	 * @return A Collection giving the parsed values of all the occurrences of
-	 * the given Option, or an empty Collection if the option was not set.
-	 */
-	public final <T> Collection<T> getOptionValues(Option<T> option)
+	/// <returns> A Collection giving the parsed values of all the occurrences of
+	/// the given Option, or an empty Collection if the option was not set. </returns>
+	public ICollection<T> GetOptionValues<T>(Option<T> option)
 	{
-		Collection<T> result = new ArrayList<T>();
+		ICollection<T> result = new List<T>();
 
-		while (true) {
-			T o = getOptionValue(option, null);
+		while(true)
+		{
+			T o = GetOptionValue(option, default(T));
 
-			if (o == null) {
+			if(o == null)
 				return result;
-			} else {
-				result.add(o);
-			}
+			else
+				result.Add(o);
 		}
 	}
 
 
-	/**
-	 * @return the non-option arguments
-	 */
-	public final String[] getRemainingArgs()
+	/// <returns> the non-option arguments </returns>
+	public string[] RemainingArgs
 	{
+		get
+		{
 		return this.remainingArgs;
+		}
 	}
 
-	/**
-	 * Extract the options and non-option arguments from the given
-	 * list of command-line arguments. The default locale is used for
-	 * parsing options whose values might be locale-specific.
-	 */
-	public final void parse( String[] argv ) throws OptionException
+	/// <summary>
+	/// Extract the options and non-option arguments from the given
+	/// list of command-line arguments. The default locale is used for
+	/// parsing options whose values might be locale-specific.
+	/// </summary>
+	public void Parse(string[] argv)
 	{
-		parse(argv, Locale.getDefault());
+		Parse(argv, Locale.GetDefault());
 	}
 
-	/**
-	 * Extract the options and non-option arguments from the given
-	 * list of command-line arguments. The specified locale is used for
-	 * parsing options whose values might be locale-specific.
-	 */
-	public final void parse( String[] argv, Locale locale ) throws OptionException
+	/// <summary>
+	/// Extract the options and non-option arguments from the given
+	/// list of command-line arguments. The specified locale is used for
+	/// parsing options whose values might be locale-specific.
+	/// </summary>
+	public void Parse(string[] argv, Locale locale)
 	{
-		ArrayList<Object> otherArgs = new ArrayList<Object>();
+		List<object> otherArgs = new List<object>();
 		int position = 0;
-		this.values = new HashMap<String, List<Object>>(10);
-		while ( position < argv.length ) {
-			String curArg = argv[position];
-			if ( curArg.startsWith("-") ) {
-				if ( curArg.equals("--") ) { // end of options
+		this.values = new Dictionary<string, IList<object>>(10);
+		while(position < argv.Length)
+		{
+			string curArg = argv[position];
+			if(curArg.StartsWith("-", StringComparison.Ordinal))
+			{
+				if(curArg.Equals("--"))
+				{ // end of options
 					position += 1;
 					break;
 				}
-				String valueArg = null;
-				if ( curArg.startsWith("--") ) { // handle --arg=value
-					int equalsPos = curArg.indexOf("=");
-					if ( equalsPos != -1 ) {
-						valueArg = curArg.substring(equalsPos+1);
-						curArg = curArg.substring(0,equalsPos);
+				string valueArg = null;
+				if(curArg.StartsWith("--", StringComparison.Ordinal))
+				{ // handle --arg=value
+					int equalsPos = curArg.IndexOf("=", StringComparison.Ordinal);
+					if(equalsPos != -1)
+					{
+						valueArg = curArg.Substring(equalsPos + 1);
+						curArg = curArg.Substring(0, equalsPos);
 					}
-				} else if(curArg.length() > 2) {  // handle -abcd
-					for(int i=1; i<curArg.length(); i++) {
-						OptionBase opt=this.options.get("-"+curArg.charAt(i));
-						if(opt==null) {
-							throw new UnknownSuboptionException(curArg,curArg.charAt(i));
-						}
-						if(opt.wantsValue()) {
-							throw new NotFlagException(curArg,curArg.charAt(i));
-						}
-						addValue(opt, null, locale);
+				}
+				else if(curArg.Length > 2)
+				{ // handle -abcd
+					for(int i = 1; i < curArg.Length; i++)
+					{
+						OptionBase opt = this.options["-" + curArg[i]];
+						if(opt == null)
+							throw new UnknownSuboptionException(curArg,curArg[i]);
+						if(opt.WantsValue())
+							throw new NotFlagException(curArg,curArg[i]);
+						AddValue(opt, null, locale);
 
 					}
 					position++;
 					continue;
 				}
 
-				OptionBase opt = this.options.get(curArg);
-				if ( opt == null ) {
+				OptionBase opt = this.options[curArg];
+				if(opt == null)
 					throw new UnknownOptionException(curArg);
-				}
 
-				if ( opt.wantsValue() ) {
-					if ( valueArg == null ) {
+				if(opt.WantsValue())
+				{
+					if(string.ReferenceEquals(valueArg, null))
+					{
 						position += 1;
-						if ( position < argv.length ) {
+						if(position < argv.Length)
 							valueArg = argv[position];
-						}
 					}
-					addValue(opt, valueArg, locale);
-				} else {
-					addValue(opt, null, locale);
+					AddValue(opt, valueArg, locale);
 				}
+				else
+					AddValue(opt, null, locale);
 
 				position += 1;
 			}
-			else {
-				otherArgs.add(curArg);
+			else
+			{
+				otherArgs.Add(curArg);
 				position += 1;
 			}
 		}
-		for ( ; position < argv.length; ++position ) {
-			otherArgs.add(argv[position]);
-		}
+		for(; position < argv.Length; ++position)
+			otherArgs.Add(argv[position]);
 
-		this.remainingArgs = new String[otherArgs.size()];
-		remainingArgs = otherArgs.toArray(remainingArgs);
+		this.remainingArgs = new string[otherArgs.Count];
+		remainingArgs = otherArgs.ToArray(remainingArgs);
 	}
 
 
-	private void addValue(OptionBase opt, String valueArg, Locale locale) throws IllegalOptionValueException
+	private void AddValue(OptionBase opt, string valueArg, Locale locale)
 	{
-		Object value = opt.getValue(valueArg, locale);
-		String lf = opt.getLongForm();
+		object value = opt.GetValue(valueArg, locale);
+		string lf = opt.LongForm;
 
-		List<Object> v = values.get(lf);
+		IList<object> v = values[lf];
 
-		if (v == null) {
-			v = new ArrayList<Object>();
-			values.put(lf, v);
+		if(v == null)
+		{
+			v = new List<object>();
+			values[lf] = v;
 		}
 
-		v.add(value);
+		v.Add(value);
 	}
 
 
-	private String[] remainingArgs = null;
-	private Map<String, OptionBase> options = new HashMap<String, OptionBase>(10);
-	private Map<String, List<Object>> values = new HashMap<String, List<Object>>(10);
+	private string[] remainingArgs = null;
+	private IDictionary<string, OptionBase> options = new Dictionary<string, OptionBase>(10);
+	private IDictionary<string, IList<object>> values = new Dictionary<string, IList<object>>(10);
+}
+
 }

@@ -1,24 +1,24 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.util;
-
-import java.awt.Color;
-
-/**
- * A Graph Dumpable proxy class.
- */
-public class GraphDumpableProxy implements GraphDumpable
+namespace de.unika.ipd.grgen.util
 {
-	/** The GraphDumpable to be proxy for. */
+
+/// <summary>
+/// A Graph Dumpable proxy class.
+/// </summary>
+public class GraphDumpableProxy : GraphDumpable
+{
+	/// <summary>
+	/// The GraphDumpable to be proxy for. </summary>
 	private GraphDumpable gd;
 
 	public GraphDumpableProxy(GraphDumpable gd)
@@ -26,66 +26,67 @@ public class GraphDumpableProxy implements GraphDumpable
 		this.gd = gd;
 	}
 
-	/**
-	 * Get the proxied object.
-	 * @return The proxied GraphDumpable object.
-	 */
-	protected GraphDumpable getGraphDumpable()
+	/// <summary>
+	/// Get the proxied object. </summary>
+	/// <returns> The proxied GraphDumpable object. </returns>
+	protected internal virtual GraphDumpable GraphDumpable
 	{
+		get
+		{
 		return gd;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
-	 */
-	@Override
-	public String getNodeId()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeId()"/>
+	public virtual string NodeId
 	{
-		return gd.getNodeId();
+		get
+		{
+		return gd.NodeId;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
-	 */
-	@Override
-	public Color getNodeColor()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor()"/>
+	public virtual Color NodeColor
 	{
-		return gd.getNodeColor();
+		get
+		{
+		return gd.NodeColor;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeShape()
-	 */
-	@Override
-	public int getNodeShape()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeShape()"/>
+	public virtual int NodeShape
 	{
-		return gd.getNodeShape();
+		get
+		{
+		return gd.NodeShape;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
-	 */
-	@Override
-	public String getNodeLabel()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel()"/>
+	public virtual string NodeLabel
 	{
-		return gd.getNodeLabel();
+		get
+		{
+		return gd.NodeLabel;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
-	 */
-	@Override
-	public String getNodeInfo()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeInfo()"/>
+	public virtual string NodeInfo
 	{
-		return gd.getNodeInfo();
+		get
+		{
+		return gd.NodeInfo;
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
-	 */
-	@Override
-	public String getEdgeLabel(int edge)
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getEdgeLabel(int)"/>
+	public virtual string GetEdgeLabel(int edge)
 	{
-		return gd.getEdgeLabel(edge);
+		return gd.GetEdgeLabel(edge);
 	}
+}
+
 }

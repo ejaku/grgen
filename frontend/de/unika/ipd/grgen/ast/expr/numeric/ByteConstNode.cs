@@ -1,65 +1,70 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.numeric;
-
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.string.StringConstNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A byte constant.
- */
-public class ByteConstNode extends ConstNode
+namespace de.unika.ipd.grgen.ast.expr.numeric
 {
-	public ByteConstNode(Coords coords, byte v)
+using System;
+
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using StringConstNode = de.unika.ipd.grgen.ast.expr.@string.StringConstNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A byte constant.
+/// </summary>
+public class ByteConstNode : ConstNode
+{
+	public ByteConstNode(Coords coords, sbyte v)
+		: base(coords, "byte", new sbyte?(v))
 	{
-		super(coords, "byte", new Byte(v));
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.byteType;
+		}
 	}
 
-	@Override
-	protected ConstNode doCastTo(TypeNode type)
+	protected internal override ConstNode DoCastTo(TypeNode type)
 	{
-		Byte value = (Byte)getValue();
-		byte unboxed = value.byteValue();
+		sbyte? value = (sbyte?)Value;
+		sbyte unboxed = value.Value;
 
-		if(type.isEqual(BasicTypeNode.shortType)) {
-			return new ShortConstNode(getCoords(), unboxed);
-		} else if(type.isEqual(BasicTypeNode.intType)) {
-			return new IntConstNode(getCoords(), unboxed);
-		} else if(type.isEqual(BasicTypeNode.longType)) {
-			return new LongConstNode(getCoords(), unboxed);
-		} else if(type.isEqual(BasicTypeNode.floatType)) {
-			return new FloatConstNode(getCoords(), unboxed);
-		} else if(type.isEqual(BasicTypeNode.doubleType)) {
-			return new DoubleConstNode(getCoords(), unboxed);
-		} else if(type.isEqual(BasicTypeNode.stringType)) {
-			return new StringConstNode(getCoords(), value.toString());
-		} else
-			throw new UnsupportedOperationException();
+		if(type.IsEqual(BasicTypeNode.shortType))
+			return new ShortConstNode(Coords, unboxed);
+		else if(type.IsEqual(BasicTypeNode.intType))
+			return new IntConstNode(Coords, unboxed);
+		else if(type.IsEqual(BasicTypeNode.longType))
+			return new LongConstNode(Coords, unboxed);
+		else if(type.IsEqual(BasicTypeNode.floatType))
+			return new FloatConstNode(Coords, unboxed);
+		else if(type.IsEqual(BasicTypeNode.doubleType))
+			return new DoubleConstNode(Coords, unboxed);
+		else if(type.IsEqual(BasicTypeNode.stringType))
+			return new StringConstNode(Coords, value.ToString());
+		else
+			throw new System.NotSupportedException();
 	}
 
-	public static String removeSuffix(String byteLiteral)
+	public static string RemoveSuffix(string byteLiteral)
 	{
-		if(byteLiteral.endsWith("y") || byteLiteral.endsWith("Y"))
-			return byteLiteral.substring(0, byteLiteral.length() - 1);
+		if(byteLiteral.EndsWith("y", StringComparison.Ordinal) || byteLiteral.EndsWith("Y", StringComparison.Ordinal))
+			return byteLiteral.Substring(0, byteLiteral.Length - 1);
 		else
 			return byteLiteral;
 	}
+}
+
 }

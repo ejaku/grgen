@@ -1,145 +1,161 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.parser;
+namespace de.unika.ipd.grgen.parser
+{
 
-import java.util.HashMap;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-/**
- * A symbol table.
- * It maps strings to symbols.
- */
+/// <summary>
+/// A symbol table.
+/// It maps strings to symbols.
+/// </summary>
 public class SymbolTable
 {
-	public static final int IRRELEVANT = 0;
+	public const int IRRELEVANT = 0;
 
-	private static final SymbolTable INVALID = new SymbolTable("<invalid>", IRRELEVANT);
+	private static readonly SymbolTable INVALID = new SymbolTable("<invalid>", IRRELEVANT);
 
-	/** The string - symbol map. */
-	private final HashMap<String, Symbol> symbolMap = new HashMap<String, Symbol>();
+	/// <summary>
+	/// The string - symbol map. </summary>
+	private readonly Dictionary<string, Symbol> symbolMap = new Dictionary<string, Symbol>();
 
-	/** The name of the symbol table. */
-	private final String name;
+	/// <summary>
+	/// The name of the symbol table. </summary>
+	private readonly string name;
 
-	/** Id/Classification of the symbol table */
-	private final int id;
+	/// <summary>
+	/// Id/Classification of the symbol table </summary>
+	private readonly int id;
 
-	public static final SymbolTable getInvalid()
+	public static SymbolTable Invalid
 	{
+		get
+		{
 		return INVALID;
+		}
 	}
 
-	/**
-	 * Make a new symbol table.
-	 */
-	public SymbolTable(String name, int id)
+	/// <summary>
+	/// Make a new symbol table.
+	/// </summary>
+	public SymbolTable(string name, int id)
 	{
 		this.name = name;
 		this.id = id;
 	}
 
-	/**
-	 * Check, if two symbol tables are equal.
-	 * Two symbol tables are equal, if they have the same name.
-	 * @param obj Another symbol table.
-	 * @return true, if both symbol tables denote the same namespace,
-	 * false if not.
-	 */
-	@Override
-	public boolean equals(Object obj)
+	/// <summary>
+	/// Check, if two symbol tables are equal.
+	/// Two symbol tables are equal, if they have the same name. </summary>
+	/// <param name="obj"> Another symbol table. </param>
+	/// <returns> true, if both symbol tables denote the same namespace,
+	/// false if not. </returns>
+	public override bool Equals(object obj)
 	{
-		if(obj instanceof SymbolTable)
-			return name.equals(((SymbolTable)obj).name);
+		if(obj is SymbolTable)
+			return name.Equals(((SymbolTable)obj).name);
 
 		return false;
 	}
 
-	/**
-	 * Get the name of the symbol table.
-	 * @return The symbol table's name.
-	 */
-	public final String getName()
+	/// <summary>
+	/// Get the name of the symbol table. </summary>
+	/// <returns> The symbol table's name. </returns>
+	public string Name
 	{
+		get
+		{
 		return name;
+		}
 	}
 
-	/**
-	 * We also override the hashing scheme
-	 * according to the equals method.
-	 * @return The hashcode.
-	 */
-	@Override
-	public int hashCode()
+	/// <summary>
+	/// We also override the hashing scheme
+	/// according to the equals method. </summary>
+	/// <returns> The hashcode. </returns>
+	public override int GetHashCode()
 	{
-		return name.hashCode();
+		return name.GetHashCode();
 	}
 
-	/**
-	 * Get the textual representation of a symbol table.
-	 * @return The textual representation.
-	 */
-	@Override
-	public String toString()
+	/// <summary>
+	/// Get the textual representation of a symbol table. </summary>
+	/// <returns> The textual representation. </returns>
+	public override string ToString()
 	{
-		return symbolMap.toString();
+		return symbolMap.ToString();
 	}
 
-	/**
-	 * Enter a keyword into the symbol table.
-	 * @param text
-	 * @return The keyword symbol.
-	 */
-	public Symbol enterKeyword(String text)
+	/// <summary>
+	/// Enter a keyword into the symbol table. </summary>
+	/// <param name="text"> </param>
+	/// <returns> The keyword symbol. </returns>
+	public virtual Symbol EnterKeyword(string text)
 	{
-		assert !symbolMap.containsKey(text) : "keywords cannot be put twice "
-				+ "in the symbol table";
+		Debug.Assert(!symbolMap.ContainsKey(text), "keywords cannot be put twice "
+				+ "in the symbol table");
 
-		Symbol sym = new Symbol(text, this) {
-			@Override
-			public boolean isKeyword()
-			{
-				return true;
-			}
-		};
+		Symbol sym = new SymbolAnonymousInnerClass(this, text);
 
-		symbolMap.put(text, sym);
+		symbolMap[text] = sym;
 		return sym;
 	}
 
-	/**
-	 * Get a symbol for a string.
-	 * @param text The string.
-	 * @return The corresponding symbol.
-	 */
-	public Symbol get(String text)
+	private class SymbolAnonymousInnerClass : Symbol
 	{
-		if(!symbolMap.containsKey(text))
-			symbolMap.put(text, new Symbol(text, this));
+		private readonly SymbolTable outerInstance;
 
-		return symbolMap.get(text);
+		public SymbolAnonymousInnerClass(SymbolTable outerInstance, string text) : base(text, outerInstance)
+		{
+			this.outerInstance = outerInstance;
+		}
+
+		public override bool isKeyword()
+		{
+			return true;
+		}
 	}
 
-	/**
-	 * Test a symbol for a string.
-	 * @param text The string.
-	 * @return Whether the symbol is defined.
-	 */
-	public boolean test(String text)
+	/// <summary>
+	/// Get a symbol for a string. </summary>
+	/// <param name="text"> The string. </param>
+	/// <returns> The corresponding symbol. </returns>
+	public virtual Symbol Get(string text)
 	{
-		return symbolMap.containsKey(text);
+		if(!symbolMap.ContainsKey(text))
+			symbolMap[text] = new Symbol(text, this);
+
+		return symbolMap[text];
 	}
 
-	/** returns the id/classification of this symbol table */
-	int getSymbolTableId()
+	/// <summary>
+	/// Test a symbol for a string. </summary>
+	/// <param name="text"> The string. </param>
+	/// <returns> Whether the symbol is defined. </returns>
+	public virtual bool Test(string text)
 	{
+		return symbolMap.ContainsKey(text);
+	}
+
+	/// <summary>
+	/// returns the id/classification of this symbol table </summary>
+	internal virtual int SymbolTableId
+	{
+		get
+		{
 		return id;
+		}
 	}
+}
+
 }

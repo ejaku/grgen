@@ -1,103 +1,113 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.model.type;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.type.CompoundTypeNode;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.model.type.PackageType;
-
-/**
- * A package type AST node.
- */
-public class PackageTypeNode extends CompoundTypeNode
+namespace de.unika.ipd.grgen.ast.model.type
 {
-	static {
-		setClassName(PackageTypeNode.class, "package type");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+using CompoundTypeNode = de.unika.ipd.grgen.ast.type.CompoundTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using PackageType = de.unika.ipd.grgen.ir.model.type.PackageType;
+
+/// <summary>
+/// A package type AST node.
+/// </summary>
+public class PackageTypeNode : CompoundTypeNode
+{
+	static PackageTypeNode()
+	{
+		SetClassName(typeof(PackageTypeNode), "package type");
 	}
 
 	private CollectNode<IdentNode> declsUnresolved;
-	protected CollectNode<TypeDeclNode> decls;
+	protected internal CollectNode<TypeDeclNode> decls;
 
 	public PackageTypeNode(CollectNode<IdentNode> decls)
 	{
 		this.declsUnresolved = decls;
-		becomeParent(this.declsUnresolved);
+		BecomeParent(this.declsUnresolved);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersionCollectNode(declsUnresolved, decls));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersionCollectNode(declsUnresolved, decls));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("decls");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("decls");
 		return childrenNames;
+		}
 	}
 
 	private static CollectResolver<TypeDeclNode> declsResolver = new CollectResolver<TypeDeclNode>(
-			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
+			new DeclarationResolver<TypeDeclNode>(typeof(TypeDeclNode)));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		decls = declsResolver.resolve(declsUnresolved, this);
+		decls = declsResolver.Resolve(declsUnresolved, this);
 		return decls != null;
 	}
 
-	public CollectNode<TypeDeclNode> getTypeDecls()
+	public virtual CollectNode<TypeDeclNode> TypeDecls
 	{
+		get
+		{
 		return decls;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
-		Ident id = getIdent().checkIR(Ident.class);
+		Ident id = Ident.CheckIR(typeof(Ident));
 		PackageType pt = new PackageType(id);
-		for(TypeDeclNode typeDecl : decls.getChildrenExact()) {
-			pt.addType(typeDecl.getDeclType().getIRType());
-		}
+		foreach(TypeDeclNode typeDecl in decls.ChildrenExact)
+			pt.AddType(typeDecl.DeclType.IRType);
 		return pt;
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return "package " + getIdent();
+		return "package " + Ident;
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "package";
+		}
 	}
+}
+
 }

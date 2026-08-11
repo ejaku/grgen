@@ -1,45 +1,45 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Cast;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A cast operator for expressions.
- */
-public class CastNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(CastNode.class, "cast expression");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using ExternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using InternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
+using InternalTransientObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ObjectTypeNode = de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Cast = de.unika.ipd.grgen.ir.expr.Cast;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A cast operator for expressions.
+/// </summary>
+public class CastNode : ExprNode
+{
+	static CastNode()
+	{
+		SetClassName(typeof(CastNode), "cast expression");
 	}
 
 	// target type of the cast
@@ -49,155 +49,154 @@ public class CastNode extends ExprNode
 	// expression to be casted
 	private ExprNode expr;
 
-	/**
-	 * Make a new cast node.
-	 * @param coords The source code coordinates.
-	 */
+	/// <summary>
+	/// Make a new cast node. </summary>
+	/// <param name="coords"> The source code coordinates. </param>
 	public CastNode(Coords coords)
+		: base(coords)
 	{
-		super(coords);
 	}
 
-	/**
-	 * Make a new cast node with a target type and an expression
-	 * @param coords The source code coordinates.
-	 * @param targetType The target type.
-	 * @param expr The expression to be casted.
-	 */
+	/// <summary>
+	/// Make a new cast node with a target type and an expression </summary>
+	/// <param name="coords"> The source code coordinates. </param>
+	/// <param name="targetType"> The target type. </param>
+	/// <param name="expr"> The expression to be casted. </param>
 	public CastNode(Coords coords, BaseNode targetType, ExprNode expr)
+		: base(coords)
 	{
-		super(coords);
 		this.typeUnresolved = targetType;
-		becomeParent(this.typeUnresolved);
+		BecomeParent(this.typeUnresolved);
 		this.expr = expr;
-		becomeParent(this.expr);
+		BecomeParent(this.expr);
 	}
 
-	/**
-	 * Make a new cast node with a target type and an expression, which is immediately marked as resolved
-	 * Only to be called by type adjusting, after tree was already resolved
-	 * @param coords The source code coordinates.
-	 * @param targetType The target type.
-	 * @param expr The expression to be casted.
-	 * @param resolveResult Resolution result (should be true)
-	 */
+	/// <summary>
+	/// Make a new cast node with a target type and an expression, which is immediately marked as resolved
+	/// Only to be called by type adjusting, after tree was already resolved </summary>
+	/// <param name="coords"> The source code coordinates. </param>
+	/// <param name="targetType"> The target type. </param>
+	/// <param name="expr"> The expression to be casted. </param>
+	/// <param name="resolveResult"> Resolution result (should be true) </param>
 	public CastNode(Coords coords, TypeNode targetType, ExprNode expr, BaseNode parent)
+		: this(coords, targetType, expr)
 	{
-		this(coords, targetType, expr);
-		parent.becomeParent(this);
+		parent.BecomeParent(this);
 
-		resolve();
-		check();
+		Resolve();
+		Check();
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(typeUnresolved, type));
-		children.add(expr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(typeUnresolved, type));
+		children.Add(expr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("type");
-		childrenNames.add("expr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("type");
+		childrenNames.Add("expr");
 		return childrenNames;
+		}
 	}
 
 	private static DeclarationTypeResolver<TypeNode> typeResolver =
-			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+			new DeclarationTypeResolver<TypeNode>(typeof(TypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = true;
-		if(typeUnresolved instanceof PackageIdentNode)
-			Resolver.resolveOwner((PackageIdentNode)typeUnresolved);
+		bool successfullyResolved = true;
+		if(typeUnresolved is PackageIdentNode)
+			Resolver.ResolveOwner((PackageIdentNode)typeUnresolved);
 		else
-			fixupDefinition(typeUnresolved, typeUnresolved.getScope());
-		type = typeResolver.resolve(typeUnresolved, this);
+			FixupDefinition(typeUnresolved, typeUnresolved.Scope);
+		type = typeResolver.Resolve(typeUnresolved, this);
 		successfullyResolved = type != null && successfullyResolved;
 		return successfullyResolved;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 * A cast node is valid, if the second child is an expression node
-	 * and the first node is a type node identifier.
-	 */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal()"
+	/// A cast node is valid, if the second child is an expression node
+	/// and the first node is a type node identifier./>
+	protected internal override bool CheckLocal()
 	{
-		return typeCheckLocal();
+		return TypeCheckLocal();
 	}
 
-	/**
-	 * Check the types of this cast.
-	 * Check if the expression can be casted to the given type.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#typeCheckLocal()
-	 */
-	private boolean typeCheckLocal()
+	/// <summary>
+	/// Check the types of this cast.
+	/// Check if the expression can be casted to the given type. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.typeCheckLocal()"/>
+	private bool TypeCheckLocal()
 	{
-		TypeNode fromType = expr.getType();
-		if(fromType instanceof NodeTypeNode && type instanceof NodeTypeNode
-				|| fromType instanceof EdgeTypeNode && type instanceof EdgeTypeNode
-				|| fromType instanceof InternalObjectTypeNode && type instanceof InternalObjectTypeNode
-				|| fromType instanceof InternalTransientObjectTypeNode && type instanceof InternalTransientObjectTypeNode) {
+		TypeNode fromType = expr.Type;
+		if(fromType is NodeTypeNode && type is NodeTypeNode
+				|| fromType is EdgeTypeNode && type is EdgeTypeNode
+				|| fromType is InternalObjectTypeNode && type is InternalObjectTypeNode
+				|| fromType is InternalTransientObjectTypeNode && type is InternalTransientObjectTypeNode)
+		{
 			// we support up- and down-casts, but no cross-casts of nodes/edges/class objects/transient class objects
 			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
-			((InheritanceTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
+			((InheritanceTypeNode)fromType).DoGetCompatibleToTypes(supertypesOfFrom);
 			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
-			((InheritanceTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
-			boolean castable = fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
+			((InheritanceTypeNode)type).DoGetCompatibleToTypes(supertypesOfTo);
+			bool castable = fromType.Equals(type) || supertypesOfFrom.Contains(type) || supertypesOfTo.Contains(fromType);
 			if(castable)
 				return true;
 		}
-		if(fromType instanceof ObjectTypeNode)
+		if(fromType is ObjectTypeNode)
 			return true; // object is castable to anything (at least to external object types) -- in a real OO language, everything should be statically castable into an object and out of an object (but could of course fail at runtime) -- TODO: make sure this really holds everywhere, it may very well be this does not hold (or define the exact relationship)
-		if(type instanceof ObjectTypeNode)
+		if(type is ObjectTypeNode)
 			return true; // anything can be casted into an object
-		if(fromType instanceof ExternalObjectTypeNode && type instanceof ExternalObjectTypeNode) {
+		if(fromType is ExternalObjectTypeNode && type is ExternalObjectTypeNode)
+		{
 			// we support up- and down-casts, but no cross-casts of external object types
 			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
-			((ExternalObjectTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
+			((ExternalObjectTypeNode)fromType).DoGetCompatibleToTypes(supertypesOfFrom);
 			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
-			((ExternalObjectTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
-			boolean castable = fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
+			((ExternalObjectTypeNode)type).DoGetCompatibleToTypes(supertypesOfTo);
+			bool castable = fromType.Equals(type) || supertypesOfFrom.Contains(type) || supertypesOfTo.Contains(fromType);
 			if(castable)
 				return true;
 		}
 
 		// assumption: when the castable checks above are failing, they cause also the castable check here to fail / they only prevent a fail in this place when the cast should succeed
-		boolean result = fromType.isCastableTo(type);
-		if(!result) {
-			reportError("A cast from " + expr.getType().toStringWithDeclarationCoords() + " to " + type.toStringWithDeclarationCoords() + " is not supported.");
-		}
+		bool result = fromType.IsCastableTo(type);
+		if(!result)
+			ReportError("A cast from " + expr.Type.ToStringWithDeclarationCoords() + " to " + type.ToStringWithDeclarationCoords() + " is not supported.");
 
 		return result;
 	}
 
-	/**
-	 * Tries to simplify this node by simplifying the target expression and,
-	 * if the expression is a constant, applying the cast.
-	 * @return The possibly simplified value of the expression.
-	 */
-	@Override
-	public ExprNode evaluate()
+	/// <summary>
+	/// Tries to simplify this node by simplifying the target expression and,
+	/// if the expression is a constant, applying the cast. </summary>
+	/// <returns> The possibly simplified value of the expression. </returns>
+	public override ExprNode Evaluate()
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		expr = expr.evaluate();
-		if(expr instanceof ConstNode) {
-			ConstNode constExprEvaluated = ((ConstNode)expr).castTo(type);
-			if(constExprEvaluated instanceof InvalidConstNode) {
-				reportError("The cast from " + expr.toString() + " of type " + expr.getType().toStringWithDeclarationCoords() + " to type " + type.toStringWithDeclarationCoords() + " is failing.");
+		expr = expr.Evaluate();
+		if(expr is ConstNode)
+		{
+			ConstNode constExprEvaluated = ((ConstNode)expr).CastTo(type);
+			if(constExprEvaluated is InvalidConstNode)
+			{
+				ReportError("The cast from " + expr.ToString() + " of type " + expr.Type.ToStringWithDeclarationCoords() + " to type " + type.ToStringWithDeclarationCoords() + " is failing.");
 				return this;
 			}
 			return constExprEvaluated;
@@ -206,24 +205,25 @@ public class CastNode extends ExprNode
 			return this;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.expr.ExprNode#getType()
-	 */
-	@Override
-	public TypeNode getType()
+	/// <seealso cref="de.unika.ipd.grgen.ast.expr.ExprNode.getType()"/>
+	public override TypeNode Type
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return type;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		Type type = this.type.checkIR(Type.class);
-		this.expr = this.expr.evaluate();
-		Expression expr = this.expr.checkIR(Expression.class);
+		Type type = this.type.CheckIR(typeof(Type));
+		this.expr = this.expr.Evaluate();
+		Expression expr = this.expr.CheckIR(typeof(Expression));
 
 		return new Cast(type, expr);
 	}
+}
+
 }

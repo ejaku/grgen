@@ -1,192 +1,194 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Buchwald, Edgar Jakumeit
- */
+/// <summary>
+/// @author Sebastian Buchwald, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
-import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
-
-/**
- * AST node for a replacement right-hand side.
- */
-public class ReplaceDeclNode extends RhsDeclNode
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(ReplaceDeclNode.class, "replace declaration");
+using System.Collections.Generic;
+
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using PatternGraphRhs = de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using ConnectionCharacter = de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
+using ConnectionNode = de.unika.ipd.grgen.ast.pattern.ConnectionNode;
+using PatternGraphRhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+
+
+/// <summary>
+/// AST node for a replacement right-hand side.
+/// </summary>
+public class ReplaceDeclNode : RhsDeclNode
+{
+	static ReplaceDeclNode()
+	{
+		SetClassName(typeof(ReplaceDeclNode), "replace declaration");
 	}
 
-	/**
-	 * Make a new replace right-hand side.
-	 * @param id The identifier of this RHS.
-	 * @param patternGraph The right hand side graph.
-	 */
+	/// <summary>
+	/// Make a new replace right-hand side. </summary>
+	/// <param name="id"> The identifier of this RHS. </param>
+	/// <param name="patternGraph"> The right hand side graph. </param>
 	public ReplaceDeclNode(IdentNode id, PatternGraphRhsNode patternGraph)
+		: base(id, patternGraph)
 	{
-		super(id, patternGraph);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
-		children.add(patternGraph);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, type));
+		children.Add(patternGraph);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("right");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("right");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	public PatternGraphRhs getIRPatternGraph(PatternGraphLhs left)
+	public override PatternGraphRhs GetIRPatternGraph(PatternGraphLhs left)
 	{
-		PatternGraphRhs right = patternGraph.getIRPatternGraphRhs();
-		insertElementsFromEvalsIntoRhs(left, right);
-		insertElementsFromOrderedReplacementsIntoRhs(left, right);
-		insertElementsFromLeftToRightIfTheyAreFromNestingPattern(left, right);
+		PatternGraphRhs right = patternGraph.IRPatternGraphRhs;
+		InsertElementsFromEvalsIntoRhs(left, right);
+		InsertElementsFromOrderedReplacementsIntoRhs(left, right);
+		InsertElementsFromLeftToRightIfTheyAreFromNestingPattern(left, right);
 		return right;
 	}
 
-	@Override
-	public boolean checkAgainstLhsPattern(PatternGraphLhsNode pattern)
+	public override bool CheckAgainstLhsPattern(PatternGraphLhsNode pattern)
 	{
 		return true; // nothing to do as of now
 	}
 
-	@Override
-	protected Set<ConstraintDeclNode> getElementsToDeleteImpl(PatternGraphLhsNode pattern)
+	protected internal override ISet<ConstraintDeclNode> GetElementsToDeleteImpl(PatternGraphLhsNode pattern)
 	{
 		LinkedHashSet<ConstraintDeclNode> elementsToDelete = new LinkedHashSet<ConstraintDeclNode>();
 
-		Set<EdgeDeclNode> rhsEdges = new LinkedHashSet<EdgeDeclNode>();
-		Set<NodeDeclNode> rhsNodes = new LinkedHashSet<NodeDeclNode>();
+		ISet<EdgeDeclNode> rhsEdges = new LinkedHashSet<EdgeDeclNode>();
+		ISet<NodeDeclNode> rhsNodes = new LinkedHashSet<NodeDeclNode>();
 
-		for(EdgeDeclNode rhsEdge : patternGraph.getEdges()) {
+		foreach(EdgeDeclNode rhsEdge in patternGraph.Edges)
+		{
 			EdgeDeclNode originalRhsEdge = rhsEdge;
-			while(originalRhsEdge instanceof EdgeTypeChangeDeclNode) {
-				originalRhsEdge = ((EdgeTypeChangeDeclNode)originalRhsEdge).getOldEdge();
-			}
-			rhsEdges.add(originalRhsEdge);
+			while(originalRhsEdge is EdgeTypeChangeDeclNode)
+				originalRhsEdge = ((EdgeTypeChangeDeclNode)originalRhsEdge).OldEdge;
+			rhsEdges.Add(originalRhsEdge);
 		}
-		for(EdgeDeclNode lhsEdge : pattern.getEdges()) {
-			if(!rhsEdges.contains(lhsEdge)) {
-				elementsToDelete.add(lhsEdge);
-			}
+		foreach(EdgeDeclNode lhsEdge in pattern.Edges)
+		{
+			if(!rhsEdges.Contains(lhsEdge))
+				elementsToDelete.Add(lhsEdge);
 		}
 
-		for(NodeDeclNode rhsNode : patternGraph.getNodes()) {
+		foreach(NodeDeclNode rhsNode in patternGraph.Nodes)
+		{
 			NodeDeclNode originalRhsNode = rhsNode;
-			while(originalRhsNode instanceof NodeTypeChangeDeclNode) {
-				originalRhsNode = ((NodeTypeChangeDeclNode)originalRhsNode).getOldNode();
-			}
-			rhsNodes.add(originalRhsNode);
+			while(originalRhsNode is NodeTypeChangeDeclNode)
+				originalRhsNode = ((NodeTypeChangeDeclNode)originalRhsNode).OldNode;
+			rhsNodes.Add(originalRhsNode);
 		}
-		for(NodeDeclNode lhsNode : pattern.getNodes()) {
-			if(!rhsNodes.contains(lhsNode) && !lhsNode.isDummy()) {
-				elementsToDelete.add(lhsNode);
-			}
+		foreach(NodeDeclNode lhsNode in pattern.Nodes)
+		{
+			if(!rhsNodes.Contains(lhsNode) && !lhsNode.IsDummy())
+				elementsToDelete.Add(lhsNode);
 		}
 
 		// parameters are no special case, since they are treated like normal graph elements
 		return elementsToDelete;
 	}
 
-	@Override
-	protected Set<ConnectionNode> getConnectionsToReuseImpl(PatternGraphLhsNode pattern)
+	protected internal override ISet<ConnectionNode> GetConnectionsToReuseImpl(PatternGraphLhsNode pattern)
 	{
-		Set<ConnectionNode> connectionsToReuse = new LinkedHashSet<ConnectionNode>();
+		ISet<ConnectionNode> connectionsToReuse = new LinkedHashSet<ConnectionNode>();
 
-		Set<EdgeDeclNode> lhsEdges = pattern.getEdges();
-		for(ConnectionCharacter connectionCharacter : patternGraph.getConnections()) {
-			if(connectionCharacter instanceof ConnectionNode) {
+		ISet<EdgeDeclNode> lhsEdges = pattern.Edges;
+		foreach(ConnectionCharacter connectionCharacter in patternGraph.Connections)
+		{
+			if(connectionCharacter is ConnectionNode)
+			{
 				ConnectionNode connection = (ConnectionNode)connectionCharacter;
-				EdgeDeclNode rhsEdge = connection.getEdge();
-				while(rhsEdge instanceof EdgeTypeChangeDeclNode) {
-					rhsEdge = ((EdgeTypeChangeDeclNode)rhsEdge).getOldEdge();
-				}
-				if(lhsEdges.contains(rhsEdge)) {
-					connectionsToReuse.add(connection);
-				}
+				EdgeDeclNode rhsEdge = connection.Edge;
+				while(rhsEdge is EdgeTypeChangeDeclNode)
+					rhsEdge = ((EdgeTypeChangeDeclNode)rhsEdge).OldEdge;
+				if(lhsEdges.Contains(rhsEdge))
+					connectionsToReuse.Add(connection);
 			}
 		}
 
 		return connectionsToReuse;
 	}
 
-	@Override
-	protected Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphLhsNode pattern)
+	protected internal override ISet<NodeDeclNode> GetNodesToReuseImpl(PatternGraphLhsNode pattern)
 	{
-		Set<NodeDeclNode> nodesToReuse = new LinkedHashSet<NodeDeclNode>();
-		
-		Set<NodeDeclNode> lhsNodes = pattern.getNodes();
-		Set<NodeDeclNode> rhsNodes = patternGraph.getNodes();
-		for(NodeDeclNode lhsNode : lhsNodes) {
-			if(rhsNodes.contains(lhsNode))
-				nodesToReuse.add(lhsNode);
+		ISet<NodeDeclNode> nodesToReuse = new LinkedHashSet<NodeDeclNode>();
+
+		ISet<NodeDeclNode> lhsNodes = pattern.Nodes;
+		ISet<NodeDeclNode> rhsNodes = patternGraph.Nodes;
+		foreach(NodeDeclNode lhsNode in lhsNodes)
+		{
+			if(rhsNodes.Contains(lhsNode))
+				nodesToReuse.Add(lhsNode);
 		}
 
 		return nodesToReuse;
 	}
 
-	@Override
-	protected Set<ConnectionNode> getConnectionsNotDeleted(PatternGraphLhsNode pattern)
+	protected internal override ISet<ConnectionNode> GetConnectionsNotDeleted(PatternGraphLhsNode pattern)
 	{
-		Set<ConnectionNode> connectionsNotDeleted = new LinkedHashSet<ConnectionNode>();
+		ISet<ConnectionNode> connectionsNotDeleted = new LinkedHashSet<ConnectionNode>();
 
-		for(ConnectionCharacter connectionCharacter : patternGraph.getConnections()) {
-			if(connectionCharacter instanceof ConnectionNode) {
+		foreach(ConnectionCharacter connectionCharacter in patternGraph.Connections)
+		{
+			if(connectionCharacter is ConnectionNode)
+			{
 				ConnectionNode connection = (ConnectionNode)connectionCharacter;
-				connectionsNotDeleted.add(connection);
+				connectionsNotDeleted.Add(connection);
 			}
 		}
 
 		return connectionsNotDeleted;
 	}
 
-	private static void insertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraphLhs left, PatternGraphBase right)
+	private static void InsertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraphLhs left, PatternGraphBase right)
 	{
-		for(Node lhsNode : left.getNodes()) {
-			if(lhsNode.directlyNestingLHSGraph != left && !right.hasNode(lhsNode)) {
-				right.addSingleNode(lhsNode);
-			}
+		foreach(Node lhsNode in left.Nodes)
+		{
+			if(lhsNode.directlyNestingLHSGraph != left && !right.HasNode(lhsNode))
+				right.AddSingleNode(lhsNode);
 		}
-		for(Edge lhsEdge : left.getEdges()) {
-			if(lhsEdge.directlyNestingLHSGraph != left && !right.hasEdge(lhsEdge)) {
-				right.addSingleEdge(lhsEdge);
-			}
+		foreach(Edge lhsEdge in left.Edges)
+		{
+			if(lhsEdge.directlyNestingLHSGraph != left && !right.HasEdge(lhsEdge))
+				right.AddSingleEdge(lhsEdge);
 		}
 	}
+}
+
 }

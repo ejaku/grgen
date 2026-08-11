@@ -1,133 +1,139 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.executable;
+namespace de.unika.ipd.grgen.ast.decl.executable
+{
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CallActionNode;
-import de.unika.ipd.grgen.ast.ExecNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeCaseDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeTypeChangeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeTypeChangeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.array.ArrayAccumulationMethodNode;
-import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
-import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
-import de.unika.ipd.grgen.ast.pattern.ImplicitNegComputer;
-import de.unika.ipd.grgen.ast.pattern.ImplicitNegComputerInduced;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.executable.MatchingAction;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.pattern.Alternative;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.util.collection.Pair;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using CallActionNode = de.unika.ipd.grgen.ast.CallActionNode;
+using ExecNode = de.unika.ipd.grgen.ast.ExecNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using AlternativeCaseDeclNode = de.unika.ipd.grgen.ast.decl.pattern.AlternativeCaseDeclNode;
+using AlternativeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
+using ConstraintDeclNode = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using EdgeTypeChangeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeTypeChangeDeclNode;
+using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using NodeTypeChangeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeTypeChangeDeclNode;
+using RhsDeclNode = de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using ArrayAccumulationMethodNode = de.unika.ipd.grgen.ast.expr.array.ArrayAccumulationMethodNode;
+using ConnectionCharacter = de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
+using ConnectionNode = de.unika.ipd.grgen.ast.pattern.ConnectionNode;
+using ImplicitNegComputer = de.unika.ipd.grgen.ast.pattern.ImplicitNegComputer;
+using ImplicitNegComputerInduced = de.unika.ipd.grgen.ast.pattern.ImplicitNegComputerInduced;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using MatchingAction = de.unika.ipd.grgen.ir.executable.MatchingAction;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Alternative = de.unika.ipd.grgen.ir.pattern.Alternative;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using PatternGraphRhs = de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using de.unika.ipd.grgen.util.collection;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-/**
- * Base class for pattern matching related ast nodes
- */
-public abstract class MatcherDeclNode extends DeclNode
+/// <summary>
+/// Base class for pattern matching related ast nodes
+/// </summary>
+public abstract class MatcherDeclNode : DeclNode
 {
 	public PatternGraphLhsNode pattern;
 
 	public MatcherDeclNode(IdentNode id, TypeNode type, PatternGraphLhsNode left)
+		: base(id, type)
 	{
-		super(id, type);
 
 		this.pattern = left;
-		becomeParent(this.pattern);
+		BecomeParent(this.pattern);
 	}
 
-	/**
-	 * Get the IR object for this matcher decl node.
-	 * The IR object is instance of Rule.
-	 * @return The IR object.
-	 */
-	public Rule getIRMatcher()
+	/// <summary>
+	/// Get the IR object for this matcher decl node.
+	/// The IR object is instance of Rule. </summary>
+	/// <returns> The IR object. </returns>
+	public virtual Rule IRMatcher
 	{
-		return checkIR(Rule.class);
+		get
+		{
+		return CheckIR(typeof(Rule));
+		}
 	}
 
-	protected static boolean resolveFilters(ArrayList<FilterAutoDeclNode> filters)
+	protected internal static bool ResolveFilters(List<FilterAutoDeclNode> filters)
 	{
-		boolean filtersOk = true;
-		for(FilterAutoDeclNode filter : filters) {
-			if(filter instanceof FilterAutoSuppliedDeclNode) {
-				filtersOk &= ((FilterAutoSuppliedDeclNode)filter).resolve();
-			} else { //if(filter instanceof FilterAutoGeneratedNode)
-				filtersOk &= ((FilterAutoGeneratedDeclNode)filter).resolve();
-			}
+		bool filtersOk = true;
+		foreach(FilterAutoDeclNode filter in filters)
+		{
+			if(filter is FilterAutoSuppliedDeclNode)
+				filtersOk &= ((FilterAutoSuppliedDeclNode)filter).Resolve();
+			else
+				filtersOk &= ((FilterAutoGeneratedDeclNode)filter).Resolve();
 		}
 		return filtersOk;
 	}
 
-	protected boolean checkFilters(PatternGraphLhsNode pattern, ArrayList<FilterAutoDeclNode> filters)
+	protected internal virtual bool CheckFilters(PatternGraphLhsNode pattern, List<FilterAutoDeclNode> filters)
 	{
-		boolean filtersOk = true;
-		for(FilterAutoDeclNode filter : filters) {
-			if(filter instanceof FilterAutoSuppliedDeclNode) {
-				filtersOk &= ((FilterAutoSuppliedDeclNode)filter).check();
-			} else { //if(filter instanceof FilterAutoGeneratedNode)
-				filtersOk &= ((FilterAutoGeneratedDeclNode)filter).check();
-			}
+		bool filtersOk = true;
+		foreach(FilterAutoDeclNode filter in filters)
+		{
+			if(filter is FilterAutoSuppliedDeclNode)
+				filtersOk &= ((FilterAutoSuppliedDeclNode)filter).Check();
+			else
+				filtersOk &= ((FilterAutoGeneratedDeclNode)filter).Check();
 		}
-		boolean allFilterEntitiesExistAndAreOfAdmissibleType = true;
-		HashSet<String> alreadySeenFilters = new HashSet<String>();
-		for(FilterAutoDeclNode filter : filters) {
-			if(filter instanceof FilterAutoGeneratedDeclNode) {
+		bool allFilterEntitiesExistAndAreOfAdmissibleType = true;
+		HashSet<string> alreadySeenFilters = new HashSet<string>();
+		foreach(FilterAutoDeclNode filter in filters)
+		{
+			if(filter is FilterAutoGeneratedDeclNode)
+			{
 				FilterAutoGeneratedDeclNode filterAutoGenerated = (FilterAutoGeneratedDeclNode)filter;
-				String filterNameWithEntitySuffix = filterAutoGenerated.getFilterNameWithEntitySuffix();
-				if(alreadySeenFilters.contains(filterNameWithEntitySuffix)) {
-					reportError("The filter " + filterNameWithEntitySuffix + " was already declared for " + pattern.nameOfGraph
+				string filterNameWithEntitySuffix = filterAutoGenerated.FilterNameWithEntitySuffix;
+				if(alreadySeenFilters.Contains(filterNameWithEntitySuffix))
+				{
+					ReportError("The filter " + filterNameWithEntitySuffix + " was already declared for " + pattern.nameOfGraph
 							+ ", only one declaration is admissible.");
 					allFilterEntitiesExistAndAreOfAdmissibleType = false;
-				} else {
-					alreadySeenFilters.add(filterNameWithEntitySuffix);
 				}
-				allFilterEntitiesExistAndAreOfAdmissibleType &= checkAutoGeneratedFilter(filterAutoGenerated);
+				else
+					alreadySeenFilters.Add(filterNameWithEntitySuffix);
+				allFilterEntitiesExistAndAreOfAdmissibleType &= CheckAutoGeneratedFilter(filterAutoGenerated);
 			}
 		}
 		return filtersOk & allFilterEntitiesExistAndAreOfAdmissibleType;
 	}
 
-	protected boolean checkAutoGeneratedFilter(FilterAutoGeneratedDeclNode filter)
+	protected internal virtual bool CheckAutoGeneratedFilter(FilterAutoGeneratedDeclNode filter)
 	{
-		String filterNameWithEntitySuffix = filter.getFilterNameWithEntitySuffix();
-		switch(filter.name) {
+		string filterNameWithEntitySuffix = filter.FilterNameWithEntitySuffix;
+		switch(filter.name)
+		{
 		case "orderAscendingBy":
 		case "orderDescendingBy":
 		{
-			boolean allFilterEntitiesExistAndAreOfAdmissibleType = true;
-			for(String filterEntity : filter.entities) {
-				allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterVariable(getIdent(),
+			bool allFilterEntitiesExistAndAreOfAdmissibleType = true;
+			foreach(string filterEntity in filter.entities)
+			{
+				allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.CheckFilterVariable(Ident,
 						filterNameWithEntitySuffix, filterEntity);
 			}
 			return allFilterEntitiesExistAndAreOfAdmissibleType;
@@ -137,60 +143,69 @@ public abstract class MatcherDeclNode extends DeclNode
 		case "keepSameAsFirst":
 		case "keepSameAsLast":
 		{
-			boolean allFilterEntitiesExistAndAreOfAdmissibleType = true;
-			for(String filterEntity : filter.entities) {
-				allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterEntity(getIdent(),
+			bool allFilterEntitiesExistAndAreOfAdmissibleType = true;
+			foreach(string filterEntity in filter.entities)
+			{
+				allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.CheckFilterEntity(Ident,
 						filterNameWithEntitySuffix, filterEntity);
 			}
-			if(filter.entities.size() != 1) {
-				reportError("The filter " + filter.getFilterName()
+			if(filter.entities.Count != 1)
+			{
+				ReportError("The filter " + filter.FilterName
 						+ " must be declared with exactly one variable, but is declared with "
-						+ filter.entities.size() + " variables"
-						+ filterSpecification(filterNameWithEntitySuffix) + ".");
+						+ filter.entities.Count + " variables"
+						+ FilterSpecification(filterNameWithEntitySuffix) + ".");
 				allFilterEntitiesExistAndAreOfAdmissibleType = false;
 			}
 			return allFilterEntitiesExistAndAreOfAdmissibleType;
 		}
 		case "keepOneForEachAccumulateBy":
-			if(filter.entities.size() != 3) {
-				getIdent().reportError("The filter " + filter.getFilterName()
+			if(filter.entities.Count != 3)
+			{
+				Ident.ReportError("The filter " + filter.FilterName
 						+ " must be declared with exactly one variable, one accumulation variable,"
-						+ " and one accumulation method, but is declared with " + filter.entities.size() + " entities"
-						+ filterSpecification(filterNameWithEntitySuffix) + ".");
+						+ " and one accumulation method, but is declared with " + filter.entities.Count + " entities"
+						+ FilterSpecification(filterNameWithEntitySuffix) + ".");
 				return false;
-			} else {
-				if(filter.entities.get(0).equals(filter.entities.get(1))) {
-					getIdent().reportError("The accumulation variable"
-							+ " must be different from the variable " + filter.entities.get(0)
-							+ filterSpecification(filterNameWithEntitySuffix) + ".");
+			}
+			else
+			{
+				if(filter.entities[0].Equals(filter.entities[1]))
+				{
+					Ident.ReportError("The accumulation variable"
+							+ " must be different from the variable " + filter.entities[0]
+							+ FilterSpecification(filterNameWithEntitySuffix) + ".");
 					return false;
 				}
-				boolean filterEntityExistsAndIsOfAdmissibleType = pattern.checkFilterEntity(getIdent(),
-						filterNameWithEntitySuffix, filter.entities.get(0));
+				bool filterEntityExistsAndIsOfAdmissibleType = pattern.CheckFilterEntity(Ident,
+						filterNameWithEntitySuffix, filter.entities[0]);
 				if(!filterEntityExistsAndIsOfAdmissibleType)
 					return false;
-				ArrayAccumulationMethodNode accumulationMethod = 
-						ArrayAccumulationMethodNode.getArrayMethodNode(filter.entities.get(2));
-				if(accumulationMethod == null) {
-					getIdent().reportError("The array accumulation method "
-							+ filter.entities.get(2) + " is not known"
-							+ filterSpecification(filterNameWithEntitySuffix) + ".");
+				ArrayAccumulationMethodNode accumulationMethod =
+						ArrayAccumulationMethodNode.GetArrayMethodNode(filter.entities[2]);
+				if(accumulationMethod == null)
+				{
+					Ident.ReportError("The array accumulation method "
+							+ filter.entities[2] + " is not known"
+							+ FilterSpecification(filterNameWithEntitySuffix) + ".");
 					return false;
 				}
-				VarDeclNode filterAccumulationVariable = pattern.tryGetVar(filter.entities.get(1));
-				if(filterAccumulationVariable == null) {
-					getIdent().reportError("Unknown accumulation variable " + filter.entities.get(1)
-							+ filterSpecification(filterNameWithEntitySuffix) + ".");
+				VarDeclNode filterAccumulationVariable = pattern.TryGetVar(filter.entities[1]);
+				if(filterAccumulationVariable == null)
+				{
+					Ident.ReportError("Unknown accumulation variable " + filter.entities[1]
+							+ FilterSpecification(filterNameWithEntitySuffix) + ".");
 					return false;
 				}
-				TypeNode filterAccumulationVariableType = filterAccumulationVariable.getDeclType();
-				if(!accumulationMethod.isValidTargetTypeOfAccumulation(filterAccumulationVariableType)) {
-					getIdent().reportError("The array accumulation method " + filter.entities.get(2)
-							+ " is not applicable to the type " + filterAccumulationVariableType.getTypeName()
-							+ " of the accumulation variable " + filter.entities.get(1)
+				TypeNode filterAccumulationVariableType = filterAccumulationVariable.DeclType;
+				if(!accumulationMethod.IsValidTargetTypeOfAccumulation(filterAccumulationVariableType))
+				{
+					Ident.ReportError("The array accumulation method " + filter.entities[2]
+							+ " is not applicable to the type " + filterAccumulationVariableType.TypeName
+							+ " of the accumulation variable " + filter.entities[1]
 							+ " / its result cannot be assigned to the accumulation variable."
-							+ " (Allowed are: " + accumulationMethod.getValidTargetTypesOfAccumulation() + ")"
-							+ filterSpecification(filterNameWithEntitySuffix) + ".");
+							+ " (Allowed are: " + accumulationMethod.ValidTargetTypesOfAccumulation + ")"
+							+ FilterSpecification(filterNameWithEntitySuffix) + ".");
 					return false;
 				}
 				return true;
@@ -198,46 +213,50 @@ public abstract class MatcherDeclNode extends DeclNode
 		case "auto":
 			return true; // skip
 		default:
-			assert(false);
+			Debug.Assert((false));
 			return false;
 		}
 	}
 
-	private String filterSpecification(String filterNameWithEntitySuffix)
+	private string FilterSpecification(string filterNameWithEntitySuffix)
 	{
 		return " (in filter " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ")";
 	}
 
-	protected boolean checkNonAction(RhsDeclNode right)
+	protected internal virtual bool CheckNonAction(RhsDeclNode right)
 	{
-		boolean leftHandGraphsOk = checkLeft();
+		bool leftHandGraphsOk = CheckLeft();
 
-		boolean rightHandGraphsOk = true;
+		bool rightHandGraphsOk = true;
 		if(right != null)
-			rightHandGraphsOk = right.checkAgainstLhsPattern(pattern);
+			rightHandGraphsOk = right.CheckAgainstLhsPattern(pattern);
 
-		boolean noReturnInPattern = true;
-		if(pattern.returns.size() > 0) {
-			reportError("A return statement is not allowed in a " + getKind() + ".");
+		bool noReturnInPattern = true;
+		if(pattern.returns.Size() > 0)
+		{
+			ReportError("A return statement is not allowed in a " + Kind + ".");
 			noReturnInPattern = false;
 		}
 
-		boolean noReturnInNestedReplacement = true;
-		if(right != null) {
-			if(right.patternGraph.returns.size() > 0) {
-				reportError("A return statement is not allowed in a " + getKind() + ".");
+		bool noReturnInNestedReplacement = true;
+		if(right != null)
+		{
+			if(right.patternGraph.returns.Size() > 0)
+			{
+				ReportError("A return statement is not allowed in a " + Kind + ".");
 				noReturnInNestedReplacement = false;
 			}
 		}
 
-		boolean rhsReuseOk = true;
-		boolean execParamsNotDeleted = true;
-		boolean sameNumberOfRewriteParts = sameNumberOfRewriteParts(right, getKind());
-		boolean noNestedRewriteParameters = true;
-		if(right != null) {
-			rhsReuseOk = checkRhsReuse(right);
-			execParamsNotDeleted = checkExecParamsNotDeleted(right);
-			noNestedRewriteParameters = noNestedRewriteParameters(right, getKind());
+		bool rhsReuseOk = true;
+		bool execParamsNotDeleted = true;
+		bool sameNumberOfRewriteParts = SameNumberOfRewriteParts(right, Kind);
+		bool noNestedRewriteParameters = true;
+		if(right != null)
+		{
+			rhsReuseOk = CheckRhsReuse(right);
+			execParamsNotDeleted = CheckExecParamsNotDeleted(right);
+			noNestedRewriteParameters = NoNestedRewriteParameters(right, Kind);
 		}
 
 		return leftHandGraphsOk
@@ -250,42 +269,41 @@ public abstract class MatcherDeclNode extends DeclNode
 				& execParamsNotDeleted;
 	}
 
-	protected boolean checkLeft()
+	protected internal virtual bool CheckLeft()
 	{
 		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
-		boolean isLhsEdgeReuseOk = true;
+		bool isLhsEdgeReuseOk = true;
 
 		// get the negative and independent graphs and the pattern of this ActionDeclNode
 		// NOTE: the order affect the error coords
-		Collection<PatternGraphLhsNode> leftHandGraphs = new ArrayList<PatternGraphLhsNode>();
-		leftHandGraphs.add(pattern);
-		for(PatternGraphLhsNode negative : pattern.negs.getChildrenExact()) {
-			leftHandGraphs.add(negative);
-		}
-		for(PatternGraphLhsNode independent : pattern.idpts.getChildrenExact()) {
-			leftHandGraphs.add(independent);
-		}
+		ICollection<PatternGraphLhsNode> leftHandGraphs = new List<PatternGraphLhsNode>();
+		leftHandGraphs.Add(pattern);
+		foreach(PatternGraphLhsNode negative in pattern.negs.ChildrenExact)
+			leftHandGraphs.Add(negative);
+		foreach(PatternGraphLhsNode independent in pattern.idpts.ChildrenExact)
+			leftHandGraphs.Add(independent);
 
-		PatternGraphLhsNode[] graphs = leftHandGraphs.toArray(new PatternGraphLhsNode[0]);
-		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
+		PatternGraphLhsNode[] graphs = leftHandGraphs.ToArray();
+		ICollection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
 
-		for(int i = 0; i < graphs.length; i++) {
-			for(ConnectionCharacter connectionCharacter : graphs[i].getConnections()) {
-				if(!(connectionCharacter instanceof ConnectionNode)) {
+		for(int i = 0; i < graphs.Length; i++)
+		{
+			foreach(ConnectionCharacter connectionCharacter in graphs[i].Connections)
+			{
+				if(!(connectionCharacter is ConnectionNode))
 					continue;
-				}
 				ConnectionNode connection = (ConnectionNode)connectionCharacter;
 
-				for(int j = i + 1; j < graphs.length; j++) {
-					for(ConnectionCharacter nestedConnectionCharacter : graphs[j].getConnections()) {
-						if(!(nestedConnectionCharacter instanceof ConnectionNode)) {
+				for(int j = i + 1; j < graphs.Length; j++)
+				{
+					foreach(ConnectionCharacter nestedConnectionCharacter in graphs[j].Connections)
+					{
+						if(!(nestedConnectionCharacter is ConnectionNode))
 							continue;
-						}
 						ConnectionNode nestedConnection = (ConnectionNode)nestedConnectionCharacter;
 
-						if(connection.getEdge().equals(nestedConnection.getEdge()) && !alreadyReported.contains(connection.getEdge())) {
-							isLhsEdgeReuseOk &= isLhsEdgeReuseOk(alreadyReported, connection, nestedConnection);
-						}
+						if(connection.Edge.Equals(nestedConnection.Edge) && !alreadyReported.Contains(connection.Edge))
+							isLhsEdgeReuseOk &= IsLhsEdgeReuseOk(alreadyReported, connection, nestedConnection);
 					}
 				}
 			}
@@ -294,103 +312,107 @@ public abstract class MatcherDeclNode extends DeclNode
 		return isLhsEdgeReuseOk;
 	}
 
-	private static boolean isLhsEdgeReuseOk(Collection<EdgeDeclNode> alreadyReported,
+	private static bool IsLhsEdgeReuseOk(ICollection<EdgeDeclNode> alreadyReported,
 			ConnectionNode connection, ConnectionNode nestedConnection)
 	{
-		boolean edgeReuse = true;
+		bool edgeReuse = true;
 
-		NodeDeclNode source = connection.getSrc();
-		NodeDeclNode target = connection.getTgt();
-		NodeDeclNode nestedSource = nestedConnection.getSrc();
-		NodeDeclNode nestedTarget = nestedConnection.getTgt();
+		NodeDeclNode source = connection.Src;
+		NodeDeclNode target = connection.Tgt;
+		NodeDeclNode nestedSource = nestedConnection.Src;
+		NodeDeclNode nestedTarget = nestedConnection.Tgt;
 
-		assert !(source instanceof NodeTypeChangeDeclNode) : "no type changes in test actions";
-		assert !(target instanceof NodeTypeChangeDeclNode) : "no type changes in test actions";
-		assert !(nestedSource instanceof NodeTypeChangeDeclNode) : "no type changes in test actions";
-		assert !(nestedTarget instanceof NodeTypeChangeDeclNode) : "no type changes in test actions";
+		Debug.Assert(!(source is NodeTypeChangeDeclNode), "no type changes in test actions");
+		Debug.Assert(!(target is NodeTypeChangeDeclNode), "no type changes in test actions");
+		Debug.Assert(!(nestedSource is NodeTypeChangeDeclNode), "no type changes in test actions");
+		Debug.Assert(!(nestedTarget is NodeTypeChangeDeclNode), "no type changes in test actions");
 
 		//check only if there's no dangling edge
-		if(!( (source instanceof NodeDeclNode) && ((NodeDeclNode)source).isDummy() )
-			&& !( (nestedSource instanceof NodeDeclNode) && ((NodeDeclNode)nestedSource).isDummy() )
-			&& source != nestedSource) {
-			alreadyReported.add(connection.getEdge());
-			nestedConnection.reportError("Reused edge " + connection.getEdge()
+		if(!( (source is NodeDeclNode) && ((NodeDeclNode)source).IsDummy() )
+			&& !( (nestedSource is NodeDeclNode) && ((NodeDeclNode)nestedSource).IsDummy() )
+			&& source != nestedSource)
+		{
+			alreadyReported.Add(connection.Edge);
+			nestedConnection.ReportError("Reused edge " + connection.Edge
 					+ " does not connect the same source nodes"
-					+ differsFromSpecification(source, nestedSource, true) + ".");
+					+ DiffersFromSpecification(source, nestedSource, true) + ".");
 			edgeReuse = false;
 		}
-		if(!( (target instanceof NodeDeclNode) && ((NodeDeclNode)target).isDummy() )
-			&& !( (nestedTarget instanceof NodeDeclNode) && ((NodeDeclNode)nestedTarget).isDummy() )
+		if(!( (target is NodeDeclNode) && ((NodeDeclNode)target).IsDummy() )
+			&& !( (nestedTarget is NodeDeclNode) && ((NodeDeclNode)nestedTarget).IsDummy() )
 			&& target != nestedTarget
-			&& !alreadyReported.contains(connection.getEdge())) {
-			alreadyReported.add(connection.getEdge());
-			nestedConnection.reportError("Reused edge " + connection.getEdge()
+			&& !alreadyReported.Contains(connection.Edge))
+		{
+			alreadyReported.Add(connection.Edge);
+			nestedConnection.ReportError("Reused edge " + connection.Edge
 					+ " does not connect the same target nodes"
-					+ differsFromSpecification(target, nestedTarget, true) + ".");
+					+ DiffersFromSpecification(target, nestedTarget, true) + ".");
 			edgeReuse = false;
 		}
 
-		if(connection.getConnectionKind() != nestedConnection.getConnectionKind()) {
-			alreadyReported.add(connection.getEdge());
-			nestedConnection.reportError("Reused edge " + connection.getEdge()
+		if(connection.ConnectionKind != nestedConnection.ConnectionKind)
+		{
+			alreadyReported.Add(connection.Edge);
+			nestedConnection.ReportError("Reused edge " + connection.Edge
 					+ " does not have the same connection kind"
-					+ " (" + ConnectionNode.toString(connection.getConnectionKind()) + " differs from nested " + ConnectionNode.toString(nestedConnection.getConnectionKind())+ ").");
+					+ " (" + ConnectionNode.toString(connection.ConnectionKind) + " differs from nested " + ConnectionNode.toString(nestedConnection.ConnectionKind) + ").");
 			edgeReuse = false;
 		}
 
 		return edgeReuse;
 	}
 
-	private static String differsFromSpecification(NodeDeclNode leftNode, NodeDeclNode rightNode, boolean nested)
+	private static string DiffersFromSpecification(NodeDeclNode leftNode, NodeDeclNode rightNode, bool nested)
 	{
-		return " (" + leftNode.userFriendlyToString()
+		return " (" + leftNode.UserFriendlyToString()
 				+ " differs from " + (nested ? "nested " : "")
-				+ rightNode.userFriendlyToString()
-				+ ")";
+				+ rightNode.UserFriendlyToString() + ")";
 	}
 
-	/** Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
-	 * If consistent, replace the dummy nodes with the nodes the pattern edge is
-	 * incident to (if these aren't dummy nodes themselves, of course). */
-	protected boolean checkRhsReuse(RhsDeclNode right)
+	/// <summary>
+	/// Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
+	/// If consistent, replace the dummy nodes with the nodes the pattern edge is
+	/// incident to (if these aren't dummy nodes themselves, of course). 
+	/// </summary>
+	protected internal virtual bool CheckRhsReuse(RhsDeclNode right)
 	{
-		boolean res = true;
+		bool res = true;
 
-		HashMap<EdgeDeclNode, NodeDeclNode> redirectedFrom = new HashMap<EdgeDeclNode, NodeDeclNode>();
-		HashMap<EdgeDeclNode, NodeDeclNode> redirectedTo = new HashMap<EdgeDeclNode, NodeDeclNode>();
+		Dictionary<EdgeDeclNode, NodeDeclNode> redirectedFrom = new Dictionary<EdgeDeclNode, NodeDeclNode>();
+		Dictionary<EdgeDeclNode, NodeDeclNode> redirectedTo = new Dictionary<EdgeDeclNode, NodeDeclNode>();
 
-		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-		for(ConnectionNode rightConnection : right.getConnectionsToReuse(pattern)) {
-			EdgeDeclNode rightEdge = rightConnection.getEdge();
+		ICollection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
+		foreach(ConnectionNode rightConnection in right.GetConnectionsToReuse(pattern))
+		{
+			EdgeDeclNode rightEdge = rightConnection.Edge;
 
-			if(rightEdge instanceof EdgeTypeChangeDeclNode) {
-				rightEdge = ((EdgeTypeChangeDeclNode)rightEdge).getOldEdge();
-			}
+			if(rightEdge is EdgeTypeChangeDeclNode)
+				rightEdge = ((EdgeTypeChangeDeclNode)rightEdge).OldEdge;
 
-			for(ConnectionCharacter leftConnectionCharacter : pattern.getConnections()) {
-				if(!(leftConnectionCharacter instanceof ConnectionNode)) {
+			foreach(ConnectionCharacter leftConnectionCharacter in pattern.Connections)
+			{
+				if(!(leftConnectionCharacter is ConnectionNode))
 					continue;
-				}
 
 				ConnectionNode leftConnection = (ConnectionNode)leftConnectionCharacter;
 
-				EdgeDeclNode leftEdge = leftConnection.getEdge();
+				EdgeDeclNode leftEdge = leftConnection.Edge;
 
-				if(!leftEdge.equals(rightEdge)) {
+				if(!leftEdge.Equals(rightEdge))
 					continue;
-				}
 
-				if(leftConnection.getConnectionKind() != rightConnection.getConnectionKind()) {
+				if(leftConnection.ConnectionKind != rightConnection.ConnectionKind)
+				{
 					res = false;
-					rightConnection.reportError("Reused edge " + rightEdge + " does not have the same connection kind"
-							+ " (in pattern: " + ConnectionNode.toString(leftConnection.getConnectionKind())
-							+ ", but in rewrite part: " + ConnectionNode.toString(rightConnection.getConnectionKind())+ ").");
+					rightConnection.ReportError("Reused edge " + rightEdge + " does not have the same connection kind"
+							+ " (in pattern: " + ConnectionNode.toString(leftConnection.ConnectionKind)
+							+ ", but in rewrite part: " + ConnectionNode.toString(rightConnection.ConnectionKind) + ").");
 					// if you don't add to alreadyReported erroneous errors can occur,
 					// e.g. lhs=x-e->y, rhs=y-e-x
-					alreadyReported.add(rightEdge);
+					alreadyReported.Add(rightEdge);
 				}
 
-				res &= isLhsRhsReuseOk(alreadyReported, redirectedFrom, redirectedTo,
+				res &= IsLhsRhsReuseOk(alreadyReported, redirectedFrom, redirectedTo,
 						right, leftConnection, rightConnection);
 			}
 		}
@@ -398,195 +420,221 @@ public abstract class MatcherDeclNode extends DeclNode
 		return res;
 	}
 
-	private boolean isLhsRhsReuseOk(Collection<EdgeDeclNode> alreadyReported,
-			HashMap<EdgeDeclNode, NodeDeclNode> redirectedFrom, HashMap<EdgeDeclNode, NodeDeclNode> redirectedTo,
+	private bool IsLhsRhsReuseOk(ICollection<EdgeDeclNode> alreadyReported,
+			Dictionary<EdgeDeclNode, NodeDeclNode> redirectedFrom, Dictionary<EdgeDeclNode, NodeDeclNode> redirectedTo,
 			RhsDeclNode right, ConnectionNode leftConnection, ConnectionNode rightConnection)
 	{
-		NodeDeclNode rightSource = rightConnection.getSrc();
-		NodeDeclNode rightTarget = rightConnection.getTgt();
+		NodeDeclNode rightSource = rightConnection.Src;
+		NodeDeclNode rightTarget = rightConnection.Tgt;
 
 		HashSet<BaseNode> rhsNodes = new HashSet<BaseNode>();
-		rhsNodes.addAll(right.getNodesToReuse(pattern));
+		rhsNodes.AddAll(right.GetNodesToReuse(pattern));
 
-		if(rightSource instanceof NodeTypeChangeDeclNode) {
-			rightSource = ((NodeTypeChangeDeclNode)rightSource).getOldNode();
-			rhsNodes.add(rightSource);
+		if(rightSource is NodeTypeChangeDeclNode)
+		{
+			rightSource = ((NodeTypeChangeDeclNode)rightSource).OldNode;
+			rhsNodes.Add(rightSource);
 		}
-		if(rightTarget instanceof NodeTypeChangeDeclNode) {
-			rightTarget = ((NodeTypeChangeDeclNode)rightTarget).getOldNode();
-			rhsNodes.add(rightTarget);
+		if(rightTarget is NodeTypeChangeDeclNode)
+		{
+			rightTarget = ((NodeTypeChangeDeclNode)rightTarget).OldNode;
+			rhsNodes.Add(rightTarget);
 		}
 
-		boolean res = true;
+		bool res = true;
 
-		res &= isLhsRhsSourceReuseOk(alreadyReported, redirectedFrom, leftConnection, rightConnection, rightSource, rhsNodes);
+		res &= IsLhsRhsSourceReuseOk(alreadyReported, redirectedFrom, leftConnection, rightConnection, rightSource, rhsNodes);
 
-		res &= isLhsRhsTargetReuseOk(alreadyReported, redirectedTo, leftConnection, rightConnection, rightTarget, rhsNodes);
+		res &= IsLhsRhsTargetReuseOk(alreadyReported, redirectedTo, leftConnection, rightConnection, rightTarget, rhsNodes);
 
 		return res;
 	}
 
-	private boolean isLhsRhsSourceReuseOk(Collection<EdgeDeclNode> alreadyReported,
-			HashMap<EdgeDeclNode, NodeDeclNode> redirectedFrom,
-			ConnectionNode leftConnection, ConnectionNode rightConnection, 
+	private bool IsLhsRhsSourceReuseOk(ICollection<EdgeDeclNode> alreadyReported,
+			Dictionary<EdgeDeclNode, NodeDeclNode> redirectedFrom,
+			ConnectionNode leftConnection, ConnectionNode rightConnection,
 			NodeDeclNode rightSource, HashSet<BaseNode> rhsNodes)
 	{
-		boolean res = true;
+		bool res = true;
 
-		EdgeDeclNode leftEdge = leftConnection.getEdge();
-		EdgeDeclNode rightEdge = rightConnection.getEdge();
+		EdgeDeclNode leftEdge = leftConnection.Edge;
+		EdgeDeclNode rightEdge = rightConnection.Edge;
 
-		NodeDeclNode leftSource = leftConnection.getSrc();
+		NodeDeclNode leftSource = leftConnection.Src;
 
-		if(!leftSource.isDummy()) {
-			if(rightSource.isDummy()) {
-				if(rhsNodes.contains(leftSource)) {
+		if(!leftSource.IsDummy())
+		{
+			if(rightSource.IsDummy())
+			{
+				if(rhsNodes.Contains(leftSource))
+				{
 					//replace the dummy src node by the src node of the pattern connection
-					rightConnection.setSrc(leftSource);
-				} else if(!alreadyReported.contains(rightEdge)) {
-					res = false;
-					rightConnection.reportError("The source node" + leftSource.emptyWhenAnonymousInParenthesis(" ")
-							+ " of reused/referenced edge " + leftEdge + " must be reused/referenced, too.");
-					alreadyReported.add(rightEdge);
+					rightConnection.Src = leftSource;
 				}
-			} else if(leftSource != rightSource
-					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE) != ConnectionNode.REDIRECT_SOURCE
-					&& !alreadyReported.contains(rightEdge)) {
+				else if(!alreadyReported.Contains(rightEdge))
+				{
+					res = false;
+					rightConnection.ReportError("The source node" + leftSource.EmptyWhenAnonymousInParenthesis(" ")
+							+ " of reused/referenced edge " + leftEdge + " must be reused/referenced, too.");
+					alreadyReported.Add(rightEdge);
+				}
+			}
+			else if(leftSource != rightSource
+					&& (rightConnection.RedirectionKind & ConnectionNode.REDIRECT_SOURCE) != ConnectionNode.REDIRECT_SOURCE
+					&& !alreadyReported.Contains(rightEdge))
+			{
 				res = false;
-				rightConnection.reportError("Reused/referenced edge " + leftEdge
+				rightConnection.ReportError("Reused/referenced edge " + leftEdge
 						+ " does not connect the same (source) nodes (and is not declared to redirect source)"
-						+ differsFromSpecification(leftSource, rightSource, false) + ".");
-				alreadyReported.add(rightEdge);
+						+ DiffersFromSpecification(leftSource, rightSource, false) + ".");
+				alreadyReported.Add(rightEdge);
 			}
 		}
 
-		if((rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE) == ConnectionNode.REDIRECT_SOURCE) {
-			if(rightSource.isDummy()) {
+		if((rightConnection.RedirectionKind & ConnectionNode.REDIRECT_SOURCE) == ConnectionNode.REDIRECT_SOURCE)
+		{
+			if(rightSource.IsDummy())
+			{
 				res = false;
-				rightConnection.reportError("A source redirection is specified for edge " + leftEdge + ", but no source node is given.");
+				rightConnection.ReportError("A source redirection is specified for edge " + leftEdge + ", but no source node is given.");
 			}
 
-			if(leftSource.equals(rightSource)) {
-				rightConnection.reportWarning("Redirecting edge " + leftEdge + " to the same source node again (" + rightSource + ").");
-			}
+			if(leftSource.Equals(rightSource))
+				rightConnection.ReportWarning("Redirecting edge " + leftEdge + " to the same source node again (" + rightSource + ").");
 
-			if(redirectedFrom.containsKey(leftEdge)) {
+			if(redirectedFrom.ContainsKey(leftEdge))
+			{
 				res = false;
-				NodeDeclNode rightSource2 = redirectedFrom.get(leftEdge);
-				rightConnection.reportError("The source of edge " + leftEdge + " is redirected more than once"
-						+ " (to " + rightSource.userFriendlyToString() + " and to " + rightSource2.userFriendlyToString() + ").");
+				NodeDeclNode rightSource2 = redirectedFrom[leftEdge];
+				rightConnection.ReportError("The source of edge " + leftEdge + " is redirected more than once"
+						+ " (to " + rightSource.UserFriendlyToString() + " and to " + rightSource2.UserFriendlyToString() + ").");
 			}
-			redirectedFrom.put(leftEdge, rightSource);
+			redirectedFrom[leftEdge] = rightSource;
 		}
 
 		//check, whether RHS "adds" a node to a dangling end of a edge
-		if(!alreadyReported.contains(rightEdge)) {
-			if(leftSource.isDummy() && !rightSource.isDummy()
-					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE) != ConnectionNode.REDIRECT_SOURCE) {
+		if(!alreadyReported.Contains(rightEdge))
+		{
+			if(leftSource.IsDummy() && !rightSource.IsDummy()
+					&& (rightConnection.RedirectionKind & ConnectionNode.REDIRECT_SOURCE) != ConnectionNode.REDIRECT_SOURCE)
+			{
 				res = false;
-				rightConnection.reportError("Reused edge " + leftEdge + " dangles on LHS,"
-						+ " but has a source node on RHS" + rightSource.emptyWhenAnonymousInParenthesis(" ") + ".");
-				alreadyReported.add(rightEdge);
+				rightConnection.ReportError("Reused edge " + leftEdge + " dangles on LHS,"
+						+ " but has a source node on RHS" + rightSource.EmptyWhenAnonymousInParenthesis(" ") + ".");
+				alreadyReported.Add(rightEdge);
 			}
 		}
 
 		return res;
 	}
 
-	private boolean isLhsRhsTargetReuseOk(Collection<EdgeDeclNode> alreadyReported,
-			HashMap<EdgeDeclNode, NodeDeclNode> redirectedTo,
-			ConnectionNode leftConnection, ConnectionNode rightConnection, 
-			NodeDeclNode rightTarget, HashSet<BaseNode> rhsNodes)
+	private bool IsLhsRhsTargetReuseOk(ICollection<EdgeDeclNode> alreadyReported,
+			Dictionary<EdgeDeclNode, NodeDeclNode> redirectedTo,
+			ConnectionNode leftConnection, ConnectionNode rightConnection, NodeDeclNode rightTarget,
+			HashSet<BaseNode> rhsNodes)
 	{
-		boolean res = true;
-	
-		EdgeDeclNode leftEdge = leftConnection.getEdge();
-		EdgeDeclNode rightEdge = rightConnection.getEdge();
+		bool res = true;
 
-		NodeDeclNode leftTarget = leftConnection.getTgt();
+		EdgeDeclNode leftEdge = leftConnection.Edge;
+		EdgeDeclNode rightEdge = rightConnection.Edge;
 
-		if(!leftTarget.isDummy()) {
-			if(rightTarget.isDummy()) {
-				if(rhsNodes.contains(leftTarget)) {
+		NodeDeclNode leftTarget = leftConnection.Tgt;
+
+		if(!leftTarget.IsDummy())
+		{
+			if(rightTarget.IsDummy())
+			{
+				if(rhsNodes.Contains(leftTarget))
+				{
 					//replace the dummy tgt node by the tgt node of the pattern connection
-					rightConnection.setTgt(leftTarget);
-				} else if(!alreadyReported.contains(rightEdge)) {
-					res = false;
-					rightConnection.reportError("The target node" + leftTarget.emptyWhenAnonymousInParenthesis(" ")
-							+ " of reused/referenced edge " + leftEdge + " must be reused/referenced, too.");
-					alreadyReported.add(rightEdge);
+					rightConnection.Tgt = leftTarget;
 				}
-			} else if(leftTarget != rightTarget
-					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET) != ConnectionNode.REDIRECT_TARGET
-					&& !alreadyReported.contains(rightEdge)) {
+				else if(!alreadyReported.Contains(rightEdge))
+				{
+					res = false;
+					rightConnection.ReportError("The target node" + leftTarget.EmptyWhenAnonymousInParenthesis(" ")
+							+ " of reused/referenced edge " + leftEdge + " must be reused/referenced, too.");
+					alreadyReported.Add(rightEdge);
+				}
+			}
+			else if(leftTarget != rightTarget
+					&& (rightConnection.RedirectionKind & ConnectionNode.REDIRECT_TARGET) != ConnectionNode.REDIRECT_TARGET
+					&& !alreadyReported.Contains(rightEdge))
+			{
 				res = false;
-				rightConnection.reportError("Reused/referenced edge " + leftEdge
+				rightConnection.ReportError("Reused/referenced edge " + leftEdge
 						+ " does not connect the same (target) nodes (and is not declared to redirect target)"
-						+ differsFromSpecification(leftTarget, rightTarget, false) + ".");
-				alreadyReported.add(rightEdge);
+						+ DiffersFromSpecification(leftTarget, rightTarget, false) + ".");
+				alreadyReported.Add(rightEdge);
 			}
 		}
 
-		if((rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET) == ConnectionNode.REDIRECT_TARGET) {
-			if(rightTarget.isDummy()) {
+		if((rightConnection.RedirectionKind & ConnectionNode.REDIRECT_TARGET) == ConnectionNode.REDIRECT_TARGET)
+		{
+			if(rightTarget.IsDummy())
+			{
 				res = false;
-				rightConnection.reportError("A target redirection is specified for edge " + leftEdge + ", but no target node is given.");
+				rightConnection.ReportError("A target redirection is specified for edge " + leftEdge + ", but no target node is given.");
 			}
 
-			if(leftTarget.equals(rightTarget)) {
-				rightConnection.reportWarning("Redirecting edge " + leftEdge + " to the same target node again (" + rightTarget + ").");
-			}
+			if(leftTarget.Equals(rightTarget))
+				rightConnection.ReportWarning("Redirecting edge " + leftEdge + " to the same target node again (" + rightTarget + ").");
 
-			if(redirectedTo.containsKey(leftEdge)) {
+			if(redirectedTo.ContainsKey(leftEdge))
+			{
 				res = false;
-				NodeDeclNode rightTarget2 = redirectedTo.get(leftEdge);
-				rightConnection.reportError("The target of edge " + leftEdge + " is redirected more than once"
-						+ " (to " + rightTarget.userFriendlyToString() + " and to " + rightTarget2.userFriendlyToString() + ").");
+				NodeDeclNode rightTarget2 = redirectedTo[leftEdge];
+				rightConnection.ReportError("The target of edge " + leftEdge + " is redirected more than once"
+						+ " (to " + rightTarget.UserFriendlyToString() + " and to " + rightTarget2.UserFriendlyToString() + ").");
 			}
-			redirectedTo.put(leftEdge, rightTarget);
+			redirectedTo[leftEdge] = rightTarget;
 		}
 
 		//check, whether RHS "adds" a node to a dangling end of a edge
-		if(!alreadyReported.contains(rightEdge)) {
-			if(leftTarget.isDummy() && !rightTarget.isDummy()
-					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET) != ConnectionNode.REDIRECT_TARGET) {
+		if(!alreadyReported.Contains(rightEdge))
+		{
+			if(leftTarget.IsDummy() && !rightTarget.IsDummy()
+					&& (rightConnection.RedirectionKind & ConnectionNode.REDIRECT_TARGET) != ConnectionNode.REDIRECT_TARGET)
+			{
 				res = false;
-				rightConnection.reportError("Reused edge " + leftEdge + " dangles on LHS,"
-						+ " but has a target node on RHS" + rightTarget.emptyWhenAnonymousInParenthesis(" ") + ".");
-				alreadyReported.add(rightEdge);
+				rightConnection.ReportError("Reused edge " + leftEdge + " dangles on LHS,"
+						+ " but has a target node on RHS" + rightTarget.EmptyWhenAnonymousInParenthesis(" ") + ".");
+				alreadyReported.Add(rightEdge);
 			}
 		}
 
 		return res;
 	}
 
-	/**
-	 * Check that exec parameters are not deleted.
-	 *
-	 * The check consider the case that parameters are deleted due to
-	 * homomorphic matching.
-	 */
-	protected boolean checkExecParamsNotDeleted(RhsDeclNode right)
+	/// <summary>
+	/// Check that exec parameters are not deleted.
+	/// 
+	/// The check consider the case that parameters are deleted due to
+	/// homomorphic matching.
+	/// </summary>
+	protected internal virtual bool CheckExecParamsNotDeleted(RhsDeclNode right)
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		boolean valid = true;
+		bool valid = true;
 
-		Set<ConstraintDeclNode> deletedElements = right.getElementsToDelete(pattern);
-		Set<ConstraintDeclNode> maybeDeletedElements = right.getMaybeDeletedElements(pattern);
+		ISet<ConstraintDeclNode> deletedElements = right.GetElementsToDelete(pattern);
+		ISet<ConstraintDeclNode> maybeDeletedElements = right.GetMaybeDeletedElements(pattern);
 
-		for(BaseNode imperativeStatement : right.patternGraph.imperativeStmts.getChildrenExact()) {
-			if(!(imperativeStatement instanceof ExecNode))
+		foreach(BaseNode imperativeStatement in right.patternGraph.imperativeStmts.ChildrenExact)
+		{
+			if(!(imperativeStatement is ExecNode))
 				continue;
 
 			ExecNode exec = (ExecNode)imperativeStatement;
-			for(CallActionNode callAction : exec.callActions.getChildrenExact()) {
-				for(ExprNode arg : callAction.params.getChildrenExact()) {
+			foreach(CallActionNode callAction in exec.callActions.GetChildrenExact())
+			{
+				foreach(ExprNode arg in callAction.@params.GetChildrenExact())
+				{
 					HashSet<ConstraintDeclNode> potentiallyResultingElements = new HashSet<ConstraintDeclNode>();
-					arg.getPotentiallyResultingElements(potentiallyResultingElements);
-					for(ConstraintDeclNode potentiallyResultingElement : potentiallyResultingElements) {
-						valid &= checkExecParamNotDeleted(potentiallyResultingElement, deletedElements, maybeDeletedElements);
-					}
+					arg.GetPotentiallyResultingElements(potentiallyResultingElements);
+					foreach(ConstraintDeclNode potentiallyResultingElement in potentiallyResultingElements)
+						valid &= CheckExecParamNotDeleted(potentiallyResultingElement, deletedElements, maybeDeletedElements);
 				}
 			}
 		}
@@ -594,27 +642,30 @@ public abstract class MatcherDeclNode extends DeclNode
 		return valid;
 	}
 
-	private static boolean checkExecParamNotDeleted(ConstraintDeclNode declNode,
-			Set<ConstraintDeclNode> deletedElements, Set<ConstraintDeclNode> maybeDeletedElements)
+	private static bool CheckExecParamNotDeleted(ConstraintDeclNode declNode,
+			ISet<ConstraintDeclNode> deletedElements, ISet<ConstraintDeclNode> maybeDeletedElements)
 	{
-		if(deletedElements.contains(declNode)) {
-			declNode.reportError("The deleted " + declNode.getKind() + " " + declNode
+		if(deletedElements.Contains(declNode))
+		{
+			declNode.ReportError("The deleted " + declNode.Kind + " " + declNode
 					+ " is not allowed to be passed to an exec statement.");
 			return false;
-		} else if(maybeDeletedElements.contains(declNode)) {
+		}
+		else if(maybeDeletedElements.Contains(declNode))
+		{
 			declNode.maybeDeleted = true;
 
-			if(!declNode.getIdent().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "The parameter " + declNode + " of the exec statement may be deleted.";
-				errorMessage += " Possibly it is homomorphic with a deleted " + declNode.getKind();
+			if(!declNode.Ident.Annotations.IsFlagSet("maybeDeleted"))
+			{
+				string errorMessage = "The parameter " + declNode + " of the exec statement may be deleted.";
+				errorMessage += " Possibly it is homomorphic with a deleted " + declNode.Kind;
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
-				if(declNode instanceof EdgeDeclNode) {
+				if(declNode is EdgeDeclNode)
 					errorMessage += ", or " + declNode + " is a dangling edge and a deleted node exists";
-				}
 				errorMessage += ".";
-				declNode.reportError(errorMessage);
-				
+				declNode.ReportError(errorMessage);
+
 				return false;
 			}
 		}
@@ -623,34 +674,41 @@ public abstract class MatcherDeclNode extends DeclNode
 	}
 
 	//potential TODO: use name of top-level entity, compare with top-level instead of two neighboring levels in nesting tree
-	protected boolean sameNumberOfRewriteParts(RhsDeclNode right, String actionKind)
+	protected internal virtual bool SameNumberOfRewriteParts(RhsDeclNode right, string actionKind)
 	{
-		boolean res = true;
+		bool res = true;
 
-		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
-				if(right == null && alternativeCase.right != null) {
-					alternativeCase.reportError("No rewrite part is specified in the " + actionKind + (ident.getCurrOcc().isAnonymous() ? "" : " " + ident)
-							+ ", but one is given in the nested " + alternativeCase.getKind() + " " + alternativeCase.ident + ".");
+		foreach(AlternativeDeclNode alternative in pattern.alts.ChildrenExact)
+		{
+			foreach(AlternativeCaseDeclNode alternativeCase in alternative.ChildrenExact)
+			{
+				if(right == null && alternativeCase.right != null)
+				{
+					alternativeCase.ReportError("No rewrite part is specified in the " + actionKind + (ident.CurrOcc.IsAnonymous() ? "" : " " + ident)
+							+ ", but one is given in the nested " + alternativeCase.Kind + " " + alternativeCase.ident + ".");
 					res = false;
 				}
-				if(right != null && alternativeCase.right == null) {
-					alternativeCase.reportError("A rewrite part is specified in the " + actionKind + (ident.getCurrOcc().isAnonymous() ? "" : " " + ident)
-							+ ", but none is given in the nested " + alternativeCase.getKind() + " " + alternativeCase.ident + ".");
+				if(right != null && alternativeCase.right == null)
+				{
+					alternativeCase.ReportError("A rewrite part is specified in the " + actionKind + (ident.CurrOcc.IsAnonymous() ? "" : " " + ident)
+							+ ", but none is given in the nested " + alternativeCase.Kind + " " + alternativeCase.ident + ".");
 					res = false;
 				}
 			}
 		}
 
-		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
-			if(right == null && iterated.right != null) {
-				iterated.reportError("No rewrite part is specified in the " + actionKind + (ident.getCurrOcc().isAnonymous() ? "" : " " + ident)
-						+ ", but one is given in the nested " + iterated.getKind() + iterated.emptyWhenAnonymousPostfix(" ") + ".");
+		foreach(IteratedDeclNode iterated in pattern.iters.ChildrenExact)
+		{
+			if(right == null && iterated.right != null)
+			{
+				iterated.ReportError("No rewrite part is specified in the " + actionKind + (ident.CurrOcc.IsAnonymous() ? "" : " " + ident)
+						+ ", but one is given in the nested " + iterated.Kind + iterated.EmptyWhenAnonymousPostfix(" ") + ".");
 				res = false;
 			}
-			if(right != null && iterated.right == null) {
-				iterated.reportError("A rewrite part is specified in the " + actionKind + (ident.getCurrOcc().isAnonymous() ? "" : " " + ident)
-						+ ", but none is given in the nested " + iterated.getKind() + iterated.emptyWhenAnonymousPostfix(" ") + ".");
+			if(right != null && iterated.right == null)
+			{
+				iterated.ReportError("A rewrite part is specified in the " + actionKind + (ident.CurrOcc.IsAnonymous() ? "" : " " + ident)
+						+ ", but none is given in the nested " + iterated.Kind + iterated.EmptyWhenAnonymousPostfix(" ") + ".");
 				res = false;
 			}
 		}
@@ -658,282 +716,307 @@ public abstract class MatcherDeclNode extends DeclNode
 		return res;
 	}
 
-	protected boolean noNestedRewriteParameters(RhsDeclNode right, String actionKind)
+	protected internal virtual bool NoNestedRewriteParameters(RhsDeclNode right, string actionKind)
 	{
-		boolean res = true;
+		bool res = true;
 
-		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
+		foreach(AlternativeDeclNode alternative in pattern.alts.ChildrenExact)
+		{
+			foreach(AlternativeCaseDeclNode alternativeCase in alternative.ChildrenExact)
+			{
 				if(alternativeCase.right == null)
 					continue;
 
-				List<DeclNode> parametersInNestedAlternativeCase = alternativeCase.right.patternGraph.getParamDecls();
+				IList<DeclNode> parametersInNestedAlternativeCase = alternativeCase.right.patternGraph.ParamDecls;
 
-				if(parametersInNestedAlternativeCase.size() != 0) {
-					alternativeCase.reportError("No rewrite parameters are allowed in nested alternative cases,"
-							+ " but " + parametersInNestedAlternativeCase.size() + " are given"
-							+ " in " + alternativeCase.ident + ".");
+				if(parametersInNestedAlternativeCase.Count != 0)
+				{
+					alternativeCase.ReportError("No rewrite parameters are allowed in nested alternative cases,"
+							 + " but " + parametersInNestedAlternativeCase.Count + " are given"
+							 + " in " + alternativeCase.ident + ".");
 					res = false;
 				}
 			}
 		}
 
-		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
+		foreach(IteratedDeclNode iterated in pattern.iters.ChildrenExact)
+		{
 			if(iterated.right == null)
 				continue;
 
-			List<DeclNode> parametersInNestedIterated = iterated.right.patternGraph.getParamDecls();
+			IList<DeclNode> parametersInNestedIterated = iterated.right.patternGraph.ParamDecls;
 
-			if(parametersInNestedIterated.size() != 0) {
-				iterated.reportError("No rewrite parameters are allowed in nested " + iterated.getKind() + " parts,"
-						+ " but " + parametersInNestedIterated.size() + " are given"
-						+ iterated.emptyWhenAnonymous(" in " + iterated.ident) + ".");
+			if(parametersInNestedIterated.Count != 0)
+			{
+				iterated.ReportError("No rewrite parameters are allowed in nested " + iterated.Kind + " parts,"
+						+ " but " + parametersInNestedIterated.Count + " are given"
+						+ iterated.EmptyWhenAnonymous(" in " + iterated.ident) + ".");
 				res = false;
 			}
 		}
 
 		return res;
 	}
-	
-	protected boolean noAmbiguousRetypes(RhsDeclNode right)
+
+	protected internal virtual bool NoAmbiguousRetypes(RhsDeclNode right)
 	{
 		if(right == null)
 			return false;
-		boolean result = true;
-		for(NodeDeclNode node : pattern.getNodes()) {
+		bool result = true;
+		foreach(NodeDeclNode node in pattern.Nodes)
+		{
 			if(node.directlyNestingLHSGraph == pattern)
-				result &= noAmbiguousRetypes(right, node);
+				result &= NoAmbiguousRetypes(right, node);
 		}
-		for(EdgeDeclNode edge : pattern.getEdges()) {
+		foreach(EdgeDeclNode edge in pattern.Edges)
+		{
 			if(edge.directlyNestingLHSGraph == pattern)
-				result &= noAmbiguousRetypes(right, edge);
+				result &= NoAmbiguousRetypes(right, edge);
 		}
-		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
-				result &= alternativeCase.noAmbiguousRetypes(alternativeCase.right);
-			}
+		foreach(AlternativeDeclNode alternative in pattern.alts.ChildrenExact)
+		{
+			foreach(AlternativeCaseDeclNode alternativeCase in alternative.ChildrenExact)
+				result &= alternativeCase.NoAmbiguousRetypes(alternativeCase.right);
 		}
-		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
-			result &= iterated.noAmbiguousRetypes(iterated.right);
-		}
+		foreach(IteratedDeclNode iterated in pattern.iters.ChildrenExact)
+			result &= iterated.NoAmbiguousRetypes(iterated.right);
 		return result;
 	}
-	
-	protected boolean noAmbiguousRetypes(RhsDeclNode right, NodeDeclNode node)
+
+	protected internal virtual bool NoAmbiguousRetypes(RhsDeclNode right, NodeDeclNode node)
 	{
-		boolean noAmbiguousRetypes = true;
+		bool noAmbiguousRetypes = true;
 		NodeTypeChangeDeclNode retypeOfNode = null;
-		Pair<Boolean, NodeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(node, retypeOfNode);
-		noAmbiguousRetypes &= result.first.booleanValue();
+		Pair<bool, NodeTypeChangeDeclNode> result = right.RhsGraph.NoAmbiguousRetypes(node, retypeOfNode);
+		noAmbiguousRetypes &= result.first;
 		retypeOfNode = result.second;
-		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
+		foreach(AlternativeDeclNode alternative in pattern.alts.ChildrenExact)
+		{
 			NodeTypeChangeDeclNode tempRetype = null;
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
-				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, node, retypeOfNode);
-				noAmbiguousRetypes &= result.first.booleanValue();
+			foreach(AlternativeCaseDeclNode alternativeCase in alternative.ChildrenExact)
+			{
+				result = alternativeCase.NoAmbiguousRetypes(alternativeCase.right, node, retypeOfNode);
+				noAmbiguousRetypes &= result.first;
 				if(tempRetype == null)
 					tempRetype = result.second;
 			}
 			if(retypeOfNode == null)
 				retypeOfNode = tempRetype;
 		}
-		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
-			result = iterated.noAmbiguousRetypes(iterated.right, node, retypeOfNode);
-			noAmbiguousRetypes &= result.first.booleanValue();
+		foreach(IteratedDeclNode iterated in pattern.iters.ChildrenExact)
+		{
+			result = iterated.NoAmbiguousRetypes(iterated.right, node, retypeOfNode);
+			noAmbiguousRetypes &= result.first;
 			if(retypeOfNode == null)
 				retypeOfNode = result.second;
 		}
 		return noAmbiguousRetypes;
 	}
 
-	protected boolean noAmbiguousRetypes(RhsDeclNode right, EdgeDeclNode edge)
+	protected internal virtual bool NoAmbiguousRetypes(RhsDeclNode right, EdgeDeclNode edge)
 	{
-		boolean noAmbiguousRetypes = true;
+		bool noAmbiguousRetypes = true;
 		EdgeTypeChangeDeclNode retypeOfEdge = null;
-		Pair<Boolean, EdgeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(edge, retypeOfEdge);
-		noAmbiguousRetypes &= result.first.booleanValue();
+		Pair<bool, EdgeTypeChangeDeclNode> result = right.RhsGraph.NoAmbiguousRetypes(edge, retypeOfEdge);
+		noAmbiguousRetypes &= result.first;
 		retypeOfEdge = result.second;
-		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
+		foreach(AlternativeDeclNode alternative in pattern.alts.ChildrenExact)
+		{
 			EdgeTypeChangeDeclNode tempRetype = null;
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
-				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, edge, retypeOfEdge);
-				noAmbiguousRetypes &= result.first.booleanValue();
+			foreach(AlternativeCaseDeclNode alternativeCase in alternative.ChildrenExact)
+			{
+				result = alternativeCase.NoAmbiguousRetypes(alternativeCase.right, edge, retypeOfEdge);
+				noAmbiguousRetypes &= result.first;
 				if(tempRetype == null)
 					tempRetype = result.second;
 			}
 			if(retypeOfEdge == null)
 				retypeOfEdge = tempRetype;
 		}
-		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
-			result = iterated.noAmbiguousRetypes(iterated.right, edge, retypeOfEdge);
-			noAmbiguousRetypes &= result.first.booleanValue();
+		foreach(IteratedDeclNode iterated in pattern.iters.ChildrenExact)
+		{
+			result = iterated.NoAmbiguousRetypes(iterated.right, edge, retypeOfEdge);
+			noAmbiguousRetypes &= result.first;
 			if(retypeOfEdge == null)
 				retypeOfEdge = result.second;
 		}
 		return noAmbiguousRetypes;
 	}
 
-	protected Pair<Boolean, NodeTypeChangeDeclNode> noAmbiguousRetypes(RhsDeclNode right, NodeDeclNode node, NodeTypeChangeDeclNode retypeOfNode)
+	protected internal virtual Pair<bool, NodeTypeChangeDeclNode> NoAmbiguousRetypes(RhsDeclNode right, NodeDeclNode node, NodeTypeChangeDeclNode retypeOfNode)
 	{
 		if(right == null)
-			return new Pair<Boolean, NodeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfNode);
-		boolean noAmbiguousRetypes = true;
-		Pair<Boolean, NodeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(node, retypeOfNode);
-		noAmbiguousRetypes &= result.first.booleanValue();
+			return new Pair<bool, NodeTypeChangeDeclNode>(Convert.ToBoolean(false), retypeOfNode);
+		bool noAmbiguousRetypes = true;
+		Pair<bool, NodeTypeChangeDeclNode> result = right.RhsGraph.NoAmbiguousRetypes(node, retypeOfNode);
+		noAmbiguousRetypes &= result.first;
 		retypeOfNode = result.second;
-		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
+		foreach(AlternativeDeclNode alternative in pattern.alts.ChildrenExact)
+		{
 			NodeTypeChangeDeclNode tempRetype = null;
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
-				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, node, retypeOfNode);
-				noAmbiguousRetypes &= result.first.booleanValue();
+			foreach(AlternativeCaseDeclNode alternativeCase in alternative.ChildrenExact)
+			{
+				result = alternativeCase.NoAmbiguousRetypes(alternativeCase.right, node, retypeOfNode);
+				noAmbiguousRetypes &= result.first;
 				if(tempRetype == null)
 					tempRetype = result.second;
 			}
 			if(retypeOfNode == null)
 				retypeOfNode = tempRetype;
 		}
-		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
-			result = iterated.noAmbiguousRetypes(iterated.right, node, retypeOfNode);
-			noAmbiguousRetypes &= result.first.booleanValue();
+		foreach(IteratedDeclNode iterated in pattern.iters.ChildrenExact)
+		{
+			result = iterated.NoAmbiguousRetypes(iterated.right, node, retypeOfNode);
+			noAmbiguousRetypes &= result.first;
 			if(retypeOfNode == null)
 				retypeOfNode = result.second;
-		}		
-		return new Pair<Boolean, NodeTypeChangeDeclNode>(Boolean.valueOf(noAmbiguousRetypes), retypeOfNode);
+		}
+		return new Pair<bool, NodeTypeChangeDeclNode>(Convert.ToBoolean(noAmbiguousRetypes), retypeOfNode);
 	}
 
-	protected Pair<Boolean, EdgeTypeChangeDeclNode> noAmbiguousRetypes(RhsDeclNode right, EdgeDeclNode edge, EdgeTypeChangeDeclNode retypeOfEdge)
+	protected internal virtual Pair<bool, EdgeTypeChangeDeclNode> NoAmbiguousRetypes(RhsDeclNode right, EdgeDeclNode edge, EdgeTypeChangeDeclNode retypeOfEdge)
 	{
 		if(right == null)
-			return new Pair<Boolean, EdgeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfEdge);
-		boolean noAmbiguousRetypes = true;
-		Pair<Boolean, EdgeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(edge, retypeOfEdge);
-		noAmbiguousRetypes &= result.first.booleanValue();
+			return new Pair<bool, EdgeTypeChangeDeclNode>(Convert.ToBoolean(false), retypeOfEdge);
+		bool noAmbiguousRetypes = true;
+		Pair<bool, EdgeTypeChangeDeclNode> result = right.RhsGraph.NoAmbiguousRetypes(edge, retypeOfEdge);
+		noAmbiguousRetypes &= result.first;
 		retypeOfEdge = result.second;
-		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
+		foreach(AlternativeDeclNode alternative in pattern.alts.ChildrenExact)
+		{
 			EdgeTypeChangeDeclNode tempRetype = null;
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
-				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, edge, retypeOfEdge);
-				noAmbiguousRetypes &= result.first.booleanValue();
+			foreach(AlternativeCaseDeclNode alternativeCase in alternative.ChildrenExact)
+			{
+				result = alternativeCase.NoAmbiguousRetypes(alternativeCase.right, edge, retypeOfEdge);
+				noAmbiguousRetypes &= result.first;
 				if(tempRetype == null)
 					tempRetype = result.second;
 			}
 			if(retypeOfEdge == null)
 				retypeOfEdge = tempRetype;
 		}
-		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
-			result = iterated.noAmbiguousRetypes(iterated.right, edge, retypeOfEdge);
-			noAmbiguousRetypes &= result.first.booleanValue();
+		foreach(IteratedDeclNode iterated in pattern.iters.ChildrenExact)
+		{
+			result = iterated.NoAmbiguousRetypes(iterated.right, edge, retypeOfEdge);
+			noAmbiguousRetypes &= result.first;
 			if(retypeOfEdge == null)
 				retypeOfEdge = result.second;
-		}		
-		return new Pair<Boolean, EdgeTypeChangeDeclNode>(Boolean.valueOf(noAmbiguousRetypes), retypeOfEdge);
+		}
+		return new Pair<bool, EdgeTypeChangeDeclNode>(Convert.ToBoolean(noAmbiguousRetypes), retypeOfEdge);
 	}
 
-	protected void constructIRaux(Rule constructedRule, RhsDeclNode right)
+	protected internal virtual void ConstructIRaux(Rule constructedRule, RhsDeclNode right)
 	{
 		// add Params to the IR
-		addParams(constructedRule);
+		AddParams(constructedRule);
 
 		// add replacement parameters to the IR
 		PatternGraphRhs rightPattern = null;
-		if(right != null) {
-			rightPattern = right.getIRPatternGraph(pattern.getIRPatternGraphLhs());
-		} else {
+		if(right != null)
+			rightPattern = right.GetIRPatternGraph(pattern.IRPatternGraphLhs);
+		else
 			return;
-		}
 
 		// add replacement parameters to the current graph
-		for(DeclNode decl : right.patternGraph.getParamDecls()) {
-			if(decl instanceof NodeDeclNode) {
-				rightPattern.addReplParameter(decl.checkIR(Node.class));
-				rightPattern.addSingleNode(((NodeDeclNode)decl).getIRNode());
-			} else if(decl instanceof VarDeclNode) {
-				rightPattern.addReplParameter(decl.checkIR(Variable.class));
-				rightPattern.addVariable(((VarDeclNode)decl).getIRVariable());
-			} else {
-				throw new IllegalArgumentException("unknown Class: " + decl);
+		foreach(DeclNode decl in right.patternGraph.ParamDecls)
+		{
+			if(decl is NodeDeclNode)
+			{
+				rightPattern.AddReplParameter(decl.CheckIR(typeof(Node)));
+				rightPattern.AddSingleNode(((NodeDeclNode)decl).IRNode);
 			}
+			else if(decl is VarDeclNode)
+			{
+				rightPattern.AddReplParameter(decl.CheckIR(typeof(Variable)));
+				rightPattern.AddVariable(((VarDeclNode)decl).IRVariable);
+			}
+			else
+				throw new ArgumentException("unknown Class: " + decl);
 		}
 
 		// and also to the nested alternatives and iterateds
-		addReplacementParamsToNestedAlternativesAndIterateds(constructedRule, right);
+		AddReplacementParamsToNestedAlternativesAndIterateds(constructedRule, right);
 	}
 
-	protected void addParams(MatchingAction constructedMatchingAction)
+	protected internal virtual void AddParams(MatchingAction constructedMatchingAction)
 	{
-		PatternGraphLhs patternGraph = constructedMatchingAction.getPattern();
+		PatternGraphLhs patternGraph = constructedMatchingAction.Pattern;
 
-		for(DeclNode decl : pattern.getParamDecls()) {
-			Entity entity = decl.checkIR(Entity.class);
-			if(entity.isDefToBeYieldedTo())
-				constructedMatchingAction.addDefParameter(entity);
+		foreach(DeclNode decl in pattern.ParamDecls)
+		{
+			Entity entity = decl.CheckIR(typeof(Entity));
+			if(entity.IsDefToBeYieldedTo())
+				constructedMatchingAction.AddDefParameter(entity);
 			else
-				constructedMatchingAction.addParameter(entity);
-			
-			if(decl instanceof VarDeclNode) { // nodes/edges already have been added
-				patternGraph.addVariable(((VarDeclNode)decl).getIRVariable());
-			}
+				constructedMatchingAction.AddParameter(entity);
+
+			if(decl is VarDeclNode)
+				patternGraph.AddVariable(((VarDeclNode)decl).IRVariable);
 		}
 	}
 
-	protected static void addReplacementParamsToNestedAlternativesAndIterateds(Rule constructedRule, RhsDeclNode right)
+	protected internal static void AddReplacementParamsToNestedAlternativesAndIterateds(Rule constructedRule, RhsDeclNode right)
 	{
 		// add replacement parameters to the nested alternatives and iterateds
-		PatternGraphLhs patternGraph = constructedRule.getPattern();
-		for(DeclNode decl : right.patternGraph.getParamDecls()) {
-			if(decl instanceof NodeDeclNode) {
-				addReplacementNodeParamToNestedAlternativesAndIterateds((NodeDeclNode)decl, patternGraph);
-			} else if(decl instanceof VarDeclNode) {
-				addReplacementVarParamToNestedAlternativesAndIterateds((VarDeclNode)decl, patternGraph);
-			} else {
-				throw new IllegalArgumentException("unknown Class: " + decl);
-			}
+		PatternGraphLhs patternGraph = constructedRule.Pattern;
+		foreach(DeclNode decl in right.patternGraph.ParamDecls)
+		{
+			if(decl is NodeDeclNode)
+				AddReplacementNodeParamToNestedAlternativesAndIterateds((NodeDeclNode)decl, patternGraph);
+			else if(decl is VarDeclNode)
+				AddReplacementVarParamToNestedAlternativesAndIterateds((VarDeclNode)decl, patternGraph);
+			else
+				throw new ArgumentException("unknown Class: " + decl);
 		}
 	}
 
-	private static void addReplacementNodeParamToNestedAlternativesAndIterateds(NodeDeclNode decl, PatternGraphLhs patternGraph)
+	private static void AddReplacementNodeParamToNestedAlternativesAndIterateds(NodeDeclNode decl, PatternGraphLhs patternGraph)
 	{
-		for(Alternative alternative : patternGraph.getAlts()) {
-			for(Rule alternativeCase : alternative.getAlternativeCases()) {
-				alternativeCase.getRight().addReplParameter(decl.checkIR(Node.class));
-				alternativeCase.getRight().addSingleNode(decl.getIRNode());
+		foreach(Alternative alternative in patternGraph.Alts)
+		{
+			foreach(Rule alternativeCase in alternative.AlternativeCases)
+			{
+				alternativeCase.Right.AddReplParameter(decl.CheckIR(typeof(Node)));
+				alternativeCase.Right.AddSingleNode(decl.IRNode);
 			}
 		}
-		for(Rule iterated : patternGraph.getIters()) {
-			iterated.getRight().addReplParameter(decl.checkIR(Node.class));
-			iterated.getRight().addSingleNode(decl.getIRNode());
+		foreach(Rule iterated in patternGraph.Iters)
+		{
+			iterated.Right.AddReplParameter(decl.CheckIR(typeof(Node)));
+			iterated.Right.AddSingleNode(decl.IRNode);
 		}
 	}
 
-	private static void addReplacementVarParamToNestedAlternativesAndIterateds(VarDeclNode decl, PatternGraphLhs patternGraph)
+	private static void AddReplacementVarParamToNestedAlternativesAndIterateds(VarDeclNode decl, PatternGraphLhs patternGraph)
 	{
-		for(Alternative alternative : patternGraph.getAlts()) {
-			for(Rule alternativeCase : alternative.getAlternativeCases()) {
-				alternativeCase.getRight().addReplParameter(decl.checkIR(Variable.class));
-				alternativeCase.getRight().addVariable(decl.getIRVariable());
+		foreach(Alternative alternative in patternGraph.Alts)
+		{
+			foreach(Rule alternativeCase in alternative.AlternativeCases)
+			{
+				alternativeCase.Right.AddReplParameter(decl.CheckIR(typeof(Variable)));
+				alternativeCase.Right.AddVariable(decl.IRVariable);
 			}
 		}
-		for(Rule iterated : patternGraph.getIters()) {
-			iterated.getRight().addReplParameter(decl.checkIR(Variable.class));
-			iterated.getRight().addVariable(decl.getIRVariable());
+		foreach(Rule iterated in patternGraph.Iters)
+		{
+			iterated.Right.AddReplParameter(decl.CheckIR(typeof(Variable)));
+			iterated.Right.AddVariable(decl.IRVariable);
 		}
 	}
 
-	/**
-	 * add NACs for induced- or DPO-semantic
-	 */
-	protected void constructImplicitNegs(PatternGraphLhs left)
+	/// <summary>
+	/// add NACs for induced- or DPO-semantic
+	/// </summary>
+	protected internal virtual void ConstructImplicitNegs(PatternGraphLhs left)
 	{
 		PatternGraphLhsNode leftNode = pattern;
 		ImplicitNegComputer implicitNegComputer = new ImplicitNegComputer(leftNode);
 		ImplicitNegComputerInduced implicitNegComputerInduced = new ImplicitNegComputerInduced(leftNode);
-		
-		for(PatternGraphLhs neg : implicitNegComputer.getImplicitNegGraphs()) {
-			left.addNegGraph(neg);
-		}
-		for(PatternGraphLhs neg : implicitNegComputerInduced.getImplicitNegGraphs()) {
-			left.addNegGraph(neg);
-		}
+
+		foreach(PatternGraphLhs neg in implicitNegComputer.ImplicitNegGraphs)
+			left.AddNegGraph(neg);
+		foreach(PatternGraphLhs neg in implicitNegComputerInduced.ImplicitNegGraphs)
+			left.AddNegGraph(neg);
 	}
 
 	// TODO use this to create IR patterns, that is currently not supported by
@@ -972,4 +1055,6 @@ public abstract class MatcherDeclNode extends DeclNode
 	
 		return pattern;
 	}*/
+}
+
 }

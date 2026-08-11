@@ -1,61 +1,72 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt;
+namespace de.unika.ipd.grgen.ir.stmt
+{
 
-import java.util.Set;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-/**
- * Represents an exec statement embedded within a computation in the IR.
- */
-public class ExecStatement extends EvalStatement
+/// <summary>
+/// Represents an exec statement embedded within a computation in the IR.
+/// </summary>
+public class ExecStatement : EvalStatement
 {
 	private Exec exec;
 
 	public ExecStatement(Exec exec)
+		: base("exec statement")
 	{
-		super("exec statement");
 		this.exec = exec;
 	}
 
-	public Exec getExec()
+	public virtual Exec Exec
 	{
+		get
+		{
 		return exec;
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		needs.needsGraph();
-		for(Expression arg : getExec().getArguments()) {
-			arg.collectNeededEntities(needs);
 		}
 	}
 
-	public Set<Entity> getNeededEntities(boolean forComputation)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		return exec.getNeededEntities(forComputation);
+		needs.NeedsGraph();
+		foreach(Expression arg in Exec.GetArguments())
+			arg.CollectNeededEntities(needs);
 	}
 
-	/** Returns XGRS as an String */
-	public String getXGRSString()
+	public virtual ISet<Entity> GetNeededEntities(bool forComputation)
 	{
-		return exec.getXGRSString();
+		return exec.GetNeededEntities(forComputation);
 	}
 
-	public int getLineNr()
+	/// <summary>
+	/// Returns XGRS as an String </summary>
+	public virtual string XGRSString
 	{
-		return exec.getLineNr();
+		get
+		{
+		return exec.XGRSString;
+		}
 	}
+
+	public virtual int LineNr
+	{
+		get
+		{
+		return exec.LineNr;
+		}
+	}
+}
+
 }

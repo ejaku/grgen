@@ -1,78 +1,83 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Rubino Geiss
- */
+/// <summary>
+/// @author Rubino Geiss
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
+namespace de.unika.ipd.grgen.ast.expr
+{
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Constant = de.unika.ipd.grgen.ir.expr.Constant;
+using Coords = de.unika.ipd.grgen.parser.Coords;
 
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Constant;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * The null constant.
- */
-public class NullConstNode extends ConstNode
+/// <summary>
+/// The null constant.
+/// </summary>
+public class NullConstNode : ConstNode
 {
 	private TypeNode type;
 
 	public NullConstNode(Coords coords)
+		: base(coords, "null", Value.NULL)
 	{
-		super(coords, "null", Value.NULL);
 		type = BasicTypeNode.nullType;
 	}
 
-	/**
-	 * Singleton class representing the only constant value 'null' that
-	 * the basic type 'object' has.
-	 */
-	public static class Value
+	/// <summary>
+	/// Singleton class representing the only constant value 'null' that
+	/// the basic type 'object' has.
+	/// </summary>
+	public class Value
 	{
-		public static Value NULL = new Value() {
-			@Override
-			public String toString()
+		public static Value NULL = new ValueAnonymousInnerClass();
+
+		private class ValueAnonymousInnerClass : Value
+		{
+			private readonly Value outerInstance;
+
+			public override string ToString()
 			{
 				return "Const null";
 			}
-		};
+		}
 
-		private Value()
+		internal Value()
 		{
 		}
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return type;
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
 		return "Const (" + type + ") null";
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return new Constant(getType().getIRType(), null);
+		return new Constant(Type.IRType, null);
 	}
 
-	/** @see de.unika.ipd.grgen.ast.expr.ConstNode#doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) */
-	@Override
-	protected ConstNode doCastTo(TypeNode type)
+	/// <seealso cref="de.unika.ipd.grgen.ast.expr.ConstNode.doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) "/>
+	protected internal override ConstNode DoCastTo(TypeNode type)
 	{
-		NullConstNode castedNull = new NullConstNode(getCoords());
+		NullConstNode castedNull = new NullConstNode(Coords);
 		castedNull.type = type;
 		return castedNull;
 	}
+}
+
 }

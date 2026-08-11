@@ -1,31 +1,33 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.type.basic;
-
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.basic.DoubleType;
-
-/** The double precision floating point basic type. */
-public class DoubleTypeNode extends BasicTypeNode
+namespace de.unika.ipd.grgen.ast.type.basic
 {
-	static {
-		setClassName(DoubleTypeNode.class, "double type");
-	}
+using IR = de.unika.ipd.grgen.ir.IR;
+using DoubleType = de.unika.ipd.grgen.ir.type.basic.DoubleType;
 
-	@Override
-	protected IR constructIR()
+/// <summary>
+/// The double precision floating point basic type. </summary>
+public class DoubleTypeNode : BasicTypeNode
+{
+	static DoubleTypeNode()
 	{
-		return new DoubleType(getIdent().getIRIdent());
+		SetClassName(typeof(DoubleTypeNode), "double type");
 	}
 
-	@Override
-	public String toString()
+	protected internal override IR ConstructIR()
+	{
+		return new DoubleType(Ident.IRIdent);
+	}
+
+	public override string ToString()
 	{
 		return "double";
 	}
+}
+
 }

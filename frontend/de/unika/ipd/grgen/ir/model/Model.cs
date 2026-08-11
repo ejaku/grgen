@@ -1,81 +1,79 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * Model.java
- *
- * @author Sebastian Hack
- */
+/// <summary>
+/// Model.java
+/// 
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ir.model;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.executable.ExternalFunction;
-import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
-import de.unika.ipd.grgen.ir.model.type.InheritanceType;
-import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
-import de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
-import de.unika.ipd.grgen.ir.model.type.NodeType;
-import de.unika.ipd.grgen.ir.model.type.PackageType;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
-
-public class Model extends Identifiable implements NodeEdgeEnumBearer
+namespace de.unika.ipd.grgen.ir.model
 {
-	private ArrayList<Model> usedModels = new ArrayList<Model>();
-	private ArrayList<PackageType> packages = new ArrayList<PackageType>();
-	private ArrayList<Type> types = new ArrayList<Type>();
 
-	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
-	private Set<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
-	private Set<InternalObjectType> objectTypes = new LinkedHashSet<InternalObjectType>();
-	private Set<InternalTransientObjectType> transientObjectTypes = new LinkedHashSet<InternalTransientObjectType>();
-	private Set<EnumType> enumTypes = new LinkedHashSet<EnumType>();
-	private Set<Index> indices = new LinkedHashSet<Index>();
-	private Set<ExternalObjectType> externalObjectTypes = new LinkedHashSet<ExternalObjectType>();
-	private Set<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
-	private Set<ExternalProcedure> externalProcs = new LinkedHashSet<ExternalProcedure>();
-	private boolean isEmitClassDefined_;
-	private boolean isEmitGraphClassDefined_;
-	private boolean isCopyClassDefined_;
-	private boolean isEqualClassDefined_;
-	private boolean isLowerClassDefined_;
-	private boolean isGraphofDefined_;
-	private boolean isUniqueDefined_;
-	private boolean isUniqueResulting_;
-	private boolean isUniqueClassDefined_;
-	private boolean isUniqueIndexDefined_;
-	private boolean areFunctionsParallel_;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;
+using ExternalProcedure = de.unika.ipd.grgen.ir.executable.ExternalProcedure;
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
+using ExternalObjectType = de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
+using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+using InternalObjectType = de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+using InternalTransientObjectType = de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
+using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+using PackageType = de.unika.ipd.grgen.ir.model.type.PackageType;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using PrimitiveType = de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
+
+public class Model : Identifiable, NodeEdgeEnumBearer
+{
+	private List<Model> usedModels = new List<Model>();
+	private List<PackageType> packages = new List<PackageType>();
+	private List<Type> types = new List<Type>();
+
+	private ISet<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
+	private ISet<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
+	private ISet<InternalObjectType> objectTypes = new LinkedHashSet<InternalObjectType>();
+	private ISet<InternalTransientObjectType> transientObjectTypes = new LinkedHashSet<InternalTransientObjectType>();
+	private ISet<EnumType> enumTypes = new LinkedHashSet<EnumType>();
+	private ISet<Index> indices = new LinkedHashSet<Index>();
+	private ISet<ExternalObjectType> externalObjectTypes = new LinkedHashSet<ExternalObjectType>();
+	private ISet<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
+	private ISet<ExternalProcedure> externalProcs = new LinkedHashSet<ExternalProcedure>();
+	private bool isEmitClassDefined_;
+	private bool isEmitGraphClassDefined_;
+	private bool isCopyClassDefined_;
+	private bool isEqualClassDefined_;
+	private bool isLowerClassDefined_;
+	private bool isGraphofDefined_;
+	private bool isUniqueDefined_;
+	private bool isUniqueResulting_;
+	private bool isUniqueClassDefined_;
+	private bool isUniqueIndexDefined_;
+	private bool areFunctionsParallel_;
 	private int isoParallel;
 	private int sequencesParallel;
-	private ArrayList<NodeType> allNodeTypes;
-	private ArrayList<EdgeType> allEdgeTypes;
-	private ArrayList<InternalObjectType> allObjectTypes;
-	private ArrayList<InternalTransientObjectType> allTransientObjectTypes;
-	private ArrayList<InheritanceType> allGraphElementTypes;
-	private ArrayList<InheritanceType> allInheritanceTypes;
+	private List<NodeType> allNodeTypes;
+	private List<EdgeType> allEdgeTypes;
+	private List<InternalObjectType> allObjectTypes;
+	private List<InternalTransientObjectType> allTransientObjectTypes;
+	private List<InheritanceType> allGraphElementTypes;
+	private List<InheritanceType> allInheritanceTypes;
 
-	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
-			boolean isEqualClassDefined, boolean isLowerClassDefined, boolean isGraphofDefined,
-			boolean isUniqueDefined, boolean isUniqueClassDefined, boolean isUniqueIndexDefined,
-			boolean areFunctionsParallel, int isoParallel, int sequencesParallel)
+	public Model(Ident ident, bool isEmitClassDefined, bool isEmitGraphClassDefined, bool isCopyClassDefined,
+			bool isEqualClassDefined, bool isLowerClassDefined, bool isGraphofDefined,
+			bool isUniqueDefined, bool isUniqueClassDefined, bool isUniqueIndexDefined,
+			bool areFunctionsParallel, int isoParallel, int sequencesParallel)
+		: base("model", ident)
 	{
-		super("model", ident);
 
 		this.isEmitClassDefined_ = isEmitClassDefined;
 		this.isEmitGraphClassDefined_ = isEmitGraphClassDefined;
@@ -92,333 +90,396 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		this.sequencesParallel = sequencesParallel;
 	}
 
-	public void addUsedModel(Model model)
+	public virtual void AddUsedModel(Model model)
 	{
-		usedModels.add(model);
-		for(Type type : model.getTypes())
-			addType(type);
-		for(PackageType pack : model.getPackages())
-			addPackage(pack);
-		for(ExternalFunction externalFunc : model.getExternalFunctions())
-			addExternalFunction(externalFunc);
+		usedModels.Add(model);
+		foreach(Type type in model.Types)
+			AddType(type);
+		foreach(PackageType pack in model.Packages)
+			AddPackage(pack);
+		foreach(ExternalFunction externalFunc in model.ExternalFunctions)
+			AddExternalFunction(externalFunc);
 	}
 
-	public void addPackage(PackageType p)
+	public virtual void AddPackage(PackageType p)
 	{
-		packages.add(p);
+		packages.Add(p);
 	}
 
-	public Collection<PackageType> getPackages()
+	public virtual ICollection<PackageType> Packages
 	{
-		return Collections.unmodifiableList(packages);
+		get
+		{
+		return packages.AsReadOnly();
+		}
 	}
 
-	/** Add the given type to the type model. */
-	public void addType(Type type)
+	/// <summary>
+	/// Add the given type to the type model. </summary>
+	public virtual void AddType(Type type)
 	{
-		types.add(type);
-		if(type instanceof NodeType)
-			nodeTypes.add((NodeType)type);
-		else if(type instanceof EdgeType)
-			edgeTypes.add((EdgeType)type);
-		else if(type instanceof EnumType)
-			enumTypes.add((EnumType)type);
-		else if(type instanceof ExternalObjectType)
-			externalObjectTypes.add((ExternalObjectType)type);
-		else if(type instanceof InternalObjectType)
-			objectTypes.add((InternalObjectType)type);
-		else if(type instanceof InternalTransientObjectType)
-			transientObjectTypes.add((InternalTransientObjectType)type);
-		else if(!(type instanceof PrimitiveType))
-			assert false : "Unexpected type added to model: " + type;
+		types.Add(type);
+		if(type is NodeType)
+			nodeTypes.Add((NodeType)type);
+		else if(type is EdgeType)
+			edgeTypes.Add((EdgeType)type);
+		else if(type is EnumType)
+			enumTypes.Add((EnumType)type);
+		else if(type is ExternalObjectType)
+			externalObjectTypes.Add((ExternalObjectType)type);
+		else if(type is InternalObjectType)
+			objectTypes.Add((InternalObjectType)type);
+		else if(type is InternalTransientObjectType)
+			transientObjectTypes.Add((InternalTransientObjectType)type);
+		else if(!(type is PrimitiveType))
+			Debug.Assert(false, "Unexpected type added to model: " + type);
 	}
 
-	public void addIndex(Index index)
+	public virtual void AddIndex(Index index)
 	{
-		indices.add(index);
+		indices.Add(index);
 	}
 
-	public Collection<Index> getIndices()
+	public virtual ICollection<Index> Indices
 	{
-		return Collections.unmodifiableSet(indices);
+		get
+		{
+		return Collections.UnmodifiableSet(indices);
+		}
 	}
 
-	public void addExternalFunction(ExternalFunction externalFunc)
+	public virtual void AddExternalFunction(ExternalFunction externalFunc)
 	{
-		externalFuncs.add(externalFunc);
+		externalFuncs.Add(externalFunc);
 	}
 
-	public Collection<ExternalFunction> getExternalFunctions()
+	public virtual ICollection<ExternalFunction> ExternalFunctions
 	{
-		return Collections.unmodifiableSet(externalFuncs);
+		get
+		{
+		return Collections.UnmodifiableSet(externalFuncs);
+		}
 	}
 
-	public void addExternalProcedure(ExternalProcedure externalProc)
+	public virtual void AddExternalProcedure(ExternalProcedure externalProc)
 	{
-		externalProcs.add(externalProc);
+		externalProcs.Add(externalProc);
 	}
 
-	public Collection<ExternalProcedure> getExternalProcedures()
+	public virtual ICollection<ExternalProcedure> ExternalProcedures
 	{
-		return Collections.unmodifiableSet(externalProcs);
+		get
+		{
+		return Collections.UnmodifiableSet(externalProcs);
+		}
 	}
 
-	/** @return The types in the type model. */
-	public Collection<Type> getTypes()
+	/// <returns> The types in the type model. </returns>
+	public virtual ICollection<Type> Types
 	{
-		return Collections.unmodifiableList(types);
+		get
+		{
+		return types.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<NodeType> getNodeTypes()
+	public virtual ICollection<NodeType> NodeTypes
 	{
-		return Collections.unmodifiableSet(nodeTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(nodeTypes);
+		}
 	}
 
-	public Collection<NodeType> getAllNodeTypes()
+	public virtual ICollection<NodeType> AllNodeTypes
 	{
-		if(allNodeTypes == null) {
-			ArrayList<NodeType> allNodeTypes = new ArrayList<NodeType>();
-			allNodeTypes.addAll(getNodeTypes());
-			for(PackageType pt : getPackages()) {
-				allNodeTypes.addAll(pt.getNodeTypes());
-			}
+		get
+		{
+		if(allNodeTypes == null)
+		{
+			List<NodeType> allNodeTypes = new List<NodeType>();
+			allNodeTypes.AddRange(NodeTypes);
+			foreach(PackageType pt in Packages)
+				allNodeTypes.AddRange(pt.NodeTypes);
 			int typeID = 0;
-			for(NodeType nt : allNodeTypes) {
-				nt.setInheritanceTypeID(typeID);
+			foreach(NodeType nt in allNodeTypes)
+			{
+				nt.InheritanceTypeID = typeID;
 				++typeID;
 			}
 			this.allNodeTypes = allNodeTypes;
 		}
-		return Collections.unmodifiableList(allNodeTypes);
+		return allNodeTypes.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<EdgeType> getEdgeTypes()
+	public virtual ICollection<EdgeType> EdgeTypes
 	{
-		return Collections.unmodifiableSet(edgeTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(edgeTypes);
+		}
 	}
 
-	public Collection<EdgeType> getAllEdgeTypes()
+	public virtual ICollection<EdgeType> AllEdgeTypes
 	{
-		if(allEdgeTypes == null) {
-			ArrayList<EdgeType> allEdgeTypes = new ArrayList<EdgeType>();
-			allEdgeTypes.addAll(getEdgeTypes());
-			for(PackageType pt : getPackages()) {
-				allEdgeTypes.addAll(pt.getEdgeTypes());
-			}
+		get
+		{
+		if(allEdgeTypes == null)
+		{
+			List<EdgeType> allEdgeTypes = new List<EdgeType>();
+			allEdgeTypes.AddRange(EdgeTypes);
+			foreach(PackageType pt in Packages)
+				allEdgeTypes.AddRange(pt.EdgeTypes);
 			int typeID = 0;
-			for(EdgeType et : allEdgeTypes) {
-				et.setInheritanceTypeID(typeID);
+			foreach(EdgeType et in allEdgeTypes)
+			{
+				et.InheritanceTypeID = typeID;
 				++typeID;
 			}
 			this.allEdgeTypes = allEdgeTypes;
 		}
-		return Collections.unmodifiableList(allEdgeTypes);
+		return allEdgeTypes.AsReadOnly();
+		}
 	}
-	
-	public Collection<InheritanceType> getAllGraphElementTypes()
+
+	public virtual ICollection<InheritanceType> AllGraphElementTypes
 	{
-		if(allGraphElementTypes == null) {
-			ArrayList<InheritanceType> allNodeAndEdgeTypes = new ArrayList<InheritanceType>();
-			allNodeAndEdgeTypes.addAll(getAllNodeTypes());
-			allNodeAndEdgeTypes.addAll(getAllEdgeTypes());
+		get
+		{
+		if(allGraphElementTypes == null)
+		{
+			List<InheritanceType> allNodeAndEdgeTypes = new List<InheritanceType>();
+			allNodeAndEdgeTypes.AddRange(AllNodeTypes);
+			allNodeAndEdgeTypes.AddRange(AllEdgeTypes);
 			this.allGraphElementTypes = allNodeAndEdgeTypes;
 		}
-		return Collections.unmodifiableList(allGraphElementTypes);
+		return allGraphElementTypes.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<InternalObjectType> getObjectTypes()
+	public virtual ICollection<InternalObjectType> ObjectTypes
 	{
-		return Collections.unmodifiableSet(objectTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(objectTypes);
+		}
 	}
 
-	public Collection<InternalObjectType> getAllObjectTypes()
+	public virtual ICollection<InternalObjectType> AllObjectTypes
 	{
-		if(allObjectTypes == null) {
-			ArrayList<InternalObjectType> allObjectTypes = new ArrayList<InternalObjectType>();
-			allObjectTypes.addAll(getObjectTypes());
-			for(PackageType pt : getPackages()) {
-				allObjectTypes.addAll(pt.getObjectTypes());
-			}
+		get
+		{
+		if(allObjectTypes == null)
+		{
+			List<InternalObjectType> allObjectTypes = new List<InternalObjectType>();
+			allObjectTypes.AddRange(ObjectTypes);
+			foreach(PackageType pt in Packages)
+				allObjectTypes.AddRange(pt.ObjectTypes);
 			int typeID = 0;
-			for(InternalObjectType ot : allObjectTypes) {
-				ot.setInheritanceTypeID(typeID);
+			foreach(InternalObjectType ot in allObjectTypes)
+			{
+				ot.InheritanceTypeID = typeID;
 				++typeID;
 			}
 			this.allObjectTypes = allObjectTypes;
 		}
-		return Collections.unmodifiableList(allObjectTypes);
+		return allObjectTypes.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<InternalTransientObjectType> getTransientObjectTypes()
+	public virtual ICollection<InternalTransientObjectType> TransientObjectTypes
 	{
-		return Collections.unmodifiableSet(transientObjectTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(transientObjectTypes);
+		}
 	}
 
-	public Collection<InternalTransientObjectType> getAllTransientObjectTypes()
+	public virtual ICollection<InternalTransientObjectType> AllTransientObjectTypes
 	{
-		if(allTransientObjectTypes == null) {
-			ArrayList<InternalTransientObjectType> allTransientObjectTypes = new ArrayList<InternalTransientObjectType>();
-			allTransientObjectTypes.addAll(getTransientObjectTypes());
-			for(PackageType pt : getPackages()) {
-				allTransientObjectTypes.addAll(pt.getTransientObjectTypes());
-			}
+		get
+		{
+		if(allTransientObjectTypes == null)
+		{
+			List<InternalTransientObjectType> allTransientObjectTypes = new List<InternalTransientObjectType>();
+			allTransientObjectTypes.AddRange(TransientObjectTypes);
+			foreach(PackageType pt in Packages)
+				allTransientObjectTypes.AddRange(pt.TransientObjectTypes);
 			int typeID = 0;
-			for(InternalTransientObjectType ot : allTransientObjectTypes) {
-				ot.setInheritanceTypeID(typeID);
+			foreach(InternalTransientObjectType ot in allTransientObjectTypes)
+			{
+				ot.InheritanceTypeID = typeID;
 				++typeID;
 			}
 			this.allTransientObjectTypes = allTransientObjectTypes;
 		}
-		return Collections.unmodifiableList(allTransientObjectTypes);
+		return allTransientObjectTypes.AsReadOnly();
+		}
 	}
 
-	public Collection<InheritanceType> getAllInheritanceTypes()
+	public virtual ICollection<InheritanceType> AllInheritanceTypes
 	{
-		if(allInheritanceTypes == null) {
-			ArrayList<InheritanceType> allInheritanceTypes = new ArrayList<InheritanceType>();
-			allInheritanceTypes.addAll(getAllNodeTypes());
-			allInheritanceTypes.addAll(getAllEdgeTypes());
-			allInheritanceTypes.addAll(getAllObjectTypes());
-			allInheritanceTypes.addAll(getAllTransientObjectTypes());
+		get
+		{
+		if(allInheritanceTypes == null)
+		{
+			List<InheritanceType> allInheritanceTypes = new List<InheritanceType>();
+			allInheritanceTypes.AddRange(AllNodeTypes);
+			allInheritanceTypes.AddRange(AllEdgeTypes);
+			allInheritanceTypes.AddRange(AllObjectTypes);
+			allInheritanceTypes.AddRange(AllTransientObjectTypes);
 			this.allInheritanceTypes = allInheritanceTypes;
 		}
-		return Collections.unmodifiableList(allInheritanceTypes);
+		return allInheritanceTypes.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<EnumType> getEnumTypes()
+	public virtual ICollection<EnumType> EnumTypes
 	{
-		return Collections.unmodifiableSet(enumTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(enumTypes);
+		}
 	}
 
-	public Collection<ExternalObjectType> getExternalObjectTypes()
+	public virtual ICollection<ExternalObjectType> ExternalObjectTypes
 	{
-		return Collections.unmodifiableSet(externalObjectTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(externalObjectTypes);
+		}
 	}
 
-	public Collection<Model> getUsedModels()
+	public virtual ICollection<Model> UsedModels
 	{
-		return Collections.unmodifiableList(usedModels);
+		get
+		{
+		return usedModels.AsReadOnly();
+		}
 	}
 
-	public boolean isEmitClassDefined()
+	public virtual bool IsEmitClassDefined()
 	{
 		return isEmitClassDefined_;
 	}
 
-	public boolean isEmitGraphClassDefined()
+	public virtual bool IsEmitGraphClassDefined()
 	{
 		return isEmitGraphClassDefined_;
 	}
 
-	public boolean isCopyClassDefined()
+	public virtual bool IsCopyClassDefined()
 	{
 		return isCopyClassDefined_;
 	}
 
-	public boolean isEqualClassDefined()
+	public virtual bool IsEqualClassDefined()
 	{
 		return isEqualClassDefined_;
 	}
 
-	public boolean isLowerClassDefined()
+	public virtual bool IsLowerClassDefined()
 	{
 		return isLowerClassDefined_;
 	}
 
-	public boolean isGraphofDefined()
+	public virtual bool IsGraphofDefined()
 	{
 		return isGraphofDefined_;
 	}
 
-	public boolean isUniqueDefined()
+	public virtual bool IsUniqueDefined()
 	{
 		return isUniqueDefined_;
 	}
 
-	public void forceUniqueDefined()
+	public virtual void ForceUniqueDefined()
 	{
 		isUniqueDefined_ = true;
 	}
 
-	public boolean isUniqueResulting()
+	public virtual bool IsUniqueResulting()
 	{
 		return isUniqueResulting_;
 	}
 
-	public void forceUniqueResulting()
+	public virtual void ForceUniqueResulting()
 	{
 		isUniqueResulting_ = true;
 	}
 
-	public boolean isUniqueClassDefined()
+	public virtual bool IsUniqueClassDefined()
 	{
 		return isUniqueClassDefined_;
 	}
 
-	public boolean isUniqueIndexDefined()
+	public virtual bool IsUniqueIndexDefined()
 	{
 		return isUniqueIndexDefined_;
 	}
 
-	public void forceFunctionsParallel()
+	public virtual void ForceFunctionsParallel()
 	{
 		areFunctionsParallel_ = true;
 	}
 
-	public boolean areFunctionsParallel()
+	public virtual bool AreFunctionsParallel()
 	{
 		return areFunctionsParallel_;
 	}
 
-	public int getIsoParallel()
+	public virtual int IsoParallel
 	{
+		get
+		{
 		return isoParallel;
+		}
 	}
 
-	public int getSequencesParallel()
+	public virtual int SequencesParallel
 	{
+		get
+		{
 		return sequencesParallel;
+		}
 	}
 
-	/** Canonicalize the type model. */
-	@Override
-	protected void canonicalizeLocal()
+	/// <summary>
+	/// Canonicalize the type model. </summary>
+	protected internal override void CanonicalizeLocal()
 	{
 		//Collections.sort(types, Identifiable.COMPARATOR);
 		//Collections.sort(types);
 
-		for(Type ty : types) {
-			ty.canonicalize();
-			if(ty instanceof EdgeType)
-				((EdgeType)ty).canonicalizeConnectionAsserts();
+		foreach(Type ty in types)
+		{
+			ty.Canonicalize();
+			if(ty is EdgeType)
+				((EdgeType)ty).CanonicalizeConnectionAsserts();
 		}
 	}
 
-	public void addToDigest(StringBuffer sb)
+	public virtual void AddToDigest(StringBuilder sb)
 	{
-		sb.append(this);
-		sb.append('[');
+		sb.Append(this);
+		sb.Append('[');
 
-		for(Model model : usedModels)
-			model.addToDigest(sb);
+		foreach(Model model in usedModels)
+			model.AddToDigest(sb);
 
-		for(Type ty : types) {
-			ty.addToDigest(sb);
-		}
+		foreach(Type ty in types)
+			ty.AddToDigest(sb);
 
-		sb.append(']');
+		sb.Append(']');
 	}
 
-	@Override
-	public void addFields(Map<String, Object> fields)
+	public override void AddFields(IDictionary<string, object> fields)
 	{
-		super.addFields(fields);
-		fields.put("usedModels", usedModels.iterator());
-		fields.put("types", types.iterator());
+		base.AddFields(fields);
+		fields["usedModels"] = usedModels.GetEnumerator();
+		fields["types"] = types.GetEnumerator();
 	}
+}
+
 }

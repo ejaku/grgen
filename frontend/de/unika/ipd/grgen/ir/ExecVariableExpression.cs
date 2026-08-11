@@ -1,48 +1,52 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll
- */
+/// <summary>
+/// @author Moritz Kroll
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
+namespace de.unika.ipd.grgen.ir
+{
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 
-import de.unika.ipd.grgen.ir.expr.Expression;
-
-/**
- * A exec variable expression node.
- */
-public class ExecVariableExpression extends Expression
+/// <summary>
+/// A exec variable expression node.
+/// </summary>
+public class ExecVariableExpression : Expression
 {
 	private ExecVariable var;
 
 	public ExecVariableExpression(ExecVariable var)
+		: base("exec variable", var.Type)
 	{
-		super("exec variable", var.getType());
 		this.var = var;
 	}
 
-	/** Returns the exec variable of this exec variable expression. */
-	public ExecVariable getVariable()
+	/// <summary>
+	/// Returns the exec variable of this exec variable expression. </summary>
+	public virtual ExecVariable Variable
 	{
+		get
+		{
 		return var;
+		}
 	}
 
-	@Override
-	public boolean equals(Object other)
+	public override bool Equals(object other)
 	{
-		if(!(other instanceof ExecVariableExpression))
+		if(!(other is ExecVariableExpression))
 			return false;
-		return var == ((ExecVariableExpression)other).getVariable();
+		return var == ((ExecVariableExpression)other).Variable;
 	}
 
-	@Override
-	public int hashCode()
+	public override int GetHashCode()
 	{
-		return var.hashCode();
+		return var.GetHashCode();
 	}
+}
+
 }

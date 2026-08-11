@@ -1,32 +1,32 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.pattern;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.pattern.Alternative;
-import de.unika.ipd.grgen.ir.pattern.AlternativeReplacement;
-
-public class AlternativeReplNode extends OrderedReplacementNode
+namespace de.unika.ipd.grgen.ast.pattern
 {
-	static {
-		setClassName(AlternativeReplNode.class, "alternative repl node");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using AlternativeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Alternative = de.unika.ipd.grgen.ir.pattern.Alternative;
+using AlternativeReplacement = de.unika.ipd.grgen.ir.pattern.AlternativeReplacement;
+
+public class AlternativeReplNode : OrderedReplacementNode
+{
+	static AlternativeReplNode()
+	{
+		SetClassName(typeof(AlternativeReplNode), "alternative repl node");
 	}
 
 	private IdentNode alternativeUnresolved;
@@ -35,46 +35,49 @@ public class AlternativeReplNode extends OrderedReplacementNode
 	public AlternativeReplNode(IdentNode n)
 	{
 		this.alternativeUnresolved = n;
-		becomeParent(this.alternativeUnresolved);
+		BecomeParent(this.alternativeUnresolved);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(alternativeUnresolved, alternative));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(alternativeUnresolved, alternative));
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("alternative");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("alternative");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<AlternativeDeclNode> alternativeResolver =
-		new DeclarationResolver<AlternativeDeclNode>(AlternativeDeclNode.class);
+	private static readonly DeclarationResolver<AlternativeDeclNode> alternativeResolver =
+		new DeclarationResolver<AlternativeDeclNode>(typeof(AlternativeDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		alternative = alternativeResolver.resolve(alternativeUnresolved, this);
+		alternative = alternativeResolver.Resolve(alternativeUnresolved, this);
 		return alternative != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return new AlternativeReplacement("alternative replacement", alternativeUnresolved.getIRIdent(),
-				alternative.checkIR(Alternative.class));
+		return new AlternativeReplacement("alternative replacement", alternativeUnresolved.IRIdent,
+				alternative.CheckIR(typeof(Alternative)));
 	}
+}
+
 }

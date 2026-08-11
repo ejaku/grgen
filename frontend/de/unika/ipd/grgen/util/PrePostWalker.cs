@@ -1,34 +1,33 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.util;
-
-import java.util.HashSet;
-import java.util.Set;
-
-/**
- * A walker calling visitors
- * pre before descending to the first child
- * post after ascending from the last child.
- */
-public class PrePostWalker extends Base implements Walker
+namespace de.unika.ipd.grgen.util
 {
-	private Set<Walkable> visited;
+
+using System.Collections.Generic;
+
+/// <summary>
+/// A walker calling visitors
+/// pre before descending to the first child
+/// post after ascending from the last child.
+/// </summary>
+public class PrePostWalker : Base, Walker
+{
+	private ISet<Walkable> visited;
 	private Visitor pre, post;
 
-	/**
-	 * Creates PrePostWalker
-	 * @param pre Visitor called before descending to the first child
-	 * @param post Visitor called after ascending from the last child
-	 */
+	/// <summary>
+	/// Creates PrePostWalker </summary>
+	/// <param name="pre"> Visitor called before descending to the first child </param>
+	/// <param name="post"> Visitor called after ascending from the last child </param>
 	public PrePostWalker(Visitor pre, Visitor post)
 	{
 		this.pre = pre;
@@ -36,32 +35,32 @@ public class PrePostWalker extends Base implements Walker
 		visited = new HashSet<Walkable>();
 	}
 
-	@Override
-	public void reset()
+	public virtual void Reset()
 	{
-		visited.clear();
+		visited.Clear();
 	}
 
-	@Override
-	public void walk(Walkable node)
+	public virtual void Walk(Walkable node)
 	{
-		if(!visited.contains(node)) {
-			if(node != null) {
-				visited.add(node);
+		if(!visited.Contains(node))
+		{
+			if(node != null)
+			{
+				visited.Add(node);
 
-				if(pre != null) {
-					pre.visit(node);
-				}
+				if(pre != null)
+					pre.Visit(node);
 
-				for(Walkable p : node.getWalkableChildren()) {
-					walk(p);
-				}
+				foreach(Walkable p in node.WalkableChildren)
+					Walk(p);
 
-				if(post != null) {
-					post.visit(node);
-				}
-			} else
-				Base.error.error("Internal error: node was null, while walking.");
+				if(post != null)
+					post.Visit(node);
+			}
+			else
+				Base.error.Error("Internal error: node was null, while walking.");
 		}
 	}
+}
+
 }

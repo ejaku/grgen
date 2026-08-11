@@ -1,96 +1,104 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.array;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArraySubarrayExpr;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ArraySubarrayNode extends ArrayFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.array
 {
-	static {
-		setClassName(ArraySubarrayNode.class, "array subarray");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArraySubarrayExpr = de.unika.ipd.grgen.ir.expr.array.ArraySubarrayExpr;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ArraySubarrayNode : ArrayFunctionMethodInvocationBaseExprNode
+{
+	static ArraySubarrayNode()
+	{
+		SetClassName(typeof(ArraySubarrayNode), "array subarray");
 	}
 
 	private ExprNode startExpr;
 	private ExprNode lengthExpr;
 
 	public ArraySubarrayNode(Coords coords, ExprNode targetExpr, ExprNode startExpr, ExprNode lengthExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
-		this.startExpr = becomeParent(startExpr);
-		this.lengthExpr = becomeParent(lengthExpr);
+		this.startExpr = BecomeParent(startExpr);
+		this.lengthExpr = BecomeParent(lengthExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(targetExpr);
-		children.add(startExpr);
-		children.add(lengthExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(targetExpr);
+		children.Add(startExpr);
+		children.Add(lengthExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("targetExpr");
-		childrenNames.add("startExpr");
-		childrenNames.add("lengthExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("targetExpr");
+		childrenNames.Add("startExpr");
+		childrenNames.Add("lengthExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		if(!startExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startExpr.reportError("The array function method subarray expects as 1. argument (start position) a value of type int"
-					+ " (but is given a value of type " + startExpr.getType().getTypeName() + ").");
+		if(!startExpr.Type.IsEqual(BasicTypeNode.intType))
+		{
+			startExpr.ReportError("The array function method subarray expects as 1. argument (start position) a value of type int"
+					+ " (but is given a value of type " + startExpr.Type.TypeName + ").");
 			return false;
 		}
-		if(!lengthExpr.getType().isEqual(BasicTypeNode.intType)) {
-			lengthExpr.reportError("The array function method subarray expects as 2. argument (length) a value of type int"
-					+ " (but is given a value of type " + lengthExpr.getType().getTypeName() + ").");
+		if(!lengthExpr.Type.IsEqual(BasicTypeNode.intType))
+		{
+			lengthExpr.ReportError("The array function method subarray expects as 2. argument (length) a value of type int"
+					+ " (but is given a value of type " + lengthExpr.Type.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		return getTargetType();
+		get
+		{
+		return TargetType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		targetExpr = targetExpr.evaluate();
-		startExpr = startExpr.evaluate();
-		lengthExpr = lengthExpr.evaluate();
-		return new ArraySubarrayExpr(targetExpr.checkIR(Expression.class),
-				startExpr.checkIR(Expression.class),
-				lengthExpr.checkIR(Expression.class));
+		targetExpr = targetExpr.Evaluate();
+		startExpr = startExpr.Evaluate();
+		lengthExpr = lengthExpr.Evaluate();
+		return new ArraySubarrayExpr(targetExpr.CheckIR(typeof(Expression)),
+				startExpr.CheckIR(typeof(Expression)),
+				lengthExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

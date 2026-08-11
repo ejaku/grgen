@@ -1,102 +1,108 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.type;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.TypeExpr;
-import de.unika.ipd.grgen.ir.type.TypeExprSetOperator;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing binary type expressions.
- */
-public class TypeBinaryExprNode extends TypeExprNode
+namespace de.unika.ipd.grgen.ast.type
 {
-	static {
-		setClassName(TypeBinaryExprNode.class, "type binary expr");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using TypeExpr = de.unika.ipd.grgen.ir.type.TypeExpr;
+using TypeExprSetOperator = de.unika.ipd.grgen.ir.type.TypeExprSetOperator;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing binary type expressions.
+/// </summary>
+public class TypeBinaryExprNode : TypeExprNode
+{
+	static TypeBinaryExprNode()
+	{
+		SetClassName(typeof(TypeBinaryExprNode), "type binary expr");
 	}
 
 	private TypeExprNode lhs;
 	private TypeExprNode rhs;
 
 	public TypeBinaryExprNode(Coords coords, TypeOperator op, TypeExprNode op0, TypeExprNode op1)
+		: base(coords, op)
 	{
-		super(coords, op);
 		this.lhs = op0;
-		becomeParent(this.lhs);
+		BecomeParent(this.lhs);
 		this.rhs = op1;
-		becomeParent(this.rhs);
+		BecomeParent(this.rhs);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(lhs);
-		children.add(rhs);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(lhs);
+		children.Add(rhs);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("lhs");
-		childrenNames.add("rhs");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("lhs");
+		childrenNames.Add("rhs");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		TypeExpr lhs = this.lhs.checkIR(TypeExpr.class);
-		TypeExpr rhs = this.rhs.checkIR(TypeExpr.class);
+		TypeExpr lhs = this.lhs.CheckIR(typeof(TypeExpr));
+		TypeExpr rhs = this.rhs.CheckIR(typeof(TypeExpr));
 
-		TypeExprSetOperator expr = new TypeExprSetOperator(getSetOperator(op));
-		expr.addOperand(lhs);
-		expr.addOperand(rhs);
+		TypeExprSetOperator expr = new TypeExprSetOperator(GetSetOperator(op));
+		expr.AddOperand(lhs);
+		expr.AddOperand(rhs);
 
 		return expr;
 	}
-	
-	private static TypeExprSetOperator.SetOperator getSetOperator(TypeExprNode.TypeOperator op)
+
+	private static TypeExprSetOperator.SetOperator GetSetOperator(TypeExprNode.TypeOperator op)
 	{
 		switch(op)
 		{
-		case UNION:
+		case de.unika.ipd.grgen.ast.type.TypeExprNode.TypeOperator.UNION:
 			return TypeExprSetOperator.SetOperator.UNION;
-		case DIFFERENCE:
+		case de.unika.ipd.grgen.ast.type.TypeExprNode.TypeOperator.DIFFERENCE:
 			return TypeExprSetOperator.SetOperator.DIFFERENCE;
-		case INTERSECT:
+		case de.unika.ipd.grgen.ast.type.TypeExprNode.TypeOperator.INTERSECT:
 			return TypeExprSetOperator.SetOperator.INTERSECT;
 		default: // case SET - not used, only the set operators are mapped, internal error
-			assert(false);
+			Debug.Assert((false));
 			return TypeExprSetOperator.SetOperator.UNION;
 		}
 	}
+}
+
 }

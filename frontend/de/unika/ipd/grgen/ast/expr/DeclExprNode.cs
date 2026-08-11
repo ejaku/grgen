@@ -1,214 +1,230 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.MemberResolver;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.ExecVariable;
-import de.unika.ipd.grgen.ir.ExecVariableExpression;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
-import de.unika.ipd.grgen.ir.expr.MemberExpression;
-import de.unika.ipd.grgen.ir.expr.VariableExpression;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-
-/**
- * An expression that results from a declared identifier.
- */
-public class DeclExprNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(DeclExprNode.class, "decl expression");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExecVarDeclNode = de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
+using ConstraintDeclNode = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using EnumItemDeclNode = de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
+using MemberDeclNode = de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using ExecVariable = de.unika.ipd.grgen.ir.ExecVariable;
+using ExecVariableExpression = de.unika.ipd.grgen.ir.ExecVariableExpression;
+using IR = de.unika.ipd.grgen.ir.IR;
+using GraphEntityExpression = de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
+using MemberExpression = de.unika.ipd.grgen.ir.expr.MemberExpression;
+using VariableExpression = de.unika.ipd.grgen.ir.expr.VariableExpression;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+
+/// <summary>
+/// An expression that results from a declared identifier.
+/// </summary>
+public class DeclExprNode : ExprNode
+{
+	static DeclExprNode()
+	{
+		SetClassName(typeof(DeclExprNode), "decl expression");
 	}
 
 	public BaseNode declUnresolved; // either EnumExprNode if constructed locally, or IdentNode if constructed from IdentExprNode
 	public DeclaredCharacter decl;
 
-	/**
-	 * Make a new declaration expression.
-	 * @param coords The source code coordinates.
-	 * @param declCharacter Some base node, that is a decl character.
-	 */
+	/// <summary>
+	/// Make a new declaration expression. </summary>
+	/// <param name="coords"> The source code coordinates. </param>
+	/// <param name="declCharacter"> Some base node, that is a decl character. </param>
 	public DeclExprNode(BaseNode declCharacter)
+		: base(declCharacter.Coords)
 	{
-		super(declCharacter.getCoords());
 		this.declUnresolved = declCharacter;
 		this.decl = (DeclaredCharacter)declCharacter;
-		becomeParent(this.declUnresolved);
+		BecomeParent(this.declUnresolved);
 	}
 
-	/**
-	 * Make a new declaration expression from an enum expression.
-	 * @param coords The source code coordinates.
-	 * @param declCharacter Some base node, that is a decl character.
-	 */
+	/// <summary>
+	/// Make a new declaration expression from an enum expression. </summary>
+	/// <param name="coords"> The source code coordinates. </param>
+	/// <param name="declCharacter"> Some base node, that is a decl character. </param>
 	public DeclExprNode(EnumExprNode declCharacter)
+		: base(declCharacter.Coords)
 	{
-		super(declCharacter.getCoords());
 		this.declUnresolved = declCharacter;
 		this.decl = declCharacter;
-		becomeParent(this.declUnresolved);
+		BecomeParent(this.declUnresolved);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add((BaseNode)decl);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add((BaseNode)decl);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("decl");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("decl");
 		return childrenNames;
+		}
 	}
 
 	private static MemberResolver<DeclaredCharacter> memberResolver = new MemberResolver<DeclaredCharacter>();
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		if(!(declUnresolved instanceof PackageIdentNode)) {
-			tryFixupDefinition(declUnresolved, declUnresolved.getScope());
-		}
+		if(!(declUnresolved is PackageIdentNode))
+			TryFixupDefinition(declUnresolved, declUnresolved.Scope);
 
-		if(!memberResolver.resolve(declUnresolved))
+		if(!memberResolver.Resolve(declUnresolved))
 			return false;
 
-		memberResolver.getResult(MemberDeclNode.class);
-		memberResolver.getResult(EnumExprNode.class);
-		memberResolver.getResult(VarDeclNode.class);
-		memberResolver.getResult(ExecVarDeclNode.class);
-		memberResolver.getResult(ConstraintDeclNode.class);
-		decl = memberResolver.getResult();
+		memberResolver.GetResult(typeof(MemberDeclNode));
+		memberResolver.GetResult(typeof(EnumExprNode));
+		memberResolver.GetResult(typeof(VarDeclNode));
+		memberResolver.GetResult(typeof(ExecVarDeclNode));
+		memberResolver.GetResult(typeof(ConstraintDeclNode));
+		decl = memberResolver.Result;
 
-		return memberResolver.finish();
+		return memberResolver.Finish();
 	}
 
-	/** @see de.unika.ipd.grgen.ast.expr.ExprNode#getType() */
-	@Override
-	public TypeNode getType()
+	/// <seealso cref="de.unika.ipd.grgen.ast.expr.ExprNode.getType() "/>
+	public override TypeNode Type
 	{
-		return decl.getDecl().getDeclType();
+		get
+		{
+		return decl.Decl.DeclType;
+		}
 	}
 
-	/**
-	 * Gets the ConstraintDeclNode this DeclExprNode resolved to, or null if it is something else.
-	 */
-	public ConstraintDeclNode getConstraintDecl()
+	/// <summary>
+	/// Gets the ConstraintDeclNode this DeclExprNode resolved to, or null if it is something else.
+	/// </summary>
+	public virtual ConstraintDeclNode ConstraintDecl
 	{
-		assert isResolved();
-		if(decl instanceof ConstraintDeclNode)
+		get
+		{
+		Debug.Assert(IsResolved());
+		if(decl is ConstraintDeclNode)
 			return (ConstraintDeclNode)decl;
 		return null;
+		}
 	}
 
-	/** returns the node this DeclExprNode was resolved to. */
-	public BaseNode getResolvedNode()
+	/// <summary>
+	/// returns the node this DeclExprNode was resolved to. </summary>
+	public virtual BaseNode ResolvedNode
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 		return (BaseNode)decl;
+		}
 	}
 
-	public boolean isEnumValue()
+	public virtual bool IsEnumValue()
 	{
-		return declUnresolved instanceof EnumExprNode;
+		return declUnresolved is EnumExprNode;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.expr.ExprNode#evaluate() */
-	@Override
-	public ExprNode evaluate()
+	/// <seealso cref="de.unika.ipd.grgen.ast.expr.ExprNode.evaluate() "/>
+	public override ExprNode Evaluate()
 	{
 		ExprNode res = this;
-		DeclNode declNode = decl.getDecl();
+		DeclNode declNode = decl.Decl;
 
-		if(declNode instanceof EnumItemDeclNode)
-			res = ((EnumItemDeclNode)declNode).getValue();
+		if(declNode is EnumItemDeclNode)
+			res = ((EnumItemDeclNode)declNode).Value;
 
 		return res;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
 		BaseNode declNode = (BaseNode)decl;
-		if(declNode instanceof MemberDeclNode)
-			return new MemberExpression(declNode.checkIR(Entity.class));
-		else if(declNode instanceof VarDeclNode)
-			return new VariableExpression(declNode.checkIR(Variable.class));
-		else if(declNode instanceof ExecVarDeclNode)
-			return new ExecVariableExpression(declNode.checkIR(ExecVariable.class));
-		else if(declNode instanceof ConstraintDeclNode)
-			return new GraphEntityExpression((GraphEntity)declNode.getIR());
+		if(declNode is MemberDeclNode)
+			return new MemberExpression(declNode.CheckIR(typeof(Entity)));
+		else if(declNode is VarDeclNode)
+			return new VariableExpression(declNode.CheckIR(typeof(Variable)));
+		else if(declNode is ExecVarDeclNode)
+			return new ExecVariableExpression(declNode.CheckIR(typeof(ExecVariable)));
+		else if(declNode is ConstraintDeclNode)
+			return new GraphEntityExpression((GraphEntity)declNode.IR);
 		else
-			return declNode.getIR();
+			return declNode.IR;
 	}
 
-	@Override
-	public boolean noDefElement(String containingConstruct)
+	public override bool NoDefElement(string containingConstruct)
 	{
-		if(decl instanceof NodeDeclNode) {
+		if(decl is NodeDeclNode)
+		{
 			NodeDeclNode node = (NodeDeclNode)decl;
-			if(node.defEntityToBeYieldedTo) {
-				declUnresolved.reportError("A def node (" + node + ")"
+			if(node.defEntityToBeYieldedTo)
+			{
+				declUnresolved.ReportError("A def node (" + node + ")"
 						+ " cannot be accessed from a(n) " + containingConstruct + ".");
 				return false;
 			}
 		}
-		if(decl instanceof EdgeDeclNode) {
+		if(decl is EdgeDeclNode)
+		{
 			EdgeDeclNode edge = (EdgeDeclNode)decl;
-			if(edge.defEntityToBeYieldedTo) {
-				declUnresolved.reportError("A def edge (" + edge + ")"
+			if(edge.defEntityToBeYieldedTo)
+			{
+				declUnresolved.ReportError("A def edge (" + edge + ")"
 						+ " cannot be accessed from a(n) " + containingConstruct + ".");
 				return false;
 			}
 		}
-		if(decl instanceof VarDeclNode) {
+		if(decl is VarDeclNode)
+		{
 			VarDeclNode entity = (VarDeclNode)decl;
-			if(entity.defEntityToBeYieldedTo && !entity.lambdaExpressionVariable) {
-				declUnresolved.reportError("A def variable (" + entity + ")"
+			if(entity.defEntityToBeYieldedTo && !entity.lambdaExpressionVariable)
+			{
+				declUnresolved.ReportError("A def variable (" + entity + ")"
 						+ " cannot be accessed from a(n) " + containingConstruct + ".");
 				return false;
 			}
 		}
 		return true;
 	}
+}
+
 }

@@ -1,69 +1,75 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr;
+namespace de.unika.ipd.grgen.ir.expr
+{
 
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
-import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+using de.unika.ipd.grgen.ir;
+using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
+using InternalObjectType = de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 
-public class InternalObjectInit extends Expression
+public class InternalObjectInit : Expression
 {
 	private BaseInternalObjectType objectType;
 
-	public List<AttributeInitialization> attributeInitializations = new ArrayList<AttributeInitialization>();
+	public IList<AttributeInitialization> attributeInitializations = new List<AttributeInitialization>();
 
 	public InternalObjectInit(BaseInternalObjectType objectType)
+		: base("internal object init", objectType)
 	{
-		super("internal object init", objectType);
 		this.objectType = objectType;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.add(this);
-		if(objectType instanceof InternalObjectType) {
-			needs.needsGraph();
-		}
-		for(Expression attributeInitializationExpression : getAttributeInitializationExpressions()) {
-			attributeInitializationExpression.collectNeededEntities(needs);
-		}
+		needs.Add(this);
+		if(objectType is InternalObjectType)
+			needs.NeedsGraph();
+		foreach(Expression attributeInitializationExpression in AttributeInitializationExpressions)
+			attributeInitializationExpression.CollectNeededEntities(needs);
 	}
 
-	public void addAttributeInitialization(AttributeInitialization ai)
+	public virtual void AddAttributeInitialization(AttributeInitialization ai)
 	{
-		this.attributeInitializations.add(ai);
+		this.attributeInitializations.Add(ai);
 	}
 
-	public Collection<Expression> getAttributeInitializationExpressions()
+	public virtual ICollection<Expression> AttributeInitializationExpressions
 	{
-		List<Expression> expressions = new ArrayList<Expression>();
-		for(AttributeInitialization attributeInitialization : attributeInitializations) {
-			expressions.add(attributeInitialization.expr);
-		}
+		get
+		{
+		IList<Expression> expressions = new List<Expression>();
+		foreach(AttributeInitialization attributeInitialization in attributeInitializations)
+			expressions.Add(attributeInitialization.expr);
 		return expressions;
+		}
 	}
 
-	public BaseInternalObjectType getBaseInternalObjectType()
+	public virtual BaseInternalObjectType BaseInternalObjectType
 	{
+		get
+		{
 		return objectType;
+		}
 	}
-	
-	public String getAnonymousInternalObjectInitName()
+
+	public virtual string AnonymousInternalObjectInitName
 	{
-		return "internal_object_init_" + getId();
+		get
+		{
+		return "internal_object_init_" + Id;
+		}
 	}
+}
+
 }

@@ -1,114 +1,125 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ast;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-/**
- * An AST node that represents a collection of other nodes.
- * children: *:BaseNode
- *
- * Normally AST nodes contain a fixed number of children,
- * which are accessed by their fixed index within the children list.
- * This node collects a statically unknown number of children AST nodes,
- * originating in unbounded list constructs in the parsing syntax.
- */
-public class CollectNode<T extends BaseNode> extends CollectBaseNode
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(CollectNode.class, "collect");
+
+using System.Collections.Generic;
+
+/// <summary>
+/// An AST node that represents a collection of other nodes.
+/// children: *:BaseNode
+/// 
+/// Normally AST nodes contain a fixed number of children,
+/// which are accessed by their fixed index within the children list.
+/// This node collects a statically unknown number of children AST nodes,
+/// originating in unbounded list constructs in the parsing syntax.
+/// </summary>
+public class CollectNode<T> : CollectBaseNode where T : BaseNode
+{
+	static CollectNode()
+	{
+		SetClassName(typeof(CollectNode), "collect");
 	}
 
-	private List<T> children = new ArrayList<T>();
+	private IList<T> children = new List<T>();
 
-	public void addChild(T n)
+	public virtual void AddChild(T n)
 	{
-		becomeParent(n);
-		children.add(n);
+		BecomeParent(n);
+		children.Add(n);
 	}
 
-	public void addChildAtFront(T n)
+	public virtual void AddChildAtFront(T n)
 	{
-		becomeParent(n);
-		children.add(0, n);
+		BecomeParent(n);
+		children.Insert(0, n);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		return new ArrayList<BaseNode>(children);
+		get
+		{
+		return new List<BaseNode>(children);
+		}
 	}
 
-	public Collection<T> getChildrenExact()
+	public virtual ICollection<T> ChildrenExact
 	{
+		get
+		{
 		return children;
+		}
 	}
 
-	public List<T> getChildrenAsList()
+	public virtual IList<T> ChildrenAsList
 	{
+		get
+		{
 		return children;
+		}
 	}
 
-	public T get(int i)
+	public virtual T Get(int i)
 	{
-		return children.get(i);
+		return children[i];
 	}
 
-	public T set(int i, T n)
+	public virtual T Set(int i, T n)
 	{
-		becomeParent(n);
-		return children.set(i, n);
+		BecomeParent(n);
+		return children[i] = n;
 	}
 
-	public void replace(T oldValue, T newValue)
+	public virtual void Replace(T oldValue, T newValue)
 	{
-		children.set(children.indexOf(oldValue), newValue);
-		switchParenthood(oldValue, newValue);
-	}
-	
-	public int size()
-	{
-		return children.size();
+		children[children.IndexOf(oldValue)] = newValue;
+		SwitchParenthood(oldValue, newValue);
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	public virtual int Size()
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		return children.Count;
+	}
+
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// nameless children
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true; // local resolution done via call to resolveChildren from parent node
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return children.toString();
+		return children.ToString();
 	}
+}
+
 }

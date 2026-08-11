@@ -1,39 +1,43 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ir.type.basic;
+namespace de.unika.ipd.grgen.ir.type.basic
+{
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ir;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * A Integer type.
- */
-public class IntType extends PrimitiveType
+/// <summary>
+/// A Integer type.
+/// </summary>
+public class IntType : PrimitiveType
 {
 	public IntType(Ident ident)
+		: base("integer type", ident)
 	{
-		super("integer type", ident);
 	}
 
-	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
-	@Override
-	public TypeClass classify()
+	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+	public override TypeClass Classify()
 	{
 		return TypeClass.IS_INTEGER;
 	}
 
-	public static Type getType()
+	public static Type Type
 	{
-		return BasicTypeNode.intType.checkIR(Type.class);
+		get
+		{
+		return BasicTypeNode.intType.CheckIR(typeof(Type));
+		}
 	}
+}
+
 }

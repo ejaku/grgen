@@ -1,91 +1,104 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-public abstract class ContainerProcedureMethodInvocationBaseNode extends BuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	static {
-		setClassName(ContainerProcedureMethodInvocationBaseNode.class, "container procedure method invocation base");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ContainerTypeNode = de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public abstract class ContainerProcedureMethodInvocationBaseNode : BuiltinProcedureInvocationBaseNode
+{
+	static ContainerProcedureMethodInvocationBaseNode()
+	{
+		SetClassName(typeof(ContainerProcedureMethodInvocationBaseNode), "container procedure method invocation base");
 	}
 
-	protected QualIdentNode target;
-	protected VarDeclNode targetVar;
+	protected internal QualIdentNode target;
+	protected internal VarDeclNode targetVar;
 
-	protected ContainerProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
+	protected internal ContainerProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)
+		: base(coords)
 	{
-		super(coords);
-		this.target = becomeParent(target);
+		this.target = BecomeParent(target);
 	}
 
-	protected ContainerProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
+	protected internal ContainerProcedureMethodInvocationBaseNode(Coords coords, VarDeclNode targetVar)
+		: base(coords)
 	{
-		super(coords);
-		this.targetVar = becomeParent(targetVar);
+		this.targetVar = BecomeParent(targetVar);
 	}
 
-	protected ContainerTypeNode getTargetType()
+	protected internal virtual ContainerTypeNode TargetType
 	{
-		if(target != null) {
-			TypeNode targetType = target.getDecl().getDeclType();
+		get
+		{
+		if(target != null)
+		{
+			TypeNode targetType = target.Decl.DeclType;
 			return (ContainerTypeNode)targetType;
-		} else {
-			TypeNode targetType = targetVar.getDeclType();
+		}
+		else
+		{
+			TypeNode targetType = targetVar.DeclType;
 			return (ContainerTypeNode)targetType;
+		}
 		}
 	}
 
-	protected BaseNode getValidTarget()
+	protected internal virtual BaseNode ValidTarget
 	{
+		get
+		{
 		return target != null ? (BaseNode)target : (BaseNode)targetVar;
+		}
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidTarget());
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ValidTarget);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("target");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("target");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
+}
+
 }

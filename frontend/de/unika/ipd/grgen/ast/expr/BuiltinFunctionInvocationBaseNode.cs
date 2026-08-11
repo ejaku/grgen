@@ -1,28 +1,32 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import de.unika.ipd.grgen.ast.expr.invocation.FunctionOrBuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-/** base class for builtin function calls */
-public abstract class BuiltinFunctionInvocationBaseNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(BuiltinFunctionInvocationBaseNode.class, "builtin function invocation base");
+using FunctionOrBuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.invocation.FunctionOrBuiltinFunctionInvocationBaseNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// base class for builtin function calls </summary>
+public abstract class BuiltinFunctionInvocationBaseNode : FunctionOrBuiltinFunctionInvocationBaseNode
+{
+	static BuiltinFunctionInvocationBaseNode()
+	{
+		SetClassName(typeof(BuiltinFunctionInvocationBaseNode), "builtin function invocation base");
 	}
 
 	public BuiltinFunctionInvocationBaseNode(Coords coords)
+		: base(coords)
 	{
-		super(coords);
 	}
+}
+
 }

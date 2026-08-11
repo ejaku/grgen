@@ -1,133 +1,158 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.model.type;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.model.NodeEdgeEnumBearer;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
-
-/**
- * A package type.
- */
-public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer
+namespace de.unika.ipd.grgen.ir.model.type
 {
-	private ArrayList<Type> types = new ArrayList<Type>();
-	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
-	private Set<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
-	private Set<InternalObjectType> objectTypes = new LinkedHashSet<InternalObjectType>();
-	private Set<InternalTransientObjectType> transientObjectTypes = new LinkedHashSet<InternalTransientObjectType>();
-	private Set<EnumType> enumTypes = new LinkedHashSet<EnumType>();
 
-	/** Make a new package type.
-	 *  @param ident The identifier of this package. */
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using NodeEdgeEnumBearer = de.unika.ipd.grgen.ir.model.NodeEdgeEnumBearer;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using PrimitiveType = de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
+
+/// <summary>
+/// A package type.
+/// </summary>
+public class PackageType : PrimitiveType, NodeEdgeEnumBearer
+{
+	private List<Type> types = new List<Type>();
+	private ISet<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
+	private ISet<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
+	private ISet<InternalObjectType> objectTypes = new LinkedHashSet<InternalObjectType>();
+	private ISet<InternalTransientObjectType> transientObjectTypes = new LinkedHashSet<InternalTransientObjectType>();
+	private ISet<EnumType> enumTypes = new LinkedHashSet<EnumType>();
+
+	/// <summary>
+	/// Make a new package type. </summary>
+	///  <param name="ident"> The identifier of this package.  </param>
 	public PackageType(Ident ident)
+		: base("package type", ident)
 	{
-		super("package type", ident);
 	}
 
-	/** Add the given type to the type model. */
-	public void addType(Type type)
+	/// <summary>
+	/// Add the given type to the type model. </summary>
+	public virtual void AddType(Type type)
 	{
-		types.add(type);
-		if(type instanceof NodeType) {
+		types.Add(type);
+		if(type is NodeType)
+		{
 			NodeType nt = (NodeType)type;
-			nt.setPackageContainedIn(getIdent().toString());
-			nodeTypes.add(nt);
-		} else if(type instanceof EdgeType) {
+			nt.PackageContainedIn = Ident.ToString();
+			nodeTypes.Add(nt);
+		}
+		else if(type is EdgeType)
+		{
 			EdgeType et = (EdgeType)type;
-			et.setPackageContainedIn(getIdent().toString());
-			edgeTypes.add(et);
-		} else if(type instanceof InternalObjectType) {
+			et.PackageContainedIn = Ident.ToString();
+			edgeTypes.Add(et);
+		}
+		else if(type is InternalObjectType)
+		{
 			InternalObjectType ot = (InternalObjectType)type;
-			ot.setPackageContainedIn(getIdent().toString());
-			objectTypes.add(ot);
-		} else if(type instanceof InternalTransientObjectType) {
+			ot.PackageContainedIn = Ident.ToString();
+			objectTypes.Add(ot);
+		}
+		else if(type is InternalTransientObjectType)
+		{
 			InternalTransientObjectType tot = (InternalTransientObjectType)type;
-			tot.setPackageContainedIn(getIdent().toString());
-			transientObjectTypes.add(tot);
-		} else if(type instanceof EnumType) {
+			tot.PackageContainedIn = Ident.ToString();
+			transientObjectTypes.Add(tot);
+		}
+		else if(type is EnumType)
+		{
 			EnumType enut = (EnumType)type;
-			enut.setPackageContainedIn(getIdent().toString());
-			enumTypes.add(enut);
-		} else
-			assert false : "Unexpected type added to package: " + type;
+			enut.PackageContainedIn = Ident.ToString();
+			enumTypes.Add(enut);
+		}
+		else
+			Debug.Assert(false, "Unexpected type added to package: " + type);
 	}
 
-	public Collection<Type> getTypes()
+	public virtual ICollection<Type> Types
 	{
-		return Collections.unmodifiableList(types);
+		get
+		{
+		return types.AsReadOnly();
+		}
 	}
 
-	@Override
-	public Collection<NodeType> getNodeTypes()
+	public virtual ICollection<NodeType> NodeTypes
 	{
-		return Collections.unmodifiableSet(nodeTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(nodeTypes);
+		}
 	}
 
-	@Override
-	public Collection<EdgeType> getEdgeTypes()
+	public virtual ICollection<EdgeType> EdgeTypes
 	{
-		return Collections.unmodifiableSet(edgeTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(edgeTypes);
+		}
 	}
 
-	@Override
-	public Collection<InternalObjectType> getObjectTypes()
+	public virtual ICollection<InternalObjectType> ObjectTypes
 	{
-		return Collections.unmodifiableSet(objectTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(objectTypes);
+		}
 	}
 
-	@Override
-	public Collection<InternalTransientObjectType> getTransientObjectTypes()
+	public virtual ICollection<InternalTransientObjectType> TransientObjectTypes
 	{
-		return Collections.unmodifiableSet(transientObjectTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(transientObjectTypes);
+		}
 	}
 
-	@Override
-	public Collection<EnumType> getEnumTypes()
+	public virtual ICollection<EnumType> EnumTypes
 	{
-		return Collections.unmodifiableSet(enumTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(enumTypes);
+		}
 	}
 
-	/** Canonicalize the type model. */
-	@Override
-	protected void canonicalizeLocal()
+	/// <summary>
+	/// Canonicalize the type model. </summary>
+	protected internal override void CanonicalizeLocal()
 	{
 		//Collections.sort(types, Identifiable.COMPARATOR);
 		//Collections.sort(types);
 
-		for(Type ty : types) {
-			ty.canonicalize();
-			if(ty instanceof EdgeType)
-				((EdgeType)ty).canonicalizeConnectionAsserts();
+		foreach(Type ty in types)
+		{
+			ty.Canonicalize();
+			if(ty is EdgeType)
+				((EdgeType)ty).CanonicalizeConnectionAsserts();
 		}
 	}
 
-	@Override
-	public void addToDigest(StringBuffer sb)
+	public override void AddToDigest(StringBuilder sb)
 	{
-		sb.append(this);
-		sb.append('[');
+		sb.Append(this);
+		sb.Append('[');
 
-		for(Type ty : types) {
-			ty.addToDigest(sb);
-		}
+		foreach(Type ty in types)
+			ty.AddToDigest(sb);
 
-		sb.append(']');
+		sb.Append(']');
 	}
+}
+
 }

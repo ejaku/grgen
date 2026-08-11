@@ -1,97 +1,98 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.stmt;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class EvalStatementsNode extends BaseNode
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	public String name;
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using IR = de.unika.ipd.grgen.ir.IR;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class EvalStatementsNode : BaseNode
+{
+	public string name;
 	public CollectNode<EvalStatementNode> evalStatements;
 
-	public EvalStatementsNode(Coords coords, String name)
+	public EvalStatementsNode(Coords coords, string name)
+		: base(coords)
 	{
-		super(coords);
 		this.name = name;
 		evalStatements = new CollectNode<EvalStatementNode>();
 	}
 
-	public void addChild(EvalStatementNode evalStatement)
+	public virtual void AddChild(EvalStatementNode evalStatement)
 	{
 		//assert(c!=null);
-		evalStatements.addChild(evalStatement);
+		evalStatements.AddChild(evalStatement);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		return evalStatements.getChildren();
-	}
-
-	public Collection<EvalStatementNode> getChildrenExact()
-	{
-		return evalStatements.getChildrenExact();
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> res = new ArrayList<String>();
-		for(int i = 0; i < getChildren().size(); ++i) {
-			res.add("eval" + i);
+		get
+		{
+		return evalStatements.Children;
 		}
-		return res;
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	public virtual ICollection<EvalStatementNode> ChildrenExact
+	{
+		get
+		{
+		return evalStatements.ChildrenExact;
+		}
+	}
+
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> res = new List<string>();
+		for(int i = 0; i < Children.Count; ++i)
+			res.Add("eval" + i);
+		return res;
+		}
+	}
+
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	public boolean noExecStatement()
+	public virtual bool NoExecStatement()
 	{
-		boolean res = true;
-		for(EvalStatementNode evalStatement : evalStatements.getChildrenExact()) {
-			res &= evalStatement.noExecStatement(false);
-		}
+		bool res = true;
+		foreach(EvalStatementNode evalStatement in evalStatements.ChildrenExact)
+			res &= evalStatement.NoExecStatement(false);
 		return res;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		if(isIRAlreadySet()) {
-			return (EvalStatements)getIR();
-		}
+		if(IsIRAlreadySet())
+			return (EvalStatements)IR;
 
 		EvalStatements es = new EvalStatements(name);
 
-		setIR(es);
+		IR = es;
 
-		for(EvalStatementNode evalStatement : evalStatements.getChildrenExact()) {
-			es.evalStatements.add(evalStatement.checkIR(EvalStatement.class));
-		}
+		foreach(EvalStatementNode evalStatement in evalStatements.ChildrenExact)
+			es.evalStatements.Add(evalStatement.CheckIR(typeof(EvalStatement)));
 
 		return es;
 	}
+}
+
 }

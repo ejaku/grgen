@@ -1,41 +1,45 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll, Edgar Jakumeit
- */
+/// <summary>
+/// @author Moritz Kroll, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt.map;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
-
-public class MapRemoveItem extends ContainerQualProcedureMethodInvocationBase
+namespace de.unika.ipd.grgen.ir.stmt.map
 {
-	Expression keyExpr;
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
+
+public class MapRemoveItem : ContainerQualProcedureMethodInvocationBase
+{
+	internal Expression keyExpr;
 
 	public MapRemoveItem(Qualification target, Expression keyExpr)
+		: base("map remove item", target)
 	{
-		super("map remove item", target);
 		this.keyExpr = keyExpr;
 	}
 
-	public Expression getKeyExpr()
+	public virtual Expression KeyExpr
 	{
+		get
+		{
 		return keyExpr;
+		}
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		super.collectNeededEntities(needs);
-		
-		keyExpr.collectNeededEntities(needs);
+		base.CollectNeededEntities(needs);
+
+		keyExpr.CollectNeededEntities(needs);
 	}
+}
+
 }

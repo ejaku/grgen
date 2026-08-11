@@ -1,76 +1,76 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * PatternGraphNode.java
- *
- * @author Sebastian Hack, Edgar Jakumeit
- */
+/// <summary>
+/// PatternGraphNode.java
+/// 
+/// @author Sebastian Hack, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.pattern;
-
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectBaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.RuleDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeCaseDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.BoolConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.Alternative;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.parser.SymbolTable;
-
-/**
- * AST node that represents a graph pattern as it appears within the pattern part of some rule
- */
-public class PatternGraphLhsNode extends PatternGraphBaseNode
+namespace de.unika.ipd.grgen.ast.pattern
 {
-	static {
-		setClassName(PatternGraphLhsNode.class, "pattern graph lhs");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using CollectBaseNode = de.unika.ipd.grgen.ast.CollectBaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+using RuleDeclNode = de.unika.ipd.grgen.ast.decl.executable.RuleDeclNode;
+using AlternativeCaseDeclNode = de.unika.ipd.grgen.ast.decl.pattern.AlternativeCaseDeclNode;
+using AlternativeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
+using ConstraintDeclNode = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using SubpatternUsageDeclNode = de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using BoolConstNode = de.unika.ipd.grgen.ast.expr.BoolConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using EvalStatementsNode = de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Alternative = de.unika.ipd.grgen.ir.pattern.Alternative;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using SubpatternUsage = de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+using SymbolTable = de.unika.ipd.grgen.parser.SymbolTable;
+
+/// <summary>
+/// AST node that represents a graph pattern as it appears within the pattern part of some rule
+/// </summary>
+public class PatternGraphLhsNode : PatternGraphBaseNode
+{
+	static PatternGraphLhsNode()
+	{
+		SetClassName(typeof(PatternGraphLhsNode), "pattern graph lhs");
 	}
 
-	public static final int MOD_DANGLING = 1; // dangling+identification=dpo
-	public static final int MOD_IDENTIFICATION = 2;
-	public static final int MOD_EXACT = 4;
-	public static final int MOD_INDUCED = 8;
-	public static final int MOD_PATTERN_LOCKED = 16;
-	public static final int MOD_PATTERNPATH_LOCKED = 32;
+	public const int MOD_DANGLING = 1; // dangling+identification=dpo
+	public const int MOD_IDENTIFICATION = 2;
+	public const int MOD_EXACT = 4;
+	public const int MOD_INDUCED = 8;
+	public const int MOD_PATTERN_LOCKED = 16;
+	public const int MOD_PATTERNPATH_LOCKED = 32;
 
-	/** The modifiers for this type. An ORed combination of the constants above. */
+	/// <summary>
+	/// The modifiers for this type. An ORed combination of the constants above. </summary>
 	private int modifiers = 0;
 
 	private CollectNode<ExprNode> conditions;
@@ -86,391 +86,431 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 
 	private HomStorage homStorage;
 
-	protected boolean hasAbstractElements;
+	protected internal bool hasAbstractElements;
 
 	// if this pattern graph is a negative or independent nested inside an iterated
 	// it might break the iterated instead of only the current iterated case, if specified
-	public boolean iterationBreaking = false;
+	public bool iterationBreaking = false;
 
 	private static PatternGraphLhsNode invalid;
 
 	// invalid pattern node just needed for the isGlobalVariable checks, 
 	// so that computations stuff that doesn't have a pattern graph is not classified as global 
-	public static PatternGraphLhsNode getInvalid()
+	public static PatternGraphLhsNode Invalid
 	{
-		if(invalid == null) {
-			invalid = new PatternGraphLhsNode("invalid", Coords.getInvalid(), 
-					null, null, 
-					null, null, 
+		get
+		{
+		if(invalid == null)
+			invalid = new PatternGraphLhsNode("invalid", Coords.Invalid,
 					null, null,
-					null, null, 
-					null, 
-					null, 
+					null, null,
+					null, null,
+					null, null,
+					null,
+					null,
 					null, null,
 					null, null,
 					0, BaseNode.CONTEXT_COMPUTATION);
-		}
 		return invalid;
+		}
 	}
 
-	public PatternGraphLhsNode(String nameOfGraph, Coords coords,
-			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
+	public PatternGraphLhsNode(string nameOfGraph, Coords coords,
+			CollectNode<BaseNode> connections, CollectNode<BaseNode> @params,
 			CollectNode<SubpatternUsageDeclNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
 			CollectNode<AlternativeDeclNode> alts, CollectNode<IteratedDeclNode> iters,
 			CollectNode<PatternGraphLhsNode> negs, CollectNode<PatternGraphLhsNode> idpts,
-			CollectNode<ExprNode> conditions, 
+			CollectNode<ExprNode> conditions,
 			CollectNode<ExprNode> returns,
-			CollectNode<HomNode> homs, CollectNode<TotallyHomNode> totallyHoms, 
+			CollectNode<HomNode> homs, CollectNode<TotallyHomNode> totallyHoms,
 			CollectNode<ExactNode> exacts, CollectNode<InducedNode> induceds,
-			int modifiers, int context) {
-		super(nameOfGraph, coords, connections, params, subpatterns,
-				returns, context);
+			int modifiers, int context)
+		: base(nameOfGraph, coords, connections, @params, subpatterns,
+				returns, context)
+	{
 		this.alts = alts;
-		becomeParent(this.alts);
+		BecomeParent(this.alts);
 		this.iters = iters;
-		becomeParent(this.iters);
+		BecomeParent(this.iters);
 		this.negs = negs;
-		becomeParent(this.negs);
+		BecomeParent(this.negs);
 		this.idpts = idpts;
-		becomeParent(this.idpts);
+		BecomeParent(this.idpts);
 		this.conditions = conditions;
-		becomeParent(this.conditions);
+		BecomeParent(this.conditions);
 		this.homs = homs;
-		becomeParent(this.homs);
+		BecomeParent(this.homs);
 		this.totallyHoms = totallyHoms;
-		becomeParent(this.totallyHoms);
+		BecomeParent(this.totallyHoms);
 		this.exacts = exacts;
-		becomeParent(this.exacts);
+		BecomeParent(this.exacts);
 		this.induceds = induceds;
-		becomeParent(this.induceds);
+		BecomeParent(this.induceds);
 		this.modifiers = modifiers;
 
 		this.directlyNestingLHSGraph = this;
-		if(params != null)
-			addParamsToConnections(params); // treat non-var parameters like connections
+		if(@params != null)
+			AddParamsToConnections(@params); // treat non-var parameters like connections
 	}
 
-	public void addYieldings(CollectNode<EvalStatementsNode> yields)
+	public virtual void AddYieldings(CollectNode<EvalStatementsNode> yields)
 	{
 		this.yields = yields;
-		becomeParent(this.yields);
+		BecomeParent(this.yields);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersionCollectNode(connectionsUnresolved, connections));
-		children.add(params);
-		children.add(defVariablesToBeYieldedTo);
-		children.add(subpatterns);
-		children.add(alts);
-		children.add(iters);
-		children.add(negs);
-		children.add(idpts);
-		children.add(returns);
-		children.add(yields);
-		children.add(conditions);
-		children.add(homs);
-		children.add(totallyHoms);
-		children.add(exacts);
-		children.add(induceds);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersionCollectNode(connectionsUnresolved, connections));
+		children.Add(@params);
+		children.Add(defVariablesToBeYieldedTo);
+		children.Add(subpatterns);
+		children.Add(alts);
+		children.Add(iters);
+		children.Add(negs);
+		children.Add(idpts);
+		children.Add(returns);
+		children.Add(yields);
+		children.Add(conditions);
+		children.Add(homs);
+		children.Add(totallyHoms);
+		children.Add(exacts);
+		children.Add(induceds);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("connections");
-		childrenNames.add("params");
-		childrenNames.add("defVariablesToBeYieldedTo");
-		childrenNames.add("subpatterns");
-		childrenNames.add("alternatives");
-		childrenNames.add("iters");
-		childrenNames.add("negatives");
-		childrenNames.add("independents");
-		childrenNames.add("return");
-		childrenNames.add("yields");
-		childrenNames.add("conditions");
-		childrenNames.add("homs");
-		childrenNames.add("totallyHoms");
-		childrenNames.add("exacts");
-		childrenNames.add("induceds");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("connections");
+		childrenNames.Add("params");
+		childrenNames.Add("defVariablesToBeYieldedTo");
+		childrenNames.Add("subpatterns");
+		childrenNames.Add("alternatives");
+		childrenNames.Add("iters");
+		childrenNames.Add("negatives");
+		childrenNames.Add("independents");
+		childrenNames.Add("return");
+		childrenNames.Add("yields");
+		childrenNames.Add("conditions");
+		childrenNames.Add("homs");
+		childrenNames.Add("totallyHoms");
+		childrenNames.Add("exacts");
+		childrenNames.Add("induceds");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean result = super.resolveLocal();
-		
-		determineExistenceOfAbstractElements();
-		
+		bool result = base.ResolveLocal();
+
+		DetermineExistenceOfAbstractElements();
+
 		return result;
 	}
 
-	void determineExistenceOfAbstractElements()
+	internal virtual void DetermineExistenceOfAbstractElements()
 	{
-		for(ConnectionCharacter cc : connections.getChildrenExact()) {
-			if(cc instanceof ConnectionNode) {
+		foreach(ConnectionCharacter cc in connections.ChildrenExact)
+		{
+			if(cc is ConnectionNode)
+			{
 				ConnectionNode conn = (ConnectionNode)cc;
-				if(conn.getEdge().getDeclInhType().isAbstract()
-						|| conn.getSrc().getDeclInhType().isAbstract()
-						|| conn.getTgt().getDeclInhType().isAbstract())
+				if(conn.Edge.DeclInhType.IsAbstract()
+						|| conn.Src.DeclInhType.IsAbstract()
+						|| conn.Tgt.DeclInhType.IsAbstract())
 					hasAbstractElements = true;
 			}
-			else if(cc instanceof SingleNodeConnNode) {
+			else if(cc is SingleNodeConnNode)
+			{
 				SingleNodeConnNode conn = (SingleNodeConnNode)cc;
-				if(conn.getNode().getDeclInhType().isAbstract())
+				if(conn.Node.DeclInhType.IsAbstract())
 					hasAbstractElements = true;
 			}
 		}
 	}
 
-	@Override
-	protected Set<NodeDeclNode> getNodesImpl()
+	protected internal override ISet<NodeDeclNode> NodesImpl
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		LinkedHashSet<NodeDeclNode> tempNodes = new LinkedHashSet<NodeDeclNode>();
 
-		for(ConnectionCharacter connection : connections.getChildrenExact()) {
-			connection.addNodes(tempNodes);
-		}
+		foreach(ConnectionCharacter connection in connections.ChildrenExact)
+			connection.AddNodes(tempNodes);
 
-		for(HomNode hom : homs.getChildrenExact()) {
-			for(NodeDeclNode homNode : hom.getHomNodes()) {
-				tempNodes.add(homNode);
-			}
+		foreach(HomNode hom in homs.ChildrenExact)
+		{
+			foreach(NodeDeclNode homNode in hom.HomNodes)
+				tempNodes.Add(homNode);
 		}
 
 		return tempNodes;
+		}
 	}
 
-	@Override
-	protected Set<EdgeDeclNode> getEdgesImpl()
+	protected internal override ISet<EdgeDeclNode> EdgesImpl
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		LinkedHashSet<EdgeDeclNode> tempEdges = new LinkedHashSet<EdgeDeclNode>();
 
-		for(ConnectionCharacter connection : connections.getChildrenExact()) {
-			connection.addEdge(tempEdges);
-		}
+		foreach(ConnectionCharacter connection in connections.ChildrenExact)
+			connection.AddEdge(tempEdges);
 
-		for(HomNode hom : homs.getChildrenExact()) {
-			for(EdgeDeclNode homEdge : hom.getHomEdges()) {
-				tempEdges.add(homEdge);
-			}
+		foreach(HomNode hom in homs.ChildrenExact)
+		{
+			foreach(EdgeDeclNode homEdge in hom.HomEdges)
+				tempEdges.Add(homEdge);
 		}
 
 		return tempEdges;
+		}
 	}
 
-	public NodeDeclNode tryGetNode(String name)
+	public virtual NodeDeclNode TryGetNode(string name)
 	{
-		for(NodeDeclNode node : getNodes()) {
-			if(node.ident.toString().equals(name))
+		foreach(NodeDeclNode node in Nodes)
+		{
+			if(node.ident.ToString().Equals(name))
 				return node;
 		}
 		return null;
 	}
 
-	public EdgeDeclNode tryGetEdge(String name)
+	public virtual EdgeDeclNode TryGetEdge(string name)
 	{
-		for(EdgeDeclNode edge : getEdges()) {
-			if(edge.ident.toString().equals(name))
+		foreach(EdgeDeclNode edge in Edges)
+		{
+			if(edge.ident.ToString().Equals(name))
 				return edge;
 		}
 		return null;
 	}
 
-	public VarDeclNode tryGetVar(String name)
+	public virtual VarDeclNode TryGetVar(string name)
 	{
-		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildrenExact()) {
-			if(var.ident.toString().equals(name))
+		foreach(VarDeclNode var in defVariablesToBeYieldedTo.ChildrenExact)
+		{
+			if(var.ident.ToString().Equals(name))
 				return var;
 		}
-		for(DeclNode varCand : getParamDecls()) {
-			if(!(varCand instanceof VarDeclNode))
+		foreach(DeclNode varCand in ParamDecls)
+		{
+			if(!(varCand is VarDeclNode))
 				continue;
 			VarDeclNode var = (VarDeclNode)varCand;
-			if(var.ident.toString().equals(name))
+			if(var.ident.ToString().Equals(name))
 				return var;
 		}
 		return null;
 	}
 
-	public DeclNode tryGetMember(String name)
+	public virtual DeclNode TryGetMember(string name)
 	{
-		NodeDeclNode node = tryGetNode(name);
+		NodeDeclNode node = TryGetNode(name);
 		if(node != null)
 			return node;
-		EdgeDeclNode edge = tryGetEdge(name);
+		EdgeDeclNode edge = TryGetEdge(name);
 		if(edge != null)
 			return edge;
-		return tryGetVar(name);
+		return TryGetVar(name);
 	}
 
-	public PatternGraphLhsNode getParentPatternGraph()
+	public virtual PatternGraphLhsNode ParentPatternGraph
 	{
-		for(BaseNode parent : getParents()) {
-			if(!(parent instanceof CollectBaseNode))
+		get
+		{
+		foreach(BaseNode parent in Parents)
+		{
+			if(!(parent is CollectBaseNode))
 				continue;
 
-			for(BaseNode grandParent : parent.getParents()) {
-				if(grandParent instanceof PatternGraphLhsNode) {
+			foreach(BaseNode grandParent in parent.Parents)
+			{
+				if(grandParent is PatternGraphLhsNode)
 					return (PatternGraphLhsNode)grandParent;
-				}
 			}
 		}
 
 		return null;
+		}
 	}
 
-	public boolean isInduced()
+	public virtual bool IsInduced()
 	{
 		return (modifiers & MOD_INDUCED) != 0;
 	}
 
-	public boolean isDangling()
+	public virtual bool IsDangling()
 	{
 		return (modifiers & MOD_DANGLING) != 0;
 	}
 
-	public boolean isIdentification()
+	public virtual bool IsIdentification()
 	{
 		return (modifiers & MOD_IDENTIFICATION) != 0;
 	}
 
-	public boolean isExact()
+	public virtual bool IsExact()
 	{
 		return (modifiers & MOD_EXACT) != 0;
 	}
 
-	public NodeDeclNode getAnonymousDummyNode(TypeDeclNode nodeRoot, int context)
+	public virtual NodeDeclNode GetAnonymousDummyNode(TypeDeclNode nodeRoot, int context)
 	{
 		IdentNode nodeName = new IdentNode(
-				getScope().defineAnonymous("dummy_node", SymbolTable.getInvalid(), Coords.getBuiltin()));
-		NodeDeclNode dummyNode = NodeDeclNode.getDummy(nodeName, nodeRoot, context, this);
+				Scope.DefineAnonymous("dummy_node", SymbolTable.Invalid, Coords.Builtin));
+		NodeDeclNode dummyNode = NodeDeclNode.GetDummy(nodeName, nodeRoot, context, this);
 		return dummyNode;
 	}
 
-	public EdgeDeclNode getAnonymousEdgeDecl(TypeDeclNode edgeRoot, int context)
+	public virtual EdgeDeclNode GetAnonymousEdgeDecl(TypeDeclNode edgeRoot, int context)
 	{
 		IdentNode edgeName = new IdentNode(
-				getScope().defineAnonymous("edge", SymbolTable.getInvalid(), Coords.getBuiltin()));
+				Scope.DefineAnonymous("edge", SymbolTable.Invalid, Coords.Builtin));
 		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, context, this, this);
 		return edge;
 	}
 
-	public Collection<Set<ConstraintDeclNode>> getHoms()
+	public virtual ICollection<ISet<ConstraintDeclNode>> Homs
 	{
+		get
+		{
 		if(homStorage == null)
 			homStorage = new HomStorage(this);
-		return homStorage.getHoms();
-	}
-
-	/** Return the correspondent homomorphic set. */
-	public Set<NodeDeclNode> getHomomorphic(NodeDeclNode node)
-	{
-		if(homStorage == null)
-			homStorage = new HomStorage(this);
-		return homStorage.getHomomorphic(node);
-	}
-
-	/** Return the correspondent homomorphic set. */
-	public Set<EdgeDeclNode> getHomomorphic(EdgeDeclNode edge)
-	{
-		if(homStorage == null)
-			homStorage = new HomStorage(this);
-		return homStorage.getHomomorphic(edge);
-	}
-
-	/**
-	 * Warn if two homomorphic elements can never be matched homomorphic,
-	 * because they have incompatible types.
-	 */
-	private void warnOnSuperfluousHoms()
-	{
-		Collection<Set<ConstraintDeclNode>> homSets = getHoms();
-		for(Set<ConstraintDeclNode> homSet : homSets) {
-			warnOnSuperfluousHoms(homSet);
+		return homStorage.Homs;
 		}
 	}
 
-	private void warnOnSuperfluousHoms(Set<ConstraintDeclNode> homSet)
+	/// <summary>
+	/// Return the correspondent homomorphic set. </summary>
+	public virtual ISet<NodeDeclNode> GetHomomorphic(NodeDeclNode node)
 	{
-		Set<ConstraintDeclNode> alreadyProcessed = new LinkedHashSet<ConstraintDeclNode>();
+		if(homStorage == null)
+			homStorage = new HomStorage(this);
+		return homStorage.GetHomomorphic(node);
+	}
 
-		for(ConstraintDeclNode elem1 : homSet) {
-			InheritanceTypeNode type1 = elem1.getDeclInhType();
-			for(ConstraintDeclNode elem2 : homSet) {
-				if(elem1 == elem2 || alreadyProcessed.contains(elem2))
+	/// <summary>
+	/// Return the correspondent homomorphic set. </summary>
+	public virtual ISet<EdgeDeclNode> GetHomomorphic(EdgeDeclNode edge)
+	{
+		if(homStorage == null)
+			homStorage = new HomStorage(this);
+		return homStorage.GetHomomorphic(edge);
+	}
+
+	/// <summary>
+	/// Warn if two homomorphic elements can never be matched homomorphic,
+	/// because they have incompatible types.
+	/// </summary>
+	private void WarnOnSuperfluousHoms()
+	{
+		ICollection<ISet<ConstraintDeclNode>> homSets = Homs;
+		foreach(ISet<ConstraintDeclNode> homSet in homSets)
+			WarnOnSuperfluousHoms(homSet);
+	}
+
+	private void WarnOnSuperfluousHoms(ISet<ConstraintDeclNode> homSet)
+	{
+		ISet<ConstraintDeclNode> alreadyProcessed = new LinkedHashSet<ConstraintDeclNode>();
+
+		foreach(ConstraintDeclNode elem1 in homSet)
+		{
+			InheritanceTypeNode type1 = elem1.DeclInhType;
+			foreach(ConstraintDeclNode elem2 in homSet)
+			{
+				if(elem1 == elem2 || alreadyProcessed.Contains(elem2))
 					continue;
 
-				InheritanceTypeNode type2 = elem2.getDeclInhType();
+				InheritanceTypeNode type2 = elem2.DeclInhType;
 
-				if(InheritanceTypeNode.hasCommonSubtype(type1, type2))
+				if(InheritanceTypeNode.HasCommonSubtype(type1, type2))
 					continue;
 
 				// search hom statement
 				HomNode hom = null;
-				for(HomNode homNode : homs.getChildrenExact()) {
-					Collection<BaseNode> homChildren = homNode.getChildren();
-					if(homChildren.contains(elem1) && homChildren.contains(elem2)) {
+				foreach(HomNode homNode in homs.ChildrenExact)
+				{
+					ICollection<BaseNode> homChildren = homNode.Children;
+					if(homChildren.Contains(elem1) && homChildren.Contains(elem2))
+					{
 						hom = homNode;
 						break;
 					}
 				}
 
-				if(hom != null) {
-					hom.reportWarning("The " + elem1.getKind() + " " + elem1.ident + " and the " + elem2.getKind() + " " + elem2.ident
+				if(hom != null)
+					hom.ReportWarning("The " + elem1.Kind + " " + elem1.ident + " and the " + elem2.Kind + " " + elem2.ident
 							+ " have no common subtype and thus can never match the same element.");
-				}
 			}
 
-			alreadyProcessed.add(elem1);
+			alreadyProcessed.Add(elem1);
 		}
 	}
-	
-	boolean noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
+
+	internal virtual bool NoRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
 	{
-		boolean result = true;
-		for(PatternGraphLhsNode pattern : negs.getChildrenExact()) {
-			for(IteratedDeclNode iter : pattern.iters.getChildrenExact()) {
-				if(iter.right != null) {
-					iter.right.reportError("An iterated contained within a negative cannot possess a rewrite part"
+		bool result = true;
+		foreach(PatternGraphLhsNode pattern in negs.ChildrenExact)
+		{
+			foreach(IteratedDeclNode iter in pattern.iters.ChildrenExact)
+			{
+				if(iter.right != null)
+				{
+					iter.right.ReportError("An iterated contained within a negative cannot possess a rewrite part"
 							+ " (the negative is a pure (negative) application condition).");
 					result = false;
 				}
 			}
-			for(AlternativeDeclNode alt : pattern.alts.getChildrenExact()) {
-				for(AlternativeCaseDeclNode altCase : alt.getChildrenExact()) {
-					if(altCase.right != null) {
-						altCase.right.reportError("An alternative case contained within a negative cannot possess a rewrite part"
+			foreach(AlternativeDeclNode alt in pattern.alts.ChildrenExact)
+			{
+				foreach(AlternativeCaseDeclNode altCase in alt.ChildrenExact)
+				{
+					if(altCase.right != null)
+					{
+						altCase.right.ReportError("An alternative case contained within a negative cannot possess a rewrite part"
 								+ " (the negative is a pure (negative) application condition).");
 						result = false;
 					}
 				}
 			}
 		}
-		for(PatternGraphLhsNode pattern : idpts.getChildrenExact()) {
-			for(IteratedDeclNode iter : pattern.iters.getChildrenExact()) {
-				if(iter.right != null) {
-					iter.right.reportError("An iterated contained within an independent cannot possess a rewrite part"
+		foreach(PatternGraphLhsNode pattern in idpts.ChildrenExact)
+		{
+			foreach(IteratedDeclNode iter in pattern.iters.ChildrenExact)
+			{
+				if(iter.right != null)
+				{
+					iter.right.ReportError("An iterated contained within an independent cannot possess a rewrite part"
 								+ " (the independent is a pure (positive) application condition).");
 					result = false;
 				}
 			}
-			for(AlternativeDeclNode alt : pattern.alts.getChildrenExact()) {
-				for(AlternativeCaseDeclNode altCase : alt.getChildrenExact()) {
-					if(altCase.right != null) {
-						altCase.right.reportError("An alternative case contained within an independent cannot possess a rewrite part"
+			foreach(AlternativeDeclNode alt in pattern.alts.ChildrenExact)
+			{
+				foreach(AlternativeCaseDeclNode altCase in alt.ChildrenExact)
+				{
+					if(altCase.right != null)
+					{
+						altCase.right.ReportError("An alternative case contained within an independent cannot possess a rewrite part"
 								+ " (the independent is a pure (positive) application condition).");
 						result = false;
 					}
@@ -480,307 +520,321 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		return result;
 	}
 
-	boolean noExecStatementInEvalsOfIteratedOrAlternative()
+	internal virtual bool NoExecStatementInEvalsOfIteratedOrAlternative()
 	{
-		boolean result = true;
-		for(IteratedDeclNode iter : iters.getChildrenExact()) {
-			if(iter.right != null) {
-				for(EvalStatementsNode evalStmts : iter.right.getRhsGraph().evals.getChildrenExact()) {
-					evalStmts.noExecStatement();
-				}
+		bool result = true;
+		foreach(IteratedDeclNode iter in iters.ChildrenExact)
+		{
+			if(iter.right != null)
+			{
+				foreach(EvalStatementsNode evalStmts in iter.right.RhsGraph.evals.ChildrenExact)
+					evalStmts.NoExecStatement();
 			}
 		}
-		for(AlternativeDeclNode alt : alts.getChildrenExact()) {
-			for(AlternativeCaseDeclNode altCase : alt.getChildrenExact()) {
-				if(altCase.right != null) {
-					for(EvalStatementsNode evalStmts : altCase.right.getRhsGraph().evals.getChildrenExact()) {
-						evalStmts.noExecStatement();
-					}
+		foreach(AlternativeDeclNode alt in alts.ChildrenExact)
+		{
+			foreach(AlternativeCaseDeclNode altCase in alt.ChildrenExact)
+			{
+				if(altCase.right != null)
+				{
+					foreach(EvalStatementsNode evalStmts in altCase.right.RhsGraph.evals.ChildrenExact)
+						evalStmts.NoExecStatement();
 				}
 			}
 		}
 		return result;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		boolean expr = true;
-		
-		for(ExprNode exp : conditions.getChildrenExact()) {
-			if(!exp.getType().isEqual(BasicTypeNode.booleanType)) {
-				exp.reportError("An expression in an if condition must be of type boolean (but is of type " + exp.getType().getTypeName() + ").");
+		bool expr = true;
+
+		foreach(ExprNode exp in conditions.ChildrenExact)
+		{
+			if(!exp.Type.IsEqual(BasicTypeNode.booleanType))
+			{
+				exp.ReportError("An expression in an if condition must be of type boolean (but is of type " + exp.Type.TypeName + ").");
 				expr = false;
 			}
 		}
 
-		boolean noReturnInNegOrIdpt = true;
-		if((context & CONTEXT_NEGATIVE) == CONTEXT_NEGATIVE) {
-			if(returns.size() != 0) {
-				reportError("A return is not allowed in a negative block.");
+		bool noReturnInNegOrIdpt = true;
+		if((context & CONTEXT_NEGATIVE) == CONTEXT_NEGATIVE)
+		{
+			if(returns.Size() != 0)
+			{
+				ReportError("A return is not allowed in a negative block.");
 				noReturnInNegOrIdpt = false;
 			}
 		}
-		if((context & CONTEXT_INDEPENDENT) == CONTEXT_INDEPENDENT) {
-			if(returns.size() != 0) {
-				reportError("A return is not allowed in an independent block.");
+		if((context & CONTEXT_INDEPENDENT) == CONTEXT_INDEPENDENT)
+		{
+			if(returns.Size() != 0)
+			{
+				ReportError("A return is not allowed in an independent block.");
 				noReturnInNegOrIdpt = false;
 			}
 		}
 
-		warnOnSuperfluousHoms();
+		WarnOnSuperfluousHoms();
 
-		return isEdgeReuseOk() & expr & noReturnInNegOrIdpt 
-				& noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
-				& noDefElementOrIteratedReferenceInCondition()
-				& noIteratedReferenceInDefElementInitialization()
-				& iteratedNameIsNotAccessedInNestedPattern()
-				& noExecStatementInEvalsOfIteratedOrAlternative();
+		return IsEdgeReuseOk() & expr & noReturnInNegOrIdpt
+				& NoRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
+				& NoDefElementOrIteratedReferenceInCondition()
+				& NoIteratedReferenceInDefElementInitialization()
+				& IteratedNameIsNotAccessedInNestedPattern()
+				& NoExecStatementInEvalsOfIteratedOrAlternative();
 	}
 
-	private boolean noDefElementOrIteratedReferenceInCondition()
+	private bool NoDefElementOrIteratedReferenceInCondition()
 	{
-		boolean res = true;
-		for(ExprNode cond : conditions.getChildrenExact()) {
-			res &= cond.noDefElement("if condition");
-			res &= cond.noIteratedReference("if condition");
+		bool res = true;
+		foreach(ExprNode cond in conditions.ChildrenExact)
+		{
+			res &= cond.NoDefElement("if condition");
+			res &= cond.NoIteratedReference("if condition");
 		}
 		return res;
 	}
 
-	private boolean noIteratedReferenceInDefElementInitialization()
+	private bool NoIteratedReferenceInDefElementInitialization()
 	{
-		boolean res = true;
-		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildrenExact()) {
+		bool res = true;
+		foreach(VarDeclNode var in defVariablesToBeYieldedTo.ChildrenExact)
+		{
 			if(var.initialization != null)
-				res &= var.initialization.noIteratedReference("def variable initialization");
+				res &= var.initialization.NoIteratedReference("def variable initialization");
 		}
 		return res;
 	}
 
-	private boolean iteratedNameIsNotAccessedInNestedPattern()
+	private bool IteratedNameIsNotAccessedInNestedPattern()
 	{
-		boolean res = true;
-		for(IteratedDeclNode iterForNameToCheck : iters.getChildrenExact()) {
-			String iterName = iterForNameToCheck.getIdent().toString();
-			for(IteratedDeclNode iter : iters.getChildrenExact()) {
-				res &= iter.pattern.iteratedNotReferenced(iterName);
-				if(iter.right != null) {
-					res &= iter.right.patternGraph.iteratedNotReferenced(iterName);
-					res &= iter.right.patternGraph.iteratedNotReferencedInDefElementInitialization(iterName);
+		bool res = true;
+		foreach(IteratedDeclNode iterForNameToCheck in iters.ChildrenExact)
+		{
+			string iterName = iterForNameToCheck.Ident.ToString();
+			foreach(IteratedDeclNode iter in iters.ChildrenExact)
+			{
+				res &= iter.pattern.IteratedNotReferenced(iterName);
+				if(iter.right != null)
+				{
+					res &= iter.right.patternGraph.IteratedNotReferenced(iterName);
+					res &= iter.right.patternGraph.IteratedNotReferencedInDefElementInitialization(iterName);
 				}
 			}
-			for(AlternativeDeclNode alt : alts.getChildrenExact()) {
-				for(AlternativeCaseDeclNode altCase : alt.getChildrenExact()) {
-					res &= altCase.pattern.iteratedNotReferenced(iterName);
-					if(altCase.right != null) {
-						res &= altCase.right.patternGraph.iteratedNotReferenced(iterName);
-						res &= altCase.right.patternGraph.iteratedNotReferencedInDefElementInitialization(iterName);
+			foreach(AlternativeDeclNode alt in alts.ChildrenExact)
+			{
+				foreach(AlternativeCaseDeclNode altCase in alt.ChildrenExact)
+				{
+					res &= altCase.pattern.IteratedNotReferenced(iterName);
+					if(altCase.right != null)
+					{
+						res &= altCase.right.patternGraph.IteratedNotReferenced(iterName);
+						res &= altCase.right.patternGraph.IteratedNotReferencedInDefElementInitialization(iterName);
 					}
 				}
 			}
-			for(PatternGraphLhsNode idpt : idpts.getChildrenExact()) {
-				res &= idpt.iteratedNotReferenced(iterName);
-			}
+			foreach(PatternGraphLhsNode idpt in idpts.ChildrenExact)
+				res &= idpt.IteratedNotReferenced(iterName);
 		}
 		return res;
 	}
 
-	protected boolean iteratedNotReferenced(String iterName)
+	protected internal virtual bool IteratedNotReferenced(string iterName)
 	{
-		boolean res = true;
-		for(EvalStatementsNode yieldStatements : yields.getChildrenExact()) {
-			for(EvalStatementNode yieldStatement : yieldStatements.getChildrenExact()) {
-				res &= yieldStatement.iteratedNotReferenced(iterName);
-			}
+		bool res = true;
+		foreach(EvalStatementsNode yieldStatements in yields.ChildrenExact)
+		{
+			foreach(EvalStatementNode yieldStatement in yieldStatements.ChildrenExact)
+				res &= yieldStatement.IteratedNotReferenced(iterName);
 		}
 		return res;
 	}
 
-	public boolean checkFilterVariable(IdentNode errorTarget, String filterNameWithEntitySuffix, String filterVariable)
+	public virtual bool CheckFilterVariable(IdentNode errorTarget, string filterNameWithEntitySuffix, string filterVariable)
 	{
-		VarDeclNode variable = tryGetVar(filterVariable);
-		if(variable == null) {
-			errorTarget.reportError("The variable " + filterVariable + " is not known"
-					+ filterSpecification(filterNameWithEntitySuffix) + ".");
+		VarDeclNode variable = TryGetVar(filterVariable);
+		if(variable == null)
+		{
+			errorTarget.ReportError("The variable " + filterVariable + " is not known"
+					+ FilterSpecification(filterNameWithEntitySuffix) + ".");
 			return false;
 		}
-		TypeNode filterVariableType = variable.getDeclType();
-		if(!filterVariableType.isOrderableType()) {
-			errorTarget.reportError("The variable " + filterVariable + " must be of one of the following types: " + TypeNode.getOrderableTypesAsString()
-				+ " (but is of type " + filterVariableType.getTypeName() + ")"
-				+ filterSpecification(filterNameWithEntitySuffix) + ".");
+		TypeNode filterVariableType = variable.DeclType;
+		if(!filterVariableType.IsOrderableType())
+		{
+			errorTarget.ReportError("The variable " + filterVariable + " must be of one of the following types: " + TypeNode.OrderableTypesAsString
+				+ " (but is of type " + filterVariableType.TypeName + ")"
+				+ FilterSpecification(filterNameWithEntitySuffix) + ".");
 			return false;
 		}
 		return true;
 	}
 
-	public boolean checkFilterEntity(IdentNode errorTarget, String filterNameWithEntitySuffix, String filterEntity)
+	public virtual bool CheckFilterEntity(IdentNode errorTarget, string filterNameWithEntitySuffix, string filterEntity)
 	{
-		DeclNode entity = tryGetNode(filterEntity);
+		DeclNode entity = TryGetNode(filterEntity);
 		if(entity == null)
-			entity = tryGetEdge(filterEntity);
+			entity = TryGetEdge(filterEntity);
 		if(entity == null)
-			entity = tryGetVar(filterEntity);
-		if(entity == null) {
-			errorTarget.reportError("The entity " + filterEntity + " is not known"
-					+ filterSpecification(filterNameWithEntitySuffix) + ".");
+			entity = TryGetVar(filterEntity);
+		if(entity == null)
+		{
+			errorTarget.ReportError("The entity " + filterEntity + " is not known"
+					+ FilterSpecification(filterNameWithEntitySuffix) + ".");
 			return false;
 		}
-		TypeNode filterVariableType = entity.getDeclType();
-		if(!filterVariableType.isFilterableType()) {
-			errorTarget.reportError("The entity " + filterEntity + " must be of one of the following types: " + TypeNode.getFilterableTypesAsString()
-					+ " (but is of type " + filterVariableType.getTypeName() + ")"
-					+ filterSpecification(filterNameWithEntitySuffix) + ".");
+		TypeNode filterVariableType = entity.DeclType;
+		if(!filterVariableType.IsFilterableType())
+		{
+			errorTarget.ReportError("The entity " + filterEntity + " must be of one of the following types: " + TypeNode.FilterableTypesAsString
+					+ " (but is of type " + filterVariableType.TypeName + ")"
+					+ FilterSpecification(filterNameWithEntitySuffix) + ".");
 			return false;
 		}
 		return true;
 	}
-	
-	private String filterSpecification(String filterNameWithEntitySuffix)
+
+	private string FilterSpecification(string filterNameWithEntitySuffix)
 	{
 		return " (in filter " + filterNameWithEntitySuffix + " for " + nameOfGraph + ")";
 	}
 
-	/**
-	 * Get the correctly casted IR object.
-	 *
-	 * @return The IR object.
-	 */
-	public PatternGraphLhs getIRPatternGraphLhs()
+	/// <summary>
+	/// Get the correctly casted IR object.
+	/// </summary>
+	/// <returns> The IR object. </returns>
+	public virtual PatternGraphLhs IRPatternGraphLhs
 	{
-		return checkIR(PatternGraphLhs.class);
+		get
+		{
+		return CheckIR(typeof(PatternGraphLhs));
+		}
 	}
 
-	/** NOTE: Use this only in DPO-Mode,i.e. if the pattern is part of a rule */
-	public RuleDeclNode getRule()
+	/// <summary>
+	/// NOTE: Use this only in DPO-Mode,i.e. if the pattern is part of a rule </summary>
+	public virtual RuleDeclNode Rule
 	{
-		for(BaseNode parent : getParents()) {
-			if(parent instanceof RuleDeclNode) {
+		get
+		{
+		foreach(BaseNode parent in Parents)
+		{
+			if(parent is RuleDeclNode)
 				return (RuleDeclNode)parent;
-			}
 		}
-		assert false;
+		Debug.Assert(false);
 		return null;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		if(isIRAlreadySet()) {
-			return getIR();
-		}
+		if(IsIRAlreadySet())
+			return IR;
 
 		PatternGraphLhs patternGraph = new PatternGraphLhs(nameOfGraph, modifiers);
-		patternGraph.setDirectlyNestingLHSGraph(patternGraph);
+		patternGraph.DirectlyNestingLHSGraph = patternGraph;
 
 		// mark this node as already visited
-		setIR(patternGraph);
+		IR = patternGraph;
 
-		if(this == getInvalid())
+		if(this == Invalid)
 			return patternGraph;
 
-		patternGraph.setIterationBreaking(iterationBreaking);
+		patternGraph.IterationBreaking = iterationBreaking;
 
-		for(ConnectionCharacter connection : connections.getChildrenExact()) {
-			connection.addToGraph(patternGraph);
-		}
+		foreach(ConnectionCharacter connection in connections.ChildrenExact)
+			connection.AddToGraph(patternGraph);
 
-		for(VarDeclNode varNode : defVariablesToBeYieldedTo.getChildrenExact()) {
-			patternGraph.addVariable(varNode.checkIR(Variable.class));
-		}
+		foreach(VarDeclNode varNode in defVariablesToBeYieldedTo.ChildrenExact)
+			patternGraph.AddVariable(varNode.CheckIR(typeof(Variable)));
 
-		for(BaseNode subpatternUsage : subpatterns.getChildrenExact()) {
-			patternGraph.addSubpatternUsage(subpatternUsage.checkIR(SubpatternUsage.class));
-		}
+		foreach(BaseNode subpatternUsage in subpatterns.ChildrenExact)
+			patternGraph.AddSubpatternUsage(subpatternUsage.CheckIR(typeof(SubpatternUsage)));
 
-		for(AlternativeDeclNode alternativeNode : alts.getChildrenExact()) {
-			patternGraph.addAlternative(alternativeNode.checkIR(Alternative.class));
-		}
+		foreach(AlternativeDeclNode alternativeNode in alts.ChildrenExact)
+			patternGraph.AddAlternative(alternativeNode.CheckIR(typeof(Alternative)));
 
-		for(IteratedDeclNode iteratedNode : iters.getChildrenExact()) {
-			patternGraph.addIterated(iteratedNode.checkIR(Rule.class));
-		}
+		foreach(IteratedDeclNode iteratedNode in iters.ChildrenExact)
+			patternGraph.AddIterated(iteratedNode.CheckIR(typeof(Rule)));
 
-		for(PatternGraphLhsNode negativeNode : negs.getChildrenExact()) {
-			PatternGraphLhs negative = negativeNode.getIRPatternGraphLhs();
-			patternGraph.addNegGraph(negative);
-			if(negative.isIterationBreaking()) {
-				patternGraph.setIterationBreaking(true);
-			}
+		foreach(PatternGraphLhsNode negativeNode in negs.ChildrenExact)
+		{
+			PatternGraphLhs negative = negativeNode.IRPatternGraphLhs;
+			patternGraph.AddNegGraph(negative);
+			if(negative.IsIterationBreaking())
+				patternGraph.IterationBreaking = true;
 		}
 
-		for(PatternGraphLhsNode independentNode : idpts.getChildrenExact()) {
-			PatternGraphLhs independent = independentNode.getIRPatternGraphLhs();
-			patternGraph.addIdptGraph(independent);
-			if(independent.isIterationBreaking()) {
-				patternGraph.setIterationBreaking(true);
-			}
+		foreach(PatternGraphLhsNode independentNode in idpts.ChildrenExact)
+		{
+			PatternGraphLhs independent = independentNode.IRPatternGraphLhs;
+			patternGraph.AddIdptGraph(independent);
+			if(independent.IsIterationBreaking())
+				patternGraph.IterationBreaking = true;
 		}
 
-		for(ExprNode condition : conditions.getChildrenExact()) {
-			ExprNode conditionEvaluated = condition.evaluate(); // compile time evaluation (constant folding)
-			warnIfConditionIsConstant(conditionEvaluated);
-			patternGraph.addCondition(conditionEvaluated.checkIR(Expression.class));
+		foreach(ExprNode condition in conditions.ChildrenExact)
+		{
+			ExprNode conditionEvaluated = condition.Evaluate(); // compile time evaluation (constant folding)
+			WarnIfConditionIsConstant(conditionEvaluated);
+			patternGraph.AddCondition(conditionEvaluated.CheckIR(typeof(Expression)));
 		}
 
-		for(EvalStatements yields : getYieldStatements()) {
-			patternGraph.addYield(yields);
-		}
+		foreach(EvalStatements yields in YieldStatements)
+			patternGraph.AddYield(yields);
 
-		for(Node node : patternGraph.getNodes()) {
-			PatternGraphBuilder.genTypeConditionsFromTypeof(patternGraph, node);
-		}
-		for(Edge edge : patternGraph.getEdges()) {
-			PatternGraphBuilder.genTypeConditionsFromTypeof(patternGraph, edge);
-		}
+		foreach(Node node in patternGraph.Nodes)
+			PatternGraphBuilder.GenTypeConditionsFromTypeof(patternGraph, node);
+		foreach(Edge edge in patternGraph.Edges)
+			PatternGraphBuilder.GenTypeConditionsFromTypeof(patternGraph, edge);
 
-		for(Set<ConstraintDeclNode> homEntityNodes : getHoms()) {
-			PatternGraphBuilder.addHoms(patternGraph, homEntityNodes);
-		}
+		foreach(ISet<ConstraintDeclNode> homEntityNodes in Homs)
+			PatternGraphBuilder.AddHoms(patternGraph, homEntityNodes);
 
-		for(TotallyHomNode totallyHomNode : totallyHoms.getChildrenExact()) {
-			PatternGraphBuilder.addTotallyHom(patternGraph, totallyHomNode);
-		}
+		foreach(TotallyHomNode totallyHomNode in totallyHoms.ChildrenExact)
+			PatternGraphBuilder.AddTotallyHom(patternGraph, totallyHomNode);
 
-		for(Node node : patternGraph.getNodes()) {
-			PatternGraphBuilder.ensureDefNodesAreHomToAllOthers(patternGraph, node);
-		}
-		for(Edge edge : patternGraph.getEdges()) {
-			PatternGraphBuilder.ensureDefEdgesAreHomToAllOthers(patternGraph, edge);
-		}
+		foreach(Node node in patternGraph.Nodes)
+			PatternGraphBuilder.EnsureDefNodesAreHomToAllOthers(patternGraph, node);
+		foreach(Edge edge in patternGraph.Edges)
+			PatternGraphBuilder.EnsureDefEdgesAreHomToAllOthers(patternGraph, edge);
 
-		for(Node node : patternGraph.getNodes()) {
-			PatternGraphBuilder.ensureRetypedNodeHomToOldNode(patternGraph, node);
-		}
-		for(Edge edge : patternGraph.getEdges()) {
-			PatternGraphBuilder.ensureRetypedEdgeHomToOldEdge(patternGraph, edge);
-		}
+		foreach(Node node in patternGraph.Nodes)
+			PatternGraphBuilder.EnsureRetypedNodeHomToOldNode(patternGraph, node);
+		foreach(Edge edge in patternGraph.Edges)
+			PatternGraphBuilder.EnsureRetypedEdgeHomToOldEdge(patternGraph, edge);
 
-		PatternGraphBuilder.addElementsHiddenInUsedConstructs(this, patternGraph);
+		PatternGraphBuilder.AddElementsHiddenInUsedConstructs(this, patternGraph);
 
 		return patternGraph;
 	}
-	
-	private static void warnIfConditionIsConstant(ExprNode expr)
+
+	private static void WarnIfConditionIsConstant(ExprNode expr)
 	{
-		if(expr instanceof BoolConstNode) {
-			if(((Boolean)((BoolConstNode)expr).getValue()).booleanValue()) {
-				expr.reportWarning("The if condition is always true.");
-			} else {
-				expr.reportWarning("The if condition is always false, thus the pattern will never match.");
-			}
+		if(expr is BoolConstNode)
+		{
+			if(((bool?)((BoolConstNode)expr).GetValue()).Value)
+				expr.ReportWarning("The if condition is always true.");
+			else
+				expr.ReportWarning("The if condition is always false, thus the pattern will never match.");
 		}
 	}
-	
-	public Collection<EvalStatements> getYieldStatements()
-	{
-		Collection<EvalStatements> ret = new ArrayList<EvalStatements>();
 
-		for(EvalStatementsNode evalStatements : yields.getChildrenExact()) {
-			ret.add(evalStatements.checkIR(EvalStatements.class));
-		}
+	public virtual ICollection<EvalStatements> YieldStatements
+	{
+		get
+		{
+		ICollection<EvalStatements> ret = new List<EvalStatements>();
+
+		foreach(EvalStatementsNode evalStatements in yields.ChildrenExact)
+			ret.Add(evalStatements.CheckIR(typeof(EvalStatements)));
 
 		return ret;
+		}
 	}
+}
+
 }

@@ -1,30 +1,35 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr.deque;
-
-import de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.container.DequeType;
-
-public abstract class DequeFunctionMethodInvocationBaseExpr extends ContainerFunctionMethodInvocationBaseExpr
+namespace de.unika.ipd.grgen.ir.expr.deque
 {
-	protected DequeFunctionMethodInvocationBaseExpr(String name, Type type, Expression targetExpr)
+using ContainerFunctionMethodInvocationBaseExpr = de.unika.ipd.grgen.ir.expr.ContainerFunctionMethodInvocationBaseExpr;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using DequeType = de.unika.ipd.grgen.ir.type.container.DequeType;
+
+public abstract class DequeFunctionMethodInvocationBaseExpr : ContainerFunctionMethodInvocationBaseExpr
+{
+	protected internal DequeFunctionMethodInvocationBaseExpr(string name, Type type, Expression targetExpr)
+		: base(name, type, targetExpr)
 	{
-		super(name, type, targetExpr);
 	}
 
-	public DequeType getTargetTypeExact()
+	public virtual DequeType TargetTypeExact
 	{
-		return (DequeType)getTargetType();
+		get
+		{
+		return (DequeType)TargetType;
+		}
 	}
+}
+
 }

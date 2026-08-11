@@ -1,43 +1,49 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr;
-
-import de.unika.ipd.grgen.ir.type.Type;
-
-public class Constant extends Expression
+namespace de.unika.ipd.grgen.ir.expr
 {
-	/** The value of the constant. */
-	public Object value;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-	/**
-	 * @param type The type of the constant.
-	 * @param value The value of the constant.
-	 */
-	public Constant(Type type, Object value)
+public class Constant : Expression
+{
+	/// <summary>
+	/// The value of the constant. </summary>
+	public object value;
+
+	/// <param name="type"> The type of the constant. </param>
+	/// <param name="value"> The value of the constant. </param>
+	public Constant(Type type, object value)
+		: base("constant", type)
 	{
-		super("constant", type);
 		this.value = value;
 	}
 
-	/** @return The value of the constant. */
-	public Object getValue()
+	/// <returns> The value of the constant. </returns>
+	public virtual object Value
 	{
+		get
+		{
 		return value;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
-	@Override
-	public String getNodeLabel()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel() "/>
+	public override string NodeLabel
 	{
-		return getName() + " " + value;
+		get
+		{
+		return Name + " " + value;
+		}
 	}
+}
+
 }

@@ -1,47 +1,53 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.stmt.procenv;
-
-import java.util.Collection;
-
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-
-public class DebugEmitProc extends BuiltinProcedureInvocationBase
+namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-	private Collection<Expression> exprs;
 
-	public DebugEmitProc(Collection<Expression> expressions)
+using System.Collections.Generic;
+
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+
+public class DebugEmitProc : BuiltinProcedureInvocationBase
+{
+	private ICollection<Expression> exprs;
+
+	public DebugEmitProc(ICollection<Expression> expressions)
+		: base("debug emit procedure")
 	{
-		super("debug emit procedure");
 		this.exprs = expressions;
 	}
 
-	public Expression getFirstExpression()
+	public virtual Expression FirstExpression
 	{
-		for(Expression expr : exprs) {
+		get
+		{
+		foreach(Expression expr in exprs)
 			return expr;
-		}
 		return null;
-	}
-
-	public Collection<Expression> getExpressions()
-	{
-		return exprs;
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		needs.needsGraph();
-		for(Expression expr : exprs) {
-			expr.collectNeededEntities(needs);
 		}
 	}
+
+	public virtual ICollection<Expression> Expressions
+	{
+		get
+		{
+		return exprs;
+		}
+	}
+
+	public override void CollectNeededEntities(NeededEntities needs)
+	{
+		needs.NeedsGraph();
+		foreach(Expression expr in exprs)
+			expr.CollectNeededEntities(needs);
+	}
+}
+
 }

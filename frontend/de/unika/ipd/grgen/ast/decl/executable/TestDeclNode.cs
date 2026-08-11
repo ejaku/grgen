@@ -1,160 +1,173 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.executable.TestTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.executable.Rule.RuleKind;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.type.DefinedMatchType;
-
-/**
- * AST node class representing tests
- */
-public class TestDeclNode extends ActionDeclNode
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	static {
-		setClassName(TestDeclNode.class, "test declaration");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using DefinedMatchTypeNode = de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using TestTypeNode = de.unika.ipd.grgen.ast.type.executable.TestTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using RuleKind = de.unika.ipd.grgen.ir.executable.Rule.RuleKind;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+
+/// <summary>
+/// AST node class representing tests
+/// </summary>
+public class TestDeclNode : ActionDeclNode
+{
+	static TestDeclNode()
+	{
+		SetClassName(typeof(TestDeclNode), "test declaration");
 	}
 
-	/** Type for this declaration. */
+	/// <summary>
+	/// Type for this declaration. </summary>
 	private TestTypeNode type;
-	private static final TypeNode testType = new TestTypeNode();
+	private static readonly TypeNode testType = new TestTypeNode();
 
 
 	public TestDeclNode(IdentNode id, PatternGraphLhsNode pattern,
 			CollectNode<IdentNode> implementedMatchTypes, CollectNode<BaseNode> rets)
+		: base(id, testType, pattern, implementedMatchTypes, rets)
 	{
-		super(id, testType, pattern, implementedMatchTypes, rets);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
-		children.add(getValidVersionCollectNode(returnFormalParametersUnresolved, returnFormalParameters));
-		children.add(pattern);
-		children.add(getValidVersionCollectNode(implementedMatchTypesUnresolved, implementedMatchTypes));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, type));
+		children.Add(GetValidVersionCollectNode(returnFormalParametersUnresolved, returnFormalParameters));
+		children.Add(pattern);
+		children.Add(GetValidVersionCollectNode(implementedMatchTypesUnresolved, implementedMatchTypes));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("ret");
-		childrenNames.add("pattern");
-		childrenNames.add("implementedMatchTypes");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("ret");
+		childrenNames.Add("pattern");
+		childrenNames.Add("implementedMatchTypes");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationTypeResolver<TestTypeNode> typeResolver =
-			new DeclarationTypeResolver<TestTypeNode>(TestTypeNode.class);
+	private static readonly DeclarationTypeResolver<TestTypeNode> typeResolver =
+			new DeclarationTypeResolver<TestTypeNode>(typeof(TestTypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean matchAndReturnTypesAreOk = super.resolveLocal();
+		bool matchAndReturnTypesAreOk = base.ResolveLocal();
 
-		type = typeResolver.resolve(typeUnresolved, this);
-		
+		type = typeResolver.Resolve(typeUnresolved, this);
+
 		return matchAndReturnTypesAreOk
 				& type != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		boolean leftHandGraphsOk = super.checkLocal();
+		bool leftHandGraphsOk = base.CheckLocal();
 
-		boolean noRewriteParts = sameNumberOfRewriteParts(null, "test");
+		bool noRewriteParts = SameNumberOfRewriteParts(null, "test");
 
 		return leftHandGraphsOk
 				& noRewriteParts
-				& checkReturns(pattern.returns);
+				& CheckReturns(pattern.returns);
 	}
 
-	public boolean checkControlFlow()
+	public virtual bool CheckControlFlow()
 	{
 		return true;
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return type;
+		}
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "test";
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		// return if the pattern graph already constructed the IR object
 		// that may happen in recursive patterns (and other usages/references)
-		if(isIRAlreadySet()) {
-			return getIR();
-		}
+		if(IsIRAlreadySet())
+			return IR;
 
-		Rule testRule = new Rule(getIdent().getIRIdent(), RuleKind.Test);
+		Rule testRule = new Rule(Ident.IRIdent, Rule.RuleKind.Test);
 
 		// mark this node as already visited
-		setIR(testRule);
+		IR = testRule;
 
-		PatternGraphLhs left = pattern.getIRPatternGraphLhs();
-		for(DeclNode varCand : pattern.getParamDecls()) {
-			if(!(varCand instanceof VarDeclNode))
+		PatternGraphLhs left = pattern.IRPatternGraphLhs;
+		foreach(DeclNode varCand in pattern.ParamDecls)
+		{
+			if(!(varCand is VarDeclNode))
 				continue;
 			VarDeclNode var = (VarDeclNode)varCand;
-			left.addVariable(var.checkIR(Variable.class));
+			left.AddVariable(var.CheckIR(typeof(Variable)));
 		}
 
-		testRule.initialize(left, null);
+		testRule.Initialize(left, null);
 
-		for(DefinedMatchTypeNode implementedMatchClassNode : implementedMatchTypes.getChildrenExact()) {
-			DefinedMatchType implementedMatchClass = implementedMatchClassNode.checkIR(DefinedMatchType.class);
-			testRule.addImplementedMatchClass(implementedMatchClass);
+		foreach(DefinedMatchTypeNode implementedMatchClassNode in implementedMatchTypes.ChildrenExact)
+		{
+			DefinedMatchType implementedMatchClass = implementedMatchClassNode.CheckIR(typeof(DefinedMatchType));
+			testRule.AddImplementedMatchClass(implementedMatchClass);
 		}
 
-		constructImplicitNegs(left);
-		constructIRaux(testRule, pattern.returns);
+		ConstructImplicitNegs(left);
+		ConstructIRaux(testRule, pattern.returns);
 
 		return testRule;
 	}
+}
+
 }

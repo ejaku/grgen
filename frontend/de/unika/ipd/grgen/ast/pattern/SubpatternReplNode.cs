@@ -1,41 +1,41 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.pattern;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.IdentExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
-import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
-
-public class SubpatternReplNode extends OrderedReplacementNode
+namespace de.unika.ipd.grgen.ast.pattern
 {
-	static {
-		setClassName(SubpatternReplNode.class, "subpattern repl node");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ConstraintDeclNode = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+using RhsDeclNode = de.unika.ipd.grgen.ast.decl.pattern.RhsDeclNode;
+using SubpatternUsageDeclNode = de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using IdentExprNode = de.unika.ipd.grgen.ast.expr.IdentExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using SubpatternDependentReplacement = de.unika.ipd.grgen.ir.pattern.SubpatternDependentReplacement;
+using SubpatternUsage = de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
+
+public class SubpatternReplNode : OrderedReplacementNode
+{
+	static SubpatternReplNode()
+	{
+		SetClassName(typeof(SubpatternReplNode), "subpattern repl node");
 	}
 
 	private IdentNode subpatternUnresolved;
@@ -45,48 +45,51 @@ public class SubpatternReplNode extends OrderedReplacementNode
 	public SubpatternReplNode(IdentNode n, CollectNode<ExprNode> c)
 	{
 		this.subpatternUnresolved = n;
-		becomeParent(this.subpatternUnresolved);
+		BecomeParent(this.subpatternUnresolved);
 		this.replConnections = c;
-		becomeParent(this.replConnections);
+		BecomeParent(this.replConnections);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(subpatternUnresolved, subpattern));
-		children.add(replConnections);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(subpatternUnresolved, subpattern));
+		children.Add(replConnections);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("subpattern");
-		childrenNames.add("replConnections");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("subpattern");
+		childrenNames.Add("replConnections");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<SubpatternUsageDeclNode> subpatternResolver =
-			new DeclarationResolver<SubpatternUsageDeclNode>(SubpatternUsageDeclNode.class);
+	private static readonly DeclarationResolver<SubpatternUsageDeclNode> subpatternResolver =
+			new DeclarationResolver<SubpatternUsageDeclNode>(typeof(SubpatternUsageDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		subpattern = subpatternResolver.resolve(subpatternUnresolved, this);
+		subpattern = subpatternResolver.Resolve(subpatternUnresolved, this);
 		return subpattern != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		RhsDeclNode right = subpattern.type.right;
-		String patternName = subpattern.type.pattern.nameOfGraph;
+		string patternName = subpattern.type.pattern.nameOfGraph;
 
-		if((subpattern.context & CONTEXT_LHS_OR_RHS) != CONTEXT_LHS) {
-			subpatternUnresolved.reportError("A subpattern rewrite application"
+		if((subpattern.context & CONTEXT_LHS_OR_RHS) != CONTEXT_LHS)
+		{
+			subpatternUnresolved.ReportError("A subpattern rewrite application"
 					+ " can only be given for a subpattern entity declaration from the pattern part,"
 					+ " but is given for a subpattern entity declaration from the rewrite part"
 					+ " (this occurs for " + subpatternUnresolved + "())"
@@ -95,157 +98,182 @@ public class SubpatternReplNode extends OrderedReplacementNode
 		}
 
 		// check whether the used pattern contains one rhs
-		if(right == null) {
-			subpattern.type.pattern.reportError("No rewrite part specified in subpattern " + patternName
+		if(right == null)
+		{
+			subpattern.type.pattern.ReportError("No rewrite part specified in subpattern " + patternName
 					+ " (which is referenced by the subpattern rewrite application " + subpatternUnresolved + ").");
 			return false;
 		}
 
-		return checkSubpatternSignatureAdhered();
+		return CheckSubpatternSignatureAdhered();
 	}
 
-	/** Check whether the subpattern replacement usage adheres to the signature of the subpattern replacement declaration */
-	private boolean checkSubpatternSignatureAdhered()
+	/// <summary>
+	/// Check whether the subpattern replacement usage adheres to the signature of the subpattern replacement declaration </summary>
+	private bool CheckSubpatternSignatureAdhered()
 	{
 		// check if the number of parameters is correct
 		PatternGraphLhsNode pattern = subpattern.type.pattern;
 		RhsDeclNode right = subpattern.type.right;
-		List<DeclNode> formalReplacementParameters = right.patternGraph.getParamDecls();
-		int expected = formalReplacementParameters.size();
-		int actual = replConnections.size();
-		if(expected != actual) {
-			subpattern.ident.reportError("The rewrite part specified in " + pattern.toStringWithDeclarationCoords() + " expects "
+		IList<DeclNode> formalReplacementParameters = right.patternGraph.ParamDecls;
+		int expected = formalReplacementParameters.Count;
+		int actual = replConnections.Size();
+		if(expected != actual)
+		{
+			subpattern.ident.ReportError("The rewrite part specified in " + pattern.ToStringWithDeclarationCoords() + " expects "
 					+ expected + " parameters, but given by the subpattern rewrite application " + subpatternUnresolved + " are "
 					+ actual + " arguments.");
 			return false;
 		}
 
 		// check if the types of the parameters are correct
-		boolean res = true;
-		for(int i = 0; i < formalReplacementParameters.size(); ++i) {
-			ExprNode actualParameter = replConnections.get(i);
-			DeclNode formalParameter = formalReplacementParameters.get(i);
-			if(actualParameter instanceof IdentExprNode && ((IdentExprNode)actualParameter).yieldedTo) {
-				res &= checkYieldedToParameter(i, actualParameter, formalParameter);
-			} else {
-				res &= checkParameter(i, actualParameter, formalParameter);
-			}
+		bool res = true;
+		for(int i = 0; i < formalReplacementParameters.Count; ++i)
+		{
+			ExprNode actualParameter = replConnections.Get(i);
+			DeclNode formalParameter = formalReplacementParameters[i];
+			if(actualParameter is IdentExprNode && ((IdentExprNode)actualParameter).yieldedTo)
+				res &= CheckYieldedToParameter(i, actualParameter, formalParameter);
+			else
+				res &= CheckParameter(i, actualParameter, formalParameter);
 		}
 		return res;
 	}
 
-	private boolean checkYieldedToParameter(int i, ExprNode actualParameter, DeclNode formalParameter)
+	private bool CheckYieldedToParameter(int i, ExprNode actualParameter, DeclNode formalParameter)
 	{
-		boolean res = true;
-	
-		PatternGraphLhsNode pattern = subpattern.type.pattern;
-		
-		TypeNode actualParameterType = actualParameter.getType();
-		TypeNode formalParameterType = formalParameter.getDeclType();
+		bool res = true;
 
-		if(formalParameter instanceof ConstraintDeclNode) {
+		PatternGraphLhsNode pattern = subpattern.type.pattern;
+
+		TypeNode actualParameterType = actualParameter.Type;
+		TypeNode formalParameterType = formalParameter.DeclType;
+
+		if(formalParameter is ConstraintDeclNode)
+		{
 			ConstraintDeclNode parameterElement = (ConstraintDeclNode)formalParameter;
-			if(!parameterElement.defEntityToBeYieldedTo) {
+			if(!parameterElement.defEntityToBeYieldedTo)
+			{
 				res = false;
-				subpatternUnresolved.reportError("The " + (i + 1) + ". argument to the subpattern rewrite application " + subpatternUnresolved + " is yielded to,"
+				subpatternUnresolved.ReportError("The " + (i + 1) + ". argument to the subpattern rewrite application " + subpatternUnresolved + " is yielded to,"
 						+ " but the rewrite parameter at this position is not declared as def "
-						+ "(" + parameterElement.getIdent() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
+						+ "(" + parameterElement.Ident + " in " + pattern.ToStringWithDeclarationCoords() + ")" + ".");
 			}
-		} else { //if(formalParameter instanceof VarDeclNode)
+		}
+		else
+		{ //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
-			if(!parameterVar.defEntityToBeYieldedTo) {
+			if(!parameterVar.defEntityToBeYieldedTo)
+			{
 				res = false;
-				subpatternUnresolved.reportError("The " + (i + 1) + ". argument to the subpattern rewrite application " + subpatternUnresolved + " is yielded to,"
-						+ " but the rewrite parameter at this position is not declared as def " 
-						+ "(" + parameterVar.getIdent() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
+				subpatternUnresolved.ReportError("The " + (i + 1) + ". argument to the subpattern rewrite application " + subpatternUnresolved + " is yielded to,"
+						+ " but the rewrite parameter at this position is not declared as def "
+						+ "(" + parameterVar.Ident + " in " + pattern.ToStringWithDeclarationCoords() + ")" + ".");
 			}
 		}
-		
-		BaseNode argument = ((IdentExprNode)actualParameter).getResolvedNode();
-		if(argument instanceof VarDeclNode) {
+
+		BaseNode argument = ((IdentExprNode)actualParameter).ResolvedNode;
+		if(argument is VarDeclNode)
+		{
 			VarDeclNode argumentVar = (VarDeclNode)argument;
-			if((argumentVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
+			if((argumentVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS)
+			{
 				res = false;
-				subpatternUnresolved.reportError("Cannot yield from a subpattern rewrite application (" + (i + 1) + " argument of " + subpatternUnresolved + ") in the rewrite part"
+				subpatternUnresolved.ReportError("Cannot yield from a subpattern rewrite application (" + (i + 1) + " argument of " + subpatternUnresolved + ") in the rewrite part"
 						+ " to a def variable in the pattern part"
-						+ " (" + argumentVar.getIdent() + " was declared in the pattern part).");
-			}
-		} else { //if(argument instanceof ConstraintDeclNode)
-			ConstraintDeclNode argumentElement = (ConstraintDeclNode)argument;
-			if((argumentElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
-				res = false;
-				subpatternUnresolved.reportError("Cannot yield from a subpattern rewrite application (" + (i + 1) + " argument of " + subpatternUnresolved + ") in the rewrite part"
-						+ " to a def graph element in the pattern part"
-						+ " (" + argumentElement.getIdent() + " was declared in the pattern part).");
+						+ " (" + argumentVar.Ident + " was declared in the pattern part).");
 			}
 		}
-		
-		if(!formalParameterType.isCompatibleTo(actualParameterType)) {
+		else
+		{ //if(argument instanceof ConstraintDeclNode)
+			ConstraintDeclNode argumentElement = (ConstraintDeclNode)argument;
+			if((argumentElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS)
+			{
+				res = false;
+				subpatternUnresolved.ReportError("Cannot yield from a subpattern rewrite application (" + (i + 1) + " argument of " + subpatternUnresolved + ") in the rewrite part"
+						+ " to a def graph element in the pattern part"
+						+ " (" + argumentElement.Ident + " was declared in the pattern part).");
+			}
+		}
+
+		if(!formalParameterType.IsCompatibleTo(actualParameterType))
+		{
 			res = false;
-			subpatternUnresolved.reportError("The " + (i + 1) + ". argument of type " + actualParameterType.getTypeName()
+			subpatternUnresolved.ReportError("The " + (i + 1) + ". argument of type " + actualParameterType.TypeName
 					+ " of the subpattern rewrite application " + subpatternUnresolved
-					+ " cannot be yielded to from the rewrite def parameter of incompatible type " + formalParameterType.getTypeName()
-					+ " (" + formalParameter.getIdent() + " of subpattern " + pattern.toStringWithDeclarationCoords() + ")"
-					+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
-					+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ " cannot be yielded to from the rewrite def parameter of incompatible type " + formalParameterType.TypeName
+					+ " (" + formalParameter.Ident + " of subpattern " + pattern.ToStringWithDeclarationCoords() + ")"
+					+ actualParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ formalParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
 					+ ".");
 		}
-		
+
 		return res;
 	}
 
-	private boolean checkParameter(int i, ExprNode actualParameter, DeclNode formalParameter)
+	private bool CheckParameter(int i, ExprNode actualParameter, DeclNode formalParameter)
 	{
-		boolean res = true;
+		bool res = true;
 
 		PatternGraphLhsNode pattern = subpattern.type.pattern;
 
-		TypeNode actualParameterType = actualParameter.getType();
-		TypeNode formalParameterType = formalParameter.getDeclType();
+		TypeNode actualParameterType = actualParameter.Type;
+		TypeNode formalParameterType = formalParameter.DeclType;
 
-		if(formalParameter instanceof ConstraintDeclNode) {
+		if(formalParameter is ConstraintDeclNode)
+		{
 			ConstraintDeclNode parameterElement = (ConstraintDeclNode)formalParameter;
-			if(parameterElement.defEntityToBeYieldedTo) {
+			if(parameterElement.defEntityToBeYieldedTo)
+			{
 				res = false;
-				subpatternUnresolved.reportError("The " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " is not yielded to,"
-						+ " but the rewrite parameter at this position is declared as def (" + parameterElement.getIdent() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
-			}
-		} else { //if(formalParameter instanceof VarDeclNode)
-			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
-			if(parameterVar.defEntityToBeYieldedTo) {
-				res = false;
-				subpatternUnresolved.reportError("The " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " is not yielded to,"
-						+ " but the rewrite parameter at this position is declared as def (" + parameterVar.getIdent() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
+				subpatternUnresolved.ReportError("The " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " is not yielded to,"
+						+ " but the rewrite parameter at this position is declared as def (" + parameterElement.Ident + " in " + pattern.ToStringWithDeclarationCoords() + ")" + ".");
 			}
 		}
-		
-		if(!actualParameterType.isCompatibleTo(formalParameterType)) {
+		else
+		{ //if(formalParameter instanceof VarDeclNode)
+			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
+			if(parameterVar.defEntityToBeYieldedTo)
+			{
+				res = false;
+				subpatternUnresolved.ReportError("The " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " is not yielded to,"
+						+ " but the rewrite parameter at this position is declared as def (" + parameterVar.Ident + " in " + pattern.ToStringWithDeclarationCoords() + ")" + ".");
+			}
+		}
+
+		if(!actualParameterType.IsCompatibleTo(formalParameterType))
+		{
 			res = false;
-			subpatternUnresolved.reportError("Cannot convert " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " from "
-					+ actualParameterType.getTypeName() + " to " + formalParameterType.getTypeName()
-					+ " (expected by the rewrite parameter " + formalParameter.getIdent() + " of subpattern " + pattern.toStringWithDeclarationCoords() + ")"
-					+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
-					+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+			subpatternUnresolved.ReportError("Cannot convert " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " from "
+					+ actualParameterType.TypeName + " to " + formalParameterType.TypeName
+					+ " (expected by the rewrite parameter " + formalParameter.Ident + " of subpattern " + pattern.ToStringWithDeclarationCoords() + ")"
+					+ actualParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ formalParameterType.ToStringWithDeclarationCoordsIfCoordsAreOfInterest()
 					+ ".");
 		}
-		
+
 		return res;
 	}
 
-	public IdentNode getSubpatternIdent()
+	public virtual IdentNode SubpatternIdent
 	{
+		get
+		{
 		return subpatternUnresolved;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		List<Expression> replConnections = new ArrayList<Expression>();
-		for(ExprNode e : this.replConnections.getChildrenExact()) {
-			e = e.evaluate();
-			replConnections.add(e.checkIR(Expression.class));
+		IList<Expression> replConnections = new List<Expression>();
+		foreach(ExprNode e in this.replConnections.ChildrenExact)
+		{
+			e = e.Evaluate();
+			replConnections.Add(e.CheckIR(typeof(Expression)));
 		}
-		return new SubpatternDependentReplacement("dependent replacement", subpatternUnresolved.getIRIdent(),
-				subpattern.checkIR(SubpatternUsage.class), replConnections);
+		return new SubpatternDependentReplacement("dependent replacement", subpatternUnresolved.IRIdent,
+				subpattern.CheckIR(typeof(SubpatternUsage)), replConnections);
 	}
+}
+
 }

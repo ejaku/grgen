@@ -1,39 +1,39 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.FunctionAutoKeepOneForEachAccumulateBy;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.executable.Function;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(FunctionAutoKeepOneForEachAccumulateByNode.class, "auto keep one for each accumulate by");
+
+using System.Collections.Generic;
+
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using FunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using DefinedMatchTypeNode = de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
+using MatchTypeActionNode = de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using FunctionAutoKeepOneForEachAccumulateBy = de.unika.ipd.grgen.ir.stmt.FunctionAutoKeepOneForEachAccumulateBy;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using Function = de.unika.ipd.grgen.ir.executable.Function;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class FunctionAutoKeepOneForEachAccumulateByNode : FunctionAutoNode
+{
+	static FunctionAutoKeepOneForEachAccumulateByNode()
+	{
+		SetClassName(typeof(FunctionAutoKeepOneForEachAccumulateByNode), "auto keep one for each accumulate by");
 	}
 
 	private IdentNode target;
@@ -44,165 +44,183 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 
 	private IdentNode accumulationAttribute;
 	private DeclNode accumulationMember;
-	
-	private String accumulationMethod;
 
-	public FunctionAutoKeepOneForEachAccumulateByNode(Coords coords, String function, 
-			IdentNode attribute, IdentNode accumulationAttribute, String accumulationMethod,
+	private string accumulationMethod;
+
+	public FunctionAutoKeepOneForEachAccumulateByNode(Coords coords, string function,
+			IdentNode attribute, IdentNode accumulationAttribute, string accumulationMethod,
 			IdentNode target)
+		: base(coords, function)
 	{
-		super(coords, function);
 		this.attribute = attribute;
 		this.accumulationAttribute = accumulationAttribute;
 		this.accumulationMethod = accumulationMethod;
 		this.target = target;
 	}
-	
-	@Override
-	public Collection<BaseNode> getChildren()
+
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		//children.add(targetExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		//childrenNames.add("targetExpr");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<VarDeclNode> targetResolver =
-			new DeclarationResolver<VarDeclNode>(VarDeclNode.class);
+	private static readonly DeclarationResolver<VarDeclNode> targetResolver =
+			new DeclarationResolver<VarDeclNode>(typeof(VarDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		targetVar = targetResolver.resolve(target, this);
+		targetVar = targetResolver.Resolve(target, this);
 		return targetVar != null;
 	}
 
-	@Override
-	public boolean resolveLocalBypass()
+	public override bool ResolveLocalBypass()
 	{
-		return resolveLocal();
+		return ResolveLocal();
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if(!function.equals("keepOneForEachAccumulateBy")) {
-			reportError("Unknown function in auto(), expected keepOneForEachAccumulateBy (e.g. keepOneForEach<foo>Accumulate<bar>By<sum>).");
+		if(!function.Equals("keepOneForEachAccumulateBy"))
+		{
+			ReportError("Unknown function in auto(), expected keepOneForEachAccumulateBy (e.g. keepOneForEach<foo>Accumulate<bar>By<sum>).");
 			return false;
 		}
 
-		ArrayTypeNode arrayType = getTargetType();
-		if(!(arrayType.valueType instanceof MatchTypeActionNode)
-				&& !(arrayType.valueType instanceof DefinedMatchTypeNode)) {
-			reportError("The auto-generated function keepOneForEachAccumulateBy can only be employed on an array of match or match class types"
-					+ " (but is employed on an array of " + arrayType.valueType.getTypeName() + ").");
+		ArrayTypeNode arrayType = TargetType;
+		if(!(arrayType.valueType is MatchTypeActionNode)
+				&& !(arrayType.valueType is DefinedMatchTypeNode))
+		{
+			ReportError("The auto-generated function keepOneForEachAccumulateBy can only be employed on an array of match or match class types"
+					+ " (but is employed on an array of " + arrayType.valueType.TypeName + ").");
 			return false;
 		}
 
 		TypeNode valueType = arrayType.valueType;
-		member = Resolver.resolveMember(valueType, attribute);
+		member = Resolver.ResolveMember(valueType, attribute);
 		if(member == null)
 			return false;
 
-		TypeNode memberType = getTypeOfElementToBeExtracted();
-		if(!memberType.isFilterableType()) {
-			target.reportError("The keepOneForEach argument of the auto-generated function keepOneForEachAccumulateBy is only available for attributes of type "
-					+ TypeNode.getFilterableTypesAsString() + " (but is employed on an attribute of type " + memberType.getTypeName() + ").");
+		TypeNode memberType = TypeOfElementToBeExtracted;
+		if(!memberType.IsFilterableType())
+		{
+			target.ReportError("The keepOneForEach argument of the auto-generated function keepOneForEachAccumulateBy is only available for attributes of type "
+					+ TypeNode.FilterableTypesAsString + " (but is employed on an attribute of type " + memberType.TypeName + ").");
 			return false;
 		}
 
-		accumulationMember = Resolver.resolveMember(valueType, accumulationAttribute);
+		accumulationMember = Resolver.ResolveMember(valueType, accumulationAttribute);
 		if(accumulationMember == null)
 			return false;
 
-		TypeNode accumulationMemberType = getTypeOfAccumulationElementToBeExtracted();
-		if(!accumulationMemberType.isAccumulatableType()) {
-			target.reportError("The accumulate argument of the auto-generated function keepOneForEachAccumulateBy is only available for attributes of type "
-					+ TypeNode.getAccumulatableTypesAsString() + " (but is employed on an attribute of type " + accumulationMemberType.getTypeName() + ").");
+		TypeNode accumulationMemberType = TypeOfAccumulationElementToBeExtracted;
+		if(!accumulationMemberType.IsAccumulatableType())
+		{
+			target.ReportError("The accumulate argument of the auto-generated function keepOneForEachAccumulateBy is only available for attributes of type "
+					+ TypeNode.AccumulatableTypesAsString + " (but is employed on an attribute of type " + accumulationMemberType.TypeName + ").");
 			return false;
 		}
 
 		return true;
 	}
 
-	@Override
-	public boolean checkLocalBypass()
+	public override bool CheckLocalBypass()
 	{
-		return checkLocal();
+		return CheckLocal();
 	}
 
-	@Override
-	public boolean checkLocal(FunctionDeclNode functionDecl)
+	public override bool CheckLocal(FunctionDeclNode functionDecl)
 	{
-		if(!(functionDecl.getResultType() instanceof ArrayTypeNode)) {
-			reportError("The result type of the function " + functionDecl.getIdent()
-					+ " employing the auto-generated function " + functionName()
-					+ " must be an array (but is of type " + functionDecl.getResultType().getTypeName() + ").");
+		if(!(functionDecl.ResultType is ArrayTypeNode))
+		{
+			ReportError("The result type of the function " + functionDecl.Ident
+					+ " employing the auto-generated function " + FunctionName()
+					+ " must be an array (but is of type " + functionDecl.ResultType.TypeName + ").");
 			return false;
 		}
-		ArrayTypeNode resultType = (ArrayTypeNode)functionDecl.getResultType();
-		if(!(resultType.getElementType() instanceof DefinedMatchTypeNode)
-				&& !(resultType.getElementType() instanceof MatchTypeActionNode)) {
-			reportError("The result type of the function " + functionDecl.getIdent()
-					+ " employing the auto-generated function " + functionName()
+		ArrayTypeNode resultType = (ArrayTypeNode)functionDecl.ResultType;
+		if(!(resultType.ElementType is DefinedMatchTypeNode)
+				&& !(resultType.ElementType is MatchTypeActionNode))
+		{
+			ReportError("The result type of the function " + functionDecl.Ident
+					+ " employing the auto-generated function " + FunctionName()
 					+ " must be an array<match<class T>> or array<match<T>>"
-				+ " (but is of type " + functionDecl.getResultType().getTypeName() + ").");
+					+ " (but is of type " + functionDecl.ResultType.TypeName + ").");
 			return false;
 		}
-		
+
 		return true;
 	}
 
-	public TypeNode getType()
+	public virtual TypeNode Type
 	{
-		return getTargetType();
+		get
+		{
+		return TargetType;
+		}
 	}
 
-	protected ArrayTypeNode getTargetType()
+	protected internal virtual ArrayTypeNode TargetType
 	{
-		TypeNode targetType = targetVar.getDeclType();
+		get
+		{
+		TypeNode targetType = targetVar.DeclType;
 		return (ArrayTypeNode)targetType;
+		}
 	}
 
-	private TypeNode getTypeOfElementToBeExtracted()
+	private TypeNode TypeOfElementToBeExtracted
 	{
+		get
+		{
 		if(member != null)
-			return member.getDeclType();
+			return member.DeclType;
 		return null;
+		}
 	}
 
-	private TypeNode getTypeOfAccumulationElementToBeExtracted()
+	private TypeNode TypeOfAccumulationElementToBeExtracted
 	{
+		get
+		{
 		if(accumulationMember != null)
-			return accumulationMember.getDeclType();
+			return accumulationMember.DeclType;
 		return null;
+		}
 	}
 
-	@Override
-	public void getStatements(FunctionDeclNode functionDecl, Function function)
+	public override void GetStatements(FunctionDeclNode functionDecl, Function function)
 	{
-		Entity accessedMember = member.checkIR(Entity.class);
+		Entity accessedMember = member.CheckIR(typeof(Entity));
 
-		Variable accessedAccumulationMember = accumulationMember.checkIR(Variable.class);
-		
+		Variable accessedAccumulationMember = accumulationMember.CheckIR(typeof(Variable));
+
 		FunctionAutoKeepOneForEachAccumulateBy stmt = new FunctionAutoKeepOneForEachAccumulateBy(
-				targetVar.checkIR(Variable.class), 
+				targetVar.CheckIR(typeof(Variable)),
 				accessedMember, accessedAccumulationMember, accumulationMethod);
-		function.addStatement(stmt);
+		function.AddStatement(stmt);
 	}
-	
-	private String functionName()
+
+	private string FunctionName()
 	{
-		return "keepOneForEach<" + attribute.getIRIdent() 
-				+ ">Accumulate<" + accumulationAttribute.getIRIdent()
-				+ ">By<"+ accumulationMethod + ">";
+		return "keepOneForEach<" + attribute.IRIdent
+				+ ">Accumulate<" + accumulationAttribute.IRIdent
+				+ ">By<" + accumulationMethod + ">";
 	}
+}
+
 }

@@ -1,47 +1,54 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr.string;
+namespace de.unika.ipd.grgen.ir.expr.@string
+{
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.type.basic.BooleanType;
-
-public class StringEndsWith extends BuiltinFunctionInvocationExpr
+public class StringEndsWith : BuiltinFunctionInvocationExpr
 {
 	private Expression stringExpr;
 	private Expression stringToSearchForExpr;
 
 	public StringEndsWith(Expression stringExpr, Expression stringToSearchForExpr)
+		: base("string endsWith", BooleanType.Type)
 	{
-		super("string endsWith", BooleanType.getType());
 		this.stringExpr = stringExpr;
 		this.stringToSearchForExpr = stringToSearchForExpr;
 	}
 
-	public Expression getStringExpr()
+	public virtual Expression StringExpr
 	{
+		get
+		{
 		return stringExpr;
+		}
 	}
 
-	public Expression getStringToSearchForExpr()
+	public virtual Expression StringToSearchForExpr
 	{
+		get
+		{
 		return stringToSearchForExpr;
+		}
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		stringExpr.collectNeededEntities(needs);
-		stringToSearchForExpr.collectNeededEntities(needs);
+		stringExpr.CollectNeededEntities(needs);
+		stringToSearchForExpr.CollectNeededEntities(needs);
 	}
+}
+
 }

@@ -1,70 +1,73 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr.invocation;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * Base class for real function calls, i.e. calls of user-defined functions.
- */
-public class FunctionInvocationBaseExpr extends FunctionOrBuiltinFunctionInvocationExpr
+namespace de.unika.ipd.grgen.ir.expr.invocation
 {
-	/** The arguments of the function invocation expression. */
-	protected List<Expression> arguments = new ArrayList<Expression>();
 
-	public FunctionInvocationBaseExpr(String name, Type type)
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+/// <summary>
+/// Base class for real function calls, i.e. calls of user-defined functions.
+/// </summary>
+public class FunctionInvocationBaseExpr : FunctionOrBuiltinFunctionInvocationExpr
+{
+	/// <summary>
+	/// The arguments of the function invocation expression. </summary>
+	protected internal IList<Expression> arguments = new List<Expression>();
+
+	public FunctionInvocationBaseExpr(string name, Type type)
+		: base(name, type)
 	{
-		super(name, type);
 	}
 
-	/** @return The number of arguments. */
-	public int arity()
+	/// <returns> The number of arguments. </returns>
+	public virtual int Arity()
 	{
-		return arguments.size();
+		return arguments.Count;
 	}
 
-	/**
-	 * Get the ith argument.
-	 * @param index The index of the argument
-	 * @return The argument, if <code>index</code> was valid, <code>null</code> if not.
-	 */
-	public Expression getArgument(int index)
+	/// <summary>
+	/// Get the ith argument. </summary>
+	/// <param name="index"> The index of the argument </param>
+	/// <returns> The argument, if <code>index</code> was valid, <code>null</code> if not. </returns>
+	public virtual Expression GetArgument(int index)
 	{
-		return index >= 0 || index < arguments.size() ? arguments.get(index) : null;
+		return index >= 0 || index < arguments.Count ? arguments[index] : null;
 	}
 
-	/** Adds an argument e to the expression. */
-	public void addArgument(Expression e)
+	/// <summary>
+	/// Adds an argument e to the expression. </summary>
+	public virtual void AddArgument(Expression e)
 	{
-		arguments.add(e);
+		arguments.Add(e);
 	}
 
-	public Collection<Expression> getWalkableChildren()
+	public virtual ICollection<Expression> WalkableChildren
 	{
+		get
+		{
 		return arguments;
-	}
-
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		for(Expression child : getWalkableChildren()) {
-			child.collectNeededEntities(needs);
 		}
 	}
+
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
+	{
+		foreach(Expression child in WalkableChildren)
+			child.CollectNeededEntities(needs);
+	}
+}
+
 }

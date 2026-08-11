@@ -1,43 +1,47 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.type.basic;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.basic.UntypedExecVarType;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-public class UntypedExecVarTypeNode extends BasicTypeNode
+namespace de.unika.ipd.grgen.ast.type.basic
 {
-	static {
-		setClassName(UntypedExecVarTypeNode.class, "untyped exec variable type");
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using UntypedExecVarType = de.unika.ipd.grgen.ir.type.basic.UntypedExecVarType;
+
+
+public class UntypedExecVarTypeNode : BasicTypeNode
+{
+	static UntypedExecVarTypeNode()
+	{
+		SetClassName(typeof(UntypedExecVarTypeNode), "untyped exec variable type");
 	}
 
 	// TODO: No instance is ever used! Probably useless...
-	public static class Value
+	public class Value
 	{
-		public static Value NULL = new Value() {
-			@Override
-			public String toString()
+		public static Value NULL = new ValueAnonymousInnerClass();
+
+		private class ValueAnonymousInnerClass : Value
+		{
+			private readonly Value outerInstance;
+
+			public override string ToString()
 			{
 				return "Untyped null";
 			}
-		};
+		}
 
-		private Value()
+		internal Value()
 		{
 		}
 	}
@@ -46,46 +50,50 @@ public class UntypedExecVarTypeNode extends BasicTypeNode
 	{
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		// no children
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// no children
 		return childrenNames;
+		}
 	}
 
-	@Override
-	public boolean isCompatibleTo(TypeNode t)
+	public override bool IsCompatibleTo(TypeNode t)
 	{
 		// compatible to everything
 		return true;
 	}
 
-	@Override
-	public boolean isCastableTo(TypeNode t)
+	public override bool IsCastableTo(TypeNode t)
 	{
-		return isCompatibleTo(t);
+		return IsCompatibleTo(t);
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return new UntypedExecVarType(getIdent().getIRIdent());
+		return new UntypedExecVarType(Ident.IRIdent);
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
 		return "untyped";
 	}
+}
+
 }

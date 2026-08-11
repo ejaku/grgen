@@ -1,94 +1,102 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.array;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.type.MatchTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescendingBy;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ArrayOrderDescendingByNode extends ArrayFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.array
 {
-	static {
-		setClassName(ArrayOrderDescendingByNode.class, "array order descending by");
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using MatchTypeNode = de.unika.ipd.grgen.ast.type.MatchTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayOrderDescendingBy = de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescendingBy;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ArrayOrderDescendingByNode : ArrayFunctionMethodInvocationBaseExprNode
+{
+	static ArrayOrderDescendingByNode()
+	{
+		SetClassName(typeof(ArrayOrderDescendingByNode), "array order descending by");
 	}
 
 	private IdentNode attribute;
 	private DeclNode member;
 
 	public ArrayOrderDescendingByNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
 		this.attribute = attribute;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = getTargetTypeExact();
-		if(!(arrayType.valueType instanceof InheritanceTypeNode)
-				&& !(arrayType.valueType instanceof MatchTypeNode)) {
-			targetExpr.reportError("The array function method orderDescendingBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
-					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
+		ArrayTypeNode arrayType = TargetTypeExact;
+		if(!(arrayType.valueType is InheritanceTypeNode)
+				&& !(arrayType.valueType is MatchTypeNode))
+		{
+			targetExpr.ReportError("The array function method orderDescendingBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
+					+ " (but is employed on an object of type " + arrayType.TypeName + ").");
 			return false;
 		}
 
 		TypeNode valueType = arrayType.valueType;
-		member = Resolver.resolveMember(valueType, attribute);
+		member = Resolver.ResolveMember(valueType, attribute);
 		if(member == null)
 			return false;
 
-		TypeNode memberType = getTypeOfElementToBeExtracted();
+		TypeNode memberType = TypeOfElementToBeExtracted;
 
-		if(!memberType.isOrderableType()) {
-			targetExpr.reportError("The array function method orderDescendingBy is only available for attributes of type "
-					+ TypeNode.getOrderableTypesAsString() + " (but is of type " + memberType.getTypeName() + ").");
+		if(!memberType.IsOrderableType())
+		{
+			targetExpr.ReportError("The array function method orderDescendingBy is only available for attributes of type "
+					+ TypeNode.OrderableTypesAsString + " (but is of type " + memberType.TypeName + ").");
 			return false;
 		}
 
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		return getTargetType();
+		get
+		{
+		return TargetType;
+		}
 	}
 
-	private TypeNode getTypeOfElementToBeExtracted()
+	private TypeNode TypeOfElementToBeExtracted
 	{
+		get
+		{
 		if(member != null)
-			return member.getDeclType();
+			return member.DeclType;
 		return null;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		Entity accessedMember = null;
 		if(member != null)
-			accessedMember = member.checkIR(Entity.class);
-		targetExpr = targetExpr.evaluate();
-		return new ArrayOrderDescendingBy(targetExpr.checkIR(Expression.class),
+			accessedMember = member.CheckIR(typeof(Entity));
+		targetExpr = targetExpr.Evaluate();
+		return new ArrayOrderDescendingBy(targetExpr.CheckIR(typeof(Expression)),
 				accessedMember);
 	}
+}
+
 }

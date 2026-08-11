@@ -1,169 +1,174 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Buchwald
- */
-package de.unika.ipd.grgen.ast.model.type;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.ConstructorDeclNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
-import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.expr.ContainerInitNode;
-import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
-import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
-import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
-import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
-import de.unika.ipd.grgen.ast.model.ConnAssertNode;
-import de.unika.ipd.grgen.ast.model.MemberInitNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.model.ConnAssert;
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-
-public abstract class EdgeTypeNode extends InheritanceTypeNode
+/// <summary>
+/// @author Sebastian Buchwald
+/// </summary>
+namespace de.unika.ipd.grgen.ast.model.type
 {
-	static {
-		setClassName(EdgeTypeNode.class, "edge type");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using ConstructorDeclNode = de.unika.ipd.grgen.ast.decl.ConstructorDeclNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using FunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+using OperatorDeclNode = de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+using OperatorEvaluator = de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
+using ProcedureDeclNode = de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using ContainerInitNode = de.unika.ipd.grgen.ast.expr.ContainerInitNode;
+using ArrayInitNode = de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
+using DequeInitNode = de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
+using MapInitNode = de.unika.ipd.grgen.ast.expr.map.MapInitNode;
+using SetInitNode = de.unika.ipd.grgen.ast.expr.set.SetInitNode;
+using ConnAssertNode = de.unika.ipd.grgen.ast.model.ConnAssertNode;
+using MemberInitNode = de.unika.ipd.grgen.ast.model.MemberInitNode;
+using MemberDeclNode = de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ConnAssert = de.unika.ipd.grgen.ir.model.ConnAssert;
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+
+public abstract class EdgeTypeNode : InheritanceTypeNode
+{
+	static EdgeTypeNode()
+	{
+		SetClassName(typeof(EdgeTypeNode), "edge type");
 	}
 
 	public static ArbitraryEdgeTypeNode arbitraryEdgeType;
 	public static DirectedEdgeTypeNode directedEdgeType;
 	public static UndirectedEdgeTypeNode undirectedEdgeType;
 
-	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
-			new DeclarationResolver<BaseNode>(MemberDeclNode.class, MemberInitNode.class, ConstructorDeclNode.class,
-					MapInitNode.class, SetInitNode.class, ArrayInitNode.class, DequeInitNode.class,
-					FunctionDeclNode.class, ProcedureDeclNode.class));
+	private static readonly CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
+			new DeclarationResolver<BaseNode>(typeof(MemberDeclNode), typeof(MemberInitNode), typeof(ConstructorDeclNode),
+					typeof(MapInitNode), typeof(SetInitNode), typeof(ArrayInitNode), typeof(DequeInitNode),
+					typeof(FunctionDeclNode), typeof(ProcedureDeclNode)));
 
-	private static final CollectResolver<EdgeTypeNode> extendResolver =
-			new CollectResolver<EdgeTypeNode>(new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class));
+	private static readonly CollectResolver<EdgeTypeNode> extendResolver =
+			new CollectResolver<EdgeTypeNode>(new DeclarationTypeResolver<EdgeTypeNode>(typeof(EdgeTypeNode)));
 
 	private CollectNode<EdgeTypeNode> extend;
 	private CollectNode<ConnAssertNode> cas;
 
-	/**
-	 * Make a new edge type node.
-	 * @param ext The collect node with all edge classes that this one extends.
-	 * @param cas The collect node with all connection assertion of this type.
-	 * @param body The body of the type declaration. It consists of basic
-	 * declarations.
-	 * @param modifiers The modifiers for this type.
-	 * @param externalName The name of the external implementation of this type or null.
-	 */
+	/// <summary>
+	/// Make a new edge type node. </summary>
+	/// <param name="ext"> The collect node with all edge classes that this one extends. </param>
+	/// <param name="cas"> The collect node with all connection assertion of this type. </param>
+	/// <param name="body"> The body of the type declaration. It consists of basic
+	/// declarations. </param>
+	/// <param name="modifiers"> The modifiers for this type. </param>
+	/// <param name="externalName"> The name of the external implementation of this type or null. </param>
 	public EdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas, CollectNode<BaseNode> body,
-			int modifiers, String externalName)
+			int modifiers, string externalName)
 	{
 		this.extendUnresolved = ext;
-		becomeParent(this.extendUnresolved);
+		BecomeParent(this.extendUnresolved);
 		this.bodyUnresolved = body;
-		becomeParent(this.bodyUnresolved);
+		BecomeParent(this.bodyUnresolved);
 		this.cas = cas;
-		becomeParent(this.cas);
-		setModifiers(modifiers);
-		setExternalName(externalName);
+		BecomeParent(this.cas);
+		Modifiers = modifiers;
+		ExternalName = externalName;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersionCollectNode(extendUnresolved, extend));
-		children.add(getValidVersionCollectNode(bodyUnresolved, body));
-		children.add(cas);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersionCollectNode(extendUnresolved, extend));
+		children.Add(GetValidVersionCollectNode(bodyUnresolved, body));
+		children.Add(cas);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("extends");
-		childrenNames.add("body");
-		childrenNames.add("cas");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("extends");
+		childrenNames.Add("body");
+		childrenNames.Add("cas");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		OperatorDeclNode.makeOp(Operator.COND, this, new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
+		OperatorDeclNode.MakeOp(Operator.COND, this, new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
 
-		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.SE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.EQ, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.NE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.SE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
 
-		body = bodyResolver.resolve(bodyUnresolved, this);
-		extend = extendResolver.resolve(extendUnresolved, this);
+		body = bodyResolver.Resolve(bodyUnresolved, this);
+		extend = extendResolver.Resolve(extendUnresolved, this);
 
 		// Initialize direct sub types
-		if(extend != null) {
-			for(InheritanceTypeNode type : extend.getChildrenExact()) {
-				type.addDirectSubType(this);
-			}
+		if(extend != null)
+		{
+			foreach(InheritanceTypeNode type in extend.ChildrenExact)
+				type.AddDirectSubType(this);
 		}
 
 		return body != null && extend != null;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		boolean res = super.checkLocal();
+		bool res = base.CheckLocal();
 
 		// check all super types to ensure their copy extends are resolved
-		for(EdgeTypeNode parent : extend.getChildrenExact()) {
-			if(!parent.visitedDuringCheck()) { // only if not already visited
-				parent.check();
-			}
+		foreach(EdgeTypeNode parent in extend.ChildrenExact)
+		{
+			if(!parent.VisitedDuringCheck())
+				parent.Check();
 		}
 
 		// "resolve" connection assertion inheritance,
 		// after resolve to ensure everything is available, before IR building
-		List<ConnAssertNode> connAssertsToCopy = getConnectionAssertionsToCopy();
-		for(ConnAssertNode caToCopy : connAssertsToCopy) {
-			cas.addChild(caToCopy);
-		}
+		IList<ConnAssertNode> connAssertsToCopy = ConnectionAssertionsToCopy;
+		foreach(ConnAssertNode caToCopy in connAssertsToCopy)
+			cas.AddChild(caToCopy);
 
-		for(BaseNode child : body.getChildrenExact()) {
-			if(child instanceof ConstructorDeclNode
-					|| child instanceof MemberInitNode
-					|| child instanceof ContainerInitNode
-					|| child instanceof FunctionDeclNode
-					|| child instanceof ProcedureDeclNode)
+		foreach(BaseNode child in body.ChildrenExact)
+		{
+			if(child is ConstructorDeclNode
+					|| child is MemberInitNode
+					|| child is ContainerInitNode
+					|| child is FunctionDeclNode
+					|| child is ProcedureDeclNode)
 				continue;
-			
+
 			DeclNode decl = (DeclNode)child;
-			if(decl.getDeclType() instanceof InternalTransientObjectTypeNode) {
-				decl.reportError("Only transient object classes may contain attributes of transient object class types"
-						+ " (but the attribute " + decl.getIdent()
-						+ " is of transient object class type " + decl.getDeclType().toStringWithDeclarationCoords()
-						+ " in edge class " + getIdent() + ").");
-				res &= false; 
+			if(decl.DeclType is InternalTransientObjectTypeNode)
+			{
+				decl.ReportError("Only transient object classes may contain attributes of transient object class types"
+						+ " (but the attribute " + decl.Ident
+						+ " is of transient object class type " + decl.DeclType.ToStringWithDeclarationCoords()
+						+ " in edge class " + Ident + ").");
+				res &= false;
 			}
 		}
 
@@ -172,97 +177,108 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 		return res;
 	}
 
-	private List<ConnAssertNode> getConnectionAssertionsToCopy()
+	private IList<ConnAssertNode> ConnectionAssertionsToCopy
 	{
+		get
+		{
 		// return connection assertions to copy to prevent iterator from becoming stale, copied after iteration 
-		List<ConnAssertNode> connAssertsToCopy = new ArrayList<ConnAssertNode>();
-		List<ConnAssertNode> connAssertsToDelete = new ArrayList<ConnAssertNode>();
-		boolean alreadyCopiedExtends = false;
-		for(ConnAssertNode ca : cas.getChildrenExact()) {
-			if(ca.copyExtends) {
-				if(alreadyCopiedExtends) {
-					reportWarning("more than one copy extends only causes double work without benefit");
-				}
+		IList<ConnAssertNode> connAssertsToCopy = new List<ConnAssertNode>();
+		IList<ConnAssertNode> connAssertsToDelete = new List<ConnAssertNode>();
+		bool alreadyCopiedExtends = false;
+		foreach(ConnAssertNode ca in cas.ChildrenExact)
+		{
+			if(ca.copyExtends)
+			{
+				if(alreadyCopiedExtends)
+					ReportWarning("more than one copy extends only causes double work without benefit");
 
-				for(EdgeTypeNode parent : extend.getChildrenExact()) {
-					for(ConnAssertNode caToCopy : parent.cas.getChildrenExact()) {
-						if(caToCopy.copyExtends) {
-							reportError("Internal error: copy extends in parent while copying connection assertions from parent.");
-							assert false;
+				foreach(EdgeTypeNode parent in extend.ChildrenExact)
+				{
+					foreach(ConnAssertNode caToCopy in parent.cas.ChildrenExact)
+					{
+						if(caToCopy.copyExtends)
+						{
+							ReportError("Internal error: copy extends in parent while copying connection assertions from parent.");
+							Debug.Assert(false);
 						}
-						connAssertsToCopy.add(caToCopy);
+						connAssertsToCopy.Add(caToCopy);
 					}
 				}
 
-				connAssertsToDelete.add(ca);
+				connAssertsToDelete.Add(ca);
 				alreadyCopiedExtends = true;
 			}
 		}
 
-		cas.getChildrenExact().removeAll(connAssertsToDelete);
-		
+		cas.ChildrenExact.RemoveAll(connAssertsToDelete);
+
 		return connAssertsToCopy;
+		}
 	}
 
-	/**
-	 * Get the edge type IR object.
-	 * @return The edge type IR object for this AST node.
-	 */
-	public final EdgeType getIREdgeType()
+	/// <summary>
+	/// Get the edge type IR object. </summary>
+	/// <returns> The edge type IR object for this AST node. </returns>
+	public EdgeType IREdgeType
 	{
-		return checkIR(EdgeType.class);
+		get
+		{
+		return CheckIR(typeof(EdgeType));
+		}
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "edge class";
-	}
-	
-	@Override
-	public void doGetCompatibleToTypes(Collection<TypeNode> coll)
-	{
-		assert isResolved();
-
-		for(EdgeTypeNode inh : extend.getChildrenExact()) {
-			coll.add(inh);
-			coll.addAll(inh.getCompatibleToTypes());
 		}
-		
-		coll.add(BasicTypeNode.typeType); // ~~ addCompatibility(this, BasicTypeNode.typeType);
 	}
 
-	@Override
-	public Collection<InheritanceTypeNode> getDirectSuperTypes()
+	public override void DoGetCompatibleToTypes(ICollection<TypeNode> coll)
 	{
-		assert isResolved();
+		Debug.Assert(IsResolved());
 
-		return new ArrayList<InheritanceTypeNode>(extend.getChildrenExact());
+		foreach(EdgeTypeNode inh in extend.ChildrenExact)
+		{
+			coll.Add(inh);
+			coll.AddAll(inh.CompatibleToTypes);
+		}
+
+		coll.Add(BasicTypeNode.typeType); // ~~ addCompatibility(this, BasicTypeNode.typeType);
 	}
 
-	protected abstract void setDirectednessIR(EdgeType inhType);
-
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+	public override ICollection<InheritanceTypeNode> DirectSuperTypes
 	{
-		if(isIRAlreadySet()) { // break endless recursion in case of a member of edge or container of edge typ
-			return getIR();
+		get
+		{
+		Debug.Assert(IsResolved());
+
+		return new List<InheritanceTypeNode>(extend.ChildrenExact);
 		}
+	}
 
-		EdgeType et = new EdgeType(getDecl().getIdent().getIRIdent(), getIRModifiers(), getExternalName());
+	protected internal abstract EdgeType DirectednessIR {set;}
 
-		setIR(et);
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
+	{
+		if(IsIRAlreadySet()) // break endless recursion in case of a member of edge or container of edge typ
+			return IR;
 
-		constructIR(et); // from InheritanceTypeNode
+		EdgeType et = new EdgeType(Decl.GetIdent().GetIRIdent(), IRModifiers, ExternalName);
 
-		setDirectednessIR(et); // from Undirected/Arbitrary/Directed-EdgeTypeNode
+		IR = et;
 
-		for(ConnAssertNode can : cas.getChildrenExact()) {
-			et.addConnAssert(can.checkIR(ConnAssert.class));
-		}
+		ConstructIR(et); // from InheritanceTypeNode
+
+		DirectednessIR = et; // from Undirected/Arbitrary/Directed-EdgeTypeNode
+
+		foreach(ConnAssertNode can in cas.ChildrenExact)
+			et.AddConnAssert(can.CheckIR(typeof(ConnAssert)));
 
 		return et;
 	}
+}
+
 }

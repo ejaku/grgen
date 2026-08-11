@@ -1,40 +1,49 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ir.type;
-
-import java.util.Comparator;
-
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.model.type.InheritanceType;
-import de.unika.ipd.grgen.ir.type.container.ArrayType;
-
-/**
- * Abstract base class for types.
- * Subclasses distinguished into primitive (string, int, boolean, ...) and compound
- */
-public abstract class Type extends Identifiable
+namespace de.unika.ipd.grgen.ir.type
 {
-	/** helper class for comparing objects of type Type, used in compareTo, overwriting comparteTo of Identifiable */
-	private static final Comparator<Type> COMPARATOR = new Comparator<Type>() {
-		@Override
-		public int compare(Type t1, Type t2)
+
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+
+/// <summary>
+/// Abstract base class for types.
+/// Subclasses distinguished into primitive (string, int, boolean, ...) and compound
+/// </summary>
+public abstract class Type : Identifiable
+{
+	/// <summary>
+	/// helper class for comparing objects of type Type, used in compareTo, overwriting comparteTo of Identifiable </summary>
+	private new static readonly IComparer<Type> COMPARATOR = new ComparatorAnonymousInnerClass();
+
+	private class ComparatorAnonymousInnerClass : IComparer<Type>
+	{
+		private readonly Type outerInstance;
+
+		public int Compare(Type t1, Type t2)
 		{
-			if(t1.isEqual(t2))
+			if(t1.IsEqual(t2))
 				return 0;
 
-			if((t1 instanceof InheritanceType) && (t2 instanceof InheritanceType)) {
-				int distT1 = ((InheritanceType)t1).getMaxDist();
-				int distT2 = ((InheritanceType)t2).getMaxDist();
+			if((t1 is InheritanceType) && (t2 is InheritanceType))
+			{
+				int distT1 = ((InheritanceType)t1).MaxDist;
+				int distT2 = ((InheritanceType)t2).MaxDist;
 
 				if(distT1 < distT2)
 					return -1;
@@ -42,9 +51,9 @@ public abstract class Type extends Identifiable
 					return 1;
 			}
 
-			return t1.getIdent().compareTo(t2.getIdent());
+			return t1.Ident.CompareTo(t2.Ident);
 		}
-	};
+	}
 
 	public enum TypeClass
 	{
@@ -73,132 +82,133 @@ public abstract class Type extends Identifiable
 		IS_INTERNAL_CLASS_OBJECT,
 		IS_INTERNAL_TRANSIENT_CLASS_OBJECT
 	}
-	
-	/**
-	 * Make a new type.
-	 * @param name The name of the type (test, group, ...).
-	 * @param ident The identifier used to declare that type.
-	 */
-	public Type(String name, Ident ident)
+
+	/// <summary>
+	/// Make a new type. </summary>
+	/// <param name="name"> The name of the type (test, group, ...). </param>
+	/// <param name="ident"> The identifier used to declare that type. </param>
+	public Type(string name, Ident ident)
+		: base(name, ident)
 	{
-		super(name, ident);
 	}
 
-	/**
-	 * Decides, if two types are equal.
-	 * @param t The other type.
-	 * @return true, if the types are equal.
-	 */
-	public boolean isEqual(Type t)
+	/// <summary>
+	/// Decides, if two types are equal. </summary>
+	/// <param name="t"> The other type. </param>
+	/// <returns> true, if the types are equal. </returns>
+	public virtual bool IsEqual(Type t)
 	{
 		return t == this;
 	}
 
-	/**
-	 * Compute, if this type is castable to another type.
-	 * You do not have to check, if <code>t == this</code>.
-	 * @param t The other type.
-	 * @return true, if this type is castable.
-	 */
-	protected boolean castableTo(Type t)
+	/// <summary>
+	/// Compute, if this type is castable to another type.
+	/// You do not have to check, if <code>t == this</code>. </summary>
+	/// <param name="t"> The other type. </param>
+	/// <returns> true, if this type is castable. </returns>
+	protected internal virtual bool CastableTo(Type t)
 	{
 		return false;
 	}
 
-	/**
-	 * Checks, if this type is castable to another type.
-	 * This method is final, to implement the castability, overwrite <code>castableTo</code>, which is called by this method.
-	 * @param t The other type.
-	 * @return true, if this type can be casted to <code>t</code>, false otherwise.
-	 */
-	public final boolean isCastableTo(Type t)
+	/// <summary>
+	/// Checks, if this type is castable to another type.
+	/// This method is final, to implement the castability, overwrite <code>castableTo</code>, which is called by this method. </summary>
+	/// <param name="t"> The other type. </param>
+	/// <returns> true, if this type can be casted to <code>t</code>, false otherwise. </returns>
+	public bool IsCastableTo(Type t)
 	{
-		return isEqual(t) || castableTo(t);
+		return IsEqual(t) || CastableTo(t);
 	}
 
-	/** @return true, if this type is a void type. */
-	public boolean isVoid()
+	/// <returns> true, if this type is a void type. </returns>
+	public virtual bool IsVoid()
 	{
 		return false;
 	}
 
-	/** Return a classification of a type for the IR. */
-	public TypeClass classify()
+	/// <summary>
+	/// Return a classification of a type for the IR. </summary>
+	public virtual TypeClass Classify()
 	{
 		return TypeClass.IS_UNKNOWN;
 	}
 
-	static final Comparator<Type> getComparator()
+	internal static IComparer<Type> Comparator
 	{
+		get
+		{
 		return COMPARATOR;
-	}
-
-	@Override
-	public int compareTo(Identifiable id)
-	{
-		if(id instanceof Type) {
-			return COMPARATOR.compare(this, (Type)id);
 		}
-
-		assert false;
-		return super.compareTo(id);
 	}
 
-	public boolean isOrderableType()
+	public override int CompareTo(Identifiable id)
 	{
-		if(classify() == TypeClass.IS_BYTE)
+		if(id is Type)
+			return COMPARATOR.Compare(this, (Type)id);
+
+		Debug.Assert(false);
+		return base.CompareTo(id);
+	}
+
+	public virtual bool IsOrderableType()
+	{
+		if(Classify() == TypeClass.IS_BYTE)
 			return true;
-		if(classify() == TypeClass.IS_SHORT)
+		if(Classify() == TypeClass.IS_SHORT)
 			return true;
-		if(classify() == TypeClass.IS_INTEGER) // includes ENUM
+		if(Classify() == TypeClass.IS_INTEGER) // includes ENUM
 			return true;
-		if(classify() == TypeClass.IS_LONG)
+		if(Classify() == TypeClass.IS_LONG)
 			return true;
-		if(classify() == TypeClass.IS_FLOAT)
+		if(Classify() == TypeClass.IS_FLOAT)
 			return true;
-		if(classify() == TypeClass.IS_DOUBLE)
+		if(Classify() == TypeClass.IS_DOUBLE)
 			return true;
-		if(classify() == TypeClass.IS_STRING)
+		if(Classify() == TypeClass.IS_STRING)
 			return true;
-		if(classify() == TypeClass.IS_BOOLEAN)
+		if(Classify() == TypeClass.IS_BOOLEAN)
 			return true;
 		return false;
 	}
 
-	public boolean isFilterableType()
+	public virtual bool IsFilterableType()
 	{
-		if(isOrderableType())
+		if(IsOrderableType())
 			return true;
-		if(classify() == TypeClass.IS_NODE)
+		if(Classify() == TypeClass.IS_NODE)
 			return true;
-		if(classify() == TypeClass.IS_EDGE)
+		if(Classify() == TypeClass.IS_EDGE)
 			return true;
-		if(classify() == TypeClass.IS_INTERNAL_CLASS_OBJECT)
+		if(Classify() == TypeClass.IS_INTERNAL_CLASS_OBJECT)
 			return true;
 		return false;
 	}
-	
-	public boolean isArrayOfMatchType()
+
+	public virtual bool IsArrayOfMatchType()
 	{
-		if(classify() != TypeClass.IS_ARRAY)
+		if(Classify() != TypeClass.IS_ARRAY)
 			return false;
-		if(((ArrayType)this).valueType.classify() != TypeClass.IS_MATCH)
+		if(((ArrayType)this).valueType.Classify() != TypeClass.IS_MATCH)
 			return false;
 		return true;
 	}
-	
-	public boolean isArrayOfMatchClassType()
+
+	public virtual bool IsArrayOfMatchClassType()
 	{
-		if(classify() != TypeClass.IS_ARRAY)
+		if(Classify() != TypeClass.IS_ARRAY)
 			return false;
-		if(((ArrayType)this).valueType.classify() != TypeClass.IS_DEFINED_MATCH)
+		if(((ArrayType)this).valueType.Classify() != TypeClass.IS_DEFINED_MATCH)
 			return false;
 		return true;
 	}
-	
-	/** Add this type to the digest. */
-	public void addToDigest(StringBuffer sb)
+
+	/// <summary>
+	/// Add this type to the digest. </summary>
+	public virtual void AddToDigest(StringBuilder sb)
 	{
 		// sensible base implementation, to be overwritten selectively
 	}
+}
+
 }

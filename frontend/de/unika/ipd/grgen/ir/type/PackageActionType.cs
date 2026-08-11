@@ -1,151 +1,177 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.type;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
-import de.unika.ipd.grgen.ir.ActionsBearer;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.executable.FilterFunction;
-import de.unika.ipd.grgen.ir.executable.Function;
-import de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
-import de.unika.ipd.grgen.ir.executable.Procedure;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.executable.Sequence;
-import de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
-
-/**
- * A package type, for packages from the actions (in contrast to the models).
- */
-public class PackageActionType extends PrimitiveType implements ActionsBearer
+namespace de.unika.ipd.grgen.ir.type
 {
-	private final ArrayList<Rule> subpatternRules = new ArrayList<Rule>();
 
-	private final ArrayList<Rule> actionRules = new ArrayList<Rule>();
+using System.Collections.Generic;
 
-	private final ArrayList<FilterFunction> filterFunctions = new ArrayList<FilterFunction>();
+using ActionsBearer = de.unika.ipd.grgen.ir.ActionsBearer;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using FilterFunction = de.unika.ipd.grgen.ir.executable.FilterFunction;
+using Function = de.unika.ipd.grgen.ir.executable.Function;
+using MatchClassFilterFunction = de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
+using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Sequence = de.unika.ipd.grgen.ir.executable.Sequence;
+using PrimitiveType = de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
 
-	private final ArrayList<DefinedMatchType> matchClasses = new ArrayList<DefinedMatchType>();
+/// <summary>
+/// A package type, for packages from the actions (in contrast to the models).
+/// </summary>
+public class PackageActionType : PrimitiveType, ActionsBearer
+{
+	private readonly List<Rule> subpatternRules = new List<Rule>();
 
-	private final ArrayList<MatchClassFilterFunction> matchClassFilterFunctions = new ArrayList<MatchClassFilterFunction>();
+	private readonly List<Rule> actionRules = new List<Rule>();
 
-	private final ArrayList<Function> functions = new ArrayList<Function>();
+	private readonly List<FilterFunction> filterFunctions = new List<FilterFunction>();
 
-	private final ArrayList<Procedure> procedures = new ArrayList<Procedure>();
+	private readonly List<DefinedMatchType> matchClasses = new List<DefinedMatchType>();
 
-	private final ArrayList<Sequence> sequences = new ArrayList<Sequence>();
+	private readonly List<MatchClassFilterFunction> matchClassFilterFunctions = new List<MatchClassFilterFunction>();
 
-	/** Make a new package action type.
-	 *  @param ident The identifier of this package. */
+	private readonly List<Function> functions = new List<Function>();
+
+	private readonly List<Procedure> procedures = new List<Procedure>();
+
+	private readonly List<Sequence> sequences = new List<Sequence>();
+
+	/// <summary>
+	/// Make a new package action type. </summary>
+	///  <param name="ident"> The identifier of this package.  </param>
 	public PackageActionType(Ident ident)
+		: base("package action type", ident)
 	{
-		super("package action type", ident);
 	}
 
-	/** Add a subpattern-rule to the unit. */
-	public void addSubpatternRule(Rule subpatternRule)
+	/// <summary>
+	/// Add a subpattern-rule to the unit. </summary>
+	public virtual void AddSubpatternRule(Rule subpatternRule)
 	{
-		subpatternRules.add(subpatternRule);
+		subpatternRules.Add(subpatternRule);
 	}
 
-	@Override
-	public Collection<Rule> getSubpatternRules()
+	public virtual ICollection<Rule> SubpatternRules
 	{
-		return Collections.unmodifiableList(subpatternRules);
+		get
+		{
+		return subpatternRules.AsReadOnly();
+		}
 	}
 
-	/** Add an action-rule to the unit. */
-	public void addActionRule(Rule actionRule)
+	/// <summary>
+	/// Add an action-rule to the unit. </summary>
+	public virtual void AddActionRule(Rule actionRule)
 	{
-		actionRules.add(actionRule);
+		actionRules.Add(actionRule);
 	}
 
-	@Override
-	public Collection<Rule> getActionRules()
+	public virtual ICollection<Rule> ActionRules
 	{
-		return Collections.unmodifiableList(actionRules);
+		get
+		{
+		return actionRules.AsReadOnly();
+		}
 	}
 
-	/** Add a filter function to the unit. */
-	public void addFilterFunction(FilterFunction filterFunction)
+	/// <summary>
+	/// Add a filter function to the unit. </summary>
+	public virtual void AddFilterFunction(FilterFunction filterFunction)
 	{
-		filterFunctions.add(filterFunction);
+		filterFunctions.Add(filterFunction);
 	}
 
-	@Override
-	public Collection<FilterFunction> getFilterFunctions()
+	public virtual ICollection<FilterFunction> FilterFunctions
 	{
-		return Collections.unmodifiableList(filterFunctions);
+		get
+		{
+		return filterFunctions.AsReadOnly();
+		}
 	}
 
-	/** Add a match class to the unit. */
-	public void addMatchClass(DefinedMatchType matchClass)
+	/// <summary>
+	/// Add a match class to the unit. </summary>
+	public virtual void AddMatchClass(DefinedMatchType matchClass)
 	{
-		matchClasses.add(matchClass);
+		matchClasses.Add(matchClass);
 	}
 
-	@Override
-	public Collection<DefinedMatchType> getMatchClasses()
+	public virtual ICollection<DefinedMatchType> MatchClasses
 	{
-		return Collections.unmodifiableList(matchClasses);
+		get
+		{
+		return matchClasses.AsReadOnly();
+		}
 	}
 
-	/** Add a match filter function to the unit. */
-	public void addMatchClassFilterFunction(MatchClassFilterFunction matchClassFilterFunction)
+	/// <summary>
+	/// Add a match filter function to the unit. </summary>
+	public virtual void AddMatchClassFilterFunction(MatchClassFilterFunction matchClassFilterFunction)
 	{
-		matchClassFilterFunctions.add(matchClassFilterFunction);
+		matchClassFilterFunctions.Add(matchClassFilterFunction);
 	}
 
-	@Override
-	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions()
+	public virtual ICollection<MatchClassFilterFunction> MatchClassFilterFunctions
 	{
-		return Collections.unmodifiableList(matchClassFilterFunctions);
+		get
+		{
+		return matchClassFilterFunctions.AsReadOnly();
+		}
 	}
 
-	/** Add a function to the unit. */
-	public void addFunction(Function function)
+	/// <summary>
+	/// Add a function to the unit. </summary>
+	public virtual void AddFunction(Function function)
 	{
-		functions.add(function);
+		functions.Add(function);
 	}
 
-	@Override
-	public Collection<Function> getFunctions()
+	public virtual ICollection<Function> Functions
 	{
-		return Collections.unmodifiableList(functions);
+		get
+		{
+		return functions.AsReadOnly();
+		}
 	}
 
-	/** Add a procedure to the unit. */
-	public void addProcedure(Procedure procedure)
+	/// <summary>
+	/// Add a procedure to the unit. </summary>
+	public virtual void AddProcedure(Procedure procedure)
 	{
-		procedures.add(procedure);
+		procedures.Add(procedure);
 	}
 
-	@Override
-	public Collection<Procedure> getProcedures()
+	public virtual ICollection<Procedure> Procedures
 	{
-		return Collections.unmodifiableList(procedures);
+		get
+		{
+		return procedures.AsReadOnly();
+		}
 	}
 
-	/** Add a sequence to the unit. */
-	public void addSequence(Sequence sequence)
+	/// <summary>
+	/// Add a sequence to the unit. </summary>
+	public virtual void AddSequence(Sequence sequence)
 	{
-		sequences.add(sequence);
+		sequences.Add(sequence);
 	}
 
-	@Override
-	public Collection<Sequence> getSequences()
+	public virtual ICollection<Sequence> Sequences
 	{
-		return Collections.unmodifiableList(sequences);
+		get
+		{
+		return sequences.AsReadOnly();
+		}
 	}
+}
+
 }

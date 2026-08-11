@@ -1,60 +1,57 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.pattern;
-
-import java.util.Set;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * Something that looks like a connection.
- * @see de.unika.ipd.grgen.ast.pattern.ConnectionNode
- */
-public abstract class ConnectionCharacter extends BaseNode
+namespace de.unika.ipd.grgen.ast.pattern
 {
-	protected ConnectionCharacter(Coords coords)
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// Something that looks like a connection. </summary>
+/// <seealso cref="de.unika.ipd.grgen.ast.pattern.ConnectionNode"/>
+public abstract class ConnectionCharacter : BaseNode
+{
+	protected internal ConnectionCharacter(Coords coords)
+		: base(coords)
 	{
-		super(coords);
 	}
 
-	/**
-	 * Add all nodes of this connection to a set.
-	 * @param set The set.
-	 */
-	public abstract void addNodes(Set<NodeDeclNode> set);
+	/// <summary>
+	/// Add all nodes of this connection to a set. </summary>
+	/// <param name="set"> The set. </param>
+	public abstract void AddNodes(ISet<NodeDeclNode> set);
 
-	/**
-	 * Add all edges of this connection to a set.
-	 * @param set The set.
-	 */
-	public abstract void addEdge(Set<EdgeDeclNode> set);
+	/// <summary>
+	/// Add all edges of this connection to a set. </summary>
+	/// <param name="set"> The set. </param>
+	public abstract void AddEdge(ISet<EdgeDeclNode> set);
 
-	public abstract EdgeDeclNode getEdge();
+	public abstract EdgeDeclNode Edge {get;}
 
-	public abstract NodeDeclNode getSrc();
+	public abstract NodeDeclNode Src {get;set;}
 
-	public abstract void setSrc(NodeDeclNode src);
 
-	public abstract NodeDeclNode getTgt();
+	public abstract NodeDeclNode Tgt {get;set;}
 
-	public abstract void setTgt(NodeDeclNode tgt);
 
-	/**
-	 * Add this connection character to an IR pattern graph.
-	 * @param patternGraph The IR pattern graph.
-	 */
-	public abstract void addToGraph(PatternGraphBase patternGraph);
+	/// <summary>
+	/// Add this connection character to an IR pattern graph. </summary>
+	/// <param name="patternGraph"> The IR pattern graph. </param>
+	public abstract void AddToGraph(PatternGraphBase patternGraph);
+}
+
 }

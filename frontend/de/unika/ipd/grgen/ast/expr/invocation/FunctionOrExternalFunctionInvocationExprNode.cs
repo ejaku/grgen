@@ -1,44 +1,44 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.invocation;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionOrOperatorDeclBaseNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.ExternalFunction;
-import de.unika.ipd.grgen.ir.executable.Function;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.invocation.ExternalFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.expr.invocation.FunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * Invocation of a function or an external function
- */
-public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.invocation
 {
-	static {
-		setClassName(FunctionOrExternalFunctionInvocationExprNode.class,
-				"function or external function invocation expression");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using ExternalFunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
+using FunctionOrOperatorDeclBaseNode = de.unika.ipd.grgen.ast.decl.executable.FunctionOrOperatorDeclBaseNode;
+using FunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;
+using Function = de.unika.ipd.grgen.ir.executable.Function;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ExternalFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.ExternalFunctionInvocationExpr;
+using FunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.FunctionInvocationExpr;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+/// <summary>
+/// Invocation of a function or an external function
+/// </summary>
+public class FunctionOrExternalFunctionInvocationExprNode : FunctionInvocationBaseNode
+{
+	static FunctionOrExternalFunctionInvocationExprNode()
+	{
+		SetClassName(typeof(FunctionOrExternalFunctionInvocationExprNode), "function or external function invocation expression");
 	}
 
 	private IdentNode functionOrExternalFunctionUnresolved;
@@ -47,43 +47,48 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 
 	public FunctionOrExternalFunctionInvocationExprNode(IdentNode functionOrExternalFunctionUnresolved,
 			CollectNode<ExprNode> arguments)
+		: base(functionOrExternalFunctionUnresolved.Coords, arguments)
 	{
-		super(functionOrExternalFunctionUnresolved.getCoords(), arguments);
-		this.functionOrExternalFunctionUnresolved = becomeParent(functionOrExternalFunctionUnresolved);
+		this.functionOrExternalFunctionUnresolved = BecomeParent(functionOrExternalFunctionUnresolved);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(functionOrExternalFunctionUnresolved, functionDecl, externalFunctionDecl));
-		children.add(arguments);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(functionOrExternalFunctionUnresolved, functionDecl, externalFunctionDecl));
+		children.Add(arguments);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("function or external function");
-		childrenNames.add("arguments");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("function or external function");
+		childrenNames.Add("arguments");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode> resolver =
-			new DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode>(FunctionDeclNode.class, ExternalFunctionDeclNode.class);
+	private static readonly DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode> resolver =
+			new DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode>(typeof(FunctionDeclNode), typeof(ExternalFunctionDeclNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		if(!(functionOrExternalFunctionUnresolved instanceof PackageIdentNode)) {
-			fixupDefinition(functionOrExternalFunctionUnresolved,
-					functionOrExternalFunctionUnresolved.getScope());
+		if(!(functionOrExternalFunctionUnresolved is PackageIdentNode))
+		{
+			FixupDefinition(functionOrExternalFunctionUnresolved,
+					functionOrExternalFunctionUnresolved.Scope);
 		}
 		Pair<FunctionDeclNode, ExternalFunctionDeclNode> resolved =
-				resolver.resolve(functionOrExternalFunctionUnresolved, this);
-		if(resolved == null) {
-			functionOrExternalFunctionUnresolved.reportError("A function/external function of name " + functionOrExternalFunctionUnresolved + " is not known."
+				resolver.Resolve(functionOrExternalFunctionUnresolved, this);
+		if(resolved == null)
+		{
+			functionOrExternalFunctionUnresolved.ReportError("A function/external function of name " + functionOrExternalFunctionUnresolved + " is not known."
 					+ " Is it a misspelled (external) function name? Or is a procedure call intended (this is not possible in an expression, an assignment target must be given as (param,...)=call in that case)?");
 			return false;
 		}
@@ -92,41 +97,48 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		FunctionOrOperatorDeclBaseNode fb = functionDecl != null ? functionDecl : externalFunctionDecl;
-		return checkSignatureAdhered(fb, functionOrExternalFunctionUnresolved, false);
+		FunctionOrOperatorDeclBaseNode fb = functionDecl != null ? (de.unika.ipd.grgen.ast.decl.executable.FunctionDeclBaseNode)functionDecl : externalFunctionDecl;
+		return CheckSignatureAdhered(fb, functionOrExternalFunctionUnresolved, false);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		assert isResolved();
-		return functionDecl != null ? functionDecl.getResultType() : externalFunctionDecl.getResultType();
+		get
+		{
+		Debug.Assert(IsResolved());
+		return functionDecl != null ? functionDecl.ResultType : externalFunctionDecl.ResultType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		if(functionDecl != null) {
+		if(functionDecl != null)
+		{
 			FunctionInvocationExpr fi = new FunctionInvocationExpr(
-					functionDecl.resultType.checkIR(Type.class),
-					functionDecl.checkIR(Function.class));
-			for(ExprNode argument : arguments.getChildrenExact()) {
-				ExprNode argumentEvaluated = argument.evaluate();
-				fi.addArgument(argumentEvaluated.checkIR(Expression.class));
+					functionDecl.resultType.CheckIR(typeof(Type)),
+					functionDecl.CheckIR(typeof(Function)));
+			foreach(ExprNode argument in arguments.ChildrenExact)
+			{
+				ExprNode argumentEvaluated = argument.Evaluate();
+				fi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
 			}
 			return fi;
-		} else {
+		}
+		else
+		{
 			ExternalFunctionInvocationExpr efi = new ExternalFunctionInvocationExpr(
-					externalFunctionDecl.resultType.checkIR(Type.class),
-					externalFunctionDecl.checkIR(ExternalFunction.class));
-			for(ExprNode argument : arguments.getChildrenExact()) {
-				ExprNode argumentEvaluated = argument.evaluate();
-				efi.addArgument(argumentEvaluated.checkIR(Expression.class));
+					externalFunctionDecl.resultType.CheckIR(typeof(Type)),
+					externalFunctionDecl.CheckIR(typeof(ExternalFunction)));
+			foreach(ExprNode argument in arguments.ChildrenExact)
+			{
+				ExprNode argumentEvaluated = argument.Evaluate();
+				efi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
 			}
 			return efi;
 		}
 	}
+}
+
 }

@@ -1,117 +1,129 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.deque;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.deque.DequeIndexOfExpr;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class DequeIndexOfNode extends DequeFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.deque
 {
-	static {
-		setClassName(DequeIndexOfNode.class, "deque index of");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using DequeTypeNode = de.unika.ipd.grgen.ast.type.container.DequeTypeNode;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using DequeIndexOfExpr = de.unika.ipd.grgen.ir.expr.deque.DequeIndexOfExpr;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class DequeIndexOfNode : DequeFunctionMethodInvocationBaseExprNode
+{
+	static DequeIndexOfNode()
+	{
+		SetClassName(typeof(DequeIndexOfNode), "deque index of");
 	}
 
 	private ExprNode valueExpr;
 	private ExprNode startIndexExpr;
 
 	public DequeIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
-		this.valueExpr = becomeParent(valueExpr);
+		this.valueExpr = BecomeParent(valueExpr);
 	}
 
 	public DequeIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr, ExprNode startIndexExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
-		this.valueExpr = becomeParent(valueExpr);
-		this.startIndexExpr = becomeParent(startIndexExpr);
+		this.valueExpr = BecomeParent(valueExpr);
+		this.startIndexExpr = BecomeParent(startIndexExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(targetExpr);
-		children.add(valueExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(targetExpr);
+		children.Add(valueExpr);
 		if(startIndexExpr != null)
-			children.add(startIndexExpr);
+			children.Add(startIndexExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("targetExpr");
-		childrenNames.add("valueExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("targetExpr");
+		childrenNames.Add("valueExpr");
 		if(startIndexExpr != null)
-			childrenNames.add("startIndex");
+			childrenNames.Add("startIndex");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		TypeNode valueType = valueExpr.getType();
-		DequeTypeNode dequeType = getTargetTypeExact();
-		if(!valueType.isEqual(dequeType.valueType)) {
+		TypeNode valueType = valueExpr.Type;
+		DequeTypeNode dequeType = TargetTypeExact;
+		if(!valueType.IsEqual(dequeType.valueType))
+		{
 			ExprNode valueExprOld = valueExpr;
-			valueExpr = becomeParent(valueExpr.adjustType(dequeType.valueType, getCoords()));
-			if(valueExpr == ConstNode.getInvalid()) {
-				valueExprOld.reportError("The deque function method indexOf expects as 1. argument (valueToSearchFor) a value of type " + dequeType.valueType.toStringWithDeclarationCoords()
-						+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
+			valueExpr = BecomeParent(valueExpr.AdjustType(dequeType.valueType, Coords));
+			if(valueExpr == ConstNode.Invalid)
+			{
+				valueExprOld.ReportError("The deque function method indexOf expects as 1. argument (valueToSearchFor) a value of type " + dequeType.valueType.ToStringWithDeclarationCoords()
+						+ " (but is given a value of type " + valueType.ToStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}
-		if(startIndexExpr != null && !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startIndexExpr.reportError("The deque function method indexOf expects as 2. argument (startIndex) a value of type int"
-					+ " (but is given a value of type " + startIndexExpr.getType().getTypeName() + ").");
+		if(startIndexExpr != null && !startIndexExpr.Type.IsEqual(BasicTypeNode.intType))
+		{
+			startIndexExpr.ReportError("The deque function method indexOf expects as 2. argument (startIndex) a value of type int"
+					+ " (but is given a value of type " + startIndexExpr.Type.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.intType;
-	}
-
-	@Override
-	protected IR constructIR()
-	{
-		targetExpr = targetExpr.evaluate();
-		valueExpr = valueExpr.evaluate();
-		if(startIndexExpr != null) {
-			startIndexExpr = startIndexExpr.evaluate();
-			return new DequeIndexOfExpr(targetExpr.checkIR(Expression.class),
-					valueExpr.checkIR(Expression.class),
-					startIndexExpr.checkIR(Expression.class));
-		} else {
-			return new DequeIndexOfExpr(targetExpr.checkIR(Expression.class),
-					valueExpr.checkIR(Expression.class));
 		}
 	}
+
+	protected internal override IR ConstructIR()
+	{
+		targetExpr = targetExpr.Evaluate();
+		valueExpr = valueExpr.Evaluate();
+		if(startIndexExpr != null)
+		{
+			startIndexExpr = startIndexExpr.Evaluate();
+			return new DequeIndexOfExpr(targetExpr.CheckIR(typeof(Expression)),
+					valueExpr.CheckIR(typeof(Expression)),
+					startIndexExpr.CheckIR(typeof(Expression)));
+		}
+		else
+		{
+			return new DequeIndexOfExpr(targetExpr.CheckIR(typeof(Expression)),
+					valueExpr.CheckIR(typeof(Expression)));
+		}
+	}
+}
+
 }

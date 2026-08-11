@@ -1,36 +1,37 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.model;
-
-/**
- * Denotes the connections assertions of nodes and edges.
- */
-import java.util.Collections;
-import java.util.Map;
-
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.model.type.NodeType;
-
-public class ConnAssert extends IR
+namespace de.unika.ipd.grgen.ir.model
 {
-	private final long srcLower;
-	private final long srcUpper;
-	private final long tgtLower;
-	private final long tgtUpper;
-	private final NodeType srcType;
-	private final NodeType tgtType;
-	private final boolean bothDirections;
+using System;
+using System.Collections.Generic;
+
+/// <summary>
+/// Denotes the connections assertions of nodes and edges.
+/// </summary>
+
+using IR = de.unika.ipd.grgen.ir.IR;
+using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+
+public class ConnAssert : IR
+{
+	private readonly long srcLower;
+	private readonly long srcUpper;
+	private readonly long tgtLower;
+	private readonly long tgtUpper;
+	private readonly NodeType srcType;
+	private readonly NodeType tgtType;
+	private readonly bool bothDirections;
 
 	public ConnAssert(NodeType srcType, long srcLower, long srcUpper,
 			NodeType tgtType, long tgtLower, long tgtUpper,
-			boolean bothDirections)
+			bool bothDirections)
+		: base("conn assert")
 	{
-		super("conn assert");
 		this.srcType = srcType;
 		this.srcLower = srcLower;
 		this.srcUpper = srcUpper;
@@ -40,73 +41,96 @@ public class ConnAssert extends IR
 		this.bothDirections = bothDirections;
 	}
 
-	public NodeType getSrcType()
+	public virtual NodeType SrcType
 	{
+		get
+		{
 		return srcType;
+		}
 	}
 
-	public NodeType getTgtType()
+	public virtual NodeType TgtType
 	{
+		get
+		{
 		return tgtType;
+		}
 	}
 
-	public long getSrcLower()
+	public virtual long SrcLower
 	{
+		get
+		{
 		return srcLower;
+		}
 	}
 
-	public long getSrcUpper()
+	public virtual long SrcUpper
 	{
+		get
+		{
 		return srcUpper;
+		}
 	}
 
-	public long getTgtLower()
+	public virtual long TgtLower
 	{
+		get
+		{
 		return tgtLower;
+		}
 	}
 
-	public long getTgtUpper()
+	public virtual long TgtUpper
 	{
+		get
+		{
 		return tgtUpper;
+		}
 	}
 
-	public boolean getBothDirections()
+	public virtual bool BothDirections
 	{
+		get
+		{
 		return bothDirections;
+		}
 	}
 
-	@Override
-	public void addFields(Map<String, Object> fields)
+	public override void AddFields(IDictionary<string, object> fields)
 	{
-		super.addFields(fields);
-		fields.put("src_lower", Long.toString(srcLower));
-		fields.put("src_upper", Long.toString(srcUpper));
-		fields.put("tgt_lower", Long.toString(tgtLower));
-		fields.put("tgt_upper", Long.toString(tgtUpper));
-		fields.put("src_type", Collections.singleton(getSrcType()));
-		fields.put("tgt_type", Collections.singleton(getTgtType()));
+		base.AddFields(fields);
+		fields["src_lower"] = Convert.ToString(srcLower);
+		fields["src_upper"] = Convert.ToString(srcUpper);
+		fields["tgt_lower"] = Convert.ToString(tgtLower);
+		fields["tgt_upper"] = Convert.ToString(tgtUpper);
+		fields["src_type"] = Collections.Singleton(SrcType);
+		fields["tgt_type"] = Collections.Singleton(TgtType);
 	}
 
-	/**
-	 * Compares a given connection assert with <code>this</code> one.
-	 * @return a negative integer, zero, or a positive integer as the
-	 * 	       argument is less than, equal to, or greater than
-	 *	       <code>this</code> connection assertion.
-	 */
-	public int compareTo(ConnAssert ca)
+	/// <summary>
+	/// Compares a given connection assert with <code>this</code> one. </summary>
+	/// <returns> a negative integer, zero, or a positive integer as the
+	/// 	       argument is less than, equal to, or greater than
+	///	       <code>this</code> connection assertion. </returns>
+	public virtual int CompareTo(ConnAssert ca)
 	{
 		if(srcLower == ca.srcLower &&
 			srcUpper == ca.srcUpper &&
 			tgtLower == ca.tgtLower &&
 			tgtUpper == ca.tgtUpper &&
-			getSrcType() == ca.getSrcType() &&
-			getTgtType() == ca.getTgtType()) {
+			SrcType == ca.SrcType &&
+			TgtType == ca.TgtType)
+		{
 			return 0;
 		}
 
-		if(this.srcLower < ca.srcLower) {
-			if(this.srcUpper < ca.srcUpper) {
-				if(this.tgtLower < ca.tgtLower) {
+		if(this.srcLower < ca.srcLower)
+		{
+			if(this.srcUpper < ca.srcUpper)
+			{
+				if(this.tgtLower < ca.tgtLower)
+				{
 					if(this.tgtUpper < ca.tgtUpper)
 						return -1;
 				}
@@ -116,13 +140,14 @@ public class ConnAssert extends IR
 		return 1;
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return getName() +
+		return Name +
 				" {" +
 				"(" + srcType + " [" + srcLower + ".." + srcUpper + "])," +
 				"(" + tgtType + " [" + tgtLower + ".." + tgtUpper + "])" +
 				"}";
 	}
+}
+
 }

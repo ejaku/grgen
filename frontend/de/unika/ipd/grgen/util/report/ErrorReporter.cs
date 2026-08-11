@@ -1,124 +1,126 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.util.report;
-
-/**
- * The error reported class.
- */
-public class ErrorReporter extends Reporter
+namespace de.unika.ipd.grgen.util.report
 {
-	public static final int ERROR = 1;
-	public static final int WARNING = 2;
-	public static final int NOTE = 4;
+/// <summary>
+/// The error reported class.
+/// </summary>
+public class ErrorReporter : Reporter
+{
+	public const int ERROR = 1;
+	public const int WARNING = 2;
+	public const int NOTE = 4;
 
-	protected static int errCount = 0;
-	protected static int warnCount = 0;
+	protected internal static int errCount = 0;
+	protected internal static int warnCount = 0;
 
-	/**
-	 * Create a new error reporter.
-	 */
+	/// <summary>
+	/// Create a new error reporter.
+	/// </summary>
 	public ErrorReporter()
 	{
-		setMask(ERROR | WARNING | NOTE);
+		Mask = ERROR | WARNING | NOTE;
 	}
 
-	/**
-	 * Report an error at a given location.
-	 *
-	 * @param loc The location.
-	 * @param msg The error message.
-	 */
-	public void error(Location loc, String msg)
+	/// <summary>
+	/// Report an error at a given location.
+	/// </summary>
+	/// <param name="loc"> The location. </param>
+	/// <param name="msg"> The error message. </param>
+	public virtual void Error(Location loc, string msg)
 	{
-		if(msg.equals("mismatched input '$' expecting RPAREN"))
-			report(ERROR, loc, msg + " -- forgot \"@\"?");
+		if(msg.Equals("mismatched input '$' expecting RPAREN"))
+			Report(ERROR, loc, msg + " -- forgot \"@\"?");
 		else
-			report(ERROR, loc, msg);
+			Report(ERROR, loc, msg);
 		++errCount;
 	}
 
-	/**
-	 * Report an error.
-	 * @param msg
-	 */
-	public void error(String msg)
+	/// <summary>
+	/// Report an error. </summary>
+	/// <param name="msg"> </param>
+	public virtual void Error(string msg)
 	{
-		report(ERROR, msg);
+		Report(ERROR, msg);
 		++errCount;
 	}
 
-	/**
-	 * Report a warning at a given location.
-	 *
-	 * @param loc The location.
-	 * @param msg The warning message.
-	 */
-	public void warning(Location loc, String msg)
+	/// <summary>
+	/// Report a warning at a given location.
+	/// </summary>
+	/// <param name="loc"> The location. </param>
+	/// <param name="msg"> The warning message. </param>
+	public virtual void Warning(Location loc, string msg)
 	{
-		report(WARNING, loc, msg);
+		Report(WARNING, loc, msg);
 		++warnCount;
 	}
 
-	/**
-	 * report a warning.
-	 * @param msg The warning message.
-	 */
-	public void warning(String msg)
+	/// <summary>
+	/// report a warning. </summary>
+	/// <param name="msg"> The warning message. </param>
+	public virtual void Warning(string msg)
 	{
-		report(WARNING, msg);
+		Report(WARNING, msg);
 		++warnCount;
 	}
 
-	/**
-	 * Report a note at a given location.
-	 *
-	 * @param loc The location.
-	 * @param msg The note message.
-	 */
-	public void note(Location loc, String msg)
+	/// <summary>
+	/// Report a note at a given location.
+	/// </summary>
+	/// <param name="loc"> The location. </param>
+	/// <param name="msg"> The note message. </param>
+	public virtual void Note(Location loc, string msg)
 	{
-		report(NOTE, loc, msg);
+		Report(NOTE, loc, msg);
 	}
 
-	/**
-	 * Report a note.
-	 * @param msg The note message.
-	 */
-	public void note(String msg)
+	/// <summary>
+	/// Report a note. </summary>
+	/// <param name="msg"> The note message. </param>
+	public virtual void Note(string msg)
 	{
-		report(NOTE, msg);
+		Report(NOTE, msg);
 	}
 
-	/**
-	 * Returns the number of occured errors.
-	 * @return
-	 */
-	public static int getErrorCount()
+	/// <summary>
+	/// Returns the number of occured errors.
+	/// @return
+	/// </summary>
+	public static int ErrorCount
 	{
+		get
+		{
 		return errCount;
+		}
 	}
 
-	/**
-	 * Returns the number of occured warnings.
-	 * @return
-	 */
-	public static int getWarnCount()
+	/// <summary>
+	/// Returns the number of occured warnings.
+	/// @return
+	/// </summary>
+	public static int WarnCount
 	{
+		get
+		{
 		return warnCount;
+		}
 	}
 
-	public static void resetCounters()
+	public static void ResetCounters()
 	{
 		errCount = 0;
 		warnCount = 0;
 	}
+}
+
 }

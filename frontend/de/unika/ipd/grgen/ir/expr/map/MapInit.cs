@@ -1,81 +1,95 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll, Edgar Jakumeit
- */
+/// <summary>
+/// @author Moritz Kroll, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr.map;
-
-import java.util.Collection;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.ExpressionPair;
-import de.unika.ipd.grgen.ir.type.container.MapType;
-
-public class MapInit extends Expression
+namespace de.unika.ipd.grgen.ir.expr.map
 {
-	private Collection<ExpressionPair> mapItems;
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ExpressionPair = de.unika.ipd.grgen.ir.expr.ExpressionPair;
+using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
+
+public class MapInit : Expression
+{
+	private ICollection<ExpressionPair> mapItems;
 	private Entity member;
 	private MapType mapType;
-	private boolean isConst;
+	private bool isConst;
 
-	public MapInit(Collection<ExpressionPair> mapItems, Entity member, MapType mapType, boolean isConst)
+	public MapInit(ICollection<ExpressionPair> mapItems, Entity member, MapType mapType, bool isConst)
+		: base("map init", member != null ? member.Type : mapType)
 	{
-		super("map init", member != null ? member.getType() : mapType);
 		this.mapItems = mapItems;
 		this.member = member;
 		this.mapType = mapType;
 		this.isConst = isConst;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.add(this);
-		for(ExpressionPair mapItem : mapItems) {
-			mapItem.collectNeededEntities(needs);
+		needs.Add(this);
+		foreach(ExpressionPair mapItem in mapItems)
+			mapItem.CollectNeededEntities(needs);
+	}
+
+	public virtual ICollection<ExpressionPair> MapItems
+	{
+		get
+		{
+		return mapItems;
 		}
 	}
 
-	public Collection<ExpressionPair> getMapItems()
+	public virtual Entity Member
 	{
-		return mapItems;
-	}
-
-	public void setMember(Entity entity)
-	{
-		assert(member == null && entity != null);
-		member = entity;
-	}
-
-	public Entity getMember()
-	{
+		set
+		{
+		Debug.Assert((member == null && value != null));
+		member = value;
+		}
+		get
+		{
 		return member;
+		}
 	}
 
-	public MapType getMapType()
+
+	public virtual MapType MapType
 	{
+		get
+		{
 		return mapType;
+		}
 	}
 
-	public void forceNotConstant()
+	public virtual void ForceNotConstant()
 	{
 		isConst = false;
 	}
 
-	public boolean isConstant()
+	public virtual bool IsConstant()
 	{
 		return isConst;
 	}
 
-	public String getAnonymousMapName()
+	public virtual string AnonymousMapName
 	{
-		return "anonymous_map_" + getId();
+		get
+		{
+		return "anonymous_map_" + Id;
+		}
 	}
+}
+
 }

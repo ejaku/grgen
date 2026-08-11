@@ -1,28 +1,29 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr.graph;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.model.Index;
-import de.unika.ipd.grgen.ir.type.Type;
-
-public abstract class NodesFromIndexAccessExpr extends BuiltinFunctionInvocationExpr
+namespace de.unika.ipd.grgen.ir.expr.graph
 {
-	public final Index index;
+using de.unika.ipd.grgen.ir;
+using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+using Index = de.unika.ipd.grgen.ir.model.Index;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-	protected NodesFromIndexAccessExpr(Index index, Type type)
+public abstract class NodesFromIndexAccessExpr : BuiltinFunctionInvocationExpr
+{
+	public readonly Index index;
+
+	protected internal NodesFromIndexAccessExpr(Index index, Type type)
+		: base("nodes from index access expression", type)
 	{
-		super("nodes from index access expression", type);
 		this.index = index;
 	}
 
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public abstract void collectNeededEntities(NeededEntities needs);
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override abstract void CollectNeededEntities(NeededEntities needs);
+}
+
 }

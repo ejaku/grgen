@@ -1,34 +1,34 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.stmt.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.graph.GraphRedirectSourceProc;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class GraphRedirectSourceProcNode extends BuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.graph
 {
-	static {
-		setClassName(GraphRedirectSourceProcNode.class, "graph redirect source procedure");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using GraphRedirectSourceProc = de.unika.ipd.grgen.ir.stmt.graph.GraphRedirectSourceProc;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class GraphRedirectSourceProcNode : BuiltinProcedureInvocationBaseNode
+{
+	static GraphRedirectSourceProcNode()
+	{
+		SetClassName(typeof(GraphRedirectSourceProcNode), "graph redirect source procedure");
 	}
 
 	private ExprNode edgeExpr;
@@ -37,90 +37,96 @@ public class GraphRedirectSourceProcNode extends BuiltinProcedureInvocationBaseN
 
 	public GraphRedirectSourceProcNode(Coords coords, ExprNode edgeExpr, ExprNode newSourceExpr,
 			ExprNode oldSourceNameExpr)
+		: base(coords)
 	{
-		super(coords);
 
 		this.edgeExpr = edgeExpr;
-		becomeParent(edgeExpr);
+		BecomeParent(edgeExpr);
 		this.newSourceExpr = newSourceExpr;
-		becomeParent(newSourceExpr);
+		BecomeParent(newSourceExpr);
 		this.oldSourceNameExpr = oldSourceNameExpr;
 		if(oldSourceNameExpr != null)
-			becomeParent(oldSourceNameExpr);
+			BecomeParent(oldSourceNameExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(edgeExpr);
-		children.add(newSourceExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(edgeExpr);
+		children.Add(newSourceExpr);
 		if(oldSourceNameExpr != null)
-			children.add(oldSourceNameExpr);
+			children.Add(oldSourceNameExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("edge");
-		childrenNames.add("newSource");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("edge");
+		childrenNames.Add("newSource");
 		if(oldSourceNameExpr != null)
-			childrenNames.add("oldSourceName");
+			childrenNames.Add("oldSourceName");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		TypeNode edgeExprType = edgeExpr.getType();
-		if(!(edgeExprType instanceof EdgeTypeNode)) {
-			reportError("The redirectSource procedure expects as 1. argument (edgeToBeRedirected)"
+		TypeNode edgeExprType = edgeExpr.Type;
+		if(!(edgeExprType is EdgeTypeNode))
+		{
+			ReportError("The redirectSource procedure expects as 1. argument (edgeToBeRedirected)"
 					+ " a value of type Edge"
-					+ " (but is given a value of type " + edgeExprType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + edgeExprType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
-		TypeNode newSourceExprType = newSourceExpr.getType();
-		if(!(newSourceExprType instanceof NodeTypeNode)) {
-			reportError("The redirectSource procedure expects as 2. argument (newSourceNode)"
+		TypeNode newSourceExprType = newSourceExpr.Type;
+		if(!(newSourceExprType is NodeTypeNode))
+		{
+			ReportError("The redirectSource procedure expects as 2. argument (newSourceNode)"
 					+ " a value of type Node"
-					+ " (but is given a value of type " + newSourceExprType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + newSourceExprType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
-		if(oldSourceNameExpr != null) {
-			TypeNode oldSourceNameExprType = oldSourceNameExpr.getType();
-			if(!(oldSourceNameExprType.equals(BasicTypeNode.stringType))) {
-				reportError("The redirectSource procedure expects as 3. argument (oldSourceName)"
+		if(oldSourceNameExpr != null)
+		{
+			TypeNode oldSourceNameExprType = oldSourceNameExpr.Type;
+			if(!(oldSourceNameExprType.Equals(BasicTypeNode.stringType)))
+			{
+				ReportError("The redirectSource procedure expects as 3. argument (oldSourceName)"
 						+ " a value of type string"
-						+ " (but is given a value of type " + oldSourceNameExprType.toStringWithDeclarationCoords() + ").");
+						+ " (but is given a value of type " + oldSourceNameExprType.ToStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		edgeExpr = edgeExpr.evaluate();
-		newSourceExpr = newSourceExpr.evaluate();
+		edgeExpr = edgeExpr.Evaluate();
+		newSourceExpr = newSourceExpr.Evaluate();
 		if(oldSourceNameExpr != null)
-			oldSourceNameExpr = oldSourceNameExpr.evaluate();
-		return new GraphRedirectSourceProc(edgeExpr.checkIR(Expression.class),
-				newSourceExpr.checkIR(Expression.class),
-				oldSourceNameExpr != null ? oldSourceNameExpr.checkIR(Expression.class) : null);
+			oldSourceNameExpr = oldSourceNameExpr.Evaluate();
+		return new GraphRedirectSourceProc(edgeExpr.CheckIR(typeof(Expression)),
+				newSourceExpr.CheckIR(typeof(Expression)),
+				oldSourceNameExpr != null ? oldSourceNameExpr.CheckIR(typeof(Expression)) : null);
 	}
+}
+
 }

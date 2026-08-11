@@ -1,46 +1,50 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.stmt.procenv;
-
-import java.util.Collection;
-
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-
-public class EmitProc extends BuiltinProcedureInvocationBase
+namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-	private Collection<Expression> exprs;
-	private boolean isDebug;
 
-	public EmitProc(Collection<Expression> expressions, boolean isDebug)
+using System.Collections.Generic;
+
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+
+public class EmitProc : BuiltinProcedureInvocationBase
+{
+	private ICollection<Expression> exprs;
+	private bool isDebug;
+
+	public EmitProc(ICollection<Expression> expressions, bool isDebug)
+		: base("emit procedure")
 	{
-		super("emit procedure");
 		this.exprs = expressions;
 		this.isDebug = isDebug;
 	}
 
-	public Collection<Expression> getExpressions()
+	public virtual ICollection<Expression> Expressions
 	{
+		get
+		{
 		return exprs;
+		}
 	}
 
-	public boolean isDebug()
+	public virtual bool IsDebug()
 	{
 		return isDebug;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.needsGraph();
-		for(Expression expr : exprs) {
-			expr.collectNeededEntities(needs);
-		}
+		needs.NeedsGraph();
+		foreach(Expression expr in exprs)
+			expr.CollectNeededEntities(needs);
 	}
+}
+
 }

@@ -1,42 +1,50 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt.invocation;
-
-import de.unika.ipd.grgen.ir.executable.Procedure;
-import de.unika.ipd.grgen.ir.executable.ProcedureBase;
-
-/**
- * A procedure invocation.
- */
-public class ProcedureInvocation extends ProcedureInvocationBase
+namespace de.unika.ipd.grgen.ir.stmt.invocation
 {
-	/** The procedure of the procedure invocation. */
-	protected Procedure procedure;
+using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
+using ProcedureBase = de.unika.ipd.grgen.ir.executable.ProcedureBase;
+
+/// <summary>
+/// A procedure invocation.
+/// </summary>
+public class ProcedureInvocation : ProcedureInvocationBase
+{
+	/// <summary>
+	/// The procedure of the procedure invocation. </summary>
+	protected internal Procedure procedure;
 
 	public ProcedureInvocation(Procedure procedure)
+		: base("procedure invocation")
 	{
-		super("procedure invocation");
 
 		this.procedure = procedure;
 	}
 
-	@Override
-	public ProcedureBase getProcedureBase()
+	public override ProcedureBase ProcedureBase
 	{
+		get
+		{
 		return procedure;
+		}
 	}
 
-	public Procedure getProcedure()
+	public virtual Procedure Procedure
 	{
+		get
+		{
 		return procedure;
+		}
 	}
+}
+
 }

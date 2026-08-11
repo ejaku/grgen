@@ -1,72 +1,74 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr.graph;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessFromToExpr;
-import de.unika.ipd.grgen.ir.model.Index;
-import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node yielding the edges from an index as array by accessing a range from a certain value to a certain value (one or both may be optional).
- */
-public class EdgesFromIndexAccessFromToAsArrayExprNode extends FromIndexAccessFromToExprNode
+namespace de.unika.ipd.grgen.ast.expr.graph
 {
-	static {
-		setClassName(EdgesFromIndexAccessFromToAsArrayExprNode.class, "edges from index access from to as array expr");
+using de.unika.ipd.grgen.ast;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using EdgesFromIndexAccessFromToExpr = de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessFromToExpr;
+using Index = de.unika.ipd.grgen.ir.model.Index;
+using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node yielding the edges from an index as array by accessing a range from a certain value to a certain value (one or both may be optional).
+/// </summary>
+public class EdgesFromIndexAccessFromToAsArrayExprNode : FromIndexAccessFromToExprNode
+{
+	static EdgesFromIndexAccessFromToAsArrayExprNode()
+	{
+		SetClassName(typeof(EdgesFromIndexAccessFromToAsArrayExprNode), "edges from index access from to as array expr");
 	}
 
 	private ArrayTypeNode arrayTypeNode;
-	private boolean ascending;
+	private bool ascending;
 
-	public EdgesFromIndexAccessFromToAsArrayExprNode(Coords coords, BaseNode index, boolean ascending, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
+	public EdgesFromIndexAccessFromToAsArrayExprNode(Coords coords, BaseNode index, bool ascending, ExprNode fromExpr, bool fromExclusive, ExprNode toExpr, bool toExclusive)
+		: base(coords, index, fromExpr, fromExclusive, toExpr, toExclusive)
 	{
-		super(coords, index, fromExpr, fromExclusive, toExpr, toExclusive);
 		this.ascending = ascending;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = super.resolveLocal();
-		arrayTypeNode = new ArrayTypeNode(getRoot());
-		successfullyResolved &= arrayTypeNode.resolve();
+		bool successfullyResolved = base.ResolveLocal();
+		arrayTypeNode = new ArrayTypeNode(Root);
+		successfullyResolved &= arrayTypeNode.Resolve();
 		return successfullyResolved;
 	}
 
-	@Override
-	protected IdentNode getRoot()
+	protected internal override IdentNode Root
 	{
-		return getEdgeRoot();
+		get
+		{
+		return EdgeRoot;
+		}
 	}
 
-	@Override
-	protected String shortSignature()
+	protected internal override string ShortSignature()
 	{
-		return "edgesFromIndex" + fromPart() + toPart() + "AsArray" + (ascending ? "Ascending" : "Descending") + "(" + argumentsPart() + ")";
+		return "edgesFromIndex" + FromPart() + ToPart() + "AsArray" + (ascending ? "Ascending" : "Descending") + "(" + ArgumentsPart() + ")";
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return arrayTypeNode;
+		}
 	}
 
-	@Override
-	protected Operator fromOperator()
+	protected internal override Operator FromOperator()
 	{
 		if(ascending)
 			return fromExclusive ? Operator.GT : Operator.GE;
@@ -74,8 +76,7 @@ public class EdgesFromIndexAccessFromToAsArrayExprNode extends FromIndexAccessFr
 			return fromExclusive ? Operator.LT : Operator.LE;
 	}
 
-	@Override
-	protected Operator toOperator()
+	protected internal override Operator ToOperator()
 	{
 		if(ascending)
 			return toExclusive ? Operator.LT : Operator.LE;
@@ -83,17 +84,18 @@ public class EdgesFromIndexAccessFromToAsArrayExprNode extends FromIndexAccessFr
 			return toExclusive ? Operator.GT : Operator.GE;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		if(fromExpr != null)
-			fromExpr = fromExpr.evaluate();
+			fromExpr = fromExpr.Evaluate();
 		if(toExpr != null)
-			toExpr = toExpr.evaluate();
+			toExpr = toExpr.Evaluate();
 		return new EdgesFromIndexAccessFromToExpr(
-				new IndexAccessOrdering(index.checkIR(Index.class), ascending,
-						fromOperator(), fromExpr != null ? fromExpr.checkIR(Expression.class) : null, 
-						toOperator(), toExpr != null ? toExpr.checkIR(Expression.class) : null),
-				getType().getIRType());
+				new IndexAccessOrdering(index.CheckIR(typeof(Index)), ascending,
+						FromOperator(), fromExpr != null ? fromExpr.CheckIR(typeof(Expression)) : null,
+						ToOperator(), toExpr != null ? toExpr.CheckIR(typeof(Expression)) : null),
+				Type.IRType);
 	}
+}
+
 }

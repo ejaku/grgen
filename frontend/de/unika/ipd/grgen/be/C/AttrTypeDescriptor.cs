@@ -1,39 +1,38 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Veit Batz
- */
+/// <summary>
+/// @author Veit Batz
+/// </summary>
 
-package de.unika.ipd.grgen.be.C;
-
+namespace de.unika.ipd.grgen.be.C
+{
 public class AttrTypeDescriptor
 {
 	public int kind; //0: integer, 1: boolean, 2: string, 3: enum
 	public int attr_id; //this attributes id
-	public String name; //the attr identifier used in the '.grg' file
+	public string name; //the attr identifier used in the '.grg' file
 	public int decl_owner_type_id; //the id of the type owning this attr
 	public int enum_id = -1; //the id of the enum type (if the attr IS of an enum type)
 
-	public static final int INTEGER = 0;
-	public static final int BOOLEAN = 1;
-	public static final int STRING = 2;
-	public static final int ENUM = 3;
+	public const int INTEGER = 0;
+	public const int BOOLEAN = 1;
+	public const int STRING = 2;
+	public const int ENUM = 3;
 
-	/**
-	 * Method kindToStr
-	 *
-	 * @param    attr_desc      a  FrameBasedBackend.AttrTypeDescriptor
-	 *
-	 * @return   a  String
-	 */
-	public static String kindToStr(AttrTypeDescriptor attr_desc)
+	/// <summary>
+	/// Method kindToStr
+	/// </summary>
+	/// <param name="attr_desc">      a  FrameBasedBackend.AttrTypeDescriptor
+	/// </param>
+	/// <returns>   a  String </returns>
+	public static string KindToStr(AttrTypeDescriptor attr_desc)
 	{
-		String ret = null;
+		string ret = null;
 
 		if(attr_desc.kind == INTEGER)
 			ret = "fb_kind_prim_int";
@@ -46,4 +45,6 @@ public class AttrTypeDescriptor
 
 		return ret;
 	}
+}
+
 }

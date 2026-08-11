@@ -1,93 +1,101 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.array;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedExpr;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ArrayIndexOfOrderedNode extends ArrayFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.array
 {
-	static {
-		setClassName(ArrayIndexOfOrderedNode.class, "array index of ordered");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayIndexOfOrderedExpr = de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedExpr;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ArrayIndexOfOrderedNode : ArrayFunctionMethodInvocationBaseExprNode
+{
+	static ArrayIndexOfOrderedNode()
+	{
+		SetClassName(typeof(ArrayIndexOfOrderedNode), "array index of ordered");
 	}
 
 	private ExprNode valueExpr;
 
 	public ArrayIndexOfOrderedNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
-		this.valueExpr = becomeParent(valueExpr);
+		this.valueExpr = BecomeParent(valueExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(targetExpr);
-		children.add(valueExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(targetExpr);
+		children.Add(valueExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("targetExpr");
-		childrenNames.add("valueExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("targetExpr");
+		childrenNames.Add("valueExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		TypeNode valueType = valueExpr.getType();
-		ArrayTypeNode arrayType = getTargetTypeExact();
-		if(!valueType.isEqual(arrayType.valueType)) {
+		TypeNode valueType = valueExpr.Type;
+		ArrayTypeNode arrayType = TargetTypeExact;
+		if(!valueType.IsEqual(arrayType.valueType))
+		{
 			ExprNode valueExprOld = valueExpr;
-			valueExpr = becomeParent(valueExpr.adjustType(arrayType.valueType, getCoords()));
-			if(valueExpr == ConstNode.getInvalid()) {
-				valueExprOld.reportError("The array function method indexOfOrdered expects as 1. argument (valueToSearchFor) a value of type " + arrayType.valueType.toStringWithDeclarationCoords()
-						+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
+			valueExpr = BecomeParent(valueExpr.AdjustType(arrayType.valueType, Coords));
+			if(valueExpr == ConstNode.Invalid)
+			{
+				valueExprOld.ReportError("The array function method indexOfOrdered expects as 1. argument (valueToSearchFor) a value of type " + arrayType.valueType.ToStringWithDeclarationCoords()
+						+ " (but is given a value of type " + valueType.ToStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.intType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		targetExpr = targetExpr.evaluate();
-		valueExpr = valueExpr.evaluate();
-		return new ArrayIndexOfOrderedExpr(targetExpr.checkIR(Expression.class),
-				valueExpr.checkIR(Expression.class));
+		targetExpr = targetExpr.Evaluate();
+		valueExpr = valueExpr.Evaluate();
+		return new ArrayIndexOfOrderedExpr(targetExpr.CheckIR(typeof(Expression)),
+				valueExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

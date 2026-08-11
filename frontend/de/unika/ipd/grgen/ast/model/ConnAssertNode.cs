@@ -1,38 +1,39 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.model;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.RangeSpecNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.model.ConnAssert;
-import de.unika.ipd.grgen.ir.model.type.NodeType;
-
-/**
- * AST node that represents a Connection Assertion
- * children: SRC:IdentNode, SRCRANGE:RangeSpecNode, TGT:IdentNode, TGTRANGE:RangeSpecNode
- * or
- * AST node that represents a "meta" Connection Assertion which tells to
- * inherit the connection assertions from the parent edges;
- * after resolving it gets replaced by the connection assertions of the parent nodes.
- */
-public class ConnAssertNode extends BaseNode
+namespace de.unika.ipd.grgen.ast.model
 {
-	static {
-		setClassName(ConnAssertNode.class, "conn assert");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using RangeSpecNode = de.unika.ipd.grgen.ast.RangeSpecNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ConnAssert = de.unika.ipd.grgen.ir.model.ConnAssert;
+using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+
+/// <summary>
+/// AST node that represents a Connection Assertion
+/// children: SRC:IdentNode, SRCRANGE:RangeSpecNode, TGT:IdentNode, TGTRANGE:RangeSpecNode
+/// or
+/// AST node that represents a "meta" Connection Assertion which tells to
+/// inherit the connection assertions from the parent edges;
+/// after resolving it gets replaced by the connection assertions of the parent nodes.
+/// </summary>
+public class ConnAssertNode : BaseNode
+{
+	static ConnAssertNode()
+	{
+		SetClassName(typeof(ConnAssertNode), "conn assert");
 	}
 
 	private NodeTypeNode src;
@@ -41,106 +42,112 @@ public class ConnAssertNode extends BaseNode
 	private NodeTypeNode tgt;
 	private BaseNode tgtUnresolved;
 	private RangeSpecNode tgtRange;
-	private boolean bothDirections;
+	private bool bothDirections;
 
-	public boolean copyExtends;
+	public bool copyExtends;
 
-	/**
-	 * Construct a new connection assertion node.
-	 */
+	/// <summary>
+	/// Construct a new connection assertion node.
+	/// </summary>
 	public ConnAssertNode(IdentNode src, RangeSpecNode srcRange,
 			IdentNode tgt, RangeSpecNode tgtRange,
-			boolean bothDirections)
+			bool bothDirections)
+		: base(src.Coords)
 	{
-		super(src.getCoords());
 		this.srcUnresolved = src;
-		becomeParent(this.srcUnresolved);
+		BecomeParent(this.srcUnresolved);
 		this.srcRange = srcRange;
-		becomeParent(this.srcRange);
+		BecomeParent(this.srcRange);
 		this.tgtUnresolved = tgt;
-		becomeParent(this.tgtUnresolved);
+		BecomeParent(this.tgtUnresolved);
 		this.tgtRange = tgtRange;
-		becomeParent(this.tgtRange);
+		BecomeParent(this.tgtRange);
 		this.bothDirections = bothDirections;
 		this.copyExtends = false;
 	}
 
-	/**
-	 * Construct a new copy extends = inherit connection assertions from the parent connection assertion node.
-	 */
+	/// <summary>
+	/// Construct a new copy extends = inherit connection assertions from the parent connection assertion node.
+	/// </summary>
 	public ConnAssertNode(Coords coords)
+		: base(coords)
 	{
-		super(coords);
 		this.copyExtends = true;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		if(!copyExtends) {
-			children.add(getValidVersion(srcUnresolved, src));
-			children.add(srcRange);
-			children.add(getValidVersion(tgtUnresolved, tgt));
-			children.add(tgtRange);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		if(!copyExtends)
+		{
+			children.Add(GetValidVersion(srcUnresolved, src));
+			children.Add(srcRange);
+			children.Add(GetValidVersion(tgtUnresolved, tgt));
+			children.Add(tgtRange);
 		}
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		if(!copyExtends) {
-			childrenNames.add("src");
-			childrenNames.add("src range");
-			childrenNames.add("tgt");
-			childrenNames.add("tgt range");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		if(!copyExtends)
+		{
+			childrenNames.Add("src");
+			childrenNames.Add("src range");
+			childrenNames.Add("tgt");
+			childrenNames.Add("tgt range");
 		}
 		return childrenNames;
+		}
 	}
 
 	private static DeclarationTypeResolver<NodeTypeNode> nodeResolver =
-			new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
+			new DeclarationTypeResolver<NodeTypeNode>(typeof(NodeTypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		if(copyExtends)
 			return true;
 
-		src = nodeResolver.resolve(srcUnresolved, this);
-		tgt = nodeResolver.resolve(tgtUnresolved, this);
+		src = nodeResolver.Resolve(srcUnresolved, this);
+		tgt = nodeResolver.Resolve(tgtUnresolved, this);
 
 		return src != null && tgt != null;
 	}
 
-	/**
-	 * Check, if the AST node is correctly built.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
-	@Override
-	protected boolean checkLocal()
+	/// <summary>
+	/// Check, if the AST node is correctly built. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal()"/>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		assert !copyExtends; // must have been replaced by copies of the connection assertions of the parents befor entering this phase
+		Debug.Assert(!copyExtends); // must have been replaced by copies of the connection assertions of the parents befor entering this phase
 
-		long srcLower = srcRange.getLower();
-		long srcUpper = srcRange.getUpper();
-		NodeType srcType = src.checkIR(NodeType.class);
+		long srcLower = srcRange.Lower;
+		long srcUpper = srcRange.Upper;
+		NodeType srcType = src.CheckIR(typeof(NodeType));
 
-		long tgtLower = tgtRange.getLower();
-		long tgtUpper = tgtRange.getUpper();
-		NodeType tgtType = tgt.checkIR(NodeType.class);
+		long tgtLower = tgtRange.Lower;
+		long tgtUpper = tgtRange.Upper;
+		NodeType tgtType = tgt.CheckIR(typeof(NodeType));
 
 		return new ConnAssert(srcType, srcLower, srcUpper, tgtType, tgtLower, tgtUpper, bothDirections);
 	}
+}
+
 }

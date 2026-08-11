@@ -1,39 +1,40 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.invocation;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.ExternalFunction;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.invocation.ExternalFunctionMethodInvocationExpr;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * Invocation of an external function method
- */
-public class ExternalFunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.invocation
 {
-	static {
-		setClassName(ExternalFunctionMethodInvocationExprNode.class, "external function method invocation expression");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using ExternalFunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using ExternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ExternalFunctionMethodInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.ExternalFunctionMethodInvocationExpr;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+/// <summary>
+/// Invocation of an external function method
+/// </summary>
+public class ExternalFunctionMethodInvocationExprNode : FunctionInvocationBaseNode
+{
+	static ExternalFunctionMethodInvocationExprNode()
+	{
+		SetClassName(typeof(ExternalFunctionMethodInvocationExprNode), "external function method invocation expression");
 	}
 
 	private ExprNode owner;
@@ -43,90 +44,103 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionInvocation
 
 	public ExternalFunctionMethodInvocationExprNode(ExprNode owner, IdentNode externalFunctionUnresolved,
 			CollectNode<ExprNode> arguments)
+		: base(externalFunctionUnresolved.Coords, arguments)
 	{
-		super(externalFunctionUnresolved.getCoords(), arguments);
-		this.owner = becomeParent(owner);
-		this.externalFunctionUnresolved = becomeParent(externalFunctionUnresolved);
+		this.owner = BecomeParent(owner);
+		this.externalFunctionUnresolved = BecomeParent(externalFunctionUnresolved);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(owner);
-		children.add(getValidVersion(externalFunctionUnresolved, externalFunctionDecl));
-		children.add(arguments);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(owner);
+		children.Add(GetValidVersion(externalFunctionUnresolved, externalFunctionDecl));
+		children.Add(arguments);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("owner");
-		childrenNames.add("external function method");
-		childrenNames.add("arguments");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("owner");
+		childrenNames.Add("external function method");
+		childrenNames.Add("arguments");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<ExternalFunctionDeclNode> resolver =
-			new DeclarationResolver<ExternalFunctionDeclNode>(ExternalFunctionDeclNode.class);
+	private static readonly DeclarationResolver<ExternalFunctionDeclNode> resolver =
+			new DeclarationResolver<ExternalFunctionDeclNode>(typeof(ExternalFunctionDeclNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = true;
-		TypeNode ownerType = owner.getType();
-		if(ownerType instanceof ExternalObjectTypeNode) {
-			if(ownerType instanceof ScopeOwner) {
+		bool successfullyResolved = true;
+		TypeNode ownerType = owner.Type;
+		if(ownerType is ExternalObjectTypeNode)
+		{
+			if(ownerType is ScopeOwner)
+			{
 				ScopeOwner o = (ScopeOwner)ownerType;
-				o.fixupDefinition(externalFunctionUnresolved);
+				o.FixupDefinition(externalFunctionUnresolved);
 
-				externalFunctionDecl = resolver.resolve(externalFunctionUnresolved, this);
-				if(externalFunctionDecl == null) {
-					externalFunctionUnresolved.reportError("An external function method of name " + externalFunctionUnresolved + " is not known."
+				externalFunctionDecl = resolver.Resolve(externalFunctionUnresolved, this);
+				if(externalFunctionDecl == null)
+				{
+					externalFunctionUnresolved.ReportError("An external function method of name " + externalFunctionUnresolved + " is not known."
 							+ " Is it a misspelled function name? Or is a procedure call intended (this is not possible in an expression, an assignment target must be given as (param,...)=call in that case)?");
 					return false;
 				}
 
 				successfullyResolved = externalFunctionDecl != null && successfullyResolved;
-			} else {
-				reportError("Left hand side of '.' does not own a scope.");
+			}
+			else
+			{
+				ReportError("Left hand side of '.' does not own a scope.");
 				successfullyResolved = false;
 			}
-		} else {
-			reportError("Left hand side of '.' is not an external type.");
+		}
+		else
+		{
+			ReportError("Left hand side of '.' is not an external type.");
 			successfullyResolved = false;
 		}
 
 		return successfullyResolved;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		return checkSignatureAdhered(externalFunctionDecl, externalFunctionUnresolved, true);
+		return CheckSignatureAdhered(externalFunctionDecl, externalFunctionUnresolved, true);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		assert isResolved();
-		return externalFunctionDecl.getResultType();
+		get
+		{
+		Debug.Assert(IsResolved());
+		return externalFunctionDecl.ResultType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		owner = owner.evaluate();
+		owner = owner.Evaluate();
 		ExternalFunctionMethodInvocationExpr efi = new ExternalFunctionMethodInvocationExpr(
-				owner.checkIR(Expression.class),
-				externalFunctionDecl.resultType.checkIR(Type.class),
-				externalFunctionDecl.checkIR(ExternalFunction.class));
-		for(ExprNode argument : arguments.getChildrenExact()) {
-			ExprNode argumentEvaluated = argument.evaluate();
-			efi.addArgument(argumentEvaluated.checkIR(Expression.class));
+				owner.CheckIR(typeof(Expression)),
+				externalFunctionDecl.resultType.CheckIR(typeof(Type)),
+				externalFunctionDecl.CheckIR(typeof(ExternalFunction)));
+		foreach(ExprNode argument in arguments.ChildrenExact)
+		{
+			ExprNode argumentEvaluated = argument.Evaluate();
+			efi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
 		}
 		return efi;
 	}
+}
+
 }

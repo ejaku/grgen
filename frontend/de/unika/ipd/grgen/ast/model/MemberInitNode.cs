@@ -1,159 +1,170 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Rubino Geiss
- */
-package de.unika.ipd.grgen.ast.model;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
-import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
-import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
-import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.MemberResolver;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
-import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.expr.map.MapInit;
-import de.unika.ipd.grgen.ir.expr.set.SetInit;
-import de.unika.ipd.grgen.ir.model.MemberInit;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing a member initialization.
- * children: LHS:IdentNode, RHS:ExprNode
- */
-public class MemberInitNode extends BaseNode
+/// <summary>
+/// @author Rubino Geiss
+/// </summary>
+namespace de.unika.ipd.grgen.ast.model
 {
-	static {
-		setClassName(MemberInitNode.class, "member init");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using ArrayInitNode = de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
+using DequeInitNode = de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
+using MapInitNode = de.unika.ipd.grgen.ast.expr.map.MapInitNode;
+using SetInitNode = de.unika.ipd.grgen.ast.expr.set.SetInitNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayInit = de.unika.ipd.grgen.ir.expr.array.ArrayInit;
+using DequeInit = de.unika.ipd.grgen.ir.expr.deque.DequeInit;
+using MapInit = de.unika.ipd.grgen.ir.expr.map.MapInit;
+using SetInit = de.unika.ipd.grgen.ir.expr.set.SetInit;
+using MemberInit = de.unika.ipd.grgen.ir.model.MemberInit;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing a member initialization.
+/// children: LHS:IdentNode, RHS:ExprNode
+/// </summary>
+public class MemberInitNode : BaseNode
+{
+	static MemberInitNode()
+	{
+		SetClassName(typeof(MemberInitNode), "member init");
 	}
 
 	private BaseNode lhsUnresolved;
 	private DeclNode lhs;
 	private ExprNode rhs;
 
-	/**
-	 * @param coords The source code coordinates of = operator.
-	 * @param member The member to be initialized.
-	 * @param expr The expression, that is assigned.
-	 */
+	/// <param name="coords"> The source code coordinates of = operator. </param>
+	/// <param name="member"> The member to be initialized. </param>
+	/// <param name="expr"> The expression, that is assigned. </param>
 	public MemberInitNode(Coords coords, IdentNode member, ExprNode expr)
+		: base(coords)
 	{
-		super(coords);
 		this.lhsUnresolved = member;
-		becomeParent(this.lhsUnresolved);
+		BecomeParent(this.lhsUnresolved);
 		this.rhs = expr;
-		becomeParent(this.rhs);
+		BecomeParent(this.rhs);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(lhsUnresolved, lhs));
-		children.add(rhs);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(lhsUnresolved, lhs));
+		children.Add(rhs);
 		return children;
-	}
-
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("lhs");
-		childrenNames.add("rhs");
-		return childrenNames;
-	}
-
-	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
-	{
-		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
-		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
-		if(!lhsResolver.resolve(lhsUnresolved))
-			return false;
-		lhs = lhsResolver.getResult(DeclNode.class);
-		return lhsResolver.finish();
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
-	@Override
-	protected boolean checkLocal()
-	{
-		return typeCheckLocal();
-	}
-
-	/**
-	 * Checks whether the expression has a type equal, compatible or castable
-	 * to the type of the target. Inserts implicit cast if compatible.
-	 * @return true, if the types are equal or compatible, false otherwise
-	 */
-	private boolean typeCheckLocal()
-	{
-		TypeNode targetType = lhs.getDeclType();
-		TypeNode exprType = rhs.getType();
-
-		if(exprType.isEqual(targetType))
-			return true;
-
-		rhs = becomeParent(rhs.adjustType(targetType, getCoords()));
-		return rhs != ConstNode.getInvalid();
-	}
-
-	/**
-	 * Construct the intermediate representation from a member init.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
-	{
-		if(rhs instanceof MapInitNode) {
-			MapInit mapInit = rhs.checkIR(MapInit.class);
-			mapInit.setMember(lhs.checkIR(Entity.class));
-			return mapInit;
-		} else if(rhs instanceof SetInitNode) {
-			SetInit setInit = rhs.checkIR(SetInit.class);
-			setInit.setMember(lhs.checkIR(Entity.class));
-			return setInit;
-		} else if(rhs instanceof ArrayInitNode) {
-			ArrayInit arrayInit = rhs.checkIR(ArrayInit.class);
-			arrayInit.setMember(lhs.checkIR(Entity.class));
-			return arrayInit;
-		} else if(rhs instanceof DequeInitNode) {
-			DequeInit dequeInit = rhs.checkIR(DequeInit.class);
-			dequeInit.setMember(lhs.checkIR(Entity.class));
-			return dequeInit;
-		} else {
-			rhs = rhs.evaluate();
-			return new MemberInit(lhs.checkIR(Entity.class), rhs.checkIR(Expression.class));
 		}
 	}
 
-	public static String getKindStr()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		return "member initialization";
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("lhs");
+		childrenNames.Add("rhs");
+		return childrenNames;
+		}
 	}
+
+	private static readonly MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
+
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
+	{
+		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
+		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
+		if(!lhsResolver.Resolve(lhsUnresolved))
+			return false;
+		lhs = lhsResolver.GetResult(typeof(DeclNode));
+		return lhsResolver.Finish();
+	}
+
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal()"/>
+	protected internal override bool CheckLocal()
+	{
+		return TypeCheckLocal();
+	}
+
+	/// <summary>
+	/// Checks whether the expression has a type equal, compatible or castable
+	/// to the type of the target. Inserts implicit cast if compatible. </summary>
+	/// <returns> true, if the types are equal or compatible, false otherwise </returns>
+	private bool TypeCheckLocal()
+	{
+		TypeNode targetType = lhs.DeclType;
+		TypeNode exprType = rhs.Type;
+
+		if(exprType.IsEqual(targetType))
+			return true;
+
+		rhs = BecomeParent(rhs.AdjustType(targetType, Coords));
+		return rhs != ConstNode.Invalid;
+	}
+
+	/// <summary>
+	/// Construct the intermediate representation from a member init. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
+	{
+		if(rhs is MapInitNode)
+		{
+			MapInit mapInit = rhs.CheckIR(typeof(MapInit));
+			mapInit.Member = lhs.CheckIR(typeof(Entity));
+			return mapInit;
+		}
+		else if(rhs is SetInitNode)
+		{
+			SetInit setInit = rhs.CheckIR(typeof(SetInit));
+			setInit.Member = lhs.CheckIR(typeof(Entity));
+			return setInit;
+		}
+		else if(rhs is ArrayInitNode)
+		{
+			ArrayInit arrayInit = rhs.CheckIR(typeof(ArrayInit));
+			arrayInit.Member = lhs.CheckIR(typeof(Entity));
+			return arrayInit;
+		}
+		else if(rhs is DequeInitNode)
+		{
+			DequeInit dequeInit = rhs.CheckIR(typeof(DequeInit));
+			dequeInit.Member = lhs.CheckIR(typeof(Entity));
+			return dequeInit;
+		}
+		else
+		{
+			rhs = rhs.Evaluate();
+			return new MemberInit(lhs.CheckIR(typeof(Entity)), rhs.CheckIR(typeof(Expression)));
+		}
+	}
+
+	public static string KindStr
+	{
+		get
+		{
+		return "member initialization";
+		}
+	}
+}
+
 }

@@ -1,29 +1,30 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt;
-
-/**
- * Represents a relict from an assignment statement of the form x=x optimized away.
- */
-public class AssignmentIdentical extends EvalStatement
+namespace de.unika.ipd.grgen.ir.stmt
+{
+/// <summary>
+/// Represents a relict from an assignment statement of the form x=x optimized away.
+/// </summary>
+public class AssignmentIdentical : EvalStatement
 {
 	public AssignmentIdentical()
+		: base("assignment identical")
 	{
-		super("assignment identical");
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
 		return ". = .";
 	}
+}
+
 }

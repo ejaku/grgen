@@ -1,108 +1,125 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing a range specification (used by ConnAssertNode).
- * children: none
- */
-public class RangeSpecNode extends BaseNode
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(RangeSpecNode.class, "range spec");
+
+using System.Collections.Generic;
+
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing a range specification (used by ConnAssertNode).
+/// children: none
+/// </summary>
+public class RangeSpecNode : BaseNode
+{
+	static RangeSpecNode()
+	{
+		SetClassName(typeof(RangeSpecNode), "range spec");
 	}
 
-	/** Constant, signaling if upper bound is bounded. */
-	public static final long UNBOUND = Integer.MAX_VALUE;
+	/// <summary>
+	/// Constant, signaling if upper bound is bounded. </summary>
+	public static readonly long UNBOUND = int.MaxValue;
 
-	/** The upper and lower bound. */
+	/// <summary>
+	/// The upper and lower bound. </summary>
 	private long lower, upper;
 
-	/**
-	 * @param coords
-	 */
+	/// <param name="coords"> </param>
 	public RangeSpecNode(Coords coords, long lower, long upper)
+		: base(coords)
 	{
-		super(coords);
 		this.lower = lower;
 		this.upper = upper;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		// no children
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// no children
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		boolean good = true;
-		if(lower < 0) {
-			reportError("The lower bound of the range must be a positive number.");
+		bool good = true;
+		if(lower < 0)
+		{
+			ReportError("The lower bound of the range must be a positive number.");
 			good = false;
 		}
-		if(upper < 0) {
-			reportError("The upper bound of the range must be a positive number.");
+		if(upper < 0)
+		{
+			ReportError("The upper bound of the range must be a positive number.");
 			good = false;
 		}
-		if(lower > upper) {
-			reportError("The lower bound must be less (or equal) than the upper bound of the range.");
+		if(lower > upper)
+		{
+			ReportError("The lower bound must be less (or equal) than the upper bound of the range.");
 			good = false;
 		}
 		return good;
 	}
 
-	@Override
-	public String getName()
+	public override string Name
 	{
-		return super.getName() + " [" + lower + ":" + upper + "]";
+		get
+		{
+		return base.Name + " [" + lower + ":" + upper + "]";
+		}
 	}
 
-	/** @return the lower bound of the range. */
-	public long getLower()
+	/// <returns> the lower bound of the range. </returns>
+	public virtual long Lower
 	{
+		get
+		{
 		return lower;
+		}
 	}
 
-	/** @return the upper bound of the range. */
-	public long getUpper()
+	/// <returns> the upper bound of the range. </returns>
+	public virtual long Upper
 	{
+		get
+		{
 		return upper;
+		}
 	}
+}
+
 }

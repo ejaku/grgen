@@ -1,42 +1,42 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.pattern;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.FilterInvocationBaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.PackageIdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ir.FilterInvocationBase;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.pattern.IteratedFiltering;
-
-public class IteratedFilteringNode extends EvalStatementNode
+namespace de.unika.ipd.grgen.ast.pattern
 {
-	static {
-		setClassName(IteratedFilteringNode.class, "iterated filtering node");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using FilterInvocationBaseNode = de.unika.ipd.grgen.ast.FilterInvocationBaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using PackageIdentNode = de.unika.ipd.grgen.ast.PackageIdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ActionDeclNode = de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
+using SubpatternDeclNode = de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
+using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using FilterInvocationBase = de.unika.ipd.grgen.ir.FilterInvocationBase;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using IteratedFiltering = de.unika.ipd.grgen.ir.pattern.IteratedFiltering;
+
+public class IteratedFilteringNode : EvalStatementNode
+{
+	static IteratedFilteringNode()
+	{
+		SetClassName(typeof(IteratedFilteringNode), "iterated filtering node");
 	}
 
 	private IdentNode actionUnresolved;
@@ -50,75 +50,76 @@ public class IteratedFilteringNode extends EvalStatementNode
 
 	public IteratedFilteringNode(IdentNode actionUnresolved, IdentNode iteratedUnresolved,
 			CollectNode<FilterInvocationBaseNode> filtersUnresolved)
+		: base(iteratedUnresolved.Coords)
 	{
-		super(iteratedUnresolved.getCoords());
-		this.actionUnresolved = becomeParent(actionUnresolved);
-		this.iteratedUnresolved = becomeParent(iteratedUnresolved);
-		this.filters = becomeParent(filtersUnresolved);
+		this.actionUnresolved = BecomeParent(actionUnresolved);
+		this.iteratedUnresolved = BecomeParent(iteratedUnresolved);
+		this.filters = BecomeParent(filtersUnresolved);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		//children.add(getValidVersion(iteratedUnresolved, iterated));
-		children.add(filters);
+		children.Add(filters);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		//childrenNames.add("iterated");
-		childrenNames.add("filters");
+		childrenNames.Add("filters");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationPairResolver<ActionDeclNode, SubpatternDeclNode> actionOrSubpatternResolver =
-			new DeclarationPairResolver<ActionDeclNode, SubpatternDeclNode>(ActionDeclNode.class, SubpatternDeclNode.class);
-	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
-			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
+	private static readonly DeclarationPairResolver<ActionDeclNode, SubpatternDeclNode> actionOrSubpatternResolver =
+			new DeclarationPairResolver<ActionDeclNode, SubpatternDeclNode>(typeof(ActionDeclNode), typeof(SubpatternDeclNode));
+	private static readonly DeclarationResolver<IteratedDeclNode> iteratedResolver =
+			new DeclarationResolver<IteratedDeclNode>(typeof(IteratedDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		if(!(actionUnresolved instanceof PackageIdentNode))
-			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
+		if(!(actionUnresolved is PackageIdentNode))
+			FixupDefinition(actionUnresolved, actionUnresolved.Scope);
 
-		Pair<ActionDeclNode, SubpatternDeclNode> actionOrSubpattern = actionOrSubpatternResolver.resolve(actionUnresolved, this);
+		Pair<ActionDeclNode, SubpatternDeclNode> actionOrSubpattern = actionOrSubpatternResolver.Resolve(actionUnresolved, this);
 		if(actionOrSubpattern == null || actionOrSubpattern.fst == null && actionOrSubpattern.snd == null)
 			return false;
 		if(actionOrSubpattern.fst != null)
 			action = actionOrSubpattern.fst;
 		if(actionOrSubpattern.snd != null)
 			subpattern = actionOrSubpattern.snd;
-		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
+		iterated = iteratedResolver.Resolve(iteratedUnresolved, this);
 		return iterated != null;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		IteratedFiltering iteratedFiltering = new IteratedFiltering("iterated filtering",
-				action != null ? action.checkIR(Rule.class) : subpattern.checkIR(Rule.class),
-				iterated.checkIR(Rule.class));
-		for(FilterInvocationBaseNode filter : filters.getChildrenExact()) {
-			iteratedFiltering.addFilterInvocation(filter.checkIR(FilterInvocationBase.class));
-		}
+				action != null ? action.CheckIR(typeof(Rule)) : subpattern.CheckIR(typeof(Rule)),
+				iterated.CheckIR(typeof(Rule)));
+		foreach(FilterInvocationBaseNode filter in filters.ChildrenExact)
+			iteratedFiltering.AddFilterInvocation(filter.CheckIR(typeof(FilterInvocationBase)));
 		return iteratedFiltering;
 	}
+}
+
 }

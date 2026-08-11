@@ -1,165 +1,178 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.pattern;
-
-import java.awt.Color;
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.model.type.DirectedEdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node that represents a set of potentially homomorph nodes
- * children: *:IdentNode resolved to NodeDeclNode|EdgeDeclNoe
- */
-public class HomNode extends BaseNode
+namespace de.unika.ipd.grgen.ast.pattern
 {
-	static {
-		setClassName(HomNode.class, "homomorph");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using DirectedEdgeTypeNode = de.unika.ipd.grgen.ast.model.type.DirectedEdgeTypeNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using UndirectedEdgeTypeNode = de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using TypeChecker = de.unika.ipd.grgen.ast.util.TypeChecker;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node that represents a set of potentially homomorph nodes
+/// children: *:IdentNode resolved to NodeDeclNode|EdgeDeclNoe
+/// </summary>
+public class HomNode : BaseNode
+{
+	static HomNode()
+	{
+		SetClassName(typeof(HomNode), "homomorph");
 	}
 
-	private List<NodeDeclNode> childrenNode = new ArrayList<NodeDeclNode>();
-	private List<EdgeDeclNode> childrenEdge = new ArrayList<EdgeDeclNode>();
+	private IList<NodeDeclNode> childrenNode = new List<NodeDeclNode>();
+	private IList<EdgeDeclNode> childrenEdge = new List<EdgeDeclNode>();
 
-	private List<BaseNode> childrenUnresolved = new ArrayList<BaseNode>();
+	private IList<BaseNode> childrenUnresolved = new List<BaseNode>();
 
 	public HomNode(Coords coords)
+		: base(coords)
 	{
-		super(coords);
 	}
 
-	public void addChild(BaseNode child)
+	public virtual void AddChild(BaseNode child)
 	{
-		assert(!isResolved());
-		becomeParent(child);
-		childrenUnresolved.add(child);
+		Debug.Assert((!IsResolved()));
+		BecomeParent(child);
+		childrenUnresolved.Add(child);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		return getValidVersionList(childrenUnresolved, childrenNode, childrenEdge);
+		get
+		{
+		return GetValidVersionList(childrenUnresolved, childrenNode, childrenEdge);
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// nameless children
 		return childrenNames;
+		}
 	}
 
-	public List<NodeDeclNode> getHomNodes()
+	public virtual IList<NodeDeclNode> HomNodes
 	{
+		get
+		{
 		return childrenNode;
+		}
 	}
 
-	public List<EdgeDeclNode> getHomEdges()
+	public virtual IList<EdgeDeclNode> HomEdges
 	{
+		get
+		{
 		return childrenEdge;
+		}
 	}
 
-	private static final DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> declResolver =
-			new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
+	private static readonly DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> declResolver =
+			new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(typeof(NodeDeclNode), typeof(EdgeDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = true;
+		bool successfullyResolved = true;
 
-		for(int i = 0; i < childrenUnresolved.size(); ++i) {
-			Pair<NodeDeclNode, EdgeDeclNode> resolved = declResolver.resolve(childrenUnresolved.get(i), this);
+		for(int i = 0; i < childrenUnresolved.Count; ++i)
+		{
+			Pair<NodeDeclNode, EdgeDeclNode> resolved = declResolver.Resolve(childrenUnresolved[i], this);
 			successfullyResolved = (resolved != null) && successfullyResolved;
-			if(resolved != null) {
-				if(resolved.fst != null) {
-					childrenNode.add(resolved.fst);
-				}
-				if(resolved.snd != null) {
-					childrenEdge.add(resolved.snd);
-				}
+			if(resolved != null)
+			{
+				if(resolved.fst != null)
+					childrenNode.Add(resolved.fst);
+				if(resolved.snd != null)
+					childrenEdge.Add(resolved.snd);
 			}
 		}
 
 		return successfullyResolved;
 	}
 
-	private static final TypeChecker nodeTypeChecker = new TypeChecker(NodeTypeNode.class);
-	private static final TypeChecker edgeTypeChecker = new TypeChecker(EdgeTypeNode.class);
+	private static readonly TypeChecker nodeTypeChecker = new TypeChecker(typeof(NodeTypeNode));
+	private static readonly TypeChecker edgeTypeChecker = new TypeChecker(typeof(EdgeTypeNode));
 
-	/**
-	 * Check whether all children are of same type (node or edge)
-	 * and additionally one entity may not be used in two different hom
-	 * statements
-	 */
-	@Override
-	protected boolean checkLocal()
+	/// <summary>
+	/// Check whether all children are of same type (node or edge)
+	/// and additionally one entity may not be used in two different hom
+	/// statements
+	/// </summary>
+	protected internal override bool CheckLocal()
 	{
-		if(childrenNode.isEmpty() && childrenEdge.isEmpty()) {
-			this.reportError("The hom statement is empty.");
+		if(childrenNode.Count == 0 && childrenEdge.Count == 0)
+		{
+			this.ReportError("The hom statement is empty.");
 			return false;
 		}
-		if(!childrenNode.isEmpty() && !childrenEdge.isEmpty()) {
-			this.reportError("The hom statement may only contain nodes or edges at a time"
-					+ " (this is violated by node " + childrenNode.get(0) + " and edge " + childrenEdge.get(0) + ").");
+		if(childrenNode.Count > 0 && childrenEdge.Count > 0)
+		{
+			this.ReportError("The hom statement may only contain nodes or edges at a time"
+					+ " (this is violated by node " + childrenNode[0] + " and edge " + childrenEdge[0] + ").");
 			return false;
 		}
 
-		boolean successfullyChecked = true;
-		for(NodeDeclNode node : childrenNode) {
-			successfullyChecked = nodeTypeChecker.check(node, error) && successfullyChecked;
-		}
-		for(EdgeDeclNode edge : childrenEdge) {
-			successfullyChecked = edgeTypeChecker.check(edge, error) && successfullyChecked;
-		}
-		warnEdgeTypes();
+		bool successfullyChecked = true;
+		foreach(NodeDeclNode node in childrenNode)
+			successfullyChecked = nodeTypeChecker.Check(node, error) && successfullyChecked;
+		foreach(EdgeDeclNode edge in childrenEdge)
+			successfullyChecked = edgeTypeChecker.Check(edge, error) && successfullyChecked;
+		WarnEdgeTypes();
 
 		return successfullyChecked;
 	}
 
-	/** Checks whether all edges are compatible to each other.*/
-	private void warnEdgeTypes()
+	/// <summary>
+	/// Checks whether all edges are compatible to each other. </summary>
+	private void WarnEdgeTypes()
 	{
-		boolean isDirectedEdge = false;
-		boolean isUndirectedEdge = false;
+		bool isDirectedEdge = false;
+		bool isUndirectedEdge = false;
 
-		for(int i = 0; i < childrenEdge.size(); i++) {
-			TypeNode type = childrenEdge.get(i).getDeclType();
-			if(type instanceof DirectedEdgeTypeNode) {
+		for(int i = 0; i < childrenEdge.Count; i++)
+		{
+			TypeNode type = childrenEdge[i].DeclType;
+			if(type is DirectedEdgeTypeNode)
 				isDirectedEdge = true;
-			}
-			if(type instanceof UndirectedEdgeTypeNode) {
+			if(type is UndirectedEdgeTypeNode)
 				isUndirectedEdge = true;
-			}
 		}
 
-		if(isDirectedEdge && isUndirectedEdge) {
-			reportWarning("The hom statement may only contain directed or undirected edges at a time.");
-		}
+		if(isDirectedEdge && isUndirectedEdge)
+			ReportWarning("The hom statement may only contain directed or undirected edges at a time.");
 	}
 
-	@Override
-	public Color getNodeColor()
+	public override Color NodeColor
 	{
+		get
+		{
 		return Color.PINK;
+		}
 	}
+}
+
 }

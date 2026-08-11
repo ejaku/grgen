@@ -1,97 +1,102 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.procenv;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Constant;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.procenv.AssertProc;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class AssertProcNode extends BuiltinProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.procenv
 {
-	static {
-		setClassName(AssertProcNode.class, "assert procedure");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Constant = de.unika.ipd.grgen.ir.expr.Constant;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using AssertProc = de.unika.ipd.grgen.ir.stmt.procenv.AssertProc;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class AssertProcNode : BuiltinProcedureInvocationBaseNode
+{
+	static AssertProcNode()
+	{
+		SetClassName(typeof(AssertProcNode), "assert procedure");
 	}
 
 	private CollectNode<ExprNode> exprs = new CollectNode<ExprNode>();
-	boolean isAlways;
+	internal bool isAlways;
 
-	public AssertProcNode(Coords coords, boolean isAlways)
+	public AssertProcNode(Coords coords, bool isAlways)
+		: base(coords)
 	{
-		super(coords);
 
-		this.exprs = becomeParent(exprs);
+		this.exprs = BecomeParent(exprs);
 		this.isAlways = isAlways;
 	}
 
-	public void addExpression(ExprNode expr)
+	public virtual void AddExpression(ExprNode expr)
 	{
-		exprs.addChild(expr);
+		exprs.AddChild(expr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(exprs);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(exprs);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("exprs");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("exprs");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		ExprNode condition = exprs.get(0);
-		TypeNode conditionType = condition.getType();
-		if(!conditionType.isEqual(BasicTypeNode.booleanType)) {
-			condition.reportError("The " + name() + " procedure expects as 1. argument (condition to assert on)"
+		ExprNode condition = exprs.Get(0);
+		TypeNode conditionType = condition.Type;
+		if(!conditionType.IsEqual(BasicTypeNode.booleanType))
+		{
+			condition.ReportError("The " + Name() + " procedure expects as 1. argument (condition to assert on)"
 					+ " a value of type boolean"
-					+ " (but is given a value of type " + conditionType.toStringWithDeclarationCoords() + ").");
+					+ " (but is given a value of type " + conditionType.ToStringWithDeclarationCoords() + ").");
 			return false;
 		}
 
-		if(exprs.size() >= 2) {
-			ExprNode message = exprs.get(1);
-			TypeNode messageType = message.getType();
-			if(!messageType.isEqual(BasicTypeNode.stringType)) {
-				message.reportError("The " + name() + " procedure expects as 2. argument (message)"
+		if(exprs.Size() >= 2)
+		{
+			ExprNode message = exprs.Get(1);
+			TypeNode messageType = message.Type;
+			if(!messageType.IsEqual(BasicTypeNode.stringType))
+			{
+				message.ReportError("The " + Name() + " procedure expects as 2. argument (message)"
 						+ " a value of type string"
-						+ " (but is given a value of type " + messageType.toStringWithDeclarationCoords() + ").");
+						+ " (but is given a value of type " + messageType.ToStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}
@@ -99,34 +104,34 @@ public class AssertProcNode extends BuiltinProcedureInvocationBaseNode
 		// regarding remaining parameters: any type goes, must be converted toString in implementation
 		return true;
 	}
-	
-	private String name()
+
+	private string Name()
 	{
 		return isAlways ? "assertAlways" : "assert";
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		List<Expression> expressions = new ArrayList<Expression>();
-		for(ExprNode expr : exprs.getChildrenExact()) {
-			ExprNode exprEvaluated = expr.evaluate();
-			expressions.add(exprEvaluated.checkIR(Expression.class));
+		IList<Expression> expressions = new List<Expression>();
+		foreach(ExprNode expr in exprs.ChildrenExact)
+		{
+			ExprNode exprEvaluated = expr.Evaluate();
+			expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
 		}
-		if(exprs.size() == 1) {
-			expressions.add(new Constant(BasicTypeNode.stringType.checkIR(Type.class), escapeBackslashAndDoubleQuotes(getCoords().toString())));
-		}
+		if(exprs.Size() == 1)
+			expressions.Add(new Constant(BasicTypeNode.stringType.CheckIR(typeof(Type)), EscapeBackslashAndDoubleQuotes(Coords.ToString())));
 		return new AssertProc(expressions, isAlways);
 	}
-	
-	protected static String escapeBackslashAndDoubleQuotes(String input)
+
+	protected internal static string EscapeBackslashAndDoubleQuotes(string input)
 	{
-		return input.replace("\\", "\\\\").replace("\"", "\\\"");
+		return input.Replace("\\", "\\\\").Replace("\"", "\\\"");
 	}
+}
+
 }

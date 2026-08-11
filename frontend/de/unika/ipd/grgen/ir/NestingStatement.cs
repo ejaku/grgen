@@ -1,26 +1,29 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
+namespace de.unika.ipd.grgen.ir
+{
 
-import java.util.Collection;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
 
-/**
- * Represents an IR object containing nested statements
- * (both top-level non-statement objects as well as block nesting statements).
- */
+/// <summary>
+/// Represents an IR object containing nested statements
+/// (both top-level non-statement objects as well as block nesting statements).
+/// </summary>
 public interface NestingStatement
 {
-	public void addStatement(EvalStatement loopedStatement);
-	public Collection<EvalStatement> getStatements();
+	void AddStatement(EvalStatement loopedStatement);
+	ICollection<EvalStatement> Statements {get;}
+}
+
 }

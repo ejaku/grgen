@@ -1,31 +1,31 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.invocation;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.invocation.MultiRuleQueryExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class MultiRuleQueryExprNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr.invocation
 {
-	static {
-		setClassName(MultiRuleQueryExprNode.class, "multi rule query");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using MultiRuleQueryExpr = de.unika.ipd.grgen.ir.expr.invocation.MultiRuleQueryExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class MultiRuleQueryExprNode : ExprNode
+{
+	static MultiRuleQueryExprNode()
+	{
+		SetClassName(typeof(MultiRuleQueryExprNode), "multi rule query");
 	}
 
 	private CollectNode<ExprNode> ruleQueries;
@@ -36,65 +36,70 @@ public class MultiRuleQueryExprNode extends ExprNode
 
 	public MultiRuleQueryExprNode(Coords coords, CollectNode<ExprNode> ruleQueries, IdentNode matchClass,
 			TypeNode arrayOfMatchType)
+		: base(coords)
 	{
-		super(coords);
 
-		this.ruleQueries = becomeParent(ruleQueries);
-		this.matchClass = becomeParent(matchClass);
-		this.arrayOfMatchTypeUnresolved = becomeParent(arrayOfMatchType);
+		this.ruleQueries = BecomeParent(ruleQueries);
+		this.matchClass = BecomeParent(matchClass);
+		this.arrayOfMatchTypeUnresolved = BecomeParent(arrayOfMatchType);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ruleQueries);
-		children.add(matchClass);
-		children.add(getValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ruleQueries);
+		children.Add(matchClass);
+		children.Add(GetValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
 		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ruleQueries");
-		childrenNames.add("matchClass");
-		childrenNames.add("arrayOfMatchType");
-		return childrenNames;
-	}
-
-	@Override
-	protected boolean resolveLocal()
-	{
-		if(arrayOfMatchTypeUnresolved.resolve()) {
-			arrayOfMatchType = arrayOfMatchTypeUnresolved;
 		}
+	}
+
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ruleQueries");
+		childrenNames.Add("matchClass");
+		childrenNames.Add("arrayOfMatchType");
+		return childrenNames;
+		}
+	}
+
+	protected internal override bool ResolveLocal()
+	{
+		if(arrayOfMatchTypeUnresolved.Resolve())
+			arrayOfMatchType = arrayOfMatchTypeUnresolved;
 		return arrayOfMatchType != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// all actions must implement the match classes of the employed filters
-		for(ExprNode ruleQuery : ruleQueries.getChildrenExact()) {
-			CallActionNode actionCall = ((RuleQueryExprNode)ruleQuery).getCallAction();
-			MultiCallActionNode.checkWhetherCalledActionImplementsMatchClass(matchClass.getIRIdent().toString(), null,
+		foreach(ExprNode ruleQuery in ruleQueries.ChildrenExact)
+		{
+			CallActionNode actionCall = ((RuleQueryExprNode)ruleQuery).CallAction;
+			MultiCallActionNode.CheckWhetherCalledActionImplementsMatchClass(matchClass.IRIdent.ToString(), null,
 					actionCall);
 		}
 
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return new MultiRuleQueryExpr(getType().getIRType());
+		return new MultiRuleQueryExpr(Type.IRType);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return arrayOfMatchType;
+		}
 	}
+}
+
 }

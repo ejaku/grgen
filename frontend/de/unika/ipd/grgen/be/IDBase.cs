@@ -1,57 +1,63 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.be;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.ir.model.type.InheritanceType;
-import de.unika.ipd.grgen.ir.model.type.NodeType;
-import de.unika.ipd.grgen.ir.type.CompoundType;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.util.Base;
-
-/**
- * Basic equipment for backends that treat node and edge types as IDs.
- */
-public abstract class IDBase extends Base implements IDTypeModel
+namespace de.unika.ipd.grgen.be
 {
-	/** node type to type id map. (Type -> Integer) */
-	public final Map<NodeType, Integer> nodeTypeMap = new LinkedHashMap<NodeType, Integer>();
 
-	/** edge type to type id map. (Type -> Integer) */
-	public final Map<EdgeType, Integer> edgeTypeMap = new LinkedHashMap<EdgeType, Integer>();
+using System.Collections.Generic;
+using System.Diagnostics;
 
-	/** node attribute map. (Entity -> Integer) */
-	public final Map<Entity, Integer> nodeAttrMap = new LinkedHashMap<Entity, Integer>();
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using Unit = de.unika.ipd.grgen.ir.Unit;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
+using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+using CompoundType = de.unika.ipd.grgen.ir.type.CompoundType;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using Base = de.unika.ipd.grgen.util.Base;
 
-	/** edge attribute map. (Entity -> Integer) */
-	public final Map<Entity, Integer> edgeAttrMap = new LinkedHashMap<Entity, Integer>();
+/// <summary>
+/// Basic equipment for backends that treat node and edge types as IDs.
+/// </summary>
+public abstract class IDBase : Base, IDTypeModel
+{
+	/// <summary>
+	/// node type to type id map. (Type -> Integer) </summary>
+	public readonly IDictionary<NodeType, int> nodeTypeMap = new LinkedHashMap<NodeType, int>();
 
-	/** enum value map. (Enum -> Integer) */
-	public final Map<EnumType, Integer> enumMap = new LinkedHashMap<EnumType, Integer>();
+	/// <summary>
+	/// edge type to type id map. (Type -> Integer) </summary>
+	public readonly IDictionary<EdgeType, int> edgeTypeMap = new LinkedHashMap<EdgeType, int>();
 
-	/** action map. (Action -> Integer) */
-	public final Map<Rule, Integer> actionRuleMap = new LinkedHashMap<Rule, Integer>();
+	/// <summary>
+	/// node attribute map. (Entity -> Integer) </summary>
+	public readonly IDictionary<Entity, int> nodeAttrMap = new LinkedHashMap<Entity, int>();
 
-	/** pattern map. (Subpattern action -> Integer) */
-	public final Map<Rule, Integer> subpatternRuleMap = new LinkedHashMap<Rule, Integer>();
+	/// <summary>
+	/// edge attribute map. (Entity -> Integer) </summary>
+	public readonly IDictionary<Entity, int> edgeAttrMap = new LinkedHashMap<Entity, int>();
+
+	/// <summary>
+	/// enum value map. (Enum -> Integer) </summary>
+	public readonly IDictionary<EnumType, int> enumMap = new LinkedHashMap<EnumType, int>();
+
+	/// <summary>
+	/// action map. (Action -> Integer) </summary>
+	public readonly IDictionary<Rule, int> actionRuleMap = new LinkedHashMap<Rule, int>();
+
+	/// <summary>
+	/// pattern map. (Subpattern action -> Integer) </summary>
+	public readonly IDictionary<Rule, int> subpatternRuleMap = new LinkedHashMap<Rule, int>();
 
 	private short[][] nodeTypeIsAMatrix;
 
@@ -65,94 +71,99 @@ public abstract class IDBase extends Base implements IDTypeModel
 
 	private int[][] edgeTypeSubTypes;
 
-	private String[] nodeTypeNames;
+	private string[] nodeTypeNames;
 
-	private String[] edgeTypeNames;
+	private string[] edgeTypeNames;
 
 	private int edgeRoot;
 
 	private int nodeRoot;
 
-	private void addMembers(CompoundType ct)
+	private void AddMembers(CompoundType ct)
 	{
-		for(Entity ent : ct.getMembers()) {
-			if(ct instanceof NodeType)
-				nodeAttrMap.put(ent, new Integer(nodeAttrMap.size()));
-			else if(ct instanceof EdgeType)
-				edgeAttrMap.put(ent, new Integer(edgeAttrMap.size()));
+		foreach(Entity ent in ct.Members)
+		{
+			if(ct is NodeType)
+				nodeAttrMap[ent] = new int?(nodeAttrMap.Count);
+			else if(ct is EdgeType)
+				edgeAttrMap[ent] = new int?(edgeAttrMap.Count);
 			else
-				assert false : "Wrong type";
+				Debug.Assert(false, "Wrong type");
 		}
 	}
 
-	private void makeTypeIds(Unit unit)
+	private void MakeTypeIds(Unit unit)
 	{
-		unit.canonicalize();
+		unit.Canonicalize();
 
-		for(Type type : unit.getActionsGraphModel().getTypes()) {
-			if(type instanceof NodeType) {
-				nodeTypeMap.put((NodeType)type, new Integer(nodeTypeMap.size()));
-			} else if(type instanceof EdgeType) {
-				edgeTypeMap.put((EdgeType)type, new Integer(edgeTypeMap.size()));
-			} else if(type instanceof EnumType) {
-				enumMap.put((EnumType)type, new Integer(enumMap.size()));
-			}
+		foreach(Type type in unit.ActionsGraphModel.Types)
+		{
+			if(type is NodeType)
+				nodeTypeMap[(NodeType)type] = new int?(nodeTypeMap.Count);
+			else if(type is EdgeType)
+				edgeTypeMap[(EdgeType)type] = new int?(edgeTypeMap.Count);
+			else if(type is EnumType)
+				enumMap[(EnumType)type] = new int?(enumMap.Count);
 
-			if(type instanceof CompoundType) {
+			if(type is CompoundType)
+			{
 				CompoundType ct = (CompoundType)type;
-				addMembers(ct);
+				AddMembers(ct);
 			}
 		}
 	}
 
-	public static final short[][] computeIsA(Map<InheritanceType, Integer> typeMap)
+	public static short[][] ComputeIsA(IDictionary<InheritanceType, int> typeMap)
 	{
 		int maxId = 0;
 
-		for(Integer id : typeMap.values()) {
-			maxId = id.intValue() > maxId ? id.intValue() : maxId;
-		}
+		foreach(int? id in typeMap.Values)
+			maxId = id.Value > maxId ? id.Value : maxId;
 
-		short[][] res = new short[maxId + 1][maxId + 1];
+		short[][] res = RectangularArrays.RectangularShortArray(maxId + 1, maxId + 1);
 
-		for(InheritanceType ty : typeMap.keySet()) {
-			int typeId = typeMap.get(ty).intValue();
+		foreach(InheritanceType ty in typeMap.Keys)
+		{
+			int typeId = typeMap[ty];
 			res[typeId][typeId] = 1;
 
-			for(InheritanceType st : ty.getDirectSuperTypes()) {
-				int inhId = typeMap.get(st).intValue();
+			foreach(InheritanceType st in ty.DirectSuperTypes)
+			{
+				int inhId = typeMap[st];
 				res[typeId][inhId] = 1;
 			}
 		}
 
-		res = floydWarshall(res);
-		for(int i = 0; i < res.length; i++) {
+		res = FloydWarshall(res);
+		for(int i = 0; i < res.Length; i++)
 			res[i][i] = 0;
-		}
 
 		return res;
 	}
 
-	private static short[][] floydWarshall(short[][] matrix)
+	private static short[][] FloydWarshall(short[][] matrix)
 	{
-		int n = matrix.length;
+		int n = matrix.Length;
 		short[][] curr = matrix;
-		short[][] next = new short[n][n];
+		short[][] next = RectangularArrays.RectangularShortArray(n, n);
 
-		for(int k = 0; k < n; k++) {
+		for(int k = 0; k < n; k++)
+		{
 			short[][] tmp;
 
-			for(int i = 0; i < n; i++) {
-				for(int j = 0; j < n; j++) {
+			for(int i = 0; i < n; i++)
+			{
+				for(int j = 0; j < n; j++)
+				{
 					int v1 = curr[i][k];
 					int v2 = curr[k][j];
-					int res = v1 == 0 || v2 == 0 ? Short.MAX_VALUE : v1 + v2;
+					int res = v1 == 0 || v2 == 0 ? short.MaxValue : v1 + v2;
 					int v = curr[i][j];
 
-					v = v == 0 ? Short.MAX_VALUE : v;
+					v = v == 0 ? short.MaxValue : v;
 					v = v < res ? v : res;
 
-					next[i][j] = (short)(v == Short.MAX_VALUE ? 0 : v);
+					next[i][j] = (short)(v == short.MaxValue ? 0 : v);
 				}
 			}
 
@@ -164,48 +175,24 @@ public abstract class IDBase extends Base implements IDTypeModel
 		return next;
 	}
 
-	private static int[][] computeSuperTypes(Map<InheritanceType, Integer> typeMap)
+	private static int[][] ComputeSuperTypes(IDictionary<InheritanceType, int> typeMap)
 	{
-		int[][] res = new int[typeMap.size()][];
-		List<Integer> aux = new ArrayList<Integer>();
+		int[][] res = new int[typeMap.Count][];
+		IList<int> aux = new List<int>();
 
-		for(InheritanceType ty : typeMap.keySet()) {
-			aux.clear();
-			int id = typeMap.get(ty).intValue();
+		foreach(InheritanceType ty in typeMap.Keys)
+		{
+			aux.Clear();
+			int id = typeMap[ty];
 
-			for(InheritanceType t : ty.getDirectSuperTypes()) {
-				aux.add(typeMap.get(t));
-			}
+			foreach(InheritanceType t in ty.DirectSuperTypes)
+				aux.Add(typeMap[t]);
 
-			res[id] = new int[aux.size()];
+			res[id] = new int[aux.Count];
 			int i = 0;
-			for(Integer j : aux) {
-				res[id][i] = j.intValue();
-				++i;
-			}
-		}
-
-		return res;
-	}
-
-	private static int[][] computeSubTypes(Map<InheritanceType, Integer> typeMap)
-	{
-		int[][] res = new int[typeMap.size()][];
-		List<Integer> aux = new ArrayList<Integer>();
-
-		for(InheritanceType ty : typeMap.keySet()) {
-			aux.clear();
-			int id = typeMap.get(ty).intValue();
-
-			for(InheritanceType t : ty.getDirectSubTypes()) {
-				aux.add(typeMap.get(t));
-			}
-
-			res[id] = new int[aux.size()];
-			int i = 0;
-			for(Integer j : aux)
+			foreach(int? j in aux)
 			{
-				res[id][i] = j.intValue();
+				res[id][i] = j.Value;
 				++i;
 			}
 		}
@@ -213,141 +200,157 @@ public abstract class IDBase extends Base implements IDTypeModel
 		return res;
 	}
 
-	private static String[] makeNames(Map<InheritanceType, Integer> typeMap)
+	private static int[][] ComputeSubTypes(IDictionary<InheritanceType, int> typeMap)
 	{
-		String[] res = new String[typeMap.size()];
-		for(InheritanceType ty : typeMap.keySet()) {
-			int id = typeMap.get(ty).intValue();
-			res[id] = ty.getIdent().toString();
+		int[][] res = new int[typeMap.Count][];
+		IList<int> aux = new List<int>();
+
+		foreach(InheritanceType ty in typeMap.Keys)
+		{
+			aux.Clear();
+			int id = typeMap[ty];
+
+			foreach(InheritanceType t in ty.DirectSubTypes)
+				aux.Add(typeMap[t]);
+
+			res[id] = new int[aux.Count];
+			int i = 0;
+			foreach(int? j in aux)
+			{
+				res[id][i] = j.Value;
+				++i;
+			}
 		}
 
 		return res;
 	}
 
-	/**
-	 * Make subpattern IDs.
-	 * @param subpatternRuleMap The map to put the IDs to.
-	 */
-	private void makeSubpatternIds(Unit unit)
+	private static string[] MakeNames(IDictionary<InheritanceType, int> typeMap)
+	{
+		string[] res = new string[typeMap.Count];
+		foreach(InheritanceType ty in typeMap.Keys)
+		{
+			int id = typeMap[ty];
+			res[id] = ty.Ident.ToString();
+		}
+
+		return res;
+	}
+
+	/// <summary>
+	/// Make subpattern IDs. </summary>
+	/// <param name="subpatternRuleMap"> The map to put the IDs to. </param>
+	private void MakeSubpatternIds(Unit unit)
 	{
 		int id = 0;
-		for(Rule rule : unit.getSubpatternRules()) {
-			subpatternRuleMap.put(rule, new Integer(id));
+		foreach(Rule rule in unit.SubpatternRules)
+		{
+			subpatternRuleMap[rule] = new int?(id);
 			++id;
 		}
 	}
 
-	/**
-	 * Make action IDs.
-	 * @param actionRuleMap The map to put the IDs to.
-	 */
-	private void makeActionIds(Unit unit)
+	/// <summary>
+	/// Make action IDs. </summary>
+	/// <param name="actionRuleMap"> The map to put the IDs to. </param>
+	private void MakeActionIds(Unit unit)
 	{
 		int id = 0;
-		for(Rule rule : unit.getActionRules()) {
-			actionRuleMap.put(rule, new Integer(id));
+		foreach(Rule rule in unit.ActionRules)
+		{
+			actionRuleMap[rule] = new int?(id);
 			++id;
 		}
 	}
 
-	/**
-	 * Get the ID of an IR type.
-	 * @param map The map to look into.
-	 * @param ty The inheritance type to get the id for.
-	 * @return The type id for this type.
-	 */
-	protected static final int getTypeId(Map<? extends Type, Integer> map, Type t)
+	/// <summary>
+	/// Get the ID of an IR type. </summary>
+	/// <param name="map"> The map to look into. </param>
+	/// <param name="ty"> The inheritance type to get the id for. </param>
+	/// <returns> The type id for this type. </returns>
+	protected internal static int GetTypeId<T1>(IDictionary<T1> map, Type t) where T1 : de.unika.ipd.grgen.ir.type.Type
 	{
-		Integer res = map.get(t);
-		return res.intValue();
+		int? res = map[t];
+		return res.Value;
 	}
 
-	@Override
-	public final int getId(EdgeType et)
+	public int GetId(EdgeType et)
 	{
-		return getTypeId(edgeTypeMap, et);
+		return GetTypeId(edgeTypeMap, et);
 	}
 
-	@Override
-	public final int getId(NodeType nt)
+	public int GetId(NodeType nt)
 	{
-		return getTypeId(nodeTypeMap, nt);
+		return GetTypeId(nodeTypeMap, nt);
 	}
 
-	@Override
-	public final int getId(Type t, boolean forNode)
+	public int GetId(Type t, bool forNode)
 	{
-		return forNode ? getTypeId(nodeTypeMap, t) : getTypeId(edgeTypeMap, t);
+		return forNode ? GetTypeId(nodeTypeMap, t) : GetTypeId(edgeTypeMap, t);
 	}
 
-	@Override
-	public final short[][] getIsAMatrix(boolean forNode)
+	public short[][] GetIsAMatrix(bool forNode)
 	{
 		return forNode ? nodeTypeIsAMatrix : edgeTypeIsAMatrix;
 	}
 
-	@Override
-	public final String getTypeName(boolean forNode, int obj)
+	public string GetTypeName(bool forNode, int obj)
 	{
 		return forNode ? nodeTypeNames[obj] : edgeTypeNames[obj];
 	}
 
-	@Override
-	public final int[] getSuperTypes(boolean forNode, int obj)
+	public int[] GetSuperTypes(bool forNode, int obj)
 	{
 		return forNode ? nodeTypeSuperTypes[obj] : edgeTypeSuperTypes[obj];
 	}
 
-	@Override
-	public final int[] getSubTypes(boolean forNode, int obj)
+	public int[] GetSubTypes(bool forNode, int obj)
 	{
 		return forNode ? nodeTypeSubTypes[obj] : edgeTypeSubTypes[obj];
 	}
 
-	@Override
-	public final int getRootType(boolean forNode)
+	public int GetRootType(bool forNode)
 	{
 		return forNode ? nodeRoot : edgeRoot;
 	}
 
-	@Override
-	public final int[] getIDs(boolean forNode)
+	public int[] GetIDs(bool forNode)
 	{
-		Map<InheritanceType, Integer> map = forNode
-				? getTypeMap(nodeTypeMap)
-				: getTypeMap(edgeTypeMap);
-		int[] res = new int[map.size()];
+		IDictionary<InheritanceType, int> map = forNode
+				? GetTypeMap(nodeTypeMap)
+				: GetTypeMap(edgeTypeMap);
+		int[] res = new int[map.Count];
 
 		int i = 0;
-		for(Integer typeId : map.values()) {
-			res[i++] = typeId.intValue();
-		}
+		foreach(int? typeId in map.Values)
+			res[i++] = typeId.Value;
 
 		return res;
 	}
 
-	public static Map<InheritanceType, Integer> getTypeMap(Map<? extends InheritanceType, Integer> typeMap)
+	public static IDictionary<InheritanceType, int> GetTypeMap<T1>(IDictionary<T1> typeMap) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
 	{
-		return new LinkedHashMap<InheritanceType, Integer>(typeMap); // TODO: performance optimization caching (and maybe another collection type fits better)
+		return new LinkedHashMap<InheritanceType, int>(typeMap); // TODO: performance optimization caching (and maybe another collection type fits better)
 	}
 
-	/**
-	 * Compute all IDs.
-	 * @param unit The IR unit for ID computation.
-	 */
-	protected final void makeTypes(Unit unit)
+	/// <summary>
+	/// Compute all IDs. </summary>
+	/// <param name="unit"> The IR unit for ID computation. </param>
+	protected internal void MakeTypes(Unit unit)
 	{
-		makeTypeIds(unit);
-		makeSubpatternIds(unit);
-		makeActionIds(unit);
+		MakeTypeIds(unit);
+		MakeSubpatternIds(unit);
+		MakeActionIds(unit);
 
-		nodeTypeIsAMatrix = computeIsA(getTypeMap(nodeTypeMap));
-		edgeTypeIsAMatrix = computeIsA(getTypeMap(edgeTypeMap));
-		nodeTypeSuperTypes = computeSuperTypes(getTypeMap(nodeTypeMap));
-		edgeTypeSuperTypes = computeSuperTypes(getTypeMap(edgeTypeMap));
-		nodeTypeSubTypes = computeSubTypes(getTypeMap(nodeTypeMap));
-		edgeTypeSubTypes = computeSubTypes(getTypeMap(edgeTypeMap));
-		nodeTypeNames = makeNames(getTypeMap(nodeTypeMap));
-		edgeTypeNames = makeNames(getTypeMap(edgeTypeMap));
+		nodeTypeIsAMatrix = ComputeIsA(GetTypeMap(nodeTypeMap));
+		edgeTypeIsAMatrix = ComputeIsA(GetTypeMap(edgeTypeMap));
+		nodeTypeSuperTypes = ComputeSuperTypes(GetTypeMap(nodeTypeMap));
+		edgeTypeSuperTypes = ComputeSuperTypes(GetTypeMap(edgeTypeMap));
+		nodeTypeSubTypes = ComputeSubTypes(GetTypeMap(nodeTypeMap));
+		edgeTypeSubTypes = ComputeSubTypes(GetTypeMap(edgeTypeMap));
+		nodeTypeNames = MakeNames(GetTypeMap(nodeTypeMap));
+		edgeTypeNames = MakeNames(GetTypeMap(edgeTypeMap));
 	}
+}
+
 }

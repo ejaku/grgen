@@ -1,113 +1,125 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.stmt.CaseStatement;
-import de.unika.ipd.grgen.ir.stmt.SwitchStatement;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing a switch statement.
- */
-public class SwitchStatementNode extends EvalStatementNode
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	static {
-		setClassName(SwitchStatementNode.class, "SwitchStatement");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EnumTypeNode = de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using CaseStatement = de.unika.ipd.grgen.ir.stmt.CaseStatement;
+using SwitchStatement = de.unika.ipd.grgen.ir.stmt.SwitchStatement;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing a switch statement.
+/// </summary>
+public class SwitchStatementNode : EvalStatementNode
+{
+	static SwitchStatementNode()
+	{
+		SetClassName(typeof(SwitchStatementNode), "SwitchStatement");
 	}
 
 	private ExprNode switchExpr;
-	CollectNode<CaseStatementNode> cases;
+	internal CollectNode<CaseStatementNode> cases;
 
 	public SwitchStatementNode(Coords coords, ExprNode switchExpr, CollectNode<CaseStatementNode> cases)
+		: base(coords)
 	{
-		super(coords);
 		this.switchExpr = switchExpr;
-		becomeParent(switchExpr);
+		BecomeParent(switchExpr);
 		this.cases = cases;
-		becomeParent(this.cases);
+		BecomeParent(this.cases);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(switchExpr);
-		children.add(cases);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(switchExpr);
+		children.Add(cases);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("switchExpr");
-		childrenNames.add("cases");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("switchExpr");
+		childrenNames.Add("cases");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		TypeNode switchExprType = switchExpr.getType();
-		if(!(switchExprType.isEqual(BasicTypeNode.byteType))
-				&& !(switchExprType.isEqual(BasicTypeNode.shortType))
-				&& !(switchExprType.isEqual(BasicTypeNode.intType))
-				&& !(switchExprType.isEqual(BasicTypeNode.longType))
-				&& !(switchExprType.isEqual(BasicTypeNode.booleanType))
-				&& !(switchExprType.isEqual(BasicTypeNode.stringType))
-				&& !(switchExprType instanceof EnumTypeNode)) {
-			reportError("The expression switched upon must be of type byte or short or int or long or boolean or string or enum,"
-					+ " but is of type " + switchExprType.toStringWithDeclarationCoords() + ".");
+		TypeNode switchExprType = switchExpr.Type;
+		if(!(switchExprType.IsEqual(BasicTypeNode.byteType))
+				&& !(switchExprType.IsEqual(BasicTypeNode.shortType))
+				&& !(switchExprType.IsEqual(BasicTypeNode.intType))
+				&& !(switchExprType.IsEqual(BasicTypeNode.longType))
+				&& !(switchExprType.IsEqual(BasicTypeNode.booleanType))
+				&& !(switchExprType.IsEqual(BasicTypeNode.stringType))
+				&& !(switchExprType is EnumTypeNode))
+		{
+			ReportError("The expression switched upon must be of type byte or short or int or long or boolean or string or enum,"
+					+ " but is of type " + switchExprType.ToStringWithDeclarationCoords() + ".");
 			return false;
 		}
-		boolean defaultVisited = false;
-		for(CaseStatementNode caseStmt : cases.getChildrenExact()) {
+		bool defaultVisited = false;
+		foreach(CaseStatementNode caseStmt in cases.ChildrenExact)
+		{
 			ExprNode caseConstantExpr = caseStmt.caseConstantExpr;
-			if(caseConstantExpr != null) {
+			if(caseConstantExpr != null)
+			{
 				// just to be sure, the syntax as-such is not allowing non-constants 
-				if(!(caseConstantExpr.evaluate() instanceof ConstNode)) {
-					caseStmt.reportError("A case statement of a switch statement expects a constant expression.");
+				if(!(caseConstantExpr.Evaluate() is ConstNode))
+				{
+					caseStmt.ReportError("A case statement of a switch statement expects a constant expression.");
 					return false;
 				}
-				TypeNode caseConstantExprType = caseConstantExpr.getType();
-				if(!(caseConstantExprType.isCompatibleTo(switchExprType))) {
-					caseStmt.reportError("The type " + caseConstantExprType.toStringWithDeclarationCoords() + " of the case expression"
-							+ " is not compatible to the type " + switchExprType.toStringWithDeclarationCoords() + " of the switch expression.");
+				TypeNode caseConstantExprType = caseConstantExpr.Type;
+				if(!(caseConstantExprType.IsCompatibleTo(switchExprType)))
+				{
+					caseStmt.ReportError("The type " + caseConstantExprType.ToStringWithDeclarationCoords() + " of the case expression"
+							+ " is not compatible to the type " + switchExprType.ToStringWithDeclarationCoords() + " of the switch expression.");
 					return false;
 				}
-			} else {
-				if(defaultVisited) {
-					caseStmt.reportError("Only one else branch allowed per switch.");
+			}
+			else
+			{
+				if(defaultVisited)
+				{
+					caseStmt.ReportError("Only one else branch allowed per switch.");
 					return false;
 				}
 				defaultVisited = true;
@@ -116,20 +128,19 @@ public class SwitchStatementNode extends EvalStatementNode
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		switchExpr = switchExpr.evaluate();
-		SwitchStatement switchStmt = new SwitchStatement(switchExpr.checkIR(Expression.class));
-		for(EvalStatementNode statement : cases.getChildrenExact()) {
-			switchStmt.addStatement(statement.checkIR(CaseStatement.class));
-		}
+		switchExpr = switchExpr.Evaluate();
+		SwitchStatement switchStmt = new SwitchStatement(switchExpr.CheckIR(typeof(Expression)));
+		foreach(EvalStatementNode statement in cases.ChildrenExact)
+			switchStmt.AddStatement(statement.CheckIR(typeof(CaseStatement)));
 		return switchStmt;
 	}
+}
+
 }

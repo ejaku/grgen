@@ -1,40 +1,44 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ir.type.basic;
-
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * A boolean type
- */
-public class BooleanType extends PrimitiveType
+namespace de.unika.ipd.grgen.ir.type.basic
 {
-	/** @param ident The name of the boolean type. */
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ir;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+/// <summary>
+/// A boolean type
+/// </summary>
+public class BooleanType : PrimitiveType
+{
+	/// <param name="ident"> The name of the boolean type. </param>
 	public BooleanType(Ident ident)
+		: base("boolean type", ident)
 	{
-		super("boolean type", ident);
 	}
 
-	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
-	@Override
-	public TypeClass classify()
+	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+	public override TypeClass Classify()
 	{
 		return TypeClass.IS_BOOLEAN;
 	}
 
-	public static Type getType()
+	public static Type Type
 	{
-		return BasicTypeNode.booleanType.checkIR(Type.class);
+		get
+		{
+		return BasicTypeNode.booleanType.CheckIR(typeof(Type));
+		}
 	}
+}
+
 }

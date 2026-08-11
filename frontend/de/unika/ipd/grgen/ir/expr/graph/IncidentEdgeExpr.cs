@@ -1,34 +1,34 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr.graph;
+namespace de.unika.ipd.grgen.ir.expr.graph
+{
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using Direction = de.unika.ipd.grgen.util.Direction;
 
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.util.Direction;
-
-public class IncidentEdgeExpr extends NeighborhoodQueryExpr
+public class IncidentEdgeExpr : NeighborhoodQueryExpr
 {
 	public IncidentEdgeExpr(Expression startNodeExpression,
 			Expression incidentEdgeTypeExpr, Direction direction,
 			Expression adjacentNodeTypeExpr, Type type)
+		: base("incident edge expression", type, startNodeExpression, incidentEdgeTypeExpr, direction, adjacentNodeTypeExpr)
 	{
-		super("incident edge expression", type, startNodeExpression,
-				incidentEdgeTypeExpr, direction, adjacentNodeTypeExpr);
 	}
 
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.needsGraph();
-		startNodeExpr.collectNeededEntities(needs);
-		incidentEdgeTypeExpr.collectNeededEntities(needs);
-		adjacentNodeTypeExpr.collectNeededEntities(needs);
+		needs.NeedsGraph();
+		startNodeExpr.CollectNeededEntities(needs);
+		incidentEdgeTypeExpr.CollectNeededEntities(needs);
+		adjacentNodeTypeExpr.CollectNeededEntities(needs);
 	}
+}
+
 }

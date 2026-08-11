@@ -1,98 +1,104 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll, Edgar Jakumeit
- */
+/// <summary>
+/// @author Moritz Kroll, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.ExpressionPair;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ExprPairNode extends BaseNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(ExprPairNode.class, "expr pair");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ExpressionPair = de.unika.ipd.grgen.ir.expr.ExpressionPair;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ExprPairNode : BaseNode
+{
+	static ExprPairNode()
+	{
+		SetClassName(typeof(ExprPairNode), "expr pair");
 	}
 
 	public ExprNode keyExpr; // first
 	public ExprNode valueExpr; // second
 
 	public ExprPairNode(Coords coords, ExprNode keyExpr, ExprNode valueExpr)
+		: base(coords)
 	{
-		super(coords);
-		this.keyExpr = becomeParent(keyExpr);
-		this.valueExpr = becomeParent(valueExpr);
+		this.keyExpr = BecomeParent(keyExpr);
+		this.valueExpr = BecomeParent(valueExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(keyExpr);
-		children.add(valueExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(keyExpr);
+		children.Add(valueExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("keyExpr");
-		childrenNames.add("valueExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("keyExpr");
+		childrenNames.Add("valueExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// All checks are done in MapInitNode
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		keyExpr = keyExpr.evaluate();
-		valueExpr = valueExpr.evaluate();
-		return new ExpressionPair(keyExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
+		keyExpr = keyExpr.Evaluate();
+		valueExpr = valueExpr.Evaluate();
+		return new ExpressionPair(keyExpr.CheckIR(typeof(Expression)), valueExpr.CheckIR(typeof(Expression)));
 	}
 
-	public ExpressionPair getIRExpressionPair()
+	public virtual ExpressionPair IRExpressionPair
 	{
-		return checkIR(ExpressionPair.class);
+		get
+		{
+		return CheckIR(typeof(ExpressionPair));
+		}
 	}
 
-	public boolean noDefElement(String containingConstruct)
+	public virtual bool NoDefElement(string containingConstruct)
 	{
-		return keyExpr.noDefElement(containingConstruct) & valueExpr.noDefElement(containingConstruct);
+		return keyExpr.NoDefElement(containingConstruct) & valueExpr.NoDefElement(containingConstruct);
 	}
 
-	public boolean noIteratedReference(String containingConstruct)
+	public virtual bool NoIteratedReference(string containingConstruct)
 	{
-		return keyExpr.noIteratedReference(containingConstruct) & valueExpr.noIteratedReference(containingConstruct);
+		return keyExpr.NoIteratedReference(containingConstruct) & valueExpr.NoIteratedReference(containingConstruct);
 	}
 
-	public boolean iteratedNotReferenced(String iterName)
+	public virtual bool IteratedNotReferenced(string iterName)
 	{
-		return keyExpr.iteratedNotReferenced(iterName) & valueExpr.iteratedNotReferenced(iterName);
+		return keyExpr.IteratedNotReferenced(iterName) & valueExpr.IteratedNotReferenced(iterName);
 	}
+}
+
 }

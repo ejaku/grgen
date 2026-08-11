@@ -1,126 +1,130 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.graph.AdjacentNodeExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.BoundedReachableEdgeExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.BoundedReachableNodeExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.EdgesExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToAsArrayExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessMultipleFromToExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.IncidentEdgeExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.NodesExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToAsArrayExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessMultipleFromToExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.ReachableEdgeExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.ReachableNodeExprNode;
-import de.unika.ipd.grgen.ast.expr.invocation.FunctionInvocationDecisionNode;
-import de.unika.ipd.grgen.ast.expr.invocation.FunctionOrBuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.invocation.IndexFunctionInvocationDecisionNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.stmt.graph.ForFunction;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing a for lookup of a neighborhood function.
- */
-public class ForFunctionNode extends ForGraphQueryNode
+namespace de.unika.ipd.grgen.ast.stmt.graph
 {
-	static {
-		setClassName(ForFunctionNode.class, "ForFunction");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using AdjacentNodeExprNode = de.unika.ipd.grgen.ast.expr.graph.AdjacentNodeExprNode;
+using BoundedReachableEdgeExprNode = de.unika.ipd.grgen.ast.expr.graph.BoundedReachableEdgeExprNode;
+using BoundedReachableNodeExprNode = de.unika.ipd.grgen.ast.expr.graph.BoundedReachableNodeExprNode;
+using EdgesExprNode = de.unika.ipd.grgen.ast.expr.graph.EdgesExprNode;
+using EdgesFromIndexAccessFromToAsArrayExprNode = de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToAsArrayExprNode;
+using EdgesFromIndexAccessMultipleFromToExprNode = de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessMultipleFromToExprNode;
+using EdgesFromIndexAccessSameExprNode = de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameExprNode;
+using IncidentEdgeExprNode = de.unika.ipd.grgen.ast.expr.graph.IncidentEdgeExprNode;
+using NodesExprNode = de.unika.ipd.grgen.ast.expr.graph.NodesExprNode;
+using NodesFromIndexAccessFromToAsArrayExprNode = de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToAsArrayExprNode;
+using NodesFromIndexAccessMultipleFromToExprNode = de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessMultipleFromToExprNode;
+using NodesFromIndexAccessSameExprNode = de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameExprNode;
+using ReachableEdgeExprNode = de.unika.ipd.grgen.ast.expr.graph.ReachableEdgeExprNode;
+using ReachableNodeExprNode = de.unika.ipd.grgen.ast.expr.graph.ReachableNodeExprNode;
+using FunctionInvocationDecisionNode = de.unika.ipd.grgen.ast.expr.invocation.FunctionInvocationDecisionNode;
+using FunctionOrBuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.invocation.FunctionOrBuiltinFunctionInvocationBaseNode;
+using IndexFunctionInvocationDecisionNode = de.unika.ipd.grgen.ast.expr.invocation.IndexFunctionInvocationDecisionNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using ForFunction = de.unika.ipd.grgen.ir.stmt.graph.ForFunction;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing a for lookup of a neighborhood function.
+/// </summary>
+public class ForFunctionNode : ForGraphQueryNode
+{
+	static ForFunctionNode()
+	{
+		SetClassName(typeof(ForFunctionNode), "ForFunction");
 	}
 
-	FunctionInvocationDecisionNode function;
-	IndexFunctionInvocationDecisionNode indexFunction;
+	internal FunctionInvocationDecisionNode function;
+	internal IndexFunctionInvocationDecisionNode indexFunction;
 
-	
+
 	public ForFunctionNode(Coords coords, BaseNode iterationVariable, FunctionOrBuiltinFunctionInvocationBaseNode function,
 			CollectNode<EvalStatementNode> loopedStatements)
+		: base(coords, iterationVariable, loopedStatements)
 	{
-		super(coords, iterationVariable, loopedStatements);
-		if(function instanceof FunctionInvocationDecisionNode) { 
-			this.function = becomeParent((FunctionInvocationDecisionNode)function);
-		} else {
-			this.indexFunction = becomeParent((IndexFunctionInvocationDecisionNode)function);
-		}
+		if(function is FunctionInvocationDecisionNode)
+			this.function = BecomeParent((FunctionInvocationDecisionNode)function);
+		else
+			this.indexFunction = BecomeParent((IndexFunctionInvocationDecisionNode)function);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
-		children.add(getValidFunction());
-		children.add(statements);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(iterationVariableUnresolved, iterationVariable));
+		children.Add(ValidFunction);
+		children.Add(statements);
 		return children;
-	}
-
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("iterationVariable");
-		childrenNames.add("function");
-		childrenNames.add("loopedStatements");
-		return childrenNames;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
-	{
-		return resolveIterationVariable("function");
-	}
-
-	@Override
-	protected boolean checkLocal()
-	{
-		if(!checkIterationVariable("function")) {
-			return false;
 		}
+	}
 
-		if(function != null) {
-			if(function.getResult() instanceof IncidentEdgeExprNode) {
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("iterationVariable");
+		childrenNames.Add("function");
+		childrenNames.Add("loopedStatements");
+		return childrenNames;
+		}
+	}
+
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
+	{
+		return ResolveIterationVariable("function");
+	}
+
+	protected internal override bool CheckLocal()
+	{
+		if(!CheckIterationVariable("function"))
+			return false;
+
+		if(function != null)
+		{
+			if(function.Result is IncidentEdgeExprNode)
 				return true;
-			} else if(function.getResult() instanceof AdjacentNodeExprNode) {
+			else if(function.Result is AdjacentNodeExprNode)
 				return true;
-			} else if(function.getResult() instanceof ReachableEdgeExprNode) {
+			else if(function.Result is ReachableEdgeExprNode)
 				return true;
-			} else if(function.getResult() instanceof ReachableNodeExprNode) {
+			else if(function.Result is ReachableNodeExprNode)
 				return true;
-			} else if(function.getResult() instanceof BoundedReachableEdgeExprNode) {
+			else if(function.Result is BoundedReachableEdgeExprNode)
 				return true;
-			} else if(function.getResult() instanceof BoundedReachableNodeExprNode) {
+			else if(function.Result is BoundedReachableNodeExprNode)
 				return true;
-			} else if(function.getResult() instanceof NodesExprNode) {
+			else if(function.Result is NodesExprNode)
 				return true;
-			} else if(function.getResult() instanceof EdgesExprNode) {
+			else if(function.Result is EdgesExprNode)
 				return true;
-			} else {
-				reportError("Unkonwn function " + function.functionIdent + " in for function loop"
+			else
+			{
+				ReportError("Unkonwn function " + function.functionIdent + " in for function loop"
 						+ " (expected is one of "
 						+ "incident, incoming, outgoing, "
 						+ "adjacent, adjacentIncoming, adjacentOutgoing, "
@@ -132,21 +136,24 @@ public class ForFunctionNode extends ForGraphQueryNode
 						+ ").");
 				return false;
 			}
-		} else {
-			if(indexFunction.getResult() instanceof NodesFromIndexAccessSameExprNode) {
+		}
+		else
+		{
+			if(indexFunction.Result is NodesFromIndexAccessSameExprNode)
 				return true;
-			} else if(indexFunction.getResult() instanceof EdgesFromIndexAccessSameExprNode) {
+			else if(indexFunction.Result is EdgesFromIndexAccessSameExprNode)
 				return true;
-			} else if(indexFunction.getResult() instanceof NodesFromIndexAccessFromToAsArrayExprNode) {
+			else if(indexFunction.Result is NodesFromIndexAccessFromToAsArrayExprNode)
 				return true;
-			} else if(indexFunction.getResult() instanceof EdgesFromIndexAccessFromToAsArrayExprNode) {
+			else if(indexFunction.Result is EdgesFromIndexAccessFromToAsArrayExprNode)
 				return true;
-			} else if(indexFunction.getResult() instanceof NodesFromIndexAccessMultipleFromToExprNode) {
+			else if(indexFunction.Result is NodesFromIndexAccessMultipleFromToExprNode)
 				return true;
-			} else if(indexFunction.getResult() instanceof EdgesFromIndexAccessMultipleFromToExprNode) {
+			else if(indexFunction.Result is EdgesFromIndexAccessMultipleFromToExprNode)
 				return true;
-			} else {
-				reportError("Unkonwn index function " + function.functionIdent + " in for function loop"
+			else
+			{
+				ReportError("Unkonwn index function " + function.functionIdent + " in for function loop"
 						+ " (expected is one of "
 						+ "nodesFromIndexSame, edgesFromIndexSame, "
 						+ "nodesFromIndexAscending, nodesFromIndexDescending, edgesFromIndexAscending, edgesFromIndexDescending, "
@@ -165,24 +172,26 @@ public class ForFunctionNode extends ForGraphQueryNode
 		}
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	protected FunctionOrBuiltinFunctionInvocationBaseNode getValidFunction()
+	protected internal virtual FunctionOrBuiltinFunctionInvocationBaseNode ValidFunction
 	{
+		get
+		{
 		return function != null ? (FunctionOrBuiltinFunctionInvocationBaseNode)function : (FunctionOrBuiltinFunctionInvocationBaseNode)indexFunction;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		ForFunction ff = new ForFunction(iterationVariable.checkIR(Variable.class), getValidFunction().checkIR(Expression.class));
-		for(EvalStatementNode accumulationStatement : statements.getChildrenExact()) {
-			ff.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
-		}
+		ForFunction ff = new ForFunction(iterationVariable.CheckIR(typeof(Variable)), ValidFunction.CheckIR(typeof(Expression)));
+		foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
+			ff.AddLoopedStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
 		return ff;
 	}
+}
+
 }

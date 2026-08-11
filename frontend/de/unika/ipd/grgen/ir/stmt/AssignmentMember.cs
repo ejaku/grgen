@@ -1,49 +1,53 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-
-/**
- * Represents an assignment statement in the IR.
- */
-//currently unused, would be needed for member assignment inside method without "this." prefix
-public class AssignmentMember extends AssignmentBase
+namespace de.unika.ipd.grgen.ir.stmt
 {
-	/** The lhs of the assignment. */
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+
+/// <summary>
+/// Represents an assignment statement in the IR.
+/// </summary>
+//currently unused, would be needed for member assignment inside method without "this." prefix
+public class AssignmentMember : AssignmentBase
+{
+	/// <summary>
+	/// The lhs of the assignment. </summary>
 	private Entity target;
 
 	public AssignmentMember(Entity target, Expression expr)
+		: base("assignment member")
 	{
-		super("assignment member");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public Entity getTarget()
+	public virtual Entity Target
 	{
+		get
+		{
 		return target;
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return getTarget() + " = " + getExpression();
+		return Target + " = " + Expression;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		getExpression().collectNeededEntities(needs);
+		Expression.CollectNeededEntities(needs);
 	}
+}
+
 }

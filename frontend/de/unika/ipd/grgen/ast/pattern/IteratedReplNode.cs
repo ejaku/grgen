@@ -1,32 +1,32 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.pattern;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.pattern.IteratedReplacement;
-
-public class IteratedReplNode extends OrderedReplacementNode
+namespace de.unika.ipd.grgen.ast.pattern
 {
-	static {
-		setClassName(IteratedReplNode.class, "iterated repl node");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using IteratedReplacement = de.unika.ipd.grgen.ir.pattern.IteratedReplacement;
+
+public class IteratedReplNode : OrderedReplacementNode
+{
+	static IteratedReplNode()
+	{
+		SetClassName(typeof(IteratedReplNode), "iterated repl node");
 	}
 
 	private IdentNode iteratedUnresolved;
@@ -35,46 +35,49 @@ public class IteratedReplNode extends OrderedReplacementNode
 	public IteratedReplNode(IdentNode n)
 	{
 		this.iteratedUnresolved = n;
-		becomeParent(this.iteratedUnresolved);
+		BecomeParent(this.iteratedUnresolved);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(iteratedUnresolved, iterated));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(iteratedUnresolved, iterated));
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("iterated");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("iterated");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
-			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
+	private static readonly DeclarationResolver<IteratedDeclNode> iteratedResolver =
+			new DeclarationResolver<IteratedDeclNode>(typeof(IteratedDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
+		iterated = iteratedResolver.Resolve(iteratedUnresolved, this);
 		return iterated != null;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return new IteratedReplacement("iterated replacement", iteratedUnresolved.getIRIdent(),
-				iterated.checkIR(Rule.class));
+		return new IteratedReplacement("iterated replacement", iteratedUnresolved.IRIdent,
+				iterated.CheckIR(typeof(Rule)));
 	}
+}
+
 }

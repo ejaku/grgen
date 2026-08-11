@@ -1,42 +1,49 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.executable.FilterFunctionTypeNode;
-
-/**
- * AST node class representing auto-supplied and auto-generated filter declarations
- */
-public abstract class FilterAutoDeclNode extends DeclNode
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	static {
-		setClassName(FilterAutoDeclNode.class, "auto filter");
+using System.Diagnostics;
+
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using FilterFunctionTypeNode = de.unika.ipd.grgen.ast.type.executable.FilterFunctionTypeNode;
+
+/// <summary>
+/// AST node class representing auto-supplied and auto-generated filter declarations
+/// </summary>
+public abstract class FilterAutoDeclNode : DeclNode
+{
+	static FilterAutoDeclNode()
+	{
+		SetClassName(typeof(FilterAutoDeclNode), "auto filter");
 	}
 
-	static final FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode(); // dummy type
+	internal static readonly FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode(); // dummy type
 
 	public FilterAutoDeclNode(IdentNode ident)
+		: base(ident, filterFunctionType)
 	{
-		super(ident, filterFunctionType);
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return filterFunctionType;
+		}
 	}
+}
+
 }

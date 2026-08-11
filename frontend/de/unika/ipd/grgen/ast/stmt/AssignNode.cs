@@ -1,490 +1,548 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack, Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ast.stmt;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ArithmeticOperatorNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.IdentExprNode;
-import de.unika.ipd.grgen.ast.expr.MemberAccessExprNode;
-import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
-import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.stmt.Assignment;
-import de.unika.ipd.grgen.ir.stmt.AssignmentGraphEntity;
-import de.unika.ipd.grgen.ir.stmt.AssignmentIdentical;
-import de.unika.ipd.grgen.ir.stmt.AssignmentMember;
-import de.unika.ipd.grgen.ir.stmt.AssignmentVar;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing an assignment.
- */
-public class AssignNode extends EvalStatementNode
+/// <summary>
+/// @author Sebastian Hack, Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	static {
-		setClassName(AssignNode.class, "Assign");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using ConstraintDeclNode = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ArithmeticOperatorNode = de.unika.ipd.grgen.ast.expr.ArithmeticOperatorNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using IdentExprNode = de.unika.ipd.grgen.ast.expr.IdentExprNode;
+using MemberAccessExprNode = de.unika.ipd.grgen.ast.expr.MemberAccessExprNode;
+using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+using MapInitNode = de.unika.ipd.grgen.ast.expr.map.MapInitNode;
+using SetInitNode = de.unika.ipd.grgen.ast.expr.set.SetInitNode;
+using MemberDeclNode = de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Assignment = de.unika.ipd.grgen.ir.stmt.Assignment;
+using AssignmentGraphEntity = de.unika.ipd.grgen.ir.stmt.AssignmentGraphEntity;
+using AssignmentIdentical = de.unika.ipd.grgen.ir.stmt.AssignmentIdentical;
+using AssignmentMember = de.unika.ipd.grgen.ir.stmt.AssignmentMember;
+using AssignmentVar = de.unika.ipd.grgen.ir.stmt.AssignmentVar;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing an assignment.
+/// </summary>
+public class AssignNode : EvalStatementNode
+{
+	static AssignNode()
+	{
+		SetClassName(typeof(AssignNode), "Assign");
 	}
 
-	BaseNode lhsUnresolved;
-	ExprNode rhs;
-	int context;
-	boolean onLHS;
+	internal BaseNode lhsUnresolved;
+	internal ExprNode rhs;
+	internal int context;
+	internal bool onLHS;
 
-	QualIdentNode lhsQual;
-	VarDeclNode lhsVar;
-	ConstraintDeclNode lhsGraphElement;
-	MemberDeclNode lhsMember;
+	internal QualIdentNode lhsQual;
+	internal VarDeclNode lhsVar;
+	internal ConstraintDeclNode lhsGraphElement;
+	internal MemberDeclNode lhsMember;
 
-	/**
-	 * @param coords The source code coordinates of = operator.
-	 * @param target The left hand side.
-	 * @param expr The expression, that is assigned.
-	 */
+	/// <param name="coords"> The source code coordinates of = operator. </param>
+	/// <param name="target"> The left hand side. </param>
+	/// <param name="expr"> The expression, that is assigned. </param>
 	public AssignNode(Coords coords, QualIdentNode target, ExprNode expr, int context)
+		: base(coords)
 	{
-		super(coords);
 		this.lhsUnresolved = target;
-		becomeParent(this.lhsUnresolved);
+		BecomeParent(this.lhsUnresolved);
 		this.rhs = expr;
-		becomeParent(this.rhs);
+		BecomeParent(this.rhs);
 		this.context = context;
 		this.onLHS = false;
 	}
 
-	/**
-	 * @param coords The source code coordinates of = operator.
-	 * @param target The left hand side.
-	 * @param expr The expression, that is assigned.
-	 */
-	public AssignNode(Coords coords, IdentExprNode target, ExprNode expr, int context, boolean onLHS)
+	/// <param name="coords"> The source code coordinates of = operator. </param>
+	/// <param name="target"> The left hand side. </param>
+	/// <param name="expr"> The expression, that is assigned. </param>
+	public AssignNode(Coords coords, IdentExprNode target, ExprNode expr, int context, bool onLHS)
+		: base(coords)
 	{
-		super(coords);
 		this.lhsUnresolved = target;
-		becomeParent(this.lhsUnresolved);
+		BecomeParent(this.lhsUnresolved);
 		this.rhs = expr;
-		becomeParent(this.rhs);
+		BecomeParent(this.rhs);
 		this.context = context;
 		this.onLHS = onLHS;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(lhsUnresolved, lhsQual, lhsVar, lhsGraphElement));
-		children.add(rhs);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(lhsUnresolved, lhsQual, lhsVar, lhsGraphElement));
+		children.Add(rhs);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("lhs");
-		childrenNames.add("rhs");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("lhs");
+		childrenNames.Add("rhs");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = true;
-		if(lhsUnresolved instanceof IdentExprNode) {
+		bool successfullyResolved = true;
+		if(lhsUnresolved is IdentExprNode)
+		{
 			IdentExprNode unresolved = (IdentExprNode)lhsUnresolved;
-			if(unresolved.resolve()) {
-				if(unresolved.decl instanceof VarDeclNode) {
+			if(unresolved.Resolve())
+			{
+				if(unresolved.decl is VarDeclNode)
 					lhsVar = (VarDeclNode)unresolved.decl;
-				} else if(unresolved.decl instanceof ConstraintDeclNode) {
+				else if(unresolved.decl is ConstraintDeclNode)
 					lhsGraphElement = (ConstraintDeclNode)unresolved.decl;
-				} else if(unresolved.decl instanceof MemberDeclNode) {
+				else if(unresolved.decl is MemberDeclNode)
+				{
 					//lhsMember = (MemberDeclNode)unresolved.decl;
-					reportError("Error in resolving the left hand side of the assignment (given is " + unresolved.getIdent() + ")"
-							+ " (use this." + unresolved.getIdent() + " to access a class member inside a method).");
-					successfullyResolved = false;
-				} else {
-					reportError("Error in resolving the left hand side of the assignment, a variable or graph element is expected (given is " + unresolved.getIdent() + ").");
+					ReportError("Error in resolving the left hand side of the assignment (given is " + unresolved.Ident + ")"
+							+ " (use this." + unresolved.Ident + " to access a class member inside a method).");
 					successfullyResolved = false;
 				}
-			} else {
-				reportError("Error in resolving the left hand side of the assignment (given is " + unresolved.getIdent() + ").");
+				else
+				{
+					ReportError("Error in resolving the left hand side of the assignment, a variable or graph element is expected (given is " + unresolved.Ident + ").");
+					successfullyResolved = false;
+				}
+			}
+			else
+			{
+				ReportError("Error in resolving the left hand side of the assignment (given is " + unresolved.Ident + ").");
 				successfullyResolved = false;
 			}
-		} else if(lhsUnresolved instanceof QualIdentNode) {
+		}
+		else if(lhsUnresolved is QualIdentNode)
+		{
 			QualIdentNode unresolved = (QualIdentNode)lhsUnresolved;
-			if(unresolved.resolve()) {
+			if(unresolved.Resolve())
 				lhsQual = unresolved;
-			} else {
-				reportError("Error in resolving the qualified attribute on the left hand side of the assignment (given is " + unresolved + ").");
+			else
+			{
+				ReportError("Error in resolving the qualified attribute on the left hand side of the assignment (given is " + unresolved + ").");
 				successfullyResolved = false;
 			}
-		} else {
-			reportError("Internal error - invalid left hand side in assignment.");
+		}
+		else
+		{
+			ReportError("Internal error - invalid left hand side in assignment.");
 			successfullyResolved = false;
 		}
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		if(lhsQual != null) {
-			if(!checkLhsQual())
+		if(lhsQual != null)
+		{
+			if(!CheckLhsQual())
 				return false;
-		} else if(lhsGraphElement != null) {
-			if(!checkLhsGraphElement())
+		}
+		else if(lhsGraphElement != null)
+		{
+			if(!CheckLhsGraphElement())
 				return false;
-		} else if(lhsVar != null) {
-			if(!checkLhsVar())
+		}
+		else if(lhsVar != null)
+		{
+			if(!CheckLhsVar())
 				return false;
 		}
 
-		return typeCheckLocal();
+		return TypeCheckLocal();
 	}
 
-	private boolean checkLhsQual()
+	private bool CheckLhsQual()
 	{
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION
-				&& !lhsQual.isMatchAssignment()
-				&& !lhsQual.isTransientObjectAssignment()) {
-			reportError("An assignment to an attribute of a graph element or internal class object"
+				&& !lhsQual.IsMatchAssignment()
+				&& !lhsQual.IsTransientObjectAssignment())
+		{
+			ReportError("An assignment to an attribute of a graph element or internal class object"
 					+ " is not allowed in function or pattern part context"
 					+ " (but occurrs with " + lhsQual + ").");
 			return false;
 		}
 
-		DeclNode owner = lhsQual.getOwner();
-		TypeNode ty = owner.getDeclType();
+		DeclNode owner = lhsQual.Owner;
+		TypeNode ty = owner.DeclType;
 
-		MemberDeclNode member = lhsQual.getMemberDecl(); // null for match type
-		if(member != null && member.isConst()) {
-			reportError("An assignment to a const member is not allowed (" + lhsQual.getDecl().getIdent() + lhsQual.getDecl().getDeclarationCoords() + " is constant).");
+		MemberDeclNode member = lhsQual.MemberDecl; // null for match type
+		if(member != null && member.IsConst())
+		{
+			ReportError("An assignment to a const member is not allowed (" + lhsQual.Decl.Ident + lhsQual.Decl.DeclarationCoords + " is constant).");
 			return false;
 		}
 
-		if(ty instanceof InheritanceTypeNode) {
+		if(ty is InheritanceTypeNode)
+		{
 			InheritanceTypeNode inhTy = (InheritanceTypeNode)ty;
 
-			if(inhTy.isConst()) {
-				reportError("An assignment to a const type object is not allowed (" + inhTy.toStringWithDeclarationCoords() + " is constant).");
+			if(inhTy.IsConst())
+			{
+				ReportError("An assignment to a const type object is not allowed (" + inhTy.ToStringWithDeclarationCoords() + " is constant).");
 				return false;
 			}
 		}
 
-		if(owner instanceof ConstraintDeclNode) {
+		if(owner is ConstraintDeclNode)
+		{
 			ConstraintDeclNode entity = (ConstraintDeclNode)owner;
-			if((entity.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
-				if(getCoords().comesBefore(entity.getCoords())) {
-					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to"
-							+ " (" + entity.getIdent() + " was not yet declared).");
+			if((entity.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION)
+			{
+				if(Coords.ComesBefore(entity.Coords))
+				{
+					ReportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to"
+							+ " (" + entity.Ident + " was not yet declared).");
 					return false;
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
-	private boolean checkLhsGraphElement()
+	private bool CheckLhsGraphElement()
 	{
-		if(lhsGraphElement.defEntityToBeYieldedTo) {
+		if(lhsGraphElement.defEntityToBeYieldedTo)
+		{
 			IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
-			if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
-				if(!identExpr.yieldedTo) {
-					reportError("Only a yield assignment is allowed to a def pattern graph element"
-							+ " (" + lhsGraphElement.getIdent() + " was declared with def)"
+			if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION)
+			{
+				if(!identExpr.yieldedTo)
+				{
+					ReportError("Only a yield assignment is allowed to a def pattern graph element"
+							+ " (" + lhsGraphElement.Ident + " was declared with def)"
 							+ " (the typical solution is to prepend a yield to the assignment).");
 					return false;
 				}
-			} else {
-				if(identExpr.yieldedTo) {
-					reportError("Only a non-yield assignment is allowed to a computation local def pattern graph element"
-							+ " (" + lhsGraphElement.getIdent() + " was declared with def in computation context)"
+			}
+			else
+			{
+				if(identExpr.yieldedTo)
+				{
+					ReportError("Only a non-yield assignment is allowed to a computation local def pattern graph element"
+							+ " (" + lhsGraphElement.Ident + " was declared with def in computation context)"
 							+ " (the typical solution is to remove the yield from the assignment).");
 					return false;
 				}
 			}
 
-			if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
+			if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION)
+			{
 				if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
-						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-					reportError("Cannot yield from the right hand side to a left hand side def pattern graph element"
-							+ " (" + lhsGraphElement.getIdent() + " was declared in the pattern part).");
+						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS)
+				{
+					ReportError("Cannot yield from the right hand side to a left hand side def pattern graph element"
+							+ " (" + lhsGraphElement.Ident + " was declared in the pattern part).");
 					return false;
 				}
 			}
-		} else {
-			if(lhsGraphElement.directlyNestingLHSGraph != null) {
+		}
+		else
+		{
+			if(lhsGraphElement.directlyNestingLHSGraph != null)
+			{
 				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
-				if(identExpr.yieldedTo) {
-					reportError("A yield assignment is only allowed to a def pattern graph element"
-							+ " (" + lhsGraphElement.getIdent() + " was declared without def).");
+				if(identExpr.yieldedTo)
+				{
+					ReportError("A yield assignment is only allowed to a def pattern graph element"
+							+ " (" + lhsGraphElement.Ident + " was declared without def).");
 					return false;
 				}
 
-				reportError("Only a def pattern graph element can be assigned to"
-						+ " (" + lhsGraphElement.getIdent() + " was declared without def).");
+				ReportError("Only a def pattern graph element can be assigned to"
+						+ " (" + lhsGraphElement.Ident + " was declared without def).");
 				return false;
 			}
 
-			if(lhsGraphElement.directlyNestingLHSGraph == null && onLHS) {
-				reportError("An assignment to a global variable (" + lhsGraphElement.toStringWithDeclarationCoords() + ") is not allowed from a yield block.");
+			if(lhsGraphElement.directlyNestingLHSGraph == null && onLHS)
+			{
+				ReportError("An assignment to a global variable (" + lhsGraphElement.ToStringWithDeclarationCoords() + ") is not allowed from a yield block.");
 				return false;
 			}
 		}
 
-		if((lhsGraphElement.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
-			if(getCoords().comesBefore(lhsGraphElement.getCoords())) {
-				reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to"
-						+ " (" + lhsGraphElement.getIdent() + " was not yet declared).");
+		if((lhsGraphElement.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION)
+		{
+			if(Coords.ComesBefore(lhsGraphElement.Coords))
+			{
+				ReportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to"
+						+ " (" + lhsGraphElement.Ident + " was not yet declared).");
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
-	private boolean checkLhsVar()
+	private bool CheckLhsVar()
 	{
-		if(lhsVar.defEntityToBeYieldedTo) {
+		if(lhsVar.defEntityToBeYieldedTo)
+		{
 			IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
-			if((lhsVar.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
-				if(!identExpr.yieldedTo) {
-					reportError("Only a yield assignment is allowed to a def variable"
-							+ " (" + lhsVar.getIdent() + " was declared with def)"
+			if((lhsVar.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION)
+			{
+				if(!identExpr.yieldedTo)
+				{
+					ReportError("Only a yield assignment is allowed to a def variable"
+							+ " (" + lhsVar.Ident + " was declared with def)"
 							+ " (the typical solution is to prepend a yield to the assignment).");
 					return false;
 				}
-			} else {
-				if(identExpr.yieldedTo) {
-					reportError("Only a non-yield assignment is allowed to a computation local def variable"
-							+ " (" + lhsVar.getIdent() + " was declared with def in computation context)"
+			}
+			else
+			{
+				if(identExpr.yieldedTo)
+				{
+					ReportError("Only a non-yield assignment is allowed to a computation local def variable"
+							+ " (" + lhsVar.Ident + " was declared with def in computation context)"
 							+ " (the typical solution is to remove the yield from the assignment).");
 					return false;
 				}
 			}
 
-			if((lhsVar.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
+			if((lhsVar.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION)
+			{
 				if((lhsVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
-						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-					reportError("Cannot yield from the right hand side to a left hand side def variable"
-							+ " (" + lhsVar.getIdent() + " was declared in the pattern part).");
+						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS)
+				{
+					ReportError("Cannot yield from the right hand side to a left hand side def variable"
+							+ " (" + lhsVar.Ident + " was declared in the pattern part).");
 					return false;
 				}
 			}
-		} else {
+		}
+		else
+		{
 			IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
-			if(identExpr.yieldedTo) {
-				reportError("A yield assignment is only allowed to a def variable"
-						+ " (" + lhsVar.getIdent() + " was declared without def).");
+			if(identExpr.yieldedTo)
+			{
+				ReportError("A yield assignment is only allowed to a def variable"
+						+ " (" + lhsVar.Ident + " was declared without def).");
 				return false;
 			}
 
-			if(lhsVar.directlyNestingLHSGraph == null && onLHS) {
-				reportError("An assignment to a global variable (" + lhsVar.toStringWithDeclarationCoords() + ") is not allowed from a yield block.");
+			if(lhsVar.directlyNestingLHSGraph == null && onLHS)
+			{
+				ReportError("An assignment to a global variable (" + lhsVar.ToStringWithDeclarationCoords() + ") is not allowed from a yield block.");
 				return false;
 			}
 		}
 
-		if((lhsVar.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
-			if(getCoords().comesBefore(lhsVar.getCoords())) {
-				reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to"
-						+ " (" + lhsVar.getIdent() + " was not yet declared).");
+		if((lhsVar.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION)
+		{
+			if(Coords.ComesBefore(lhsVar.Coords))
+			{
+				ReportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to"
+						+ " (" + lhsVar.Ident + " was not yet declared).");
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
-	/**
-	 * Checks whether the expression has a type equal, compatible or castable
-	 * to the type of the target. Inserts implicit cast if compatible.
-	 * @return true, if the types are equal or compatible, false otherwise
-	 */
-	private boolean typeCheckLocal()
+	/// <summary>
+	/// Checks whether the expression has a type equal, compatible or castable
+	/// to the type of the target. Inserts implicit cast if compatible. </summary>
+	/// <returns> true, if the types are equal or compatible, false otherwise </returns>
+	private bool TypeCheckLocal()
 	{
 		TypeNode targetType = null;
-		if(lhsQual != null) {
-			if(!lhsQual.isMatchAssignment())
-				targetType = lhsQual.getDecl().getDeclType();
+		if(lhsQual != null)
+		{
+			if(!lhsQual.IsMatchAssignment())
+				targetType = lhsQual.Decl.DeclType;
 			else
-				targetType = lhsQual.getMember().getDeclType();
+				targetType = lhsQual.Member.DeclType;
 		}
 		if(lhsVar != null)
-			targetType = lhsVar.getDeclType();
+			targetType = lhsVar.DeclType;
 		if(lhsGraphElement != null)
-			targetType = lhsGraphElement.getDeclType();
+			targetType = lhsGraphElement.DeclType;
 		if(lhsMember != null)
-			targetType = lhsMember.getDeclType();
-		TypeNode exprType = rhs.getType();
+			targetType = lhsMember.DeclType;
+		TypeNode exprType = rhs.Type;
 
-		if(exprType.isEqual(targetType))
+		if(exprType.IsEqual(targetType))
 			return true;
 
-		rhs = becomeParent(rhs.adjustType(targetType, getCoords()));
-		if(rhs == ConstNode.getInvalid())
+		rhs = BecomeParent(rhs.AdjustType(targetType, Coords));
+		if(rhs == ConstNode.Invalid)
 			return false;
 
-		if(targetType instanceof NodeTypeNode && exprType instanceof NodeTypeNode
-				|| targetType instanceof EdgeTypeNode && exprType instanceof EdgeTypeNode) {
-			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
-			exprType.doGetCompatibleToTypes(superTypes);
-			if(!superTypes.contains(targetType)) {
-				reportError("Cannot assign a value of type " + exprType.toStringWithDeclarationCoords()
-						+ " to a variable of type " + targetType.toStringWithDeclarationCoords() + ".");
+		if(targetType is NodeTypeNode && exprType is NodeTypeNode
+				|| targetType is EdgeTypeNode && exprType is EdgeTypeNode)
+		{
+			ICollection<TypeNode> superTypes = new HashSet<TypeNode>();
+			exprType.DoGetCompatibleToTypes(superTypes);
+			if(!superTypes.Contains(targetType))
+			{
+				ReportError("Cannot assign a value of type " + exprType.ToStringWithDeclarationCoords()
+						+ " to a variable of type " + targetType.ToStringWithDeclarationCoords() + ".");
 				return false;
 			}
 		}
-		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
-				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-			reportError("Cannot assign a value of type " + exprType.toStringWithDeclarationCoords()
-					+ " to a variable of type " + targetType.toStringWithDeclarationCoords() + ".");
+		if(targetType is NodeTypeNode && exprType is EdgeTypeNode
+				|| targetType is EdgeTypeNode && exprType is NodeTypeNode)
+		{
+			ReportError("Cannot assign a value of type " + exprType.ToStringWithDeclarationCoords()
+					+ " to a variable of type " + targetType.ToStringWithDeclarationCoords() + ".");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	/**
-	 * Construct the immediate representation from an assignment node.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+	/// <summary>
+	/// Construct the immediate representation from an assignment node. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
 	{
 		// optimize . = . away
-		if(isIdenticalAssignment()) {
+		if(IsIdenticalAssignment())
 			return new AssignmentIdentical();
+
+		ExprNode rhsEvaluated = rhs.Evaluate();
+		if(lhsQual != null)
+		{
+			Qualification qual = lhsQual.CheckIR(typeof(Qualification));
+			if(qual.Owner is Node && ((Node)qual.Owner).ChangesType(null))
+				ReportError("An assignment to a node whose type will be changed is not allowed (but occurs for " + lhsQual + ").");
+			if(qual.Owner is Edge && ((Edge)qual.Owner).ChangesType(null))
+				ReportError("An assignment to an edge whose type will be changed is not allowed (but occurs for " + lhsQual + ").");
+
+			if(CanSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations())
+			{
+				MarkSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations();
+				return rhsEvaluated.CheckIR(typeof(EvalStatement));
+			}
+
+			return new Assignment(qual, rhsEvaluated.CheckIR(typeof(Expression)));
 		}
-
-		ExprNode rhsEvaluated = rhs.evaluate();
-		if(lhsQual != null) {
-			Qualification qual = lhsQual.checkIR(Qualification.class);
-			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType(null)) {
-				reportError("An assignment to a node whose type will be changed is not allowed (but occurs for " + lhsQual + ").");
-			}
-			if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType(null)) {
-				reportError("An assignment to an edge whose type will be changed is not allowed (but occurs for " + lhsQual + ").");
-			}
-
-			if(canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()) {
-				markSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations();
-				return rhsEvaluated.checkIR(EvalStatement.class);
-			}
-
-			return new Assignment(qual, rhsEvaluated.checkIR(Expression.class));
-		} else if(lhsVar != null) {
-			Variable var = lhsVar.checkIR(Variable.class);
+		else if(lhsVar != null)
+		{
+			Variable var = lhsVar.CheckIR(typeof(Variable));
 
 			// TODO: extend optimization to assignments to variables
 
-			return new AssignmentVar(var, rhsEvaluated.checkIR(Expression.class));
-		} else if(lhsGraphElement != null) {
-			GraphEntity graphEntity = lhsGraphElement.checkIR(GraphEntity.class);
+			return new AssignmentVar(var, rhsEvaluated.CheckIR(typeof(Expression)));
+		}
+		else if(lhsGraphElement != null)
+		{
+			GraphEntity graphEntity = lhsGraphElement.CheckIR(typeof(GraphEntity));
 
 			// TODO: extend optimization to assignments to (pattern) graph entities
 
-			return new AssignmentGraphEntity(graphEntity, rhsEvaluated.checkIR(Expression.class));
-		} else {
-			Entity entity = lhsMember.checkIR(Entity.class);
+			return new AssignmentGraphEntity(graphEntity, rhsEvaluated.CheckIR(typeof(Expression)));
+		}
+		else
+		{
+			Entity entity = lhsMember.CheckIR(typeof(Entity));
 
 			// TODO: extend optimization to assignments to entities
 
-			return new AssignmentMember(entity, rhsEvaluated.checkIR(Expression.class));
+			return new AssignmentMember(entity, rhsEvaluated.CheckIR(typeof(Expression)));
 		}
 	}
 
-	private boolean canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()
+	private bool CanSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()
 	{
 		// TODO: extend optimization to rewrite to compound assignment statement if same lhs but non-constructor rhs
 
 		// is it a set or map assignment ?
-		if(lhsQual == null || lhsQual.getDecl() == null) { // don't look at match entities
+		if(lhsQual == null || lhsQual.Decl == null) // don't look at match entities
 			return false; // TODO: extend optimization to assignments to variables
-		}
 		QualIdentNode qual = lhsQual;
-		if(!(qual.getMemberDecl().type instanceof SetTypeNode) && !(qual.getMemberDecl().type instanceof MapTypeNode)) {
+		if(!(qual.MemberDecl.type is SetTypeNode) && !(qual.MemberDecl.type is MapTypeNode))
 			return false;
-		}
 
 		// descend and check if constraints are fulfilled which allow breakup
 		ExprNode curLoc = rhs; // current location in the expression tree, more exactly: left-deep list
-		while(curLoc != null) {
-			if(curLoc instanceof ArithmeticOperatorNode) {
-				ArithmeticOperatorNode operator = (ArithmeticOperatorNode)curLoc;
-				if(!(operator.getOperatorDecl().getOperator() == Operator.BIT_OR)
-						&& !(operator.getOperatorDecl().getOperator() == Operator.EXCEPT)) {
+		while(curLoc != null)
+		{
+			if(curLoc is ArithmeticOperatorNode)
+			{
+				ArithmeticOperatorNode @operator = (ArithmeticOperatorNode)curLoc;
+				if(!(@operator.OperatorDecl.Operator == Operator.BIT_OR)
+						&& !(@operator.OperatorDecl.Operator == Operator.EXCEPT))
 					return false;
-				}
-				Collection<ExprNode> children = operator.getChildrenExact();
-				Iterator<ExprNode> it = children.iterator();
-				ExprNode left = it.next();
-				ExprNode right = it.next();
-				if(!(right instanceof SetInitNode) && !(right instanceof MapInitNode)) {
+				ICollection<ExprNode> children = @operator.ChildrenExact;
+				IEnumerator<ExprNode> it = children.GetEnumerator();
+// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
+				ExprNode left = it.Next();
+// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
+				ExprNode right = it.Next();
+				if(!(right is SetInitNode) && !(right is MapInitNode))
 					return false;
-				}
 
 				curLoc = left;
-			} else if(curLoc instanceof MemberAccessExprNode) {
+			}
+			else if(curLoc is MemberAccessExprNode)
+			{
 				// determine right owner and member, filter for needed types
 				MemberAccessExprNode access = (MemberAccessExprNode)curLoc;
-				if(!(access.getTarget() instanceof IdentExprNode))
+				if(!(access.Target is IdentExprNode))
 					return false;
-				IdentExprNode target = (IdentExprNode)access.getTarget();
-				if(!(target.getResolvedNode() instanceof ConstraintDeclNode))
+				IdentExprNode target = (IdentExprNode)access.Target;
+				if(!(target.ResolvedNode is ConstraintDeclNode))
 					return false;
-				ConstraintDeclNode rightOwner = (ConstraintDeclNode)target.getResolvedNode();
-				MemberDeclNode rightMember = access.getDecl();
+				ConstraintDeclNode rightOwner = (ConstraintDeclNode)target.ResolvedNode;
+				MemberDeclNode rightMember = access.Decl;
 				// determine left owner and member, filter for needed types
-				MemberDeclNode leftMember = qual.getMemberDecl();
-				if(!(qual.getOwner() instanceof ConstraintDeclNode))
+				MemberDeclNode leftMember = qual.MemberDecl;
+				if(!(qual.Owner is ConstraintDeclNode))
 					return false;
-				ConstraintDeclNode leftOwner = (ConstraintDeclNode)qual.getOwner();
+				ConstraintDeclNode leftOwner = (ConstraintDeclNode)qual.Owner;
 				// check that the accessed set/map is the same on the left and the right hand side
 				if(leftOwner != rightOwner)
 					return false;
@@ -492,49 +550,58 @@ public class AssignNode extends EvalStatementNode
 					return false;
 
 				curLoc = null;
-			} else {
-				return false;
 			}
+			else
+				return false;
 		}
 
 		return true;
 	}
 
-	private void markSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations()
+	private void MarkSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations()
 	{
 		ExprNode curLoc = rhs;
-		while(curLoc != null) {
-			if(curLoc instanceof ArithmeticOperatorNode) {
-				ArithmeticOperatorNode operator = (ArithmeticOperatorNode)curLoc;
-				operator.markToBreakUpIntoStateChangingOperations(lhsQual);
-				ExprNode left = operator.getChildrenExact().iterator().next();
+		while(curLoc != null)
+		{
+			if(curLoc is ArithmeticOperatorNode)
+			{
+				ArithmeticOperatorNode @operator = (ArithmeticOperatorNode)curLoc;
+				@operator.MarkToBreakUpIntoStateChangingOperations(lhsQual);
+				ExprNode left = @operator.ChildrenExact.GetEnumerator().Next();
 				curLoc = left;
-			} else {
-				curLoc = null;
 			}
+			else
+				curLoc = null;
 		}
 	}
 
-	private boolean isIdenticalAssignment()
+	private bool IsIdenticalAssignment()
 	{
-		if(lhsQual != null) {
-			if(rhs instanceof MemberAccessExprNode) {
+		if(lhsQual != null)
+		{
+			if(rhs is MemberAccessExprNode)
+			{
 				MemberAccessExprNode rhsQual = (MemberAccessExprNode)rhs;
-				if(!(rhsQual.getTarget() instanceof IdentExprNode))
+				if(!(rhsQual.Target is IdentExprNode))
 					return false;
-				IdentExprNode target = (IdentExprNode)rhsQual.getTarget();
-				if(lhsQual.getOwner()==target.decl.getDecl()
-						&& lhsQual.getDecl()==rhsQual.getDecl())
+				IdentExprNode target = (IdentExprNode)rhsQual.Target;
+				if(lhsQual.Owner == target.decl.Decl
+						&& lhsQual.Decl == rhsQual.Decl)
 					return true;
 			}
-		} else {
-			if(rhs instanceof IdentExprNode) {
+		}
+		else
+		{
+			if(rhs is IdentExprNode)
+			{
 				IdentExprNode rhsVar = (IdentExprNode)rhs;
-				if(lhsVar == rhsVar.decl.getDecl())
+				if(lhsVar == rhsVar.decl.Decl)
 					return true;
 			}
 		}
 
 		return false;
 	}
+}
+
 }

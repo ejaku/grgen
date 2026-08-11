@@ -1,49 +1,50 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.util;
-
-/**
- * A visitor that returns a boolean value.
- * They are occurring rather often, so they're an own class.
- */
-public abstract class BooleanResultVisitor implements ResultVisitor<Boolean>
+namespace de.unika.ipd.grgen.util
 {
-	private boolean result;
+/// <summary>
+/// A visitor that returns a boolean value.
+/// They are occurring rather often, so they're an own class.
+/// </summary>
+public abstract class BooleanResultVisitor : ResultVisitor<bool>
+{
+	public abstract void visit(Walkable n);
+	private bool result;
 
-	/**
-	 * Make a new one.
-	 * @param def The value, the result is initialized.
-	 */
-	public BooleanResultVisitor(boolean init)
+	/// <summary>
+	/// Make a new one. </summary>
+	/// <param name="def"> The value, the result is initialized. </param>
+	public BooleanResultVisitor(bool init)
 	{
 		result = init;
 	}
 
-	protected void setResult(boolean value)
+	protected internal virtual bool Result
 	{
+		set
+		{
 		result = value;
+		}
+		get
+		{
+		return new bool?(result);
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.ResultVisitor#getResult()
-	 */
-	@Override
-	public Boolean getResult()
-	{
-		return new Boolean(result);
-	}
 
-	public boolean booleanResult()
+	public virtual bool BooleanResult()
 	{
 		return result;
 	}
+}
+
 }

@@ -1,39 +1,43 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * ObjectType.java
- *
- * @author Created by Omnicore CodeGuide
- */
+/// <summary>
+/// ObjectType.java
+/// 
+/// @author Created by Omnicore CodeGuide
+/// </summary>
 
-package de.unika.ipd.grgen.ir.type.basic;
-
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.type.Type;
-
-public class ObjectType extends PrimitiveType
+namespace de.unika.ipd.grgen.ir.type.basic
 {
-	/** @param ident The name of the boolean type. */
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ir;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+public class ObjectType : PrimitiveType
+{
+	/// <param name="ident"> The name of the boolean type. </param>
 	public ObjectType(Ident ident)
+		: base("object type", ident)
 	{
-		super("object type", ident);
 	}
 
-	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
-	@Override
-	public TypeClass classify()
+	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+	public override TypeClass Classify()
 	{
 		return TypeClass.IS_OBJECT;
 	}
 
-	public static Type getType()
+	public static Type Type
 	{
-		return BasicTypeNode.objectType.checkIR(Type.class);
+		get
+		{
+		return BasicTypeNode.objectType.CheckIR(typeof(Type));
+		}
 	}
+}
+
 }

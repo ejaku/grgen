@@ -1,123 +1,146 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll, Edgar Jakumeit
- */
+/// <summary>
+/// @author Moritz Kroll, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.pattern.OrderedReplacementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-public abstract class EvalStatementNode extends OrderedReplacementNode
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	public EvalStatementNode(Coords coords)
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using FunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+using ProcedureDeclNode = de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
+using SubpatternDeclNode = de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using OrderedReplacementNode = de.unika.ipd.grgen.ast.pattern.OrderedReplacementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public abstract class EvalStatementNode : OrderedReplacementNode
+{
+	public EvalStatementNode(Coords coords) : base(coords)
 	{
-		super(coords);
 	}
 
-	protected boolean checkType(ExprNode value, TypeNode targetType, String statement, String parameter)
+	protected internal virtual bool CheckType(ExprNode value, TypeNode targetType, string statement, string parameter)
 	{
-		TypeNode givenType = value.getType();
+		TypeNode givenType = value.Type;
 		TypeNode expectedType = targetType;
-		if(!givenType.isCompatibleTo(expectedType)) {
-			reportError("Cannot convert parameter " + parameter + " of " + statement
-					+ " from " + givenType.toStringWithDeclarationCoords()
-					+ " to the expected " + expectedType.toStringWithDeclarationCoords() + ".");
+		if(!givenType.IsCompatibleTo(expectedType))
+		{
+			ReportError("Cannot convert parameter " + parameter + " of " + statement
+					+ " from " + givenType.ToStringWithDeclarationCoords()
+					+ " to the expected " + expectedType.ToStringWithDeclarationCoords() + ".");
 			return false;
 		}
 		return true;
 	}
 
-	public abstract boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop);
+	public abstract bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop);
 
-	public static boolean checkStatements(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop,
-			CollectNode<EvalStatementNode> evals, boolean evalsAreTopLevel)
+	public static bool CheckStatements(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop,
+			CollectNode<EvalStatementNode> evals, bool evalsAreTopLevel)
 	{
 		// check computation statement structure
-		boolean res = true;
+		bool res = true;
 
 		EvalStatementNode last = null;
-		boolean returnPassed = false;
-		for(EvalStatementNode eval : evals.getChildrenExact()) {
-			if(returnPassed) {
-				eval.reportError("No statements allowed after a return statement (at the same nesting level; these statements would not be executed).");
+		bool returnPassed = false;
+		foreach(EvalStatementNode eval in evals.ChildrenExact)
+		{
+			if(returnPassed)
+			{
+				eval.ReportError("No statements allowed after a return statement (at the same nesting level; these statements would not be executed).");
 				res = false;
 			}
 
-			res &= eval.checkStatementLocal(isLHS, root, enclosingLoop);
+			res &= eval.CheckStatementLocal(isLHS, root, enclosingLoop);
 			last = eval;
 
-			if(eval instanceof ConditionStatementNode) {
+			if(eval is ConditionStatementNode)
+			{
 				ConditionStatementNode csn = (ConditionStatementNode)eval;
-				res &= checkStatements(isLHS, root, enclosingLoop, csn.statements, false);
-				res &= checkStatements(isLHS, root, enclosingLoop, csn.falseCaseStatements, false);
-			} else if(eval instanceof NestingStatementNode) {
+				res &= CheckStatements(isLHS, root, enclosingLoop, csn.statements, false);
+				res &= CheckStatements(isLHS, root, enclosingLoop, csn.falseCaseStatements, false);
+			}
+			else if(eval is NestingStatementNode)
+			{
 				NestingStatementNode nsn = (NestingStatementNode)eval;
-				res &= checkStatements(isLHS, root, nsn, nsn.statements, false);
-			} else if(eval instanceof ReturnStatementNode) {
+				res &= CheckStatements(isLHS, root, nsn, nsn.statements, false);
+			}
+			else if(eval is ReturnStatementNode)
 				returnPassed = true;
-			} else if(eval instanceof ReturnAssignmentNode) {
-				if(root instanceof FunctionDeclNode || isLHS) {
+			else if(eval is ReturnAssignmentNode)
+			{
+				if(root is FunctionDeclNode || isLHS)
+				{
 					ReturnAssignmentNode returnAssignment = (ReturnAssignmentNode)eval;
 					if(returnAssignment.builtinProcedure == null
-						|| (!returnAssignment.builtinProcedure.isEmitOrDebugProcedure())) {
-						if(root instanceof FunctionDeclNode) // TODO: report name of procedure that is attempted to be called
-							eval.reportError("A procedure call is not allowed in a function (only emit/emitdebug/assert/assertAlways and the Debug package functions are admissible).");
+						|| (!returnAssignment.builtinProcedure.IsEmitOrDebugProcedure()))
+					{
+						if(root is FunctionDeclNode) // TODO: report name of procedure that is attempted to be called
+							eval.ReportError("A procedure call is not allowed in a function (only emit/emitdebug/assert/assertAlways and the Debug package functions are admissible).");
 						else
-							eval.reportError("A procedure call is not allowed in a yield block (only emit/emitdebug/assert/assertAlways and the Debug package functions are admissible).");
+							eval.ReportError("A procedure call is not allowed in a yield block (only emit/emitdebug/assert/assertAlways and the Debug package functions are admissible).");
 						res = false;
 					}
 				}
-			} else if(eval instanceof ExecStatementNode) {
-				if(root instanceof SubpatternDeclNode) {
-					eval.reportError("An exec inside an eval is forbidden in a subpattern -- move it outside of the eval"
+			}
+			else if(eval is ExecStatementNode)
+			{
+				if(root is SubpatternDeclNode)
+					eval.ReportError("An exec inside an eval is forbidden in a subpattern -- move it outside of the eval"
 							+ " (so it becomes a deferred exec, executed at the end of rewriting, on the by-then current graph and the local entities valid at the end of its local rewriting).");
-				}
 			}
 		}
 
-		if(evalsAreTopLevel) {
-			if(root instanceof FunctionDeclNode) {
-				if(!(last instanceof ReturnStatementNode) && ((FunctionDeclNode)root).functionAuto == null) {
-					if(last instanceof ConditionStatementNode) {
-						if(!allCasesEndWithReturn((ConditionStatementNode)last)) {
-							last.reportError("All cases of a terminating if in a function must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
+		if(evalsAreTopLevel)
+		{
+			if(root is FunctionDeclNode)
+			{
+				if(!(last is ReturnStatementNode) && ((FunctionDeclNode)root).functionAuto == null)
+				{
+					if(last is ConditionStatementNode)
+					{
+						if(!AllCasesEndWithReturn((ConditionStatementNode)last))
+						{
+							last.ReportError("All cases of a terminating if in a function must end with a return statement (missing in " + root.Kind + " " + root.Ident + ").");
 							res = false;
 						}
-					} else {
-						if(last != null && last.getCoords().hasLocation())
-							last.reportError("A function must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
+					}
+					else
+					{
+						if(last != null && last.Coords.HasLocation())
+							last.ReportError("A function must end with a return statement (missing in " + root.Kind + " " + root.Ident + ").");
 						else
-							root.reportError("A function must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
+							root.ReportError("A function must end with a return statement (missing in " + root.Kind + " " + root.Ident + ").");
 						res = false;
 					}
 				}
 			}
-			if(root instanceof ProcedureDeclNode) {
-				if(!(last instanceof ReturnStatementNode)) {
-					if(last instanceof ConditionStatementNode) {
-						if(!allCasesEndWithReturn((ConditionStatementNode)last)) {
-							last.reportError("All cases of a terminating if in a procedure must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
+			if(root is ProcedureDeclNode)
+			{
+				if(!(last is ReturnStatementNode))
+				{
+					if(last is ConditionStatementNode)
+					{
+						if(!AllCasesEndWithReturn((ConditionStatementNode)last))
+						{
+							last.ReportError("All cases of a terminating if in a procedure must end with a return statement (missing in " + root.Kind + " " + root.Ident + ").");
 							res = false;
 						}
-					} else {
-						if(last != null && last.getCoords().hasLocation())
-							last.reportError("A procedure must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
+					}
+					else
+					{
+						if(last != null && last.Coords.HasLocation())
+							last.ReportError("A procedure must end with a return statement (missing in " + root.Kind + " " + root.Ident + ").");
 						else
-							root.reportError("A procedure must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
+							root.ReportError("A procedure must end with a return statement (missing in " + root.Kind + " " + root.Ident + ").");
 						res = false;
 					}
 				}
@@ -133,59 +156,58 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		return res;
 	}
 
-	public static boolean allCasesEndWithReturn(ConditionStatementNode condition)
+	public static bool AllCasesEndWithReturn(ConditionStatementNode condition)
 	{
-		boolean allEndWithReturn = true;
+		bool allEndWithReturn = true;
 
 		EvalStatementNode last = null;
-		for(EvalStatementNode eval : condition.statements.getChildrenExact()) {
+		foreach(EvalStatementNode eval in condition.statements.ChildrenExact)
 			last = eval;
-		}
-		if(!(last instanceof ReturnStatementNode)) {
-			if(last instanceof ConditionStatementNode) {
-				allEndWithReturn &= allCasesEndWithReturn((ConditionStatementNode)last);
-			} else {
+		if(!(last is ReturnStatementNode))
+		{
+			if(last is ConditionStatementNode)
+				allEndWithReturn &= AllCasesEndWithReturn((ConditionStatementNode)last);
+			else
 				return false;
-			}
 		}
 
 		last = null;
-		for(EvalStatementNode eval : condition.falseCaseStatements.getChildrenExact()) {
+		foreach(EvalStatementNode eval in condition.falseCaseStatements.ChildrenExact)
 			last = eval;
-		}
-		if(!(last instanceof ReturnStatementNode)) {
-			if(last instanceof ConditionStatementNode) {
-				allEndWithReturn &= allCasesEndWithReturn((ConditionStatementNode)last);
-			} else {
+		if(!(last is ReturnStatementNode))
+		{
+			if(last is ConditionStatementNode)
+				allEndWithReturn &= AllCasesEndWithReturn((ConditionStatementNode)last);
+			else
 				return false;
-			}
 		}
 
 		return allEndWithReturn;
 	}
 
-	public boolean iteratedNotReferenced(String iterName)
+	public virtual bool IteratedNotReferenced(string iterName)
 	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode) {
-				res &= ((ExprNode)child).iteratedNotReferenced(iterName);
-			}
+		bool res = true;
+		foreach(BaseNode child in Children)
+		{
+			if(child is ExprNode)
+				res &= ((ExprNode)child).IteratedNotReferenced(iterName);
 		}
 		return res;
 	}
 
-	@Override
-	public boolean noExecStatement(boolean inEvalHereContext)
+	public override bool NoExecStatement(bool inEvalHereContext)
 	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(!(child instanceof EvalStatementNode)) {
+		bool res = true;
+		foreach(BaseNode child in Children)
+		{
+			if(!(child is EvalStatementNode))
 				continue;
-			}
 			EvalStatementNode evalStatement = (EvalStatementNode)child;
-			res &= evalStatement.noExecStatement(inEvalHereContext);
+			res &= evalStatement.NoExecStatement(inEvalHereContext);
 		}
 		return res;
 	}
+}
+
 }

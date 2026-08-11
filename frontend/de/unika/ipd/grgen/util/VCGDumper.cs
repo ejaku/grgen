@@ -1,3 +1,5 @@
+﻿using System.Collections.Generic;
+
 /*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
@@ -5,242 +7,232 @@
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.util;
-
-import java.awt.Color;
-import java.io.PrintStream;
-import java.util.HashMap;
-
-/**
- * A VCG Graph dumper
- */
-public class VCGDumper implements GraphDumper
+namespace de.unika.ipd.grgen.util
 {
-	/** where to put the graph to */
+
+/// <summary>
+/// A VCG Graph dumper
+/// </summary>
+public class VCGDumper : GraphDumper
+{
+	/// <summary>
+	/// where to put the graph to </summary>
 	private PrintStream ps;
 
-	/** Index in the vcg colormap for user defined colors */
+	/// <summary>
+	/// Index in the vcg colormap for user defined colors </summary>
 	private int currSetColor;
 
-	/** Prefix for the nodes. */
-	private static String prefix = "n";
+	/// <summary>
+	/// Prefix for the nodes. </summary>
+	private static string prefix = "n";
 
-	private static HashMap<Color, String> colorMap;
-	private static HashMap<Integer, String> shapeMap;
-	private static HashMap<Integer, String> lineStyleMap;
+	private static Dictionary<Color, string> colorMap;
+	private static Dictionary<int, string> shapeMap;
+	private static Dictionary<int, string> lineStyleMap;
 
-	static {
-		colorMap = new HashMap<Color, String>();
-		shapeMap = new HashMap<Integer, String>();
-		lineStyleMap = new HashMap<Integer, String>();
-
-		colorMap.put(Color.BLACK, "black");
-		colorMap.put(Color.BLUE, "lightblue");
-		colorMap.put(Color.CYAN, "cyan");
-		colorMap.put(Color.GRAY, "lightgrey");
-		colorMap.put(Color.DARK_GRAY, "darkgrey");
-		colorMap.put(Color.MAGENTA, "magenta");
-		colorMap.put(Color.ORANGE, "orange");
-		colorMap.put(Color.GREEN, "green");
-		colorMap.put(Color.RED, "red");
-		colorMap.put(Color.PINK, "pink");
-		colorMap.put(Color.YELLOW, "yellow");
-		colorMap.put(Color.WHITE, "white");
-
-		shapeMap.put(new Integer(BOX), "box");
-		shapeMap.put(new Integer(RHOMB), "rhomb");
-		shapeMap.put(new Integer(ELLIPSE), "ellipse");
-		shapeMap.put(new Integer(TRIANGLE), "triangle");
-
-		lineStyleMap.put(new Integer(SOLID), "continuous");
-		lineStyleMap.put(new Integer(DASHED), "dashed");
-		lineStyleMap.put(new Integer(DOTTED), "dotted");
-	}
-
-	/**
-	 * Make a string usable for output.
-	 * This escapes anything that has to be escaped.
-	 * @param s The input string.
-	 * @return A string ready for dumping.
-	 */
-	private static String escapeString(String s)
+	static VCGDumper()
 	{
-		return s.replaceAll("\"", "\\\\\"");
+		colorMap = new Dictionary<Color, string>();
+		shapeMap = new Dictionary<int, string>();
+		lineStyleMap = new Dictionary<int, string>();
+
+		colorMap[Color.BLACK] = "black";
+		colorMap[Color.BLUE] = "lightblue";
+		colorMap[Color.CYAN] = "cyan";
+		colorMap[Color.GRAY] = "lightgrey";
+		colorMap[Color.DARK_GRAY] = "darkgrey";
+		colorMap[Color.MAGENTA] = "magenta";
+		colorMap[Color.ORANGE] = "orange";
+		colorMap[Color.GREEN] = "green";
+		colorMap[Color.RED] = "red";
+		colorMap[Color.PINK] = "pink";
+		colorMap[Color.YELLOW] = "yellow";
+		colorMap[Color.WHITE] = "white";
+
+		shapeMap[new int?(GraphDumper.BOX)] = "box";
+		shapeMap[new int?(GraphDumper.RHOMB)] = "rhomb";
+		shapeMap[new int?(GraphDumper.ELLIPSE)] = "ellipse";
+		shapeMap[new int?(GraphDumper.TRIANGLE)] = "triangle";
+
+		lineStyleMap[new int?(GraphDumper.SOLID)] = "continuous";
+		lineStyleMap[new int?(GraphDumper.DASHED)] = "dashed";
+		lineStyleMap[new int?(GraphDumper.DOTTED)] = "dotted";
 	}
 
-	/**
-	 * Make a new VCG dumper.
-	 * @param ps The print stream to dump the graph to.
-	 */
+	/// <summary>
+	/// Make a string usable for output.
+	/// This escapes anything that has to be escaped. </summary>
+	/// <param name="s"> The input string. </param>
+	/// <returns> A string ready for dumping. </returns>
+	private static string EscapeString(string s)
+	{
+		return s.ReplaceAll("\"", "\\\\\"");
+	}
+
+	/// <summary>
+	/// Make a new VCG dumper. </summary>
+	/// <param name="ps"> The print stream to dump the graph to. </param>
 	public VCGDumper(PrintStream ps)
 	{
 		this.ps = ps;
 		this.currSetColor = 32;
 	}
 
-	/**
-	 * Dump graph preamble.
-	 */
-	@Override
-	public void begin()
+	/// <summary>
+	/// Dump graph preamble.
+	/// </summary>
+	public virtual void Begin()
 	{
-		ps.println("graph:{\nlate_edge_labels:yes\ndisplay_edge_labels:yes\n"
+		ps.Println("graph:{\nlate_edge_labels:yes\ndisplay_edge_labels:yes\n"
 				+ "manhattan_edges:yes\nport_sharing:no\n");
 	}
 
-	/**
-	 * Dump epilog.
-	 * @see de.unika.ipd.grgen.util.GraphDumper#finish()
-	 */
-	@Override
-	public void finish()
+	/// <summary>
+	/// Dump epilog. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumper.finish()"/>
+	public virtual void Finish()
 	{
-		ps.println("}");
-		ps.flush();
+		ps.Println("}");
+		ps.Flush();
 		ps.close();
 	}
 
-	/**
-	 * Get a VCG color for a Java color.
-	 * @param col The Java color.
-	 * @return The VCG color.
-	 */
-	private String getColor(Color col)
+	/// <summary>
+	/// Get a VCG color for a Java color. </summary>
+	/// <param name="col"> The Java color. </param>
+	/// <returns> The VCG color. </returns>
+	private string GetColor(Color col)
 	{
-		String res;
+		string res;
 
-		if(colorMap.containsKey(col))
-			res = colorMap.get(col);
-		else if(currSetColor < 256) {
+		if(colorMap.ContainsKey(col))
+			res = colorMap[col];
+		else if(currSetColor < 256)
+		{
 			// Get the current index and increment it
 			int index = currSetColor++;
 
 			// Convert it to a string and put in the color map
-			res = String.valueOf(index);
-			colorMap.put(col, res);
+			res = index.ToString();
+			colorMap[col] = res;
 
 			// issue a vcg colormap statement
-			ps.println("colorentry " + index + ": " +
-					col.getRed() + " " + col.getGreen() + " " + col.getBlue());
-		} else
+			ps.Println("colorentry " + index + ": " +
+					col.GetRed() + " " + col.GetGreen() + " " + col.GetBlue());
+		}
+		else
 			res = "white";
 
 		return res;
 	}
 
-	private static String getPrefix()
+	private static string Prefix
 	{
+		get
+		{
 		return prefix;
+		}
 	}
 
-	/**
-	 * Make a VCG string from the node's attributes.
-	 * @param d The node to dump.
-	 * @return VCG statements describing the node.
-	 */
-	private String getNodeAttributes(GraphDumpable d)
+	/// <summary>
+	/// Make a VCG string from the node's attributes. </summary>
+	/// <param name="d"> The node to dump. </param>
+	/// <returns> VCG statements describing the node. </returns>
+	private string GetNodeAttributes(GraphDumpable d)
 	{
-		String col = getColor(d.getNodeColor());
-		Integer shp = new Integer(d.getNodeShape());
+		string col = GetColor(d.NodeColor);
+		int? shp = new int?(d.NodeShape);
 
-		String info = d.getNodeInfo();
-		if(info != null)
-			info = escapeString(info);
+		string info = d.NodeInfo;
+		if(!string.ReferenceEquals(info, null))
+			info = EscapeString(info);
 
-		String label = escapeString(d.getNodeLabel());
+		string label = EscapeString(d.NodeLabel);
 
-		String s = "title:\"" + getPrefix() + d.getNodeId()
+		string s = "title:\"" + Prefix + d.NodeId
 				+ "\" label:\"" + label + "\"";
 
-		if(info != null)
+		if(!string.ReferenceEquals(info, null))
 			s += " info1:\"" + info + "\"";
 		s += " color:" + col;
-		if(shapeMap.containsKey(shp))
-			s += " shape:" + shapeMap.get(shp);
+		if(shapeMap.ContainsKey(shp))
+			s += " shape:" + shapeMap[shp];
 
 		return s;
 	}
 
-	@Override
-	public void node(GraphDumpable d)
+	public virtual void Node(GraphDumpable d)
 	{
-		ps.println("node:{" + getNodeAttributes(d) + "}");
+		ps.Println("node:{" + GetNodeAttributes(d) + "}");
 	}
 
-	@Override
-	public void edge(GraphDumpable from, GraphDumpable to, String label,
+	public virtual void Edge(GraphDumpable from, GraphDumpable to, string label,
 			int style, Color color)
 	{
-		if(from != null && to != null) {
-			String col = getColor(color);
+		if(from != null && to != null)
+		{
+			string col = GetColor(color);
 
-			String s = "edge:{sourcename:\"" + getPrefix() + from.getNodeId()
-					+ "\" targetname:\"" + getPrefix() + to.getNodeId() + "\"";
+			string s = "edge:{sourcename:\"" + Prefix + from.NodeId
+					+ "\" targetname:\"" + Prefix + to.NodeId + "\"";
 
-			if(label != null)
-				s += " label:\"" + escapeString(label) + "\"";
+			if(!string.ReferenceEquals(label, null))
+				s += " label:\"" + EscapeString(label) + "\"";
 
 			s += " color:" + col;
 
-			if(style != DEFAULT)
-				s += " linestyle:" + lineStyleMap.get(new Integer(style));
+			if(style != GraphDumper.DEFAULT)
+				s += " linestyle:" + lineStyleMap[new int?(style)];
 
 			s += "}";
 
-			ps.println(s);
+			ps.Println(s);
 		}
 	}
 
-	@Override
-	public void edge(GraphDumpable from, GraphDumpable to, String label, int style)
+	public virtual void Edge(GraphDumpable from, GraphDumpable to, string label, int style)
 	{
-		edge(from, to, label, style, Color.BLACK);
+		Edge(from, to, label, style, Color.BLACK);
 	}
 
-	@Override
-	public void edge(GraphDumpable from, GraphDumpable to, String label)
+	public virtual void Edge(GraphDumpable from, GraphDumpable to, string label)
 	{
-		edge(from, to, label, DEFAULT, Color.BLACK);
+		Edge(from, to, label, GraphDumper.DEFAULT, Color.BLACK);
 	}
 
-	@Override
-	public void edge(GraphDumpable from, GraphDumpable to)
+	public virtual void Edge(GraphDumpable from, GraphDumpable to)
 	{
-		edge(from, to, null, DEFAULT, Color.BLACK);
+		Edge(from, to, null, GraphDumper.DEFAULT, Color.BLACK);
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumper#beginSubgraph(java.lang.String)
-	 */
-	@Override
-	public void beginSubgraph(GraphDumpable d)
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumper.beginSubgraph(java.lang.String)"/>
+	public virtual void BeginSubgraph(GraphDumpable d)
 	{
-		ps.println("graph:{" + getNodeAttributes(d)
+		ps.Println("graph:{" + GetNodeAttributes(d)
 				+ " status:clustered");
 	}
 
-	@Override
-	public void beginSubgraph(String title)
+	public virtual void BeginSubgraph(string title)
 	{
-		ps.print("graph:{title:\"");
-		ps.print(title);
-		ps.println('\"');
-		ps.print("  label:\"");
-		ps.print(title);
-		ps.println('\"');
-		ps.println("  status:clustered");
+		ps.Print("graph:{title:\"");
+		ps.Print(title);
+		ps.Println('\"');
+		ps.Print("  label:\"");
+		ps.Print(title);
+		ps.Println('\"');
+		ps.Println("  status:clustered");
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumper#endSubgraph()
-	 */
-	@Override
-	public void endSubgraph()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumper.endSubgraph()"/>
+	public virtual void EndSubgraph()
 	{
-		ps.println("}\n");
+		ps.Println("}\n");
 	}
+}
+
 }

@@ -1,34 +1,35 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.set;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.set.SetCopyConstructor;
-import de.unika.ipd.grgen.ir.type.container.SetType;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class SetCopyConstructorNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr.set
 {
-	static {
-		setClassName(SetCopyConstructorNode.class, "set copy constructor");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using SetCopyConstructor = de.unika.ipd.grgen.ir.expr.set.SetCopyConstructor;
+using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class SetCopyConstructorNode : ExprNode
+{
+	static SetCopyConstructorNode()
+	{
+		SetClassName(typeof(SetCopyConstructorNode), "set copy constructor");
 	}
 
 	private SetTypeNode setType;
@@ -36,58 +37,64 @@ public class SetCopyConstructorNode extends ExprNode
 	private BaseNode lhsUnresolved;
 
 	public SetCopyConstructorNode(Coords coords, IdentNode member, SetTypeNode setType, ExprNode setToCopy)
+		: base(coords)
 	{
-		super(coords);
 
-		if(member != null) {
-			lhsUnresolved = becomeParent(member);
-		} else {
+		if(member != null)
+			lhsUnresolved = BecomeParent(member);
+		else
 			this.setType = setType;
-		}
 		this.setToCopy = setToCopy;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(setToCopy);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(setToCopy);
 		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("setToCopy");
-		return childrenNames;
-	}
-
-	@Override
-	protected boolean resolveLocal()
-	{
-		if(setType != null) {
-			return setType.resolve();
-		} else {
-			return true;
 		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	public override ICollection<string> ChildrenNames
 	{
-		boolean success = true;
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("setToCopy");
+		return childrenNames;
+		}
+	}
 
-		if(lhsUnresolved != null) {
-			reportError("A set copy constructor is not allowed in a set initialization in the model.");
+	protected internal override bool ResolveLocal()
+	{
+		if(setType != null)
+			return setType.Resolve();
+		else
+			return true;
+	}
+
+	protected internal override bool CheckLocal()
+	{
+		bool success = true;
+
+		if(lhsUnresolved != null)
+		{
+			ReportError("A set copy constructor is not allowed in a set initialization in the model.");
 			success = false;
-		} else {
-			if(setToCopy.getType() instanceof SetTypeNode) {
-				SetTypeNode sourceSetType = (SetTypeNode)setToCopy.getType();
-				success &= checkCopyConstructorTypes(setType.valueType, sourceSetType.valueType, "set", false);
-			} else {
-				reportError("A set copy constructor expects a value of set type to copy"
-						+ " (but is given " + setToCopy.getType().getTypeName() + ").");
+		}
+		else
+		{
+			if(setToCopy.Type is SetTypeNode)
+			{
+				SetTypeNode sourceSetType = (SetTypeNode)setToCopy.Type;
+				success &= CheckCopyConstructorTypes(setType.valueType, sourceSetType.valueType, "set", false);
+			}
+			else
+			{
+				ReportError("A set copy constructor expects a value of set type to copy"
+						+ " (but is given " + setToCopy.Type.TypeName + ").");
 				success = false;
 			}
 		}
@@ -95,22 +102,28 @@ public class SetCopyConstructorNode extends ExprNode
 		return success;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		assert(isResolved());
+		get
+		{
+		Debug.Assert((IsResolved()));
 		return setType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		setToCopy = setToCopy.evaluate();
-		return new SetCopyConstructor(setToCopy.checkIR(Expression.class), setType.checkIR(SetType.class));
+		setToCopy = setToCopy.Evaluate();
+		return new SetCopyConstructor(setToCopy.CheckIR(typeof(Expression)), setType.CheckIR(typeof(SetType)));
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "set copy constructor";
+		}
 	}
+}
+
 }

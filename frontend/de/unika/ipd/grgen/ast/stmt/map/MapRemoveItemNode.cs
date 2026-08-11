@@ -1,113 +1,125 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.map;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.QualIdentNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.stmt.map.MapRemoveItem;
-import de.unika.ipd.grgen.ir.stmt.map.MapVarRemoveItem;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class MapRemoveItemNode extends MapProcedureMethodInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.map
 {
-	static {
-		setClassName(MapRemoveItemNode.class, "map remove item statement");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using QualIdentNode = de.unika.ipd.grgen.ast.expr.QualIdentNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using MapRemoveItem = de.unika.ipd.grgen.ir.stmt.map.MapRemoveItem;
+using MapVarRemoveItem = de.unika.ipd.grgen.ir.stmt.map.MapVarRemoveItem;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class MapRemoveItemNode : MapProcedureMethodInvocationBaseNode
+{
+	static MapRemoveItemNode()
+	{
+		SetClassName(typeof(MapRemoveItemNode), "map remove item statement");
 	}
 
 	private ExprNode keyExpr;
 
 	public MapRemoveItemNode(Coords coords, QualIdentNode target, ExprNode keyExpr)
+		: base(coords, target)
 	{
-		super(coords, target);
-		this.keyExpr = becomeParent(keyExpr);
+		this.keyExpr = BecomeParent(keyExpr);
 	}
 
 	public MapRemoveItemNode(Coords coords, VarDeclNode targetVar, ExprNode keyExpr)
+		: base(coords, targetVar)
 	{
-		super(coords, targetVar);
-		this.keyExpr = becomeParent(keyExpr);
+		this.keyExpr = BecomeParent(keyExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidTarget());
-		children.add(keyExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ValidTarget);
+		children.Add(keyExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("target");
-		childrenNames.add("keyExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("target");
+		childrenNames.Add("keyExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		// target type already checked during resolving into this node
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		MapTypeNode targetType = getTargetTypeExact();
-		if(target != null) {
+		MapTypeNode targetType = TargetTypeExact;
+		if(target != null)
+		{
 			TypeNode targetKeyType = targetType.keyType;
-			TypeNode keyType = keyExpr.getType();
-			if(!keyType.isEqual(targetKeyType)) {
+			TypeNode keyType = keyExpr.Type;
+			if(!keyType.IsEqual(targetKeyType))
+			{
 				ExprNode keyExprOld = keyExpr;
-				keyExpr = becomeParent(keyExpr.adjustType(targetKeyType, getCoords()));
-				if(keyExpr == ConstNode.getInvalid()) {
-					keyExprOld.reportError("The map rem item procedure expects as argument (key)"
-							+ " a value of type " + targetKeyType.toStringWithDeclarationCoords()
-							+ " (but is given a value of type " + keyType.toStringWithDeclarationCoords() + ").");
+				keyExpr = BecomeParent(keyExpr.AdjustType(targetKeyType, Coords));
+				if(keyExpr == ConstNode.Invalid)
+				{
+					keyExprOld.ReportError("The map rem item procedure expects as argument (key)"
+							+ " a value of type " + targetKeyType.ToStringWithDeclarationCoords()
+							+ " (but is given a value of type " + keyType.ToStringWithDeclarationCoords() + ").");
 					return false;
 				}
 			}
 			return true;
-		} else {
+		}
+		else
+		{
 			TypeNode targetKeyType = targetType.keyType;
-			return checkType(keyExpr, targetKeyType, "map rem item procedure", "key");
+			return CheckType(keyExpr, targetKeyType, "map rem item procedure", "key");
 		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		keyExpr = keyExpr.evaluate();
+		keyExpr = keyExpr.Evaluate();
 		if(target != null)
-			return new MapRemoveItem(target.checkIR(Qualification.class),
-					keyExpr.checkIR(Expression.class));
+		{
+			return new MapRemoveItem(target.CheckIR(typeof(Qualification)),
+					keyExpr.CheckIR(typeof(Expression)));
+		}
 		else
-			return new MapVarRemoveItem(targetVar.checkIR(Variable.class),
-					keyExpr.checkIR(Expression.class));
+		{
+			return new MapVarRemoveItem(targetVar.CheckIR(typeof(Variable)),
+					keyExpr.CheckIR(typeof(Expression)));
+		}
 	}
+}
+
 }

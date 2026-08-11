@@ -1,252 +1,249 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * Auxiliary routines used for the CSharp backends.
- * @author Moritz Kroll, Edgar Jakumeit
- */
+/// <summary>
+/// Auxiliary routines used for the CSharp backends.
+/// @author Moritz Kroll, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.be.Csharp;
+namespace de.unika.ipd.grgen.be.Csharp
+{
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.NeededEntities.Needs;
-import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
-import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
-import de.unika.ipd.grgen.ir.executable.FunctionMethod;
-import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.type.DefinedMatchType;
-import de.unika.ipd.grgen.ir.type.MatchType;
-import de.unika.ipd.grgen.ir.type.MatchTypeIterated;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.Type.TypeClass;
-import de.unika.ipd.grgen.ir.type.basic.BooleanType;
-import de.unika.ipd.grgen.ir.type.basic.ByteType;
-import de.unika.ipd.grgen.ir.type.basic.DoubleType;
-import de.unika.ipd.grgen.ir.type.basic.FloatType;
-import de.unika.ipd.grgen.ir.type.basic.GraphType;
-import de.unika.ipd.grgen.ir.type.basic.IntType;
-import de.unika.ipd.grgen.ir.type.basic.LongType;
-import de.unika.ipd.grgen.ir.type.basic.ObjectType;
-import de.unika.ipd.grgen.ir.type.basic.ShortType;
-import de.unika.ipd.grgen.ir.type.basic.StringType;
-import de.unika.ipd.grgen.ir.type.basic.VoidType;
-import de.unika.ipd.grgen.ir.type.container.ArrayType;
-import de.unika.ipd.grgen.ir.type.container.ContainerType;
-import de.unika.ipd.grgen.ir.type.container.DequeType;
-import de.unika.ipd.grgen.ir.type.container.MapType;
-import de.unika.ipd.grgen.ir.type.container.SetType;
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.ir.expr.*;
-import de.unika.ipd.grgen.ir.expr.array.ArrayAndExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayAsDequeExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayAsMapExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayAsSetExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayAsString;
-import de.unika.ipd.grgen.ir.expr.array.ArrayAvgExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayCopyConstructor;
-import de.unika.ipd.grgen.ir.expr.array.ArrayDevExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayEmptyExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayExtract;
-import de.unika.ipd.grgen.ir.expr.array.ArrayGroup;
-import de.unika.ipd.grgen.ir.expr.array.ArrayGroupBy;
-import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfByExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedByExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
-import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEach;
-import de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEachBy;
-import de.unika.ipd.grgen.ir.expr.array.ArrayLastIndexOfByExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayLastIndexOfExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayMapExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayMapStartWithAccumulateByExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayMaxExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayMedExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayMedUnorderedExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayMinExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayOrExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayOrderAscending;
-import de.unika.ipd.grgen.ir.expr.array.ArrayOrderAscendingBy;
-import de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescending;
-import de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescendingBy;
-import de.unika.ipd.grgen.ir.expr.array.ArrayPeekExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayProdExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayRemoveIfExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayReverseExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayShuffleExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArraySizeExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArraySubarrayExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArraySumExpr;
-import de.unika.ipd.grgen.ir.expr.array.ArrayVarExpr;
-import de.unika.ipd.grgen.ir.expr.deque.DequeAsArrayExpr;
-import de.unika.ipd.grgen.ir.expr.deque.DequeAsSetExpr;
-import de.unika.ipd.grgen.ir.expr.deque.DequeCopyConstructor;
-import de.unika.ipd.grgen.ir.expr.deque.DequeEmptyExpr;
-import de.unika.ipd.grgen.ir.expr.deque.DequeIndexOfExpr;
-import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.expr.deque.DequeLastIndexOfExpr;
-import de.unika.ipd.grgen.ir.expr.deque.DequePeekExpr;
-import de.unika.ipd.grgen.ir.expr.deque.DequeSizeExpr;
-import de.unika.ipd.grgen.ir.expr.deque.DequeSubdequeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.AdjacentNodeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.BoundedReachableEdgeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.BoundedReachableNodeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.BoundedReachableNodeWithRemainingDepthExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CanonizeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountAdjacentNodeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountBoundedReachableEdgeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountBoundedReachableNodeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountEdgesExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessFromToExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessSameExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountIncidenceFromIndexExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountIncidentEdgeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountNodesExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountNodesFromIndexAccessFromToExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountNodesFromIndexAccessSameExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountReachableEdgeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.CountReachableNodeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.DefinedSubgraphExpr;
-import de.unika.ipd.grgen.ir.expr.graph.EdgeByNameExpr;
-import de.unika.ipd.grgen.ir.expr.graph.EdgeByUniqueExpr;
-import de.unika.ipd.grgen.ir.expr.graph.EdgesExpr;
-import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessFromToExpr;
-import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessMultipleFromToExpr;
-import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessSameExpr;
-import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
-import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
-import de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
-import de.unika.ipd.grgen.ir.expr.graph.Graphof;
-import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IndexSizeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IsAdjacentNodeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableEdgeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableNodeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IsInEdgesFromIndexAccessFromToExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IsInEdgesFromIndexAccessSameExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessFromToExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessSameExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IsIncidentEdgeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IsReachableEdgeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IsReachableNodeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.MinMaxFromIndexExpr;
-import de.unika.ipd.grgen.ir.expr.graph.Nameof;
-import de.unika.ipd.grgen.ir.expr.graph.NodeByNameExpr;
-import de.unika.ipd.grgen.ir.expr.graph.NodeByUniqueExpr;
-import de.unika.ipd.grgen.ir.expr.graph.NodesExpr;
-import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessFromToExpr;
-import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessMultipleFromToExpr;
-import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessSameExpr;
-import de.unika.ipd.grgen.ir.expr.graph.OppositeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.ReachableEdgeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.ReachableNodeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.SizeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.SourceExpr;
-import de.unika.ipd.grgen.ir.expr.graph.TargetExpr;
-import de.unika.ipd.grgen.ir.expr.graph.ThisExpr;
-import de.unika.ipd.grgen.ir.expr.graph.Uniqueof;
-import de.unika.ipd.grgen.ir.expr.graph.Visited;
-import de.unika.ipd.grgen.ir.expr.invocation.ExternalFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.expr.invocation.ExternalFunctionMethodInvocationExpr;
-import de.unika.ipd.grgen.ir.expr.invocation.FunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.expr.invocation.FunctionMethodInvocationExpr;
-import de.unika.ipd.grgen.ir.expr.map.MapAsArrayExpr;
-import de.unika.ipd.grgen.ir.expr.map.MapCopyConstructor;
-import de.unika.ipd.grgen.ir.expr.map.MapDomainExpr;
-import de.unika.ipd.grgen.ir.expr.map.MapEmptyExpr;
-import de.unika.ipd.grgen.ir.expr.map.MapInit;
-import de.unika.ipd.grgen.ir.expr.map.MapPeekExpr;
-import de.unika.ipd.grgen.ir.expr.map.MapRangeExpr;
-import de.unika.ipd.grgen.ir.expr.map.MapSizeExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.AbsExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.ArcSinCosTanExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.ByteMaxExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.ByteMinExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.CeilExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.DoubleMaxExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.DoubleMinExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.EExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.FloatMaxExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.FloatMinExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.FloorExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.IntMaxExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.IntMinExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.LogExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.LongMaxExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.LongMinExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.MaxExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.MinExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.PiExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.PowExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.RoundExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.SgnExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.ShortMaxExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.ShortMinExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.SinCosTanExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.SqrExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.SqrtExpr;
-import de.unika.ipd.grgen.ir.expr.numeric.TruncateExpr;
-import de.unika.ipd.grgen.ir.expr.procenv.ExistsFileExpr;
-import de.unika.ipd.grgen.ir.expr.procenv.ImportExpr;
-import de.unika.ipd.grgen.ir.expr.procenv.NowExpr;
-import de.unika.ipd.grgen.ir.expr.procenv.RandomExpr;
-import de.unika.ipd.grgen.ir.expr.set.SetAsArrayExpr;
-import de.unika.ipd.grgen.ir.expr.set.SetCopyConstructor;
-import de.unika.ipd.grgen.ir.expr.set.SetEmptyExpr;
-import de.unika.ipd.grgen.ir.expr.set.SetInit;
-import de.unika.ipd.grgen.ir.expr.set.SetMaxExpr;
-import de.unika.ipd.grgen.ir.expr.set.SetMinExpr;
-import de.unika.ipd.grgen.ir.expr.set.SetPeekExpr;
-import de.unika.ipd.grgen.ir.expr.set.SetSizeExpr;
-import de.unika.ipd.grgen.ir.expr.string.StringAsArray;
-import de.unika.ipd.grgen.ir.expr.string.StringEndsWith;
-import de.unika.ipd.grgen.ir.expr.string.StringIndexOf;
-import de.unika.ipd.grgen.ir.expr.string.StringLastIndexOf;
-import de.unika.ipd.grgen.ir.expr.string.StringLength;
-import de.unika.ipd.grgen.ir.expr.string.StringReplace;
-import de.unika.ipd.grgen.ir.expr.string.StringStartsWith;
-import de.unika.ipd.grgen.ir.expr.string.StringSubstring;
-import de.unika.ipd.grgen.ir.expr.string.StringToLower;
-import de.unika.ipd.grgen.ir.expr.string.StringToUpper;
-import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
-import de.unika.ipd.grgen.ir.model.type.InheritanceType;
-import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
-import de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
-import de.unika.ipd.grgen.ir.model.type.NodeType;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
-import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.Direction;
-import de.unika.ipd.grgen.util.SourceBuilder;
-import de.unika.ipd.grgen.util.Util;
+using de.unika.ipd.grgen.ir;
+using Needs = de.unika.ipd.grgen.ir.NeededEntities.Needs;
+using ExternalFunctionMethod = de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
+using ExternalProcedureMethod = de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
+using FunctionMethod = de.unika.ipd.grgen.ir.executable.FunctionMethod;
+using ProcedureMethod = de.unika.ipd.grgen.ir.executable.ProcedureMethod;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+using MatchType = de.unika.ipd.grgen.ir.type.MatchType;
+using MatchTypeIterated = de.unika.ipd.grgen.ir.type.MatchTypeIterated;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using TypeClass = de.unika.ipd.grgen.ir.type.Type.TypeClass;
+using BooleanType = de.unika.ipd.grgen.ir.type.basic.BooleanType;
+using ByteType = de.unika.ipd.grgen.ir.type.basic.ByteType;
+using DoubleType = de.unika.ipd.grgen.ir.type.basic.DoubleType;
+using FloatType = de.unika.ipd.grgen.ir.type.basic.FloatType;
+using GraphType = de.unika.ipd.grgen.ir.type.basic.GraphType;
+using IntType = de.unika.ipd.grgen.ir.type.basic.IntType;
+using LongType = de.unika.ipd.grgen.ir.type.basic.LongType;
+using ObjectType = de.unika.ipd.grgen.ir.type.basic.ObjectType;
+using ShortType = de.unika.ipd.grgen.ir.type.basic.ShortType;
+using StringType = de.unika.ipd.grgen.ir.type.basic.StringType;
+using VoidType = de.unika.ipd.grgen.ir.type.basic.VoidType;
+using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+using ContainerType = de.unika.ipd.grgen.ir.type.container.ContainerType;
+using DequeType = de.unika.ipd.grgen.ir.type.container.DequeType;
+using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
+using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+using de.unika.ipd.grgen.ir.expr;
+using ArrayAndExpr = de.unika.ipd.grgen.ir.expr.array.ArrayAndExpr;
+using ArrayAsDequeExpr = de.unika.ipd.grgen.ir.expr.array.ArrayAsDequeExpr;
+using ArrayAsMapExpr = de.unika.ipd.grgen.ir.expr.array.ArrayAsMapExpr;
+using ArrayAsSetExpr = de.unika.ipd.grgen.ir.expr.array.ArrayAsSetExpr;
+using ArrayAsString = de.unika.ipd.grgen.ir.expr.array.ArrayAsString;
+using ArrayAvgExpr = de.unika.ipd.grgen.ir.expr.array.ArrayAvgExpr;
+using ArrayCopyConstructor = de.unika.ipd.grgen.ir.expr.array.ArrayCopyConstructor;
+using ArrayDevExpr = de.unika.ipd.grgen.ir.expr.array.ArrayDevExpr;
+using ArrayEmptyExpr = de.unika.ipd.grgen.ir.expr.array.ArrayEmptyExpr;
+using ArrayExtract = de.unika.ipd.grgen.ir.expr.array.ArrayExtract;
+using ArrayGroup = de.unika.ipd.grgen.ir.expr.array.ArrayGroup;
+using ArrayGroupBy = de.unika.ipd.grgen.ir.expr.array.ArrayGroupBy;
+using ArrayIndexOfByExpr = de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfByExpr;
+using ArrayIndexOfExpr = de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfExpr;
+using ArrayIndexOfOrderedByExpr = de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedByExpr;
+using ArrayIndexOfOrderedExpr = de.unika.ipd.grgen.ir.expr.array.ArrayIndexOfOrderedExpr;
+using ArrayInit = de.unika.ipd.grgen.ir.expr.array.ArrayInit;
+using ArrayKeepOneForEach = de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEach;
+using ArrayKeepOneForEachBy = de.unika.ipd.grgen.ir.expr.array.ArrayKeepOneForEachBy;
+using ArrayLastIndexOfByExpr = de.unika.ipd.grgen.ir.expr.array.ArrayLastIndexOfByExpr;
+using ArrayLastIndexOfExpr = de.unika.ipd.grgen.ir.expr.array.ArrayLastIndexOfExpr;
+using ArrayMapExpr = de.unika.ipd.grgen.ir.expr.array.ArrayMapExpr;
+using ArrayMapStartWithAccumulateByExpr = de.unika.ipd.grgen.ir.expr.array.ArrayMapStartWithAccumulateByExpr;
+using ArrayMaxExpr = de.unika.ipd.grgen.ir.expr.array.ArrayMaxExpr;
+using ArrayMedExpr = de.unika.ipd.grgen.ir.expr.array.ArrayMedExpr;
+using ArrayMedUnorderedExpr = de.unika.ipd.grgen.ir.expr.array.ArrayMedUnorderedExpr;
+using ArrayMinExpr = de.unika.ipd.grgen.ir.expr.array.ArrayMinExpr;
+using ArrayOrExpr = de.unika.ipd.grgen.ir.expr.array.ArrayOrExpr;
+using ArrayOrderAscending = de.unika.ipd.grgen.ir.expr.array.ArrayOrderAscending;
+using ArrayOrderAscendingBy = de.unika.ipd.grgen.ir.expr.array.ArrayOrderAscendingBy;
+using ArrayOrderDescending = de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescending;
+using ArrayOrderDescendingBy = de.unika.ipd.grgen.ir.expr.array.ArrayOrderDescendingBy;
+using ArrayPeekExpr = de.unika.ipd.grgen.ir.expr.array.ArrayPeekExpr;
+using ArrayProdExpr = de.unika.ipd.grgen.ir.expr.array.ArrayProdExpr;
+using ArrayRemoveIfExpr = de.unika.ipd.grgen.ir.expr.array.ArrayRemoveIfExpr;
+using ArrayReverseExpr = de.unika.ipd.grgen.ir.expr.array.ArrayReverseExpr;
+using ArrayShuffleExpr = de.unika.ipd.grgen.ir.expr.array.ArrayShuffleExpr;
+using ArraySizeExpr = de.unika.ipd.grgen.ir.expr.array.ArraySizeExpr;
+using ArraySubarrayExpr = de.unika.ipd.grgen.ir.expr.array.ArraySubarrayExpr;
+using ArraySumExpr = de.unika.ipd.grgen.ir.expr.array.ArraySumExpr;
+using ArrayVarExpr = de.unika.ipd.grgen.ir.expr.array.ArrayVarExpr;
+using DequeAsArrayExpr = de.unika.ipd.grgen.ir.expr.deque.DequeAsArrayExpr;
+using DequeAsSetExpr = de.unika.ipd.grgen.ir.expr.deque.DequeAsSetExpr;
+using DequeCopyConstructor = de.unika.ipd.grgen.ir.expr.deque.DequeCopyConstructor;
+using DequeEmptyExpr = de.unika.ipd.grgen.ir.expr.deque.DequeEmptyExpr;
+using DequeIndexOfExpr = de.unika.ipd.grgen.ir.expr.deque.DequeIndexOfExpr;
+using DequeInit = de.unika.ipd.grgen.ir.expr.deque.DequeInit;
+using DequeLastIndexOfExpr = de.unika.ipd.grgen.ir.expr.deque.DequeLastIndexOfExpr;
+using DequePeekExpr = de.unika.ipd.grgen.ir.expr.deque.DequePeekExpr;
+using DequeSizeExpr = de.unika.ipd.grgen.ir.expr.deque.DequeSizeExpr;
+using DequeSubdequeExpr = de.unika.ipd.grgen.ir.expr.deque.DequeSubdequeExpr;
+using AdjacentNodeExpr = de.unika.ipd.grgen.ir.expr.graph.AdjacentNodeExpr;
+using BoundedReachableEdgeExpr = de.unika.ipd.grgen.ir.expr.graph.BoundedReachableEdgeExpr;
+using BoundedReachableNodeExpr = de.unika.ipd.grgen.ir.expr.graph.BoundedReachableNodeExpr;
+using BoundedReachableNodeWithRemainingDepthExpr = de.unika.ipd.grgen.ir.expr.graph.BoundedReachableNodeWithRemainingDepthExpr;
+using CanonizeExpr = de.unika.ipd.grgen.ir.expr.graph.CanonizeExpr;
+using CountAdjacentNodeExpr = de.unika.ipd.grgen.ir.expr.graph.CountAdjacentNodeExpr;
+using CountBoundedReachableEdgeExpr = de.unika.ipd.grgen.ir.expr.graph.CountBoundedReachableEdgeExpr;
+using CountBoundedReachableNodeExpr = de.unika.ipd.grgen.ir.expr.graph.CountBoundedReachableNodeExpr;
+using CountEdgesExpr = de.unika.ipd.grgen.ir.expr.graph.CountEdgesExpr;
+using CountEdgesFromIndexAccessFromToExpr = de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessFromToExpr;
+using CountEdgesFromIndexAccessSameExpr = de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessSameExpr;
+using CountIncidenceFromIndexExpr = de.unika.ipd.grgen.ir.expr.graph.CountIncidenceFromIndexExpr;
+using CountIncidentEdgeExpr = de.unika.ipd.grgen.ir.expr.graph.CountIncidentEdgeExpr;
+using CountNodesExpr = de.unika.ipd.grgen.ir.expr.graph.CountNodesExpr;
+using CountNodesFromIndexAccessFromToExpr = de.unika.ipd.grgen.ir.expr.graph.CountNodesFromIndexAccessFromToExpr;
+using CountNodesFromIndexAccessSameExpr = de.unika.ipd.grgen.ir.expr.graph.CountNodesFromIndexAccessSameExpr;
+using CountReachableEdgeExpr = de.unika.ipd.grgen.ir.expr.graph.CountReachableEdgeExpr;
+using CountReachableNodeExpr = de.unika.ipd.grgen.ir.expr.graph.CountReachableNodeExpr;
+using DefinedSubgraphExpr = de.unika.ipd.grgen.ir.expr.graph.DefinedSubgraphExpr;
+using EdgeByNameExpr = de.unika.ipd.grgen.ir.expr.graph.EdgeByNameExpr;
+using EdgeByUniqueExpr = de.unika.ipd.grgen.ir.expr.graph.EdgeByUniqueExpr;
+using EdgesExpr = de.unika.ipd.grgen.ir.expr.graph.EdgesExpr;
+using EdgesFromIndexAccessFromToExpr = de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessFromToExpr;
+using EdgesFromIndexAccessMultipleFromToExpr = de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessMultipleFromToExpr;
+using EdgesFromIndexAccessSameExpr = de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessSameExpr;
+using EmptyExpr = de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
+using EqualsAnyExpr = de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
+using GetEquivalentExpr = de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
+using Graphof = de.unika.ipd.grgen.ir.expr.graph.Graphof;
+using IncidentEdgeExpr = de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
+using IndexSizeExpr = de.unika.ipd.grgen.ir.expr.graph.IndexSizeExpr;
+using InducedSubgraphExpr = de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
+using IsAdjacentNodeExpr = de.unika.ipd.grgen.ir.expr.graph.IsAdjacentNodeExpr;
+using IsBoundedReachableEdgeExpr = de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableEdgeExpr;
+using IsBoundedReachableNodeExpr = de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableNodeExpr;
+using IsInEdgesFromIndexAccessFromToExpr = de.unika.ipd.grgen.ir.expr.graph.IsInEdgesFromIndexAccessFromToExpr;
+using IsInEdgesFromIndexAccessSameExpr = de.unika.ipd.grgen.ir.expr.graph.IsInEdgesFromIndexAccessSameExpr;
+using IsInNodesFromIndexAccessFromToExpr = de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessFromToExpr;
+using IsInNodesFromIndexAccessSameExpr = de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessSameExpr;
+using IsIncidentEdgeExpr = de.unika.ipd.grgen.ir.expr.graph.IsIncidentEdgeExpr;
+using IsReachableEdgeExpr = de.unika.ipd.grgen.ir.expr.graph.IsReachableEdgeExpr;
+using IsReachableNodeExpr = de.unika.ipd.grgen.ir.expr.graph.IsReachableNodeExpr;
+using MinMaxFromIndexExpr = de.unika.ipd.grgen.ir.expr.graph.MinMaxFromIndexExpr;
+using Nameof = de.unika.ipd.grgen.ir.expr.graph.Nameof;
+using NodeByNameExpr = de.unika.ipd.grgen.ir.expr.graph.NodeByNameExpr;
+using NodeByUniqueExpr = de.unika.ipd.grgen.ir.expr.graph.NodeByUniqueExpr;
+using NodesExpr = de.unika.ipd.grgen.ir.expr.graph.NodesExpr;
+using NodesFromIndexAccessFromToExpr = de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessFromToExpr;
+using NodesFromIndexAccessMultipleFromToExpr = de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessMultipleFromToExpr;
+using NodesFromIndexAccessSameExpr = de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessSameExpr;
+using OppositeExpr = de.unika.ipd.grgen.ir.expr.graph.OppositeExpr;
+using ReachableEdgeExpr = de.unika.ipd.grgen.ir.expr.graph.ReachableEdgeExpr;
+using ReachableNodeExpr = de.unika.ipd.grgen.ir.expr.graph.ReachableNodeExpr;
+using SizeExpr = de.unika.ipd.grgen.ir.expr.graph.SizeExpr;
+using SourceExpr = de.unika.ipd.grgen.ir.expr.graph.SourceExpr;
+using TargetExpr = de.unika.ipd.grgen.ir.expr.graph.TargetExpr;
+using ThisExpr = de.unika.ipd.grgen.ir.expr.graph.ThisExpr;
+using Uniqueof = de.unika.ipd.grgen.ir.expr.graph.Uniqueof;
+using Visited = de.unika.ipd.grgen.ir.expr.graph.Visited;
+using ExternalFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.ExternalFunctionInvocationExpr;
+using ExternalFunctionMethodInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.ExternalFunctionMethodInvocationExpr;
+using FunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.FunctionInvocationExpr;
+using FunctionMethodInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.FunctionMethodInvocationExpr;
+using MapAsArrayExpr = de.unika.ipd.grgen.ir.expr.map.MapAsArrayExpr;
+using MapCopyConstructor = de.unika.ipd.grgen.ir.expr.map.MapCopyConstructor;
+using MapDomainExpr = de.unika.ipd.grgen.ir.expr.map.MapDomainExpr;
+using MapEmptyExpr = de.unika.ipd.grgen.ir.expr.map.MapEmptyExpr;
+using MapInit = de.unika.ipd.grgen.ir.expr.map.MapInit;
+using MapPeekExpr = de.unika.ipd.grgen.ir.expr.map.MapPeekExpr;
+using MapRangeExpr = de.unika.ipd.grgen.ir.expr.map.MapRangeExpr;
+using MapSizeExpr = de.unika.ipd.grgen.ir.expr.map.MapSizeExpr;
+using AbsExpr = de.unika.ipd.grgen.ir.expr.numeric.AbsExpr;
+using ArcSinCosTanExpr = de.unika.ipd.grgen.ir.expr.numeric.ArcSinCosTanExpr;
+using ByteMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.ByteMaxExpr;
+using ByteMinExpr = de.unika.ipd.grgen.ir.expr.numeric.ByteMinExpr;
+using CeilExpr = de.unika.ipd.grgen.ir.expr.numeric.CeilExpr;
+using DoubleMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.DoubleMaxExpr;
+using DoubleMinExpr = de.unika.ipd.grgen.ir.expr.numeric.DoubleMinExpr;
+using EExpr = de.unika.ipd.grgen.ir.expr.numeric.EExpr;
+using FloatMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.FloatMaxExpr;
+using FloatMinExpr = de.unika.ipd.grgen.ir.expr.numeric.FloatMinExpr;
+using FloorExpr = de.unika.ipd.grgen.ir.expr.numeric.FloorExpr;
+using IntMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.IntMaxExpr;
+using IntMinExpr = de.unika.ipd.grgen.ir.expr.numeric.IntMinExpr;
+using LogExpr = de.unika.ipd.grgen.ir.expr.numeric.LogExpr;
+using LongMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.LongMaxExpr;
+using LongMinExpr = de.unika.ipd.grgen.ir.expr.numeric.LongMinExpr;
+using MaxExpr = de.unika.ipd.grgen.ir.expr.numeric.MaxExpr;
+using MinExpr = de.unika.ipd.grgen.ir.expr.numeric.MinExpr;
+using PiExpr = de.unika.ipd.grgen.ir.expr.numeric.PiExpr;
+using PowExpr = de.unika.ipd.grgen.ir.expr.numeric.PowExpr;
+using RoundExpr = de.unika.ipd.grgen.ir.expr.numeric.RoundExpr;
+using SgnExpr = de.unika.ipd.grgen.ir.expr.numeric.SgnExpr;
+using ShortMaxExpr = de.unika.ipd.grgen.ir.expr.numeric.ShortMaxExpr;
+using ShortMinExpr = de.unika.ipd.grgen.ir.expr.numeric.ShortMinExpr;
+using SinCosTanExpr = de.unika.ipd.grgen.ir.expr.numeric.SinCosTanExpr;
+using SqrExpr = de.unika.ipd.grgen.ir.expr.numeric.SqrExpr;
+using SqrtExpr = de.unika.ipd.grgen.ir.expr.numeric.SqrtExpr;
+using TruncateExpr = de.unika.ipd.grgen.ir.expr.numeric.TruncateExpr;
+using ExistsFileExpr = de.unika.ipd.grgen.ir.expr.procenv.ExistsFileExpr;
+using ImportExpr = de.unika.ipd.grgen.ir.expr.procenv.ImportExpr;
+using NowExpr = de.unika.ipd.grgen.ir.expr.procenv.NowExpr;
+using RandomExpr = de.unika.ipd.grgen.ir.expr.procenv.RandomExpr;
+using SetAsArrayExpr = de.unika.ipd.grgen.ir.expr.set.SetAsArrayExpr;
+using SetCopyConstructor = de.unika.ipd.grgen.ir.expr.set.SetCopyConstructor;
+using SetEmptyExpr = de.unika.ipd.grgen.ir.expr.set.SetEmptyExpr;
+using SetInit = de.unika.ipd.grgen.ir.expr.set.SetInit;
+using SetMaxExpr = de.unika.ipd.grgen.ir.expr.set.SetMaxExpr;
+using SetMinExpr = de.unika.ipd.grgen.ir.expr.set.SetMinExpr;
+using SetPeekExpr = de.unika.ipd.grgen.ir.expr.set.SetPeekExpr;
+using SetSizeExpr = de.unika.ipd.grgen.ir.expr.set.SetSizeExpr;
+using StringAsArray = de.unika.ipd.grgen.ir.expr.@string.StringAsArray;
+using StringEndsWith = de.unika.ipd.grgen.ir.expr.@string.StringEndsWith;
+using StringIndexOf = de.unika.ipd.grgen.ir.expr.@string.StringIndexOf;
+using StringLastIndexOf = de.unika.ipd.grgen.ir.expr.@string.StringLastIndexOf;
+using StringLength = de.unika.ipd.grgen.ir.expr.@string.StringLength;
+using StringReplace = de.unika.ipd.grgen.ir.expr.@string.StringReplace;
+using StringStartsWith = de.unika.ipd.grgen.ir.expr.@string.StringStartsWith;
+using StringSubstring = de.unika.ipd.grgen.ir.expr.@string.StringSubstring;
+using StringToLower = de.unika.ipd.grgen.ir.expr.@string.StringToLower;
+using StringToUpper = de.unika.ipd.grgen.ir.expr.@string.StringToUpper;
+using BaseInternalObjectType = de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
+using ExternalObjectType = de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
+using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+using InternalObjectType = de.unika.ipd.grgen.ir.model.type.InternalObjectType;
+using InternalTransientObjectType = de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
+using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using IndexAccessEquality = de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
+using IndexAccessOrdering = de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using SubpatternUsage = de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using Base = de.unika.ipd.grgen.util.Base;
+using Direction = de.unika.ipd.grgen.util.Direction;
+using SourceBuilder = de.unika.ipd.grgen.util.SourceBuilder;
+using Util = de.unika.ipd.grgen.util.Util;
 
 public abstract class CSharpBase
 {
-	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix, String objectTypePrefix, String transientObjectTypePrefix)
+	public CSharpBase(string nodeTypePrefix, string edgeTypePrefix, string objectTypePrefix, string transientObjectTypePrefix)
 	{
 		this.nodeTypePrefix = nodeTypePrefix;
 		this.edgeTypePrefix = edgeTypePrefix;
@@ -254,283 +251,287 @@ public abstract class CSharpBase
 		this.transientObjectTypePrefix = transientObjectTypePrefix;
 	}
 
-	/**
-	 * Write a character sequence to a file using the given path.
-	 * @param path The path for the file.
-	 * @param filename The filename.
-	 * @param cs A character sequence.
-	 */
-	public static void writeFile(File path, String filename, CharSequence cs)
+	/// <summary>
+	/// Write a character sequence to a file using the given path. </summary>
+	/// <param name="path"> The path for the file. </param>
+	/// <param name="filename"> The filename. </param>
+	/// <param name="cs"> A character sequence. </param>
+	public static void WriteFile(File path, string filename, CharSequence cs)
 	{
-		Util.writeFile(new File(path, filename), cs, Base.error);
+		Util.WriteFile(new File(path, filename), cs, Base.error);
 	}
 
-	public static boolean existsFile(File path, String filename)
+	public static bool ExistsFile(File path, string filename)
 	{
-		return new File(path, filename).exists();
+		return (new File(path, filename)).Exists();
 	}
 
-	public static void copyFile(File sourcePath, File targetPath)
+	public static void CopyFile(File sourcePath, File targetPath)
 	{
-		try {
-			Util.copyFile(sourcePath, targetPath);
-		} catch(IOException ex) {
-			System.out.println(ex.getMessage());
+		try
+		{
+			Util.CopyFile(sourcePath, targetPath);
+		}
+		catch(IOException ex)
+		{
+			Console.WriteLine(ex.Message);
 		}
 	}
 
-	/**
-	 * Dumps a C-like set representation.
-	 */
-	public static void genSet(SourceBuilder sb, Collection<? extends Identifiable> set, String pre, String post,
-			boolean brackets)
+	/// <summary>
+	/// Dumps a C-like set representation.
+	/// </summary>
+	public static void GenSet<T1>(SourceBuilder sb, ICollection<T1> set, string pre, string post, bool brackets) where T1 : Identifiable
 	{
 		if(brackets)
-			sb.append("{ ");
-		boolean first = true;
-		for(Identifiable id : set) {
+			sb.Append("{ ");
+		bool first = true;
+		foreach(Identifiable id in set)
+		{
 			if(first)
 				first = false;
 			else
-				sb.append(", ");
-			sb.append(pre + formatIdentifiable(id) + post);
+				sb.Append(", ");
+			sb.Append(pre + FormatIdentifiable(id) + post);
 		}
 		if(brackets)
-			sb.append(" }");
+			sb.Append(" }");
 	}
 
-	public static void genEntitySet(SourceBuilder sb, Collection<? extends Entity> set, String pre, String post,
-			boolean brackets, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
+	public static void GenEntitySet<T1>(SourceBuilder sb, ICollection<T1> set, string pre, string post,
+			bool brackets, string pathPrefix, Dictionary<Entity, string> alreadyDefinedEntityToName) where T1 : Entity
 	{
 		if(brackets)
-			sb.append("{ ");
-		boolean first = true;
-		for(Entity id : set) {
+			sb.Append("{ ");
+		bool first = true;
+		foreach(Entity id in set)
+		{
 			if(first)
 				first = false;
 			else
-				sb.append(", ");
-			sb.append(pre + formatEntity(id, pathPrefix, alreadyDefinedEntityToName) + post);
+				sb.Append(", ");
+			sb.Append(pre + FormatEntity(id, pathPrefix, alreadyDefinedEntityToName) + post);
 		}
 		if(brackets)
-			sb.append(" }");
+			sb.Append(" }");
 	}
 
-	public void genVarTypeSet(SourceBuilder sb, Collection<? extends Entity> set, boolean brackets)
+	public virtual void GenVarTypeSet<T1>(SourceBuilder sb, ICollection<T1> set, bool brackets) where T1 : Entity
 	{
 		if(brackets)
-			sb.append("{ ");
-		boolean first = true;
-		for(Entity id : set) {
+			sb.Append("{ ");
+		bool first = true;
+		foreach(Entity id in set)
+		{
 			if(first)
 				first = false;
 			else
-				sb.append(", ");
-			sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(id) + "))");
+				sb.Append(", ");
+			sb.Append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + FormatAttributeType(id) + "))");
 		}
 		if(brackets)
-			sb.append(" }");
+			sb.Append(" }");
 	}
 
-	public static void genSubpatternUsageSet(SourceBuilder sb, Collection<SubpatternUsage> set, String pre,
-			String post,
-			boolean brackets, String pathPrefix,
-			HashMap<Identifiable, String> alreadyDefinedIdentifiableToName)
+	public static void GenSubpatternUsageSet(SourceBuilder sb, ICollection<SubpatternUsage> set, string pre,
+			string post,
+			bool brackets, string pathPrefix,
+			Dictionary<Identifiable, string> alreadyDefinedIdentifiableToName)
 	{
 		if(brackets)
-			sb.append("{ ");
-		boolean first = true;
-		for(SubpatternUsage spu : set) {
+			sb.Append("{ ");
+		bool first = true;
+		foreach(SubpatternUsage spu in set)
+		{
 			if(first)
 				first = false;
 			else
-				sb.append(", ");
-			sb.append(pre + formatIdentifiable(spu, pathPrefix, alreadyDefinedIdentifiableToName) + post);
+				sb.Append(", ");
+			sb.Append(pre + FormatIdentifiable(spu, pathPrefix, alreadyDefinedIdentifiableToName) + post);
 		}
 		if(brackets)
-			sb.append(" }");
+			sb.Append(" }");
 	}
 
-	public static void genAlternativesSet(SourceBuilder sb, Collection<? extends Rule> set,
-			String pre, String post, boolean brackets)
+	public static void GenAlternativesSet<T1>(SourceBuilder sb, ICollection<T1> set,
+			string pre, string post, bool brackets) where T1 : de.unika.ipd.grgen.ir.executable.Rule
 	{
 		if(brackets)
-			sb.append("{ ");
-		boolean first = true;
-		for(Rule altCase : set) {
+			sb.Append("{ ");
+		bool first = true;
+		foreach(Rule altCase in set)
+		{
 			if(first)
 				first = false;
 			else
-				sb.append(", ");
-			PatternGraphLhs altCasePattern = altCase.getLeft();
-			sb.append(pre + altCasePattern.getNameOfGraph() + post);
+				sb.Append(", ");
+			PatternGraphLhs altCasePattern = altCase.Left;
+			sb.Append(pre + altCasePattern.NameOfGraph + post);
 		}
 		if(brackets)
-			sb.append(" }");
+			sb.Append(" }");
 	}
 
-	public static String formatIdentifiable(Identifiable id)
+	public static string FormatIdentifiable(Identifiable id)
 	{
-		String res = id.getIdent().toString();
-		return res.replace('$', '_');
+		string res = id.Ident.ToString();
+		return res.Replace('$', '_');
 	}
 
-	public static String getPackagePrefixDot(Identifiable id)
+	public static string GetPackagePrefixDot(Identifiable id)
 	{
-		if(id instanceof ContainedInPackage) {
+		if(id is ContainedInPackage)
+		{
 			ContainedInPackage cip = (ContainedInPackage)id;
-			if(cip.getPackageContainedIn() != null) {
-				return cip.getPackageContainedIn() + ".";
-			}
+			if(!string.ReferenceEquals(cip.PackageContainedIn, null))
+				return cip.PackageContainedIn + ".";
 		}
 		return "";
 	}
 
-	public static String getPackagePrefixDoubleColon(Identifiable id)
+	public static string GetPackagePrefixDoubleColon(Identifiable id)
 	{
-		if(id instanceof ContainedInPackage) {
+		if(id is ContainedInPackage)
+		{
 			ContainedInPackage cip = (ContainedInPackage)id;
-			if(cip.getPackageContainedIn() != null) {
-				return cip.getPackageContainedIn() + "::";
-			}
+			if(!string.ReferenceEquals(cip.PackageContainedIn, null))
+				return cip.PackageContainedIn + "::";
 		}
 		return "";
 	}
 
-	public static String getPackagePrefix(Identifiable id)
+	public static string GetPackagePrefix(Identifiable id)
 	{
-		if(id instanceof ContainedInPackage) {
+		if(id is ContainedInPackage)
+		{
 			ContainedInPackage cip = (ContainedInPackage)id;
-			if(cip.getPackageContainedIn() != null) {
-				return cip.getPackageContainedIn();
-			}
+			if(!string.ReferenceEquals(cip.PackageContainedIn, null))
+				return cip.PackageContainedIn;
 		}
 		return "";
 	}
 
-	public static String formatIdentifiable(Identifiable id, String pathPrefix)
+	public static string FormatIdentifiable(Identifiable id, string pathPrefix)
 	{
-		String ident = id.getIdent().toString();
-		return pathPrefix + ident.replace('$', '_');
+		string ident = id.Ident.ToString();
+		return pathPrefix + ident.Replace('$', '_');
 	}
 
-	public static String formatIdentifiable(Identifiable id, String pathPrefix,
-			HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName)
+	public static string FormatIdentifiable<T1>(Identifiable id, string pathPrefix,
+			Dictionary<T1> alreadyDefinedIdentifiableToName) where T1 : Identifiable
 	{
-		if(alreadyDefinedIdentifiableToName != null && alreadyDefinedIdentifiableToName.get(id) != null)
-			return alreadyDefinedIdentifiableToName.get(id);
-		String ident = id.getIdent().toString();
-		return pathPrefix + ident.replace('$', '_');
+		if(alreadyDefinedIdentifiableToName != null && alreadyDefinedIdentifiableToName[id] != null)
+			return alreadyDefinedIdentifiableToName[id];
+		string ident = id.Ident.ToString();
+		return pathPrefix + ident.Replace('$', '_');
 	}
 
-	public static String formatInheritanceTypeValue(Type type)
+	public static string FormatInheritanceTypeValue(Type type)
 	{
-		if(type instanceof NodeType)
+		if(type is NodeType)
 			return "Node";
-		else if(type instanceof EdgeType)
+		else if(type is EdgeType)
 			return "Edge";
-		else if(type instanceof InternalObjectType)
+		else if(type is InternalObjectType)
 			return "Object";
-		else if(type instanceof InternalTransientObjectType)
+		else if(type is InternalTransientObjectType)
 			return "TransientObject";
 		else
-			throw new IllegalArgumentException("Unknown type " + type + " (" + type.getClass() + ")");
+			throw new ArgumentException("Unknown type " + type + " (" + type.GetType() + ")");
 	}
 
-	public static String formatGraphElement(Entity ent)
+	public static string FormatGraphElement(Entity ent)
 	{
-		if(ent instanceof Node)
+		if(ent is Node)
 			return "Node";
-		else if(ent instanceof Edge)
+		else if(ent is Edge)
 			return "Edge";
 		else
-			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
+			throw new ArgumentException("Illegal entity type " + ent + " (" + ent.GetType() + ")");
 	}
 
-	public String getInheritanceTypePrefix(Type type)
+	public virtual string GetInheritanceTypePrefix(Type type)
 	{
-		if(type instanceof NodeType)
+		if(type is NodeType)
 			return nodeTypePrefix;
-		else if(type instanceof EdgeType)
+		else if(type is EdgeType)
 			return edgeTypePrefix;
-		else if(type instanceof InternalObjectType)
+		else if(type is InternalObjectType)
 			return objectTypePrefix;
-		else if(type instanceof InternalTransientObjectType)
+		else if(type is InternalTransientObjectType)
 			return transientObjectTypePrefix;
 		else
-			throw new IllegalArgumentException("Unknown type " + type + " (" + type.getClass() + ")");
+			throw new ArgumentException("Unknown type " + type + " (" + type.GetType() + ")");
 	}
 
-	public String getInheritanceTypePrefix(Entity ent)
+	public virtual string GetInheritanceTypePrefix(Entity ent)
 	{
-		if(ent instanceof Node)
+		if(ent is Node)
 			return nodeTypePrefix;
-		else if(ent instanceof Edge)
+		else if(ent is Edge)
 			return edgeTypePrefix;
-		else if(ent.getType() instanceof InternalObjectType)
+		else if(ent.Type is InternalObjectType)
 			return objectTypePrefix;
-		else if(ent.getType() instanceof InternalTransientObjectType)
+		else if(ent.Type is InternalTransientObjectType)
 			return transientObjectTypePrefix;
 		else
-			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
+			throw new ArgumentException("Illegal entity type " + ent + " (" + ent.GetType() + ")");
 	}
 
-	static String matchType(PatternGraphLhs patternGraph, Rule subpattern, boolean isSubpattern, String pathPrefix)
+	internal static string MatchType(PatternGraphLhs patternGraph, Rule subpattern, bool isSubpattern, string pathPrefix)
 	{
-		String matchClassContainer;
-		if(isSubpattern) {
-			matchClassContainer = "GRGEN_ACTIONS." + getPackagePrefixDot(subpattern) + "Pattern_"
-					+ patternGraph.getNameOfGraph();
-		} else {
-			matchClassContainer = "GRGEN_ACTIONS." + getPackagePrefixDot(subpattern) + "Rule_"
-					+ patternGraph.getNameOfGraph();
-		}
-		String nameOfMatchClass = "Match_" + pathPrefix + patternGraph.getNameOfGraph();
+		string matchClassContainer;
+		if(isSubpattern)
+			matchClassContainer = "GRGEN_ACTIONS." + GetPackagePrefixDot(subpattern) + "Pattern_" + patternGraph.NameOfGraph;
+		else
+			matchClassContainer = "GRGEN_ACTIONS." + GetPackagePrefixDot(subpattern) + "Rule_" + patternGraph.NameOfGraph;
+		string nameOfMatchClass = "Match_" + pathPrefix + patternGraph.NameOfGraph;
 		return matchClassContainer + "." + nameOfMatchClass;
 	}
 
-	public static String formatTypeClassName(Type type)
+	public static string FormatTypeClassName(Type type)
 	{
-		return formatInheritanceTypeValue(type) + "Type_" + formatIdentifiable(type);
+		return FormatInheritanceTypeValue(type) + "Type_" + FormatIdentifiable(type);
 	}
 
-	public static String formatTypeClassRef(Type type)
+	public static string FormatTypeClassRef(Type type)
 	{
-		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatTypeClassName(type);
+		return "GRGEN_MODEL." + GetPackagePrefixDot(type) + FormatTypeClassName(type);
 	}
 
-	public static String formatTypeClassRefInstance(Type type)
+	public static string FormatTypeClassRefInstance(Type type)
 	{
-		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatTypeClassName(type) + ".typeVar";
+		return "GRGEN_MODEL." + GetPackagePrefixDot(type) + FormatTypeClassName(type) + ".typeVar";
 	}
 
-	public String formatInheritanceClassRaw(Type type)
+	public virtual string FormatInheritanceClassRaw(Type type)
 	{
-		return getInheritanceTypePrefix(type) + formatIdentifiable(type);
+		return GetInheritanceTypePrefix(type) + FormatIdentifiable(type);
 	}
 
-	public String formatInheritanceClassName(Type type)
+	public virtual string FormatInheritanceClassName(Type type)
 	{
-		return "@" + formatInheritanceClassRaw(type);
+		return "@" + FormatInheritanceClassRaw(type);
 	}
 
-	public String formatInheritanceClassRef(Type type)
+	public virtual string FormatInheritanceClassRef(Type type)
 	{
-		return "GRGEN_MODEL." + getPackagePrefixDot(type) + formatInheritanceClassName(type);
+		return "GRGEN_MODEL." + GetPackagePrefixDot(type) + FormatInheritanceClassName(type);
 	}
 
-	public String formatElementInterfaceRef(Type type)
+	public virtual string FormatElementInterfaceRef(Type type)
 	{
-		if(!(type instanceof InheritanceType)) {
-			assert(false);
-			return getInheritanceTypePrefix(type) + formatIdentifiable(type);
+		if(!(type is InheritanceType))
+		{
+			Debug.Assert((false));
+			return GetInheritanceTypePrefix(type) + FormatIdentifiable(type);
 		}
 
-		if(type instanceof ExternalObjectType) {
-			return "GRGEN_MODEL." + type.getIdent().toString();
-		}
+		if(type is ExternalObjectType)
+			return "GRGEN_MODEL." + type.Ident.ToString();
 
-		switch(formatIdentifiable(type)) {
+		switch(FormatIdentifiable(type))
+		{
 		case "Node":
 		case "AEdge":
 		case "Edge":
@@ -538,4313 +539,5097 @@ public abstract class CSharpBase
 		case "Object":
 		case "TransientObject":
 			InheritanceType inheritanceType = (InheritanceType)type;
-			return getRootElementInterfaceRef(inheritanceType);
+			return GetRootElementInterfaceRef(inheritanceType);
 		}
 
-		return "GRGEN_MODEL." + getPackagePrefixDot(type) + "I" + formatInheritanceClassRaw(type);
+		return "GRGEN_MODEL." + GetPackagePrefixDot(type) + "I" + FormatInheritanceClassRaw(type);
 	}
 
-	public static String getRootElementInterfaceRef(InheritanceType inheritanceType)
+	public static string GetRootElementInterfaceRef(InheritanceType inheritanceType)
 	{
-		if(inheritanceType instanceof InternalObjectType) {
+		if(inheritanceType is InternalObjectType)
 			return "GRGEN_LIBGR.IObject";
-		} else if(inheritanceType instanceof InternalTransientObjectType) {
+		else if(inheritanceType is InternalTransientObjectType)
 			return "GRGEN_LIBGR.ITransientObject";
-		} else if(inheritanceType instanceof NodeType) {
+		else if(inheritanceType is NodeType)
 			return "GRGEN_LIBGR.INode";
-		} else { // instanceof EdgeType
+		else
+		{ // instanceof EdgeType
 			EdgeType edgeType = (EdgeType)inheritanceType;
-			if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Directed)
+			if(edgeType.Directedness == EdgeType.DirectednessKind.Directed)
 				return "GRGEN_LIBGR.IDEdge";
-			else if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Undirected)
+			else if(edgeType.Directedness == EdgeType.DirectednessKind.Undirected)
 				return "GRGEN_LIBGR.IUEdge";
 			else
 				return "GRGEN_LIBGR.IEdge";
 		}
 	}
 
-	public static String getDirectedness(Type type)
+	public static string GetDirectedness(Type type)
 	{
 		SetType setType = (SetType)type;
-		EdgeType edgeType = (EdgeType)setType.getValueType();
-		if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Directed)
+		EdgeType edgeType = (EdgeType)setType.ValueType;
+		if(edgeType.Directedness == EdgeType.DirectednessKind.Directed)
 			return "GRGEN_LIBGR.Directedness.Directed";
-		else if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Undirected)
+		else if(edgeType.Directedness == EdgeType.DirectednessKind.Undirected)
 			return "GRGEN_LIBGR.Directedness.Undirected";
 		else
 			return "GRGEN_LIBGR.Directedness.Arbitrary";
 	}
 
-	public static String getDirectednessSuffix(Type type)
+	public static string GetDirectednessSuffix(Type type)
 	{
 		SetType setType = (SetType)type;
-		EdgeType edgeType = (EdgeType)setType.getValueType();
-		if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Directed)
+		EdgeType edgeType = (EdgeType)setType.ValueType;
+		if(edgeType.Directedness == EdgeType.DirectednessKind.Directed)
 			return "Directed";
-		else if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Undirected)
+		else if(edgeType.Directedness == EdgeType.DirectednessKind.Undirected)
 			return "Undirected";
 		else
 			return "";
 	}
 
-	public static String formatVarDeclWithCast(String type, String varName)
+	public static string FormatVarDeclWithCast(string type, string varName)
 	{
 		return type + " " + varName + " = (" + type + ") ";
 	}
 
-	public String formatNodeAssign(Node node, Collection<Node> extractNodeAttributeObject)
+	public virtual string FormatNodeAssign(Node node, ICollection<Node> extractNodeAttributeObject)
 	{
-		if(extractNodeAttributeObject.contains(node))
-			return formatVarDeclWithCast(formatInheritanceClassRef(node.getType()), formatEntity(node));
+		if(extractNodeAttributeObject.Contains(node))
+			return FormatVarDeclWithCast(FormatInheritanceClassRef(node.Type), FormatEntity(node));
 		else
-			return "LGSPNode " + formatEntity(node) + " = ";
+			return "LGSPNode " + FormatEntity(node) + " = ";
 	}
 
-	public String formatEdgeAssign(Edge edge, Collection<Edge> extractEdgeAttributeObject)
+	public virtual string FormatEdgeAssign(Edge edge, ICollection<Edge> extractEdgeAttributeObject)
 	{
-		if(extractEdgeAttributeObject.contains(edge))
-			return formatVarDeclWithCast(formatInheritanceClassRef(edge.getType()), formatEntity(edge));
+		if(extractEdgeAttributeObject.Contains(edge))
+			return FormatVarDeclWithCast(FormatInheritanceClassRef(edge.Type), FormatEntity(edge));
 		else
-			return "LGSPEdge " + formatEntity(edge) + " = ";
+			return "LGSPEdge " + FormatEntity(edge) + " = ";
 	}
 
-	public String formatSequenceType(Type t)
+	public virtual string FormatSequenceType(Type t)
 	{
-		if(t instanceof ByteType)
+		if(t is ByteType)
 			return "byte";
-		if(t instanceof ShortType)
+		if(t is ShortType)
 			return "short";
-		if(t instanceof IntType)
+		if(t is IntType)
 			return "int";
-		if(t instanceof LongType)
+		if(t is LongType)
 			return "long";
-		else if(t instanceof BooleanType)
+		else if(t is BooleanType)
 			return "boolean";
-		else if(t instanceof FloatType)
+		else if(t is FloatType)
 			return "float";
-		else if(t instanceof DoubleType)
+		else if(t is DoubleType)
 			return "double";
-		else if(t instanceof StringType)
+		else if(t is StringType)
 			return "string";
-		else if(t instanceof EnumType)
-			return getPackagePrefixDoubleColon(t) + formatIdentifiable(t);
-		else if(t instanceof ObjectType || t instanceof VoidType)
+		else if(t is EnumType)
+			return GetPackagePrefixDoubleColon(t) + FormatIdentifiable(t);
+		else if(t is ObjectType || t is VoidType)
 			return "object";
-		else if(t instanceof MapType) {
+		else if(t is MapType)
+		{
 			MapType mapType = (MapType)t;
-			return "map<" + formatSequenceType(mapType.getKeyType())
-					+ ", " + formatSequenceType(mapType.getValueType()) + ">";
-		} else if(t instanceof SetType) {
+			return "map<" + FormatSequenceType(mapType.KeyType) + ", " + FormatSequenceType(mapType.ValueType) + ">";
+		}
+		else if(t is SetType)
+		{
 			SetType setType = (SetType)t;
-			return "set<" + formatType(setType.getValueType()) + ">";
-		} else if(t instanceof ArrayType) {
+			return "set<" + FormatType(setType.ValueType) + ">";
+		}
+		else if(t is ArrayType)
+		{
 			ArrayType arrayType = (ArrayType)t;
-			return "array<" + formatType(arrayType.getValueType()) + ">";
-		} else if(t instanceof DequeType) {
+			return "array<" + FormatType(arrayType.ValueType) + ">";
+		}
+		else if(t is DequeType)
+		{
 			DequeType dequeType = (DequeType)t;
-			return "deque<" + formatType(dequeType.getValueType()) + ">";
-		} else if(t instanceof GraphType) {
+			return "deque<" + FormatType(dequeType.ValueType) + ">";
+		}
+		else if(t is GraphType)
 			return "graph";
-		} else if(t instanceof ExternalObjectType) {
+		else if(t is ExternalObjectType)
+		{
 			ExternalObjectType extType = (ExternalObjectType)t;
-			return extType.getIdent().toString();
-		} else if(t instanceof InheritanceType) {
-			return getPackagePrefixDoubleColon(t) + formatIdentifiable(t);
-		} else if(t instanceof MatchTypeIterated) {
+			return extType.Ident.ToString();
+		}
+		else if(t is InheritanceType)
+			return GetPackagePrefixDoubleColon(t) + FormatIdentifiable(t);
+		else if(t is MatchTypeIterated)
+		{
 			MatchTypeIterated matchType = (MatchTypeIterated)t;
-			String actionName = matchType.getAction().getIdent().toString();
-			String iteratedName = matchType.getIterated().getIdent().toString();
+			string actionName = matchType.Action.GetIdent().ToString();
+			string iteratedName = matchType.Iterated.GetIdent().ToString();
 			return "match<" + actionName + "." + iteratedName + ">";
-		} else if(t instanceof MatchType) {
+		}
+		else if(t is MatchType)
+		{
 			MatchType matchType = (MatchType)t;
-			String actionName = matchType.getAction().getIdent().toString();
+			string actionName = matchType.Action.GetIdent().ToString();
 			return "match<" + actionName + ">";
-		} else if(t instanceof DefinedMatchType) {
+		}
+		else if(t is DefinedMatchType)
+		{
 			DefinedMatchType matchType = (DefinedMatchType)t;
-			String matchTypeName = matchType.getIdent().toString();
+			string matchTypeName = matchType.Ident.ToString();
 			return "match<class" + matchTypeName + ">";
-		} else
-			throw new IllegalArgumentException("Illegal type: " + t);
+		}
+		else
+			throw new ArgumentException("Illegal type: " + t);
 	}
 
-	public String formatAttributeType(Type t)
+	public virtual string FormatAttributeType(Type t)
 	{
-		if(t instanceof ByteType)
+		if(t is ByteType)
 			return "sbyte";
-		if(t instanceof ShortType)
+		if(t is ShortType)
 			return "short";
-		if(t instanceof IntType)
+		if(t is IntType)
 			return "int";
-		if(t instanceof LongType)
+		if(t is LongType)
 			return "long";
-		else if(t instanceof BooleanType)
+		else if(t is BooleanType)
 			return "bool";
-		else if(t instanceof FloatType)
+		else if(t is FloatType)
 			return "float";
-		else if(t instanceof DoubleType)
+		else if(t is DoubleType)
 			return "double";
-		else if(t instanceof StringType)
+		else if(t is StringType)
 			return "string";
-		else if(t instanceof EnumType)
-			return "GRGEN_MODEL." + getPackagePrefixDot(t) + "ENUM_" + formatIdentifiable(t);
-		else if(t instanceof ObjectType || t instanceof VoidType)
+		else if(t is EnumType)
+			return "GRGEN_MODEL." + GetPackagePrefixDot(t) + "ENUM_" + FormatIdentifiable(t);
+		else if(t is ObjectType || t is VoidType)
 			return "object"; //TODO maybe we need another output type
-		else if(t instanceof MapType) {
+		else if(t is MapType)
+		{
 			MapType mapType = (MapType)t;
-			return "Dictionary<" + formatType(mapType.getKeyType())
-					+ ", " + formatType(mapType.getValueType()) + ">";
-		} else if(t instanceof SetType) {
+			return "Dictionary<" + FormatType(mapType.KeyType) + ", " + FormatType(mapType.ValueType) + ">";
+		}
+		else if(t is SetType)
+		{
 			SetType setType = (SetType)t;
-			return "Dictionary<" + formatType(setType.getValueType())
-					+ ", GRGEN_LIBGR.SetValueType>";
-		} else if(t instanceof ArrayType) {
+			return "Dictionary<" + FormatType(setType.ValueType) + ", GRGEN_LIBGR.SetValueType>";
+		}
+		else if(t is ArrayType)
+		{
 			ArrayType arrayType = (ArrayType)t;
-			return "List<" + formatType(arrayType.getValueType()) + ">";
-		} else if(t instanceof DequeType) {
+			return "List<" + FormatType(arrayType.ValueType) + ">";
+		}
+		else if(t is DequeType)
+		{
 			DequeType dequeType = (DequeType)t;
-			return "GRGEN_LIBGR.Deque<" + formatType(dequeType.getValueType()) + ">";
-		} else if(t instanceof GraphType) {
+			return "GRGEN_LIBGR.Deque<" + FormatType(dequeType.ValueType) + ">";
+		}
+		else if(t is GraphType)
 			return "GRGEN_LIBGR.IGraph";
-		} else if(t instanceof ExternalObjectType) {
+		else if(t is ExternalObjectType)
+		{
 			ExternalObjectType extType = (ExternalObjectType)t;
-			return "GRGEN_MODEL." + extType.getIdent();
-		} else if(t instanceof InheritanceType) {
-			return formatElementInterfaceRef(t);
-		} else if(t instanceof MatchTypeIterated) {
+			return "GRGEN_MODEL." + extType.Ident;
+		}
+		else if(t is InheritanceType)
+			return FormatElementInterfaceRef(t);
+		else if(t is MatchTypeIterated)
+		{
 			MatchTypeIterated matchType = (MatchTypeIterated)t;
-			String packagePrefix = getPackagePrefixDot(matchType);
-			Rule action = matchType.getAction();
-			String actionName = action.getIdent().toString();
-			Rule iterated = matchType.getIterated();
-			String iteratedName = iterated.getIdent().toString();
-			return "GRGEN_ACTIONS." + packagePrefix + "Rule_" + actionName
-					+ ".IMatch_" + actionName + "_" + iteratedName;
-		} else if(t instanceof MatchType) {
+			string packagePrefix = GetPackagePrefixDot(matchType);
+			Rule action = matchType.Action;
+			string actionName = action.Ident.ToString();
+			Rule iterated = matchType.Iterated;
+			string iteratedName = iterated.Ident.ToString();
+			return "GRGEN_ACTIONS." + packagePrefix + "Rule_" + actionName + ".IMatch_" + actionName + "_" + iteratedName;
+		}
+		else if(t is MatchType)
+		{
 			MatchType matchType = (MatchType)t;
-			String packagePrefix = getPackagePrefixDot(matchType);
-			Rule action = matchType.getAction();
-			String actionName = action.getIdent().toString();
+			string packagePrefix = GetPackagePrefixDot(matchType);
+			Rule action = matchType.Action;
+			string actionName = action.Ident.ToString();
 			return "GRGEN_ACTIONS." + packagePrefix + "Rule_" + actionName + ".IMatch_" + actionName;
-		} else if(t instanceof DefinedMatchType) {
+		}
+		else if(t is DefinedMatchType)
+		{
 			DefinedMatchType definedMatchType = (DefinedMatchType)t;
-			String packagePrefix = getPackagePrefixDot(definedMatchType);
-			String matchClassName = definedMatchType.getIdent().toString();
+			string packagePrefix = GetPackagePrefixDot(definedMatchType);
+			string matchClassName = definedMatchType.Ident.ToString();
 			return "GRGEN_ACTIONS." + packagePrefix + "IMatch_" + matchClassName;
-		} else
-			throw new IllegalArgumentException("Illegal type: " + t);
+		}
+		else
+			throw new ArgumentException("Illegal type: " + t);
 	}
 
 	// formats match class name instead of match interface name like formatAttributeType
-	public String formatDefinedMatchType(DefinedMatchType definedMatchType)
+	public virtual string FormatDefinedMatchType(DefinedMatchType definedMatchType)
 	{
-		String packagePrefix = getPackagePrefixDot(definedMatchType);
-		String matchClassName = definedMatchType.getIdent().toString();
+		string packagePrefix = GetPackagePrefixDot(definedMatchType);
+		string matchClassName = definedMatchType.Ident.ToString();
 		return "GRGEN_ACTIONS." + packagePrefix + "Match_" + matchClassName;
 	}
 
-	public String formatBaseInternalObjectType(BaseInternalObjectType objectType)
+	public virtual string FormatBaseInternalObjectType(BaseInternalObjectType objectType)
 	{
-		if(objectType instanceof InternalObjectType) {
-			String packagePrefix = getPackagePrefixDot(objectType);
-			String objectTypeName = objectType.getIdent().toString();
+		if(objectType is InternalObjectType)
+		{
+			string packagePrefix = GetPackagePrefixDot(objectType);
+			string objectTypeName = objectType.Ident.ToString();
 			return "GRGEN_MODEL." + packagePrefix + objectTypePrefix + objectTypeName;
-		} else {
-			String packagePrefix = getPackagePrefixDot(objectType);
-			String objectTypeName = objectType.getIdent().toString();
+		}
+		else
+		{
+			string packagePrefix = GetPackagePrefixDot(objectType);
+			string objectTypeName = objectType.Ident.ToString();
 			return "GRGEN_MODEL." + packagePrefix + transientObjectTypePrefix + objectTypeName;
 		}
 	}
 
-	public String formatAttributeType(Entity e)
+	public virtual string FormatAttributeType(Entity e)
 	{
-		return formatAttributeType(e.getType());
+		return FormatAttributeType(e.Type);
 	}
 
-	public static String formatAttributeTypeName(Entity e)
+	public static string FormatAttributeTypeName(Entity e)
 	{
-		return "AttributeType_" + formatIdentifiable(e);
+		return "AttributeType_" + FormatIdentifiable(e);
 	}
 
-	public static String formatFunctionMethodInfoName(FunctionMethod fm, InheritanceType type)
+	public static string FormatFunctionMethodInfoName(FunctionMethod fm, InheritanceType type)
 	{
-		return "FunctionMethodInfo_" + formatIdentifiable(fm) + "_" + formatIdentifiable(type);
+		return "FunctionMethodInfo_" + FormatIdentifiable(fm) + "_" + FormatIdentifiable(type);
 	}
 
-	public static String formatProcedureMethodInfoName(ProcedureMethod pm, InheritanceType type)
+	public static string FormatProcedureMethodInfoName(ProcedureMethod pm, InheritanceType type)
 	{
-		return "ProcedureMethodInfo_" + formatIdentifiable(pm) + "_" + formatIdentifiable(type);
+		return "ProcedureMethodInfo_" + FormatIdentifiable(pm) + "_" + FormatIdentifiable(type);
 	}
 
-	public static String formatExternalFunctionMethodInfoName(ExternalFunctionMethod efm, ExternalObjectType type)
+	public static string FormatExternalFunctionMethodInfoName(ExternalFunctionMethod efm, ExternalObjectType type)
 	{
-		return "FunctionMethodInfo_" + formatIdentifiable(efm) + "_" + formatIdentifiable(type);
+		return "FunctionMethodInfo_" + FormatIdentifiable(efm) + "_" + FormatIdentifiable(type);
 	}
 
-	public static String formatExternalProcedureMethodInfoName(ExternalProcedureMethod epm, ExternalObjectType type)
+	public static string FormatExternalProcedureMethodInfoName(ExternalProcedureMethod epm, ExternalObjectType type)
 	{
-		return "ProcedureMethodInfo_" + formatIdentifiable(epm) + "_" + formatIdentifiable(type);
+		return "ProcedureMethodInfo_" + FormatIdentifiable(epm) + "_" + FormatIdentifiable(type);
 	}
 
-	public String formatType(Type type)
+	public virtual string FormatType(Type type)
 	{
-		if(type instanceof InheritanceType) {
-			return formatElementInterfaceRef(type);
-		} else {
-			return formatAttributeType(type);
-		}
+		if(type is InheritanceType)
+			return FormatElementInterfaceRef(type);
+		else
+			return FormatAttributeType(type);
 	}
 
-	public static String formatEntity(Entity entity)
+	public static string FormatEntity(Entity entity)
 	{
-		return formatEntity(entity, "");
+		return FormatEntity(entity, "");
 	}
 
-	public static String formatEntity(Entity entity, String pathPrefix)
+	public static string FormatEntity(Entity entity, string pathPrefix)
 	{
-		if(entity.getIdent().toString().equals("this")) {
-			if(entity.getType() instanceof ArrayType)
+		if(entity.Ident.ToString().Equals("this"))
+		{
+			if(entity.Type is ArrayType)
 				return "this_matches";
 			else
 				return "this";
-		} else if(entity instanceof Node) {
-			return pathPrefix + "node_" + formatIdentifiable(entity);
-		} else if(entity instanceof Edge) {
-			return pathPrefix + "edge_" + formatIdentifiable(entity);
-		} else if(entity instanceof Variable) {
-			if(((Variable)entity).isLambdaExpressionVariable)
-				return pathPrefix + "var_" + formatIdentifiable(entity) + "_" + entity.getId();
-			else
-				return pathPrefix + "var_" + formatIdentifiable(entity);
-		} else if(entity.getType() instanceof BaseInternalObjectType) {
-			return pathPrefix + /*"var_" +*/ formatIdentifiable(entity);
-		} else {
-			throw new IllegalArgumentException("Unknown entity " + entity + " (" + entity.getClass() + ")");
 		}
+		else if(entity is Node)
+			return pathPrefix + "node_" + FormatIdentifiable(entity);
+		else if(entity is Edge)
+			return pathPrefix + "edge_" + FormatIdentifiable(entity);
+		else if(entity is Variable)
+		{
+			if(((Variable)entity).isLambdaExpressionVariable)
+				return pathPrefix + "var_" + FormatIdentifiable(entity) + "_" + entity.Id;
+			else
+				return pathPrefix + "var_" + FormatIdentifiable(entity);
+		}
+		else if(entity.Type is BaseInternalObjectType)
+			return pathPrefix + FormatIdentifiable(entity);
+		else
+			throw new ArgumentException("Unknown entity " + entity + " (" + entity.GetType() + ")");
 	}
 
-	public static String formatEntity(Entity entity, String pathPrefix,
-			HashMap<Entity, String> alreadyDefinedEntityToName)
+	public static string FormatEntity(Entity entity, string pathPrefix,
+			Dictionary<Entity, string> alreadyDefinedEntityToName)
 	{
-		if(alreadyDefinedEntityToName != null && alreadyDefinedEntityToName.get(entity) != null)
-			return alreadyDefinedEntityToName.get(entity);
-		return formatEntity(entity, pathPrefix);
+		if(alreadyDefinedEntityToName != null && !string.ReferenceEquals(alreadyDefinedEntityToName[entity], null))
+			return alreadyDefinedEntityToName[entity];
+		return FormatEntity(entity, pathPrefix);
 	}
 
-	public static String formatInt(int i)
+	public static string FormatInt(int i)
 	{
-		return (i == Integer.MAX_VALUE) ? "int.MaxValue" : new Integer(i).toString();
+		return (i == int.MaxValue) ? "int.MaxValue" : (new int?(i)).ToString();
 	}
 
-	public static String formatLong(long l)
+	public static string FormatLong(long l)
 	{
-		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();
+		return (l == long.MaxValue) ? "long.MaxValue" : (new long?(l)).ToString();
 	}
 
-	public static GraphEntity getAtMostOneNeededGraphElement(NeededEntities needs, List<Entity> parameters)
+	public static GraphEntity GetAtMostOneNeededGraphElement(NeededEntities needs, IList<Entity> parameters)
 	{
 		HashSet<GraphEntity> neededEntities = new HashSet<GraphEntity>();
-		for(Node node : needs.nodes) {
-			if(parameters.indexOf(node) != -1)
+		foreach(Node node in needs.nodes)
+		{
+			if(parameters.IndexOf(node) != -1)
 				continue;
-			neededEntities.add(node);
+			neededEntities.Add(node);
 		}
-		for(Edge edge : needs.edges) {
-			if(parameters.indexOf(edge) != -1)
+		foreach(Edge edge in needs.edges)
+		{
+			if(parameters.IndexOf(edge) != -1)
 				continue;
-			neededEntities.add(edge);
+			neededEntities.Add(edge);
 		}
-		if(neededEntities.size() == 1)
-			return neededEntities.iterator().next();
-		else if(neededEntities.size() > 1)
-			throw new UnsupportedOperationException("INTERNAL ERROR, more than one needed entity for index access!");
+		if(neededEntities.Count == 1)
+			return neededEntities.GetEnumerator().Next();
+		else if(neededEntities.Count > 1)
+			throw new System.NotSupportedException("INTERNAL ERROR, more than one needed entity for index access!");
 		return null;
 	}
 
-	public void genBinOpDefault(SourceBuilder sb, Operator op, ExpressionGenerationState modifyGenerationState)
+	public virtual void GenBinOpDefault(SourceBuilder sb, Operator op, ExpressionGenerationState modifyGenerationState)
 	{
-		if(op.getOpCode() == OperatorCode.BIT_SHR) {
-			sb.append("((int)(((uint)");
-			genExpression(sb, op.getOperand(0), modifyGenerationState);
-			sb.append(") " + getOperatorSymbol(op.getOpCode()) + " ");
-			genExpression(sb, op.getOperand(1), modifyGenerationState);
-			sb.append("))");
-		} else {
-			sb.append("(");
-			genExpression(sb, op.getOperand(0), modifyGenerationState);
-			sb.append(" " + getOperatorSymbol(op.getOpCode()) + " ");
-			genExpression(sb, op.getOperand(1), modifyGenerationState);
-			sb.append(")");
+		if(op.OpCode == OperatorCode.BIT_SHR)
+		{
+			sb.Append("((int)(((uint)");
+			GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+			sb.Append(") " + GetOperatorSymbol(op.OpCode) + " ");
+			GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+			sb.Append("))");
+		}
+		else
+		{
+			sb.Append("(");
+			GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+			sb.Append(" " + GetOperatorSymbol(op.OpCode) + " ");
+			GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+			sb.Append(")");
 		}
 	}
 
-	public strictfp void genExpression(SourceBuilder sb, Expression expr,
+// JAVA TO C# CONVERTER TASK: There is no equivalent to 'strictfp' in C#:
+// ORIGINAL LINE: public strictfp void genExpression(de.unika.ipd.grgen.util.SourceBuilder sb, Expression expr, ExpressionGenerationState modifyGenerationState)
+	public virtual void GenExpression(SourceBuilder sb, Expression expr,
 			ExpressionGenerationState modifyGenerationState)
 	{
-		if(expr instanceof Operator) {
+		if(expr is Operator)
+		{
 			Operator op = (Operator)expr;
-			genOperator(sb, op, modifyGenerationState);
-		} else if(expr instanceof Qualification) {
+			GenOperator(sb, op, modifyGenerationState);
+		}
+		else if(expr is Qualification)
+		{
 			Qualification qual = (Qualification)expr;
-			if(qual.getOwner() != null) {
-				genQualAccess(sb, qual, modifyGenerationState);
-			} else {
-				sb.append("(");
-				genExpression(sb, qual.getOwnerExpr(), modifyGenerationState);
-				sb.append(").@" + formatIdentifiable(qual.getMember()));
+			if(qual.Owner != null)
+				GenQualAccess(sb, qual, modifyGenerationState);
+			else
+			{
+				sb.Append("(");
+				GenExpression(sb, qual.OwnerExpr, modifyGenerationState);
+				sb.Append(").@" + FormatIdentifiable(qual.Member));
 			}
-		} else if(expr instanceof MemberExpression) {
+		}
+		else if(expr is MemberExpression)
+		{
 			MemberExpression memberExp = (MemberExpression)expr;
-			genMemberAccess(sb, memberExp.getMember());
-		} else if(expr instanceof EnumExpression) {
+			GenMemberAccess(sb, memberExp.Member);
+		}
+		else if(expr is EnumExpression)
+		{
 			EnumExpression enumExp = (EnumExpression)expr;
-			sb.append("GRGEN_MODEL." + getPackagePrefixDot(enumExp.getType()) + "ENUM_"
-					+ enumExp.getType().getIdent().toString() + ".@" + enumExp.getEnumItem().toString());
-		} else if(expr instanceof Constant) { // gen C-code for constant expressions
+			sb.Append("GRGEN_MODEL." + GetPackagePrefixDot(enumExp.Type) + "ENUM_"
+					+ enumExp.Type.Ident.ToString() + ".@" + enumExp.EnumItem.ToString());
+		}
+		else if(expr is Constant)
+		{ // gen C-code for constant expressions
 			Constant constant = (Constant)expr;
-			sb.append(getValueAsCSSharpString(constant));
-		} else if(expr instanceof Nameof) {
+			sb.Append(GetValueAsCSSharpString(constant));
+		}
+		else if(expr is Nameof)
+		{
 			Nameof no = (Nameof)expr;
-			if(no.getNamedEntity() == null) {
-				sb.append("GRGEN_LIBGR.GraphHelper.Nameof(null, graph)"); // name of graph
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.Nameof(");
-				genExpression(sb, no.getNamedEntity(), modifyGenerationState); // name of entity
-				sb.append(", graph)");
+			if(no.NamedEntity == null)
+				sb.Append("GRGEN_LIBGR.GraphHelper.Nameof(null, graph)"); // name of graph
+			else
+			{
+				sb.Append("GRGEN_LIBGR.GraphHelper.Nameof(");
+				GenExpression(sb, no.NamedEntity, modifyGenerationState); // name of entity
+				sb.Append(", graph)");
 			}
-		} else if(expr instanceof Uniqueof) {
+		}
+		else if(expr is Uniqueof)
+		{
 			Uniqueof uo = (Uniqueof)expr;
-			if(uo.getEntity() == null)
-				sb.append("((GRGEN_LGSP.LGSPGraph)graph).GraphId");
-			else {
-				sb.append("(");
-				if(uo.getEntity().getType() instanceof NodeType)
-					sb.append("(GRGEN_LGSP.LGSPNodeWithUniqueId)");
-				else if(uo.getEntity().getType() instanceof EdgeType)
-					sb.append("(GRGEN_LGSP.LGSPEdgeWithUniqueId)");
-				else if(uo.getEntity().getType() instanceof InternalObjectType)
-					sb.append("(GRGEN_LGSP.LGSPObject)");
+			if(uo.Entity == null)
+				sb.Append("((GRGEN_LGSP.LGSPGraph)graph).GraphId");
+			else
+			{
+				sb.Append("(");
+				if(uo.Entity.Type is NodeType)
+					sb.Append("(GRGEN_LGSP.LGSPNodeWithUniqueId)");
+				else if(uo.Entity.Type is EdgeType)
+					sb.Append("(GRGEN_LGSP.LGSPEdgeWithUniqueId)");
+				else if(uo.Entity.Type is InternalObjectType)
+					sb.Append("(GRGEN_LGSP.LGSPObject)");
 				else
-					sb.append("(GRGEN_LGSP.LGSPGraph)");
-				genExpression(sb, uo.getEntity(), modifyGenerationState); // unique id of entity
-				if(uo.getEntity()==null || uo.getEntity().getType() instanceof GraphType)
-					sb.append(").GraphId");
+					sb.Append("(GRGEN_LGSP.LGSPGraph)");
+				GenExpression(sb, uo.Entity, modifyGenerationState); // unique id of entity
+				if(uo.Entity == null || uo.Entity.Type is GraphType)
+					sb.Append(").GraphId");
 				else
-					sb.append(").uniqueId");
+					sb.Append(").uniqueId");
 			}
-		} else if(expr instanceof Graphof) {
+		}
+		else if(expr is Graphof)
+		{
 			Graphof go = (Graphof)expr;
-			sb.append("(");
-			sb.append("(GRGEN_LIBGR.IContained)");
-			genExpression(sb, go.getEntity(), modifyGenerationState);
-			sb.append(").GetContainingGraph()");
-		} else if(expr instanceof ExistsFileExpr) {
+			sb.Append("(");
+			sb.Append("(GRGEN_LIBGR.IContained)");
+			GenExpression(sb, go.Entity, modifyGenerationState);
+			sb.Append(").GetContainingGraph()");
+		}
+		else if(expr is ExistsFileExpr)
+		{
 			ExistsFileExpr efe = (ExistsFileExpr)expr;
-			sb.append("global::System.IO.File.Exists((string)");
-			genExpression(sb, efe.getPathExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof ImportExpr) {
+			sb.Append("global::System.IO.File.Exists((string)");
+			GenExpression(sb, efe.PathExpr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is ImportExpr)
+		{
 			ImportExpr ie = (ImportExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.Import(");
-			genExpression(sb, ie.getPathExpr(), modifyGenerationState);
-			sb.append(", actionEnv.Backend, graph.Model)");
-		} else if(expr instanceof CopyExpr) {
+			sb.Append("GRGEN_LIBGR.GraphHelper.Import(");
+			GenExpression(sb, ie.PathExpr, modifyGenerationState);
+			sb.Append(", actionEnv.Backend, graph.Model)");
+		}
+		else if(expr is CopyExpr)
+		{
 			CopyExpr ce = (CopyExpr)expr;
-			Type t = ce.getSourceExpr().getType();
-			if(ce.getDeep())
+			Type t = ce.SourceExpr.Type;
+			if(ce.Deep)
 			{
-				if(t instanceof GraphType) {
-					sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
-					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(t instanceof InternalObjectType) {
-					sb.append("((" + formatType(t) + ")(");
-					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(").Copy(graph, new Dictionary<object, object>()))");
-				} else if(t instanceof InternalTransientObjectType) {
-					sb.append("((" + formatType(t) + ")(");
-					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(").Copy(graph, new Dictionary<object, object>()))");
-				} else if(t instanceof ContainerType) {
-					sb.append("GRGEN_LIBGR.ContainerHelper.Copy(");
-					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(", graph, new Dictionary<object, object>())");
-				} else { // object/external object type
-					if(modifyGenerationState.getModel().isCopyClassDefined()) {
-						sb.append("((" + formatType(t) + ")(");
-						sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.Copy(");
-						genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-						sb.append(", graph, new Dictionary<object, object>())))");
-					} else {
-						sb.append("GRGEN_MODEL.ExternalObjectType_object.ThrowCopyClassMissingException()");
-					}
+				if(t is GraphType)
+				{
+					sb.Append("GRGEN_LIBGR.GraphHelper.Copy(");
+					GenExpression(sb, ce.SourceExpr, modifyGenerationState);
+					sb.Append(")");
 				}
-			}
-			else
-			{
-				if(t instanceof MatchType || t instanceof MatchTypeIterated || t instanceof DefinedMatchType) {
-					sb.append("((" + formatType(t) + ")(");
-					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(").Clone())");
-				} else if(t instanceof InternalObjectType) {
-					sb.append("((" + formatType(t) + ")(");
-					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(").Clone(graph))");
-				} else if(t instanceof InternalTransientObjectType) {
-					sb.append("((" + formatType(t) + ")(");
-					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(").Clone())");
-				} else if(t instanceof ContainerType) {
-					sb.append("new " + formatType(t) + "(");
-					genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-					sb.append(")");
-				} else { // object/external object type
-					if(modifyGenerationState.getModel().isCopyClassDefined()) {
-						sb.append("((" + formatType(t) + ")(");
-						sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.Copy(");
-						genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-						sb.append(", graph, null)));\n");
-					} else {
-						sb.append("GRGEN_MODEL.ExternalObjectType_object.ThrowCopyClassMissingException()");
-					}
+				else if(t is InternalObjectType)
+				{
+					sb.Append("((" + FormatType(t) + ")(");
+					GenExpression(sb, ce.SourceExpr, modifyGenerationState);
+					sb.Append(").Copy(graph, new Dictionary<object, object>()))");
 				}
-			}
-		} else if(expr instanceof Count) {
-			Count count = (Count)expr;
-			sb.append("curMatch." + formatIdentifiable(count.getIterated()) + ".Count");
-		} else if(expr instanceof Typeof) {
-			Typeof to = (Typeof)expr;
-			if(to.getEntity().getType() instanceof NodeType)
-				sb.append("((GRGEN_LGSP.LGSPNode)" + formatEntity(to.getEntity()) + ").lgspType");
-			else
-				sb.append("((GRGEN_LGSP.LGSPEdge)" + formatEntity(to.getEntity()) + ").lgspType");
-		} else if(expr instanceof Cast) {
-			Cast cast = (Cast)expr;
-			String typeName = getTypeNameForCast(cast);
-
-			if(typeName == "string") {
-				if(cast.getExpression().getType() instanceof MapType
-						|| cast.getExpression().getType() instanceof SetType) {
-					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
-					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, null, null, null)");
-				} else if(cast.getExpression().getType() instanceof ArrayType) {
-					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
-					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, null, null, null)");
-				} else if(cast.getExpression().getType() instanceof DequeType) {
-					sb.append("GRGEN_LIBGR.EmitHelper.ToString(");
-					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, null, null, null)");
-				} else {
-					sb.append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
-					genExpression(sb, cast.getExpression(), modifyGenerationState);
-					sb.append(", graph, null, null, null)");
+				else if(t is InternalTransientObjectType)
+				{
+					sb.Append("((" + FormatType(t) + ")(");
+					GenExpression(sb, ce.SourceExpr, modifyGenerationState);
+					sb.Append(").Copy(graph, new Dictionary<object, object>()))");
 				}
-			} else if(typeName == "object") {
-				// no cast needed
-				genExpression(sb, cast.getExpression(), modifyGenerationState);
-			} else {
-				sb.append("((" + typeName + ") ");
-				genExpression(sb, cast.getExpression(), modifyGenerationState);
-				sb.append(")");
-			}
-		} else if(expr instanceof VariableExpression) {
-			Variable var = ((VariableExpression)expr).getVariable();
-			if(!Expression.isGlobalVariable(var)) {
-				if(var.getIdent().toString().equals("this") && var.getType() instanceof ArrayType)
-					sb.append("this_matches");
+				else if(t is ContainerType)
+				{
+					sb.Append("GRGEN_LIBGR.ContainerHelper.Copy(");
+					GenExpression(sb, ce.SourceExpr, modifyGenerationState);
+					sb.Append(", graph, new Dictionary<object, object>())");
+				}
 				else
-					sb.append(formatEntity(var));
-			} else {
-				sb.append(formatGlobalVariableRead(var));
+				{ // object/external object type
+					if(modifyGenerationState.Model.IsCopyClassDefined())
+					{
+						sb.Append("((" + FormatType(t) + ")(");
+						sb.Append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.Copy(");
+						GenExpression(sb, ce.SourceExpr, modifyGenerationState);
+						sb.Append(", graph, new Dictionary<object, object>())))");
+					}
+					else
+						sb.Append("GRGEN_MODEL.ExternalObjectType_object.ThrowCopyClassMissingException()");
+				}
 			}
-		} else if(expr instanceof GraphEntityExpression) {
-			GraphEntity ent = ((GraphEntityExpression)expr).getGraphEntity();
-			if(!Expression.isGlobalVariable(ent)) {
-				sb.append(formatEntity(ent));
-			} else {
-				sb.append(formatGlobalVariableRead(ent));
+			else
+			{
+				if(t is MatchType || t is MatchTypeIterated || t is DefinedMatchType)
+				{
+					sb.Append("((" + FormatType(t) + ")(");
+					GenExpression(sb, ce.SourceExpr, modifyGenerationState);
+					sb.Append(").Clone())");
+				}
+				else if(t is InternalObjectType)
+				{
+					sb.Append("((" + FormatType(t) + ")(");
+					GenExpression(sb, ce.SourceExpr, modifyGenerationState);
+					sb.Append(").Clone(graph))");
+				}
+				else if(t is InternalTransientObjectType)
+				{
+					sb.Append("((" + FormatType(t) + ")(");
+					GenExpression(sb, ce.SourceExpr, modifyGenerationState);
+					sb.Append(").Clone())");
+				}
+				else if(t is ContainerType)
+				{
+					sb.Append("new " + FormatType(t) + "(");
+					GenExpression(sb, ce.SourceExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else
+				{ // object/external object type
+					if(modifyGenerationState.Model.IsCopyClassDefined())
+					{
+						sb.Append("((" + FormatType(t) + ")(");
+						sb.Append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.Copy(");
+						GenExpression(sb, ce.SourceExpr, modifyGenerationState);
+						sb.Append(", graph, null)));\n");
+					}
+					else
+						sb.Append("GRGEN_MODEL.ExternalObjectType_object.ThrowCopyClassMissingException()");
+				}
 			}
-		} else if(expr instanceof Visited) {
+		}
+		else if(expr is Count)
+		{
+			Count count = (Count)expr;
+			sb.Append("curMatch." + FormatIdentifiable(count.Iterated) + ".Count");
+		}
+		else if(expr is Typeof)
+		{
+			Typeof to = (Typeof)expr;
+			if(to.Entity.Type is NodeType)
+				sb.Append("((GRGEN_LGSP.LGSPNode)" + FormatEntity(to.Entity) + ").lgspType");
+			else
+				sb.Append("((GRGEN_LGSP.LGSPEdge)" + FormatEntity(to.Entity) + ").lgspType");
+		}
+		else if(expr is Cast)
+		{
+			Cast cast = (Cast)expr;
+			string typeName = GetTypeNameForCast(cast);
+
+			if(string.ReferenceEquals(typeName, "string"))
+			{
+				if(cast.Expression.Type is MapType || cast.Expression.Type is SetType)
+				{
+					sb.Append("GRGEN_LIBGR.EmitHelper.ToString(");
+					GenExpression(sb, cast.Expression, modifyGenerationState);
+					sb.Append(", graph, null, null, null)");
+				}
+				else if(cast.Expression.Type is ArrayType)
+				{
+					sb.Append("GRGEN_LIBGR.EmitHelper.ToString(");
+					GenExpression(sb, cast.Expression, modifyGenerationState);
+					sb.Append(", graph, null, null, null)");
+				}
+				else if(cast.Expression.Type is DequeType)
+				{
+					sb.Append("GRGEN_LIBGR.EmitHelper.ToString(");
+					GenExpression(sb, cast.Expression, modifyGenerationState);
+					sb.Append(", graph, null, null, null)");
+				}
+				else
+				{
+					sb.Append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
+					GenExpression(sb, cast.Expression, modifyGenerationState);
+					sb.Append(", graph, null, null, null)");
+				}
+			}
+			else if(string.ReferenceEquals(typeName, "object"))
+			{
+				// no cast needed
+				GenExpression(sb, cast.Expression, modifyGenerationState);
+			}
+			else
+			{
+				sb.Append("((" + typeName + ") ");
+				GenExpression(sb, cast.Expression, modifyGenerationState);
+				sb.Append(")");
+			}
+		}
+		else if(expr is VariableExpression)
+		{
+			Variable var = ((VariableExpression)expr).Variable;
+			if(!Expression.IsGlobalVariable(var))
+			{
+				if(var.Ident.ToString().Equals("this") && var.Type is ArrayType)
+					sb.Append("this_matches");
+				else
+					sb.Append(FormatEntity(var));
+			}
+			else
+				sb.Append(FormatGlobalVariableRead(var));
+		}
+		else if(expr is GraphEntityExpression)
+		{
+			GraphEntity ent = ((GraphEntityExpression)expr).GraphEntity;
+			if(!Expression.IsGlobalVariable(ent))
+				sb.Append(FormatEntity(ent));
+			else
+				sb.Append(FormatGlobalVariableRead(ent));
+		}
+		else if(expr is Visited)
+		{
 			Visited vis = (Visited)expr;
-			sb.append("graph.IsVisited(");
-			genExpression(sb, vis.getEntity(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, vis.getVisitorID(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof RandomExpr) {
+			sb.Append("graph.IsVisited(");
+			GenExpression(sb, vis.Entity, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, vis.VisitorID, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is RandomExpr)
+		{
 			RandomExpr re = (RandomExpr)expr;
-			if(re.getNumExpr() != null) {
-				sb.append("GRGEN_LIBGR.Sequence.randomGenerator.Next(");
-				genExpression(sb, re.getNumExpr(), modifyGenerationState);
-			} else {
-				sb.append("GRGEN_LIBGR.Sequence.randomGenerator.NextDouble(");
+			if(re.NumExpr != null)
+			{
+				sb.Append("GRGEN_LIBGR.Sequence.randomGenerator.Next(");
+				GenExpression(sb, re.NumExpr, modifyGenerationState);
 			}
-			sb.append(")");
-		} else if(expr instanceof ThisExpr) {
-			sb.append("graph");
-		} else if(expr instanceof StringLength) {
+			else
+				sb.Append("GRGEN_LIBGR.Sequence.randomGenerator.NextDouble(");
+			sb.Append(")");
+		}
+		else if(expr is ThisExpr)
+			sb.Append("graph");
+		else if(expr is StringLength)
+		{
 			StringLength strlen = (StringLength)expr;
-			sb.append("(");
-			genExpression(sb, strlen.getStringExpr(), modifyGenerationState);
-			sb.append(").Length");
-		} else if(expr instanceof StringToUpper) {
+			sb.Append("(");
+			GenExpression(sb, strlen.StringExpr, modifyGenerationState);
+			sb.Append(").Length");
+		}
+		else if(expr is StringToUpper)
+		{
 			StringToUpper strtoup = (StringToUpper)expr;
-			sb.append("(");
-			genExpression(sb, strtoup.getStringExpr(), modifyGenerationState);
-			sb.append(").ToUpperInvariant()");
-		} else if(expr instanceof StringToLower) {
+			sb.Append("(");
+			GenExpression(sb, strtoup.StringExpr, modifyGenerationState);
+			sb.Append(").ToUpperInvariant()");
+		}
+		else if(expr is StringToLower)
+		{
 			StringToLower strtolo = (StringToLower)expr;
-			sb.append("(");
-			genExpression(sb, strtolo.getStringExpr(), modifyGenerationState);
-			sb.append(").ToLowerInvariant()");
-		} else if(expr instanceof StringSubstring) {
+			sb.Append("(");
+			GenExpression(sb, strtolo.StringExpr, modifyGenerationState);
+			sb.Append(").ToLowerInvariant()");
+		}
+		else if(expr is StringSubstring)
+		{
 			StringSubstring strsubstr = (StringSubstring)expr;
-			sb.append("(");
-			genExpression(sb, strsubstr.getStringExpr(), modifyGenerationState);
-			sb.append(").Substring(");
-			genExpression(sb, strsubstr.getStartExpr(), modifyGenerationState);
-			if(strsubstr.getLengthExpr() != null) {
-				sb.append(", ");
-				genExpression(sb, strsubstr.getLengthExpr(), modifyGenerationState);
+			sb.Append("(");
+			GenExpression(sb, strsubstr.StringExpr, modifyGenerationState);
+			sb.Append(").Substring(");
+			GenExpression(sb, strsubstr.StartExpr, modifyGenerationState);
+			if(strsubstr.LengthExpr != null)
+			{
+				sb.Append(", ");
+				GenExpression(sb, strsubstr.LengthExpr, modifyGenerationState);
 			}
-			sb.append(")");
-		} else if(expr instanceof StringIndexOf) {
+			sb.Append(")");
+		}
+		else if(expr is StringIndexOf)
+		{
 			StringIndexOf strio = (StringIndexOf)expr;
-			sb.append("(");
-			genExpression(sb, strio.getStringExpr(), modifyGenerationState);
-			sb.append(").IndexOf(");
-			genExpression(sb, strio.getStringToSearchForExpr(), modifyGenerationState);
-			if(strio.getStartIndexExpr() != null) {
-				sb.append(", ");
-				genExpression(sb, strio.getStartIndexExpr(), modifyGenerationState);
+			sb.Append("(");
+			GenExpression(sb, strio.StringExpr, modifyGenerationState);
+			sb.Append(").IndexOf(");
+			GenExpression(sb, strio.StringToSearchForExpr, modifyGenerationState);
+			if(strio.StartIndexExpr != null)
+			{
+				sb.Append(", ");
+				GenExpression(sb, strio.StartIndexExpr, modifyGenerationState);
 			}
-			sb.append(", StringComparison.InvariantCulture");
-			sb.append(")");
-		} else if(expr instanceof StringLastIndexOf) {
+			sb.Append(", StringComparison.InvariantCulture");
+			sb.Append(")");
+		}
+		else if(expr is StringLastIndexOf)
+		{
 			StringLastIndexOf strlio = (StringLastIndexOf)expr;
-			sb.append("(");
-			genExpression(sb, strlio.getStringExpr(), modifyGenerationState);
-			sb.append(").LastIndexOf(");
-			genExpression(sb, strlio.getStringToSearchForExpr(), modifyGenerationState);
-			if(strlio.getStartIndexExpr() != null) {
-				sb.append(", ");
-				genExpression(sb, strlio.getStartIndexExpr(), modifyGenerationState);
+			sb.Append("(");
+			GenExpression(sb, strlio.StringExpr, modifyGenerationState);
+			sb.Append(").LastIndexOf(");
+			GenExpression(sb, strlio.StringToSearchForExpr, modifyGenerationState);
+			if(strlio.StartIndexExpr != null)
+			{
+				sb.Append(", ");
+				GenExpression(sb, strlio.StartIndexExpr, modifyGenerationState);
 			}
-			sb.append(", StringComparison.InvariantCulture");
-			sb.append(")");
-		} else if(expr instanceof StringStartsWith) {
+			sb.Append(", StringComparison.InvariantCulture");
+			sb.Append(")");
+		}
+		else if(expr is StringStartsWith)
+		{
 			StringStartsWith strsw = (StringStartsWith)expr;
-			sb.append("(");
-			genExpression(sb, strsw.getStringExpr(), modifyGenerationState);
-			sb.append(").StartsWith(");
-			genExpression(sb, strsw.getStringToSearchForExpr(), modifyGenerationState);
-			sb.append(", StringComparison.InvariantCulture");
-			sb.append(")");
-		} else if(expr instanceof StringEndsWith) {
+			sb.Append("(");
+			GenExpression(sb, strsw.StringExpr, modifyGenerationState);
+			sb.Append(").StartsWith(");
+			GenExpression(sb, strsw.StringToSearchForExpr, modifyGenerationState);
+			sb.Append(", StringComparison.InvariantCulture");
+			sb.Append(")");
+		}
+		else if(expr is StringEndsWith)
+		{
 			StringEndsWith strew = (StringEndsWith)expr;
-			sb.append("(");
-			genExpression(sb, strew.getStringExpr(), modifyGenerationState);
-			sb.append(").EndsWith(");
-			genExpression(sb, strew.getStringToSearchForExpr(), modifyGenerationState);
-			sb.append(", StringComparison.InvariantCulture");
-			sb.append(")");
-		} else if(expr instanceof StringReplace) {
+			sb.Append("(");
+			GenExpression(sb, strew.StringExpr, modifyGenerationState);
+			sb.Append(").EndsWith(");
+			GenExpression(sb, strew.StringToSearchForExpr, modifyGenerationState);
+			sb.Append(", StringComparison.InvariantCulture");
+			sb.Append(")");
+		}
+		else if(expr is StringReplace)
+		{
 			StringReplace strrepl = (StringReplace)expr;
-			sb.append("((");
-			genExpression(sb, strrepl.getStringExpr(), modifyGenerationState);
-			sb.append(").Substring(0, ");
-			genExpression(sb, strrepl.getStartExpr(), modifyGenerationState);
-			sb.append(") + ");
-			genExpression(sb, strrepl.getReplaceStrExpr(), modifyGenerationState);
-			sb.append(" + (");
-			genExpression(sb, strrepl.getStringExpr(), modifyGenerationState);
-			sb.append(").Substring(");
-			genExpression(sb, strrepl.getStartExpr(), modifyGenerationState);
-			sb.append(" + ");
-			genExpression(sb, strrepl.getLengthExpr(), modifyGenerationState);
-			sb.append("))");
-		} else if(expr instanceof StringAsArray) {
+			sb.Append("((");
+			GenExpression(sb, strrepl.StringExpr, modifyGenerationState);
+			sb.Append(").Substring(0, ");
+			GenExpression(sb, strrepl.StartExpr, modifyGenerationState);
+			sb.Append(") + ");
+			GenExpression(sb, strrepl.ReplaceStrExpr, modifyGenerationState);
+			sb.Append(" + (");
+			GenExpression(sb, strrepl.StringExpr, modifyGenerationState);
+			sb.Append(").Substring(");
+			GenExpression(sb, strrepl.StartExpr, modifyGenerationState);
+			sb.Append(" + ");
+			GenExpression(sb, strrepl.LengthExpr, modifyGenerationState);
+			sb.Append("))");
+		}
+		else if(expr is StringAsArray)
+		{
 			StringAsArray saa = (StringAsArray)expr;
-			sb.append("GRGEN_LIBGR.ContainerHelper.StringAsArray(");
-			genExpression(sb, saa.getStringExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, saa.getStringToSplitAtExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof IndexedAccessExpr) {
+			sb.Append("GRGEN_LIBGR.ContainerHelper.StringAsArray(");
+			GenExpression(sb, saa.StringExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, saa.StringToSplitAtExpr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is IndexedAccessExpr)
+		{
 			IndexedAccessExpr ia = (IndexedAccessExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ia));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("(");
-				genExpression(sb, ia.getTargetExpr(), modifyGenerationState);
-				sb.append("[");
-				if(ia.getKeyExpr() instanceof GraphEntityExpression)
-					sb.append("(" + formatElementInterfaceRef(ia.getKeyExpr().getType()) + ")(");
-				genExpression(sb, ia.getKeyExpr(), modifyGenerationState);
-				if(ia.getKeyExpr() instanceof GraphEntityExpression)
-					sb.append(")");
-				sb.append("])");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ia]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("(");
+				GenExpression(sb, ia.TargetExpr, modifyGenerationState);
+				sb.Append("[");
+				if(ia.KeyExpr is GraphEntityExpression)
+					sb.Append("(" + FormatElementInterfaceRef(ia.KeyExpr.Type) + ")(");
+				GenExpression(sb, ia.KeyExpr, modifyGenerationState);
+				if(ia.KeyExpr is GraphEntityExpression)
+					sb.Append(")");
+				sb.Append("])");
 			}
-		} else if(expr instanceof CountIncidenceFromIndexExpr) {
+		}
+		else if(expr is CountIncidenceFromIndexExpr)
+		{
 			CountIncidenceFromIndexExpr cifi = (CountIncidenceFromIndexExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(cifi));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("((GRGEN_LIBGR.IIncidenceCountIndex)graph.Indices.GetIndex(\"" + cifi.getIndex().getIdent()
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[cifi]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("((GRGEN_LIBGR.IIncidenceCountIndex)graph.Indices.GetIndex(\"" + cifi.Index.Ident
 						+ "\")).GetIncidenceCount(");
 				//sb.append("(" + formatElementInterfaceRef(ia.getKeyExpr().getType()) + ")(");
-				genExpression(sb, cifi.getKeyExpr(), modifyGenerationState);
+				GenExpression(sb, cifi.KeyExpr, modifyGenerationState);
 				//sb.append(")");
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof MapSizeExpr) {
+		}
+		else if(expr is MapSizeExpr)
+		{
 			MapSizeExpr ms = (MapSizeExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ms));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("(");
-				genExpression(sb, ms.getTargetExpr(), modifyGenerationState);
-				sb.append(").Count");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ms]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("(");
+				GenExpression(sb, ms.TargetExpr, modifyGenerationState);
+				sb.Append(").Count");
 			}
-		} else if(expr instanceof MapEmptyExpr) {
+		}
+		else if(expr is MapEmptyExpr)
+		{
 			MapEmptyExpr me = (MapEmptyExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(me));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("((");
-				genExpression(sb, me.getTargetExpr(), modifyGenerationState);
-				sb.append(").Count==0)");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[me]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("((");
+				GenExpression(sb, me.TargetExpr, modifyGenerationState);
+				sb.Append(").Count==0)");
 			}
-		} else if(expr instanceof MapDomainExpr) {
+		}
+		else if(expr is MapDomainExpr)
+		{
 			MapDomainExpr md = (MapDomainExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(md));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Domain(");
-				genExpression(sb, md.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[md]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Domain(");
+				GenExpression(sb, md.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof MapRangeExpr) {
+		}
+		else if(expr is MapRangeExpr)
+		{
 			MapRangeExpr mr = (MapRangeExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(mr));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Range(");
-				genExpression(sb, mr.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[mr]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Range(");
+				GenExpression(sb, mr.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof MapAsArrayExpr) {
+		}
+		else if(expr is MapAsArrayExpr)
+		{
 			MapAsArrayExpr maa = (MapAsArrayExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(maa));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.MapAsArray(");
-				genExpression(sb, maa.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[maa]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.MapAsArray(");
+				GenExpression(sb, maa.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof MapPeekExpr) {
+		}
+		else if(expr is MapPeekExpr)
+		{
 			MapPeekExpr mp = (MapPeekExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(mp));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Peek(");
-				genExpression(sb, mp.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, mp.getNumberExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[mp]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Peek(");
+				GenExpression(sb, mp.TargetExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, mp.NumberExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof SetSizeExpr) {
+		}
+		else if(expr is SetSizeExpr)
+		{
 			SetSizeExpr ss = (SetSizeExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ss));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("(");
-				genExpression(sb, ss.getTargetExpr(), modifyGenerationState);
-				sb.append(").Count");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ss]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("(");
+				GenExpression(sb, ss.TargetExpr, modifyGenerationState);
+				sb.Append(").Count");
 			}
-		} else if(expr instanceof SetEmptyExpr) {
+		}
+		else if(expr is SetEmptyExpr)
+		{
 			SetEmptyExpr se = (SetEmptyExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(se));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("((");
-				genExpression(sb, se.getTargetExpr(), modifyGenerationState);
-				sb.append(").Count==0)");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[se]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("((");
+				GenExpression(sb, se.TargetExpr, modifyGenerationState);
+				sb.Append(").Count==0)");
 			}
-		} else if(expr instanceof SetPeekExpr) {
+		}
+		else if(expr is SetPeekExpr)
+		{
 			SetPeekExpr sp = (SetPeekExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(sp));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Peek(");
-				genExpression(sb, sp.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, sp.getNumberExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[sp]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Peek(");
+				GenExpression(sb, sp.TargetExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, sp.NumberExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof SetMinExpr) {
+		}
+		else if(expr is SetMinExpr)
+		{
 			SetMinExpr sm = (SetMinExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(sm));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Min(");
-				genExpression(sb, sm.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[sm]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Min(");
+				GenExpression(sb, sm.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof SetMaxExpr) {
+		}
+		else if(expr is SetMaxExpr)
+		{
 			SetMaxExpr sm = (SetMaxExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(sm));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Max(");
-				genExpression(sb, sm.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[sm]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Max(");
+				GenExpression(sb, sm.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof SetAsArrayExpr) {
+		}
+		else if(expr is SetAsArrayExpr)
+		{
 			SetAsArrayExpr saa = (SetAsArrayExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(saa));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.SetAsArray(");
-				genExpression(sb, saa.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[saa]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.SetAsArray(");
+				GenExpression(sb, saa.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArraySizeExpr) {
-			ArraySizeExpr as = (ArraySizeExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(as));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("(");
-				genExpression(sb, as.getTargetExpr(), modifyGenerationState);
-				sb.append(").Count");
+		}
+		else if(expr is ArraySizeExpr)
+		{
+			ArraySizeExpr @as = (ArraySizeExpr)expr;
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[@as]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("(");
+				GenExpression(sb, @as.TargetExpr, modifyGenerationState);
+				sb.Append(").Count");
 			}
-		} else if(expr instanceof ArrayEmptyExpr) {
+		}
+		else if(expr is ArrayEmptyExpr)
+		{
 			ArrayEmptyExpr ae = (ArrayEmptyExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ae));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("((");
-				genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
-				sb.append(").Count==0)");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ae]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("((");
+				GenExpression(sb, ae.TargetExpr, modifyGenerationState);
+				sb.Append(").Count==0)");
 			}
-		} else if(expr instanceof ArrayPeekExpr) {
+		}
+		else if(expr is ArrayPeekExpr)
+		{
 			ArrayPeekExpr ap = (ArrayPeekExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ap));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Peek(");
-				genExpression(sb, ap.getTargetExpr(), modifyGenerationState);
-				if(ap.getNumberExpr() != null) {
-					sb.append(", ");
-					genExpression(sb, ap.getNumberExpr(), modifyGenerationState);
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ap]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Peek(");
+				GenExpression(sb, ap.TargetExpr, modifyGenerationState);
+				if(ap.NumberExpr != null)
+				{
+					sb.Append(", ");
+					GenExpression(sb, ap.NumberExpr, modifyGenerationState);
 				}
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayIndexOfExpr) {
+		}
+		else if(expr is ArrayIndexOfExpr)
+		{
 			ArrayIndexOfExpr ai = (ArrayIndexOfExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ai));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.IndexOf(");
-				genExpression(sb, ai.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, ai.getValueExpr(), modifyGenerationState);
-				if(ai.getStartIndexExpr() != null) {
-					sb.append(", ");
-					genExpression(sb, ai.getStartIndexExpr(), modifyGenerationState);
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ai]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.IndexOf(");
+				GenExpression(sb, ai.TargetExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, ai.ValueExpr, modifyGenerationState);
+				if(ai.StartIndexExpr != null)
+				{
+					sb.Append(", ");
+					GenExpression(sb, ai.StartIndexExpr, modifyGenerationState);
 				}
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayIndexOfByExpr) {
+		}
+		else if(expr is ArrayIndexOfByExpr)
+		{
 			ArrayIndexOfByExpr aib = (ArrayIndexOfByExpr)expr;
-			Type arrayValueType = aib.getTargetTypeExact().getValueType();
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aib));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				if(arrayValueType instanceof InheritanceType) {
-					sb.append("GRGEN_MODEL.ArrayHelper_"
-							+ aib.getTargetTypeExact().getValueType().getIdent().toString() + "_"
-							+ formatIdentifiable(aib.getMember()) + ".ArrayIndexOfBy(");
-					genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, aib.getValueExpr(), modifyGenerationState);
-					if(aib.getStartIndexExpr() != null) {
-						sb.append(", ");
-						genExpression(sb, aib.getStartIndexExpr(), modifyGenerationState);
+			Type arrayValueType = aib.TargetTypeExact.ValueType;
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aib]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				if(arrayValueType is InheritanceType)
+				{
+					sb.Append("GRGEN_MODEL.ArrayHelper_"
+							+ aib.TargetTypeExact.ValueType.Ident.ToString() + "_"
+							+ FormatIdentifiable(aib.Member) + ".ArrayIndexOfBy(");
+					GenExpression(sb, aib.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, aib.ValueExpr, modifyGenerationState);
+					if(aib.StartIndexExpr != null)
+					{
+						sb.Append(", ");
+						GenExpression(sb, aib.StartIndexExpr, modifyGenerationState);
 					}
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchTypeIterated) {
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchTypeIterated)
+				{
 					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String iteratedName = formatIdentifiable(matchType.getIterated());
-					String functionName = "indexOfBy_" + formatIdentifiable(aib.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, aib.getValueExpr(), modifyGenerationState);
-					if(aib.getStartIndexExpr() != null) {
-						sb.append(", ");
-						genExpression(sb, aib.getStartIndexExpr(), modifyGenerationState);
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string iteratedName = FormatIdentifiable(matchType.Iterated);
+					string functionName = "indexOfBy_" + FormatIdentifiable(aib.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aib.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, aib.ValueExpr, modifyGenerationState);
+					if(aib.StartIndexExpr != null)
+					{
+						sb.Append(", ");
+						GenExpression(sb, aib.StartIndexExpr, modifyGenerationState);
 					}
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchType) {
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchType)
+				{
 					MatchType matchType = (MatchType)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String functionName = "indexOfBy_" + formatIdentifiable(aib.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, aib.getValueExpr(), modifyGenerationState);
-					if(aib.getStartIndexExpr() != null) {
-						sb.append(", ");
-						genExpression(sb, aib.getStartIndexExpr(), modifyGenerationState);
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string functionName = "indexOfBy_" + FormatIdentifiable(aib.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aib.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, aib.ValueExpr, modifyGenerationState);
+					if(aib.StartIndexExpr != null)
+					{
+						sb.Append(", ");
+						GenExpression(sb, aib.StartIndexExpr, modifyGenerationState);
 					}
-					sb.append(")");
-				} else if(arrayValueType instanceof DefinedMatchType) {
+					sb.Append(")");
+				}
+				else if(arrayValueType is DefinedMatchType)
+				{
 					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
-					String matchClassPackage = getPackagePrefixDot(definedMatchType);
-					String matchClassName = formatIdentifiable(definedMatchType);
-					String functionName = "indexOfBy_" + formatIdentifiable(aib.getMember());
-					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, aib.getValueExpr(), modifyGenerationState);
-					if(aib.getStartIndexExpr() != null) {
-						sb.append(", ");
-						genExpression(sb, aib.getStartIndexExpr(), modifyGenerationState);
+					string matchClassPackage = GetPackagePrefixDot(definedMatchType);
+					string matchClassName = FormatIdentifiable(definedMatchType);
+					string functionName = "indexOfBy_" + FormatIdentifiable(aib.Member);
+					string arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aib.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, aib.ValueExpr, modifyGenerationState);
+					if(aib.StartIndexExpr != null)
+					{
+						sb.Append(", ");
+						GenExpression(sb, aib.StartIndexExpr, modifyGenerationState);
 					}
-					sb.append(")");
+					sb.Append(")");
 				}
 			}
-		} else if(expr instanceof ArrayIndexOfOrderedExpr) {
+		}
+		else if(expr is ArrayIndexOfOrderedExpr)
+		{
 			ArrayIndexOfOrderedExpr aio = (ArrayIndexOfOrderedExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aio));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.IndexOfOrdered(");
-				genExpression(sb, aio.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, aio.getValueExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aio]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.IndexOfOrdered(");
+				GenExpression(sb, aio.TargetExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, aio.ValueExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayIndexOfOrderedByExpr) {
+		}
+		else if(expr is ArrayIndexOfOrderedByExpr)
+		{
 			ArrayIndexOfOrderedByExpr aiob = (ArrayIndexOfOrderedByExpr)expr;
-			Type arrayValueType = aiob.getTargetTypeExact().getValueType();
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aiob));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				if(arrayValueType instanceof InheritanceType) {
-					sb.append("GRGEN_MODEL.ArrayHelper_"
-							+ aiob.getTargetTypeExact().getValueType().getIdent().toString() + "_"
-							+ formatIdentifiable(aiob.getMember()) + ".ArrayIndexOfOrderedBy(");
-					genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, aiob.getValueExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchTypeIterated) {
+			Type arrayValueType = aiob.TargetTypeExact.ValueType;
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aiob]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				if(arrayValueType is InheritanceType)
+				{
+					sb.Append("GRGEN_MODEL.ArrayHelper_"
+							+ aiob.TargetTypeExact.ValueType.Ident.ToString() + "_"
+							+ FormatIdentifiable(aiob.Member) + ".ArrayIndexOfOrderedBy(");
+					GenExpression(sb, aiob.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, aiob.ValueExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchTypeIterated)
+				{
 					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String iteratedName = formatIdentifiable(matchType.getIterated());
-					String functionName = "indexOfOrderedBy_" + formatIdentifiable(aiob.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, aiob.getValueExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchType) {
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string iteratedName = FormatIdentifiable(matchType.Iterated);
+					string functionName = "indexOfOrderedBy_" + FormatIdentifiable(aiob.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aiob.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, aiob.ValueExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchType)
+				{
 					MatchType matchType = (MatchType)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String functionName = "indexOfOrderedBy_" + formatIdentifiable(aiob.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, aiob.getValueExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof DefinedMatchType) {
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string functionName = "indexOfOrderedBy_" + FormatIdentifiable(aiob.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aiob.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, aiob.ValueExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is DefinedMatchType)
+				{
 					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
-					String matchClassPackage = getPackagePrefixDot(definedMatchType);
-					String matchClassName = formatIdentifiable(definedMatchType);
-					String functionName = "indexOfOrderedBy_" + formatIdentifiable(aiob.getMember());
-					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, aiob.getValueExpr(), modifyGenerationState);
-					sb.append(")");
+					string matchClassPackage = GetPackagePrefixDot(definedMatchType);
+					string matchClassName = FormatIdentifiable(definedMatchType);
+					string functionName = "indexOfOrderedBy_" + FormatIdentifiable(aiob.Member);
+					string arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aiob.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, aiob.ValueExpr, modifyGenerationState);
+					sb.Append(")");
 				}
 			}
-		} else if(expr instanceof ArrayLastIndexOfExpr) {
+		}
+		else if(expr is ArrayLastIndexOfExpr)
+		{
 			ArrayLastIndexOfExpr ali = (ArrayLastIndexOfExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ali));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
-				genExpression(sb, ali.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, ali.getValueExpr(), modifyGenerationState);
-				if(ali.getStartIndexExpr() != null) {
-					sb.append(", ");
-					genExpression(sb, ali.getStartIndexExpr(), modifyGenerationState);
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ali]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
+				GenExpression(sb, ali.TargetExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, ali.ValueExpr, modifyGenerationState);
+				if(ali.StartIndexExpr != null)
+				{
+					sb.Append(", ");
+					GenExpression(sb, ali.StartIndexExpr, modifyGenerationState);
 				}
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayLastIndexOfByExpr) {
+		}
+		else if(expr is ArrayLastIndexOfByExpr)
+		{
 			ArrayLastIndexOfByExpr alib = (ArrayLastIndexOfByExpr)expr;
-			Type arrayValueType = alib.getTargetTypeExact().getValueType();
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(alib));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				if(arrayValueType instanceof InheritanceType) {
-					sb.append("GRGEN_MODEL.ArrayHelper_"
-							+ alib.getTargetTypeExact().getValueType().getIdent().toString() + "_"
-							+ formatIdentifiable(alib.getMember()) + ".ArrayLastIndexOfBy(");
-					genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, alib.getValueExpr(), modifyGenerationState);
-					if(alib.getStartIndexExpr() != null) {
-						sb.append(", ");
-						genExpression(sb, alib.getStartIndexExpr(), modifyGenerationState);
+			Type arrayValueType = alib.TargetTypeExact.ValueType;
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[alib]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				if(arrayValueType is InheritanceType)
+				{
+					sb.Append("GRGEN_MODEL.ArrayHelper_"
+							+ alib.TargetTypeExact.ValueType.Ident.ToString() + "_"
+							+ FormatIdentifiable(alib.Member) + ".ArrayLastIndexOfBy(");
+					GenExpression(sb, alib.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, alib.ValueExpr, modifyGenerationState);
+					if(alib.StartIndexExpr != null)
+					{
+						sb.Append(", ");
+						GenExpression(sb, alib.StartIndexExpr, modifyGenerationState);
 					}
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchTypeIterated) {
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchTypeIterated)
+				{
 					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String iteratedName = formatIdentifiable(matchType.getIterated());
-					String functionName = "lastIndexOfBy_" + formatIdentifiable(alib.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, alib.getValueExpr(), modifyGenerationState);
-					if(alib.getStartIndexExpr() != null) {
-						sb.append(", ");
-						genExpression(sb, alib.getStartIndexExpr(), modifyGenerationState);
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string iteratedName = FormatIdentifiable(matchType.Iterated);
+					string functionName = "lastIndexOfBy_" + FormatIdentifiable(alib.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, alib.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, alib.ValueExpr, modifyGenerationState);
+					if(alib.StartIndexExpr != null)
+					{
+						sb.Append(", ");
+						GenExpression(sb, alib.StartIndexExpr, modifyGenerationState);
 					}
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchType) {
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchType)
+				{
 					MatchType matchType = (MatchType)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String functionName = "lastIndexOfBy_" + formatIdentifiable(alib.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, alib.getValueExpr(), modifyGenerationState);
-					if(alib.getStartIndexExpr() != null) {
-						sb.append(", ");
-						genExpression(sb, alib.getStartIndexExpr(), modifyGenerationState);
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string functionName = "lastIndexOfBy_" + FormatIdentifiable(alib.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, alib.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, alib.ValueExpr, modifyGenerationState);
+					if(alib.StartIndexExpr != null)
+					{
+						sb.Append(", ");
+						GenExpression(sb, alib.StartIndexExpr, modifyGenerationState);
 					}
-					sb.append(")");
-				} else if(arrayValueType instanceof DefinedMatchType) {
+					sb.Append(")");
+				}
+				else if(arrayValueType is DefinedMatchType)
+				{
 					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
-					String matchClassPackage = getPackagePrefixDot(definedMatchType);
-					String matchClassName = formatIdentifiable(definedMatchType);
-					String functionName = "lastIndexOfBy_" + formatIdentifiable(alib.getMember());
-					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
-					sb.append(", ");
-					genExpression(sb, alib.getValueExpr(), modifyGenerationState);
-					if(alib.getStartIndexExpr() != null) {
-						sb.append(", ");
-						genExpression(sb, alib.getStartIndexExpr(), modifyGenerationState);
+					string matchClassPackage = GetPackagePrefixDot(definedMatchType);
+					string matchClassName = FormatIdentifiable(definedMatchType);
+					string functionName = "lastIndexOfBy_" + FormatIdentifiable(alib.Member);
+					string arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, alib.TargetExpr, modifyGenerationState);
+					sb.Append(", ");
+					GenExpression(sb, alib.ValueExpr, modifyGenerationState);
+					if(alib.StartIndexExpr != null)
+					{
+						sb.Append(", ");
+						GenExpression(sb, alib.StartIndexExpr, modifyGenerationState);
 					}
-					sb.append(")");
+					sb.Append(")");
 				}
 			}
-		} else if(expr instanceof ArraySubarrayExpr) {
-			ArraySubarrayExpr as = (ArraySubarrayExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(as));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Subarray(");
-				genExpression(sb, as.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, as.getStartExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, as.getLengthExpr(), modifyGenerationState);
-				sb.append(")");
+		}
+		else if(expr is ArraySubarrayExpr)
+		{
+			ArraySubarrayExpr @as = (ArraySubarrayExpr)expr;
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[@as]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Subarray(");
+				GenExpression(sb, @as.TargetExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, @as.StartExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, @as.LengthExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayOrderAscending) {
+		}
+		else if(expr is ArrayOrderAscending)
+		{
 			ArrayOrderAscending aoa = (ArrayOrderAscending)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aoa));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayOrderAscending(");
-				genExpression(sb, aoa.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aoa]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.ArrayOrderAscending(");
+				GenExpression(sb, aoa.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayOrderDescending) {
+		}
+		else if(expr is ArrayOrderDescending)
+		{
 			ArrayOrderDescending aod = (ArrayOrderDescending)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aod));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayOrderDescending(");
-				genExpression(sb, aod.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aod]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.ArrayOrderDescending(");
+				GenExpression(sb, aod.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayGroup) {
+		}
+		else if(expr is ArrayGroup)
+		{
 			ArrayGroup ag = (ArrayGroup)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ag));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayGroup(");
-				genExpression(sb, ag.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ag]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.ArrayGroup(");
+				GenExpression(sb, ag.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayKeepOneForEach) {
+		}
+		else if(expr is ArrayKeepOneForEach)
+		{
 			ArrayKeepOneForEach ako = (ArrayKeepOneForEach)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ako));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayKeepOneForEach(");
-				genExpression(sb, ako.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ako]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.ArrayKeepOneForEach(");
+				GenExpression(sb, ako.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayOrderAscendingBy) {
+		}
+		else if(expr is ArrayOrderAscendingBy)
+		{
 			ArrayOrderAscendingBy aoab = (ArrayOrderAscendingBy)expr;
-			Type arrayValueType = aoab.getTargetTypeExact().getValueType();
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aoab));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				if(arrayValueType instanceof InheritanceType) {
+			Type arrayValueType = aoab.TargetTypeExact.ValueType;
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aoab]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				if(arrayValueType is InheritanceType)
+				{
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
-					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
-							+ graphElementType.getIdent().toString() + "_" + formatIdentifiable(aoab.getMember());
-					sb.append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayOrderAscendingBy(");
-					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchTypeIterated) {
+					string arrayHelperClassName = GetPackagePrefixDot(graphElementType) + "ArrayHelper_"
+							+ graphElementType.Ident.ToString() + "_" + FormatIdentifiable(aoab.Member);
+					sb.Append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayOrderAscendingBy(");
+					GenExpression(sb, aoab.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchTypeIterated)
+				{
 					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String iteratedName = formatIdentifiable(matchType.getIterated());
-					String functionName = "orderAscendingBy_" + formatIdentifiable(aoab.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchType) {
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string iteratedName = FormatIdentifiable(matchType.Iterated);
+					string functionName = "orderAscendingBy_" + FormatIdentifiable(aoab.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aoab.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchType)
+				{
 					MatchType matchType = (MatchType)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String functionName = "orderAscendingBy_" + formatIdentifiable(aoab.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof DefinedMatchType) {
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string functionName = "orderAscendingBy_" + FormatIdentifiable(aoab.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aoab.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is DefinedMatchType)
+				{
 					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
-					String matchClassPackage = getPackagePrefixDot(definedMatchType);
-					String matchClassName = formatIdentifiable(definedMatchType);
-					String functionName = "orderAscendingBy_" + formatIdentifiable(aoab.getMember());
-					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
+					string matchClassPackage = GetPackagePrefixDot(definedMatchType);
+					string matchClassName = FormatIdentifiable(definedMatchType);
+					string functionName = "orderAscendingBy_" + FormatIdentifiable(aoab.Member);
+					string arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aoab.TargetExpr, modifyGenerationState);
+					sb.Append(")");
 				}
 			}
-		} else if(expr instanceof ArrayOrderDescendingBy) {
+		}
+		else if(expr is ArrayOrderDescendingBy)
+		{
 			ArrayOrderDescendingBy aodb = (ArrayOrderDescendingBy)expr;
-			Type arrayValueType = aodb.getTargetTypeExact().getValueType();
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aodb));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				if(arrayValueType instanceof InheritanceType) {
+			Type arrayValueType = aodb.TargetTypeExact.ValueType;
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aodb]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				if(arrayValueType is InheritanceType)
+				{
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
-					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
-							+ graphElementType.getIdent().toString() + "_" + formatIdentifiable(aodb.getMember());
-					sb.append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayOrderDescendingBy(");
-					genExpression(sb, aodb.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchTypeIterated) {
+					string arrayHelperClassName = GetPackagePrefixDot(graphElementType) + "ArrayHelper_"
+							+ graphElementType.Ident.ToString() + "_" + FormatIdentifiable(aodb.Member);
+					sb.Append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayOrderDescendingBy(");
+					GenExpression(sb, aodb.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchTypeIterated)
+				{
 					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String iteratedName = formatIdentifiable(matchType.getIterated());
-					String functionName = "orderDescendingBy_" + formatIdentifiable(aodb.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aodb.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchType) {
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string iteratedName = FormatIdentifiable(matchType.Iterated);
+					string functionName = "orderDescendingBy_" + FormatIdentifiable(aodb.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aodb.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchType)
+				{
 					MatchType matchType = (MatchType)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String functionName = "orderDescendingBy_" + formatIdentifiable(aodb.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aodb.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof DefinedMatchType) {
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string functionName = "orderDescendingBy_" + FormatIdentifiable(aodb.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aodb.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is DefinedMatchType)
+				{
 					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
-					String matchClassPackage = getPackagePrefixDot(definedMatchType);
-					String matchClassName = formatIdentifiable(definedMatchType);
-					String functionName = "orderDescendingBy_" + formatIdentifiable(aodb.getMember());
-					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, aodb.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
+					string matchClassPackage = GetPackagePrefixDot(definedMatchType);
+					string matchClassName = FormatIdentifiable(definedMatchType);
+					string functionName = "orderDescendingBy_" + FormatIdentifiable(aodb.Member);
+					string arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, aodb.TargetExpr, modifyGenerationState);
+					sb.Append(")");
 				}
 			}
-		} else if(expr instanceof ArrayGroupBy) {
+		}
+		else if(expr is ArrayGroupBy)
+		{
 			ArrayGroupBy agb = (ArrayGroupBy)expr;
-			Type arrayValueType = agb.getTargetTypeExact().getValueType();
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(agb));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				if(arrayValueType instanceof InheritanceType) {
+			Type arrayValueType = agb.TargetTypeExact.ValueType;
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[agb]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				if(arrayValueType is InheritanceType)
+				{
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
-					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
-							+ graphElementType.getIdent().toString() + "_" + formatIdentifiable(agb.getMember());
-					sb.append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayGroupBy(");
-					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchTypeIterated) {
+					string arrayHelperClassName = GetPackagePrefixDot(graphElementType) + "ArrayHelper_"
+							+ graphElementType.Ident.ToString() + "_" + FormatIdentifiable(agb.Member);
+					sb.Append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayGroupBy(");
+					GenExpression(sb, agb.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchTypeIterated)
+				{
 					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String iteratedName = formatIdentifiable(matchType.getIterated());
-					String functionName = "groupBy_" + formatIdentifiable(agb.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchType) {
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string iteratedName = FormatIdentifiable(matchType.Iterated);
+					string functionName = "groupBy_" + FormatIdentifiable(agb.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, agb.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchType)
+				{
 					MatchType matchType = (MatchType)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String functionName = "groupBy_" + formatIdentifiable(agb.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof DefinedMatchType) {
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string functionName = "groupBy_" + FormatIdentifiable(agb.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, agb.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is DefinedMatchType)
+				{
 					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
-					String matchClassPackage = getPackagePrefixDot(definedMatchType);
-					String matchClassName = formatIdentifiable(definedMatchType);
-					String functionName = "groupBy_" + formatIdentifiable(agb.getMember());
-					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, agb.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
+					string matchClassPackage = GetPackagePrefixDot(definedMatchType);
+					string matchClassName = FormatIdentifiable(definedMatchType);
+					string functionName = "groupBy_" + FormatIdentifiable(agb.Member);
+					string arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, agb.TargetExpr, modifyGenerationState);
+					sb.Append(")");
 				}
 			}
-		} else if(expr instanceof ArrayKeepOneForEachBy) {
+		}
+		else if(expr is ArrayKeepOneForEachBy)
+		{
 			ArrayKeepOneForEachBy akob = (ArrayKeepOneForEachBy)expr;
-			Type arrayValueType = akob.getTargetTypeExact().getValueType();
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(akob));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				if(arrayValueType instanceof InheritanceType) {
+			Type arrayValueType = akob.TargetTypeExact.ValueType;
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[akob]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				if(arrayValueType is InheritanceType)
+				{
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
-					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
-							+ graphElementType.getIdent().toString() + "_" + formatIdentifiable(akob.getMember());
-					sb.append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayKeepOneForEachBy(");
-					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchTypeIterated) {
+					string arrayHelperClassName = GetPackagePrefixDot(graphElementType) + "ArrayHelper_"
+							+ graphElementType.Ident.ToString() + "_" + FormatIdentifiable(akob.Member);
+					sb.Append("GRGEN_MODEL." + arrayHelperClassName + ".ArrayKeepOneForEachBy(");
+					GenExpression(sb, akob.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchTypeIterated)
+				{
 					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String iteratedName = formatIdentifiable(matchType.getIterated());
-					String functionName = "keepOneForEachBy_" + formatIdentifiable(akob.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchType) {
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string iteratedName = FormatIdentifiable(matchType.Iterated);
+					string functionName = "keepOneForEachBy_" + FormatIdentifiable(akob.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, akob.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchType)
+				{
 					MatchType matchType = (MatchType)arrayValueType;
-					String rulePackage = getPackagePrefixDot(matchType.getAction());
-					String ruleName = formatIdentifiable(matchType.getAction());
-					String functionName = "keepOneForEachBy_" + formatIdentifiable(akob.getMember());
-					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof DefinedMatchType) {
+					string rulePackage = GetPackagePrefixDot(matchType.Action);
+					string ruleName = FormatIdentifiable(matchType.Action);
+					string functionName = "keepOneForEachBy_" + FormatIdentifiable(akob.Member);
+					string arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + rulePackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, akob.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is DefinedMatchType)
+				{
 					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
-					String matchClassPackage = getPackagePrefixDot(definedMatchType);
-					String matchClassName = formatIdentifiable(definedMatchType);
-					String functionName = "keepOneForEachBy_" + formatIdentifiable(akob.getMember());
-					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
-					sb.append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
-					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
+					string matchClassPackage = GetPackagePrefixDot(definedMatchType);
+					string matchClassName = FormatIdentifiable(definedMatchType);
+					string functionName = "keepOneForEachBy_" + FormatIdentifiable(akob.Member);
+					string arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.Append("GRGEN_ACTIONS." + matchClassPackage + "ArrayHelper." + arrayFunctionName + "(");
+					GenExpression(sb, akob.TargetExpr, modifyGenerationState);
+					sb.Append(")");
 				}
 			}
-		} else if(expr instanceof ArrayReverseExpr) {
+		}
+		else if(expr is ArrayReverseExpr)
+		{
 			ArrayReverseExpr ar = (ArrayReverseExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ar));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayReverse(");
-				genExpression(sb, ar.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ar]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.ArrayReverse(");
+				GenExpression(sb, ar.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayShuffleExpr) {
+		}
+		else if(expr is ArrayShuffleExpr)
+		{
 			ArrayShuffleExpr ar = (ArrayShuffleExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ar));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Shuffle(");
-				genExpression(sb, ar.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ar]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Shuffle(");
+				GenExpression(sb, ar.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayExtract) {
+		}
+		else if(expr is ArrayExtract)
+		{
 			ArrayExtract ae = (ArrayExtract)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ae));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				Type arrayValueType = ae.getTargetTypeExact().getValueType();
-				if(arrayValueType instanceof InheritanceType) {
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ae]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				Type arrayValueType = ae.TargetTypeExact.ValueType;
+				if(arrayValueType is InheritanceType)
+				{
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
-					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
-							+ graphElementType.getIdent().toString() + "_" + formatIdentifiable(ae.getMember());
-					sb.append("GRGEN_MODEL." + arrayHelperClassName + ".Extract(");
-					genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchTypeIterated) {
+					string arrayHelperClassName = GetPackagePrefixDot(graphElementType) + "ArrayHelper_"
+							+ graphElementType.Ident.ToString() + "_" + FormatIdentifiable(ae.Member);
+					sb.Append("GRGEN_MODEL." + arrayHelperClassName + ".Extract(");
+					GenExpression(sb, ae.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchTypeIterated)
+				{
 					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
-					Rule rule = matchType.getAction();
-					String ruleName = getPackagePrefixDot(rule) + "Rule_" + formatIdentifiable(rule);
-					Rule iterated = matchType.getIterated();
-					String iteratedName = formatIdentifiable(iterated);
-					sb.append("GRGEN_ACTIONS." + ruleName + ".Extractor_" + iteratedName + ".Extract_"
-							+ formatIdentifiable(ae.getMember()) + "(");
-					genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof MatchType) {
+					Rule rule = matchType.Action;
+					string ruleName = GetPackagePrefixDot(rule) + "Rule_" + FormatIdentifiable(rule);
+					Rule iterated = matchType.Iterated;
+					string iteratedName = FormatIdentifiable(iterated);
+					sb.Append("GRGEN_ACTIONS." + ruleName + ".Extractor_" + iteratedName + ".Extract_"
+							+ FormatIdentifiable(ae.Member) + "(");
+					GenExpression(sb, ae.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is MatchType)
+				{
 					MatchType matchType = (MatchType)arrayValueType;
-					Rule rule = matchType.getAction();
-					String ruleName = getPackagePrefixDot(rule) + "Rule_" + formatIdentifiable(rule);
-					sb.append("GRGEN_ACTIONS." + ruleName + ".Extractor.Extract_" + formatIdentifiable(ae.getMember()) + "(");
-					genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
-				} else if(arrayValueType instanceof DefinedMatchType) {
+					Rule rule = matchType.Action;
+					string ruleName = GetPackagePrefixDot(rule) + "Rule_" + FormatIdentifiable(rule);
+					sb.Append("GRGEN_ACTIONS." + ruleName + ".Extractor.Extract_" + FormatIdentifiable(ae.Member) + "(");
+					GenExpression(sb, ae.TargetExpr, modifyGenerationState);
+					sb.Append(")");
+				}
+				else if(arrayValueType is DefinedMatchType)
+				{
 					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
-					String matchClassName = getPackagePrefixDot(definedMatchType) + "MatchClassInfo_"
-							+ formatIdentifiable(definedMatchType);
-					sb.append("GRGEN_ACTIONS." + matchClassName + ".Extractor.Extract_"
-							+ formatIdentifiable(ae.getMember()) + "(");
-					genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
-					sb.append(")");
+					string matchClassName = GetPackagePrefixDot(definedMatchType) + "MatchClassInfo_"
+							+ FormatIdentifiable(definedMatchType);
+					sb.Append("GRGEN_ACTIONS." + matchClassName + ".Extractor.Extract_"
+							+ FormatIdentifiable(ae.Member) + "(");
+					GenExpression(sb, ae.TargetExpr, modifyGenerationState);
+					sb.Append(")");
 				}
 			}
-		} else if(expr instanceof ArrayMapExpr) {
+		}
+		else if(expr is ArrayMapExpr)
+		{
 			ArrayMapExpr am = (ArrayMapExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(am));
-			} else {
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[am]);
+			else
+			{
 				// call of generated array map method
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
-				am.collectNeededEntities(needs);
-				String arrayMapName = "ArrayMap_" + am.getId();
-				sb.append(arrayMapName + "(actionEnv, ");
-				genExpression(sb, am.getTargetExpr(), modifyGenerationState);
-				for(Node node : needs.nodes) {
-					sb.append(", (");
-					sb.append(formatType(node.getType()));
-					sb.append(")");
-					sb.append(formatEntity(node));
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+				am.CollectNeededEntities(needs);
+				string arrayMapName = "ArrayMap_" + am.Id;
+				sb.Append(arrayMapName + "(actionEnv, ");
+				GenExpression(sb, am.TargetExpr, modifyGenerationState);
+				foreach(Node node in needs.nodes)
+				{
+					sb.Append(", (");
+					sb.Append(FormatType(node.Type));
+					sb.Append(")");
+					sb.Append(FormatEntity(node));
 				}
-				for(Edge edge : needs.edges) {
-					sb.append(", (");
-					sb.append(formatType(edge.getType()));
-					sb.append(")");
-					sb.append(formatEntity(edge));
+				foreach(Edge edge in needs.edges)
+				{
+					sb.Append(", (");
+					sb.Append(FormatType(edge.Type));
+					sb.Append(")");
+					sb.Append(FormatEntity(edge));
 				}
-				for(Variable var : needs.variables) {
-					sb.append(", (");
-					sb.append(formatType(var.getType()));
-					sb.append(")");
-					sb.append(formatEntity(var));
+				foreach(Variable var in needs.variables)
+				{
+					sb.Append(", (");
+					sb.Append(FormatType(var.Type));
+					sb.Append(")");
+					sb.Append(FormatEntity(var));
 				}
-				if(modifyGenerationState.isToBeParallelizedActionExisting())
-					sb.append(", threadId");
-				sb.append(")");
-				
-				generateArrayMap(am, modifyGenerationState);
+				if(modifyGenerationState.IsToBeParallelizedActionExisting())
+					sb.Append(", threadId");
+				sb.Append(")");
+
+				GenerateArrayMap(am, modifyGenerationState);
 			}
-		} else if(expr instanceof ArrayRemoveIfExpr) {
+		}
+		else if(expr is ArrayRemoveIfExpr)
+		{
 			ArrayRemoveIfExpr ari = (ArrayRemoveIfExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ari));
-			} else {
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ari]);
+			else
+			{
 				// call of generated array removeIf method
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
-				ari.collectNeededEntities(needs);
-				String arrayRemoveIfName = "ArrayRemoveIf_" + ari.getId();
-				sb.append(arrayRemoveIfName + "(actionEnv, ");
-				genExpression(sb, ari.getTargetExpr(), modifyGenerationState);
-				for(Node node : needs.nodes) {
-					sb.append(", (");
-					sb.append(formatType(node.getType()));
-					sb.append(")");
-					sb.append(formatEntity(node));
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+				ari.CollectNeededEntities(needs);
+				string arrayRemoveIfName = "ArrayRemoveIf_" + ari.Id;
+				sb.Append(arrayRemoveIfName + "(actionEnv, ");
+				GenExpression(sb, ari.TargetExpr, modifyGenerationState);
+				foreach(Node node in needs.nodes)
+				{
+					sb.Append(", (");
+					sb.Append(FormatType(node.Type));
+					sb.Append(")");
+					sb.Append(FormatEntity(node));
 				}
-				for(Edge edge : needs.edges) {
-					sb.append(", (");
-					sb.append(formatType(edge.getType()));
-					sb.append(")");
-					sb.append(formatEntity(edge));
+				foreach(Edge edge in needs.edges)
+				{
+					sb.Append(", (");
+					sb.Append(FormatType(edge.Type));
+					sb.Append(")");
+					sb.Append(FormatEntity(edge));
 				}
-				for(Variable var : needs.variables) {
-					sb.append(", (");
-					sb.append(formatType(var.getType()));
-					sb.append(")");
-					sb.append(formatEntity(var));
+				foreach(Variable var in needs.variables)
+				{
+					sb.Append(", (");
+					sb.Append(FormatType(var.Type));
+					sb.Append(")");
+					sb.Append(FormatEntity(var));
 				}
-				if(modifyGenerationState.isToBeParallelizedActionExisting())
-					sb.append(", threadId");
-				sb.append(")");
-				
-				generateArrayRemoveIf(ari, modifyGenerationState);
+				if(modifyGenerationState.IsToBeParallelizedActionExisting())
+					sb.Append(", threadId");
+				sb.Append(")");
+
+				GenerateArrayRemoveIf(ari, modifyGenerationState);
 			}
-		} else if(expr instanceof ArrayMapStartWithAccumulateByExpr) {
+		}
+		else if(expr is ArrayMapStartWithAccumulateByExpr)
+		{
 			ArrayMapStartWithAccumulateByExpr am = (ArrayMapStartWithAccumulateByExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(am));
-			} else {
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[am]);
+			else
+			{
 				// call of generated array map start with accumulate by method
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
-				am.collectNeededEntities(needs);
-				String arrayMapName = "ArrayMapStartWithAccumulateBy_" + am.getId();
-				sb.append(arrayMapName + "(actionEnv, ");
-				genExpression(sb, am.getTargetExpr(), modifyGenerationState);
-				for(Node node : needs.nodes) {
-					sb.append(", (");
-					sb.append(formatType(node.getType()));
-					sb.append(")");
-					sb.append(formatEntity(node));
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+				am.CollectNeededEntities(needs);
+				string arrayMapName = "ArrayMapStartWithAccumulateBy_" + am.Id;
+				sb.Append(arrayMapName + "(actionEnv, ");
+				GenExpression(sb, am.TargetExpr, modifyGenerationState);
+				foreach(Node node in needs.nodes)
+				{
+					sb.Append(", (");
+					sb.Append(FormatType(node.Type));
+					sb.Append(")");
+					sb.Append(FormatEntity(node));
 				}
-				for(Edge edge : needs.edges) {
-					sb.append(", (");
-					sb.append(formatType(edge.getType()));
-					sb.append(")");
-					sb.append(formatEntity(edge));
+				foreach(Edge edge in needs.edges)
+				{
+					sb.Append(", (");
+					sb.Append(FormatType(edge.Type));
+					sb.Append(")");
+					sb.Append(FormatEntity(edge));
 				}
-				for(Variable var : needs.variables) {
-					sb.append(", (");
-					sb.append(formatType(var.getType()));
-					sb.append(")");
-					sb.append(formatEntity(var));
+				foreach(Variable var in needs.variables)
+				{
+					sb.Append(", (");
+					sb.Append(FormatType(var.Type));
+					sb.Append(")");
+					sb.Append(FormatEntity(var));
 				}
-				if(modifyGenerationState.isToBeParallelizedActionExisting())
-					sb.append(", threadId");
-				sb.append(")");
-				
-				generateArrayMapStartWithAccumulateBy(am, modifyGenerationState);
+				if(modifyGenerationState.IsToBeParallelizedActionExisting())
+					sb.Append(", threadId");
+				sb.Append(")");
+
+				GenerateArrayMapStartWithAccumulateBy(am, modifyGenerationState);
 			}
-		} else if(expr instanceof ArrayAsSetExpr) {
+		}
+		else if(expr is ArrayAsSetExpr)
+		{
 			ArrayAsSetExpr aas = (ArrayAsSetExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aas));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsSet(");
-				genExpression(sb, aas.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aas]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.ArrayAsSet(");
+				GenExpression(sb, aas.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayAsDequeExpr) {
+		}
+		else if(expr is ArrayAsDequeExpr)
+		{
 			ArrayAsDequeExpr aad = (ArrayAsDequeExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aad));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsDeque(");
-				genExpression(sb, aad.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aad]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.ArrayAsDeque(");
+				GenExpression(sb, aad.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayAsMapExpr) {
+		}
+		else if(expr is ArrayAsMapExpr)
+		{
 			ArrayAsMapExpr aam = (ArrayAsMapExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aam));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsMap(");
-				genExpression(sb, aam.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aam]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.ArrayAsMap(");
+				GenExpression(sb, aam.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayAsString) {
+		}
+		else if(expr is ArrayAsString)
+		{
 			ArrayAsString aas = (ArrayAsString)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aas));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsString(");
-				genExpression(sb, aas.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, aas.getValueExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aas]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.ArrayAsString(");
+				GenExpression(sb, aas.TargetExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, aas.ValueExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArraySumExpr) {
-			ArraySumExpr as = (ArraySumExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(as));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Sum(");
-				genExpression(sb, as.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+		}
+		else if(expr is ArraySumExpr)
+		{
+			ArraySumExpr @as = (ArraySumExpr)expr;
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[@as]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Sum(");
+				GenExpression(sb, @as.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayProdExpr) {
+		}
+		else if(expr is ArrayProdExpr)
+		{
 			ArrayProdExpr ap = (ArrayProdExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ap));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Prod(");
-				genExpression(sb, ap.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ap]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Prod(");
+				GenExpression(sb, ap.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayMinExpr) {
+		}
+		else if(expr is ArrayMinExpr)
+		{
 			ArrayMinExpr am = (ArrayMinExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(am));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Min(");
-				genExpression(sb, am.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[am]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Min(");
+				GenExpression(sb, am.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayMaxExpr) {
+		}
+		else if(expr is ArrayMaxExpr)
+		{
 			ArrayMaxExpr am = (ArrayMaxExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(am));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Max(");
-				genExpression(sb, am.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[am]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Max(");
+				GenExpression(sb, am.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayAvgExpr) {
+		}
+		else if(expr is ArrayAvgExpr)
+		{
 			ArrayAvgExpr aa = (ArrayAvgExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aa));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Avg(");
-				genExpression(sb, aa.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aa]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Avg(");
+				GenExpression(sb, aa.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayMedExpr) {
+		}
+		else if(expr is ArrayMedExpr)
+		{
 			ArrayMedExpr am = (ArrayMedExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(am));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Med(");
-				genExpression(sb, am.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[am]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Med(");
+				GenExpression(sb, am.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayMedUnorderedExpr) {
+		}
+		else if(expr is ArrayMedUnorderedExpr)
+		{
 			ArrayMedUnorderedExpr amu = (ArrayMedUnorderedExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(amu));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.MedUnordered(");
-				genExpression(sb, amu.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[amu]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.MedUnordered(");
+				GenExpression(sb, amu.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayVarExpr) {
+		}
+		else if(expr is ArrayVarExpr)
+		{
 			ArrayVarExpr av = (ArrayVarExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(av));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Var(");
-				genExpression(sb, av.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[av]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Var(");
+				GenExpression(sb, av.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayDevExpr) {
+		}
+		else if(expr is ArrayDevExpr)
+		{
 			ArrayDevExpr ad = (ArrayDevExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ad));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Dev(");
-				genExpression(sb, ad.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ad]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Dev(");
+				GenExpression(sb, ad.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayAndExpr) {
+		}
+		else if(expr is ArrayAndExpr)
+		{
 			ArrayAndExpr aa = (ArrayAndExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(aa));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.And(");
-				genExpression(sb, aa.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[aa]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.And(");
+				GenExpression(sb, aa.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayOrExpr) {
+		}
+		else if(expr is ArrayOrExpr)
+		{
 			ArrayOrExpr ao = (ArrayOrExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ao));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Or(");
-				genExpression(sb, ao.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ao]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Or(");
+				GenExpression(sb, ao.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof DequeSizeExpr) {
+		}
+		else if(expr is DequeSizeExpr)
+		{
 			DequeSizeExpr ds = (DequeSizeExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(ds));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("(");
-				genExpression(sb, ds.getTargetExpr(), modifyGenerationState);
-				sb.append(").Count");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[ds]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("(");
+				GenExpression(sb, ds.TargetExpr, modifyGenerationState);
+				sb.Append(").Count");
 			}
-		} else if(expr instanceof DequeEmptyExpr) {
+		}
+		else if(expr is DequeEmptyExpr)
+		{
 			DequeEmptyExpr de = (DequeEmptyExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(de));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("((");
-				genExpression(sb, de.getTargetExpr(), modifyGenerationState);
-				sb.append(").Count==0)");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[de]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("((");
+				GenExpression(sb, de.TargetExpr, modifyGenerationState);
+				sb.Append(").Count==0)");
 			}
-		} else if(expr instanceof DequePeekExpr) {
+		}
+		else if(expr is DequePeekExpr)
+		{
 			DequePeekExpr dp = (DequePeekExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(dp));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Peek(");
-				genExpression(sb, dp.getTargetExpr(), modifyGenerationState);
-				if(dp.getNumberExpr() != null) {
-					sb.append(", ");
-					genExpression(sb, dp.getNumberExpr(), modifyGenerationState);
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[dp]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Peek(");
+				GenExpression(sb, dp.TargetExpr, modifyGenerationState);
+				if(dp.NumberExpr != null)
+				{
+					sb.Append(", ");
+					GenExpression(sb, dp.NumberExpr, modifyGenerationState);
 				}
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof DequeIndexOfExpr) {
+		}
+		else if(expr is DequeIndexOfExpr)
+		{
 			DequeIndexOfExpr di = (DequeIndexOfExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(di));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.IndexOf(");
-				genExpression(sb, di.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, di.getValueExpr(), modifyGenerationState);
-				if(di.getStartIndexExpr() != null) {
-					sb.append(", ");
-					genExpression(sb, di.getStartIndexExpr(), modifyGenerationState);
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[di]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.IndexOf(");
+				GenExpression(sb, di.TargetExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, di.ValueExpr, modifyGenerationState);
+				if(di.StartIndexExpr != null)
+				{
+					sb.Append(", ");
+					GenExpression(sb, di.StartIndexExpr, modifyGenerationState);
 				}
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof DequeLastIndexOfExpr) {
+		}
+		else if(expr is DequeLastIndexOfExpr)
+		{
 			DequeLastIndexOfExpr dli = (DequeLastIndexOfExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(dli));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
-				genExpression(sb, dli.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, dli.getValueExpr(), modifyGenerationState);
-				if(dli.getStartIndexExpr() != null) {
-					sb.append(", ");
-					genExpression(sb, dli.getStartIndexExpr(), modifyGenerationState);
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[dli]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
+				GenExpression(sb, dli.TargetExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, dli.ValueExpr, modifyGenerationState);
+				if(dli.StartIndexExpr != null)
+				{
+					sb.Append(", ");
+					GenExpression(sb, dli.StartIndexExpr, modifyGenerationState);
 				}
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof DequeSubdequeExpr) {
+		}
+		else if(expr is DequeSubdequeExpr)
+		{
 			DequeSubdequeExpr dsd = (DequeSubdequeExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(dsd));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.Subdeque(");
-				genExpression(sb, dsd.getTargetExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, dsd.getStartExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, dsd.getLengthExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[dsd]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Subdeque(");
+				GenExpression(sb, dsd.TargetExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, dsd.StartExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, dsd.LengthExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof DequeAsSetExpr) {
+		}
+		else if(expr is DequeAsSetExpr)
+		{
 			DequeAsSetExpr das = (DequeAsSetExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(das));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.DequeAsSet(");
-				genExpression(sb, das.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[das]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.DequeAsSet(");
+				GenExpression(sb, das.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof DequeAsArrayExpr) {
+		}
+		else if(expr is DequeAsArrayExpr)
+		{
 			DequeAsArrayExpr daa = (DequeAsArrayExpr)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(daa));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.DequeAsArray(");
-				genExpression(sb, daa.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[daa]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.DequeAsArray(");
+				GenExpression(sb, daa.TargetExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof MapInit) {
+		}
+		else if(expr is MapInit)
+		{
 			MapInit mi = (MapInit)expr;
-			if(mi.isConstant()) {
-				sb.append(mi.getAnonymousMapName());
-			} else {
-				sb.append("fill_" + mi.getAnonymousMapName() + "(");
-				boolean first = true;
-				for(ExpressionPair item : mi.getMapItems()) {
+			if(mi.IsConstant())
+				sb.Append(mi.AnonymousMapName);
+			else
+			{
+				sb.Append("fill_" + mi.AnonymousMapName + "(");
+				bool first = true;
+				foreach(ExpressionPair item in mi.MapItems)
+				{
 					if(first)
 						first = false;
 					else
-						sb.append(", ");
+						sb.Append(", ");
 
-					if(item.getKeyExpr() instanceof GraphEntityExpression)
-						sb.append("(" + formatElementInterfaceRef(item.getKeyExpr().getType()) + ")(");
-					genExpression(sb, item.getKeyExpr(), modifyGenerationState);
-					if(item.getKeyExpr() instanceof GraphEntityExpression)
-						sb.append(")");
+					if(item.KeyExpr is GraphEntityExpression)
+						sb.Append("(" + FormatElementInterfaceRef(item.KeyExpr.Type) + ")(");
+					GenExpression(sb, item.KeyExpr, modifyGenerationState);
+					if(item.KeyExpr is GraphEntityExpression)
+						sb.Append(")");
 
-					sb.append(", ");
+					sb.Append(", ");
 
-					if(item.getValueExpr() instanceof GraphEntityExpression)
-						sb.append("(" + formatElementInterfaceRef(item.getValueExpr().getType()) + ")(");
-					genExpression(sb, item.getValueExpr(), modifyGenerationState);
-					if(item.getValueExpr() instanceof GraphEntityExpression)
-						sb.append(")");
+					if(item.ValueExpr is GraphEntityExpression)
+						sb.Append("(" + FormatElementInterfaceRef(item.ValueExpr.Type) + ")(");
+					GenExpression(sb, item.ValueExpr, modifyGenerationState);
+					if(item.ValueExpr is GraphEntityExpression)
+						sb.Append(")");
 				}
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof SetInit) {
+		}
+		else if(expr is SetInit)
+		{
 			SetInit si = (SetInit)expr;
-			if(si.isConstant()) {
-				sb.append(si.getAnonymousSetName());
-			} else {
-				sb.append("fill_" + si.getAnonymousSetName() + "(");
-				boolean first = true;
-				for(Expression item : si.getSetItems()) {
+			if(si.IsConstant())
+				sb.Append(si.AnonymousSetName);
+			else
+			{
+				sb.Append("fill_" + si.AnonymousSetName + "(");
+				bool first = true;
+				foreach(Expression item in si.SetItems)
+				{
 					if(first)
 						first = false;
 					else
-						sb.append(", ");
+						sb.Append(", ");
 
-					if(item instanceof GraphEntityExpression)
-						sb.append("(" + formatElementInterfaceRef(item.getType()) + ")(");
-					genExpression(sb, item, modifyGenerationState);
-					if(item instanceof GraphEntityExpression)
-						sb.append(")");
+					if(item is GraphEntityExpression)
+						sb.Append("(" + FormatElementInterfaceRef(item.Type) + ")(");
+					GenExpression(sb, item, modifyGenerationState);
+					if(item is GraphEntityExpression)
+						sb.Append(")");
 				}
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayInit) {
+		}
+		else if(expr is ArrayInit)
+		{
 			ArrayInit ai = (ArrayInit)expr;
-			if(ai.isConstant()) {
-				sb.append(ai.getAnonymousArrayName());
-			} else {
-				sb.append("fill_" + ai.getAnonymousArrayName() + "(");
-				boolean first = true;
-				for(Expression item : ai.getArrayItems()) {
+			if(ai.IsConstant())
+				sb.Append(ai.AnonymousArrayName);
+			else
+			{
+				sb.Append("fill_" + ai.AnonymousArrayName + "(");
+				bool first = true;
+				foreach(Expression item in ai.ArrayItems)
+				{
 					if(first)
 						first = false;
 					else
-						sb.append(", ");
+						sb.Append(", ");
 
-					if(item instanceof GraphEntityExpression)
-						sb.append("(" + formatElementInterfaceRef(item.getType()) + ")(");
-					genExpression(sb, item, modifyGenerationState);
-					if(item instanceof GraphEntityExpression)
-						sb.append(")");
+					if(item is GraphEntityExpression)
+						sb.Append("(" + FormatElementInterfaceRef(item.Type) + ")(");
+					GenExpression(sb, item, modifyGenerationState);
+					if(item is GraphEntityExpression)
+						sb.Append(")");
 				}
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof DequeInit) {
+		}
+		else if(expr is DequeInit)
+		{
 			DequeInit di = (DequeInit)expr;
-			if(di.isConstant()) {
-				sb.append(di.getAnonymousDequeName());
-			} else {
-				sb.append("fill_" + di.getAnonymousDequeName() + "(");
-				boolean first = true;
-				for(Expression item : di.getDequeItems()) {
+			if(di.IsConstant())
+				sb.Append(di.AnonymousDequeName);
+			else
+			{
+				sb.Append("fill_" + di.AnonymousDequeName + "(");
+				bool first = true;
+				foreach(Expression item in di.DequeItems)
+				{
 					if(first)
 						first = false;
 					else
-						sb.append(", ");
+						sb.Append(", ");
 
-					if(item instanceof GraphEntityExpression)
-						sb.append("(" + formatElementInterfaceRef(item.getType()) + ")(");
-					genExpression(sb, item, modifyGenerationState);
-					if(item instanceof GraphEntityExpression)
-						sb.append(")");
+					if(item is GraphEntityExpression)
+						sb.Append("(" + FormatElementInterfaceRef(item.Type) + ")(");
+					GenExpression(sb, item, modifyGenerationState);
+					if(item is GraphEntityExpression)
+						sb.Append(")");
 				}
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof MatchInit) {
+		}
+		else if(expr is MatchInit)
+		{
 			MatchInit mi = (MatchInit)expr;
-			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
-		} else if(expr instanceof InternalObjectInit) {
+			sb.Append("new " + FormatDefinedMatchType(mi.MatchType) + "()");
+		}
+		else if(expr is InternalObjectInit)
+		{
 			InternalObjectInit ioi = (InternalObjectInit)expr;
-			String fetchUniqueIdIfObject = "";
-			if(ioi.getBaseInternalObjectType() instanceof InternalObjectType)
-				fetchUniqueIdIfObject = modifyGenerationState.getModel().isUniqueClassDefined() ? "graph.GlobalVariables.FetchObjectUniqueId()" : "-1";
-			if(ioi.attributeInitializations.isEmpty()) {
-				sb.append("new " + formatBaseInternalObjectType(ioi.getBaseInternalObjectType()) + "(" + fetchUniqueIdIfObject + ")");
-			} else {
-				sb.append("fill_" + ioi.getAnonymousInternalObjectInitName() + "(" + fetchUniqueIdIfObject);
-				boolean first = ioi.getBaseInternalObjectType() instanceof InternalObjectType ? false : true;
-				for(Expression aie : ioi.getAttributeInitializationExpressions()) {
+			string fetchUniqueIdIfObject = "";
+			if(ioi.BaseInternalObjectType is InternalObjectType)
+				fetchUniqueIdIfObject = modifyGenerationState.Model.IsUniqueClassDefined() ? "graph.GlobalVariables.FetchObjectUniqueId()" : "-1";
+			if(ioi.attributeInitializations.Count == 0)
+				sb.Append("new " + FormatBaseInternalObjectType(ioi.BaseInternalObjectType) + "(" + fetchUniqueIdIfObject + ")");
+			else
+			{
+				sb.Append("fill_" + ioi.AnonymousInternalObjectInitName + "(" + fetchUniqueIdIfObject);
+				bool first = ioi.BaseInternalObjectType is InternalObjectType ? false : true;
+				foreach(Expression aie in ioi.AttributeInitializationExpressions)
+				{
 					if(first)
 						first = false;
 					else
-						sb.append(", ");
+						sb.Append(", ");
 
-					if(aie instanceof GraphEntityExpression)
-						sb.append("(" + formatElementInterfaceRef(aie.getType()) + ")(");
-					genExpression(sb, aie, modifyGenerationState);
-					if(aie instanceof GraphEntityExpression)
-						sb.append(")");
+					if(aie is GraphEntityExpression)
+						sb.Append("(" + FormatElementInterfaceRef(aie.Type) + ")(");
+					GenExpression(sb, aie, modifyGenerationState);
+					if(aie is GraphEntityExpression)
+						sb.Append(")");
 				}
-				sb.append(")");
+				sb.Append(")");
 			}
-		} else if(expr instanceof MapCopyConstructor) {
+		}
+		else if(expr is MapCopyConstructor)
+		{
 			MapCopyConstructor mcc = (MapCopyConstructor)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(mcc));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.FillMap(");
-				sb.append("new " + formatType(mcc.getMapType()) + "(), ");
-				sb.append("\"" + formatSequenceType(mcc.getMapType().getKeyType()) + "\", ");
-				sb.append("\"" + formatSequenceType(mcc.getMapType().getValueType()) + "\", ");
-				genExpression(sb, mcc.getMapToCopy(), modifyGenerationState);
-				sb.append(", graph.Model");
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[mcc]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.FillMap(");
+				sb.Append("new " + FormatType(mcc.MapType) + "(), ");
+				sb.Append("\"" + FormatSequenceType(mcc.MapType.KeyType) + "\", ");
+				sb.Append("\"" + FormatSequenceType(mcc.MapType.ValueType) + "\", ");
+				GenExpression(sb, mcc.MapToCopy, modifyGenerationState);
+				sb.Append(", graph.Model");
+				sb.Append(")");
 			}
-		} else if(expr instanceof SetCopyConstructor) {
+		}
+		else if(expr is SetCopyConstructor)
+		{
 			SetCopyConstructor scc = (SetCopyConstructor)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(scc));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.FillSet(");
-				sb.append("new " + formatType(scc.getSetType()) + "(), ");
-				sb.append("\"" + formatSequenceType(scc.getSetType().getValueType()) + "\", ");
-				genExpression(sb, scc.getSetToCopy(), modifyGenerationState);
-				sb.append(", graph.Model");
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[scc]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.FillSet(");
+				sb.Append("new " + FormatType(scc.SetType) + "(), ");
+				sb.Append("\"" + FormatSequenceType(scc.SetType.ValueType) + "\", ");
+				GenExpression(sb, scc.SetToCopy, modifyGenerationState);
+				sb.Append(", graph.Model");
+				sb.Append(")");
 			}
-		} else if(expr instanceof ArrayCopyConstructor) {
+		}
+		else if(expr is ArrayCopyConstructor)
+		{
 			ArrayCopyConstructor acc = (ArrayCopyConstructor)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(acc));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.FillArray(");
-				sb.append("new " + formatType(acc.getArrayType()) + "(), ");
-				sb.append("\"" + formatSequenceType(acc.getArrayType().getValueType()) + "\", ");
-				genExpression(sb, acc.getArrayToCopy(), modifyGenerationState);
-				sb.append(", graph.Model");
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[acc]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.FillArray(");
+				sb.Append("new " + FormatType(acc.ArrayType) + "(), ");
+				sb.Append("\"" + FormatSequenceType(acc.ArrayType.ValueType) + "\", ");
+				GenExpression(sb, acc.ArrayToCopy, modifyGenerationState);
+				sb.Append(", graph.Model");
+				sb.Append(")");
 			}
-		} else if(expr instanceof DequeCopyConstructor) {
+		}
+		else if(expr is DequeCopyConstructor)
+		{
 			DequeCopyConstructor dcc = (DequeCopyConstructor)expr;
-			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.getMapExprToTempVar().get(dcc));
-			} else {
-				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("GRGEN_LIBGR.ContainerHelper.FillDeque(");
-				sb.append("new " + formatType(dcc.getDequeType()) + "(), ");
-				sb.append("\"" + formatSequenceType(dcc.getDequeType().getValueType()) + "\", ");
-				genExpression(sb, dcc.getDequeToCopy(), modifyGenerationState);
-				sb.append(", graph.Model");
-				sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.UseVarForResult())
+				sb.Append(modifyGenerationState.MapExprToTempVar[dcc]);
+			else
+			{
+				SwitchToVarForResultAsNeeded(modifyGenerationState);
+				sb.Append("GRGEN_LIBGR.ContainerHelper.FillDeque(");
+				sb.Append("new " + FormatType(dcc.DequeType) + "(), ");
+				sb.Append("\"" + FormatSequenceType(dcc.DequeType.ValueType) + "\", ");
+				GenExpression(sb, dcc.DequeToCopy, modifyGenerationState);
+				sb.Append(", graph.Model");
+				sb.Append(")");
 			}
-		} else if(expr instanceof FunctionInvocationExpr) {
+		}
+		else if(expr is FunctionInvocationExpr)
+		{
 			FunctionInvocationExpr fi = (FunctionInvocationExpr)expr;
-			sb.append("GRGEN_ACTIONS." + getPackagePrefixDot(fi.getFunction()) + "Functions."
-					+ fi.getFunction().getIdent().toString() + "(actionEnv, graph");
-			for(int i = 0; i < fi.arity(); ++i) {
-				sb.append(", ");
-				Expression argument = fi.getArgument(i);
-				if(argument.getType() instanceof InheritanceType) {
-					sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
-				}
-				genExpression(sb, argument, modifyGenerationState);
+			sb.Append("GRGEN_ACTIONS." + GetPackagePrefixDot(fi.Function) + "Functions."
+					+ fi.Function.Ident.ToString() + "(actionEnv, graph");
+			for(int i = 0; i < fi.Arity(); ++i)
+			{
+				sb.Append(", ");
+				Expression argument = fi.GetArgument(i);
+				if(argument.Type is InheritanceType)
+					sb.Append("(" + FormatElementInterfaceRef(argument.Type) + ")");
+				GenExpression(sb, argument, modifyGenerationState);
 			}
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof ExternalFunctionInvocationExpr) {
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is ExternalFunctionInvocationExpr)
+		{
 			ExternalFunctionInvocationExpr efi = (ExternalFunctionInvocationExpr)expr;
-			sb.append("GRGEN_EXPR.ExternalFunctions." + efi.getExternalFunc().getIdent().toString()
-					+ "(actionEnv, graph");
-			for(int i = 0; i < efi.arity(); ++i) {
-				sb.append(", ");
-				Expression argument = efi.getArgument(i);
-				if(argument.getType() instanceof InheritanceType) {
-					sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
-				}
-				genExpression(sb, argument, modifyGenerationState);
+			sb.Append("GRGEN_EXPR.ExternalFunctions." + efi.ExternalFunc.Ident.ToString() + "(actionEnv, graph");
+			for(int i = 0; i < efi.Arity(); ++i)
+			{
+				sb.Append(", ");
+				Expression argument = efi.GetArgument(i);
+				if(argument.Type is InheritanceType)
+					sb.Append("(" + FormatElementInterfaceRef(argument.Type) + ")");
+				GenExpression(sb, argument, modifyGenerationState);
 			}
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof FunctionMethodInvocationExpr) {
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is FunctionMethodInvocationExpr)
+		{
 			FunctionMethodInvocationExpr fmi = (FunctionMethodInvocationExpr)expr;
-			Entity owner = fmi.getOwner();
-			sb.append("((" + formatElementInterfaceRef(owner.getType()) + ") ");
-			sb.append(formatEntity(owner) + ").@");
-			sb.append(fmi.getFunction().getIdent().toString() + "(actionEnv, graph");
-			for(int i = 0; i < fmi.arity(); ++i) {
-				sb.append(", ");
-				Expression argument = fmi.getArgument(i);
-				if(argument.getType() instanceof InheritanceType) {
-					sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
-				}
-				genExpression(sb, argument, modifyGenerationState);
+			Entity owner = fmi.Owner;
+			sb.Append("((" + FormatElementInterfaceRef(owner.Type) + ") ");
+			sb.Append(FormatEntity(owner) + ").@");
+			sb.Append(fmi.Function.Ident.ToString() + "(actionEnv, graph");
+			for(int i = 0; i < fmi.Arity(); ++i)
+			{
+				sb.Append(", ");
+				Expression argument = fmi.GetArgument(i);
+				if(argument.Type is InheritanceType)
+					sb.Append("(" + FormatElementInterfaceRef(argument.Type) + ")");
+				GenExpression(sb, argument, modifyGenerationState);
 			}
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof ExternalFunctionMethodInvocationExpr) {
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is ExternalFunctionMethodInvocationExpr)
+		{
 			ExternalFunctionMethodInvocationExpr efmi = (ExternalFunctionMethodInvocationExpr)expr;
-			sb.append("(");
-			genExpression(sb, efmi.getOwner(), modifyGenerationState);
-			sb.append(").@");
-			sb.append(efmi.getExternalFunc().getIdent().toString() + "(actionEnv, graph");
-			for(int i = 0; i < efmi.arity(); ++i) {
-				sb.append(", ");
-				Expression argument = efmi.getArgument(i);
-				if(argument.getType() instanceof InheritanceType) {
-					sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
-				}
-				genExpression(sb, argument, modifyGenerationState);
+			sb.Append("(");
+			GenExpression(sb, efmi.Owner, modifyGenerationState);
+			sb.Append(").@");
+			sb.Append(efmi.ExternalFunc.Ident.ToString() + "(actionEnv, graph");
+			for(int i = 0; i < efmi.Arity(); ++i)
+			{
+				sb.Append(", ");
+				Expression argument = efmi.GetArgument(i);
+				if(argument.Type is InheritanceType)
+					sb.Append("(" + FormatElementInterfaceRef(argument.Type) + ")");
+				GenExpression(sb, argument, modifyGenerationState);
 			}
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof EdgesExpr) {
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is EdgesExpr)
+		{
 			EdgesExpr e = (EdgesExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.Edges");
-			sb.append(getDirectednessSuffix(e.getType()));
-			sb.append("(graph, ");
-			genExpression(sb, e.getEdgeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof NodesExpr) {
+			sb.Append("GRGEN_LIBGR.GraphHelper.Edges");
+			sb.Append(GetDirectednessSuffix(e.Type));
+			sb.Append("(graph, ");
+			GenExpression(sb, e.EdgeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is NodesExpr)
+		{
 			NodesExpr n = (NodesExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.Nodes(graph, ");
-			genExpression(sb, n.getNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof CountEdgesExpr) {
+			sb.Append("GRGEN_LIBGR.GraphHelper.Nodes(graph, ");
+			GenExpression(sb, n.NodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is CountEdgesExpr)
+		{
 			CountEdgesExpr ce = (CountEdgesExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.CountEdges(graph, ");
-			genExpression(sb, ce.getEdgeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof CountNodesExpr) {
+			sb.Append("GRGEN_LIBGR.GraphHelper.CountEdges(graph, ");
+			GenExpression(sb, ce.EdgeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is CountNodesExpr)
+		{
 			CountNodesExpr cn = (CountNodesExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.CountNodes(graph, ");
-			genExpression(sb, cn.getNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof NowExpr) {
+			sb.Append("GRGEN_LIBGR.GraphHelper.CountNodes(graph, ");
+			GenExpression(sb, cn.NodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is NowExpr)
+		{
 			//NowExpr n = (NowExpr)expr;
-			sb.append("DateTime.UtcNow.ToFileTime()");
-		} else if(expr instanceof EmptyExpr) {
+			sb.Append("DateTime.UtcNow.ToFileTime()");
+		}
+		else if(expr is EmptyExpr)
+		{
 			//EmptyExpr e = (EmptyExpr)expr;
-			sb.append("(graph.NumNodes+graph.NumEdges == 0)");
-		} else if(expr instanceof SizeExpr) {
+			sb.Append("(graph.NumNodes+graph.NumEdges == 0)");
+		}
+		else if(expr is SizeExpr)
+		{
 			//SizeExpr s = (SizeExpr)expr;
-			sb.append("(graph.NumNodes+graph.NumEdges)");
-		} else if(expr instanceof SourceExpr) {
+			sb.Append("(graph.NumNodes+graph.NumEdges)");
+		}
+		else if(expr is SourceExpr)
+		{
 			SourceExpr s = (SourceExpr)expr;
-			sb.append("((");
-			genExpression(sb, s.getEdgeExpr(), modifyGenerationState);
-			sb.append(").Source)");
-		} else if(expr instanceof TargetExpr) {
+			sb.Append("((");
+			GenExpression(sb, s.EdgeExpr, modifyGenerationState);
+			sb.Append(").Source)");
+		}
+		else if(expr is TargetExpr)
+		{
 			TargetExpr t = (TargetExpr)expr;
-			sb.append("((");
-			genExpression(sb, t.getEdgeExpr(), modifyGenerationState);
-			sb.append(").Target)");
-		} else if(expr instanceof OppositeExpr) {
+			sb.Append("((");
+			GenExpression(sb, t.EdgeExpr, modifyGenerationState);
+			sb.Append(").Target)");
+		}
+		else if(expr is OppositeExpr)
+		{
 			OppositeExpr o = (OppositeExpr)expr;
-			sb.append("((");
-			genExpression(sb, o.getEdgeExpr(), modifyGenerationState);
-			sb.append(").Opposite(");
-			genExpression(sb, o.getNodeExpr(), modifyGenerationState);
-			sb.append("))");
-		} else if(expr instanceof NodeByNameExpr) {
+			sb.Append("((");
+			GenExpression(sb, o.EdgeExpr, modifyGenerationState);
+			sb.Append(").Opposite(");
+			GenExpression(sb, o.NodeExpr, modifyGenerationState);
+			sb.Append("))");
+		}
+		else if(expr is NodeByNameExpr)
+		{
 			NodeByNameExpr nbn = (NodeByNameExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, ");
-			genExpression(sb, nbn.getNameExpr(), modifyGenerationState);
-			if(!nbn.getNodeTypeExpr().getType().getIdent().toString().equals("Node")) {
-				sb.append(", ");
-				genExpression(sb, nbn.getNodeTypeExpr(), modifyGenerationState);
+			sb.Append("GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, ");
+			GenExpression(sb, nbn.NameExpr, modifyGenerationState);
+			if(!nbn.NodeTypeExpr.Type.Ident.ToString().Equals("Node"))
+			{
+				sb.Append(", ");
+				GenExpression(sb, nbn.NodeTypeExpr, modifyGenerationState);
 			}
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof EdgeByNameExpr) {
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is EdgeByNameExpr)
+		{
 			EdgeByNameExpr ebn = (EdgeByNameExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, ");
-			genExpression(sb, ebn.getNameExpr(), modifyGenerationState);
-			if(!ebn.getEdgeTypeExpr().getType().getIdent().toString().equals("AEdge")) {
-				sb.append(", ");
-				genExpression(sb, ebn.getEdgeTypeExpr(), modifyGenerationState);
+			sb.Append("GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, ");
+			GenExpression(sb, ebn.NameExpr, modifyGenerationState);
+			if(!ebn.EdgeTypeExpr.Type.Ident.ToString().Equals("AEdge"))
+			{
+				sb.Append(", ");
+				GenExpression(sb, ebn.EdgeTypeExpr, modifyGenerationState);
 			}
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof NodeByUniqueExpr) {
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is NodeByUniqueExpr)
+		{
 			NodeByUniqueExpr nbu = (NodeByUniqueExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.GetNode(graph, ");
-			genExpression(sb, nbu.getUniqueExpr(), modifyGenerationState);
-			if(!nbu.getNodeTypeExpr().getType().getIdent().toString().equals("Node")) {
-				sb.append(", ");
-				genExpression(sb, nbu.getNodeTypeExpr(), modifyGenerationState);
+			sb.Append("GRGEN_LIBGR.GraphHelper.GetNode(graph, ");
+			GenExpression(sb, nbu.UniqueExpr, modifyGenerationState);
+			if(!nbu.NodeTypeExpr.Type.Ident.ToString().Equals("Node"))
+			{
+				sb.Append(", ");
+				GenExpression(sb, nbu.NodeTypeExpr, modifyGenerationState);
 			}
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof EdgeByUniqueExpr) {
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is EdgeByUniqueExpr)
+		{
 			EdgeByUniqueExpr ebu = (EdgeByUniqueExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.GetEdge(graph, ");
-			genExpression(sb, ebu.getUniqueExpr(), modifyGenerationState);
-			if(!ebu.getEdgeTypeExpr().getType().getIdent().toString().equals("AEdge")) {
-				sb.append(", ");
-				genExpression(sb, ebu.getEdgeTypeExpr(), modifyGenerationState);
+			sb.Append("GRGEN_LIBGR.GraphHelper.GetEdge(graph, ");
+			GenExpression(sb, ebu.UniqueExpr, modifyGenerationState);
+			if(!ebu.EdgeTypeExpr.Type.Ident.ToString().Equals("AEdge"))
+			{
+				sb.Append(", ");
+				GenExpression(sb, ebu.EdgeTypeExpr, modifyGenerationState);
 			}
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof IncidentEdgeExpr) {
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is IncidentEdgeExpr)
+		{
 			IncidentEdgeExpr ie = (IncidentEdgeExpr)expr;
-			if(ie.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.Outgoing");
-			} else if(ie.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.Incoming");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.Incident");
-			}
-			sb.append(getDirectednessSuffix(ie.getType()));
-			sb.append("(");
-			genExpression(sb, ie.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ie.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ie.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof AdjacentNodeExpr) {
+			if(ie.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.Outgoing");
+			else if(ie.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.Incoming");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.Incident");
+			sb.Append(GetDirectednessSuffix(ie.Type));
+			sb.Append("(");
+			GenExpression(sb, ie.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ie.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ie.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is AdjacentNodeExpr)
+		{
 			AdjacentNodeExpr an = (AdjacentNodeExpr)expr;
-			if(an.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.AdjacentOutgoing(");
-			} else if(an.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.AdjacentIncoming(");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.Adjacent(");
-			}
-			genExpression(sb, an.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, an.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, an.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof CountIncidentEdgeExpr) {
+			if(an.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.AdjacentOutgoing(");
+			else if(an.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.AdjacentIncoming(");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.Adjacent(");
+			GenExpression(sb, an.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, an.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, an.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is CountIncidentEdgeExpr)
+		{
 			CountIncidentEdgeExpr cie = (CountIncidentEdgeExpr)expr;
-			if(cie.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountOutgoing(");
-			} else if(cie.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountIncoming(");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountIncident(");
-			}
-			genExpression(sb, cie.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, cie.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, cie.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof CountAdjacentNodeExpr) {
+			if(cie.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountOutgoing(");
+			else if(cie.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountIncoming(");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountIncident(");
+			GenExpression(sb, cie.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, cie.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, cie.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is CountAdjacentNodeExpr)
+		{
 			CountAdjacentNodeExpr can = (CountAdjacentNodeExpr)expr;
-			if(can.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountAdjacentOutgoing(graph, ");
-			} else if(can.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountAdjacentIncoming(graph, ");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountAdjacent(graph, ");
-			}
-			genExpression(sb, can.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, can.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, can.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof IsAdjacentNodeExpr) {
+			if(can.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountAdjacentOutgoing(graph, ");
+			else if(can.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountAdjacentIncoming(graph, ");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountAdjacent(graph, ");
+			GenExpression(sb, can.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, can.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, can.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is IsAdjacentNodeExpr)
+		{
 			IsAdjacentNodeExpr ian = (IsAdjacentNodeExpr)expr;
-			if(ian.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsAdjacentOutgoing(");
-			} else if(ian.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsAdjacentIncoming(");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsAdjacent(");
-			}
-			genExpression(sb, ian.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ian.getEndNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ian.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ian.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof IsIncidentEdgeExpr) {
+			if(ian.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsAdjacentOutgoing(");
+			else if(ian.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsAdjacentIncoming(");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsAdjacent(");
+			GenExpression(sb, ian.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ian.EndNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ian.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ian.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is IsIncidentEdgeExpr)
+		{
 			IsIncidentEdgeExpr iie = (IsIncidentEdgeExpr)expr;
-			if(iie.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsOutgoing(");
-			} else if(iie.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsIncoming(");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsIncident(");
-			}
-			genExpression(sb, iie.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, iie.getEndEdgeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, iie.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, iie.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof ReachableEdgeExpr) {
+			if(iie.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsOutgoing(");
+			else if(iie.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsIncoming(");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsIncident(");
+			GenExpression(sb, iie.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, iie.EndEdgeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, iie.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, iie.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is ReachableEdgeExpr)
+		{
 			ReachableEdgeExpr re = (ReachableEdgeExpr)expr;
-			if(re.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing");
-			} else if(re.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.ReachableEdges");
-			}
-			sb.append(getDirectednessSuffix(re.getType()));
-			sb.append("(graph, ");
-			genExpression(sb, re.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, re.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, re.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof ReachableNodeExpr) {
+			if(re.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.ReachableEdgesOutgoing");
+			else if(re.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.ReachableEdgesIncoming");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.ReachableEdges");
+			sb.Append(GetDirectednessSuffix(re.Type));
+			sb.Append("(graph, ");
+			GenExpression(sb, re.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, re.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, re.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is ReachableNodeExpr)
+		{
 			ReachableNodeExpr rn = (ReachableNodeExpr)expr;
-			if(rn.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.ReachableOutgoing(");
-			} else if(rn.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.ReachableIncoming(");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.Reachable(");
-			}
-			genExpression(sb, rn.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, rn.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, rn.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof CountReachableEdgeExpr) {
+			if(rn.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.ReachableOutgoing(");
+			else if(rn.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.ReachableIncoming(");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.Reachable(");
+			GenExpression(sb, rn.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, rn.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, rn.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is CountReachableEdgeExpr)
+		{
 			CountReachableEdgeExpr cre = (CountReachableEdgeExpr)expr;
-			if(cre.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountReachableEdgesOutgoing(graph, ");
-			} else if(cre.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountReachableEdgesIncoming(graph, ");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountReachableEdges(graph, ");
-			}
-			genExpression(sb, cre.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, cre.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, cre.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof CountReachableNodeExpr) {
+			if(cre.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountReachableEdgesOutgoing(graph, ");
+			else if(cre.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountReachableEdgesIncoming(graph, ");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountReachableEdges(graph, ");
+			GenExpression(sb, cre.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, cre.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, cre.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is CountReachableNodeExpr)
+		{
 			CountReachableNodeExpr crn = (CountReachableNodeExpr)expr;
-			if(crn.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountReachableOutgoing(");
-			} else if(crn.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountReachableIncoming(");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountReachable(");
-			}
-			genExpression(sb, crn.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, crn.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, crn.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof IsReachableNodeExpr) {
+			if(crn.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountReachableOutgoing(");
+			else if(crn.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountReachableIncoming(");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountReachable(");
+			GenExpression(sb, crn.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, crn.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, crn.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is IsReachableNodeExpr)
+		{
 			IsReachableNodeExpr irn = (IsReachableNodeExpr)expr;
-			if(irn.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableOutgoing(graph, ");
-			} else if(irn.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableIncoming(graph, ");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsReachable(graph, ");
-			}
-			genExpression(sb, irn.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, irn.getEndNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, irn.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, irn.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof IsReachableEdgeExpr) {
+			if(irn.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsReachableOutgoing(graph, ");
+			else if(irn.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsReachableIncoming(graph, ");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsReachable(graph, ");
+			GenExpression(sb, irn.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, irn.EndNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, irn.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, irn.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is IsReachableEdgeExpr)
+		{
 			IsReachableEdgeExpr ire = (IsReachableEdgeExpr)expr;
-			if(ire.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableEdgesOutgoing(graph, ");
-			} else if(ire.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableEdgesIncoming(graph, ");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsReachableEdges(graph, ");
-			}
-			genExpression(sb, ire.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ire.getEndEdgeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ire.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ire.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof BoundedReachableEdgeExpr) {
+			if(ire.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsReachableEdgesOutgoing(graph, ");
+			else if(ire.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsReachableEdgesIncoming(graph, ");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsReachableEdges(graph, ");
+			GenExpression(sb, ire.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ire.EndEdgeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ire.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ire.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is BoundedReachableEdgeExpr)
+		{
 			BoundedReachableEdgeExpr bre = (BoundedReachableEdgeExpr)expr;
-			if(bre.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing");
-			} else if(bre.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdges");
-			}
-			sb.append(getDirectednessSuffix(bre.getType()));
-			sb.append("(graph, ");
-			genExpression(sb, bre.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, bre.getDepthExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, bre.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, bre.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof BoundedReachableNodeExpr) {
+			if(bre.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesOutgoing");
+			else if(bre.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdgesIncoming");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableEdges");
+			sb.Append(GetDirectednessSuffix(bre.Type));
+			sb.Append("(graph, ");
+			GenExpression(sb, bre.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, bre.DepthExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, bre.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, bre.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is BoundedReachableNodeExpr)
+		{
 			BoundedReachableNodeExpr brn = (BoundedReachableNodeExpr)expr;
-			if(brn.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableOutgoing(");
-			} else if(brn.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableIncoming(");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachable(");
-			}
-			genExpression(sb, brn.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, brn.getDepthExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, brn.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, brn.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof BoundedReachableNodeWithRemainingDepthExpr) {
+			if(brn.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableOutgoing(");
+			else if(brn.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableIncoming(");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.BoundedReachable(");
+			GenExpression(sb, brn.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, brn.DepthExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, brn.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, brn.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is BoundedReachableNodeWithRemainingDepthExpr)
+		{
 			BoundedReachableNodeWithRemainingDepthExpr brnwrd = (BoundedReachableNodeWithRemainingDepthExpr)expr;
-			if(brnwrd.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepthOutgoing(");
-			} else if(brnwrd.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepthIncoming(");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepth(");
-			}
-			genExpression(sb, brnwrd.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, brnwrd.getDepthExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, brnwrd.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, brnwrd.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof CountBoundedReachableEdgeExpr) {
+			if(brnwrd.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepthOutgoing(");
+			else if(brnwrd.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepthIncoming(");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.BoundedReachableWithRemainingDepth(");
+			GenExpression(sb, brnwrd.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, brnwrd.DepthExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, brnwrd.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, brnwrd.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is CountBoundedReachableEdgeExpr)
+		{
 			CountBoundedReachableEdgeExpr cbre = (CountBoundedReachableEdgeExpr)expr;
-			if(cbre.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdgesOutgoing(graph, ");
-			} else if(cbre.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdgesIncoming(graph, ");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdges(graph, ");
-			}
-			genExpression(sb, cbre.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, cbre.getDepthExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, cbre.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, cbre.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof CountBoundedReachableNodeExpr) {
+			if(cbre.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdgesOutgoing(graph, ");
+			else if(cbre.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdgesIncoming(graph, ");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableEdges(graph, ");
+			GenExpression(sb, cbre.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, cbre.DepthExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, cbre.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, cbre.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is CountBoundedReachableNodeExpr)
+		{
 			CountBoundedReachableNodeExpr cbrn = (CountBoundedReachableNodeExpr)expr;
-			if(cbrn.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableOutgoing(");
-			} else if(cbrn.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableIncoming(");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.CountBoundedReachable(");
-			}
-			genExpression(sb, cbrn.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, cbrn.getDepthExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, cbrn.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, cbrn.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof IsBoundedReachableNodeExpr) {
+			if(cbrn.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableOutgoing(");
+			else if(cbrn.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachableIncoming(");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.CountBoundedReachable(");
+			GenExpression(sb, cbrn.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, cbrn.DepthExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, cbrn.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, cbrn.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is IsBoundedReachableNodeExpr)
+		{
 			IsBoundedReachableNodeExpr ibrn = (IsBoundedReachableNodeExpr)expr;
-			if(ibrn.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableOutgoing(graph, ");
-			} else if(ibrn.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableIncoming(graph, ");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachable(graph, ");
-			}
-			genExpression(sb, ibrn.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ibrn.getEndNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ibrn.getDepthExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ibrn.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ibrn.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof IsBoundedReachableEdgeExpr) {
+			if(ibrn.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableOutgoing(graph, ");
+			else if(ibrn.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableIncoming(graph, ");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachable(graph, ");
+			GenExpression(sb, ibrn.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ibrn.EndNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ibrn.DepthExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ibrn.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ibrn.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is IsBoundedReachableEdgeExpr)
+		{
 			IsBoundedReachableEdgeExpr ibre = (IsBoundedReachableEdgeExpr)expr;
-			if(ibre.Direction() == Direction.OUTGOING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdgesOutgoing(graph, ");
-			} else if(ibre.Direction() == Direction.INCOMING) {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdgesIncoming(graph, ");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdges(graph, ");
-			}
-			genExpression(sb, ibre.getStartNodeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ibre.getEndEdgeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ibre.getDepthExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ibre.getIncidentEdgeTypeExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, ibre.getAdjacentNodeTypeExpr(), modifyGenerationState);
-			if(modifyGenerationState.emitProfilingInstrumentation())
-				sb.append(", actionEnv");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof NodesFromIndexAccessSameExpr) {
+			if(ibre.Direction() == Direction.OUTGOING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdgesOutgoing(graph, ");
+			else if(ibre.Direction() == Direction.INCOMING)
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdgesIncoming(graph, ");
+			else
+				sb.Append("GRGEN_LIBGR.GraphHelper.IsBoundedReachableEdges(graph, ");
+			GenExpression(sb, ibre.StartNodeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ibre.EndEdgeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ibre.DepthExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ibre.IncidentEdgeTypeExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, ibre.AdjacentNodeTypeExpr, modifyGenerationState);
+			if(modifyGenerationState.EmitProfilingInstrumentation())
+				sb.Append(", actionEnv");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is NodesFromIndexAccessSameExpr)
+		{
 			NodesFromIndexAccessSameExpr nfias = (NodesFromIndexAccessSameExpr)expr;
-			IndexAccessEquality iae = nfias.getIndexAccessEquality();
-			if(nfias.getType() instanceof SetType) {
-				sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexSame(");
-			} else {
-				sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexSameAsArray(");
-			}
-			genIndexAccessEquality(sb, iae, modifyGenerationState);
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof NodesFromIndexAccessFromToExpr) {
+			IndexAccessEquality iae = nfias.IndexAccessEquality;
+			if(nfias.Type is SetType)
+				sb.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexSame(");
+			else
+				sb.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexSameAsArray(");
+			GenIndexAccessEquality(sb, iae, modifyGenerationState);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is NodesFromIndexAccessFromToExpr)
+		{
 			NodesFromIndexAccessFromToExpr nfiaft = (NodesFromIndexAccessFromToExpr)expr;
-			IndexAccessOrdering iao = nfiaft.getIndexAccessOrdering();
-			if(nfiaft.getType() instanceof SetType) {
-				sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromTo(");
-			} else {
-				if(iao.ascending) {
-					sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArrayAscending(");
-				} else {
-					sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArrayDescending(");
-				}
+			IndexAccessOrdering iao = nfiaft.IndexAccessOrdering;
+			if(nfiaft.Type is SetType)
+				sb.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromTo(");
+			else
+			{
+				if(iao.ascending)
+					sb.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArrayAscending(");
+				else
+					sb.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArrayDescending(");
 			}
-			genIndexAccessOrdering(sb, iao, modifyGenerationState);
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof EdgesFromIndexAccessSameExpr) {
+			GenIndexAccessOrdering(sb, iao, modifyGenerationState);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is EdgesFromIndexAccessSameExpr)
+		{
 			EdgesFromIndexAccessSameExpr efias = (EdgesFromIndexAccessSameExpr)expr;
-			IndexAccessEquality iae = efias.getIndexAccessEquality();
-			if(efias.getType() instanceof SetType) {
-				sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSame(");
-			} else {
-				sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSameAsArray(");
-			}
-			genIndexAccessEquality(sb, iae, modifyGenerationState);
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof EdgesFromIndexAccessFromToExpr) {
+			IndexAccessEquality iae = efias.IndexAccessEquality;
+			if(efias.Type is SetType)
+				sb.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSame(");
+			else
+				sb.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSameAsArray(");
+			GenIndexAccessEquality(sb, iae, modifyGenerationState);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is EdgesFromIndexAccessFromToExpr)
+		{
 			EdgesFromIndexAccessFromToExpr efiaft = (EdgesFromIndexAccessFromToExpr)expr;
-			IndexAccessOrdering iao = efiaft.getIndexAccessOrdering();
-			if(efiaft.getType() instanceof SetType) {
-				sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromTo(");
-			} else {
-				if(iao.ascending) {
-					sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArrayAscending(");
-				} else {
-					sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArrayDescending(");
-				}
+			IndexAccessOrdering iao = efiaft.IndexAccessOrdering;
+			if(efiaft.Type is SetType)
+				sb.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromTo(");
+			else
+			{
+				if(iao.ascending)
+					sb.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArrayAscending(");
+				else
+					sb.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArrayDescending(");
 			}
-			genIndexAccessOrdering(sb, iao, modifyGenerationState);
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof CountNodesFromIndexAccessSameExpr) {
+			GenIndexAccessOrdering(sb, iao, modifyGenerationState);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is CountNodesFromIndexAccessSameExpr)
+		{
 			CountNodesFromIndexAccessSameExpr cnfias = (CountNodesFromIndexAccessSameExpr)expr;
-			IndexAccessEquality iae = cnfias.getIndexAccessEquality();
-			sb.append("GRGEN_LIBGR.IndexHelper.CountNodesFromIndexSame(");
-			genIndexAccessEquality(sb, iae, modifyGenerationState);
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof CountNodesFromIndexAccessFromToExpr) {
+			IndexAccessEquality iae = cnfias.IndexAccessEquality;
+			sb.Append("GRGEN_LIBGR.IndexHelper.CountNodesFromIndexSame(");
+			GenIndexAccessEquality(sb, iae, modifyGenerationState);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is CountNodesFromIndexAccessFromToExpr)
+		{
 			CountNodesFromIndexAccessFromToExpr cnfiaft = (CountNodesFromIndexAccessFromToExpr)expr;
-			IndexAccessOrdering iao = cnfiaft.getIndexAccessOrdering();
-			sb.append("GRGEN_LIBGR.IndexHelper.CountNodesFromIndexFromTo(");
-			genIndexAccessOrdering(sb, iao, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof CountEdgesFromIndexAccessSameExpr) {
+			IndexAccessOrdering iao = cnfiaft.IndexAccessOrdering;
+			sb.Append("GRGEN_LIBGR.IndexHelper.CountNodesFromIndexFromTo(");
+			GenIndexAccessOrdering(sb, iao, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is CountEdgesFromIndexAccessSameExpr)
+		{
 			CountEdgesFromIndexAccessSameExpr cefias = (CountEdgesFromIndexAccessSameExpr)expr;
-			IndexAccessEquality iae = cefias.getIndexAccessEquality();
-			sb.append("GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexSame(");
-			genIndexAccessEquality(sb, iae, modifyGenerationState);
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof CountEdgesFromIndexAccessFromToExpr) {
+			IndexAccessEquality iae = cefias.IndexAccessEquality;
+			sb.Append("GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexSame(");
+			GenIndexAccessEquality(sb, iae, modifyGenerationState);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is CountEdgesFromIndexAccessFromToExpr)
+		{
 			CountEdgesFromIndexAccessFromToExpr cefiaft = (CountEdgesFromIndexAccessFromToExpr)expr;
-			IndexAccessOrdering iao = cefiaft.getIndexAccessOrdering();
-			sb.append("GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexFromTo(");
-			genIndexAccessOrdering(sb, iao, modifyGenerationState);
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof IsInNodesFromIndexAccessSameExpr) {
+			IndexAccessOrdering iao = cefiaft.IndexAccessOrdering;
+			sb.Append("GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexFromTo(");
+			GenIndexAccessOrdering(sb, iao, modifyGenerationState);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is IsInNodesFromIndexAccessSameExpr)
+		{
 			IsInNodesFromIndexAccessSameExpr iinfias = (IsInNodesFromIndexAccessSameExpr)expr;
-			IndexAccessEquality iae = iinfias.getIndexAccessEquality();
-			sb.append("GRGEN_LIBGR.IndexHelper.IsInNodesFromIndexSame(");
-			genExpression(sb, iinfias.getCandidateExpr(), modifyGenerationState);
-			sb.append(", ");
-			genIndexAccessEquality(sb, iae, modifyGenerationState);
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof IsInNodesFromIndexAccessFromToExpr) {
+			IndexAccessEquality iae = iinfias.IndexAccessEquality;
+			sb.Append("GRGEN_LIBGR.IndexHelper.IsInNodesFromIndexSame(");
+			GenExpression(sb, iinfias.CandidateExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenIndexAccessEquality(sb, iae, modifyGenerationState);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is IsInNodesFromIndexAccessFromToExpr)
+		{
 			IsInNodesFromIndexAccessFromToExpr iinfiaft = (IsInNodesFromIndexAccessFromToExpr)expr;
-			IndexAccessOrdering iao = iinfiaft.getIndexAccessOrdering();
-			sb.append("GRGEN_LIBGR.IndexHelper.IsInNodesFromIndexFromTo(");
-			genExpression(sb, iinfiaft.getCandidateExpr(), modifyGenerationState);
-			sb.append(", ");
-			genIndexAccessOrdering(sb, iao, modifyGenerationState);
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof IsInEdgesFromIndexAccessSameExpr) {
+			IndexAccessOrdering iao = iinfiaft.IndexAccessOrdering;
+			sb.Append("GRGEN_LIBGR.IndexHelper.IsInNodesFromIndexFromTo(");
+			GenExpression(sb, iinfiaft.CandidateExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenIndexAccessOrdering(sb, iao, modifyGenerationState);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is IsInEdgesFromIndexAccessSameExpr)
+		{
 			IsInEdgesFromIndexAccessSameExpr iiefias = (IsInEdgesFromIndexAccessSameExpr)expr;
-			IndexAccessEquality iae = iiefias.getIndexAccessEquality();
-			sb.append("GRGEN_LIBGR.IndexHelper.IsInEdgesFromIndexSame(");
-			genExpression(sb, iiefias.getCandidateExpr(), modifyGenerationState);
-			sb.append(", ");
-			genIndexAccessEquality(sb, iae, modifyGenerationState);
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof IsInEdgesFromIndexAccessFromToExpr) {
+			IndexAccessEquality iae = iiefias.IndexAccessEquality;
+			sb.Append("GRGEN_LIBGR.IndexHelper.IsInEdgesFromIndexSame(");
+			GenExpression(sb, iiefias.CandidateExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenIndexAccessEquality(sb, iae, modifyGenerationState);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is IsInEdgesFromIndexAccessFromToExpr)
+		{
 			IsInEdgesFromIndexAccessFromToExpr iiefiaft = (IsInEdgesFromIndexAccessFromToExpr)expr;
-			IndexAccessOrdering iao = iiefiaft.getIndexAccessOrdering();
-			sb.append("GRGEN_LIBGR.IndexHelper.IsInEdgesFromIndexFromTo(");
-			genExpression(sb, iiefiaft.getCandidateExpr(), modifyGenerationState);
-			sb.append(", ");
-			genIndexAccessOrdering(sb, iao, modifyGenerationState);
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof NodesFromIndexAccessMultipleFromToExpr) {
+			IndexAccessOrdering iao = iiefiaft.IndexAccessOrdering;
+			sb.Append("GRGEN_LIBGR.IndexHelper.IsInEdgesFromIndexFromTo(");
+			GenExpression(sb, iiefiaft.CandidateExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenIndexAccessOrdering(sb, iao, modifyGenerationState);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is NodesFromIndexAccessMultipleFromToExpr)
+		{
 			NodesFromIndexAccessMultipleFromToExpr nfiamft = (NodesFromIndexAccessMultipleFromToExpr)expr;
-			sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexMultipleFromTo(");
-			genProfilingAndOrParallelizationArgumentsAtBegin(sb, modifyGenerationState);
-			boolean first = true;
-			for(IndexAccessOrdering iao : nfiamft.getIndexAccesses()) {
+			sb.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexMultipleFromTo(");
+			GenProfilingAndOrParallelizationArgumentsAtBegin(sb, modifyGenerationState);
+			bool first = true;
+			foreach(IndexAccessOrdering iao in nfiamft.IndexAccesses)
+			{
 				if(first)
 					first = false;
 				else
-					sb.append(",");
-				sb.append("new GRGEN_LIBGR.IndexHelper.IndexAccess(");
-				genIndexAccessOrdering(sb, iao, modifyGenerationState);
-				sb.append(")");
+					sb.Append(",");
+				sb.Append("new GRGEN_LIBGR.IndexHelper.IndexAccess(");
+				GenIndexAccessOrdering(sb, iao, modifyGenerationState);
+				sb.Append(")");
 			}
-			sb.append(")");
-		} else if(expr instanceof EdgesFromIndexAccessMultipleFromToExpr) {
+			sb.Append(")");
+		}
+		else if(expr is EdgesFromIndexAccessMultipleFromToExpr)
+		{
 			EdgesFromIndexAccessMultipleFromToExpr efiamft = (EdgesFromIndexAccessMultipleFromToExpr)expr;
-			sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexMultipleFromTo(");
-			genProfilingAndOrParallelizationArgumentsAtBegin(sb, modifyGenerationState);
-			boolean first = true;
-			for(IndexAccessOrdering iao : efiamft.getIndexAccesses()) {
+			sb.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexMultipleFromTo(");
+			GenProfilingAndOrParallelizationArgumentsAtBegin(sb, modifyGenerationState);
+			bool first = true;
+			foreach(IndexAccessOrdering iao in efiamft.IndexAccesses)
+			{
 				if(first)
 					first = false;
 				else
-					sb.append(",");
-				sb.append("new GRGEN_LIBGR.IndexHelper.IndexAccess(");
-				genIndexAccessOrdering(sb, iao, modifyGenerationState);
-				sb.append(")");
+					sb.Append(",");
+				sb.Append("new GRGEN_LIBGR.IndexHelper.IndexAccess(");
+				GenIndexAccessOrdering(sb, iao, modifyGenerationState);
+				sb.Append(")");
 			}
-			sb.append(")");
-		} else if(expr instanceof MinMaxFromIndexExpr) {
+			sb.Append(")");
+		}
+		else if(expr is MinMaxFromIndexExpr)
+		{
 			MinMaxFromIndexExpr mmfi = (MinMaxFromIndexExpr)expr;
-			if(mmfi.getType() instanceof NodeType) {
-				if(mmfi.isMin()) {
-					sb.append("GRGEN_LIBGR.IndexHelper.MinNodeFromIndex(");
-				} else {
-					sb.append("GRGEN_LIBGR.IndexHelper.MaxNodeFromIndex(");
-				}
-			} else {
-				if(mmfi.isMin()) {
-					sb.append("GRGEN_LIBGR.IndexHelper.MinEdgeFromIndex(");
-				} else {
-					sb.append("GRGEN_LIBGR.IndexHelper.MaxEdgeFromIndex(");
-				}
+			if(mmfi.Type is NodeType)
+			{
+				if(mmfi.IsMin())
+					sb.Append("GRGEN_LIBGR.IndexHelper.MinNodeFromIndex(");
+				else
+					sb.Append("GRGEN_LIBGR.IndexHelper.MaxNodeFromIndex(");
 			}
-			sb.append("((GRGEN_MODEL." + modifyGenerationState.getModel().getIdent() + "IndexSet)graph.Indices)." + mmfi.index.getIdent());
-			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof IndexSizeExpr) {
+			else
+			{
+				if(mmfi.IsMin())
+					sb.Append("GRGEN_LIBGR.IndexHelper.MinEdgeFromIndex(");
+				else
+					sb.Append("GRGEN_LIBGR.IndexHelper.MaxEdgeFromIndex(");
+			}
+			sb.Append("((GRGEN_MODEL." + modifyGenerationState.Model.Ident + "IndexSet)graph.Indices)." + mmfi.index.Ident);
+			GenProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is IndexSizeExpr)
+		{
 			IndexSizeExpr mmfi = (IndexSizeExpr)expr;
-			sb.append("(((GRGEN_MODEL." + modifyGenerationState.getModel().getIdent() + "IndexSet)graph.Indices)." + mmfi.index.getIdent());
-			sb.append(").Size");
-		} else if(expr instanceof InducedSubgraphExpr) {
-			InducedSubgraphExpr is = (InducedSubgraphExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.InducedSubgraph((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)");
-			genExpression(sb, is.getSetExpr(), modifyGenerationState);
-			sb.append(", graph)");
-		} else if(expr instanceof DefinedSubgraphExpr) {
+			sb.Append("(((GRGEN_MODEL." + modifyGenerationState.Model.Ident + "IndexSet)graph.Indices)." + mmfi.index.Ident);
+			sb.Append(").Size");
+		}
+		else if(expr is InducedSubgraphExpr)
+		{
+			InducedSubgraphExpr @is = (InducedSubgraphExpr)expr;
+			sb.Append("GRGEN_LIBGR.GraphHelper.InducedSubgraph((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)");
+			GenExpression(sb, @is.SetExpr, modifyGenerationState);
+			sb.Append(", graph)");
+		}
+		else if(expr is DefinedSubgraphExpr)
+		{
 			DefinedSubgraphExpr ds = (DefinedSubgraphExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.DefinedSubgraph");
-			switch(getDirectednessSuffix(ds.getSetExpr().getType())) {
+			sb.Append("GRGEN_LIBGR.GraphHelper.DefinedSubgraph");
+			switch(GetDirectednessSuffix(ds.SetExpr.Type))
+			{
 			case "Directed":
-				sb.append("Directed(");
-				sb.append("(IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)");
+				sb.Append("Directed(");
+				sb.Append("(IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)");
 				break;
 			case "Undirected":
-				sb.append("Undirected(");
-				sb.append("(IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)");
+				sb.Append("Undirected(");
+				sb.Append("(IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)");
 				break;
 			default:
-				sb.append("(");
-				sb.append("(IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
+				sb.Append("(");
+				sb.Append("(IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
 				break;
 			}
-			genExpression(sb, ds.getSetExpr(), modifyGenerationState);
-			sb.append(", graph)");
-		} else if(expr instanceof EqualsAnyExpr) {
+			GenExpression(sb, ds.SetExpr, modifyGenerationState);
+			sb.Append(", graph)");
+		}
+		else if(expr is EqualsAnyExpr)
+		{
 			EqualsAnyExpr ea = (EqualsAnyExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.EqualsAny((GRGEN_LIBGR.IGraph)");
-			genExpression(sb, ea.getSubgraphExpr(), modifyGenerationState);
-			sb.append(", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)");
-			genExpression(sb, ea.getSetExpr(), modifyGenerationState);
-			sb.append(", ");
-			sb.append(ea.getIncludingAttributes() ? "true" : "false");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof GetEquivalentExpr) {
+			sb.Append("GRGEN_LIBGR.GraphHelper.EqualsAny((GRGEN_LIBGR.IGraph)");
+			GenExpression(sb, ea.SubgraphExpr, modifyGenerationState);
+			sb.Append(", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)");
+			GenExpression(sb, ea.SetExpr, modifyGenerationState);
+			sb.Append(", ");
+			sb.Append(ea.IncludingAttributes ? "true" : "false");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is GetEquivalentExpr)
+		{
 			GetEquivalentExpr ge = (GetEquivalentExpr)expr;
-			sb.append("GRGEN_LIBGR.GraphHelper.GetEquivalent((GRGEN_LIBGR.IGraph)");
-			genExpression(sb, ge.getSubgraphExpr(), modifyGenerationState);
-			sb.append(", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)");
-			genExpression(sb, ge.getSetExpr(), modifyGenerationState);
-			sb.append(", ");
-			sb.append(ge.getIncludingAttributes() ? "true" : "false");
-			if(modifyGenerationState.isToBeParallelizedActionExisting())
-				sb.append(", threadId");
-			sb.append(")");
-		} else if(expr instanceof MaxExpr) {
+			sb.Append("GRGEN_LIBGR.GraphHelper.GetEquivalent((GRGEN_LIBGR.IGraph)");
+			GenExpression(sb, ge.SubgraphExpr, modifyGenerationState);
+			sb.Append(", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)");
+			GenExpression(sb, ge.SetExpr, modifyGenerationState);
+			sb.Append(", ");
+			sb.Append(ge.IncludingAttributes ? "true" : "false");
+			if(modifyGenerationState.IsToBeParallelizedActionExisting())
+				sb.Append(", threadId");
+			sb.Append(")");
+		}
+		else if(expr is MaxExpr)
+		{
 			MaxExpr m = (MaxExpr)expr;
-			sb.append("Math.Max(");
-			genExpression(sb, m.getLeftExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, m.getRightExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof MinExpr) {
+			sb.Append("Math.Max(");
+			GenExpression(sb, m.LeftExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, m.RightExpr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is MinExpr)
+		{
 			MinExpr m = (MinExpr)expr;
-			sb.append("Math.Min(");
-			genExpression(sb, m.getLeftExpr(), modifyGenerationState);
-			sb.append(", ");
-			genExpression(sb, m.getRightExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof AbsExpr) {
+			sb.Append("Math.Min(");
+			GenExpression(sb, m.LeftExpr, modifyGenerationState);
+			sb.Append(", ");
+			GenExpression(sb, m.RightExpr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is AbsExpr)
+		{
 			AbsExpr a = (AbsExpr)expr;
-			sb.append("Math.Abs(");
-			genExpression(sb, a.getExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof SgnExpr) {
+			sb.Append("Math.Abs(");
+			GenExpression(sb, a.Expr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is SgnExpr)
+		{
 			SgnExpr s = (SgnExpr)expr;
-			sb.append("Math.Sign(");
-			genExpression(sb, s.getExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof PiExpr) {
+			sb.Append("Math.Sign(");
+			GenExpression(sb, s.Expr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is PiExpr)
+		{
 			//PiExpr pi = (PiExpr)expr;
-			sb.append("Math.PI");
-		} else if(expr instanceof EExpr) {
+			sb.Append("Math.PI");
+		}
+		else if(expr is EExpr)
+		{
 			//EExpr e = (EExpr)expr;
-			sb.append("Math.E");
-		} else if(expr instanceof ByteMinExpr) {
-			sb.append("SByte.MinValue");
-		} else if(expr instanceof ByteMaxExpr) {
-			sb.append("SByte.MaxValue");
-		} else if(expr instanceof ShortMinExpr) {
-			sb.append("Int16.MinValue");
-		} else if(expr instanceof ShortMaxExpr) {
-			sb.append("Int16.MaxValue");
-		} else if(expr instanceof IntMinExpr) {
-			sb.append("Int32.MinValue");
-		} else if(expr instanceof IntMaxExpr) {
-			sb.append("Int32.MaxValue");
-		} else if(expr instanceof LongMinExpr) {
-			sb.append("Int64.MinValue");
-		} else if(expr instanceof LongMaxExpr) {
-			sb.append("Int64.MaxValue");
-		} else if(expr instanceof FloatMinExpr) {
-			sb.append("Single.MinValue");
-		} else if(expr instanceof FloatMaxExpr) {
-			sb.append("Single.MaxValue");
-		} else if(expr instanceof DoubleMinExpr) {
-			sb.append("Double.MinValue");
-		} else if(expr instanceof DoubleMaxExpr) {
-			sb.append("Double.MaxValue");
-		} else if(expr instanceof CeilExpr) {
+			sb.Append("Math.E");
+		}
+		else if(expr is ByteMinExpr)
+			sb.Append("SByte.MinValue");
+		else if(expr is ByteMaxExpr)
+			sb.Append("SByte.MaxValue");
+		else if(expr is ShortMinExpr)
+			sb.Append("Int16.MinValue");
+		else if(expr is ShortMaxExpr)
+			sb.Append("Int16.MaxValue");
+		else if(expr is IntMinExpr)
+			sb.Append("Int32.MinValue");
+		else if(expr is IntMaxExpr)
+			sb.Append("Int32.MaxValue");
+		else if(expr is LongMinExpr)
+			sb.Append("Int64.MinValue");
+		else if(expr is LongMaxExpr)
+			sb.Append("Int64.MaxValue");
+		else if(expr is FloatMinExpr)
+			sb.Append("Single.MinValue");
+		else if(expr is FloatMaxExpr)
+			sb.Append("Single.MaxValue");
+		else if(expr is DoubleMinExpr)
+			sb.Append("Double.MinValue");
+		else if(expr is DoubleMaxExpr)
+			sb.Append("Double.MaxValue");
+		else if(expr is CeilExpr)
+		{
 			CeilExpr c = (CeilExpr)expr;
-			sb.append("Math.Ceiling(");
-			genExpression(sb, c.getExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof FloorExpr) {
+			sb.Append("Math.Ceiling(");
+			GenExpression(sb, c.Expr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is FloorExpr)
+		{
 			FloorExpr f = (FloorExpr)expr;
-			sb.append("Math.Floor(");
-			genExpression(sb, f.getExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof RoundExpr) {
+			sb.Append("Math.Floor(");
+			GenExpression(sb, f.Expr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is RoundExpr)
+		{
 			RoundExpr r = (RoundExpr)expr;
-			sb.append("Math.Round(");
-			genExpression(sb, r.getExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof TruncateExpr) {
+			sb.Append("Math.Round(");
+			GenExpression(sb, r.Expr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is TruncateExpr)
+		{
 			TruncateExpr t = (TruncateExpr)expr;
-			sb.append("Math.Truncate(");
-			genExpression(sb, t.getExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof SinCosTanExpr) {
+			sb.Append("Math.Truncate(");
+			GenExpression(sb, t.Expr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is SinCosTanExpr)
+		{
 			SinCosTanExpr sct = (SinCosTanExpr)expr;
-			switch(sct.getWhich()) {
-			case sin:
-				sb.append("Math.Sin(");
+			switch(sct.Which)
+			{
+			case SinCosTanExpr.TrigonometryFunctionType.sin:
+				sb.Append("Math.Sin(");
 				break;
-			case cos:
-				sb.append("Math.Cos(");
+			case SinCosTanExpr.TrigonometryFunctionType.cos:
+				sb.Append("Math.Cos(");
 				break;
-			case tan:
-				sb.append("Math.Tan(");
+			case SinCosTanExpr.TrigonometryFunctionType.tan:
+				sb.Append("Math.Tan(");
 				break;
 			}
-			genExpression(sb, sct.getExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof ArcSinCosTanExpr) {
+			GenExpression(sb, sct.Expr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is ArcSinCosTanExpr)
+		{
 			ArcSinCosTanExpr asct = (ArcSinCosTanExpr)expr;
-			switch(asct.getWhich()) {
-			case arcsin:
-				sb.append("Math.Asin(");
+			switch(asct.Which)
+			{
+			case ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arcsin:
+				sb.Append("Math.Asin(");
 				break;
-			case arccos:
-				sb.append("Math.Acos(");
+			case ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arccos:
+				sb.Append("Math.Acos(");
 				break;
-			case arctan:
-				sb.append("Math.Atan(");
+			case ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arctan:
+				sb.Append("Math.Atan(");
 				break;
 			}
-			genExpression(sb, asct.getExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof CanonizeExpr) {
+			GenExpression(sb, asct.Expr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is CanonizeExpr)
+		{
 			CanonizeExpr c = (CanonizeExpr)expr;
-			sb.append("(");
-			genExpression(sb, c.getGraphExpr(), modifyGenerationState);
-			sb.append(").Canonize()");
-		} else if(expr instanceof SqrExpr) {
+			sb.Append("(");
+			GenExpression(sb, c.GraphExpr, modifyGenerationState);
+			sb.Append(").Canonize()");
+		}
+		else if(expr is SqrExpr)
+		{
 			SqrExpr s = (SqrExpr)expr;
-			sb.append("GRGEN_LIBGR.MathHelper.Sqr(");
-			genExpression(sb, s.getExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof SqrtExpr) {
+			sb.Append("GRGEN_LIBGR.MathHelper.Sqr(");
+			GenExpression(sb, s.Expr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is SqrtExpr)
+		{
 			SqrtExpr s = (SqrtExpr)expr;
-			sb.append("Math.Sqrt(");
-			genExpression(sb, s.getExpr(), modifyGenerationState);
-			sb.append(")");
-		} else if(expr instanceof PowExpr) {
+			sb.Append("Math.Sqrt(");
+			GenExpression(sb, s.Expr, modifyGenerationState);
+			sb.Append(")");
+		}
+		else if(expr is PowExpr)
+		{
 			PowExpr p = (PowExpr)expr;
-			if(p.getLeftExpr() != null) {
-				sb.append("Math.Pow(");
-				genExpression(sb, p.getLeftExpr(), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, p.getRightExpr(), modifyGenerationState);
-				sb.append(")");
-			} else {
-				sb.append("Math.Exp(");
-				genExpression(sb, p.getRightExpr(), modifyGenerationState);
-				sb.append(")");
+			if(p.LeftExpr != null)
+			{
+				sb.Append("Math.Pow(");
+				GenExpression(sb, p.LeftExpr, modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, p.RightExpr, modifyGenerationState);
+				sb.Append(")");
 			}
-		} else if(expr instanceof LogExpr) {
+			else
+			{
+				sb.Append("Math.Exp(");
+				GenExpression(sb, p.RightExpr, modifyGenerationState);
+				sb.Append(")");
+			}
+		}
+		else if(expr is LogExpr)
+		{
 			LogExpr l = (LogExpr)expr;
-			sb.append("Math.Log(");
-			genExpression(sb, l.getLeftExpr(), modifyGenerationState);
-			if(l.getRightExpr() != null) {
-				sb.append(", ");
-				genExpression(sb, l.getRightExpr(), modifyGenerationState);
+			sb.Append("Math.Log(");
+			GenExpression(sb, l.LeftExpr, modifyGenerationState);
+			if(l.RightExpr != null)
+			{
+				sb.Append(", ");
+				GenExpression(sb, l.RightExpr, modifyGenerationState);
 			}
-			sb.append(")");
-		} else if(expr instanceof ProjectionExpr) {
+			sb.Append(")");
+		}
+		else if(expr is ProjectionExpr)
+		{
 			ProjectionExpr proj = (ProjectionExpr)expr;
-			sb.append(proj.getProjectedValueVarName());
-		} else if(expr instanceof MatchAccess) {
+			sb.Append(proj.ProjectedValueVarName);
+		}
+		else if(expr is MatchAccess)
+		{
 			MatchAccess ma = (MatchAccess)expr;
-			genExpression(sb, ma.getExpr(), modifyGenerationState);
-			sb.append(".");
-			sb.append(formatEntity(ma.getEntity()));
-		} else if(expr instanceof IteratedQueryExpr) {
+			GenExpression(sb, ma.Expr, modifyGenerationState);
+			sb.Append(".");
+			sb.Append(FormatEntity(ma.Entity));
+		}
+		else if(expr is IteratedQueryExpr)
+		{
 			IteratedQueryExpr iq = (IteratedQueryExpr)expr;
-			sb.append("curMatch." + iq.getIteratedName().toString() + ".ToListExact()");
-		} else if(expr instanceof ScanExpr) {
+			sb.Append("curMatch." + iq.IteratedName.ToString() + ".ToListExact()");
+		}
+		else if(expr is ScanExpr)
+		{
 			ScanExpr s = (ScanExpr)expr;
-			sb.append("((" + formatType(s.getType()) + ")");
-			sb.append("GRGEN_LIBGR.GRSImport.Scan(" + formatAttributeTypeObject(s.getType()) + ", ");
-			genExpression(sb, s.getStringExpr(), modifyGenerationState);
-			sb.append(", graph))");
-		} else if(expr instanceof TryScanExpr) {
+			sb.Append("((" + FormatType(s.Type) + ")");
+			sb.Append("GRGEN_LIBGR.GRSImport.Scan(" + FormatAttributeTypeObject(s.Type) + ", ");
+			GenExpression(sb, s.StringExpr, modifyGenerationState);
+			sb.Append(", graph))");
+		}
+		else if(expr is TryScanExpr)
+		{
 			TryScanExpr ts = (TryScanExpr)expr;
-			sb.append("GRGEN_LIBGR.GRSImport.TryScan(" + formatAttributeTypeObject(ts.getTargetType()) + ", ");
-			genExpression(sb, ts.getStringExpr(), modifyGenerationState);
-			sb.append(", graph)");
-		} else
-			throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
-	}
-
-	void genIndexAccessEquality(SourceBuilder sb, IndexAccessEquality iae, ExpressionGenerationState modifyGenerationState)
-	{
-		sb.append("((GRGEN_MODEL." + modifyGenerationState.getModel().getIdent() + "IndexSet)graph.Indices)." + iae.index.getIdent() + ", ");
-		genExpression(sb, iae.expr, modifyGenerationState);
-	}
-
-	void genIndexAccessOrdering(SourceBuilder sb, IndexAccessOrdering iao, ExpressionGenerationState modifyGenerationState)
-	{
-		sb.append("((GRGEN_MODEL." + modifyGenerationState.getModel().getIdent() + "IndexSet)graph.Indices)." + iao.index.getIdent() + ", ");
-		if(iao.from() != null)
-			genExpression(sb, iao.from(), modifyGenerationState);
+			sb.Append("GRGEN_LIBGR.GRSImport.TryScan(" + FormatAttributeTypeObject(ts.TargetType) + ", ");
+			GenExpression(sb, ts.StringExpr, modifyGenerationState);
+			sb.Append(", graph)");
+		}
 		else
-			sb.append("null");
-		sb.append(", ");
-		sb.append(iao.includingFrom() ? "true" : "false");
-		sb.append(", ");
-		if(iao.to() != null)
-			genExpression(sb, iao.to(), modifyGenerationState);
+			throw new System.NotSupportedException("Unsupported expression type (" + expr + ")");
+	}
+
+	internal virtual void GenIndexAccessEquality(SourceBuilder sb, IndexAccessEquality iae, ExpressionGenerationState modifyGenerationState)
+	{
+		sb.Append("((GRGEN_MODEL." + modifyGenerationState.Model.Ident + "IndexSet)graph.Indices)." + iae.index.Ident + ", ");
+		GenExpression(sb, iae.expr, modifyGenerationState);
+	}
+
+	internal virtual void GenIndexAccessOrdering(SourceBuilder sb, IndexAccessOrdering iao, ExpressionGenerationState modifyGenerationState)
+	{
+		sb.Append("((GRGEN_MODEL." + modifyGenerationState.Model.Ident + "IndexSet)graph.Indices)." + iao.index.Ident + ", ");
+		if(iao.From() != null)
+			GenExpression(sb, iao.From(), modifyGenerationState);
 		else
-			sb.append("null");
-		sb.append(", ");
-		sb.append(iao.includingTo() ? "true" : "false");
+			sb.Append("null");
+		sb.Append(", ");
+		sb.Append(iao.IncludingFrom() ? "true" : "false");
+		sb.Append(", ");
+		if(iao.To() != null)
+			GenExpression(sb, iao.To(), modifyGenerationState);
+		else
+			sb.Append("null");
+		sb.Append(", ");
+		sb.Append(iao.IncludingTo() ? "true" : "false");
 	}
 
-	void genProfilingAndOrParallelizationArguments(SourceBuilder sb, ExpressionGenerationState modifyGenerationState)
+	internal virtual void GenProfilingAndOrParallelizationArguments(SourceBuilder sb, ExpressionGenerationState modifyGenerationState)
 	{
-		if(modifyGenerationState.emitProfilingInstrumentation())
-			sb.append(", actionEnv");
-		if(modifyGenerationState.isToBeParallelizedActionExisting())
-			sb.append(", threadId");
+		if(modifyGenerationState.EmitProfilingInstrumentation())
+			sb.Append(", actionEnv");
+		if(modifyGenerationState.IsToBeParallelizedActionExisting())
+			sb.Append(", threadId");
 	}
 
-	void genProfilingAndOrParallelizationArgumentsAtBegin(SourceBuilder sb, ExpressionGenerationState modifyGenerationState)
+	internal virtual void GenProfilingAndOrParallelizationArgumentsAtBegin(SourceBuilder sb, ExpressionGenerationState modifyGenerationState)
 	{
-		if(modifyGenerationState.emitProfilingInstrumentation())
-			sb.append("actionEnv, ");
-		if(modifyGenerationState.isToBeParallelizedActionExisting())
-			sb.append("threadId, ");
+		if(modifyGenerationState.EmitProfilingInstrumentation())
+			sb.Append("actionEnv, ");
+		if(modifyGenerationState.IsToBeParallelizedActionExisting())
+			sb.Append("threadId, ");
 	}
 
-	protected void switchToVarForResultAsNeeded(ExpressionGenerationState modifyGenerationState)
+	protected internal virtual void SwitchToVarForResultAsNeeded(ExpressionGenerationState modifyGenerationState)
 	{
-		if(modifyGenerationState != null && modifyGenerationState.switchToVarForResultAfterFirstVarUsage())
-			modifyGenerationState.switchToVarForResult();
+		if(modifyGenerationState != null && modifyGenerationState.SwitchToVarForResultAfterFirstVarUsage())
+			modifyGenerationState.SwitchToVarForResult();
 	}
 
-	protected String formatAttributeTypeObject(Type t)
+	protected internal virtual string FormatAttributeTypeObject(Type t)
 	{
 		SourceBuilder sb = new SourceBuilder();
-		if(t instanceof MapType) {
+		if(t is MapType)
+		{
 			MapType mt = (MapType)t;
-			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", null, ");
-			sb.append(formatAttributeTypeObject(mt.getValueType()) + ", ");
-			sb.append(formatAttributeTypeObject(mt.getKeyType()) + ", ");
-			sb.append("null, null, null, null)");
-		} else if(t instanceof SetType) {
-			SetType st = (SetType)t;
-			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", null, ");
-			sb.append(formatAttributeTypeObject(st.getValueType()) + ", null,");
-			sb.append("null, null, null, null)");
-		} else if(t instanceof ArrayType) {
-			ArrayType at = (ArrayType)t;
-			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", null, ");
-			sb.append(formatAttributeTypeObject(at.getValueType()) + ", null,");
-			sb.append("null, null, null, null)");
-		} else if(t instanceof DequeType) {
-			DequeType qt = (DequeType)t;
-			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", null, ");
-			sb.append(formatAttributeTypeObject(qt.getValueType()) + ", null,");
-			sb.append("null, null, null, null)");
-		} else if(t instanceof EnumType) {
-			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", ");
-			sb.append("GRGEN_MODEL." + getPackagePrefixDot(t) + "Enums.@" + formatIdentifiable(t) + ", ");
-			sb.append("null, null, ");
-			sb.append("null, null, null, null)");
-		} else { // maybe todo: distinguish node/edge/class object/transient class object
-			sb.append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + getAttributeKind(t) + ", null, ");
-			sb.append("null, null, ");
-			sb.append("null, null, null, null)");
+			sb.Append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + GetAttributeKind(t) + ", null, ");
+			sb.Append(FormatAttributeTypeObject(mt.ValueType) + ", ");
+			sb.Append(FormatAttributeTypeObject(mt.KeyType) + ", ");
+			sb.Append("null, null, null, null)");
 		}
-		return sb.toString();
+		else if(t is SetType)
+		{
+			SetType st = (SetType)t;
+			sb.Append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + GetAttributeKind(t) + ", null, ");
+			sb.Append(FormatAttributeTypeObject(st.ValueType) + ", null,");
+			sb.Append("null, null, null, null)");
+		}
+		else if(t is ArrayType)
+		{
+			ArrayType at = (ArrayType)t;
+			sb.Append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + GetAttributeKind(t) + ", null, ");
+			sb.Append(FormatAttributeTypeObject(at.ValueType) + ", null,");
+			sb.Append("null, null, null, null)");
+		}
+		else if(t is DequeType)
+		{
+			DequeType qt = (DequeType)t;
+			sb.Append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + GetAttributeKind(t) + ", null, ");
+			sb.Append(FormatAttributeTypeObject(qt.ValueType) + ", null,");
+			sb.Append("null, null, null, null)");
+		}
+		else if(t is EnumType)
+		{
+			sb.Append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + GetAttributeKind(t) + ", ");
+			sb.Append("GRGEN_MODEL." + GetPackagePrefixDot(t) + "Enums.@" + FormatIdentifiable(t) + ", ");
+			sb.Append("null, null, ");
+			sb.Append("null, null, null, null)");
+		}
+		else
+		{ // maybe todo: distinguish node/edge/class object/transient class object
+			sb.Append("new GRGEN_LIBGR.AttributeType(\"dummy\", null, " + GetAttributeKind(t) + ", null, ");
+			sb.Append("null, null, ");
+			sb.Append("null, null, null, null)");
+		}
+		return sb.ToString();
 	}
 
-	private static String getAttributeKind(Type t)
+	private static string GetAttributeKind(Type t)
 	{
-		if(t instanceof ByteType)
+		if(t is ByteType)
 			return "GRGEN_LIBGR.AttributeKind.ByteAttr";
-		else if(t instanceof ShortType)
+		else if(t is ShortType)
 			return "GRGEN_LIBGR.AttributeKind.ShortAttr";
-		else if(t instanceof IntType)
+		else if(t is IntType)
 			return "GRGEN_LIBGR.AttributeKind.IntegerAttr";
-		else if(t instanceof LongType)
+		else if(t is LongType)
 			return "GRGEN_LIBGR.AttributeKind.LongAttr";
-		else if(t instanceof FloatType)
+		else if(t is FloatType)
 			return "GRGEN_LIBGR.AttributeKind.FloatAttr";
-		else if(t instanceof DoubleType)
+		else if(t is DoubleType)
 			return "GRGEN_LIBGR.AttributeKind.DoubleAttr";
-		else if(t instanceof BooleanType)
+		else if(t is BooleanType)
 			return "GRGEN_LIBGR.AttributeKind.BooleanAttr";
-		else if(t instanceof StringType)
+		else if(t is StringType)
 			return "GRGEN_LIBGR.AttributeKind.StringAttr";
-		else if(t instanceof EnumType)
+		else if(t is EnumType)
 			return "GRGEN_LIBGR.AttributeKind.EnumAttr";
-		else if(t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalObjectType)
+		else if(t is ObjectType || t is VoidType || t is ExternalObjectType)
 			return "GRGEN_LIBGR.AttributeKind.ObjectAttr";
-		else if(t instanceof MapType)
+		else if(t is MapType)
 			return "GRGEN_LIBGR.AttributeKind.MapAttr";
-		else if(t instanceof SetType)
+		else if(t is SetType)
 			return "GRGEN_LIBGR.AttributeKind.SetAttr";
-		else if(t instanceof ArrayType)
+		else if(t is ArrayType)
 			return "GRGEN_LIBGR.AttributeKind.ArrayAttr";
-		else if(t instanceof DequeType)
+		else if(t is DequeType)
 			return "GRGEN_LIBGR.AttributeKind.DequeAttr";
-		else if(t instanceof NodeType)
+		else if(t is NodeType)
 			return "GRGEN_LIBGR.AttributeKind.NodeAttr";
-		else if(t instanceof EdgeType)
+		else if(t is EdgeType)
 			return "GRGEN_LIBGR.AttributeKind.EdgeAttr";
-		else if(t instanceof GraphType)
+		else if(t is GraphType)
 			return "GRGEN_LIBGR.AttributeKind.GraphAttr";
-		else if(t instanceof InternalObjectType)
+		else if(t is InternalObjectType)
 			return "GRGEN_LIBGR.AttributeKind.InternalClassObjectAttr";
-		else if(t instanceof InternalTransientObjectType)
+		else if(t is InternalTransientObjectType)
 			return "GRGEN_LIBGR.AttributeKind.InternalClassTransientObjectAttr";
 		else
-			throw new IllegalArgumentException("Unknown Type: " + t);
+			throw new ArgumentException("Unknown Type: " + t);
 	}
 
-	public void genOperator(SourceBuilder sb, Operator op,
+	public virtual void GenOperator(SourceBuilder sb, Operator op,
 			ExpressionGenerationState modifyGenerationState)
 	{
-		switch(op.arity()) {
+		switch(op.Arity())
+		{
 		case 1:
-			sb.append("(" + getOperatorSymbol(op.getOpCode()) + " ");
-			genExpression(sb, op.getOperand(0), modifyGenerationState);
-			sb.append(")");
+			sb.Append("(" + GetOperatorSymbol(op.OpCode) + " ");
+			GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+			sb.Append(")");
 			break;
 		case 2:
-			genBinaryOperator(sb, op, modifyGenerationState);
+			GenBinaryOperator(sb, op, modifyGenerationState);
 			break;
 		case 3:
-			if(op.getOpCode() == OperatorCode.COND) {
-				sb.append("((");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(") ? (");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(") : (");
-				genExpression(sb, op.getOperand(2), modifyGenerationState);
-				sb.append("))");
+			if(op.OpCode == OperatorCode.COND)
+			{
+				sb.Append("((");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(") ? (");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(") : (");
+				GenExpression(sb, op.GetOperand(2), modifyGenerationState);
+				sb.Append("))");
 				break;
 			}
 			//$FALL-THROUGH$
 		default:
-			throw new UnsupportedOperationException(
-					"Unsupported operation arity (" + op.arity() + ")");
+			throw new System.NotSupportedException("Unsupported operation arity (" + op.Arity() + ")");
 		}
 	}
 
-	public void genBinaryOperator(SourceBuilder sb, Operator op,
+	public virtual void GenBinaryOperator(SourceBuilder sb, Operator op,
 			ExpressionGenerationState modifyGenerationState)
 	{
-		switch(op.getOpCode()) {
-		case IN: {
-			Type opType = op.getOperand(1).getType();
-			genExpression(sb, op.getOperand(1), modifyGenerationState);
-			boolean isDictionary = opType instanceof SetType || opType instanceof MapType;
-			sb.append(isDictionary ? ".ContainsKey(" : ".Contains(");
-			if(op.getOperand(0) instanceof GraphEntityExpression)
-				sb.append("(" + formatElementInterfaceRef(op.getOperand(0).getType()) + ")(");
-			genExpression(sb, op.getOperand(0), modifyGenerationState);
-			if(op.getOperand(0) instanceof GraphEntityExpression)
-				sb.append(")");
-			sb.append(")");
+		switch(op.OpCode)
+		{
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.IN:
+		{
+			Type opType = op.GetOperand(1).Type;
+			GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+			bool isDictionary = opType is SetType || opType is MapType;
+			sb.Append(isDictionary ? ".ContainsKey(" : ".Contains(");
+			if(op.GetOperand(0) is GraphEntityExpression)
+				sb.Append("(" + FormatElementInterfaceRef(op.GetOperand(0).Type) + ")(");
+			GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+			if(op.GetOperand(0) is GraphEntityExpression)
+				sb.Append(")");
+			sb.Append(")");
 			break;
 		}
 
-		case ADD: {
-			Type opType = op.getOperand(0).getType();
-			if(opType instanceof ArrayType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.Concatenate(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof DequeType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.Concatenate(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else
-				genBinOpDefault(sb, op, modifyGenerationState);
-			break;
-		}
-
-		case BIT_OR: {
-			Type opType = op.getOperand(0).getType();
-			if(opType instanceof MapType || opType instanceof SetType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.Union(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else
-				genBinOpDefault(sb, op, modifyGenerationState);
-			break;
-		}
-
-		case BIT_AND: {
-			Type opType = op.getOperand(0).getType();
-			if(opType instanceof MapType || opType instanceof SetType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.Intersect(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else
-				genBinOpDefault(sb, op, modifyGenerationState);
-			break;
-		}
-
-		case EXCEPT: {
-			Type opType = op.getOperand(0).getType();
-			if(opType instanceof MapType || opType instanceof SetType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.Except(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else
-				genBinOpDefault(sb, op, modifyGenerationState);
-			break;
-		}
-
-		case EQ: {
-			Type opType = op.getOperand(0).getType();
-			if(opType instanceof MapType || opType instanceof SetType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.Equal(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof ArrayType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.Equal(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof DequeType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.Equal(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof GraphType) {
-				sb.append("GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append("), (GRGEN_LIBGR.IGraph)(");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append("))");
-			} else if(opType instanceof InternalObjectType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append("), (GRGEN_LIBGR.IObject)(");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append("))");
-			} else if(opType instanceof InternalTransientObjectType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.ITransientObject)(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append("), (GRGEN_LIBGR.ITransientObject)(");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append("))");
-			} else {
-				genBinOpDefault(sb, op, modifyGenerationState);
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.ADD:
+		{
+			Type opType = op.GetOperand(0).Type;
+			if(opType is ArrayType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Concatenate(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
 			}
-			break;
-		}
-
-		case NE: {
-			Type opType = op.getOperand(0).getType();
-			if(opType instanceof MapType || opType instanceof SetType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof ArrayType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof DequeType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof GraphType) {
-				sb.append("!GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append("), (GRGEN_LIBGR.IGraph)(");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append("))");
-			} else if(opType instanceof InternalObjectType) {
-				sb.append("!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append("), (GRGEN_LIBGR.IObject)(");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append("))");
-			} else if(opType instanceof InternalTransientObjectType) {
-				sb.append("!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.ITransientObject)(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append("), (GRGEN_LIBGR.ITransientObject)(");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append("))");
-			} else {
-				genBinOpDefault(sb, op, modifyGenerationState);
+			else if(opType is DequeType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Concatenate(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
 			}
+			else
+				GenBinOpDefault(sb, op, modifyGenerationState);
 			break;
 		}
 
-		case SE: {
-			Type opType = op.getOperand(0).getType();
-			if(opType instanceof SetType) {
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.BIT_OR:
+		{
+			Type opType = op.GetOperand(0).Type;
+			if(opType is MapType || opType is SetType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Union(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else
+				GenBinOpDefault(sb, op, modifyGenerationState);
+			break;
+		}
+
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.BIT_AND:
+		{
+			Type opType = op.GetOperand(0).Type;
+			if(opType is MapType || opType is SetType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Intersect(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else
+				GenBinOpDefault(sb, op, modifyGenerationState);
+			break;
+		}
+
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.EXCEPT:
+		{
+			Type opType = op.GetOperand(0).Type;
+			if(opType is MapType || opType is SetType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Except(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else
+				GenBinOpDefault(sb, op, modifyGenerationState);
+			break;
+		}
+
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.EQ:
+		{
+			Type opType = op.GetOperand(0).Type;
+			if(opType is MapType || opType is SetType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Equal(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is ArrayType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Equal(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is DequeType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.Equal(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is GraphType)
+			{
+				sb.Append("GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append("), (GRGEN_LIBGR.IGraph)(");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append("))");
+			}
+			else if(opType is InternalObjectType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append("), (GRGEN_LIBGR.IObject)(");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append("))");
+			}
+			else if(opType is InternalTransientObjectType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.ITransientObject)(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append("), (GRGEN_LIBGR.ITransientObject)(");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append("))");
+			}
+			else
+				GenBinOpDefault(sb, op, modifyGenerationState);
+			break;
+		}
+
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.NE:
+		{
+			Type opType = op.GetOperand(0).Type;
+			if(opType is MapType || opType is SetType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is ArrayType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is DequeType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is GraphType)
+			{
+				sb.Append("!GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append("), (GRGEN_LIBGR.IGraph)(");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append("))");
+			}
+			else if(opType is InternalObjectType)
+			{
+				sb.Append("!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append("), (GRGEN_LIBGR.IObject)(");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append("))");
+			}
+			else if(opType is InternalTransientObjectType)
+			{
+				sb.Append("!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.ITransientObject)(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append("), (GRGEN_LIBGR.ITransientObject)(");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append("))");
+			}
+			else
+				GenBinOpDefault(sb, op, modifyGenerationState);
+			break;
+		}
+
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.SE:
+		{
+			Type opType = op.GetOperand(0).Type;
+			if(opType is SetType)
+			{
 				SetType setType = (SetType)opType;
-				sb.append("GRGEN_LIBGR.ContainerHelper.DeeplyEqualSet(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>()");
-				if(setType.getValueType() instanceof InheritanceType && !(setType.getValueType() instanceof ExternalObjectType)) {
-					sb.append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
-					sb.append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
-				} else {
-					sb.append(", new Dictionary<object, object>()");
-					sb.append(", new Dictionary<object, object>()");
+				sb.Append("GRGEN_LIBGR.ContainerHelper.DeeplyEqualSet(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>()");
+				if(setType.ValueType is InheritanceType && !(setType.ValueType is ExternalObjectType))
+				{
+					sb.Append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
+					sb.Append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
 				}
-				sb.append(")");
-			} else if(opType instanceof MapType) {
+				else
+				{
+					sb.Append(", new Dictionary<object, object>()");
+					sb.Append(", new Dictionary<object, object>()");
+				}
+				sb.Append(")");
+			}
+			else if(opType is MapType)
+			{
 				MapType mapType = (MapType)opType;
-				sb.append("GRGEN_LIBGR.ContainerHelper.DeeplyEqualMap(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>()");
-				if(mapType.getKeyType() instanceof InheritanceType && !(mapType.getKeyType() instanceof ExternalObjectType)) {
-					sb.append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
-					sb.append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
-				} else {
-					sb.append(", new Dictionary<object, object>()");
-					sb.append(", new Dictionary<object, object>()");
+				sb.Append("GRGEN_LIBGR.ContainerHelper.DeeplyEqualMap(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>()");
+				if(mapType.KeyType is InheritanceType && !(mapType.KeyType is ExternalObjectType))
+				{
+					sb.Append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
+					sb.Append(", new Dictionary<GRGEN_LIBGR.IAttributeBearer, object>()");
 				}
-				sb.append(")");
-			} else if(opType instanceof ArrayType) {
+				else
+				{
+					sb.Append(", new Dictionary<object, object>()");
+					sb.Append(", new Dictionary<object, object>()");
+				}
+				sb.Append(")");
+			}
+			else if(opType is ArrayType)
+			{
 				ArrayType arrayType = (ArrayType)opType;
-				String methodName = arrayType.getValueType() instanceof InheritanceType && !(arrayType.getValueType() instanceof ExternalObjectType) ?
+				string methodName = arrayType.ValueType is InheritanceType && !(arrayType.ValueType is ExternalObjectType) ?
 						"DeeplyEqualArrayAttributeBearer" : "DeeplyEqualArrayObject";
-				sb.append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>()");
-				sb.append(")");
-			} else if(opType instanceof DequeType) {
+				sb.Append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>()");
+				sb.Append(")");
+			}
+			else if(opType is DequeType)
+			{
 				DequeType dequeType = (DequeType)opType;
-				String methodName = dequeType.getValueType() instanceof InheritanceType && !(dequeType.getValueType() instanceof ExternalObjectType) ?
+				string methodName = dequeType.ValueType is InheritanceType && !(dequeType.ValueType is ExternalObjectType) ?
 						"DeeplyEqualDequeAttributeBearer" : "DeeplyEqualDequeObject";
-				sb.append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>()");
-				sb.append(")");
-			} else if(opType instanceof InternalObjectType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.DeeplyEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>()");
-				sb.append(")");
-			} else if(opType instanceof InternalTransientObjectType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.DeeplyEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>()");
-				sb.append(")");
-			} else if(modifyGenerationState.getModel().isEqualClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
-				sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(",");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>())");
-			} else {
-				sb.append("GRGEN_LIBGR.GraphHelper.HasSameStructure((GRGEN_LIBGR.IGraph)(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append("), (GRGEN_LIBGR.IGraph)(");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append("))");
+				sb.Append("GRGEN_LIBGR.ContainerHelper." + methodName + "(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>()");
+				sb.Append(")");
+			}
+			else if(opType is InternalObjectType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.DeeplyEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>()");
+				sb.Append(")");
+			}
+			else if(opType is InternalTransientObjectType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.DeeplyEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>()");
+				sb.Append(")");
+			}
+			else if(modifyGenerationState.Model.IsEqualClassDefined() && (opType is ObjectType || opType is ExternalObjectType))
+			{
+				sb.Append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(",");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>())");
+			}
+			else
+			{
+				sb.Append("GRGEN_LIBGR.GraphHelper.HasSameStructure((GRGEN_LIBGR.IGraph)(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append("), (GRGEN_LIBGR.IGraph)(");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append("))");
 			}
 			break;
 		}
 
-		case GT: {
-			Type opType = op.getOperand(0).getType();
-			if(opType instanceof MapType || opType instanceof SetType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof ArrayType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof DequeType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof StringType) {
-				sb.append("(String.Compare(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", StringComparison.InvariantCulture)>0)");
-			} else if(modifyGenerationState.getModel().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
-				sb.append("(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(",");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>())");
-				sb.append("&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(",");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>()))");
-			} else {
-				genBinOpDefault(sb, op, modifyGenerationState);
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.GT:
+		{
+			Type opType = op.GetOperand(0).Type;
+			if(opType is MapType || opType is SetType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
 			}
+			else if(opType is ArrayType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is DequeType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is StringType)
+			{
+				sb.Append("(String.Compare(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", StringComparison.InvariantCulture)>0)");
+			}
+			else if(modifyGenerationState.Model.IsLowerClassDefined() && (opType is ObjectType || opType is ExternalObjectType))
+			{
+				sb.Append("(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(",");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>())");
+				sb.Append("&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(",");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>()))");
+			}
+			else
+				GenBinOpDefault(sb, op, modifyGenerationState);
 			break;
 		}
 
-		case GE: {
-			Type opType = op.getOperand(0).getType();
-			if(opType instanceof MapType || opType instanceof SetType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof ArrayType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof DequeType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof StringType) {
-				sb.append("(String.Compare(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", StringComparison.InvariantCulture)>=0)");
-			} else if(modifyGenerationState.getModel().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
-				sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(",");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>())");
-			} else {
-				genBinOpDefault(sb, op, modifyGenerationState);
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.GE:
+		{
+			Type opType = op.GetOperand(0).Type;
+			if(opType is MapType || opType is SetType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
 			}
+			else if(opType is ArrayType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is DequeType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is StringType)
+			{
+				sb.Append("(String.Compare(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", StringComparison.InvariantCulture)>=0)");
+			}
+			else if(modifyGenerationState.Model.IsLowerClassDefined() && (opType is ObjectType || opType is ExternalObjectType))
+			{
+				sb.Append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(",");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>())");
+			}
+			else
+				GenBinOpDefault(sb, op, modifyGenerationState);
 			break;
 		}
 
-		case LT: {
-			Type opType = op.getOperand(0).getType();
-			if(opType instanceof MapType || opType instanceof SetType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.LessThan(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof ArrayType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.LessThan(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof DequeType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.LessThan(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof StringType) {
-				sb.append("(String.Compare(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", StringComparison.InvariantCulture)<0)");
-			} else if(modifyGenerationState.getModel().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
-				sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(",");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>())");
-			} else {
-				genBinOpDefault(sb, op, modifyGenerationState);
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.LT:
+		{
+			Type opType = op.GetOperand(0).Type;
+			if(opType is MapType || opType is SetType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.LessThan(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
 			}
+			else if(opType is ArrayType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.LessThan(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is DequeType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.LessThan(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is StringType)
+			{
+				sb.Append("(String.Compare(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", StringComparison.InvariantCulture)<0)");
+			}
+			else if(modifyGenerationState.Model.IsLowerClassDefined() && (opType is ObjectType || opType is ExternalObjectType))
+			{
+				sb.Append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(",");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>())");
+			}
+			else
+				GenBinOpDefault(sb, op, modifyGenerationState);
 			break;
 		}
 
-		case LE: {
-			Type opType = op.getOperand(0).getType();
-			if(opType instanceof MapType || opType instanceof SetType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof ArrayType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof DequeType) {
-				sb.append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
-			} else if(opType instanceof StringType) {
-				sb.append("(String.Compare(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(", ");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", StringComparison.InvariantCulture)<=0)");
-			} else if(modifyGenerationState.getModel().isLowerClassDefined()
-					&& (opType instanceof ObjectType || opType instanceof ExternalObjectType)) {
-				sb.append("(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(",");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>())");
-				sb.append("|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
-				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(",");
-				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(", new Dictionary<object, object>()))");
-			} else {
-				genBinOpDefault(sb, op, modifyGenerationState);
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.LE:
+		{
+			Type opType = op.GetOperand(0).Type;
+			if(opType is MapType || opType is SetType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
 			}
+			else if(opType is ArrayType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is DequeType)
+			{
+				sb.Append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(")");
+			}
+			else if(opType is StringType)
+			{
+				sb.Append("(String.Compare(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(", ");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", StringComparison.InvariantCulture)<=0)");
+			}
+			else if(modifyGenerationState.Model.IsLowerClassDefined() && (opType is ObjectType || opType is ExternalObjectType))
+			{
+				sb.Append("(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(",");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>())");
+				sb.Append("|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+				GenExpression(sb, op.GetOperand(0), modifyGenerationState);
+				sb.Append(",");
+				GenExpression(sb, op.GetOperand(1), modifyGenerationState);
+				sb.Append(", new Dictionary<object, object>()))");
+			}
+			else
+				GenBinOpDefault(sb, op, modifyGenerationState);
 			break;
 		}
 
 		default:
-			genBinOpDefault(sb, op, modifyGenerationState);
+			GenBinOpDefault(sb, op, modifyGenerationState);
 			break;
 		}
 	}
 
-	protected String formatGlobalVariableRead(Entity globalVar)
+	protected internal virtual string FormatGlobalVariableRead(Entity globalVar)
 	{
-		return "((" + formatType(globalVar.getType())
+		return "((" + FormatType(globalVar.Type)
 				+ ")((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).GetVariableValue(\""
-				+ formatIdentifiable(globalVar) + "\"))";
+				+ FormatIdentifiable(globalVar) + "\"))";
 	}
 
-	protected String formatGlobalVariableWrite(Entity globalVar, String value)
+	protected internal virtual string FormatGlobalVariableWrite(Entity globalVar, string value)
 	{
 		return "((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).SetVariableValue(\""
-				+ formatIdentifiable(globalVar) + "\", (" + formatType(globalVar.getType()) + ")(" + value + "))";
+				+ FormatIdentifiable(globalVar) + "\", (" + FormatType(globalVar.Type) + ")(" + value + "))";
 	}
 
-	protected static String getValueAsCSSharpString(Constant constant)
+	protected internal static string GetValueAsCSSharpString(Constant constant)
 	{
-		Type type = constant.getType();
+		Type type = constant.Type;
 
 		//emit C-code for constants
-		switch(type.classify()) {
-		case IS_STRING:
-			Object value = constant.getValue();
+		switch(type.Classify())
+		{
+		case Type.TypeClass.IS_STRING:
+			object value = constant.Value;
 			if(value == null)
 				return "null";
 			else
-				return "\"" + constant.getValue() + "\"";
-		case IS_BOOLEAN:
-			Boolean bool_const = (Boolean)constant.getValue();
-			if(bool_const.booleanValue())
-				return "true"; /* true-value */
+				return "\"" + constant.Value + "\"";
+		case Type.TypeClass.IS_BOOLEAN:
+			bool? bool_const = (bool?)constant.Value;
+			if(bool_const.Value)
+				return "true"; // true-value
 			else
-				return "false"; /* false-value */
-		case IS_BYTE:
-		case IS_SHORT:
-		case IS_INTEGER: /* this also applys to enum constants */
-		case IS_DOUBLE:
-			return constant.getValue().toString();
-		case IS_LONG:
-			return constant.getValue().toString() + "L";
-		case IS_FLOAT:
-			return constant.getValue().toString() + "f";
-		case IS_TYPE:
-			InheritanceType it = (InheritanceType)constant.getValue();
-			return formatTypeClassRef(it) + ".typeVar";
-		case IS_GRAPH:
-		case IS_OBJECT:
-		case IS_INTERNAL_CLASS_OBJECT:
-		case IS_INTERNAL_TRANSIENT_CLASS_OBJECT:
-		case IS_NODE:
-		case IS_EDGE:
-		case IS_SET:
-		case IS_MAP:
-		case IS_ARRAY:
-		case IS_DEQUE:
-		case IS_MATCH:
-		case IS_DEFINED_MATCH:
-			if(constant.getValue() == null) {
+				return "false"; // false-value
+		case Type.TypeClass.IS_BYTE:
+		case Type.TypeClass.IS_SHORT:
+		case Type.TypeClass.IS_INTEGER: // this also applys to enum constants
+		case Type.TypeClass.IS_DOUBLE:
+			return constant.Value.ToString();
+		case Type.TypeClass.IS_LONG:
+			return constant.Value.ToString() + "L";
+		case Type.TypeClass.IS_FLOAT:
+			return constant.Value.ToString() + "f";
+		case Type.TypeClass.IS_TYPE:
+			InheritanceType it = (InheritanceType)constant.Value;
+			return FormatTypeClassRef(it) + ".typeVar";
+		case Type.TypeClass.IS_GRAPH:
+		case Type.TypeClass.IS_OBJECT:
+		case Type.TypeClass.IS_INTERNAL_CLASS_OBJECT:
+		case Type.TypeClass.IS_INTERNAL_TRANSIENT_CLASS_OBJECT:
+		case Type.TypeClass.IS_NODE:
+		case Type.TypeClass.IS_EDGE:
+		case Type.TypeClass.IS_SET:
+		case Type.TypeClass.IS_MAP:
+		case Type.TypeClass.IS_ARRAY:
+		case Type.TypeClass.IS_DEQUE:
+		case Type.TypeClass.IS_MATCH:
+		case Type.TypeClass.IS_DEFINED_MATCH:
+			if(constant.Value == null)
 				return "null";
-			}
 			//$FALL-THROUGH$
 		default:
-			throw new UnsupportedOperationException("unsupported type");
+			throw new System.NotSupportedException("unsupported type");
 		}
 	}
 
-	protected static String getInitializationValue(Type type)
+	protected internal static string GetInitializationValue(Type type)
 	{
-		if(type instanceof ByteType || type instanceof ShortType || type instanceof IntType
-				|| type instanceof EnumType || type instanceof DoubleType) {
+		if(type is ByteType || type is ShortType || type is IntType
+				|| type is EnumType || type is DoubleType)
 			return "0";
-		} else if(type instanceof FloatType) {
+		else if(type is FloatType)
 			return "0f";
-		} else if(type instanceof LongType) {
+		else if(type is LongType)
 			return "0L";
-		} else if(type instanceof BooleanType) {
+		else if(type is BooleanType)
 			return "false";
-		} else {
+		else
 			return "null";
-		}
 	}
 
-	protected String getTypeNameForCast(Cast cast)
+	protected internal virtual string GetTypeNameForCast(Cast cast)
 	{
-		Type type = cast.getType();
-		switch(type.classify()) {
-		case IS_STRING:
+		Type type = cast.Type;
+		switch(type.Classify())
+		{
+		case Type.TypeClass.IS_STRING:
 			return "string";
-		case IS_BYTE:
+		case Type.TypeClass.IS_BYTE:
 			return "sbyte";
-		case IS_SHORT:
+		case Type.TypeClass.IS_SHORT:
 			return "short";
-		case IS_INTEGER:
+		case Type.TypeClass.IS_INTEGER:
 			return "int";
-		case IS_LONG:
+		case Type.TypeClass.IS_LONG:
 			return "long";
-		case IS_FLOAT:
+		case Type.TypeClass.IS_FLOAT:
 			return "float";
-		case IS_DOUBLE:
+		case Type.TypeClass.IS_DOUBLE:
 			return "double";
-		case IS_BOOLEAN:
+		case Type.TypeClass.IS_BOOLEAN:
 			return "bool";
-		case IS_OBJECT:
+		case Type.TypeClass.IS_OBJECT:
 			return "object";
-		case IS_GRAPH:
+		case Type.TypeClass.IS_GRAPH:
 			return "GRGEN_LIBGR.IGraph";
-		case IS_EXTERNAL_CLASS_OBJECT:
-			return formatType(cast.getType());
-		case IS_INTERNAL_CLASS_OBJECT:
-			return formatType(cast.getType());
-		case IS_INTERNAL_TRANSIENT_CLASS_OBJECT:
-			return formatType(cast.getType());
-		case IS_NODE:
-			return formatType(cast.getType());
-		case IS_EDGE:
-			return formatType(cast.getType());
-		case IS_SET:
-		case IS_MAP:
-		case IS_ARRAY:
-		case IS_DEQUE:
-			if(cast.getType().classify() == TypeClass.IS_SET) {
+		case Type.TypeClass.IS_EXTERNAL_CLASS_OBJECT:
+			return FormatType(cast.Type);
+		case Type.TypeClass.IS_INTERNAL_CLASS_OBJECT:
+			return FormatType(cast.Type);
+		case Type.TypeClass.IS_INTERNAL_TRANSIENT_CLASS_OBJECT:
+			return FormatType(cast.Type);
+		case Type.TypeClass.IS_NODE:
+			return FormatType(cast.Type);
+		case Type.TypeClass.IS_EDGE:
+			return FormatType(cast.Type);
+		case Type.TypeClass.IS_SET:
+		case Type.TypeClass.IS_MAP:
+		case Type.TypeClass.IS_ARRAY:
+		case Type.TypeClass.IS_DEQUE:
+			if(cast.Type.Classify() == Type.TypeClass.IS_SET)
+			{
 				// cast to set<Edge> or set<UEdge> from set<AEdge> allowed at compile time, requires check at runtime for directedness
-				if(((SetType)cast.getType()).getValueType().getIdent().toString().equals("Edge"))
+				if(((SetType)cast.Type).ValueType.Ident.ToString().Equals("Edge"))
 					return "directed set";
-				else if(((SetType)cast.getType()).getValueType().getIdent().toString().equals("UEdge"))
+				else if(((SetType)cast.Type).ValueType.Ident.ToString().Equals("UEdge"))
 					return "undirected set";
 			}
 			return "object"; // besides, only the null type can/will be casted into a container type, so the most specific base type is sufficient, which is object
 		default:
-			throw new UnsupportedOperationException(
+			throw new System.NotSupportedException(
 					"This is either a forbidden cast, which should have been " +
 							"rejected on building the IR, or an allowed cast, which " +
 							"should have been processed by the above code.");
 		}
 	}
 
-	protected String getTypeNameForTempVarDecl(Type type)
+	protected internal virtual string GetTypeNameForTempVarDecl(Type type)
 	{
-		switch(type.classify()) {
-		case IS_BOOLEAN:
+		switch(type.Classify())
+		{
+		case Type.TypeClass.IS_BOOLEAN:
 			return "bool";
-		case IS_BYTE:
+		case Type.TypeClass.IS_BYTE:
 			return "sbyte";
-		case IS_SHORT:
+		case Type.TypeClass.IS_SHORT:
 			return "short";
-		case IS_INTEGER:
+		case Type.TypeClass.IS_INTEGER:
 			return "int";
-		case IS_LONG:
+		case Type.TypeClass.IS_LONG:
 			return "long";
-		case IS_FLOAT:
+		case Type.TypeClass.IS_FLOAT:
 			return "float";
-		case IS_DOUBLE:
+		case Type.TypeClass.IS_DOUBLE:
 			return "double";
-		case IS_STRING:
+		case Type.TypeClass.IS_STRING:
 			return "string";
-		case IS_OBJECT:
-		case IS_UNKNOWN:
+		case Type.TypeClass.IS_OBJECT:
+		case Type.TypeClass.IS_UNKNOWN:
 			return "object";
-		case IS_GRAPH:
+		case Type.TypeClass.IS_GRAPH:
 			return "GRGEN_LIBGR.IGraph";
-		case IS_EXTERNAL_CLASS_OBJECT:
-			return "GRGEN_MODEL." + type.getIdent();
-		case IS_INTERNAL_CLASS_OBJECT:
-			return formatElementInterfaceRef(type);
-		case IS_INTERNAL_TRANSIENT_CLASS_OBJECT:
-			return formatElementInterfaceRef(type);
-		case IS_NODE:
-			return formatElementInterfaceRef(type);
-		case IS_EDGE:
-			return formatElementInterfaceRef(type);
+		case Type.TypeClass.IS_EXTERNAL_CLASS_OBJECT:
+			return "GRGEN_MODEL." + type.Ident;
+		case Type.TypeClass.IS_INTERNAL_CLASS_OBJECT:
+			return FormatElementInterfaceRef(type);
+		case Type.TypeClass.IS_INTERNAL_TRANSIENT_CLASS_OBJECT:
+			return FormatElementInterfaceRef(type);
+		case Type.TypeClass.IS_NODE:
+			return FormatElementInterfaceRef(type);
+		case Type.TypeClass.IS_EDGE:
+			return FormatElementInterfaceRef(type);
 		default:
-			throw new IllegalArgumentException();
+			throw new ArgumentException();
 		}
 	}
 
-	protected static String escapeBackslashAndDoubleQuotes(String input)
+	protected internal static string EscapeBackslashAndDoubleQuotes(string input)
 	{
-		return input.replace("\\", "\\\\").replace("\"", "\\\"");
+		return input.Replace("\\", "\\\\").Replace("\"", "\\\"");
 	}
 
-	protected abstract void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState);
+	protected internal abstract void GenQualAccess(SourceBuilder sb, Qualification qual, object modifyGenerationState);
 
-	protected abstract void genMemberAccess(SourceBuilder sb, Entity member);
+	protected internal abstract void GenMemberAccess(SourceBuilder sb, Entity member);
 
-	protected static void addAnnotations(SourceBuilder sb, Identifiable ident, String targetName)
+	protected internal static void AddAnnotations(SourceBuilder sb, Identifiable ident, string targetName)
 	{
-		for(String annotationKey : ident.getAnnotations().keySet()) {
-			String annotationValue = ident.getAnnotations().get(annotationKey).toString();
-			sb.appendFront(targetName + ".annotations.Add(\"" + annotationKey + "\", \"" + annotationValue + "\");\n");
+		foreach(string annotationKey in ident.Annotations.KeySet())
+		{
+			string annotationValue = ident.Annotations.Get(annotationKey).ToString();
+			sb.AppendFront(targetName + ".annotations.Add(\"" + annotationKey + "\", \"" + annotationValue + "\");\n");
 		}
 	}
 
-	protected static void forceNotConstant(Collection<EvalStatement> statements)
+	protected internal static void ForceNotConstant(ICollection<EvalStatement> statements)
 	{
-		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.CONTAINER_EXPRS));
-		for(EvalStatement eval : statements) {
-			eval.collectNeededEntities(needs);
-		}
-		forceNotConstant(needs);
+		NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.CONTAINER_EXPRS));
+		foreach(EvalStatement eval in statements)
+			eval.CollectNeededEntities(needs);
+		ForceNotConstant(needs);
 	}
 
-	protected static void forceNotConstant(NeededEntities needs)
+	protected internal static void ForceNotConstant(NeededEntities needs)
 	{
 		// todo: more fine-grained never assigned, the important thing is that the constant constructor is temporary, not assigned to a variable
-		for(Expression containerExpr : needs.containerExprs) {
-			if(containerExpr instanceof MapInit) {
+		foreach(Expression containerExpr in needs.containerExprs)
+		{
+			if(containerExpr is MapInit)
+			{
 				MapInit mapInit = (MapInit)containerExpr;
-				mapInit.forceNotConstant();
-			} else if(containerExpr instanceof SetInit) {
+				mapInit.ForceNotConstant();
+			}
+			else if(containerExpr is SetInit)
+			{
 				SetInit setInit = (SetInit)containerExpr;
-				setInit.forceNotConstant();
-			} else if(containerExpr instanceof ArrayInit) {
+				setInit.ForceNotConstant();
+			}
+			else if(containerExpr is ArrayInit)
+			{
 				ArrayInit arrayInit = (ArrayInit)containerExpr;
-				arrayInit.forceNotConstant();
-			} else if(containerExpr instanceof DequeInit) {
+				arrayInit.ForceNotConstant();
+			}
+			else if(containerExpr is DequeInit)
+			{
 				DequeInit dequeInit = (DequeInit)containerExpr;
-				dequeInit.forceNotConstant();
+				dequeInit.ForceNotConstant();
 			}
 		}
 	}
 
-	protected void genLocalContainersEvals(SourceBuilder sb, Collection<EvalStatement> evals,
-			List<String> staticInitializers, String pathPrefixForElements,
-			HashMap<Entity, String> alreadyDefinedEntityToName)
+	protected internal virtual void GenLocalContainersEvals(SourceBuilder sb, ICollection<EvalStatement> evals,
+			IList<string> staticInitializers, string pathPrefixForElements,
+			Dictionary<Entity, string> alreadyDefinedEntityToName)
 	{
-		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.CONTAINER_EXPRS));
-		for(EvalStatement eval : evals) {
-			eval.collectNeededEntities(needs);
-		}
-		genLocalContainers(sb, needs, staticInitializers, false);
+		NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.CONTAINER_EXPRS));
+		foreach(EvalStatement eval in evals)
+			eval.CollectNeededEntities(needs);
+		GenLocalContainers(sb, needs, staticInitializers, false);
 	}
 
-	protected void genLocalContainers(SourceBuilder sb, NeededEntities needs, List<String> staticInitializers,
-			boolean neverAssigned)
+	protected internal virtual void GenLocalContainers(SourceBuilder sb, NeededEntities needs, IList<string> staticInitializers,
+			bool neverAssigned)
 	{
 		// todo: more fine-grained never assigned, the important thing is that the constant constructor is temporary, not assigned to a variable
-		sb.append("\n");
-		for(Expression containerExpr : needs.containerExprs) {
-			if(containerExpr instanceof MapInit) {
+		sb.Append("\n");
+		foreach(Expression containerExpr in needs.containerExprs)
+		{
+			if(containerExpr is MapInit)
+			{
 				MapInit mapInit = (MapInit)containerExpr;
 				if(!neverAssigned)
-					mapInit.forceNotConstant();
-				genLocalMap(sb, mapInit, staticInitializers);
-			} else if(containerExpr instanceof SetInit) {
+					mapInit.ForceNotConstant();
+				GenLocalMap(sb, mapInit, staticInitializers);
+			}
+			else if(containerExpr is SetInit)
+			{
 				SetInit setInit = (SetInit)containerExpr;
 				if(!neverAssigned)
-					setInit.forceNotConstant();
-				genLocalSet(sb, setInit, staticInitializers);
-			} else if(containerExpr instanceof ArrayInit) {
+					setInit.ForceNotConstant();
+				GenLocalSet(sb, setInit, staticInitializers);
+			}
+			else if(containerExpr is ArrayInit)
+			{
 				ArrayInit arrayInit = (ArrayInit)containerExpr;
 				if(!neverAssigned)
-					arrayInit.forceNotConstant();
-				genLocalArray(sb, arrayInit, staticInitializers);
-			} else if(containerExpr instanceof DequeInit) {
+					arrayInit.ForceNotConstant();
+				GenLocalArray(sb, arrayInit, staticInitializers);
+			}
+			else if(containerExpr is DequeInit)
+			{
 				DequeInit dequeInit = (DequeInit)containerExpr;
 				if(!neverAssigned)
-					dequeInit.forceNotConstant();
-				genLocalDeque(sb, dequeInit, staticInitializers);
-			} else if(containerExpr instanceof InternalObjectInit) {
+					dequeInit.ForceNotConstant();
+				GenLocalDeque(sb, dequeInit, staticInitializers);
+			}
+			else if(containerExpr is InternalObjectInit)
+			{
 				InternalObjectInit internalObjectInit = (InternalObjectInit)containerExpr;
-				genLocalInternalObjectAttributeInitializer(sb, internalObjectInit, staticInitializers);
+				GenLocalInternalObjectAttributeInitializer(sb, internalObjectInit, staticInitializers);
 			}
 		}
 	}
 
-	protected void genLocalMap(SourceBuilder sb, MapInit mapInit, List<String> staticInitializers)
+	protected internal virtual void GenLocalMap(SourceBuilder sb, MapInit mapInit, IList<string> staticInitializers)
 	{
-		String mapName = mapInit.getAnonymousMapName();
-		String attrType = formatAttributeType(mapInit.getType());
-		if(mapInit.isConstant()) {
-			sb.appendFront("public static readonly " + attrType + " " + mapName + " = " +
+		string mapName = mapInit.AnonymousMapName;
+		string attrType = FormatAttributeType(mapInit.Type);
+		if(mapInit.IsConstant())
+		{
+			sb.AppendFront("public static readonly " + attrType + " " + mapName + " = " +
 					"new " + attrType + "();\n");
-			staticInitializers.add("init_" + mapName);
-			sb.appendFront("static void init_" + mapName + "() {\n");
-			sb.indent();
-			for(ExpressionPair item : mapInit.getMapItems()) {
-				sb.appendFront("");
-				sb.append(mapName);
-				sb.append("[");
-				genExpression(sb, item.getKeyExpr(), null);
-				sb.append("] = ");
-				genExpression(sb, item.getValueExpr(), null);
-				sb.append(";\n");
+			staticInitializers.Add("init_" + mapName);
+			sb.AppendFront("static void init_" + mapName + "() {\n");
+			sb.Indent();
+			foreach(ExpressionPair item in mapInit.MapItems)
+			{
+				sb.AppendFront("");
+				sb.Append(mapName);
+				sb.Append("[");
+				GenExpression(sb, item.KeyExpr, null);
+				sb.Append("] = ");
+				GenExpression(sb, item.ValueExpr, null);
+				sb.Append(";\n");
 			}
-			sb.unindent();
-			sb.appendFront("}\n");
-		} else {
-			sb.appendFront("public static " + attrType + " fill_" + mapName + "(");
+			sb.Unindent();
+			sb.AppendFront("}\n");
+		}
+		else
+		{
+			sb.AppendFront("public static " + attrType + " fill_" + mapName + "(");
 			int itemCounter = 0;
-			boolean first = true;
-			for(ExpressionPair item : mapInit.getMapItems()) {
-				String itemKeyType = formatType(item.getKeyExpr().getType());
-				String itemValueType = formatType(item.getValueExpr().getType());
-				if(first) {
-					sb.append(itemKeyType + " itemkey" + itemCounter + ",");
-					sb.append(itemValueType + " itemvalue" + itemCounter);
+			bool first = true;
+			foreach(ExpressionPair item in mapInit.MapItems)
+			{
+				string itemKeyType = FormatType(item.KeyExpr.Type);
+				string itemValueType = FormatType(item.ValueExpr.Type);
+				if(first)
+				{
+					sb.Append(itemKeyType + " itemkey" + itemCounter + ",");
+					sb.Append(itemValueType + " itemvalue" + itemCounter);
 					first = false;
-				} else {
-					sb.append(", " + itemKeyType + " itemkey" + itemCounter + ",");
-					sb.append(itemValueType + " itemvalue" + itemCounter);
+				}
+				else
+				{
+					sb.Append(", " + itemKeyType + " itemkey" + itemCounter + ",");
+					sb.Append(itemValueType + " itemvalue" + itemCounter);
 				}
 				++itemCounter;
 			}
-			sb.append(") {\n");
-			sb.indent();
-			sb.appendFront(attrType + " " + mapName + " = " +
+			sb.Append(") {\n");
+			sb.Indent();
+			sb.AppendFront(attrType + " " + mapName + " = " +
 					"new " + attrType + "();\n");
 
-			int itemLength = mapInit.getMapItems().size();
-			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
-				sb.appendFront(mapName);
-				sb.append("[" + "itemkey" + itemCounter + "] = itemvalue" + itemCounter + ";\n");
+			int itemLength = mapInit.MapItems.Count;
+			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter)
+			{
+				sb.AppendFront(mapName);
+				sb.Append("[" + "itemkey" + itemCounter + "] = itemvalue" + itemCounter + ";\n");
 			}
-			sb.appendFront("return " + mapName + ";\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			sb.AppendFront("return " + mapName + ";\n");
+			sb.Unindent();
+			sb.AppendFront("}\n");
 		}
 	}
 
-	protected void genLocalSet(SourceBuilder sb, SetInit setInit, List<String> staticInitializers)
+	protected internal virtual void GenLocalSet(SourceBuilder sb, SetInit setInit, IList<string> staticInitializers)
 	{
-		String setName = setInit.getAnonymousSetName();
-		String attrType = formatAttributeType(setInit.getType());
-		if(setInit.isConstant()) {
-			sb.appendFront("public static readonly " + attrType + " " + setName + " = " +
+		string setName = setInit.AnonymousSetName;
+		string attrType = FormatAttributeType(setInit.Type);
+		if(setInit.IsConstant())
+		{
+			sb.AppendFront("public static readonly " + attrType + " " + setName + " = " +
 					"new " + attrType + "();\n");
-			staticInitializers.add("init_" + setName);
-			sb.appendFront("static void init_" + setName + "() {\n");
-			sb.indent();
-			for(Expression item : setInit.getSetItems()) {
-				sb.appendFront(setName);
-				sb.append("[");
-				genExpression(sb, item, null);
-				sb.append("] = null;\n");
+			staticInitializers.Add("init_" + setName);
+			sb.AppendFront("static void init_" + setName + "() {\n");
+			sb.Indent();
+			foreach(Expression item in setInit.SetItems)
+			{
+				sb.AppendFront(setName);
+				sb.Append("[");
+				GenExpression(sb, item, null);
+				sb.Append("] = null;\n");
 			}
-			sb.unindent();
-			sb.appendFront("}\n");
-		} else {
-			sb.appendFront("public static " + attrType + " fill_" + setName + "(");
+			sb.Unindent();
+			sb.AppendFront("}\n");
+		}
+		else
+		{
+			sb.AppendFront("public static " + attrType + " fill_" + setName + "(");
 			int itemCounter = 0;
-			boolean first = true;
-			for(Expression item : setInit.getSetItems()) {
-				String itemType = formatType(item.getType());
-				if(first) {
-					sb.append(itemType + " item" + itemCounter);
+			bool first = true;
+			foreach(Expression item in setInit.SetItems)
+			{
+				string itemType = FormatType(item.Type);
+				if(first)
+				{
+					sb.Append(itemType + " item" + itemCounter);
 					first = false;
-				} else {
-					sb.append(", " + itemType + " item" + itemCounter);
 				}
+				else
+					sb.Append(", " + itemType + " item" + itemCounter);
 				++itemCounter;
 			}
-			sb.append(") {\n");
-			sb.indent();
-			sb.appendFront(attrType + " " + setName + " = " +
+			sb.Append(") {\n");
+			sb.Indent();
+			sb.AppendFront(attrType + " " + setName + " = " +
 					"new " + attrType + "();\n");
 
-			int itemLength = setInit.getSetItems().size();
-			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
-				sb.appendFront(setName);
-				sb.append("[" + "item" + itemCounter + "] = null;\n");
+			int itemLength = setInit.SetItems.Count;
+			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter)
+			{
+				sb.AppendFront(setName);
+				sb.Append("[" + "item" + itemCounter + "] = null;\n");
 			}
-			sb.appendFront("return " + setName + ";\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			sb.AppendFront("return " + setName + ";\n");
+			sb.Unindent();
+			sb.AppendFront("}\n");
 		}
 	}
 
-	protected void genLocalArray(SourceBuilder sb, ArrayInit arrayInit, List<String> staticInitializers)
+	protected internal virtual void GenLocalArray(SourceBuilder sb, ArrayInit arrayInit, IList<string> staticInitializers)
 	{
-		String arrayName = arrayInit.getAnonymousArrayName();
-		String attrType = formatAttributeType(arrayInit.getType());
-		if(arrayInit.isConstant()) {
-			sb.appendFront("public static readonly " + attrType + " " + arrayName + " = " +
+		string arrayName = arrayInit.AnonymousArrayName;
+		string attrType = FormatAttributeType(arrayInit.Type);
+		if(arrayInit.IsConstant())
+		{
+			sb.AppendFront("public static readonly " + attrType + " " + arrayName + " = " +
 					"new " + attrType + "();\n");
-			staticInitializers.add("init_" + arrayName);
-			sb.appendFront("static void init_" + arrayName + "() {\n");
-			sb.indent();
-			for(Expression item : arrayInit.getArrayItems()) {
-				sb.appendFront(arrayName);
-				sb.append(".Add(");
-				genExpression(sb, item, null);
-				sb.append(");\n");
+			staticInitializers.Add("init_" + arrayName);
+			sb.AppendFront("static void init_" + arrayName + "() {\n");
+			sb.Indent();
+			foreach(Expression item in arrayInit.ArrayItems)
+			{
+				sb.AppendFront(arrayName);
+				sb.Append(".Add(");
+				GenExpression(sb, item, null);
+				sb.Append(");\n");
 			}
-			sb.unindent();
-			sb.appendFront("}\n");
-		} else {
-			sb.appendFront("public static " + attrType + " fill_" + arrayName + "(");
+			sb.Unindent();
+			sb.AppendFront("}\n");
+		}
+		else
+		{
+			sb.AppendFront("public static " + attrType + " fill_" + arrayName + "(");
 			int itemCounter = 0;
-			boolean first = true;
-			for(Expression item : arrayInit.getArrayItems()) {
-				String itemType = formatType(item.getType());
-				if(first) {
-					sb.append(itemType + " item" + itemCounter);
+			bool first = true;
+			foreach(Expression item in arrayInit.ArrayItems)
+			{
+				string itemType = FormatType(item.Type);
+				if(first)
+				{
+					sb.Append(itemType + " item" + itemCounter);
 					first = false;
-				} else {
-					sb.append(", " + itemType + " item" + itemCounter);
 				}
+				else
+					sb.Append(", " + itemType + " item" + itemCounter);
 				++itemCounter;
 			}
-			sb.append(") {\n");
-			sb.indent();
-			sb.appendFront(attrType + " " + arrayName + " = " +
+			sb.Append(") {\n");
+			sb.Indent();
+			sb.AppendFront(attrType + " " + arrayName + " = " +
 					"new " + attrType + "();\n");
 
-			int itemLength = arrayInit.getArrayItems().size();
-			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
-				sb.appendFront(arrayName);
-				sb.append(".Add(" + "item" + itemCounter + ");\n");
+			int itemLength = arrayInit.ArrayItems.Count;
+			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter)
+			{
+				sb.AppendFront(arrayName);
+				sb.Append(".Add(" + "item" + itemCounter + ");\n");
 			}
-			sb.appendFront("return " + arrayName + ";\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			sb.AppendFront("return " + arrayName + ";\n");
+			sb.Unindent();
+			sb.AppendFront("}\n");
 		}
 	}
 
-	protected void genLocalDeque(SourceBuilder sb, DequeInit dequeInit, List<String> staticInitializers)
+	protected internal virtual void GenLocalDeque(SourceBuilder sb, DequeInit dequeInit, IList<string> staticInitializers)
 	{
-		String dequeName = dequeInit.getAnonymousDequeName();
-		String attrType = formatAttributeType(dequeInit.getType());
-		if(dequeInit.isConstant()) {
-			sb.appendFront("public static readonly " + attrType + " " + dequeName + " = " +
+		string dequeName = dequeInit.AnonymousDequeName;
+		string attrType = FormatAttributeType(dequeInit.Type);
+		if(dequeInit.IsConstant())
+		{
+			sb.AppendFront("public static readonly " + attrType + " " + dequeName + " = " +
 					"new " + attrType + "();\n");
-			staticInitializers.add("init_" + dequeName);
-			sb.appendFront("static void init_" + dequeName + "() {\n");
-			sb.indent();
-			for(Expression item : dequeInit.getDequeItems()) {
-				sb.appendFront("");
-				sb.append(dequeName);
-				sb.append(".Add(");
-				genExpression(sb, item, null);
-				sb.append(");\n");
+			staticInitializers.Add("init_" + dequeName);
+			sb.AppendFront("static void init_" + dequeName + "() {\n");
+			sb.Indent();
+			foreach(Expression item in dequeInit.DequeItems)
+			{
+				sb.AppendFront("");
+				sb.Append(dequeName);
+				sb.Append(".Add(");
+				GenExpression(sb, item, null);
+				sb.Append(");\n");
 			}
-			sb.unindent();
-			sb.appendFront("}\n");
-		} else {
-			sb.appendFront("public static " + attrType + " fill_" + dequeName + "(");
+			sb.Unindent();
+			sb.AppendFront("}\n");
+		}
+		else
+		{
+			sb.AppendFront("public static " + attrType + " fill_" + dequeName + "(");
 			int itemCounter = 0;
-			boolean first = true;
-			for(Expression item : dequeInit.getDequeItems()) {
-				String itemType = formatType(item.getType());
-				if(first) {
-					sb.append(itemType + " item" + itemCounter);
+			bool first = true;
+			foreach(Expression item in dequeInit.DequeItems)
+			{
+				string itemType = FormatType(item.Type);
+				if(first)
+				{
+					sb.Append(itemType + " item" + itemCounter);
 					first = false;
-				} else {
-					sb.append(", " + itemType + " item" + itemCounter);
 				}
+				else
+					sb.Append(", " + itemType + " item" + itemCounter);
 				++itemCounter;
 			}
-			sb.append(") {\n");
-			sb.indent();
-			sb.appendFront(attrType + " " + dequeName + " = " +
+			sb.Append(") {\n");
+			sb.Indent();
+			sb.AppendFront(attrType + " " + dequeName + " = " +
 					"new " + attrType + "();\n");
 
-			int itemLength = dequeInit.getDequeItems().size();
-			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
-				sb.appendFront(dequeName);
-				sb.append(".Enqueue(" + "item" + itemCounter + ");\n");
+			int itemLength = dequeInit.DequeItems.Count;
+			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter)
+			{
+				sb.AppendFront(dequeName);
+				sb.Append(".Enqueue(" + "item" + itemCounter + ");\n");
 			}
-			sb.appendFront("return " + dequeName + ";\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			sb.AppendFront("return " + dequeName + ";\n");
+			sb.Unindent();
+			sb.AppendFront("}\n");
 		}
 	}
 
-	protected void genLocalInternalObjectAttributeInitializer(SourceBuilder sb, InternalObjectInit internalObjectInit, List<String> staticInitializers)
+	protected internal virtual void GenLocalInternalObjectAttributeInitializer(SourceBuilder sb, InternalObjectInit internalObjectInit, IList<string> staticInitializers)
 	{
-		String internalObjectName = internalObjectInit.getAnonymousInternalObjectInitName();
-		Entity internalObject = new Entity(internalObjectName, new Ident(internalObjectName, Coords.getBuiltin()), internalObjectInit.getType(), false, true, 0);
-		String attrType = formatInheritanceClassRef(internalObjectInit.getType());
+		string internalObjectName = internalObjectInit.AnonymousInternalObjectInitName;
+		Entity internalObject = new Entity(internalObjectName, new Ident(internalObjectName, Coords.Builtin), internalObjectInit.Type, false, true, 0);
+		string attrType = FormatInheritanceClassRef(internalObjectInit.Type);
 
-		String uniqueIdDeclIfObject = internalObjectInit.getBaseInternalObjectType() instanceof InternalObjectType ? "long uniqueId" : "";
-		sb.appendFront("public static " + attrType + " fill_" + internalObjectName + "(" + uniqueIdDeclIfObject);
+		string uniqueIdDeclIfObject = internalObjectInit.BaseInternalObjectType is InternalObjectType ? "long uniqueId" : "";
+		sb.AppendFront("public static " + attrType + " fill_" + internalObjectName + "(" + uniqueIdDeclIfObject);
 		int itemCounter = 0;
-		boolean first = internalObjectInit.getBaseInternalObjectType() instanceof InternalObjectType ?  false : true;
-		for(Expression item : internalObjectInit.getAttributeInitializationExpressions()) {
-			String itemType = formatType(item.getType());
-			if(first) {
-				sb.append(itemType + " item" + itemCounter);
+		bool first = internalObjectInit.BaseInternalObjectType is InternalObjectType ? false : true;
+		foreach(Expression item in internalObjectInit.AttributeInitializationExpressions)
+		{
+			string itemType = FormatType(item.Type);
+			if(first)
+			{
+				sb.Append(itemType + " item" + itemCounter);
 				first = false;
-			} else {
-				sb.append(", " + itemType + " item" + itemCounter);
 			}
+			else
+				sb.Append(", " + itemType + " item" + itemCounter);
 			++itemCounter;
 		}
-		sb.append(") {\n");
-		sb.indent();
+		sb.Append(") {\n");
+		sb.Indent();
 
 		// uniqueIdUsageIfObject has to be -1 in case of isUniqueClassDefined(), an assert could be added...
-		String uniqueIdUsageIfObject = internalObjectInit.getBaseInternalObjectType() instanceof InternalObjectType ? "uniqueId" : "";
-		sb.appendFront(attrType + " " + internalObjectName + " = " +
+		string uniqueIdUsageIfObject = internalObjectInit.BaseInternalObjectType is InternalObjectType ? "uniqueId" : "";
+		sb.AppendFront(attrType + " " + internalObjectName + " = " +
 				"new " + attrType + "(" + uniqueIdUsageIfObject + ");\n");
 
-		int itemLength = internalObjectInit.attributeInitializations.size();
-		for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
-			sb.appendFront(formatEntity(internalObject) + ".@" 
-					+ formatIdentifiable(internalObjectInit.attributeInitializations.get(itemCounter).attribute));
-			sb.append(" = ");
-			sb.append("item" + itemCounter + ";\n");
+		int itemLength = internalObjectInit.attributeInitializations.Count;
+		for(itemCounter = 0; itemCounter < itemLength; ++itemCounter)
+		{
+			sb.AppendFront(FormatEntity(internalObject) + ".@"
+					+ FormatIdentifiable(internalObjectInit.attributeInitializations[itemCounter].attribute));
+			sb.Append(" = ");
+			sb.Append("item" + itemCounter + ";\n");
 		}
-		sb.appendFront("return " + internalObjectName + ";\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("return " + internalObjectName + ";\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 	}
 
-	protected static void genCompareMethod(SourceBuilder sb, String typeName,
-			String attributeOrMemberName, Type attributeOrMemberType, boolean ascending)
+	protected internal static void GenCompareMethod(SourceBuilder sb, string typeName,
+			string attributeOrMemberName, Type attributeOrMemberType, bool ascending)
 	{
 		if(ascending)
-			sb.appendFront("public override int Compare(" + typeName + " a, " + typeName + " b)\n");
+			sb.AppendFront("public override int Compare(" + typeName + " a, " + typeName + " b)\n");
 		else
-			sb.appendFront("public override int Compare(" + typeName + " b, " + typeName + " a)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		if(attributeOrMemberType.classify() == TypeClass.IS_EXTERNAL_CLASS_OBJECT
-				|| attributeOrMemberType.classify() == TypeClass.IS_OBJECT) {
-			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsEqual(a.@" + attributeOrMemberName + ", b.@"
+			sb.AppendFront("public override int Compare(" + typeName + " b, " + typeName + " a)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		if(attributeOrMemberType.Classify() == Type.TypeClass.IS_EXTERNAL_CLASS_OBJECT
+				|| attributeOrMemberType.Classify() == Type.TypeClass.IS_OBJECT)
+		{
+			sb.AppendFront("if(AttributeTypeObjectCopierComparer.IsEqual(a.@" + attributeOrMemberName + ", b.@"
 					+ attributeOrMemberName + ", new Dictionary<object, object>())) return 0;\n");
-			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsLower(a.@" + attributeOrMemberName + ", b.@"
+			sb.AppendFront("if(AttributeTypeObjectCopierComparer.IsLower(a.@" + attributeOrMemberName + ", b.@"
 					+ attributeOrMemberName + ", new Dictionary<object, object>())) return -1;\n");
-			sb.appendFront("return 1;\n");
-		} else if(attributeOrMemberType instanceof StringType)
-			sb.appendFront("return StringComparer.InvariantCulture.Compare(a.@" + attributeOrMemberName + ", b.@"
+			sb.AppendFront("return 1;\n");
+		}
+		else if(attributeOrMemberType is StringType)
+			sb.AppendFront("return StringComparer.InvariantCulture.Compare(a.@" + attributeOrMemberName + ", b.@"
 					+ attributeOrMemberName + ");\n");
 		else
-			sb.appendFront("return a.@" + attributeOrMemberName + ".CompareTo(b.@" + attributeOrMemberName + ");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+			sb.AppendFront("return a.@" + attributeOrMemberName + ".CompareTo(b.@" + attributeOrMemberName + ");\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 	}
 
-	protected static void generateArrayGroupBy(SourceBuilder sb, String arrayFunctionName, String matchInterfaceName,
-			String attributeOrMemberName, String attributeOrMemberType)
+	protected internal static void GenerateArrayGroupBy(SourceBuilder sb, string arrayFunctionName, string matchInterfaceName,
+			string attributeOrMemberName, string attributeOrMemberType)
 	{
-		sb.appendFront("public static List<" + matchInterfaceName + "> " + arrayFunctionName
+		sb.AppendFront("public static List<" + matchInterfaceName + "> " + arrayFunctionName
 				+ "(List<" + matchInterfaceName + "> list)\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("Dictionary<" + attributeOrMemberType + ", List<" + matchInterfaceName + ">> seenValues "
+		sb.AppendFront("Dictionary<" + attributeOrMemberType + ", List<" + matchInterfaceName + ">> seenValues "
 				+ "= new Dictionary<" + attributeOrMemberType + ", List<" + matchInterfaceName + ">>();\n");
-		sb.appendFront("for(int pos = 0; pos < list.Count; ++pos)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(seenValues.ContainsKey(list[pos].@" + attributeOrMemberName + ")) {\n");
-		sb.indent();
-		sb.appendFront("seenValues[list[pos].@" + attributeOrMemberName + "].Add(list[pos]);\n");
-		sb.unindent();
-		sb.appendFront("} else {\n");
-		sb.indent();
-		sb.appendFront("List<" + matchInterfaceName + "> tempList = new List<" + matchInterfaceName + ">();\n");
-		sb.appendFront("tempList.Add(list[pos]);\n");
-		sb.appendFront("seenValues.Add(list[pos].@" + attributeOrMemberName + ", tempList);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("for(int pos = 0; pos < list.Count; ++pos)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(seenValues.ContainsKey(list[pos].@" + attributeOrMemberName + ")) {\n");
+		sb.Indent();
+		sb.AppendFront("seenValues[list[pos].@" + attributeOrMemberName + "].Add(list[pos]);\n");
+		sb.Unindent();
+		sb.AppendFront("} else {\n");
+		sb.Indent();
+		sb.AppendFront("List<" + matchInterfaceName + "> tempList = new List<" + matchInterfaceName + ">();\n");
+		sb.AppendFront("tempList.Add(list[pos]);\n");
+		sb.AppendFront("seenValues.Add(list[pos].@" + attributeOrMemberName + ", tempList);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.appendFront("List<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">();\n");
-		sb.appendFront("foreach(List<" + matchInterfaceName + "> entry in seenValues.Values)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("newList.AddRange(entry);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("List<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">();\n");
+		sb.AppendFront("foreach(List<" + matchInterfaceName + "> entry in seenValues.Values)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("newList.AddRange(entry);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.appendFront("return newList;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("return newList;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 	}
 
-	protected static void generateArrayKeepOneForEach(SourceBuilder sb, String arrayFunctionName, String matchInterfaceName,
-			String attributeOrMemberName, String attributeOrMemberType)
+	protected internal static void GenerateArrayKeepOneForEach(SourceBuilder sb, string arrayFunctionName, string matchInterfaceName,
+			string attributeOrMemberName, string attributeOrMemberType)
 	{
-		sb.appendFront("public static List<" + matchInterfaceName + "> " + arrayFunctionName
+		sb.AppendFront("public static List<" + matchInterfaceName + "> " + arrayFunctionName
 				+ "(List<" + matchInterfaceName + "> list)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("List<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">();\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("List<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">();\n");
 
-		sb.appendFront("Dictionary<" + attributeOrMemberType + ", GRGEN_LIBGR.SetValueType> alreadySeenMembers "
+		sb.AppendFront("Dictionary<" + attributeOrMemberType + ", GRGEN_LIBGR.SetValueType> alreadySeenMembers "
 				+ "= new Dictionary<" + attributeOrMemberType + ", GRGEN_LIBGR.SetValueType>();\n");
-		sb.appendFront("foreach(" + matchInterfaceName + " element in list)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		sb.appendFront("if(!alreadySeenMembers.ContainsKey(element.@" + attributeOrMemberName + ")) {\n");
-		sb.indent();
-		sb.appendFront("newList.Add(element);\n");
-		sb.appendFront("alreadySeenMembers.Add(element.@" + attributeOrMemberName + ", null);\n");
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("foreach(" + matchInterfaceName + " element in list)\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+		sb.AppendFront("if(!alreadySeenMembers.ContainsKey(element.@" + attributeOrMemberName + ")) {\n");
+		sb.Indent();
+		sb.AppendFront("newList.Add(element);\n");
+		sb.AppendFront("alreadySeenMembers.Add(element.@" + attributeOrMemberName + ", null);\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 
-		sb.appendFront("return newList;\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.AppendFront("return newList;\n");
+		sb.Unindent();
+		sb.AppendFront("}\n");
 	}
 
-	protected void generateArrayMap(ArrayMapExpr arrayMap, ExpressionGenerationState modifyGenerationState)
+	protected internal virtual void GenerateArrayMap(ArrayMapExpr arrayMap, ExpressionGenerationState modifyGenerationState)
 	{
 		SourceBuilder sb = new SourceBuilder();
-		sb.indent().indent();
+		sb.Indent().Indent();
 
-		String arrayMapName = "ArrayMap_" + arrayMap.getId();
+		string arrayMapName = "ArrayMap_" + arrayMap.Id;
 
-		ArrayType arrayInputTypeType = arrayMap.getTargetTypeExact();
-		String arrayInputType = formatType(arrayInputTypeType);
-		String elementInputType = formatType(arrayInputTypeType.valueType);
-		ArrayType arrayOutputTypeType = (ArrayType)arrayMap.getType();
-		String arrayOutputType = formatType(arrayOutputTypeType);
-		String elementOutputType = formatType(arrayOutputTypeType.valueType);
+		ArrayType arrayInputTypeType = arrayMap.TargetTypeExact;
+		string arrayInputType = FormatType(arrayInputTypeType);
+		string elementInputType = FormatType(arrayInputTypeType.valueType);
+		ArrayType arrayOutputTypeType = (ArrayType)arrayMap.Type;
+		string arrayOutputType = FormatType(arrayOutputTypeType);
+		string elementOutputType = FormatType(arrayOutputTypeType.valueType);
 
-		String targetVarName = "target";
-		String sourceVarName = "source";
-		String resultVarName = "result";
+		string targetVarName = "target";
+		string sourceVarName = "source";
+		string resultVarName = "result";
 
-		sb.appendFront("static " + arrayOutputType + " "+ arrayMapName + "(");
-		sb.append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
+		sb.AppendFront("static " + arrayOutputType + " " + arrayMapName + "(");
+		sb.Append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
 
 		// collect all variables, create parameters - like for if/eval
-		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
-		arrayMap.collectNeededEntities(needs);
+		NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+		arrayMap.CollectNeededEntities(needs);
 
-		sb.append(", " + arrayInputType + " " + sourceVarName);
+		sb.Append(", " + arrayInputType + " " + sourceVarName);
 
-		for(Node node : needs.nodes) {
-			sb.append(", ");
-			sb.append(formatType(node.getType()));
-			sb.append(" ");
-			sb.append(formatEntity(node));
+		foreach(Node node in needs.nodes)
+		{
+			sb.Append(", ");
+			sb.Append(FormatType(node.Type));
+			sb.Append(" ");
+			sb.Append(FormatEntity(node));
 		}
-		for(Edge edge : needs.edges) {
-			sb.append(", ");
-			sb.append(formatType(edge.getType()));
-			sb.append(" ");
-			sb.append(formatEntity(edge));
+		foreach(Edge edge in needs.edges)
+		{
+			sb.Append(", ");
+			sb.Append(FormatType(edge.Type));
+			sb.Append(" ");
+			sb.Append(FormatEntity(edge));
 		}
-		for(Variable var : needs.variables) {
-			sb.append(", ");
-			sb.append(formatType(var.getType()));
-			sb.append(" ");
-			sb.append(formatEntity(var));
+		foreach(Variable var in needs.variables)
+		{
+			sb.Append(", ");
+			sb.Append(FormatType(var.Type));
+			sb.Append(" ");
+			sb.Append(FormatEntity(var));
 		}
 
-		if(modifyGenerationState.isToBeParallelizedActionExisting())
-			sb.append(", int threadId");
+		if(modifyGenerationState.IsToBeParallelizedActionExisting())
+			sb.Append(", int threadId");
 
-		sb.append(")\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		sb.Append(")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
-		sb.appendFront(arrayOutputType + " " + targetVarName + " = new " + arrayOutputType + "();\n");
+		sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+		sb.AppendFront(arrayOutputType + " " + targetVarName + " = new " + arrayOutputType + "();\n");
 
-		if(arrayMap.getArrayAccessVar() != null) {
-			String arrayAccessVarName = formatEntity(arrayMap.getArrayAccessVar());
-			sb.append(arrayInputType + " " + arrayAccessVarName + " = " + sourceVarName + ";\n");
+		if(arrayMap.ArrayAccessVar != null)
+		{
+			string arrayAccessVarName = FormatEntity(arrayMap.ArrayAccessVar);
+			sb.Append(arrayInputType + " " + arrayAccessVarName + " = " + sourceVarName + ";\n");
 		}
-		
-		String indexVarName = arrayMap.getIndexVar()!=null ? formatEntity(arrayMap.getIndexVar()) : "index";
-		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < " +  sourceVarName + ".Count; ++" + indexVarName + ")\n");
-		sb.appendFront("{\n");
-		sb.indent();
 
-		String elementVarName = formatEntity(arrayMap.getElementVar());
-		sb.appendFront(elementInputType + " " + elementVarName + " = " + sourceVarName + "[" + indexVarName + "];\n");
-		sb.appendFront(elementOutputType + " " + resultVarName + " = ");
-		genExpression(sb, arrayMap.getMappingExpr(), modifyGenerationState);
-		sb.append(";\n");
-		sb.appendFront(targetVarName + ".Add(" + resultVarName + ");\n");
-		
-		sb.unindent();
-		sb.appendFront("}\n");
+		string indexVarName = arrayMap.IndexVar != null ? FormatEntity(arrayMap.IndexVar) : "index";
+		sb.AppendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < " + sourceVarName + ".Count; ++" + indexVarName + ")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("return " + targetVarName + ";\n");
+		string elementVarName = FormatEntity(arrayMap.ElementVar);
+		sb.AppendFront(elementInputType + " " + elementVarName + " = " + sourceVarName + "[" + indexVarName + "];\n");
+		sb.AppendFront(elementOutputType + " " + resultVarName + " = ");
+		GenExpression(sb, arrayMap.MappingExpr, modifyGenerationState);
+		sb.Append(";\n");
+		sb.AppendFront(targetVarName + ".Add(" + resultVarName + ");\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		
-		modifyGenerationState.getPerElementMethodSourceBuilder().append(sb.toString());
+		sb.Unindent();
+		sb.AppendFront("}\n");
+
+		sb.AppendFront("return " + targetVarName + ";\n");
+
+		sb.Unindent();
+		sb.AppendFront("}\n");
+
+		modifyGenerationState.PerElementMethodSourceBuilder.Append(sb.ToString());
 	}
 
-	protected void generateArrayRemoveIf(ArrayRemoveIfExpr arrayRemoveIf, ExpressionGenerationState modifyGenerationState)
+	protected internal virtual void GenerateArrayRemoveIf(ArrayRemoveIfExpr arrayRemoveIf, ExpressionGenerationState modifyGenerationState)
 	{
 		SourceBuilder sb = new SourceBuilder();
-		sb.indent().indent();
+		sb.Indent().Indent();
 
-		String arrayRemoveIfName = "ArrayRemoveIf_" + arrayRemoveIf.getId();
+		string arrayRemoveIfName = "ArrayRemoveIf_" + arrayRemoveIf.Id;
 
-		ArrayType arrayTypeType = arrayRemoveIf.getTargetTypeExact();
-		String arrayType = formatType(arrayTypeType);
-		String elementType = formatType(arrayTypeType.valueType);
+		ArrayType arrayTypeType = arrayRemoveIf.TargetTypeExact;
+		string arrayType = FormatType(arrayTypeType);
+		string elementType = FormatType(arrayTypeType.valueType);
 
-		String targetVarName = "target";
-		String sourceVarName = "source";
+		string targetVarName = "target";
+		string sourceVarName = "source";
 
-		sb.appendFront("static " + arrayType + " "+ arrayRemoveIfName + "(");
-		sb.append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
+		sb.AppendFront("static " + arrayType + " " + arrayRemoveIfName + "(");
+		sb.Append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
 
 		// collect all variables, create parameters - like for if/eval
-		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
-		arrayRemoveIf.collectNeededEntities(needs);
+		NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+		arrayRemoveIf.CollectNeededEntities(needs);
 
-		sb.append(", " + arrayType + " " + sourceVarName);
+		sb.Append(", " + arrayType + " " + sourceVarName);
 
-		for(Node node : needs.nodes) {
-			sb.append(", ");
-			sb.append(formatType(node.getType()));
-			sb.append(" ");
-			sb.append(formatEntity(node));
+		foreach(Node node in needs.nodes)
+		{
+			sb.Append(", ");
+			sb.Append(FormatType(node.Type));
+			sb.Append(" ");
+			sb.Append(FormatEntity(node));
 		}
-		for(Edge edge : needs.edges) {
-			sb.append(", ");
-			sb.append(formatType(edge.getType()));
-			sb.append(" ");
-			sb.append(formatEntity(edge));
+		foreach(Edge edge in needs.edges)
+		{
+			sb.Append(", ");
+			sb.Append(FormatType(edge.Type));
+			sb.Append(" ");
+			sb.Append(FormatEntity(edge));
 		}
-		for(Variable var : needs.variables) {
-			sb.append(", ");
-			sb.append(formatType(var.getType()));
-			sb.append(" ");
-			sb.append(formatEntity(var));
-		}
-
-		if(modifyGenerationState.isToBeParallelizedActionExisting())
-			sb.append(", int threadId");
-
-		sb.append(")\n");
-		sb.appendFront("{\n");
-		sb.indent();
-
-		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
-		sb.appendFront(arrayType + " " + targetVarName + " = new " + arrayType + "();\n");
-
-		if(arrayRemoveIf.getArrayAccessVar() != null) {
-			String arrayAccessVarName = formatEntity(arrayRemoveIf.getArrayAccessVar());
-			sb.append(arrayType + " " + arrayAccessVarName + " = " + sourceVarName + ";\n");
+		foreach(Variable var in needs.variables)
+		{
+			sb.Append(", ");
+			sb.Append(FormatType(var.Type));
+			sb.Append(" ");
+			sb.Append(FormatEntity(var));
 		}
 
-		String indexVarName = arrayRemoveIf.getIndexVar()!=null ? formatEntity(arrayRemoveIf.getIndexVar()) : "index";
-		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < " + sourceVarName + ".Count; ++" + indexVarName + ")\n");
-		sb.appendFront("{\n");
-		sb.indent();
+		if(modifyGenerationState.IsToBeParallelizedActionExisting())
+			sb.Append(", int threadId");
 
-		String elementVarName = formatEntity(arrayRemoveIf.getElementVar());
-		sb.appendFront(elementType + " " + elementVarName + " = " + sourceVarName + "[" + indexVarName + "];\n");
-		sb.append("if(!(bool)(");
-		genExpression(sb, arrayRemoveIf.getConditionExpr(), modifyGenerationState);
-		sb.append("))\n");
-		sb.appendFrontIndented(targetVarName + ".Add(" + sourceVarName + "[" + indexVarName + "]);\n");
-		
-		sb.unindent();
-		sb.appendFront("}\n");
+		sb.Append(")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("return " + targetVarName + ";\n");
+		sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+		sb.AppendFront(arrayType + " " + targetVarName + " = new " + arrayType + "();\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		
-		modifyGenerationState.getPerElementMethodSourceBuilder().append(sb.toString());
+		if(arrayRemoveIf.ArrayAccessVar != null)
+		{
+			string arrayAccessVarName = FormatEntity(arrayRemoveIf.ArrayAccessVar);
+			sb.Append(arrayType + " " + arrayAccessVarName + " = " + sourceVarName + ";\n");
+		}
+
+		string indexVarName = arrayRemoveIf.IndexVar != null ? FormatEntity(arrayRemoveIf.IndexVar) : "index";
+		sb.AppendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < " + sourceVarName + ".Count; ++" + indexVarName + ")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+
+		string elementVarName = FormatEntity(arrayRemoveIf.ElementVar);
+		sb.AppendFront(elementType + " " + elementVarName + " = " + sourceVarName + "[" + indexVarName + "];\n");
+		sb.Append("if(!(bool)(");
+		GenExpression(sb, arrayRemoveIf.ConditionExpr, modifyGenerationState);
+		sb.Append("))\n");
+		sb.AppendFrontIndented(targetVarName + ".Add(" + sourceVarName + "[" + indexVarName + "]);\n");
+
+		sb.Unindent();
+		sb.AppendFront("}\n");
+
+		sb.AppendFront("return " + targetVarName + ";\n");
+
+		sb.Unindent();
+		sb.AppendFront("}\n");
+
+		modifyGenerationState.PerElementMethodSourceBuilder.Append(sb.ToString());
 	}
 
-	protected void generateArrayMapStartWithAccumulateBy(ArrayMapStartWithAccumulateByExpr arrayMap, ExpressionGenerationState modifyGenerationState)
+	protected internal virtual void GenerateArrayMapStartWithAccumulateBy(ArrayMapStartWithAccumulateByExpr arrayMap, ExpressionGenerationState modifyGenerationState)
 	{
 		SourceBuilder sb = new SourceBuilder();
-		sb.indent().indent();
+		sb.Indent().Indent();
 
-		String arrayMapName = "ArrayMapStartWithAccumulateBy_" + arrayMap.getId();
+		string arrayMapName = "ArrayMapStartWithAccumulateBy_" + arrayMap.Id;
 
-		ArrayType arrayInputTypeType = arrayMap.getTargetTypeExact();
-		String arrayInputType = formatType(arrayInputTypeType);
-		String elementInputType = formatType(arrayInputTypeType.valueType);
-		ArrayType arrayOutputTypeType = (ArrayType)arrayMap.getType();
-		String arrayOutputType = formatType(arrayOutputTypeType);
-		String elementOutputType = formatType(arrayOutputTypeType.valueType);
+		ArrayType arrayInputTypeType = arrayMap.TargetTypeExact;
+		string arrayInputType = FormatType(arrayInputTypeType);
+		string elementInputType = FormatType(arrayInputTypeType.valueType);
+		ArrayType arrayOutputTypeType = (ArrayType)arrayMap.Type;
+		string arrayOutputType = FormatType(arrayOutputTypeType);
+		string elementOutputType = FormatType(arrayOutputTypeType.valueType);
 
-		String targetVarName = "target";
-		String sourceVarName = "source";
-		String resultVarName = "result";
+		string targetVarName = "target";
+		string sourceVarName = "source";
+		string resultVarName = "result";
 
-		sb.appendFront("static " + arrayOutputType + " "+ arrayMapName + "(");
-		sb.append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
+		sb.AppendFront("static " + arrayOutputType + " " + arrayMapName + "(");
+		sb.Append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
 
 		// collect all variables, create parameters - like for if/eval
-		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
-		arrayMap.collectNeededEntities(needs);
+		NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+		arrayMap.CollectNeededEntities(needs);
 
-		sb.append(", " + arrayInputType + " " + sourceVarName);
+		sb.Append(", " + arrayInputType + " " + sourceVarName);
 
-		for(Node node : needs.nodes) {
-			sb.append(", ");
-			sb.append(formatType(node.getType()));
-			sb.append(" ");
-			sb.append(formatEntity(node));
+		foreach(Node node in needs.nodes)
+		{
+			sb.Append(", ");
+			sb.Append(FormatType(node.Type));
+			sb.Append(" ");
+			sb.Append(FormatEntity(node));
 		}
-		for(Edge edge : needs.edges) {
-			sb.append(", ");
-			sb.append(formatType(edge.getType()));
-			sb.append(" ");
-			sb.append(formatEntity(edge));
+		foreach(Edge edge in needs.edges)
+		{
+			sb.Append(", ");
+			sb.Append(FormatType(edge.Type));
+			sb.Append(" ");
+			sb.Append(FormatEntity(edge));
 		}
-		for(Variable var : needs.variables) {
-			sb.append(", ");
-			sb.append(formatType(var.getType()));
-			sb.append(" ");
-			sb.append(formatEntity(var));
-		}
-
-		if(modifyGenerationState.isToBeParallelizedActionExisting())
-			sb.append(", int threadId");
-
-		sb.append(")\n");
-		sb.appendFront("{\n");
-		sb.indent();
-
-		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
-		sb.appendFront(arrayOutputType + " " + targetVarName + " = new " + arrayOutputType + "();\n");
-
-		if(arrayMap.getInitArrayAccessVar() != null) {
-			String initArrayAccessVarName = formatEntity(arrayMap.getInitArrayAccessVar());
-			sb.append(arrayInputType + " " + initArrayAccessVarName + " = " + sourceVarName + ";\n");
+		foreach(Variable var in needs.variables)
+		{
+			sb.Append(", ");
+			sb.Append(FormatType(var.Type));
+			sb.Append(" ");
+			sb.Append(FormatEntity(var));
 		}
 
-		String previousAccumulationAccessVarName = formatEntity(arrayMap.getPreviousAccumulationAccessVar());
-		sb.appendFront(elementOutputType + " " + previousAccumulationAccessVarName + " = ");
-		genExpression(sb, arrayMap.getInitExpr(), modifyGenerationState);
-		sb.append(";\n");
+		if(modifyGenerationState.IsToBeParallelizedActionExisting())
+			sb.Append(", int threadId");
 
-		if(arrayMap.getArrayAccessVar() != null) {
-			String arrayAccessVarName = formatEntity(arrayMap.getArrayAccessVar());
-			sb.append(arrayInputType + " " + arrayAccessVarName + " = " + sourceVarName + ";\n");
+		sb.Append(")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
+
+		sb.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+		sb.AppendFront(arrayOutputType + " " + targetVarName + " = new " + arrayOutputType + "();\n");
+
+		if(arrayMap.InitArrayAccessVar != null)
+		{
+			string initArrayAccessVarName = FormatEntity(arrayMap.InitArrayAccessVar);
+			sb.Append(arrayInputType + " " + initArrayAccessVarName + " = " + sourceVarName + ";\n");
 		}
-		
-		String indexVarName = arrayMap.getIndexVar()!=null ? formatEntity(arrayMap.getIndexVar()) : "index";
-		sb.appendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < " + sourceVarName + ".Count; ++" + indexVarName + ")\n");
-		sb.appendFront("{\n");
-		sb.indent();
 
-		String elementVarName = formatEntity(arrayMap.getElementVar());
-		sb.appendFront(elementInputType + " " + elementVarName + " = " + sourceVarName + "[" + indexVarName + "];\n");
-		sb.appendFront(elementOutputType + " " + resultVarName + " = ");
-		genExpression(sb, arrayMap.getMappingExpr(), modifyGenerationState);
-		sb.append(";\n");
-		sb.appendFront(targetVarName + ".Add(" + resultVarName + ");\n");
+		string previousAccumulationAccessVarName = FormatEntity(arrayMap.PreviousAccumulationAccessVar);
+		sb.AppendFront(elementOutputType + " " + previousAccumulationAccessVarName + " = ");
+		GenExpression(sb, arrayMap.InitExpr, modifyGenerationState);
+		sb.Append(";\n");
 
-		sb.appendFront(previousAccumulationAccessVarName + " = " + resultVarName + ";\n");
+		if(arrayMap.ArrayAccessVar != null)
+		{
+			string arrayAccessVarName = FormatEntity(arrayMap.ArrayAccessVar);
+			sb.Append(arrayInputType + " " + arrayAccessVarName + " = " + sourceVarName + ";\n");
+		}
 
-		sb.unindent();
-		sb.appendFront("}\n");
+		string indexVarName = arrayMap.IndexVar != null ? FormatEntity(arrayMap.IndexVar) : "index";
+		sb.AppendFront("for(int " + indexVarName + " = 0; " + indexVarName + " < " + sourceVarName + ".Count; ++" + indexVarName + ")\n");
+		sb.AppendFront("{\n");
+		sb.Indent();
 
-		sb.appendFront("return " + targetVarName + ";\n");
+		string elementVarName = FormatEntity(arrayMap.ElementVar);
+		sb.AppendFront(elementInputType + " " + elementVarName + " = " + sourceVarName + "[" + indexVarName + "];\n");
+		sb.AppendFront(elementOutputType + " " + resultVarName + " = ");
+		GenExpression(sb, arrayMap.MappingExpr, modifyGenerationState);
+		sb.Append(";\n");
+		sb.AppendFront(targetVarName + ".Add(" + resultVarName + ");\n");
 
-		sb.unindent();
-		sb.appendFront("}\n");
-		
-		modifyGenerationState.getPerElementMethodSourceBuilder().append(sb.toString());
+		sb.AppendFront(previousAccumulationAccessVarName + " = " + resultVarName + ";\n");
+
+		sb.Unindent();
+		sb.AppendFront("}\n");
+
+		sb.AppendFront("return " + targetVarName + ";\n");
+
+		sb.Unindent();
+		sb.AppendFront("}\n");
+
+		modifyGenerationState.PerElementMethodSourceBuilder.Append(sb.ToString());
 	}
 
 	/* (unary and binary) operator symbols (of the C-language) */
 	// The first two shift operations are signed shifts, the second right shift is unsigned.
-	private static String getOperatorSymbol(OperatorCode opCode)
+	private static string GetOperatorSymbol(OperatorCode opCode)
 	{
 		switch(opCode)
 		{
-		case LOG_OR: return "||";
-		case LOG_AND: return "&&";
-		case BIT_OR: return "|";
-		case BIT_XOR: return "^";
-		case BIT_AND: return "&";
-		case EQ: return "==";
-		case NE: return "!=";
-		case LT: return "<";
-		case LE: return "<=";
-		case GT: return ">";
-		case GE: return ">=";
-		case SHL: return "<<";
-		case SHR: return ">>";
-		case BIT_SHR: return ">>";
-		case ADD: return "+";
-		case SUB: return "-";
-		case MUL: return "*";
-		case DIV: return "/";
-		case MOD: return "%";
-		case LOG_NOT: return "!";
-		case BIT_NOT: return "~";
-		case NEG: return "-";
-		default: throw new RuntimeException("internal failure");
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.LOG_OR:
+			return "||";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.LOG_AND:
+			return "&&";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.BIT_OR:
+			return "|";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.BIT_XOR:
+			return "^";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.BIT_AND:
+			return "&";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.EQ:
+			return "==";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.NE:
+			return "!=";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.LT:
+			return "<";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.LE:
+			return "<=";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.GT:
+			return ">";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.GE:
+			return ">=";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.SHL:
+			return "<<";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.SHR:
+			return ">>";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.BIT_SHR:
+			return ">>";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.ADD:
+			return "+";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.SUB:
+			return "-";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.MUL:
+			return "*";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.DIV:
+			return "/";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.MOD:
+			return "%";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.LOG_NOT:
+			return "!";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.BIT_NOT:
+			return "~";
+		case de.unika.ipd.grgen.ir.expr.OperatorCode.NEG:
+			return "-";
+		default:
+			throw new Exception("internal failure");
 		}
 	}
 
-	protected static boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
+	protected internal static bool AccessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
 	{
-		if(elem instanceof GraphEntity) {
-			HashSet<Entity> forcedAttrs = state.getForceAttributeToVar().get((GraphEntity)elem);
-			return forcedAttrs != null && forcedAttrs.contains(attr);
-		} else
-			return false;
-	}
-
-	protected static boolean accessViaInterface(ModifyGenerationStateConst state, Entity elem)
-	{
-		if(elem instanceof GraphEntity)
-			return state.getAccessViaInterface().contains((GraphEntity)elem);
+		if(elem is GraphEntity)
+		{
+			HashSet<Entity> forcedAttrs = state.ForceAttributeToVar[(GraphEntity)elem];
+			return forcedAttrs != null && forcedAttrs.Contains(attr);
+		}
 		else
 			return false;
 	}
 
-	protected String nodeTypePrefix;
-	protected String edgeTypePrefix;
-	protected String objectTypePrefix;
-	protected String transientObjectTypePrefix;
+	protected internal static bool AccessViaInterface(ModifyGenerationStateConst state, Entity elem)
+	{
+		if(elem is GraphEntity)
+			return state.AccessViaInterface.Contains((GraphEntity)elem);
+		else
+			return false;
+	}
+
+	protected internal string nodeTypePrefix;
+	protected internal string edgeTypePrefix;
+	protected internal string objectTypePrefix;
+	protected internal string transientObjectTypePrefix;
+}
+
 }

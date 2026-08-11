@@ -1,59 +1,76 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ir.stmt;
-
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.type.container.ArrayType;
-
-public class FunctionAutoKeepOneForEachAccumulateBy extends EvalStatement
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ir.stmt
 {
-	protected Variable targetVar;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+
+public class FunctionAutoKeepOneForEachAccumulateBy : EvalStatement
+{
+	protected internal Variable targetVar;
 
 	private Entity member;
 	private Variable accumulationMember;
-	private String accumulationMethod;
-	
+	private string accumulationMethod;
+
 	public FunctionAutoKeepOneForEachAccumulateBy(Variable targetVar, Entity member,
-			Variable accumulationMember, String accumulationMethod)
+			Variable accumulationMember, string accumulationMethod)
+		: base("function auto keep one for each accumulate by stmt")
 	{
-		super("function auto keep one for each accumulate by stmt");
 		this.targetVar = targetVar;
 		this.member = member;
 		this.accumulationMember = accumulationMember;
 		this.accumulationMethod = accumulationMethod;
 	}
 
-	public Entity getMember()
+	public virtual Entity Member
 	{
+		get
+		{
 		return member;
+		}
 	}
-	
-	public Variable getAccumulationMember()
+
+	public virtual Variable AccumulationMember
 	{
+		get
+		{
 		return accumulationMember;
+		}
 	}
-	
-	public String getAccumulationMethod()
+
+	public virtual string AccumulationMethod
 	{
+		get
+		{
 		return accumulationMethod;
+		}
 	}
-	
-	public Variable getTargetVar()
+
+	public virtual Variable TargetVar
 	{
+		get
+		{
 		return targetVar;
+		}
 	}
-	
-	public ArrayType getTargetType()
+
+	public virtual ArrayType TargetType
 	{
-		return (ArrayType)targetVar.getType();
+		get
+		{
+		return (ArrayType)targetVar.Type;
+		}
 	}
+}
+
 }

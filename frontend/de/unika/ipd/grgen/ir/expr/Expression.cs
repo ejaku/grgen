@@ -1,66 +1,70 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
-import de.unika.ipd.grgen.ir.pattern.RetypedNode;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * Abstract base class for expression nodes
- */
-public abstract class Expression extends IR
+namespace de.unika.ipd.grgen.ir.expr
 {
-	private static final String[] childrenNames = { "type" };
+using de.unika.ipd.grgen.ir;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using RetypedEdge = de.unika.ipd.grgen.ir.pattern.RetypedEdge;
+using RetypedNode = de.unika.ipd.grgen.ir.pattern.RetypedNode;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-	/** The type of the expression. */
-	protected Type type;
+/// <summary>
+/// Abstract base class for expression nodes
+/// </summary>
+public abstract class Expression : IR
+{
+	private static readonly string[] childrenNames = new string[] { "type" };
 
-	public Expression(String name, Type type)
+	/// <summary>
+	/// The type of the expression. </summary>
+	protected internal Type type;
+
+	public Expression(string name, Type type)
+		: base(name)
 	{
-		super(name);
-		setChildrenNames(childrenNames);
+		ChildrenNames = childrenNames;
 		this.type = type;
 	}
 
-	/** @return The type of the expression. */
-	public Type getType()
+	/// <returns> The type of the expression. </returns>
+	public virtual Type Type
 	{
+		get
+		{
 		return type;
+		}
 	}
 
-	/**
-	 * Method collectNeededEntities extracts the nodes, edges, and variables occurring in this Expression.
-	 * We don't collect global variables (::-prefixed), as no entities and no processing are needed for them at all, they are only accessed.
-	 * @param needs A NeededEntities instance aggregating the needed elements.
-	 */
-	public void collectNeededEntities(NeededEntities needs)
+	/// <summary>
+	/// Method collectNeededEntities extracts the nodes, edges, and variables occurring in this Expression.
+	/// We don't collect global variables (::-prefixed), as no entities and no processing are needed for them at all, they are only accessed. </summary>
+	/// <param name="needs"> A NeededEntities instance aggregating the needed elements. </param>
+	public virtual void CollectNeededEntities(NeededEntities needs)
 	{
 		// default implementation for expressions without children that need to be collected
 	}
 
-	public static boolean isGlobalVariable(Entity entity)
+	public static bool IsGlobalVariable(Entity entity)
 	{
-		if(entity instanceof Node && !(entity instanceof RetypedNode)) {
+		if(entity is Node && !(entity is RetypedNode))
 			return ((Node)entity).directlyNestingLHSGraph == null;
-		} else if(entity instanceof Edge && !(entity instanceof RetypedEdge)) {
+		else if(entity is Edge && !(entity is RetypedEdge))
 			return ((Edge)entity).directlyNestingLHSGraph == null;
-		} else if(entity instanceof Variable) {
+		else if(entity is Variable)
 			return ((Variable)entity).directlyNestingLHSGraph == null;
-		}
 		return false;
 	}
+}
+
 }

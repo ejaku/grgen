@@ -1,185 +1,195 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.parser;
-
-import de.unika.ipd.grgen.util.report.Location;
-
-public class Coords implements Location
+namespace de.unika.ipd.grgen.parser
 {
-	protected static final Coords INVALID = new Coords();
+using Location = de.unika.ipd.grgen.util.report.Location;
 
-	protected static final Coords BUILTIN = new Coords(0, 0, "<builtin>");
+public class Coords : Location
+{
+	protected internal static readonly Coords INVALID = new Coords();
 
-	public static final Coords getInvalid()
+	protected internal static readonly Coords BUILTIN = new Coords(0, 0, "<builtin>");
+
+	public static Coords Invalid
 	{
+		get
+		{
 		return INVALID;
+		}
 	}
 
-	public static final Coords getBuiltin()
+	public static Coords Builtin
 	{
+		get
+		{
 		return BUILTIN;
+		}
 	}
 
-	protected int line;
-	protected int column;
-	protected String filename; // non-null if line!=-1 && column!=-1
+	protected internal int line;
+	protected internal int column;
+	protected internal string filename; // non-null if line!=-1 && column!=-1
 
-	/**
-	 * Create empty coordinates.
-	 * Coordinates made with this constructor will return false
-	 * on #hasLocation().
-	 */
+	/// <summary>
+	/// Create empty coordinates.
+	/// Coordinates made with this constructor will return false
+	/// on #hasLocation().
+	/// </summary>
 	public Coords()
+		: this(-1, -1, null)
 	{
-		this(-1, -1, null);
 	}
 
-	/**
-	 * Fully construct new coordinates
-	 * @param line The line
-	 * @param column The column
-	 * @param filename The filename
-	 */
-	public Coords(int line, int column, String filename)
+	/// <summary>
+	/// Fully construct new coordinates </summary>
+	/// <param name="line"> The line </param>
+	/// <param name="column"> The column </param>
+	/// <param name="filename"> The filename </param>
+	public Coords(int line, int column, string filename)
 	{
 		this.line = line;
 		this.column = column;
 		this.filename = filename;
 	}
 
-	/**
-	 * Make coordinates just from line and column. The filename is set
-	 * to the default filename.
-	 * @param line The line
-	 * @param column The column
-	 */
+	/// <summary>
+	/// Make coordinates just from line and column. The filename is set
+	/// to the default filename. </summary>
+	/// <param name="line"> The line </param>
+	/// <param name="column"> The column </param>
 	public Coords(int line, int column)
+		: this(line, column, null)
 	{
-		this(line, column, null);
 	}
 
-	/**
-	 * Checks, wheather the coordinates are valid.
-	 * @return true, if the coordinates are set and valid, false otherwise
-	 */
-	private boolean valid()
+	/// <summary>
+	/// Checks, wheather the coordinates are valid. </summary>
+	/// <returns> true, if the coordinates are set and valid, false otherwise </returns>
+	private bool Valid()
 	{
 		return line != -1 && column != -1;
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		if(valid())
+		if(Valid())
 			return filename + ":" + line + "," + column;
 		else
 			return "nowhere";
 	}
 
-	public final String getAtCoords()
+	public string AtCoords
 	{
-		return " [at " + toString() + "]";
-	}
-	
-	public final String getDeclarationCoords(boolean implicitly)
-	{
-		if(!hasLocation())
-			return "";
-		if(this == Coords.getBuiltin())
-			return "";
-		return " [declared " + (implicitly ? "implicitly " : "") + "at " + toString() + "]";
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.util.report.Location#getLocation()
-	 */
-	@Override
-	public String getLocation()
-	{
-		return toString();
+		get
+		{
+		return " [at " + ToString() + "]";
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.report.Location#hasLocation()
-	 */
-	@Override
-	public boolean hasLocation()
+	public string GetDeclarationCoords(bool implicitly)
 	{
-		return valid();
+		if(!HasLocation())
+			return "";
+		if(this == Coords.Builtin)
+			return "";
+		return " [declared " + (implicitly ? "implicitly " : "") + "at " + ToString() + "]";
 	}
 
-	/**
-	 * Compare coordinates.
-	 * Coordainates are equal, if they have the same filename (or both none)
-	 * the same line and column.
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj)
+	/// <seealso cref="de.unika.ipd.grgen.util.report.Location.getLocation()"/>
+	public virtual string Location
 	{
-		boolean res = false;
-		if(obj instanceof Coords) {
+		get
+		{
+		return ToString();
+		}
+	}
+
+	/// <seealso cref="de.unika.ipd.grgen.util.report.Location.hasLocation()"/>
+	public virtual bool HasLocation()
+	{
+		return Valid();
+	}
+
+	/// <summary>
+	/// Compare coordinates.
+	/// Coordainates are equal, if they have the same filename (or both none)
+	/// the same line and column. </summary>
+	/// <seealso cref="java.lang.Object.equals(java.lang.Object)"/>
+	public override bool Equals(object obj)
+	{
+		bool res = false;
+		if(obj is Coords)
+		{
 			Coords c = (Coords)obj;
 			res = line == c.line && column == c.column &&
-					((filename == null && c.filename == null)
-							|| (filename != null && filename.equals(c.filename)));
+					((string.ReferenceEquals(filename, null) && string.ReferenceEquals(c.filename, null))
+							|| (!string.ReferenceEquals(filename, null) && filename.Equals(c.filename)));
 		}
 		return res;
 	}
 
-	@Override
-	public int hashCode()
+	public override int GetHashCode()
 	{
-		return ( (filename != null ? filename.hashCode() : 13) * 31 + line ) * 31 + column;
+		return ((!string.ReferenceEquals(filename, null) ? filename.GetHashCode() : 13) * 31 + line) * 31 + column;
 	}
-	
-	/**
-	 * Get the line of the coordinates.
-	 * @return The line.
-	 */
-	public int getLine()
+
+	/// <summary>
+	/// Get the line of the coordinates. </summary>
+	/// <returns> The line. </returns>
+	public virtual int Line
 	{
+		get
+		{
 		return line;
+		}
 	}
 
-	/**
-	 * Get the column of the coordinates.
-	 * @return The column.
-	 */
-	public int getColumn()
+	/// <summary>
+	/// Get the column of the coordinates. </summary>
+	/// <returns> The column. </returns>
+	public virtual int Column
 	{
+		get
+		{
 		return column;
+		}
 	}
 
-	/**
-	 * Get the filename of the coordinates.
-	 * @return The filename.
-	 */
-	public String getFileName()
+	/// <summary>
+	/// Get the filename of the coordinates. </summary>
+	/// <returns> The filename. </returns>
+	public virtual string FileName
 	{
+		get
+		{
 		return filename;
+		}
 	}
 
-	public boolean comesBefore(Coords that)
+	public virtual bool ComesBefore(Coords that)
 	{
-		if(!this.valid())
+		if(!this.Valid())
 			return false;
-		if(!that.valid())
+		if(!that.Valid())
 			return false;
-		if(this.getLine() < that.getLine())
+		if(this.Line < that.Line)
 			return true;
-		if(this.getLine() == that.getLine())
-			if(this.getColumn() < that.getColumn())
+		if(this.Line == that.Line)
+		{
+			if(this.Column < that.Column)
 				return true;
+		}
 		return false;
 	}
+}
+
 }

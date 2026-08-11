@@ -1,38 +1,41 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * Interface giving access to the state needed for generating expressions.
- * @author Moritz Kroll, Edgar Jakumeit
- */
+/// <summary>
+/// Interface giving access to the state needed for generating expressions.
+/// @author Moritz Kroll, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.be.Csharp;
+namespace de.unika.ipd.grgen.be.Csharp
+{
 
-import java.util.Map;
+using System.Collections.Generic;
 
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.model.Model;
-import de.unika.ipd.grgen.util.SourceBuilder;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Model = de.unika.ipd.grgen.ir.model.Model;
+using SourceBuilder = de.unika.ipd.grgen.util.SourceBuilder;
 
 public interface ExpressionGenerationState
 {
-	Map<Expression, String> getMapExprToTempVar();
+	IDictionary<Expression, string> MapExprToTempVar {get;}
 
-	boolean useVarForResult();
+	bool UseVarForResult();
 
-	boolean switchToVarForResultAfterFirstVarUsage();
+	bool SwitchToVarForResultAfterFirstVarUsage();
 
-	void switchToVarForResult();
+	void SwitchToVarForResult();
 
-	Model getModel();
+	Model Model {get;}
 
-	boolean isToBeParallelizedActionExisting();
+	bool IsToBeParallelizedActionExisting();
 
-	boolean emitProfilingInstrumentation();
+	bool EmitProfilingInstrumentation();
 
-	SourceBuilder getPerElementMethodSourceBuilder();
+	SourceBuilder PerElementMethodSourceBuilder {get;}
+}
+
 }

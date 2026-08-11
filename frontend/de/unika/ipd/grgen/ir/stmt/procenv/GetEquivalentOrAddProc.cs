@@ -1,71 +1,81 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt.procenv;
-
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-import de.unika.ipd.grgen.ir.type.Type;
-
-public class GetEquivalentOrAddProc extends BuiltinProcedureInvocationBase
+namespace de.unika.ipd.grgen.ir.stmt.procenv
 {
-	Type returnType;
-	
-	private final Expression subgraphExpr;
-	private final Expression arrayExpr;
-	private final boolean includingAttributes;
+using System.Diagnostics;
+
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+public class GetEquivalentOrAddProc : BuiltinProcedureInvocationBase
+{
+	internal Type returnType;
+
+	private readonly Expression subgraphExpr;
+	private readonly Expression arrayExpr;
+	private readonly bool includingAttributes;
 
 	public GetEquivalentOrAddProc(Type returnType,
-			Expression subgraphExpr, Expression arrayExpr, boolean includingAttributes)
+			Expression subgraphExpr, Expression arrayExpr, bool includingAttributes)
+		: base("get equivalent or add procedure")
 	{
-		super("get equivalent or add procedure");
 		this.returnType = returnType;
 		this.subgraphExpr = subgraphExpr;
 		this.arrayExpr = arrayExpr;
 		this.includingAttributes = includingAttributes;
 	}
 
-	public Expression getSubgraphExpr()
+	public virtual Expression SubgraphExpr
 	{
+		get
+		{
 		return subgraphExpr;
+		}
 	}
 
-	public Expression getArrayExpr()
+	public virtual Expression ArrayExpr
 	{
+		get
+		{
 		return arrayExpr;
+		}
 	}
 
-	public boolean getIncludingAttributes()
+	public virtual bool IncludingAttributes
 	{
+		get
+		{
 		return includingAttributes;
+		}
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		subgraphExpr.collectNeededEntities(needs);
-		arrayExpr.collectNeededEntities(needs);
+		subgraphExpr.CollectNeededEntities(needs);
+		arrayExpr.CollectNeededEntities(needs);
 	}
-	
-	@Override
-	public int returnArity()
+
+	public override int ReturnArity()
 	{
 		return 1;
 	}
-	
-	@Override
-	public Type getReturnType(int index)
+
+	public override Type GetReturnType(int index)
 	{
-		assert(index == 0);
+		Debug.Assert((index == 0));
 		return returnType;
 	}
+}
+
 }

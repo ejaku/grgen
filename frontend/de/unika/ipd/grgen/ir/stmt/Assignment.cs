@@ -1,77 +1,83 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Rubino Geiss
- */
-package de.unika.ipd.grgen.ir.stmt;
-
-import java.util.HashSet;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.type.DefinedMatchType;
-import de.unika.ipd.grgen.ir.type.MatchType;
-
-/**
- * Represents an assignment statement in the IR.
- */
-public class Assignment extends AssignmentBase
+/// <summary>
+/// @author Rubino Geiss
+/// </summary>
+namespace de.unika.ipd.grgen.ir.stmt
 {
-	/** The lhs of the assignment. */
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+using MatchType = de.unika.ipd.grgen.ir.type.MatchType;
+
+/// <summary>
+/// Represents an assignment statement in the IR.
+/// </summary>
+public class Assignment : AssignmentBase
+{
+	/// <summary>
+	/// The lhs of the assignment. </summary>
 	private Qualification target;
 
 	public Assignment(Qualification target, Expression expr)
+		: base("assignment")
 	{
-		super("assignment");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	protected Assignment(String name, Qualification target, Expression expr)
+	protected internal Assignment(string name, Qualification target, Expression expr)
+		: base(name)
 	{
-		super(name);
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public Qualification getTarget()
+	public virtual Qualification Target
 	{
+		get
+		{
 		return target;
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return getTarget() + " = " + getExpression();
+		return Target + " = " + Expression;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		Entity entity = target.getOwner();
-		if(!isGlobalVariable(entity)
-				&& !(entity.getType() instanceof MatchType)
-				&& !(entity.getType() instanceof DefinedMatchType)) {
-			if(entity instanceof GraphEntity)
-				needs.add((GraphEntity)entity);
+		Entity entity = target.Owner;
+		if(!IsGlobalVariable(entity)
+				&& !(entity.Type is MatchType)
+				&& !(entity.Type is DefinedMatchType))
+		{
+			if(entity is GraphEntity)
+				needs.Add((GraphEntity)entity);
 			else
-				needs.add((Variable)entity);
+				needs.Add((Variable)entity);
 		}
 
 		// Temporarily do not collect variables for target
 		HashSet<Variable> varSet = needs.variables;
 		needs.variables = null;
-		target.collectNeededEntities(needs);
+		target.CollectNeededEntities(needs);
 		needs.variables = varSet;
 
-		getExpression().collectNeededEntities(needs);
+		Expression.CollectNeededEntities(needs);
 	}
+}
+
 }

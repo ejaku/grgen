@@ -1,104 +1,105 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.parser;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.Lexer;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FilterAutoDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.FilterAutoSuppliedDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.numeric.IntConstNode;
-import de.unika.ipd.grgen.ast.model.ConnAssertNode;
-import de.unika.ipd.grgen.ast.model.decl.ModelNode;
-import de.unika.ipd.grgen.ast.model.type.ArbitraryEdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.DirectedEdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.util.Base;
-
-public abstract class ParserEnvironment extends Base
+namespace de.unika.ipd.grgen.parser
 {
-	public static final String MODEL_SUFFIX = ".gm";
 
-	public static final int TYPES = 0;
-	public static final int PATTERNS = TYPES; // patterns are also constructible, like types
-	public static final int ENTITIES = 1;
-	public static final int ACTIONS = 2;
-	public static final int ALTERNATIVES = 3;
-	public static final int ITERATEDS = 4;
-	public static final int NEGATIVES = 5;
-	public static final int INDEPENDENTS = 6;
-	public static final int REPLACES = 7;
-	public static final int MODELS = 8;
-	public static final int FUNCTIONS_AND_EXTERNAL_FUNCTIONS = 9;
-	public static final int COMPUTATION_BLOCKS = 10;
-	public static final int INDICES = 11;
-	public static final int PACKAGES = 12;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-	private final SymbolTable[] symTabs = new SymbolTable[] {
-			new SymbolTable("types", TYPES), // types and patterns
-			new SymbolTable("entities", ENTITIES),
-			new SymbolTable("actions", ACTIONS),
-			new SymbolTable("alternatives", ALTERNATIVES),
-			new SymbolTable("iterateds", ITERATEDS),
-			new SymbolTable("negatives", NEGATIVES),
-			new SymbolTable("independents", INDEPENDENTS),
-			new SymbolTable("replaces", REPLACES),
-			new SymbolTable("models", MODELS),
-			new SymbolTable("functions and external functions", FUNCTIONS_AND_EXTERNAL_FUNCTIONS),
-			new SymbolTable("computation blocks", COMPUTATION_BLOCKS),
-			new SymbolTable("indices", INDICES),
-			new SymbolTable("packages", PACKAGES)
+using RecognitionException = org.antlr.runtime.RecognitionException;
+using Token = org.antlr.runtime.Token;
+using Lexer = org.antlr.runtime.Lexer;
+
+using de.unika.ipd.grgen.ast;
+using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+using FilterAutoDeclNode = de.unika.ipd.grgen.ast.decl.executable.FilterAutoDeclNode;
+using FilterAutoSuppliedDeclNode = de.unika.ipd.grgen.ast.decl.executable.FilterAutoSuppliedDeclNode;
+using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using IntConstNode = de.unika.ipd.grgen.ast.expr.numeric.IntConstNode;
+using ConnAssertNode = de.unika.ipd.grgen.ast.model.ConnAssertNode;
+using ModelNode = de.unika.ipd.grgen.ast.model.decl.ModelNode;
+using ArbitraryEdgeTypeNode = de.unika.ipd.grgen.ast.model.type.ArbitraryEdgeTypeNode;
+using DirectedEdgeTypeNode = de.unika.ipd.grgen.ast.model.type.DirectedEdgeTypeNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
+using InternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
+using InternalTransientObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using UndirectedEdgeTypeNode = de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using Base = de.unika.ipd.grgen.util.Base;
+
+public abstract class ParserEnvironment : Base
+{
+	public const string MODEL_SUFFIX = ".gm";
+
+	public const int TYPES = 0;
+	public const int PATTERNS = TYPES; // patterns are also constructible, like types
+	public const int ENTITIES = 1;
+	public const int ACTIONS = 2;
+	public const int ALTERNATIVES = 3;
+	public const int ITERATEDS = 4;
+	public const int NEGATIVES = 5;
+	public const int INDEPENDENTS = 6;
+	public const int REPLACES = 7;
+	public const int MODELS = 8;
+	public const int FUNCTIONS_AND_EXTERNAL_FUNCTIONS = 9;
+	public const int COMPUTATION_BLOCKS = 10;
+	public const int INDICES = 11;
+	public const int PACKAGES = 12;
+
+	private readonly SymbolTable[] symTabs = new SymbolTable[]
+	{
+		new SymbolTable("types", TYPES),
+		new SymbolTable("entities", ENTITIES),
+		new SymbolTable("actions", ACTIONS),
+		new SymbolTable("alternatives", ALTERNATIVES),
+		new SymbolTable("iterateds", ITERATEDS),
+		new SymbolTable("negatives", NEGATIVES),
+		new SymbolTable("independents", INDEPENDENTS),
+		new SymbolTable("replaces", REPLACES),
+		new SymbolTable("models", MODELS),
+		new SymbolTable("functions and external functions", FUNCTIONS_AND_EXTERNAL_FUNCTIONS),
+		new SymbolTable("computation blocks", COMPUTATION_BLOCKS),
+		new SymbolTable("indices", INDICES),
+		new SymbolTable("packages", PACKAGES)
 	};
 
-	private final IntConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
+	private readonly IntConstNode one = new IntConstNode(Coords.Builtin, 1);
 
-	private final IntConstNode zero = new IntConstNode(Coords.getBuiltin(), 0);
+	private readonly IntConstNode zero = new IntConstNode(Coords.Builtin, 0);
 
 	private Scope currScope;
 
-	private final IdentNode nodeRoot;
+	private readonly IdentNode nodeRoot;
 
-	private final IdentNode arbitraryEdgeRoot;
-	private final IdentNode directedEdgeRoot;
-	private final IdentNode undirectedEdgeRoot;
+	private readonly IdentNode arbitraryEdgeRoot;
+	private readonly IdentNode directedEdgeRoot;
+	private readonly IdentNode undirectedEdgeRoot;
 
-	private final IdentNode internalObjectRoot;
-	private final IdentNode internalTransientObjectRoot;
-	
-	private final Sys sys;
+	private readonly IdentNode internalObjectRoot;
+	private readonly IdentNode internalTransientObjectRoot;
 
-	private final ModelNode stdModel;
+	private readonly Sys sys;
 
-	private HashSet<String> keywords = new HashSet<String>();
+	private readonly ModelNode stdModel;
+
+	private HashSet<string> keywords = new HashSet<string>();
 
 	private IdentNode packageId;
 
@@ -111,424 +112,466 @@ public abstract class ParserEnvironment extends Base
 	// with only one type of tokens pushable to that stack, so a counter of the stack depth is sufficient
 	// private int containerInitNestingLevel = 0; 
 
-	/**
-	 * Make a new parser environment.
-	 */
+	/// <summary>
+	/// Make a new parser environment.
+	/// </summary>
 	public ParserEnvironment(Sys sys)
 	{
 		this.sys = sys;
 
 		// Make the root scope
-		currScope = new Scope(sys.getErrorReporter());
-		BaseNode.setCurrScope(currScope);
+		currScope = new Scope(sys.ErrorReporter);
+		BaseNode.CurrScope = currScope;
 
 		// Add some keywords to the symbol table
-		for(int i = 0; i < symTabs.length; i++) {
-			symTabs[i].enterKeyword("byte");
-			symTabs[i].enterKeyword("short");
-			symTabs[i].enterKeyword("int");
-			symTabs[i].enterKeyword("long");
-			symTabs[i].enterKeyword("string");
-			symTabs[i].enterKeyword("boolean");
-			symTabs[i].enterKeyword("float");
-			symTabs[i].enterKeyword("double");
-			symTabs[i].enterKeyword("object");
-			symTabs[i].enterKeyword("graph");
+		for(int i = 0; i < symTabs.Length; i++)
+		{
+			symTabs[i].EnterKeyword("byte");
+			symTabs[i].EnterKeyword("short");
+			symTabs[i].EnterKeyword("int");
+			symTabs[i].EnterKeyword("long");
+			symTabs[i].EnterKeyword("string");
+			symTabs[i].EnterKeyword("boolean");
+			symTabs[i].EnterKeyword("float");
+			symTabs[i].EnterKeyword("double");
+			symTabs[i].EnterKeyword("object");
+			symTabs[i].EnterKeyword("graph");
 		}
 
-		initLexerKeywords();
+		InitLexerKeywords();
 
 		// The standard model
 		CollectNode<IdentNode> stdModelPackages = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> stdModelChilds = new CollectNode<IdentNode>();
-		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelPackages, stdModelChilds,
+		stdModel = new ModelNode(Predefine(ENTITIES, "Std"), stdModelPackages, stdModelChilds,
 				new CollectNode<IdentNode>(), new CollectNode<IdentNode>(),
 				new CollectNode<IdentNode>(), new CollectNode<ModelNode>(),
 				false, false, false, false, false, false, false, false, false, false, 0, 0);
 
 		// The node type root
 		NodeTypeNode nodeRootType = new NodeTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0, null);
-		nodeRoot = predefineType("Node", nodeRootType);
+		nodeRoot = PredefineType("Node", nodeRootType);
 		NodeTypeNode.nodeType = nodeRootType;
 
 		// The edge type roots
 		ArbitraryEdgeTypeNode arbitraryEdgeRootType = new ArbitraryEdgeTypeNode(new CollectNode<IdentNode>(),
 				new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), InheritanceTypeNode.MOD_ABSTRACT, null);
-		arbitraryEdgeRoot = predefineType("AEdge", arbitraryEdgeRootType);
+		arbitraryEdgeRoot = PredefineType("AEdge", arbitraryEdgeRootType);
 		CollectNode<IdentNode> superTypes = new CollectNode<IdentNode>();
-		superTypes.addChild(arbitraryEdgeRoot);
+		superTypes.AddChild(arbitraryEdgeRoot);
 		EdgeTypeNode.arbitraryEdgeType = arbitraryEdgeRootType;
 
 		DirectedEdgeTypeNode directedEdgeRootType = new DirectedEdgeTypeNode(superTypes,
 				new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null);
-		directedEdgeRoot = predefineType("Edge", directedEdgeRootType);
+		directedEdgeRoot = PredefineType("Edge", directedEdgeRootType);
 		EdgeTypeNode.directedEdgeType = directedEdgeRootType;
 		UndirectedEdgeTypeNode undirectedEdgeRootType = new UndirectedEdgeTypeNode(superTypes,
 				new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null);
-		undirectedEdgeRoot = predefineType("UEdge", undirectedEdgeRootType);
+		undirectedEdgeRoot = PredefineType("UEdge", undirectedEdgeRootType);
 		EdgeTypeNode.undirectedEdgeType = undirectedEdgeRootType;
 
 		// The internal object type root
 		InternalObjectTypeNode internalObjectRootType = new InternalObjectTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0);
-		internalObjectRoot = predefineType("Object", internalObjectRootType);
+		internalObjectRoot = PredefineType("Object", internalObjectRootType);
 		InternalObjectTypeNode.internalObjectType = internalObjectRootType;
 
 		InternalTransientObjectTypeNode internalTransientObjectRootType = new InternalTransientObjectTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0);
-		internalTransientObjectRoot = predefineType("TransientObject", internalTransientObjectRootType);
+		internalTransientObjectRoot = PredefineType("TransientObject", internalTransientObjectRootType);
 		InternalTransientObjectTypeNode.internalTransientObjectType = internalTransientObjectRootType;
 
-		stdModelChilds.addChild(nodeRoot);
-		stdModelChilds.addChild(arbitraryEdgeRoot);
-		stdModelChilds.addChild(directedEdgeRoot);
-		stdModelChilds.addChild(undirectedEdgeRoot);
-		stdModelChilds.addChild(internalObjectRoot);
-		stdModelChilds.addChild(internalTransientObjectRoot);
+		stdModelChilds.AddChild(nodeRoot);
+		stdModelChilds.AddChild(arbitraryEdgeRoot);
+		stdModelChilds.AddChild(directedEdgeRoot);
+		stdModelChilds.AddChild(undirectedEdgeRoot);
+		stdModelChilds.AddChild(internalObjectRoot);
+		stdModelChilds.AddChild(internalTransientObjectRoot);
 
-		stdModelChilds.addChild(predefineType("byte", BasicTypeNode.byteType));
-		stdModelChilds.addChild(predefineType("short", BasicTypeNode.shortType));
-		stdModelChilds.addChild(predefineType("int", BasicTypeNode.intType));
-		stdModelChilds.addChild(predefineType("long", BasicTypeNode.longType));
-		stdModelChilds.addChild(predefineType("string", BasicTypeNode.stringType));
-		stdModelChilds.addChild(predefineType("boolean", BasicTypeNode.booleanType));
-		stdModelChilds.addChild(predefineType("float", BasicTypeNode.floatType));
-		stdModelChilds.addChild(predefineType("double", BasicTypeNode.doubleType));
-		stdModelChilds.addChild(predefineType("object", BasicTypeNode.objectType));
-		stdModelChilds.addChild(predefineType("graph", BasicTypeNode.graphType));
+		stdModelChilds.AddChild(PredefineType("byte", BasicTypeNode.byteType));
+		stdModelChilds.AddChild(PredefineType("short", BasicTypeNode.shortType));
+		stdModelChilds.AddChild(PredefineType("int", BasicTypeNode.intType));
+		stdModelChilds.AddChild(PredefineType("long", BasicTypeNode.longType));
+		stdModelChilds.AddChild(PredefineType("string", BasicTypeNode.stringType));
+		stdModelChilds.AddChild(PredefineType("boolean", BasicTypeNode.booleanType));
+		stdModelChilds.AddChild(PredefineType("float", BasicTypeNode.floatType));
+		stdModelChilds.AddChild(PredefineType("double", BasicTypeNode.doubleType));
+		stdModelChilds.AddChild(PredefineType("object", BasicTypeNode.objectType));
+		stdModelChilds.AddChild(PredefineType("graph", BasicTypeNode.graphType));
 	}
 
-	public ModelNode getStdModel()
+	public virtual ModelNode StdModel
 	{
+		get
+		{
 		return stdModel;
+		}
 	}
 
-	public File findModel(String modelName)
+	public virtual File FindModel(string modelName)
 	{
-		File modelPath = sys.getModelPath();
-		String modelFile = modelName.endsWith(MODEL_SUFFIX) ? modelName : modelName + MODEL_SUFFIX;
+		File modelPath = sys.ModelPath;
+		string modelFile = modelName.EndsWith(MODEL_SUFFIX, StringComparison.Ordinal) ? modelName : modelName + MODEL_SUFFIX;
 
 		File curr;
-		if(modelPath.getPath().equals("."))
+		if(modelPath.GetPath().Equals("."))
 			curr = new File(modelFile);
 		else
 			curr = new File(modelPath, modelFile);
-		debug.report(NOTE, "trying: " + curr);
+		debug.Report(NOTE, "trying: " + curr);
 
 		File res = null;
-		if(curr.exists())
+		if(curr.Exists())
 			res = curr;
 		return res;
 	}
 
-	/**
-	 * Predefine an identifier.
-	 * @param symTab The symbol table to enter the identifier in.
-	 * @param text The string of the identifier.
-	 * @return An AST identifier node for this identifier.
-	 */
-	private IdentNode predefine(int symTab, String text)
+	/// <summary>
+	/// Predefine an identifier. </summary>
+	/// <param name="symTab"> The symbol table to enter the identifier in. </param>
+	/// <param name="text"> The string of the identifier. </param>
+	/// <returns> An AST identifier node for this identifier. </returns>
+	private IdentNode Predefine(int symTab, string text)
 	{
-		return new IdentNode(define(symTab, text, Coords.BUILTIN));
+		return new IdentNode(Define(symTab, text, Coords.BUILTIN));
 	}
 
-	/**
-	 * Predefine a type.
-	 * This method creates the type declaration of a given type.
-	 * @param text The name of the type.
-	 * @param type The AST type node.
-	 * @return An AST identifier node for this type.
-	 */
-	private IdentNode predefineType(String text, TypeNode type)
+	/// <summary>
+	/// Predefine a type.
+	/// This method creates the type declaration of a given type. </summary>
+	/// <param name="text"> The name of the type. </param>
+	/// <param name="type"> The AST type node. </param>
+	/// <returns> An AST identifier node for this type. </returns>
+	private IdentNode PredefineType(string text, TypeNode type)
 	{
-		IdentNode id = predefine(TYPES, text);
-		id.setDecl(new TypeDeclNode(id, type));
+		IdentNode id = Predefine(TYPES, text);
+		id.Decl = new TypeDeclNode(id, type);
 		return id;
 	}
 
-	public Scope getCurrScope()
+	public virtual Scope CurrScope
 	{
+		get
+		{
 		return currScope;
+		}
 	}
 
-	public void pushScope(IdentNode ident)
+	public virtual void PushScope(IdentNode ident)
 	{
-		currScope = currScope.newScope(ident);
-		BaseNode.setCurrScope(currScope);
+		currScope = currScope.NewScope(ident);
+		BaseNode.CurrScope = currScope;
 	}
 
-	public void pushScope(String str, Coords coords)
+	public virtual void PushScope(string str, Coords coords)
 	{
-		pushScope(new IdentNode(
-				new Symbol.Definition(getCurrScope(), coords, new Symbol(str, SymbolTable.getInvalid()))));
+		PushScope(new IdentNode(
+				new Symbol.Definition(CurrScope, coords, new Symbol(str, SymbolTable.Invalid))));
 	}
 
-	public void popScope()
+	public virtual void PopScope()
 	{
-		if(!currScope.isRoot())
-			currScope = currScope.leaveScope();
-		BaseNode.setCurrScope(currScope);
+		if(!currScope.IsRoot())
+			currScope = currScope.LeaveScope();
+		BaseNode.CurrScope = currScope;
 	}
 
-	public Symbol.Definition define(int symTab, String text, Coords coords)
+	public virtual Symbol.Definition Define(int symTab, string text, Coords coords)
 	{
-		assert symTab >= 0 && symTab < symTabs.length : "Illegal symbol table index";
-		Symbol sym = symTabs[symTab].get(text);
-		return currScope.define(sym, coords);
+		Debug.Assert(symTab >= 0 && symTab < symTabs.Length, "Illegal symbol table index");
+		Symbol sym = symTabs[symTab].Get(text);
+		return currScope.Define(sym, coords);
 	}
 
-	public IdentNode defineAnonymousEntity(String text, Coords coords)
+	public virtual IdentNode DefineAnonymousEntity(string text, Coords coords)
 	{
-		Symbol.Definition def = currScope.defineAnonymous(text, symTabs[ENTITIES], coords);
+		Symbol.Definition def = currScope.DefineAnonymous(text, symTabs[ENTITIES], coords);
 		return new IdentNode(def);
 	}
 
-	public Symbol.Occurrence occurs(int symTab, String text, Coords coords)
+	public virtual Symbol.Occurrence Occurs(int symTab, string text, Coords coords)
 	{
-		assert symTab >= 0 && symTab < symTabs.length : "Illegal symbol table index";
-		Symbol sym = symTabs[symTab].get(text);
-		return currScope.occurs(sym, coords);
+		Debug.Assert(symTab >= 0 && symTab < symTabs.Length, "Illegal symbol table index");
+		Symbol sym = symTabs[symTab].Get(text);
+		return currScope.Occurs(sym, coords);
 	}
 
-	public boolean test(int symTab, String text)
+	public virtual bool Test(int symTab, string text)
 	{
-		assert symTab >= 0 && symTab < symTabs.length : "Illegal symbol table index";
-		return symTabs[symTab].test(text);
+		Debug.Assert(symTab >= 0 && symTab < symTabs.Length, "Illegal symbol table index");
+		return symTabs[symTab].Test(text);
 	}
 
-	public void setCurrentPackage(IdentNode id)
+	public virtual IdentNode CurrentPackage
 	{
-		this.packageId = id;
-	}
-
-	public IdentNode getCurrentPackage()
-	{
-		return packageId;
-	}
-
-	public void setCurrentActionOrSubpattern(IdentNode id)
-	{
-		this.id = id;
-	}
-
-	public IdentNode getCurrentActionOrSubpattern()
-	{
-		return id;
-	}
-
-	public void setMatchTypeChilds(CollectNode<IdentNode> matchTypeChilds)
-	{
-		this.matchTypeChilds = matchTypeChilds;
-	}
-
-	public void addMatchTypeChild(IdentNode matchTypeChild)
-	{
-		this.matchTypeChilds.addChild(matchTypeChild);
-	}
-
-	public IdentNode getMatchTypeChild(IdentNode actionOrSubpattern, IdentNode iterated)
-	{
-		for(IdentNode matchTypeChild : matchTypeChilds.getChildrenExact())
+		set
 		{
-			String iteratedMatchType = "match<" + actionOrSubpattern.getSymbol().getText() + "." + iterated.getSymbol().getText() + ">";
-			if(matchTypeChild.getSymbol().getText().equals(iteratedMatchType))
+		this.packageId = value;
+		}
+		get
+		{
+		return packageId;
+		}
+	}
+
+
+	public virtual IdentNode CurrentActionOrSubpattern
+	{
+		set
+		{
+		this.id = value;
+		}
+		get
+		{
+		return id;
+		}
+	}
+
+
+	public virtual CollectNode<IdentNode> MatchTypeChilds
+	{
+		set
+		{
+		this.matchTypeChilds = value;
+		}
+	}
+
+	public virtual void AddMatchTypeChild(IdentNode matchTypeChild)
+	{
+		this.matchTypeChilds.AddChild(matchTypeChild);
+	}
+
+	public virtual IdentNode GetMatchTypeChild(IdentNode actionOrSubpattern, IdentNode iterated)
+	{
+		foreach(IdentNode matchTypeChild in matchTypeChilds.ChildrenExact)
+		{
+			string iteratedMatchType = "match<" + actionOrSubpattern.Symbol.Text + "." + iterated.Symbol.Text + ">";
+			if(matchTypeChild.Symbol.Text.Equals(iteratedMatchType))
 			{
 				return matchTypeChild;
 			}
 		}
-		iterated.reportError("An iterated " + actionOrSubpattern.getSymbol().getText() + "." + iterated.getSymbol().getText() + " is not known.");
-		return IdentNode.getInvalid();
+		iterated.ReportError("An iterated " + actionOrSubpattern.Symbol.Text + "." + iterated.Symbol.Text + " is not known.");
+		return IdentNode.Invalid;
 	}
 
-	/**
-	 * Get the node root identifier.
-	 * @return The node root type identifier.
-	 */
-	public IdentNode getNodeRoot()
+	/// <summary>
+	/// Get the node root identifier. </summary>
+	/// <returns> The node root type identifier. </returns>
+	public virtual IdentNode NodeRoot
 	{
+		get
+		{
 		return nodeRoot;
+		}
 	}
 
-	/**
-	 * Get the directed edge root identifier.
-	 * @return The directed edge root type identifier.
-	 */
-	public IdentNode getDirectedEdgeRoot()
+	/// <summary>
+	/// Get the directed edge root identifier. </summary>
+	/// <returns> The directed edge root type identifier. </returns>
+	public virtual IdentNode DirectedEdgeRoot
 	{
+		get
+		{
 		return directedEdgeRoot;
+		}
 	}
 
-	/**
-	 * Get the arbitrary edge root identifier.
-	 * @return The arbitrary edge root type identifier.
-	 */
-	public IdentNode getArbitraryEdgeRoot()
+	/// <summary>
+	/// Get the arbitrary edge root identifier. </summary>
+	/// <returns> The arbitrary edge root type identifier. </returns>
+	public virtual IdentNode ArbitraryEdgeRoot
 	{
+		get
+		{
 		return arbitraryEdgeRoot;
+		}
 	}
 
-	/**
-	 * Get the undirected edge root identifier.
-	 * @return The undirected edge root type identifier.
-	 */
-	public IdentNode getUndirectedEdgeRoot()
+	/// <summary>
+	/// Get the undirected edge root identifier. </summary>
+	/// <returns> The undirected edge root type identifier. </returns>
+	public virtual IdentNode UndirectedEdgeRoot
 	{
+		get
+		{
 		return undirectedEdgeRoot;
+		}
 	}
 
-	public IdentNode getInternalObjectRoot()
+	public virtual IdentNode InternalObjectRoot
 	{
+		get
+		{
 		return internalObjectRoot;
+		}
 	}
 
-	public IdentNode getInternalTransientObjectRoot()
+	public virtual IdentNode InternalTransientObjectRoot
 	{
+		get
+		{
 		return internalTransientObjectRoot;
+		}
 	}
 
-	public IntConstNode getOne()
+	public virtual IntConstNode One
 	{
+		get
+		{
 		return one;
+		}
 	}
 
-	public IntConstNode getZero()
+	public virtual IntConstNode Zero
 	{
+		get
+		{
 		return zero;
+		}
 	}
 
-	public Sys getSys()
+	public virtual Sys Sys
 	{
+		get
+		{
 		return sys;
+		}
 	}
 
-	/**
-	 * Get an initializer for an AST node.
-	 * This defaults to the error node.
-	 * @return An initialization AST node.
-	 */
-	public static BaseNode initNode()
+	/// <summary>
+	/// Get an initializer for an AST node.
+	/// This defaults to the error node. </summary>
+	/// <returns> An initialization AST node. </returns>
+	public static BaseNode InitNode()
 	{
-		return BaseNode.getErrorNode();
+		return BaseNode.ErrorNode;
 	}
 
-	public static ExprNode initExprNode()
+	public static ExprNode InitExprNode()
 	{
-		return ExprNode.getInvalid();
+		return ExprNode.Invalid;
 	}
 
-	public static VarDeclNode initVarNode(PatternGraphLhsNode directlyNestingLHSGraph, int context)
+	public static VarDeclNode InitVarNode(PatternGraphLhsNode directlyNestingLHSGraph, int context)
 	{
-		return VarDeclNode.getInvalidVar(directlyNestingLHSGraph, context);
+		return VarDeclNode.GetInvalidVar(directlyNestingLHSGraph, context);
 	}
 
-	public NodeDeclNode getDummyNodeDecl(int context, PatternGraphLhsNode directlyNestingLHSGraph)
+	public virtual NodeDeclNode GetDummyNodeDecl(int context, PatternGraphLhsNode directlyNestingLHSGraph)
 	{
-		return NodeDeclNode.getDummy(defineAnonymousEntity("dummy_node",
-				new Coords()), this.getNodeRoot(), context, directlyNestingLHSGraph);
+		return NodeDeclNode.GetDummy(DefineAnonymousEntity("dummy_node",
+				new Coords()), this.NodeRoot, context, directlyNestingLHSGraph);
 	}
 
-	/**
-	 * Get an initializer for an identifier AST node.
-	 * This defaults to the invalid identifier.
-	 * @return An initialization AST identifier node.
-	 */
-	public static IdentNode getDummyIdent()
+	/// <summary>
+	/// Get an initializer for an identifier AST node.
+	/// This defaults to the invalid identifier. </summary>
+	/// <returns> An initialization AST identifier node. </returns>
+	public static IdentNode DummyIdent
 	{
-		return IdentNode.getInvalid();
+		get
+		{
+		return IdentNode.Invalid;
+		}
 	}
 
-	public static Coords getInvalidCoords()
+	public static Coords InvalidCoords
 	{
-		return Coords.getInvalid();
+		get
+		{
+		return Coords.Invalid;
+		}
 	}
 
-	public boolean isLexerKeyword(String str)
+	public virtual bool IsLexerKeyword(string str)
 	{
-		return keywords.contains(str);
+		return keywords.Contains(str);
 	}
 
-	/**
-	 * Initializes the lexer keywords hash set (i.e. all identifiers considered as keyword by the lexer (not the parser)).
-	 */
-	private void initLexerKeywords()
+	/// <summary>
+	/// Initializes the lexer keywords hash set (i.e. all identifiers considered as keyword by the lexer (not the parser)).
+	/// </summary>
+	private void InitLexerKeywords()
 	{
 		// To automatically generate the following lines, copy the keyword lines
 		// at the end of antlr/GrGen.g to the file antlr/keywords.txt and
 		// execute antlr/gen-keywords-code.sh writing to antlr/keywords.out
 
-		keywords.add("abstract");
-		keywords.add("alternative");
-		keywords.add("arbitrary");
-		keywords.add("array");
-		keywords.add("auto");
-		keywords.add("break");
-		keywords.add("case");
-		keywords.add("class");
-		keywords.add("copy");
-		keywords.add("connect");
-		keywords.add("const");
-		keywords.add("continue");
-		keywords.add("count");
-		keywords.add("def");
-		keywords.add("delete");
-		keywords.add("directed");
-		keywords.add("do");
-		keywords.add("edge");
-		keywords.add("else");
-		keywords.add("emit");
-		keywords.add("emitdebug");
-		keywords.add("emithere");
-		keywords.add("emitheredebug");
-		keywords.add("enum");
-		keywords.add("eval");
-		keywords.add("evalhere");
-		keywords.add("exact");
-		keywords.add("exec");
-		keywords.add("extends");
-		keywords.add("external");
-		keywords.add("false");
-		keywords.add("filter");
-		keywords.add("for");
-		keywords.add("function");
-		keywords.add("hom");
-		keywords.add("if");
-		keywords.add("in");
-		keywords.add("independent");
-		keywords.add("index");
-		keywords.add("induced");
-		keywords.add("iterated");
-		keywords.add("lock");
-		keywords.add("map");
-		keywords.add("match");
-		keywords.add("modify");
-		keywords.add("multiple");
-		keywords.add("nameof");
-		keywords.add("negative");
-		keywords.add("node");
-		keywords.add("null");
-		keywords.add("optional");
-		keywords.add("package");
-		keywords.add("pattern");
-		keywords.add("patternpath");
-		keywords.add("procedure");
-		keywords.add("deque");
-		keywords.add("replace");
-		keywords.add("return");
-		keywords.add("rule");
-		keywords.add("sequence");
-		keywords.add("set");
-		keywords.add("switch");
-		keywords.add("test");
-		keywords.add("true");
-		keywords.add("typeof");
-		keywords.add("undirected");
-		keywords.add("using");
-		keywords.add("visited");
-		keywords.add("while");
-		keywords.add("yield");
+		keywords.Add("abstract");
+		keywords.Add("alternative");
+		keywords.Add("arbitrary");
+		keywords.Add("array");
+		keywords.Add("auto");
+		keywords.Add("break");
+		keywords.Add("case");
+		keywords.Add("class");
+		keywords.Add("copy");
+		keywords.Add("connect");
+		keywords.Add("const");
+		keywords.Add("continue");
+		keywords.Add("count");
+		keywords.Add("def");
+		keywords.Add("delete");
+		keywords.Add("directed");
+		keywords.Add("do");
+		keywords.Add("edge");
+		keywords.Add("else");
+		keywords.Add("emit");
+		keywords.Add("emitdebug");
+		keywords.Add("emithere");
+		keywords.Add("emitheredebug");
+		keywords.Add("enum");
+		keywords.Add("eval");
+		keywords.Add("evalhere");
+		keywords.Add("exact");
+		keywords.Add("exec");
+		keywords.Add("extends");
+		keywords.Add("external");
+		keywords.Add("false");
+		keywords.Add("filter");
+		keywords.Add("for");
+		keywords.Add("function");
+		keywords.Add("hom");
+		keywords.Add("if");
+		keywords.Add("in");
+		keywords.Add("independent");
+		keywords.Add("index");
+		keywords.Add("induced");
+		keywords.Add("iterated");
+		keywords.Add("lock");
+		keywords.Add("map");
+		keywords.Add("match");
+		keywords.Add("modify");
+		keywords.Add("multiple");
+		keywords.Add("nameof");
+		keywords.Add("negative");
+		keywords.Add("node");
+		keywords.Add("null");
+		keywords.Add("optional");
+		keywords.Add("package");
+		keywords.Add("pattern");
+		keywords.Add("patternpath");
+		keywords.Add("procedure");
+		keywords.Add("deque");
+		keywords.Add("replace");
+		keywords.Add("return");
+		keywords.Add("rule");
+		keywords.Add("sequence");
+		keywords.Add("set");
+		keywords.Add("switch");
+		keywords.Add("test");
+		keywords.Add("true");
+		keywords.Add("typeof");
+		keywords.Add("undirected");
+		keywords.Add("using");
+		keywords.Add("visited");
+		keywords.Add("while");
+		keywords.Add("yield");
 	}
 
-	public static boolean isKnownPackage(String packageName)
+	public static bool IsKnownPackage(string packageName)
 	{
-		switch(packageName) {
+		switch(packageName)
+		{
 		case "Math":
 		case "File":
 		case "Time":
@@ -540,23 +583,23 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public static boolean isKnownFunction(Token pack, Token i, CollectNode<ExprNode> params)
+	public static bool IsKnownFunction(Token pack, Token i, CollectNode<ExprNode> @params)
 	{
-		if(isMathFunction(pack, i, params)
-				|| isFileFunction(pack, i, params)
-				|| isTimeFunction(pack, i, params)
-				|| isGlobalFunction(pack, i, params)) {
+		if(IsMathFunction(pack, i, @params)
+				|| IsFileFunction(pack, i, @params)
+				|| IsTimeFunction(pack, i, @params)
+				|| IsGlobalFunction(pack, i, @params))
 			return true;
-		}
 		return false;
 	}
 
-	static boolean isMathFunction(Token pack, Token i, CollectNode<ExprNode> params)
+	internal static bool IsMathFunction(Token pack, Token i, CollectNode<ExprNode> @params)
 	{
-		if(pack == null || !pack.getText().equals("Math"))
+		if(pack == null || !pack.GetText().Equals("Math"))
 			return false;
-		
-		switch(i.getText()) {
+
+		switch(i.GetText())
+		{
 		case "min":
 		case "max":
 		case "sin":
@@ -595,12 +638,13 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	static boolean isFileFunction(Token pack, Token i, CollectNode<ExprNode> params)
+	internal static bool IsFileFunction(Token pack, Token i, CollectNode<ExprNode> @params)
 	{
-		if(pack == null || !pack.getText().equals("File"))
+		if(pack == null || !pack.GetText().Equals("File"))
 			return false;
-		
-		switch(i.getText()) {
+
+		switch(i.GetText())
+		{
 		case "exists":
 		case "import":
 			return true;
@@ -609,12 +653,13 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	static boolean isTimeFunction(Token pack, Token i, CollectNode<ExprNode> params)
+	internal static bool IsTimeFunction(Token pack, Token i, CollectNode<ExprNode> @params)
 	{
-		if(pack == null || !pack.getText().equals("Time"))
+		if(pack == null || !pack.GetText().Equals("Time"))
 			return false;
 
-		switch(i.getText()) {
+		switch(i.GetText())
+		{
 		case "now":
 			return true;
 		default:
@@ -622,14 +667,15 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public static boolean isGlobalFunction(Token pack, Token i, CollectNode<ExprNode> params)
+	public static bool IsGlobalFunction(Token pack, Token i, CollectNode<ExprNode> @params)
 	{
-		return isGlobalFunction(i.getText(), params.getChildrenExact().size());
+		return IsGlobalFunction(i.GetText(), @params.ChildrenExact.Count);
 	}
 
-	public static boolean isGlobalFunction(String functionName, int numParams)
+	public static bool IsGlobalFunction(string functionName, int numParams)
 	{
-		switch(functionName) {
+		switch(functionName)
+		{
 		case "nodes":
 		case "edges":
 			return numParams <= 1;
@@ -753,100 +799,100 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public static boolean isIsInIndexFunction(String name)
+	public static bool IsIsInIndexFunction(string name)
 	{
 		switch(name)
 		{
 		case "isInNodesFromIndex":
-			return true;//return numParams == 2;
+			return true; //return numParams == 2;
 		case "isInNodesFromIndexSame":
 		case "isInNodesFromIndexFrom":
 		case "isInNodesFromIndexFromExclusive":
 		case "isInNodesFromIndexTo":
 		case "isInNodesFromIndexToExclusive":
-			return true;//return numParams == 3;
+			return true; //return numParams == 3;
 		case "isInNodesFromIndexFromTo":
 		case "isInNodesFromIndexFromExclusiveTo":
 		case "isInNodesFromIndexFromToExclusive":
 		case "isInNodesFromIndexFromExclusiveToExclusive":
-			return true;//return numParams == 4;
+			return true; //return numParams == 4;
 		case "isInEdgesFromIndex":
-			return true;//return numParams == 2;
+			return true; //return numParams == 2;
 		case "isInEdgesFromIndexSame":
 		case "isInEdgesFromIndexFrom":
 		case "isInEdgesFromIndexFromExclusive":
 		case "isInEdgesFromIndexTo":
 		case "isInEdgesFromIndexToExclusive":
-			return true;//return numParams == 3;
+			return true; //return numParams == 3;
 		case "isInEdgesFromIndexFromTo":
 		case "isInEdgesFromIndexFromExclusiveTo":
 		case "isInEdgesFromIndexFromToExclusive":
 		case "isInEdgesFromIndexFromExclusiveToExclusive":
-			return true;//return numParams == 4;
+			return true; //return numParams == 4;
 		default:
 			return false;
 		}
 	}
 
-	public static boolean isNonIsInIndexFunction(String name)
+	public static bool IsNonIsInIndexFunction(string name)
 	{
 		switch(name)
 		{
 		case "nodesFromIndex":
-			return true;//return numParams == 1;
+			return true; //return numParams == 1;
 		case "nodesFromIndexSame":
 		case "nodesFromIndexFrom":
 		case "nodesFromIndexFromExclusive":
 		case "nodesFromIndexTo":
 		case "nodesFromIndexToExclusive":
-			return true;//return numParams == 2;
+			return true; //return numParams == 2;
 		case "nodesFromIndexFromTo":
 		case "nodesFromIndexFromExclusiveTo":
 		case "nodesFromIndexFromToExclusive":
 		case "nodesFromIndexFromExclusiveToExclusive":
-			return true;//return numParams == 3;
+			return true; //return numParams == 3;
 		case "edgesFromIndex":
-			return true;//return numParams == 1;
+			return true; //return numParams == 1;
 		case "edgesFromIndexSame":
 		case "edgesFromIndexFrom":
 		case "edgesFromIndexFromExclusive":
 		case "edgesFromIndexTo":
 		case "edgesFromIndexToExclusive":
-			return true;//return numParams == 2;
+			return true; //return numParams == 2;
 		case "edgesFromIndexFromTo":
 		case "edgesFromIndexFromExclusiveTo":
 		case "edgesFromIndexFromToExclusive":
 		case "edgesFromIndexFromExclusiveToExclusive":
-			return true;//return numParams == 3;
+			return true; //return numParams == 3;
 		case "countNodesFromIndex":
-			return true;//return numParams == 1;
+			return true; //return numParams == 1;
 		case "countNodesFromIndexSame":
 		case "countNodesFromIndexFrom":
 		case "countNodesFromIndexFromExclusive":
 		case "countNodesFromIndexTo":
 		case "countNodesFromIndexToExclusive":
-			return true;//return numParams == 2;
+			return true; //return numParams == 2;
 		case "countNodesFromIndexFromTo":
 		case "countNodesFromIndexFromExclusiveTo":
 		case "countNodesFromIndexFromToExclusive":
 		case "countNodesFromIndexFromExclusiveToExclusive":
-			return true;//return numParams == 3;
+			return true; //return numParams == 3;
 		case "countEdgesFromIndex":
-			return true;//return numParams == 1;
+			return true; //return numParams == 1;
 		case "countEdgesFromIndexSame":
 		case "countEdgesFromIndexFrom":
 		case "countEdgesFromIndexFromExclusive":
 		case "countEdgesFromIndexTo":
 		case "countEdgesFromIndexToExclusive":
-			return true;//return numParams == 2;
+			return true; //return numParams == 2;
 		case "countEdgesFromIndexFromTo":
 		case "countEdgesFromIndexFromExclusiveTo":
 		case "countEdgesFromIndexFromToExclusive":
 		case "countEdgesFromIndexFromExclusiveToExclusive":
-			return true;//return numParams == 3;
+			return true; //return numParams == 3;
 		case "nodesFromIndexAsArrayAscending":
 		case "nodesFromIndexAsArrayDescending":
-			return true;//return numParams == 1;
+			return true; //return numParams == 1;
 		case "nodesFromIndexSameAsArray":
 		case "nodesFromIndexFromAsArrayAscending":
 		case "nodesFromIndexFromExclusiveAsArrayAscending":
@@ -856,7 +902,7 @@ public abstract class ParserEnvironment extends Base
 		case "nodesFromIndexFromExclusiveAsArrayDescending":
 		case "nodesFromIndexToAsArrayDescending":
 		case "nodesFromIndexToExclusiveAsArrayDescending":
-			return true;//return numParams == 2;
+			return true; //return numParams == 2;
 		case "nodesFromIndexFromToAsArrayAscending":
 		case "nodesFromIndexFromExclusiveToAsArrayAscending":
 		case "nodesFromIndexFromToExclusiveAsArrayAscending":
@@ -865,10 +911,10 @@ public abstract class ParserEnvironment extends Base
 		case "nodesFromIndexFromExclusiveToAsArrayDescending":
 		case "nodesFromIndexFromToExclusiveAsArrayDescending":
 		case "nodesFromIndexFromExclusiveToExclusiveAsArrayDescending":
-			return true;//return numParams == 3;
+			return true; //return numParams == 3;
 		case "edgesFromIndexAsArrayAscending":
 		case "edgesFromIndexAsArrayDescending":
-			return true;//return numParams == 1;
+			return true; //return numParams == 1;
 		case "edgesFromIndexSameAsArray":
 		case "edgesFromIndexFromAsArrayAscending":
 		case "edgesFromIndexFromExclusiveAsArrayAscending":
@@ -878,7 +924,7 @@ public abstract class ParserEnvironment extends Base
 		case "edgesFromIndexFromExclusiveAsArrayDescending":
 		case "edgesFromIndexToAsArrayDescending":
 		case "edgesFromIndexToExclusiveAsArrayDescending":
-			return true;//return numParams == 2;
+			return true; //return numParams == 2;
 		case "edgesFromIndexFromToAsArrayAscending":
 		case "edgesFromIndexFromExclusiveToAsArrayAscending":
 		case "edgesFromIndexFromToExclusiveAsArrayAscending":
@@ -887,26 +933,27 @@ public abstract class ParserEnvironment extends Base
 		case "edgesFromIndexFromExclusiveToAsArrayDescending":
 		case "edgesFromIndexFromToExclusiveAsArrayDescending":
 		case "edgesFromIndexFromExclusiveToExclusiveAsArrayDescending":
-			return true;//return numParams == 3;
+			return true; //return numParams == 3;
 		case "nodesFromIndexMultipleFromTo":
 		case "edgesFromIndexMultipleFromTo":
-			return true;//return numParams >= 3;
+			return true; //return numParams >= 3;
 		case "countFromIndex":
-			return true;//return numParams == 2;
+			return true; //return numParams == 2;
 		case "minNodeFromIndex":
 		case "maxNodeFromIndex":
 		case "minEdgeFromIndex":
 		case "maxEdgeFromIndex":
 		case "indexSize":
-			return true;//return numParams == 1;
+			return true; //return numParams == 1;
 		default:
 			return false;
 		}
 	}
 
-	public static boolean isKnownForFunction(String name)
+	public static bool IsKnownForFunction(string name)
 	{
-		switch(name) {
+		switch(name)
+		{
 		case "adjacent":
 		case "adjacentIncoming":
 		case "adjacentOutgoing":
@@ -933,9 +980,10 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public static boolean isKnownForIndexFunction(String name)
+	public static bool IsKnownForIndexFunction(string name)
 	{
-		switch(name) {
+		switch(name)
+		{
 		case "nodesFromIndexSame":
 		case "edgesFromIndexSame":
 			return true;
@@ -985,24 +1033,24 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public static boolean isKnownProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	public static bool IsKnownProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
 	{
-		if(isFileProcedure(pack, i, params)
-				|| isTransactionProcedure(pack, i, params)
-				|| isDebugProcedure(pack, i, params)
-				|| isSynchronizationProcedure(pack, i, params)
-				|| isGlobalProcedure(pack, i, params)) {
+		if(IsFileProcedure(pack, i, @params)
+				|| IsTransactionProcedure(pack, i, @params)
+				|| IsDebugProcedure(pack, i, @params)
+				|| IsSynchronizationProcedure(pack, i, @params)
+				|| IsGlobalProcedure(pack, i, @params))
 			return true;
-		}
 		return false;
 	}
 
-	static boolean isFileProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	internal static bool IsFileProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
 	{
-		if(pack == null || !pack.getText().equals("File"))
+		if(pack == null || !pack.GetText().Equals("File"))
 			return false;
-		
-		switch(i.getText()) {
+
+		switch(i.GetText())
+		{
 		case "export":
 		case "delete":
 			return true;
@@ -1011,12 +1059,13 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	static boolean isTransactionProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	internal static bool IsTransactionProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
 	{
-		if(pack == null || !pack.getText().equals("Transaction"))
+		if(pack == null || !pack.GetText().Equals("Transaction"))
 			return false;
-		
-		switch(i.getText()) {
+
+		switch(i.GetText())
+		{
 		case "start":
 		case "pause":
 		case "resume":
@@ -1028,12 +1077,13 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	static boolean isDebugProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	internal static bool IsDebugProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
 	{
-		if(pack == null || !pack.getText().equals("Debug"))
+		if(pack == null || !pack.GetText().Equals("Debug"))
 			return false;
-		
-		switch(i.getText()) {
+
+		switch(i.GetText())
+		{
 		case "add":
 		case "rem":
 		case "emit":
@@ -1045,12 +1095,13 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	static boolean isSynchronizationProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	internal static bool IsSynchronizationProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
 	{
-		if(pack == null || !pack.getText().equals("Synchronization"))
+		if(pack == null || !pack.GetText().Equals("Synchronization"))
 			return false;
-		
-		switch(i.getText()) {
+
+		switch(i.GetText())
+		{
 		case "enter":
 		case "tryenter":
 		case "exit":
@@ -1060,14 +1111,15 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public static boolean isGlobalProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	public static bool IsGlobalProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
 	{
-		return isGlobalProcedure(i.getText(), params.getChildrenExact().size());
+		return IsGlobalProcedure(i.GetText(), @params.ChildrenExact.Count);
 	}
 
-	public static boolean isGlobalProcedure(String procedureName, int numParams)
+	public static bool IsGlobalProcedure(string procedureName, int numParams)
 	{
-		switch(procedureName) {
+		switch(procedureName)
+		{
 		case "valloc":
 			return numParams == 0;
 		case "vfree":
@@ -1117,9 +1169,10 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public static boolean isArrayAttributeAccessMethodName(String name)
+	public static bool IsArrayAttributeAccessMethodName(string name)
 	{
-		switch(name) {
+		switch(name)
+		{
 		case "indexOfBy":
 		case "indexOfOrderedBy":
 		case "lastIndexOfBy":
@@ -1134,9 +1187,10 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public static boolean isAutoSuppliedFilterName(String name)
+	public static bool IsAutoSuppliedFilterName(string name)
 	{
-		switch(name) {
+		switch(name)
+		{
 		case "keepFirst":
 		case "keepLast":
 		case "removeFirst":
@@ -1151,9 +1205,10 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public static boolean isAutoGeneratedBaseFilterName(String name)
+	public static bool IsAutoGeneratedBaseFilterName(string name)
 	{
-		switch(name) {
+		switch(name)
+		{
 		case "orderAscendingBy":
 		case "orderDescendingBy":
 		case "groupBy":
@@ -1167,40 +1222,42 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
-	public ArrayList<FilterAutoDeclNode> getFiltersAutoSupplied(IteratedDeclNode iterated)
+	public virtual List<FilterAutoDeclNode> GetFiltersAutoSupplied(IteratedDeclNode iterated)
 	{
-		ArrayList<FilterAutoDeclNode> autoSuppliedFilters = new ArrayList<FilterAutoDeclNode>();
+		List<FilterAutoDeclNode> autoSuppliedFilters = new List<FilterAutoDeclNode>();
 
 		if(iterated != null) // may happen due to syntactic predicate / backtracking peek ahead
 		{
-			autoSuppliedFilters.add(getFilterAutoSupplied("keepFirst", iterated));
-			autoSuppliedFilters.add(getFilterAutoSupplied("keepLast", iterated));
-			autoSuppliedFilters.add(getFilterAutoSupplied("removeFirst", iterated));
-			autoSuppliedFilters.add(getFilterAutoSupplied("removeLast", iterated));
-			autoSuppliedFilters.add(getFilterAutoSupplied("keepFirstFraction", iterated));
-			autoSuppliedFilters.add(getFilterAutoSupplied("keepLastFraction", iterated));
-			autoSuppliedFilters.add(getFilterAutoSupplied("removeFirstFraction", iterated));
-			autoSuppliedFilters.add(getFilterAutoSupplied("removeLastFraction", iterated));
+			autoSuppliedFilters.Add(GetFilterAutoSupplied("keepFirst", iterated));
+			autoSuppliedFilters.Add(GetFilterAutoSupplied("keepLast", iterated));
+			autoSuppliedFilters.Add(GetFilterAutoSupplied("removeFirst", iterated));
+			autoSuppliedFilters.Add(GetFilterAutoSupplied("removeLast", iterated));
+			autoSuppliedFilters.Add(GetFilterAutoSupplied("keepFirstFraction", iterated));
+			autoSuppliedFilters.Add(GetFilterAutoSupplied("keepLastFraction", iterated));
+			autoSuppliedFilters.Add(GetFilterAutoSupplied("removeFirstFraction", iterated));
+			autoSuppliedFilters.Add(GetFilterAutoSupplied("removeLastFraction", iterated));
 		}
 
 		return autoSuppliedFilters;
 	}
 
-	public FilterAutoDeclNode getFilterAutoSupplied(String ident, IteratedDeclNode iterated)
+	public virtual FilterAutoDeclNode GetFilterAutoSupplied(string ident, IteratedDeclNode iterated)
 	{
-		IdentNode filterIdent = new IdentNode(define(ParserEnvironment.ACTIONS, ident, iterated.getCoords()));
-		return new FilterAutoSuppliedDeclNode(filterIdent, iterated.getIdent());
+		IdentNode filterIdent = new IdentNode(Define(ParserEnvironment.ACTIONS, ident, iterated.Coords));
+		return new FilterAutoSuppliedDeclNode(filterIdent, iterated.Ident);
 	}
 
-	public abstract UnitNode parseActions(File inputFile);
+	public abstract UnitNode ParseActions(File inputFile);
 
-	public abstract ModelNode parseModel(File inputFile);
+	public abstract ModelNode ParseModel(File inputFile);
 
-	public abstract void pushFile(Lexer lexer, File inputFile) throws RecognitionException;
+	public abstract void PushFile(Lexer lexer, File inputFile);
 
-	public abstract boolean popFile(Lexer lexer);
+	public abstract bool PopFile(Lexer lexer);
 
-	public abstract String getFilename();
+	public abstract string Filename {get;}
 
-	public abstract boolean hadError();
+	public abstract bool HadError();
+}
+
 }

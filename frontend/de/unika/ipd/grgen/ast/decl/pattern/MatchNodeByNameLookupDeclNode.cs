@@ -1,116 +1,122 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.TypeExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.NameLookup;
-import de.unika.ipd.grgen.ir.pattern.Node;
-
-public class MatchNodeByNameLookupDeclNode extends NodeDeclNode
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(MatchNodeByNameLookupDeclNode.class, "match node by name lookup decl");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using TypeExprNode = de.unika.ipd.grgen.ast.type.TypeExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using StringTypeNode = de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using NameLookup = de.unika.ipd.grgen.ir.pattern.NameLookup;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+
+public class MatchNodeByNameLookupDeclNode : NodeDeclNode
+{
+	static MatchNodeByNameLookupDeclNode()
+	{
+		SetClassName(typeof(MatchNodeByNameLookupDeclNode), "match node by name lookup decl");
 	}
 
 	private ExprNode expr;
 
 	public MatchNodeByNameLookupDeclNode(IdentNode id, BaseNode type, int context,
 			ExprNode expr, PatternGraphLhsNode directlyNestingLHSGraph)
+		: base(id, type, CopyKind.None, context, TypeExprNode.Empty, directlyNestingLHSGraph)
 	{
-		super(id, type, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.expr = expr;
-		becomeParent(this.expr);
+		BecomeParent(this.expr);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
-		children.add(constraints);
-		children.add(expr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
+		children.Add(constraints);
+		children.Add(expr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("constraints");
-		childrenNames.add("expression");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("constraints");
+		childrenNames.Add("expression");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = super.resolveLocal();
-		successfullyResolved &= expr.resolve();
+		bool successfullyResolved = base.ResolveLocal();
+		successfullyResolved &= expr.Resolve();
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		boolean res = super.checkLocal();
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Cannot employ match node by name index lookup in the rewrite part"
-					+ emptyWhenAnonymous(" (as it occurs in match node " + getIdent() + ")") + ".");
+		bool res = base.CheckLocal();
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS)
+		{
+			ReportError("Cannot employ match node by name index lookup in the rewrite part"
+					+ EmptyWhenAnonymous(" (as it occurs in match node " + Ident + ")") + ".");
 			return false;
 		}
 		TypeNode expectedLookupType = StringTypeNode.stringType;
-		TypeNode lookupType = expr.getType();
-		if(!lookupType.isCompatibleTo(expectedLookupType)) {
-			String expTypeName = expectedLookupType.getTypeName();
-			String typeName = lookupType.getTypeName();
-			ident.reportError("Cannot convert type used in accessing name index from " + typeName
-					+ " to the expected " + expTypeName + " in match node" + emptyWhenAnonymousPostfix(" ") + " by name index lookup.");
+		TypeNode lookupType = expr.Type;
+		if(!lookupType.IsCompatibleTo(expectedLookupType))
+		{
+			string expTypeName = expectedLookupType.TypeName;
+			string typeName = lookupType.TypeName;
+			ident.ReportError("Cannot convert type used in accessing name index from " + typeName
+					+ " to the expected " + expTypeName + " in match node" + EmptyWhenAnonymousPostfix(" ") + " by name index lookup.");
 			return false;
 		}
 		return res;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
-		if(isIRAlreadySet()) { // break endless recursion in case of cycle in usage
-			return getIR();
-		}
+		if(IsIRAlreadySet()) // break endless recursion in case of cycle in usage
+			return IR;
 
-		Node node = (Node)super.constructIR();
+		Node node = (Node)base.ConstructIR();
 
-		setIR(node);
+		IR = node;
 
-		expr = expr.evaluate();
-		node.setNameMapAccess(new NameLookup(expr.checkIR(Expression.class)));
+		expr = expr.Evaluate();
+		node.NameMapAccess = new NameLookup(expr.CheckIR(typeof(Expression)));
 		return node;
 	}
+}
+
 }

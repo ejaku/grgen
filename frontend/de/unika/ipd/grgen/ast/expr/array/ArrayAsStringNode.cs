@@ -1,99 +1,106 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.array;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayAsString;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ArrayAsStringNode extends ArrayFunctionMethodInvocationBaseExprNode
+namespace de.unika.ipd.grgen.ast.expr.array
 {
-	static {
-		setClassName(ArrayAsStringNode.class, "array asString");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using StringTypeNode = de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayAsString = de.unika.ipd.grgen.ir.expr.array.ArrayAsString;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ArrayAsStringNode : ArrayFunctionMethodInvocationBaseExprNode
+{
+	static ArrayAsStringNode()
+	{
+		SetClassName(typeof(ArrayAsStringNode), "array asString");
 	}
 
 	private ExprNode valueExpr;
 
 	public ArrayAsStringNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
-		this.valueExpr = becomeParent(valueExpr);
+		this.valueExpr = BecomeParent(valueExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(targetExpr);
-		children.add(valueExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(targetExpr);
+		children.Add(valueExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("targetExpr");
-		childrenNames.add("valueExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("targetExpr");
+		childrenNames.Add("valueExpr");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		// target type already checked during resolving into this node
-		targetExpr.getType().resolve(); // call to ensure the array type exists
+		targetExpr.GetType().Resolve(); // call to ensure the array type exists
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		ArrayTypeNode arrayMemberType = getTargetTypeExact();
-		if(!(arrayMemberType.valueType instanceof StringTypeNode)) {
-			targetExpr.reportError("The array function method asString can only be employed on an object of type array<string>"
-					+ " (but is employed on an object of type " + arrayMemberType.getTypeName() + ").");
+		ArrayTypeNode arrayMemberType = TargetTypeExact;
+		if(!(arrayMemberType.valueType is StringTypeNode))
+		{
+			targetExpr.ReportError("The array function method asString can only be employed on an object of type array<string>"
+					+ " (but is employed on an object of type " + arrayMemberType.TypeName + ").");
 			return false;
 		}
-		TypeNode valueType = valueExpr.getType();
-		if(!valueType.isEqual(BasicTypeNode.stringType)) {
-			valueExpr.reportError("The array function method asString expects as argument a value of type string"
-					+ " (but is given a value of type " + valueType.getTypeName() + ").");
+		TypeNode valueType = valueExpr.Type;
+		if(!valueType.IsEqual(BasicTypeNode.stringType))
+		{
+			valueExpr.ReportError("The array function method asString expects as argument a value of type string"
+					+ " (but is given a value of type " + valueType.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.stringType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		targetExpr = targetExpr.evaluate();
-		return new ArrayAsString(targetExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
+		targetExpr = targetExpr.Evaluate();
+		return new ArrayAsString(targetExpr.CheckIR(typeof(Expression)), valueExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

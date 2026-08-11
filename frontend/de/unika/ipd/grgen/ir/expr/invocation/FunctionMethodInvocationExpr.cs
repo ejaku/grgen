@@ -1,64 +1,73 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.expr.invocation;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.Function;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * A function method invocation is an expression.
- */
-public class FunctionMethodInvocationExpr extends FunctionInvocationBaseExpr
+namespace de.unika.ipd.grgen.ir.expr.invocation
 {
-	/** The owner of the function method. */
+using de.unika.ipd.grgen.ir;
+using Function = de.unika.ipd.grgen.ir.executable.Function;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+/// <summary>
+/// A function method invocation is an expression.
+/// </summary>
+public class FunctionMethodInvocationExpr : FunctionInvocationBaseExpr
+{
+	/// <summary>
+	/// The owner of the function method. </summary>
 	private Entity owner;
 
-	/** The function of the function method invocation expression. */
-	protected Function function;
+	/// <summary>
+	/// The function of the function method invocation expression. </summary>
+	protected internal Function function;
 
 	public FunctionMethodInvocationExpr(Entity owner, Type type, Function function)
+		: base("function method invocation expr", type)
 	{
-		super("function method invocation expr", type);
 
 		this.owner = owner;
 		this.function = function;
 	}
 
-	public Entity getOwner()
+	public virtual Entity Owner
 	{
+		get
+		{
 		return owner;
+		}
 	}
 
-	public Function getFunction()
+	public virtual Function Function
 	{
+		get
+		{
 		return function;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(owner)) {
-			if(owner instanceof GraphEntity)
-				needs.add((GraphEntity)owner);
+		if(!IsGlobalVariable(owner))
+		{
+			if(owner is GraphEntity)
+				needs.Add((GraphEntity)owner);
 			else
-				needs.add((Variable)owner);
+				needs.Add((Variable)owner);
 		}
-		for(Expression child : getWalkableChildren()) {
-			child.collectNeededEntities(needs);
-		}
+		foreach(Expression child in WalkableChildren)
+			child.CollectNeededEntities(needs);
 	}
+}
+
 }

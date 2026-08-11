@@ -1,344 +1,393 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.invocation;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.stmt.graph.GraphAddCopyEdgeProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.GraphAddCopyNodeProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.GraphAddEdgeProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.GraphAddNodeProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.GraphClearProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.GraphMergeProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.GraphRedirectSourceAndTargetProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.GraphRedirectSourceProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.GraphRedirectTargetProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.GraphRemoveProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.GraphRetypeProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.InsertCopyProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.InsertDefinedSubgraphProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.InsertInducedSubgraphProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.InsertProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.VAllocProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.VFreeNonResetProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.VFreeProcNode;
-import de.unika.ipd.grgen.ast.stmt.graph.VResetProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.AssertProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.EmitProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.GetEquivalentOrAddProcNode;
-import de.unika.ipd.grgen.ast.stmt.procenv.RecordProcNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.executable.ProcedureTypeNode;
-import de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.ParserEnvironment;
-
-public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.invocation
 {
-	static {
-		setClassName(ProcedureInvocationDecisionNode.class, "procedure invocation decision");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using BuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using GraphAddCopyEdgeProcNode = de.unika.ipd.grgen.ast.stmt.graph.GraphAddCopyEdgeProcNode;
+using GraphAddCopyNodeProcNode = de.unika.ipd.grgen.ast.stmt.graph.GraphAddCopyNodeProcNode;
+using GraphAddEdgeProcNode = de.unika.ipd.grgen.ast.stmt.graph.GraphAddEdgeProcNode;
+using GraphAddNodeProcNode = de.unika.ipd.grgen.ast.stmt.graph.GraphAddNodeProcNode;
+using GraphClearProcNode = de.unika.ipd.grgen.ast.stmt.graph.GraphClearProcNode;
+using GraphMergeProcNode = de.unika.ipd.grgen.ast.stmt.graph.GraphMergeProcNode;
+using GraphRedirectSourceAndTargetProcNode = de.unika.ipd.grgen.ast.stmt.graph.GraphRedirectSourceAndTargetProcNode;
+using GraphRedirectSourceProcNode = de.unika.ipd.grgen.ast.stmt.graph.GraphRedirectSourceProcNode;
+using GraphRedirectTargetProcNode = de.unika.ipd.grgen.ast.stmt.graph.GraphRedirectTargetProcNode;
+using GraphRemoveProcNode = de.unika.ipd.grgen.ast.stmt.graph.GraphRemoveProcNode;
+using GraphRetypeProcNode = de.unika.ipd.grgen.ast.stmt.graph.GraphRetypeProcNode;
+using InsertCopyProcNode = de.unika.ipd.grgen.ast.stmt.graph.InsertCopyProcNode;
+using InsertDefinedSubgraphProcNode = de.unika.ipd.grgen.ast.stmt.graph.InsertDefinedSubgraphProcNode;
+using InsertInducedSubgraphProcNode = de.unika.ipd.grgen.ast.stmt.graph.InsertInducedSubgraphProcNode;
+using InsertProcNode = de.unika.ipd.grgen.ast.stmt.graph.InsertProcNode;
+using VAllocProcNode = de.unika.ipd.grgen.ast.stmt.graph.VAllocProcNode;
+using VFreeNonResetProcNode = de.unika.ipd.grgen.ast.stmt.graph.VFreeNonResetProcNode;
+using VFreeProcNode = de.unika.ipd.grgen.ast.stmt.graph.VFreeProcNode;
+using VResetProcNode = de.unika.ipd.grgen.ast.stmt.graph.VResetProcNode;
+using AssertProcNode = de.unika.ipd.grgen.ast.stmt.procenv.AssertProcNode;
+using EmitProcNode = de.unika.ipd.grgen.ast.stmt.procenv.EmitProcNode;
+using GetEquivalentOrAddProcNode = de.unika.ipd.grgen.ast.stmt.procenv.GetEquivalentOrAddProcNode;
+using RecordProcNode = de.unika.ipd.grgen.ast.stmt.procenv.RecordProcNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ProcedureTypeNode = de.unika.ipd.grgen.ast.type.executable.ProcedureTypeNode;
+using ResolvingEnvironment = de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ParserEnvironment = de.unika.ipd.grgen.parser.ParserEnvironment;
+
+public class ProcedureInvocationDecisionNode : ProcedureInvocationBaseNode
+{
+	static ProcedureInvocationDecisionNode()
+	{
+		SetClassName(typeof(ProcedureInvocationDecisionNode), "procedure invocation decision");
 	}
 
-	static TypeNode procedureTypeNode = new ProcedureTypeNode();
+	internal static TypeNode procedureTypeNode = new ProcedureTypeNode();
 
-	protected IdentNode procedureIdent;
-	protected BuiltinProcedureInvocationBaseNode result;
+	protected internal IdentNode procedureIdent;
+	protected internal BuiltinProcedureInvocationBaseNode result;
 
-	ParserEnvironment env;
+	internal ParserEnvironment env;
 
 	public ProcedureInvocationDecisionNode(IdentNode procedureIdent,
 			CollectNode<ExprNode> arguments, int context, ParserEnvironment env)
+		: base(procedureIdent.Coords, arguments, context)
 	{
-		super(procedureIdent.getCoords(), arguments, context);
-		this.procedureIdent = becomeParent(procedureIdent);
+		this.procedureIdent = BecomeParent(procedureIdent);
 		this.env = env;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
-		children.add(arguments);
-		if(isResolved())
-			children.add(result);
+		children.Add(arguments);
+		if(IsResolved())
+			children.Add(result);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		//childrenNames.add("methodIdent");
-		childrenNames.add("params");
-		if(isResolved())
-			childrenNames.add("result");
+		childrenNames.Add("params");
+		if(IsResolved())
+			childrenNames.Add("result");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(env, error, getCoords());
-		result = decide(procedureIdent.toString(), arguments, resolvingEnvironment);
+		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(env, error, Coords);
+		result = Decide(procedureIdent.ToString(), arguments, resolvingEnvironment);
 		return result != null;
 	}
-	
-	private static BuiltinProcedureInvocationBaseNode decide(String procedureName, CollectNode<ExprNode> arguments,
-			ResolvingEnvironment env)
+
+	private static BuiltinProcedureInvocationBaseNode Decide(string procedureName, CollectNode<ExprNode> arguments, ResolvingEnvironment env)
 	{
-		switch(procedureName) {
+		switch(procedureName)
+		{
 		case "add":
-			if(arguments.size() == 1) {
-				return new GraphAddNodeProcNode(env.getCoords(), arguments.get(0));
-			} else if(arguments.size() == 3) {
-				return new GraphAddEdgeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
-			} else {
-				env.reportError(procedureName + "() expects 1 or 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() == 1)
+				return new GraphAddNodeProcNode(env.Coords, arguments.Get(0));
+			else if(arguments.Size() == 3)
+				return new GraphAddEdgeProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2));
+			else
+			{
+				env.ReportError(procedureName + "() expects 1 or 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-		}
+			}
 		case "retype":
-			if(arguments.size() == 2) {
-				return new GraphRetypeProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
-			} else {
-				env.reportError(procedureName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() == 2)
+				return new GraphRetypeProcNode(env.Coords, arguments.Get(0), arguments.Get(1));
+			else
+			{
+				env.ReportError(procedureName + "() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "insert":
-			if(arguments.size() != 1) {
-				env.reportError("insert(.) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("insert(.) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else
-				return new InsertProcNode(env.getCoords(), arguments.get(0));
+			}
+			else
+				return new InsertProcNode(env.Coords, arguments.Get(0));
 		case "insertCopy":
-			if(arguments.size() != 2) {
-				env.reportError("insertCopy(.,.) expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("insertCopy(.,.) expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else
-				return new InsertCopyProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
+			}
+			else
+				return new InsertCopyProcNode(env.Coords, arguments.Get(0), arguments.Get(1));
 		case "insertInduced":
-			if(arguments.size() != 2) {
-				env.reportError("insertInduced(.,.) expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("insertInduced(.,.) expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else
-				return new InsertInducedSubgraphProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
+			}
+			else
+				return new InsertInducedSubgraphProcNode(env.Coords, arguments.Get(0), arguments.Get(1));
 		case "insertDefined":
-			if(arguments.size() != 2) {
-				env.reportError("insertDefined(.,.) expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("insertDefined(.,.) expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else
-				return new InsertDefinedSubgraphProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
+			}
+			else
+				return new InsertDefinedSubgraphProcNode(env.Coords, arguments.Get(0), arguments.Get(1));
 		case "valloc":
-			if(arguments.size() != 0) {
-				env.reportError("valloc() expects 0 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 0)
+			{
+				env.ReportError("valloc() expects 0 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else
-				return new VAllocProcNode(env.getCoords());
+			}
+			else
+				return new VAllocProcNode(env.Coords);
 		case "rem":
-			if(arguments.size() != 1) {
-				env.reportError("rem(value) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("rem(value) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new GraphRemoveProcNode(env.getCoords(), arguments.get(0));
 			}
+			else
+				return new GraphRemoveProcNode(env.Coords, arguments.Get(0));
 		case "clear":
-			if(arguments.size() != 0) {
-				env.reportError("clear() expects 0 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 0)
+			{
+				env.ReportError("clear() expects 0 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new GraphClearProcNode(env.getCoords());
 			}
+			else
+				return new GraphClearProcNode(env.Coords);
 		case "vfree":
-			if(arguments.size() != 1) {
-				env.reportError("vfree(value) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("vfree(value) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new VFreeProcNode(env.getCoords(), arguments.get(0));
 			}
+			else
+				return new VFreeProcNode(env.Coords, arguments.Get(0));
 		case "vfreenonreset":
-			if(arguments.size() != 1) {
-				env.reportError("vfreenonreset(value) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("vfreenonreset(value) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new VFreeNonResetProcNode(env.getCoords(), arguments.get(0));
 			}
+			else
+				return new VFreeNonResetProcNode(env.Coords, arguments.Get(0));
 		case "vreset":
-			if(arguments.size() != 1) {
-				env.reportError("vreset(value) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("vreset(value) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new VResetProcNode(env.getCoords(), arguments.get(0));
 			}
+			else
+				return new VResetProcNode(env.Coords, arguments.Get(0));
 		case "record":
-			if(arguments.size() != 1) {
-				env.reportError("record(value) expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("record(value) expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new RecordProcNode(env.getCoords(), arguments.get(0));
 			}
+			else
+				return new RecordProcNode(env.Coords, arguments.Get(0));
 		case "emit":
-			if(arguments.size() >= 1) {
-				EmitProcNode emit = new EmitProcNode(env.getCoords(), false);
-				for(ExprNode param : arguments.getChildrenExact()) {
-					emit.addExpression(param);
-				}
+			if(arguments.Size() >= 1)
+			{
+				EmitProcNode emit = new EmitProcNode(env.Coords, false);
+				foreach(ExprNode param in arguments.ChildrenExact)
+					emit.AddExpression(param);
 				return emit;
-			} else {
-				env.reportError("emit() expects at least one argument (given are " + arguments.size() + " arguments).");
+			}
+			else
+			{
+				env.ReportError("emit() expects at least one argument (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "emitdebug":
-			if(arguments.size() >= 1) {
-				EmitProcNode emit = new EmitProcNode(env.getCoords(), true);
-				for(ExprNode param : arguments.getChildrenExact()) {
-					emit.addExpression(param);
-				}
+			if(arguments.Size() >= 1)
+			{
+				EmitProcNode emit = new EmitProcNode(env.Coords, true);
+				foreach(ExprNode param in arguments.ChildrenExact)
+					emit.AddExpression(param);
 				return emit;
-			} else {
-				env.reportError("emitdebug() expects at least one argument (given are " + arguments.size() + " arguments).");
+			}
+			else
+			{
+				env.ReportError("emitdebug() expects at least one argument (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "addCopy":
-			if(arguments.size() == 1) {
-				return new GraphAddCopyNodeProcNode(env.getCoords(), arguments.get(0), true);
-			} else if(arguments.size() == 3) {
-				return new GraphAddCopyEdgeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), true);
-			} else {
-				env.reportError(procedureName + "() expects 1 or 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() == 1)
+				return new GraphAddCopyNodeProcNode(env.Coords, arguments.Get(0), true);
+			else if(arguments.Size() == 3)
+				return new GraphAddCopyEdgeProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2), true);
+			else
+			{
+				env.ReportError(procedureName + "() expects 1 or 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "addClone":
-			if(arguments.size() == 1) {
-				return new GraphAddCopyNodeProcNode(env.getCoords(), arguments.get(0), false);
-			} else if(arguments.size() == 3) {
-				return new GraphAddCopyEdgeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), false);
-			} else {
-				env.reportError(procedureName + "() expects 1 or 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() == 1)
+				return new GraphAddCopyNodeProcNode(env.Coords, arguments.Get(0), false);
+			else if(arguments.Size() == 3)
+				return new GraphAddCopyEdgeProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2), false);
+			else
+			{
+				env.ReportError(procedureName + "() expects 1 or 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "merge":
-			if(arguments.size() < 2 || arguments.size() > 3) {
-				env.reportError("merge(target,source,oldSourceName) expects 2 or 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() < 2 || arguments.Size() > 3)
+			{
+				env.ReportError("merge(target,source,oldSourceName) expects 2 or 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(arguments.size() == 2)
-					return new GraphMergeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), null);
-				else
-					return new GraphMergeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			}
+			else
+			{
+				if(arguments.Size() == 2)
+					return new GraphMergeProcNode(env.Coords, arguments.Get(0), arguments.Get(1), null);
+				else
+					return new GraphMergeProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2));
+			}
+			goto case "redirectSource";
 		case "redirectSource":
-			if(arguments.size() < 2 || arguments.size() > 3) {
-				env.reportError("redirectSource(edge,newSource,oldSourceName) expects 2 or 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() < 2 || arguments.Size() > 3)
+			{
+				env.ReportError("redirectSource(edge,newSource,oldSourceName) expects 2 or 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(arguments.size() == 2)
-					return new GraphRedirectSourceProcNode(env.getCoords(), arguments.get(0), arguments.get(1), null);
-				else
-					return new GraphRedirectSourceProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			}
+			else
+			{
+				if(arguments.Size() == 2)
+					return new GraphRedirectSourceProcNode(env.Coords, arguments.Get(0), arguments.Get(1), null);
+				else
+					return new GraphRedirectSourceProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2));
+			}
+			goto case "redirectTarget";
 		case "redirectTarget":
-			if(arguments.size() < 2 || arguments.size() > 3) {
-				env.reportError("redirectTarget(edge,newTarget,oldTargetName) expects 2 two or 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() < 2 || arguments.Size() > 3)
+			{
+				env.ReportError("redirectTarget(edge,newTarget,oldTargetName) expects 2 two or 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(arguments.size() == 2)
-					return new GraphRedirectTargetProcNode(env.getCoords(), arguments.get(0), arguments.get(1), null);
-				else
-					return new GraphRedirectTargetProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			}
+			else
+			{
+				if(arguments.Size() == 2)
+					return new GraphRedirectTargetProcNode(env.Coords, arguments.Get(0), arguments.Get(1), null);
+				else
+					return new GraphRedirectTargetProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2));
+			}
+			goto case "redirectSourceAndTarget";
 		case "redirectSourceAndTarget":
-			if(arguments.size() != 3 && arguments.size() != 5) {
-				env.reportError("redirectSourceAndTarget(edge,newSource,newTarget,oldSourceName,oldTargetName) expects 3 or 5 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 3 && arguments.Size() != 5)
+			{
+				env.ReportError("redirectSourceAndTarget(edge,newSource,newTarget,oldSourceName,oldTargetName) expects 3 or 5 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(arguments.size() == 3)
-					return new GraphRedirectSourceAndTargetProcNode(env.getCoords(), arguments.get(0), arguments.get(1),
-							arguments.get(2), null, null);
+			}
+			else
+			{
+				if(arguments.Size() == 3)
+					return new GraphRedirectSourceAndTargetProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2), null, null);
 				else
-					return new GraphRedirectSourceAndTargetProcNode(env.getCoords(), arguments.get(0), arguments.get(1),
-							arguments.get(2), arguments.get(3), arguments.get(4));
+					return new GraphRedirectSourceAndTargetProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2), arguments.Get(3), arguments.Get(4));
 			}
+			goto case "getEquivalentOrAdd";
 		case "getEquivalentOrAdd":
-			if(arguments.size() != 2) {
-				env.reportError("getEquivalentOrAdd(graph, array<graph>) expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("getEquivalentOrAdd(graph, array<graph>) expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new GetEquivalentOrAddProcNode(env.getCoords(), arguments.get(0), arguments.get(1), true);
 			}
+			else
+				return new GetEquivalentOrAddProcNode(env.Coords, arguments.Get(0), arguments.Get(1), true);
 		case "getEquivalentStructurallyOrAdd":
-			if(arguments.size() != 2) {
-				env.reportError("getEquivalentStructurallyOrAdd(graph, array<graph>) expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("getEquivalentStructurallyOrAdd(graph, array<graph>) expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new GetEquivalentOrAddProcNode(env.getCoords(), arguments.get(0), arguments.get(1), false);
 			}
+			else
+				return new GetEquivalentOrAddProcNode(env.Coords, arguments.Get(0), arguments.Get(1), false);
 		case "assert":
-			if(arguments.size() >= 1) {
-				AssertProcNode assert_ = new AssertProcNode(env.getCoords(), false);
-				for(ExprNode param : arguments.getChildrenExact()) {
-					assert_.addExpression(param);
-				}
+			if(arguments.Size() >= 1)
+			{
+				AssertProcNode assert_ = new AssertProcNode(env.Coords, false);
+				foreach(ExprNode param in arguments.ChildrenExact)
+					assert_.AddExpression(param);
 				return assert_;
-			} else {
-				env.reportError("assert() expects at least one argument (given are " + arguments.size() + " arguments).");
+			}
+			else
+			{
+				env.ReportError("assert() expects at least one argument (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		case "assertAlways":
-			if(arguments.size() >= 1) {
-				AssertProcNode assert_ = new AssertProcNode(env.getCoords(), true);
-				for(ExprNode param : arguments.getChildrenExact()) {
-					assert_.addExpression(param);
-				}
+			if(arguments.Size() >= 1)
+			{
+				AssertProcNode assert_ = new AssertProcNode(env.Coords, true);
+				foreach(ExprNode param in arguments.ChildrenExact)
+					assert_.AddExpression(param);
 				return assert_;
-			} else {
-				env.reportError("assertAlways() expects at least one argument (given are " + arguments.size() + " arguments).");
+			}
+			else
+			{
+				env.ReportError("assertAlways() expects at least one argument (given are " + arguments.Size() + " arguments).");
 				return null;
 			}
 		default:
-			env.reportError("A procedure of name " + procedureName + " is not known.");
+			env.ReportError("A procedure of name " + procedureName + " is not known.");
 			return null;
 		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			if(isEmitOrDebugProcedure()) { // allowed exceptions
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION)
+		{
+			if(IsEmitOrDebugProcedure()) // allowed exceptions
 				return true;
-			} else {
-				reportError("A procedure call (built-in-procedure " + procedureIdent + ") is not allowed in function or pattern part context.");
+			else
+			{
+				ReportError("A procedure call (built-in-procedure " + procedureIdent + ") is not allowed in function or pattern part context.");
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	// procedures for debugging purpose, allowed also on lhs
-	public boolean isEmitOrDebugProcedure()
+	public virtual bool IsEmitOrDebugProcedure()
 	{
-		return isEmitProcedure() || isDebugProcedure();
+		return IsEmitProcedure() || IsDebugProcedure();
 	}
 
-	protected boolean isEmitProcedure()
+	protected internal virtual bool IsEmitProcedure()
 	{
-		switch(procedureIdent.toString()) {
+		switch(procedureIdent.ToString())
+		{
 		case "emit":
 		case "emitdebug":
 			return true;
@@ -347,9 +396,10 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 		}
 	}
 
-	protected boolean isDebugProcedure()
+	protected internal virtual bool IsDebugProcedure()
 	{
-		switch(procedureIdent.toString()) {
+		switch(procedureIdent.ToString())
+		{
 		case "assert":
 		case "assertAlways":
 			return true;
@@ -357,37 +407,48 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			return false;
 		}
 	}
-	
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	protected ProcedureOrBuiltinProcedureInvocationBaseNode getResult()
+	protected internal virtual ProcedureOrBuiltinProcedureInvocationBaseNode Result
 	{
+		get
+		{
 		return result;
+		}
 	}
 
-	@Override
-	public List<TypeNode> getType()
+	public override IList<TypeNode> Type
 	{
-		return result.getType();
+		get
+		{
+		return result.Type;
+		}
 	}
 
-	public int getNumReturnTypes()
+	public virtual int NumReturnTypes
 	{
-		return result.getType().size();
+		get
+		{
+		return result.Type.Count;
+		}
 	}
 
-	public String getProcedureName()
+	public virtual string ProcedureName
 	{
-		return procedureIdent.toString();
+		get
+		{
+		return procedureIdent.ToString();
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return result.getIR();
+		return result.IR;
 	}
+}
+
 }

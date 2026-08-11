@@ -1,122 +1,134 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.model.type;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
-import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
-
-/**
- * IR class that represents external object types.
- */
-public class ExternalObjectType extends InheritanceType
+namespace de.unika.ipd.grgen.ir.model.type
 {
-	private ArrayList<ExternalFunctionMethod> externalFunctionMethods = new ArrayList<ExternalFunctionMethod>();
-	private ArrayList<ExternalProcedureMethod> externalProcedureMethods = new ArrayList<ExternalProcedureMethod>();
 
-	private Map<String, ExternalFunctionMethod> allExternalFunctionMethods = null;
-	private Map<String, ExternalProcedureMethod> allExternalProcedureMethods = null;
+using System.Collections.Generic;
 
-	/**
-	 * Make a new external type.
-	 * @param ident The identifier that declares this type.
-	 */
+using de.unika.ipd.grgen.ir;
+using ExternalFunctionMethod = de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
+using ExternalProcedureMethod = de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
+
+/// <summary>
+/// IR class that represents external object types.
+/// </summary>
+public class ExternalObjectType : InheritanceType
+{
+	private List<ExternalFunctionMethod> externalFunctionMethods = new List<ExternalFunctionMethod>();
+	private List<ExternalProcedureMethod> externalProcedureMethods = new List<ExternalProcedureMethod>();
+
+	private IDictionary<string, ExternalFunctionMethod> allExternalFunctionMethods = null;
+	private IDictionary<string, ExternalProcedureMethod> allExternalProcedureMethods = null;
+
+	/// <summary>
+	/// Make a new external type. </summary>
+	/// <param name="ident"> The identifier that declares this type. </param>
 	public ExternalObjectType(Ident ident)
+		: base("external object type", ident, 0, null)
 	{
-		super("external object type", ident, 0, null);
 	}
 
-	public Collection<ExternalFunctionMethod> getExternalFunctionMethods()
+	public virtual ICollection<ExternalFunctionMethod> ExternalFunctionMethods
 	{
-		return Collections.unmodifiableList(externalFunctionMethods);
-	}
-
-	public void addExternalFunctionMethod(ExternalFunctionMethod method)
-	{
-		externalFunctionMethods.add(method);
-		method.setOwner(this);
-	}
-
-	public void addExternalProcedureMethod(ExternalProcedureMethod method)
-	{
-		externalProcedureMethods.add(method);
-		method.setOwner(this);
-	}
-
-	public Collection<ExternalProcedureMethod> getExternalProcedureMethods()
-	{
-		return Collections.unmodifiableList(externalProcedureMethods);
-	}
-
-	private void addExternalFunctionMethods(ExternalObjectType type)
-	{
-		for(ExternalFunctionMethod fm : type.getExternalFunctionMethods()) {
-			String functionName = fm.getIdent().toString();
-			allExternalFunctionMethods.put(functionName, fm);
+		get
+		{
+		return externalFunctionMethods.AsReadOnly();
 		}
 	}
 
-	private void addExternalProcedureMethods(ExternalObjectType type)
+	public virtual void AddExternalFunctionMethod(ExternalFunctionMethod method)
 	{
-		for(ExternalProcedureMethod pm : type.getExternalProcedureMethods()) {
-			String procedureName = pm.getIdent().toString();
-			allExternalProcedureMethods.put(procedureName, pm);
+		externalFunctionMethods.Add(method);
+		method.Owner = this;
+	}
+
+	public virtual void AddExternalProcedureMethod(ExternalProcedureMethod method)
+	{
+		externalProcedureMethods.Add(method);
+		method.Owner = this;
+	}
+
+	public virtual ICollection<ExternalProcedureMethod> ExternalProcedureMethods
+	{
+		get
+		{
+		return externalProcedureMethods.AsReadOnly();
 		}
 	}
 
-	public Collection<ExternalFunctionMethod> getAllExternalFunctionMethods()
+	private void AddExternalFunctionMethods(ExternalObjectType type)
 	{
-		if(allExternalFunctionMethods == null) {
-			allExternalFunctionMethods = new LinkedHashMap<String, ExternalFunctionMethod>();
+		foreach(ExternalFunctionMethod fm in type.ExternalFunctionMethods)
+		{
+			string functionName = fm.Ident.ToString();
+			allExternalFunctionMethods[functionName] = fm;
+		}
+	}
+
+	private void AddExternalProcedureMethods(ExternalObjectType type)
+	{
+		foreach(ExternalProcedureMethod pm in type.ExternalProcedureMethods)
+		{
+			string procedureName = pm.Ident.ToString();
+			allExternalProcedureMethods[procedureName] = pm;
+		}
+	}
+
+	public virtual ICollection<ExternalFunctionMethod> AllExternalFunctionMethods
+	{
+		get
+		{
+		if(allExternalFunctionMethods == null)
+		{
+			allExternalFunctionMethods = new LinkedHashMap<string, ExternalFunctionMethod>();
 
 			// add the members of the super types
-			for(InheritanceType superType : getAllSuperTypes()) {
-				addExternalFunctionMethods((ExternalObjectType)superType);
-			}
+			foreach(InheritanceType superType in AllSuperTypes)
+				AddExternalFunctionMethods((ExternalObjectType)superType);
 
 			// add members of the current type
-			addExternalFunctionMethods(this);
+			AddExternalFunctionMethods(this);
 		}
 
-		return allExternalFunctionMethods.values();
+		return allExternalFunctionMethods.Values;
+		}
 	}
 
-	public Collection<ExternalProcedureMethod> getAllExternalProcedureMethods()
+	public virtual ICollection<ExternalProcedureMethod> AllExternalProcedureMethods
 	{
-		if(allExternalProcedureMethods == null) {
-			allExternalProcedureMethods = new LinkedHashMap<String, ExternalProcedureMethod>();
+		get
+		{
+		if(allExternalProcedureMethods == null)
+		{
+			allExternalProcedureMethods = new LinkedHashMap<string, ExternalProcedureMethod>();
 
 			// add the members of the super types
-			for(InheritanceType superType : getAllSuperTypes()) {
-				addExternalProcedureMethods((ExternalObjectType)superType);
-			}
+			foreach(InheritanceType superType in AllSuperTypes)
+				AddExternalProcedureMethods((ExternalObjectType)superType);
 
 			// add members of the current type
-			addExternalProcedureMethods(this);
+			AddExternalProcedureMethods(this);
 		}
 
-		return allExternalProcedureMethods.values();
+		return allExternalProcedureMethods.Values;
+		}
 	}
 
-	/** Return a classification of a type for the IR. */
-	@Override
-	public TypeClass classify()
+	/// <summary>
+	/// Return a classification of a type for the IR. </summary>
+	public override TypeClass Classify()
 	{
 		return TypeClass.IS_EXTERNAL_CLASS_OBJECT;
 	}
+}
+
 }

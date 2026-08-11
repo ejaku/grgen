@@ -1,125 +1,133 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.type.container;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.type.Type;
-import de.unika.ipd.grgen.ir.type.container.SetType;
-
-public class SetTypeNode extends ContainerTypeNode
+namespace de.unika.ipd.grgen.ast.type.container
 {
-	static {
-		setClassName(SetTypeNode.class, "set type");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using OperatorDeclNode = de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+using OperatorEvaluator = de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+using SetType = de.unika.ipd.grgen.ir.type.container.SetType;
+
+public class SetTypeNode : ContainerTypeNode
+{
+	static SetTypeNode()
+	{
+		SetClassName(typeof(SetTypeNode), "set type");
 	}
 
-	@Override
-	public String getTypeName()
+	public override string TypeName
 	{
-		return "set<" + valueTypeUnresolved.toString() + ">";
+		get
+		{
+		return "set<" + valueTypeUnresolved.ToString() + ">";
+		}
 	}
-	
+
 	public IdentNode valueTypeUnresolved;
 	public TypeNode valueType;
 
 	// the set type node instances are created in ParserEnvironment as needed
 	public SetTypeNode(IdentNode valueTypeIdent)
 	{
-		valueTypeUnresolved = becomeParent(valueTypeIdent);
+		valueTypeUnresolved = BecomeParent(valueTypeIdent);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		// no children
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		// no children
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationTypeResolver<TypeNode> typeResolver =
-			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+	private static readonly DeclarationTypeResolver<TypeNode> typeResolver =
+			new DeclarationTypeResolver<TypeNode>(typeof(TypeNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		if(valueTypeUnresolved instanceof PackageIdentNode)
-			Resolver.resolveOwner((PackageIdentNode)valueTypeUnresolved);
+		if(valueTypeUnresolved is PackageIdentNode)
+			Resolver.ResolveOwner((PackageIdentNode)valueTypeUnresolved);
 		else
-			fixupDefinition(valueTypeUnresolved, valueTypeUnresolved.getScope());
-		valueType = typeResolver.resolve(valueTypeUnresolved, this);
+			FixupDefinition(valueTypeUnresolved, valueTypeUnresolved.Scope);
+		valueType = typeResolver.Resolve(valueTypeUnresolved, this);
 
 		if(valueType == null)
 			return false;
 
-		OperatorDeclNode.makeBinOp(Operator.IN, BasicTypeNode.booleanType,
+		OperatorDeclNode.MakeBinOp(Operator.IN, BasicTypeNode.booleanType,
 				valueType, this, OperatorEvaluator.setEvaluator);
 
-		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType,
+		OperatorDeclNode.MakeBinOp(Operator.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType,
+		OperatorDeclNode.MakeBinOp(Operator.NE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.SE, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.setEvaluator);
-
-		OperatorDeclNode.makeBinOp(Operator.GT, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.GE, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.LT, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.LE, BasicTypeNode.booleanType,
+		OperatorDeclNode.MakeBinOp(Operator.SE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.setEvaluator);
 
-		OperatorDeclNode.makeBinOp(Operator.BIT_OR, this,
+		OperatorDeclNode.MakeBinOp(Operator.GT, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.BIT_AND, this,
+		OperatorDeclNode.MakeBinOp(Operator.GE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.EXCEPT, this,
+		OperatorDeclNode.MakeBinOp(Operator.LT, BasicTypeNode.booleanType,
+				this, this, OperatorEvaluator.setEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.LE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.setEvaluator);
 
-		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
+		OperatorDeclNode.MakeBinOp(Operator.BIT_OR, this,
+				this, this, OperatorEvaluator.setEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.BIT_AND, this,
+				this, this, OperatorEvaluator.setEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.EXCEPT, this,
+				this, this, OperatorEvaluator.setEvaluator);
+
+		TypeNode.AddCompatibility(this, BasicTypeNode.stringType);
 
 		return true;
 	}
-	
-	@Override
-	public TypeNode getElementType()
+
+	public override TypeNode ElementType
 	{
+		get
+		{
 		return valueType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		Type vt = valueType.getIRType();
+		Type vt = valueType.IRType;
 		return new SetType(vt);
 	}
+}
+
 }

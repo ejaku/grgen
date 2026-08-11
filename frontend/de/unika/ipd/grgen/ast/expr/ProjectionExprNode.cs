@@ -1,84 +1,92 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureInvocationDecisionNode;
-import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBaseNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.ProjectionExpr;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureInvocationBase;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ProjectionExprNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(ProjectionExprNode.class, "projection expr");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using ProcedureInvocationDecisionNode = de.unika.ipd.grgen.ast.stmt.invocation.ProcedureInvocationDecisionNode;
+using ProcedureOrBuiltinProcedureInvocationBaseNode = de.unika.ipd.grgen.ast.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBaseNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ProjectionExpr = de.unika.ipd.grgen.ir.expr.ProjectionExpr;
+using ProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.invocation.ProcedureInvocationBase;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ProjectionExprNode : ExprNode
+{
+	static ProjectionExprNode()
+	{
+		SetClassName(typeof(ProjectionExprNode), "projection expr");
 	}
 
 	private int index;
 	private ProcedureOrBuiltinProcedureInvocationBaseNode procedure;
 
 	public ProjectionExprNode(Coords coords, int index)
+		: base(coords)
 	{
-		super(coords);
 
 		this.index = index;
 	}
 
-	public void setProcedure(ProcedureOrBuiltinProcedureInvocationBaseNode procedure)
+	public virtual ProcedureOrBuiltinProcedureInvocationBaseNode Procedure
 	{
-		this.procedure = procedure;
-		becomeParent(procedure);
+		set
+		{
+		this.procedure = value;
+		BecomeParent(value);
+		}
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		return new ProjectionExpr(index,
-				procedure instanceof ProcedureInvocationDecisionNode ? null
-						: procedure.checkIR(ProcedureInvocationBase.class).getProcedureBase(),
-				procedure.getType().get(index).getIRType());
+				procedure is ProcedureInvocationDecisionNode ? null
+						: procedure.CheckIR(typeof(ProcedureInvocationBase)).GetProcedureBase(),
+				procedure.Type[index].IRType);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		if(index >= procedure.getType().size()) {
-			return BasicTypeNode.getErrorType(IdentNode.getInvalid());
-		}
+		get
+		{
+		if(index >= procedure.Type.Count)
+			return BasicTypeNode.GetErrorType(IdentNode.Invalid);
 
-		return procedure.getType().get(index);
+		return procedure.Type[index];
+		}
 	}
+}
+
 }

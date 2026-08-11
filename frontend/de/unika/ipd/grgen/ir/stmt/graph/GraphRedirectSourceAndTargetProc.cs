@@ -1,17 +1,17 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.stmt.graph;
+namespace de.unika.ipd.grgen.ir.stmt.graph
+{
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinProcedureInvocationBase = de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
 
-import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.BuiltinProcedureInvocationBase;
-
-public class GraphRedirectSourceAndTargetProc extends BuiltinProcedureInvocationBase
+public class GraphRedirectSourceAndTargetProc : BuiltinProcedureInvocationBase
 {
 	private Expression edge;
 	private Expression newSource;
@@ -21,8 +21,8 @@ public class GraphRedirectSourceAndTargetProc extends BuiltinProcedureInvocation
 
 	public GraphRedirectSourceAndTargetProc(Expression edge, Expression newSource, Expression newTarget,
 			Expression oldSourceName, Expression oldTargetName)
+		: base("graph redirect source and target procedure")
 	{
-		super("graph redirect source and target procedure");
 		this.edge = edge;
 		this.newSource = newSource;
 		this.newTarget = newTarget;
@@ -30,37 +30,53 @@ public class GraphRedirectSourceAndTargetProc extends BuiltinProcedureInvocation
 		this.oldTargetName = oldTargetName;
 	}
 
-	public Expression getEdge()
+	public virtual Expression Edge
 	{
+		get
+		{
 		return edge;
+		}
 	}
 
-	public Expression getNewSource()
+	public virtual Expression NewSource
 	{
+		get
+		{
 		return newSource;
+		}
 	}
 
-	public Expression getNewTarget()
+	public virtual Expression NewTarget
 	{
+		get
+		{
 		return newTarget;
+		}
 	}
 
-	public Expression getOldSourceName()
+	public virtual Expression OldSourceName
 	{
+		get
+		{
 		return oldSourceName;
+		}
 	}
 
-	public Expression getOldTargetName()
+	public virtual Expression OldTargetName
 	{
+		get
+		{
 		return oldTargetName;
+		}
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		needs.needsGraph();
-		edge.collectNeededEntities(needs);
-		newSource.collectNeededEntities(needs);
-		newTarget.collectNeededEntities(needs);
+		needs.NeedsGraph();
+		edge.CollectNeededEntities(needs);
+		newSource.CollectNeededEntities(needs);
+		newTarget.CollectNeededEntities(needs);
 	}
+}
+
 }

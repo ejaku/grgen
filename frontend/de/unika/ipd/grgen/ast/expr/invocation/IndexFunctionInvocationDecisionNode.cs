@@ -1,355 +1,398 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.invocation;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.CountEdgesFromIndexAccessFromToExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.CountEdgesFromIndexAccessSameExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.CountIncidenceFromIndexExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.CountNodesFromIndexAccessFromToExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.CountNodesFromIndexAccessSameExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToAsArrayExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessMultipleFromToExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameAsArrayExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.FromIndexAccessFromToPartExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.FromIndexAccessMultipleFromToExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.IndexSizeExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.IsInEdgesFromIndexAccessFromToExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.IsInEdgesFromIndexAccessSameExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.IsInNodesFromIndexAccessFromToExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.IsInNodesFromIndexAccessSameExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.MinMaxEdgeFromIndexExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.MinMaxNodeFromIndexExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToAsArrayExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessMultipleFromToExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameAsArrayExprNode;
-import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.executable.FunctionTypeNode;
-import de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.ParserEnvironment;
-
-public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.invocation
 {
-	static {
-		setClassName(IndexFunctionInvocationDecisionNode.class, "index function invocation decision expression");
+
+using System;
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using CountEdgesFromIndexAccessFromToExprNode = de.unika.ipd.grgen.ast.expr.graph.CountEdgesFromIndexAccessFromToExprNode;
+using CountEdgesFromIndexAccessSameExprNode = de.unika.ipd.grgen.ast.expr.graph.CountEdgesFromIndexAccessSameExprNode;
+using CountIncidenceFromIndexExprNode = de.unika.ipd.grgen.ast.expr.graph.CountIncidenceFromIndexExprNode;
+using CountNodesFromIndexAccessFromToExprNode = de.unika.ipd.grgen.ast.expr.graph.CountNodesFromIndexAccessFromToExprNode;
+using CountNodesFromIndexAccessSameExprNode = de.unika.ipd.grgen.ast.expr.graph.CountNodesFromIndexAccessSameExprNode;
+using EdgesFromIndexAccessFromToAsArrayExprNode = de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToAsArrayExprNode;
+using EdgesFromIndexAccessFromToExprNode = de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToExprNode;
+using EdgesFromIndexAccessMultipleFromToExprNode = de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessMultipleFromToExprNode;
+using EdgesFromIndexAccessSameAsArrayExprNode = de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameAsArrayExprNode;
+using EdgesFromIndexAccessSameExprNode = de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameExprNode;
+using FromIndexAccessFromToPartExprNode = de.unika.ipd.grgen.ast.expr.graph.FromIndexAccessFromToPartExprNode;
+using FromIndexAccessMultipleFromToExprNode = de.unika.ipd.grgen.ast.expr.graph.FromIndexAccessMultipleFromToExprNode;
+using IndexSizeExprNode = de.unika.ipd.grgen.ast.expr.graph.IndexSizeExprNode;
+using IsInEdgesFromIndexAccessFromToExprNode = de.unika.ipd.grgen.ast.expr.graph.IsInEdgesFromIndexAccessFromToExprNode;
+using IsInEdgesFromIndexAccessSameExprNode = de.unika.ipd.grgen.ast.expr.graph.IsInEdgesFromIndexAccessSameExprNode;
+using IsInNodesFromIndexAccessFromToExprNode = de.unika.ipd.grgen.ast.expr.graph.IsInNodesFromIndexAccessFromToExprNode;
+using IsInNodesFromIndexAccessSameExprNode = de.unika.ipd.grgen.ast.expr.graph.IsInNodesFromIndexAccessSameExprNode;
+using MinMaxEdgeFromIndexExprNode = de.unika.ipd.grgen.ast.expr.graph.MinMaxEdgeFromIndexExprNode;
+using MinMaxNodeFromIndexExprNode = de.unika.ipd.grgen.ast.expr.graph.MinMaxNodeFromIndexExprNode;
+using NodesFromIndexAccessFromToAsArrayExprNode = de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToAsArrayExprNode;
+using NodesFromIndexAccessFromToExprNode = de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToExprNode;
+using NodesFromIndexAccessMultipleFromToExprNode = de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessMultipleFromToExprNode;
+using NodesFromIndexAccessSameAsArrayExprNode = de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameAsArrayExprNode;
+using NodesFromIndexAccessSameExprNode = de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using FunctionTypeNode = de.unika.ipd.grgen.ast.type.executable.FunctionTypeNode;
+using ResolvingEnvironment = de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ParserEnvironment = de.unika.ipd.grgen.parser.ParserEnvironment;
+
+public class IndexFunctionInvocationDecisionNode : FunctionOrBuiltinFunctionInvocationBaseNode
+{
+	static IndexFunctionInvocationDecisionNode()
+	{
+		SetClassName(typeof(IndexFunctionInvocationDecisionNode), "index function invocation decision expression");
 	}
 
-	static TypeNode functionTypeNode = new FunctionTypeNode();
+	internal static TypeNode functionTypeNode = new FunctionTypeNode();
 
 	public IdentNode functionIdent;
 	private BuiltinFunctionInvocationBaseNode result;
 
-	ParserEnvironment env;
+	internal ParserEnvironment env;
 
 	private CollectNode<BaseNode> arguments; // I prefer to keep the namespaces of indices and entities disjoint, so this special node is required with base node children instead of expression children (alternative would be to merge indices into entities, resolve the IdentExprNode also to an index, and remove this special handling as well as the special handling in the parser)
 
-	
+
 	public IndexFunctionInvocationDecisionNode(IdentNode functionIdent,
 			CollectNode<BaseNode> arguments, ParserEnvironment env)
+		: base(functionIdent.Coords)
 	{
-		super(functionIdent.getCoords());
-		this.functionIdent = becomeParent(functionIdent);
+		this.functionIdent = BecomeParent(functionIdent);
 		this.env = env;
-		this.arguments = becomeParent(arguments);
+		this.arguments = BecomeParent(arguments);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(arguments);
-		if(isResolved())
-			children.add(result);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(arguments);
+		if(IsResolved())
+			children.Add(result);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("params");
-		if(isResolved())
-			childrenNames.add("result");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("params");
+		if(IsResolved())
+			childrenNames.Add("result");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(env, error, getCoords());
-		result = decide(functionIdent.toString(), arguments, resolvingEnvironment);
+		ResolvingEnvironment resolvingEnvironment = new ResolvingEnvironment(env, error, Coords);
+		result = Decide(functionIdent.ToString(), arguments, resolvingEnvironment);
 		return result != null;
 	}
-	
-	private static BuiltinFunctionInvocationBaseNode decide(String functionName, CollectNode<BaseNode> arguments,
+
+	private static BuiltinFunctionInvocationBaseNode Decide(string functionName, CollectNode<BaseNode> arguments,
 			ResolvingEnvironment env)
 	{
-		switch(functionName) {
+		switch(functionName)
+		{
 		case "nodesFromIndex":
-			if(arguments.size() != 1) {
-				env.reportError("nodesFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("nodesFromIndex() expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new NodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, null, false);
 			}
+			else
+				return new NodesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, null, false);
 		case "nodesFromIndexSame":
-			if(arguments.size() != 2) {
-				env.reportError("nodesFromIndexSame() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("nodesFromIndexSame() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new NodesFromIndexAccessSameExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1));
 			}
+			else
+				return new NodesFromIndexAccessSameExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1));
 		case "nodesFromIndexFrom":
 		case "nodesFromIndexFromExclusive":
 		case "nodesFromIndexTo":
 		case "nodesFromIndexToExclusive":
-			if(arguments.size() != 2) {
-				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError(functionName + "() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(functionName.startsWith("nodesFromIndexFrom")) {
-					return new NodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1), functionName.endsWith("Exclusive"), null, false);
-				} else {
-					return new NodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, (ExprNode)arguments.get(1), functionName.endsWith("Exclusive"));
-				}
 			}
+			else
+			{
+				if(functionName.StartsWith("nodesFromIndexFrom", StringComparison.Ordinal))
+					return new NodesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal), null, false);
+				else
+					return new NodesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
+			}
+			goto case "nodesFromIndexFromTo";
 		case "nodesFromIndexFromTo":
 		case "nodesFromIndexFromExclusiveTo":
 		case "nodesFromIndexFromToExclusive":
 		case "nodesFromIndexFromExclusiveToExclusive":
-			if(arguments.size() != 3) {
-				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 3)
+			{
+				env.ReportError(functionName + "() expects 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new NodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1), functionName.contains("FromExclusive"), (ExprNode)arguments.get(2), functionName.contains("ToExclusive"));
 			}
+			else
+				return new NodesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1), functionName.Contains("FromExclusive"), (ExprNode)arguments.Get(2), functionName.Contains("ToExclusive"));
 		case "edgesFromIndex":
-			if(arguments.size() != 1) {
-				env.reportError("edgesFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("edgesFromIndex() expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new EdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, null, false);
 			}
+			else
+				return new EdgesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, null, false);
 		case "edgesFromIndexSame":
-			if(arguments.size() != 2) {
-				env.reportError("edgesFromIndexSame() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("edgesFromIndexSame() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new EdgesFromIndexAccessSameExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1));
 			}
+			else
+				return new EdgesFromIndexAccessSameExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1));
 		case "edgesFromIndexFrom":
 		case "edgesFromIndexFromExclusive":
 		case "edgesFromIndexTo":
 		case "edgesFromIndexToExclusive":
-			if(arguments.size() != 2) {
-				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError(functionName + "() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(functionName.startsWith("edgesFromIndexFrom")) {
-					return new EdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1), functionName.endsWith("Exclusive"), null, false);
-				} else {
-					return new EdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, (ExprNode)arguments.get(1), functionName.endsWith("Exclusive"));
-				}
 			}
+			else
+			{
+				if(functionName.StartsWith("edgesFromIndexFrom", StringComparison.Ordinal))
+					return new EdgesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal), null, false);
+				else
+					return new EdgesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
+			}
+			goto case "edgesFromIndexFromTo";
 		case "edgesFromIndexFromTo":
 		case "edgesFromIndexFromExclusiveTo":
 		case "edgesFromIndexFromToExclusive":
 		case "edgesFromIndexFromExclusiveToExclusive":
-			if(arguments.size() != 3) {
-				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 3)
+			{
+				env.ReportError(functionName + "() expects 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new EdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1), functionName.contains("FromExclusive"), (ExprNode)arguments.get(2), functionName.contains("ToExclusive"));
 			}
+			else
+				return new EdgesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1), functionName.Contains("FromExclusive"), (ExprNode)arguments.Get(2), functionName.Contains("ToExclusive"));
 		case "countNodesFromIndex":
-			if(arguments.size() != 1) {
-				env.reportError("countNodesFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("countNodesFromIndex() expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new CountNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, null, false);
 			}
+			else
+				return new CountNodesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, null, false);
 		case "countNodesFromIndexSame":
-			if(arguments.size() != 2) {
-				env.reportError("countNodesFromIndexSame() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("countNodesFromIndexSame() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new CountNodesFromIndexAccessSameExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1));
 			}
+			else
+				return new CountNodesFromIndexAccessSameExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1));
 		case "countNodesFromIndexFrom":
 		case "countNodesFromIndexFromExclusive":
 		case "countNodesFromIndexTo":
 		case "countNodesFromIndexToExclusive":
-			if(arguments.size() != 2) {
-				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError(functionName + "() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(functionName.startsWith("countNodesFromIndexFrom")) {
-					return new CountNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1), functionName.endsWith("Exclusive"), null, false);
-				} else {
-					return new CountNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, (ExprNode)arguments.get(1), functionName.endsWith("Exclusive"));
-				}
 			}
+			else
+			{
+				if(functionName.StartsWith("countNodesFromIndexFrom", StringComparison.Ordinal))
+					return new CountNodesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal), null, false);
+				else
+					return new CountNodesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
+			}
+			goto case "countNodesFromIndexFromTo";
 		case "countNodesFromIndexFromTo":
 		case "countNodesFromIndexFromExclusiveTo":
 		case "countNodesFromIndexFromToExclusive":
 		case "countNodesFromIndexFromExclusiveToExclusive":
-			if(arguments.size() != 3) {
-				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 3)
+			{
+				env.ReportError(functionName + "() expects 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new CountNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1), functionName.contains("FromExclusive"), (ExprNode)arguments.get(2), functionName.contains("ToExclusive"));
 			}
+			else
+				return new CountNodesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1), functionName.Contains("FromExclusive"), (ExprNode)arguments.Get(2), functionName.Contains("ToExclusive"));
 		case "countEdgesFromIndex":
-			if(arguments.size() != 1) {
-				env.reportError("countEdgesFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("countEdgesFromIndex() expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new CountEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, null, false);
 			}
+			else
+				return new CountEdgesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, null, false);
 		case "countEdgesFromIndexSame":
-			if(arguments.size() != 2) {
-				env.reportError("countEdgesFromIndexSame() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("countEdgesFromIndexSame() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new CountEdgesFromIndexAccessSameExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1));
 			}
+			else
+				return new CountEdgesFromIndexAccessSameExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1));
 		case "countEdgesFromIndexFrom":
 		case "countEdgesFromIndexFromExclusive":
 		case "countEdgesFromIndexTo":
 		case "countEdgesFromIndexToExclusive":
-			if(arguments.size() != 2) {
-				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError(functionName + "() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(functionName.startsWith("countEdgesFromIndexFrom")) {
-					return new CountEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1), functionName.endsWith("Exclusive"), null, false);
-				} else {
-					return new CountEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, (ExprNode)arguments.get(1), functionName.endsWith("Exclusive"));
-				}
 			}
+			else
+			{
+				if(functionName.StartsWith("countEdgesFromIndexFrom", StringComparison.Ordinal))
+					return new CountEdgesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal), null, false);
+				else
+					return new CountEdgesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
+			}
+			goto case "countEdgesFromIndexFromTo";
 		case "countEdgesFromIndexFromTo":
 		case "countEdgesFromIndexFromExclusiveTo":
 		case "countEdgesFromIndexFromToExclusive":
 		case "countEdgesFromIndexFromExclusiveToExclusive":
-			if(arguments.size() != 3) {
-				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 3)
+			{
+				env.ReportError(functionName + "() expects 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new CountEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1), functionName.contains("FromExclusive"), (ExprNode)arguments.get(2), functionName.contains("ToExclusive"));
 			}
+			else
+				return new CountEdgesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1), functionName.Contains("FromExclusive"), (ExprNode)arguments.Get(2), functionName.Contains("ToExclusive"));
 		case "isInNodesFromIndex":
-			if(arguments.size() != 2) {
-				env.reportError("isInNodesFromIndex() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("isInNodesFromIndex() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new IsInNodesFromIndexAccessFromToExprNode(env.getCoords(), (ExprNode)arguments.get(0), arguments.get(1), null, false, null, false);
 			}
+			else
+				return new IsInNodesFromIndexAccessFromToExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), null, false, null, false);
 		case "isInNodesFromIndexSame":
-			if(arguments.size() != 3) {
-				env.reportError("isInNodesFromIndexSame() expects 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 3)
+			{
+				env.ReportError("isInNodesFromIndexSame() expects 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new IsInNodesFromIndexAccessSameExprNode(env.getCoords(), (ExprNode)arguments.get(0), arguments.get(1), (ExprNode)arguments.get(2));
 			}
+			else
+				return new IsInNodesFromIndexAccessSameExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), (ExprNode)arguments.Get(2));
 		case "isInNodesFromIndexFrom":
 		case "isInNodesFromIndexFromExclusive":
 		case "isInNodesFromIndexTo":
 		case "isInNodesFromIndexToExclusive":
-			if(arguments.size() != 3) {
-				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 3)
+			{
+				env.ReportError(functionName + "() expects 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(functionName.startsWith("isInNodesFromIndexFrom")) {
-					return new IsInNodesFromIndexAccessFromToExprNode(env.getCoords(), (ExprNode)arguments.get(0), arguments.get(1), (ExprNode)arguments.get(2), functionName.endsWith("Exclusive"), null, false);
-				} else {
-					return new IsInNodesFromIndexAccessFromToExprNode(env.getCoords(), (ExprNode)arguments.get(0), arguments.get(1), null, false, (ExprNode)arguments.get(2), functionName.endsWith("Exclusive"));
-				}
 			}
+			else
+			{
+				if(functionName.StartsWith("isInNodesFromIndexFrom", StringComparison.Ordinal))
+					return new IsInNodesFromIndexAccessFromToExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), (ExprNode)arguments.Get(2), functionName.EndsWith("Exclusive", StringComparison.Ordinal), null, false);
+				else
+					return new IsInNodesFromIndexAccessFromToExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), null, false, (ExprNode)arguments.Get(2), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
+			}
+			goto case "isInNodesFromIndexFromTo";
 		case "isInNodesFromIndexFromTo":
 		case "isInNodesFromIndexFromExclusiveTo":
 		case "isInNodesFromIndexFromToExclusive":
 		case "isInNodesFromIndexFromExclusiveToExclusive":
-			if(arguments.size() != 4) {
-				env.reportError(functionName + "() expects 4 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 4)
+			{
+				env.ReportError(functionName + "() expects 4 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new IsInNodesFromIndexAccessFromToExprNode(env.getCoords(), (ExprNode)arguments.get(0), arguments.get(1), (ExprNode)arguments.get(2), functionName.contains("FromExclusive"), (ExprNode)arguments.get(3), functionName.contains("ToExclusive"));
 			}
+			else
+				return new IsInNodesFromIndexAccessFromToExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), (ExprNode)arguments.Get(2), functionName.Contains("FromExclusive"), (ExprNode)arguments.Get(3), functionName.Contains("ToExclusive"));
 		case "isInEdgesFromIndex":
-			if(arguments.size() != 2) {
-				env.reportError("isInEdgesFromIndex() expects 2 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("isInEdgesFromIndex() expects 2 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new IsInEdgesFromIndexAccessFromToExprNode(env.getCoords(), (ExprNode)arguments.get(0), arguments.get(1), null, false, null, false);
 			}
+			else
+				return new IsInEdgesFromIndexAccessFromToExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), null, false, null, false);
 		case "isInEdgesFromIndexSame":
-			if(arguments.size() != 3) {
-				env.reportError("isInEdgesFromIndexSame() expects 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 3)
+			{
+				env.ReportError("isInEdgesFromIndexSame() expects 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new IsInEdgesFromIndexAccessSameExprNode(env.getCoords(), (ExprNode)arguments.get(0), arguments.get(1), (ExprNode)arguments.get(2));
 			}
+			else
+				return new IsInEdgesFromIndexAccessSameExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), (ExprNode)arguments.Get(2));
 		case "isInEdgesFromIndexFrom":
 		case "isInEdgesFromIndexFromExclusive":
 		case "isInEdgesFromIndexTo":
 		case "isInEdgesFromIndexToExclusive":
-			if(arguments.size() != 3) {
-				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 3)
+			{
+				env.ReportError(functionName + "() expects 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(functionName.startsWith("isInEdgesFromIndexFrom")) {
-					return new IsInEdgesFromIndexAccessFromToExprNode(env.getCoords(), (ExprNode)arguments.get(0), arguments.get(1), (ExprNode)arguments.get(2), functionName.endsWith("Exclusive"), null, false);
-				} else {
-					return new IsInEdgesFromIndexAccessFromToExprNode(env.getCoords(), (ExprNode)arguments.get(0), arguments.get(1), null, false, (ExprNode)arguments.get(2), functionName.endsWith("Exclusive"));
-				}
 			}
+			else
+			{
+				if(functionName.StartsWith("isInEdgesFromIndexFrom", StringComparison.Ordinal))
+					return new IsInEdgesFromIndexAccessFromToExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), (ExprNode)arguments.Get(2), functionName.EndsWith("Exclusive", StringComparison.Ordinal), null, false);
+				else
+					return new IsInEdgesFromIndexAccessFromToExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), null, false, (ExprNode)arguments.Get(2), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
+			}
+			goto case "isInEdgesFromIndexFromTo";
 		case "isInEdgesFromIndexFromTo":
 		case "isInEdgesFromIndexFromExclusiveTo":
 		case "isInEdgesFromIndexFromToExclusive":
 		case "isInEdgesFromIndexFromExclusiveToExclusive":
-			if(arguments.size() != 4) {
-				env.reportError(functionName + "() expects 4 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 4)
+			{
+				env.ReportError(functionName + "() expects 4 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new IsInEdgesFromIndexAccessFromToExprNode(env.getCoords(), (ExprNode)arguments.get(0), arguments.get(1), (ExprNode)arguments.get(2), functionName.contains("FromExclusive"), (ExprNode)arguments.get(3), functionName.contains("ToExclusive"));
 			}
+			else
+				return new IsInEdgesFromIndexAccessFromToExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), (ExprNode)arguments.Get(2), functionName.Contains("FromExclusive"), (ExprNode)arguments.Get(3), functionName.Contains("ToExclusive"));
 		case "nodesFromIndexAsArrayAscending":
 		case "nodesFromIndexAsArrayDescending":
 		case "nodesFromIndexAscending":
 		case "nodesFromIndexDescending":
-			if(arguments.size() != 1) {
-				env.reportError(functionName + "() expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError(functionName + "() expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new NodesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), null, false, null, false);
 			}
+			else
+				return new NodesFromIndexAccessFromToAsArrayExprNode(env.Coords, arguments.Get(0), functionName.Contains("Ascending"), null, false, null, false);
 		case "nodesFromIndexSameAsArray":
-			if(arguments.size() != 2) {
-				env.reportError("nodesFromIndexSameAsArray() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("nodesFromIndexSameAsArray() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new NodesFromIndexAccessSameAsArrayExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1));
 			}
+			else
+				return new NodesFromIndexAccessSameAsArrayExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1));
 		case "nodesFromIndexFromAsArrayAscending":
 		case "nodesFromIndexFromExclusiveAsArrayAscending":
 		case "nodesFromIndexToAsArrayAscending":
@@ -366,16 +409,19 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 		case "nodesFromIndexFromExclusiveDescending":
 		case "nodesFromIndexToDescending":
 		case "nodesFromIndexToExclusiveDescending":
-			if(arguments.size() != 2) {
-				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError(functionName + "() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(functionName.startsWith("nodesFromIndexFrom")) {
-					return new NodesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), (ExprNode)arguments.get(1), functionName.contains("Exclusive"), null, false);
-				} else {
-					return new NodesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), null, false, (ExprNode)arguments.get(1), functionName.contains("Exclusive"));
-				}
 			}
+			else
+			{
+				if(functionName.StartsWith("nodesFromIndexFrom", StringComparison.Ordinal))
+					return new NodesFromIndexAccessFromToAsArrayExprNode(env.Coords, arguments.Get(0), functionName.Contains("Ascending"), (ExprNode)arguments.Get(1), functionName.Contains("Exclusive"), null, false);
+				else
+					return new NodesFromIndexAccessFromToAsArrayExprNode(env.Coords, arguments.Get(0), functionName.Contains("Ascending"), null, false, (ExprNode)arguments.Get(1), functionName.Contains("Exclusive"));
+			}
+			goto case "nodesFromIndexFromToAsArrayAscending";
 		case "nodesFromIndexFromToAsArrayAscending":
 		case "nodesFromIndexFromExclusiveToAsArrayAscending":
 		case "nodesFromIndexFromToExclusiveAsArrayAscending":
@@ -392,29 +438,32 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 		case "nodesFromIndexFromExclusiveToDescending":
 		case "nodesFromIndexFromToExclusiveDescending":
 		case "nodesFromIndexFromExclusiveToExclusiveDescending":
-			if(arguments.size() != 3) {
-				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 3)
+			{
+				env.ReportError(functionName + "() expects 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new NodesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), (ExprNode)arguments.get(1), functionName.contains("FromExclusive"), (ExprNode)arguments.get(2), functionName.contains("ToExclusive"));
 			}
+			else
+				return new NodesFromIndexAccessFromToAsArrayExprNode(env.Coords, arguments.Get(0), functionName.Contains("Ascending"), (ExprNode)arguments.Get(1), functionName.Contains("FromExclusive"), (ExprNode)arguments.Get(2), functionName.Contains("ToExclusive"));
 		case "edgesFromIndexAsArrayAscending":
 		case "edgesFromIndexAsArrayDescending":
 		case "edgesFromIndexAscending":
 		case "edgesFromIndexDescending":
-			if(arguments.size() != 1) {
-				env.reportError(functionName + "() expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError(functionName + "() expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new EdgesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), null, false, null, false);
 			}
+			else
+				return new EdgesFromIndexAccessFromToAsArrayExprNode(env.Coords, arguments.Get(0), functionName.Contains("Ascending"), null, false, null, false);
 		case "edgesFromIndexSameAsArray":
-			if(arguments.size() != 2) {
-				env.reportError("edgesFromIndexSameAsArray() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("edgesFromIndexSameAsArray() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new EdgesFromIndexAccessSameAsArrayExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1));
 			}
+			else
+				return new EdgesFromIndexAccessSameAsArrayExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1));
 		case "edgesFromIndexFromAsArrayAscending":
 		case "edgesFromIndexFromExclusiveAsArrayAscending":
 		case "edgesFromIndexToAsArrayAscending":
@@ -431,16 +480,19 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 		case "edgesFromIndexFromExclusiveDescending":
 		case "edgesFromIndexToDescending":
 		case "edgesFromIndexToExclusiveDescending":
-			if(arguments.size() != 2) {
-				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError(functionName + "() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				if(functionName.startsWith("edgesFromIndexFrom")) {
-					return new EdgesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), (ExprNode)arguments.get(1), functionName.contains("Exclusive"), null, false);
-				} else {
-					return new EdgesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), null, false, (ExprNode)arguments.get(1), functionName.contains("Exclusive"));
-				}
 			}
+			else
+			{
+				if(functionName.StartsWith("edgesFromIndexFrom", StringComparison.Ordinal))
+					return new EdgesFromIndexAccessFromToAsArrayExprNode(env.Coords, arguments.Get(0), functionName.Contains("Ascending"), (ExprNode)arguments.Get(1), functionName.Contains("Exclusive"), null, false);
+				else
+					return new EdgesFromIndexAccessFromToAsArrayExprNode(env.Coords, arguments.Get(0), functionName.Contains("Ascending"), null, false, (ExprNode)arguments.Get(1), functionName.Contains("Exclusive"));
+			}
+			goto case "edgesFromIndexFromToAsArrayAscending";
 		case "edgesFromIndexFromToAsArrayAscending":
 		case "edgesFromIndexFromExclusiveToAsArrayAscending":
 		case "edgesFromIndexFromToExclusiveAsArrayAscending":
@@ -457,97 +509,111 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 		case "edgesFromIndexFromExclusiveToDescending":
 		case "edgesFromIndexFromToExclusiveDescending":
 		case "edgesFromIndexFromExclusiveToExclusiveDescending":
-			if(arguments.size() != 3) {
-				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 3)
+			{
+				env.ReportError(functionName + "() expects 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new EdgesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), (ExprNode)arguments.get(1), functionName.contains("FromExclusive"), (ExprNode)arguments.get(2), functionName.contains("ToExclusive"));
 			}
+			else
+				return new EdgesFromIndexAccessFromToAsArrayExprNode(env.Coords, arguments.Get(0), functionName.Contains("Ascending"), (ExprNode)arguments.Get(1), functionName.Contains("FromExclusive"), (ExprNode)arguments.Get(2), functionName.Contains("ToExclusive"));
 		case "nodesFromIndexMultipleFromTo":
 		case "edgesFromIndexMultipleFromTo":
-			if(arguments.size() % 3 != 0) {
-				env.reportError(functionName + "() expects a multiple of 3 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() % 3 != 0)
+			{
+				env.ReportError(functionName + "() expects a multiple of 3 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				FromIndexAccessMultipleFromToExprNode indexAccessMultiple = functionName.equals("nodesFromIndexMultipleFromTo") ? 
-						new NodesFromIndexAccessMultipleFromToExprNode(env.getCoords()) : new EdgesFromIndexAccessMultipleFromToExprNode(env.getCoords());
- 				for(int i = 0; i < arguments.size(); i += 3)
+			}
+			else
+			{
+				FromIndexAccessMultipleFromToExprNode indexAccessMultiple = functionName.Equals("nodesFromIndexMultipleFromTo") ? (FromIndexAccessMultipleFromToExprNode)new NodesFromIndexAccessMultipleFromToExprNode(env.Coords) : new EdgesFromIndexAccessMultipleFromToExprNode(env.Coords);
+				for(int i = 0; i < arguments.Size(); i += 3)
 				{
-					BaseNode index = arguments.get(i);
-					ExprNode fromExpr = (ExprNode)arguments.get(i + 1);
-					ExprNode toExpr = (ExprNode)arguments.get(i + 2);
-					indexAccessMultiple.addIndexAccessExpr(new FromIndexAccessFromToPartExprNode(index.getCoords(), index, fromExpr, false, toExpr, false, i, indexAccessMultiple));
+					BaseNode index = arguments.Get(i);
+					ExprNode fromExpr = (ExprNode)arguments.Get(i + 1);
+					ExprNode toExpr = (ExprNode)arguments.Get(i + 2);
+					indexAccessMultiple.AddIndexAccessExpr(new FromIndexAccessFromToPartExprNode(index.Coords, index, fromExpr, false, toExpr, false, i, indexAccessMultiple));
 				}
 				return indexAccessMultiple;
 			}
 		case "countFromIndex":
-			if(arguments.size() != 2) {
-				env.reportError("countFromIndex() expects 2 arguments (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 2)
+			{
+				env.ReportError("countFromIndex() expects 2 arguments (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new CountIncidenceFromIndexExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1));
 			}
+			else
+				return new CountIncidenceFromIndexExprNode(env.Coords, arguments.Get(0), (ExprNode)arguments.Get(1));
 		case "minNodeFromIndex":
-			if(arguments.size() != 1) {
-				env.reportError("minNodeFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("minNodeFromIndex() expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new MinMaxNodeFromIndexExprNode(env.getCoords(), arguments.get(0), true);
 			}
+			else
+				return new MinMaxNodeFromIndexExprNode(env.Coords, arguments.Get(0), true);
 		case "maxNodeFromIndex":
-			if(arguments.size() != 1) {
-				env.reportError("maxNodeFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("maxNodeFromIndex() expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new MinMaxNodeFromIndexExprNode(env.getCoords(), arguments.get(0), false);
 			}
+			else
+				return new MinMaxNodeFromIndexExprNode(env.Coords, arguments.Get(0), false);
 		case "minEdgeFromIndex":
-			if(arguments.size() != 1) {
-				env.reportError("minEdgeFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("minEdgeFromIndex() expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new MinMaxEdgeFromIndexExprNode(env.getCoords(), arguments.get(0), true);
 			}
+			else
+				return new MinMaxEdgeFromIndexExprNode(env.Coords, arguments.Get(0), true);
 		case "maxEdgeFromIndex":
-			if(arguments.size() != 1) {
-				env.reportError("maxEdgeFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("maxEdgeFromIndex() expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new MinMaxEdgeFromIndexExprNode(env.getCoords(), arguments.get(0), false);
 			}
+			else
+				return new MinMaxEdgeFromIndexExprNode(env.Coords, arguments.Get(0), false);
 		case "indexSize":
-			if(arguments.size() != 1) {
-				env.reportError("indexSize() expects 1 argument (given are " + arguments.size() + " arguments).");
+			if(arguments.Size() != 1)
+			{
+				env.ReportError("indexSize() expects 1 argument (given are " + arguments.Size() + " arguments).");
 				return null;
-			} else {
-				return new IndexSizeExprNode(env.getCoords(), arguments.get(0));
 			}
+			else
+				return new IndexSizeExprNode(env.Coords, arguments.Get(0));
 		default:
-			env.reportError("An index function of name " + functionName + " is not known.");
+			env.ReportError("An index function of name " + functionName + " is not known.");
 			return null;
 		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		return result.getType();
+		get
+		{
+		return result.Type;
+		}
 	}
 
-	public ExprNode getResult()
+	public virtual ExprNode Result
 	{
+		get
+		{
 		return result;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return result.getIR();
+		return result.IR;
 	}
+}
+
 }

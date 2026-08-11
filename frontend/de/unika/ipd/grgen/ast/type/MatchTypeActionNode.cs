@@ -1,45 +1,45 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.type;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.PackageIdentNode;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.type.MatchType;
-import de.unika.ipd.grgen.parser.ParserEnvironment;
-import de.unika.ipd.grgen.parser.Symbol;
-import de.unika.ipd.grgen.parser.Symbol.Occurrence;
-
-public class MatchTypeActionNode extends MatchTypeNode
+namespace de.unika.ipd.grgen.ast.type
 {
-	static {
-		setClassName(MatchTypeActionNode.class, "match type action");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using PackageIdentNode = de.unika.ipd.grgen.ast.PackageIdentNode;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+using ActionDeclNode = de.unika.ipd.grgen.ast.decl.executable.ActionDeclNode;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using OperatorDeclNode = de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+using OperatorEvaluator = de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using MatchType = de.unika.ipd.grgen.ir.type.MatchType;
+using ParserEnvironment = de.unika.ipd.grgen.parser.ParserEnvironment;
+using Symbol = de.unika.ipd.grgen.parser.Symbol;
+using Occurrence = de.unika.ipd.grgen.parser.Symbol.Occurrence;
+
+public class MatchTypeActionNode : MatchTypeNode
+{
+	static MatchTypeActionNode()
+	{
+		SetClassName(typeof(MatchTypeActionNode), "match type action");
 	}
 
 	private IdentNode actionUnresolved;
@@ -47,126 +47,139 @@ public class MatchTypeActionNode extends MatchTypeNode
 
 	private MatchTypeActionNode(IdentNode actionIdent)
 	{
-		actionUnresolved = becomeParent(actionIdent);
+		actionUnresolved = BecomeParent(actionIdent);
 	}
 
-	public static IdentNode defineMatchType(ParserEnvironment env, IdentNode actionIdent)
+	public static IdentNode DefineMatchType(ParserEnvironment env, IdentNode actionIdent)
 	{
-		String actionString = actionIdent.toString();
-		String matchTypeString = "match<" + actionString + ">";
+		string actionString = actionIdent.ToString();
+		string matchTypeString = "match<" + actionString + ">";
 		IdentNode matchTypeIdentNode = new IdentNode(
-				env.define(ParserEnvironment.TYPES, matchTypeString, actionIdent.getCoords()));
+				env.Define(ParserEnvironment.TYPES, matchTypeString, actionIdent.Coords));
 		MatchTypeActionNode matchTypeNode = new MatchTypeActionNode(actionIdent);
 		TypeDeclNode typeDeclNode = new TypeDeclNode(matchTypeIdentNode, matchTypeNode);
-		matchTypeIdentNode.setDecl(typeDeclNode);
+		matchTypeIdentNode.Decl = typeDeclNode;
 		return matchTypeIdentNode;
 	}
 
-	public static IdentNode getMatchTypeIdentNode(ParserEnvironment env, IdentNode actionIdent)
+	public static IdentNode GetMatchTypeIdentNode(ParserEnvironment env, IdentNode actionIdent)
 	{
-		Occurrence actionOccurrence = actionIdent.occ;
-		Symbol actionSymbol = actionOccurrence.getSymbol();
-		String actionString = actionSymbol.getText();
-		String matchTypeString = "match<" + actionString + ">";
-		if(actionIdent instanceof PackageIdentNode) {
+		Symbol.Occurrence actionOccurrence = actionIdent.occ;
+		Symbol actionSymbol = actionOccurrence.Symbol;
+		string actionString = actionSymbol.Text;
+		string matchTypeString = "match<" + actionString + ">";
+		if(actionIdent is PackageIdentNode)
+		{
 			PackageIdentNode packageActionIdent = (PackageIdentNode)actionIdent;
-			Occurrence packageOccurrence = packageActionIdent.owningPackage;
-			Symbol packageSymbol = packageOccurrence.getSymbol();
+			Symbol.Occurrence packageOccurrence = packageActionIdent.owningPackage;
+			Symbol packageSymbol = packageOccurrence.Symbol;
 			return new PackageIdentNode(
-					env.occurs(ParserEnvironment.PACKAGES, packageSymbol.getText(), packageOccurrence.getCoords()),
-					env.occurs(ParserEnvironment.TYPES, matchTypeString, actionOccurrence.getCoords()));
-		} else {
-			return new IdentNode(env.occurs(ParserEnvironment.TYPES, matchTypeString, actionOccurrence.getCoords()));
+					env.Occurs(ParserEnvironment.PACKAGES, packageSymbol.Text, packageOccurrence.Coords),
+					env.Occurs(ParserEnvironment.TYPES, matchTypeString, actionOccurrence.Coords));
+		}
+		else
+			return new IdentNode(env.Occurs(ParserEnvironment.TYPES, matchTypeString, actionOccurrence.Coords));
+	}
+
+	public override string TypeName
+	{
+		get
+		{
+		return "match<" + actionUnresolved.ToString() + ">";
 		}
 	}
 
-	@Override
-	public String getTypeName()
+	public override ICollection<BaseNode> Children
 	{
-		return "match<" + actionUnresolved.toString() + ">";
-	}
-
-	@Override
-	public Collection<BaseNode> getChildren()
-	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		//children.add(getValidVersion(actionUnresolved, action));
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		//childrenNames.add("action");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<ActionDeclNode> actionResolver =
-			new DeclarationResolver<ActionDeclNode>(ActionDeclNode.class);
+	private static readonly DeclarationResolver<ActionDeclNode> actionResolver =
+			new DeclarationResolver<ActionDeclNode>(typeof(ActionDeclNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		if(!(actionUnresolved instanceof PackageIdentNode)) {
-			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
-		}
-		
-		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType,
+		if(!(actionUnresolved is PackageIdentNode))
+			FixupDefinition(actionUnresolved, actionUnresolved.Scope);
+
+		OperatorDeclNode.MakeBinOp(Operator.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.nullEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType,
+		OperatorDeclNode.MakeBinOp(Operator.NE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.nullEvaluator);
 
-		action = actionResolver.resolve(actionUnresolved, this);
+		action = actionResolver.Resolve(actionUnresolved, this);
 		if(action == null)
 			return false;
 		return true;
 	}
 
-	public ActionDeclNode getAction()
+	public virtual ActionDeclNode Action
 	{
-		assert(isResolved());
+		get
+		{
+		Debug.Assert((IsResolved()));
 		return action;
+		}
 	}
 
-	@Override
-	public DeclNode tryGetMember(String name)
+	public override DeclNode TryGetMember(string name)
 	{
-		NodeDeclNode node = action.pattern.tryGetNode(name);
+		NodeDeclNode node = action.pattern.TryGetNode(name);
 		if(node != null)
 			return node;
-		EdgeDeclNode edge = action.pattern.tryGetEdge(name);
+		EdgeDeclNode edge = action.pattern.TryGetEdge(name);
 		if(edge != null)
 			return edge;
-		return action.pattern.tryGetVar(name);
+		return action.pattern.TryGetVar(name);
 	}
 
-	@Override
-	public Set<DeclNode> getEntities()
+	public override ISet<DeclNode> Entities
 	{
-		return action.pattern.getEntities();
-	}
-
-	/** Returns the IR object for this match type node. */
-	public MatchType getIRMatchType()
-	{
-		return checkIR(MatchType.class);
-	}
-
-	@Override
-	protected IR constructIR()
-	{
-		if(isIRAlreadySet()) {
-			return (MatchType)getIR();
+		get
+		{
+		return action.pattern.Entities;
 		}
+	}
 
-		MatchType matchType = new MatchType(action.ident.getIRIdent());
+	/// <summary>
+	/// Returns the IR object for this match type node. </summary>
+	public virtual MatchType IRMatchType
+	{
+		get
+		{
+		return CheckIR(typeof(MatchType));
+		}
+	}
 
-		setIR(matchType);
+	protected internal override IR ConstructIR()
+	{
+		if(IsIRAlreadySet())
+			return (MatchType)IR;
 
-		Rule matchAction = action.getIRMatcher();
-		matchType.setAction(matchAction);
+		MatchType matchType = new MatchType(action.ident.IRIdent);
+
+		IR = matchType;
+
+		Rule matchAction = action.IRMatcher;
+		matchType.Action = matchAction;
 
 		return matchType;
 	}
+}
+
 }

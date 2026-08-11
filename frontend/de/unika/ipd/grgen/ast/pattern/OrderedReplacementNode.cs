@@ -1,44 +1,46 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.pattern;
+namespace de.unika.ipd.grgen.ast.pattern
+{
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-public abstract class OrderedReplacementNode extends BaseNode
+public abstract class OrderedReplacementNode : BaseNode
 {
 	// no functionality, allows ordering of subpattern replacement nodes and emit here nodes
 	// in one container of the ordered replacement node type
 
-	protected OrderedReplacementNode(Coords coords)
+	protected internal OrderedReplacementNode(Coords coords)
+		: base(coords)
 	{
-		super(coords);
 	}
 
-	protected OrderedReplacementNode()
+	protected internal OrderedReplacementNode()
+		: base()
 	{
-		super();
 	}
 
-	public boolean noExecStatement(boolean inEvalHereContext)
+	public virtual bool NoExecStatement(bool inEvalHereContext)
 	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(!(child instanceof OrderedReplacementNode)) {
+		bool res = true;
+		foreach(BaseNode child in Children)
+		{
+			if(!(child is OrderedReplacementNode))
 				continue;
-			}
 			OrderedReplacementNode orderedReplacement = (OrderedReplacementNode)child;
-			res &= orderedReplacement.noExecStatement(inEvalHereContext);
+			res &= orderedReplacement.NoExecStatement(inEvalHereContext);
 		}
 		return res;
 	}
+}
+
 }

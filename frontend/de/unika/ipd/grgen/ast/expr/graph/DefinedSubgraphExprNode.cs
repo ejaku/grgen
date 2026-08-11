@@ -1,107 +1,117 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.graph.DefinedSubgraphExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node yielding the defined subgraph of an edge set.
- */
-public class DefinedSubgraphExprNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.graph
 {
-	static {
-		setClassName(DefinedSubgraphExprNode.class, "defined subgraph expr");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using DefinedSubgraphExpr = de.unika.ipd.grgen.ir.expr.graph.DefinedSubgraphExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node yielding the defined subgraph of an edge set.
+/// </summary>
+public class DefinedSubgraphExprNode : BuiltinFunctionInvocationBaseNode
+{
+	static DefinedSubgraphExprNode()
+	{
+		SetClassName(typeof(DefinedSubgraphExprNode), "defined subgraph expr");
 	}
 
 	private ExprNode edgeSetExpr;
 
 	public DefinedSubgraphExprNode(Coords coords, ExprNode edgeSetExpr)
+		: base(coords)
 	{
-		super(coords);
 		this.edgeSetExpr = edgeSetExpr;
-		becomeParent(this.edgeSetExpr);
+		BecomeParent(this.edgeSetExpr);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(edgeSetExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(edgeSetExpr);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("edgeSetExpr");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("edgeSetExpr");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		if(!(edgeSetExpr.getType() instanceof SetTypeNode)) {
-			edgeSetExpr.reportError("The function definedSubgraph expects as argument a value of type set"
-					+ " (but is given a value of type " + edgeSetExpr.getType().getTypeName() + ").");
+		if(!(edgeSetExpr.Type is SetTypeNode))
+		{
+			edgeSetExpr.ReportError("The function definedSubgraph expects as argument a value of type set"
+					+ " (but is given a value of type " + edgeSetExpr.Type.TypeName + ").");
 			return false;
 		}
-		SetTypeNode type = (SetTypeNode)edgeSetExpr.getType();
-		if(!(type.valueType instanceof EdgeTypeNode)) {
-			edgeSetExpr.reportError("The function definedSubgraph expects as argument a value of type set<Edge|UEdge|AEdge>"
-					+ " (but is given a value of type " + edgeSetExpr.getType().getTypeName() + ").");
+		SetTypeNode type = (SetTypeNode)edgeSetExpr.Type;
+		if(!(type.valueType is EdgeTypeNode))
+		{
+			edgeSetExpr.ReportError("The function definedSubgraph expects as argument a value of type set<Edge|UEdge|AEdge>"
+					+ " (but is given a value of type " + edgeSetExpr.Type.TypeName + ").");
 			return false;
 		}
 		EdgeTypeNode edgeValueType = (EdgeTypeNode)type.valueType;
 		if(edgeValueType != EdgeTypeNode.arbitraryEdgeType
 				&& edgeValueType != EdgeTypeNode.directedEdgeType
-				&& edgeValueType != EdgeTypeNode.undirectedEdgeType) {
-			edgeSetExpr.reportError("The function definedSubgraph expects as argument a value of type set<Edge|UEdge|AEdge>"
-					+ " (but is given a value of type " + edgeSetExpr.getType().getTypeName() + ").");
+				&& edgeValueType != EdgeTypeNode.undirectedEdgeType)
+		{
+			edgeSetExpr.ReportError("The function definedSubgraph expects as argument a value of type set<Edge|UEdge|AEdge>"
+					+ " (but is given a value of type " + edgeSetExpr.Type.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		edgeSetExpr = edgeSetExpr.evaluate();
-		return new DefinedSubgraphExpr(edgeSetExpr.checkIR(Expression.class), getType().getIRType());
+		edgeSetExpr = edgeSetExpr.Evaluate();
+		return new DefinedSubgraphExpr(edgeSetExpr.CheckIR(typeof(Expression)), Type.IRType);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.graphType;
+		}
 	}
+}
+
 }

@@ -1,93 +1,101 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.string;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.string.StringStartsWith;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class StringStartsWithNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.@string
 {
-	static {
-		setClassName(StringStartsWithNode.class, "string startsWith");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using StringStartsWith = de.unika.ipd.grgen.ir.expr.@string.StringStartsWith;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class StringStartsWithNode : BuiltinFunctionInvocationBaseNode
+{
+	static StringStartsWithNode()
+	{
+		SetClassName(typeof(StringStartsWithNode), "string startsWith");
 	}
 
 	private ExprNode stringExpr;
 	private ExprNode stringToSearchForExpr;
 
 	public StringStartsWithNode(Coords coords, ExprNode stringExpr, ExprNode stringToSearchForExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.stringExpr = becomeParent(stringExpr);
-		this.stringToSearchForExpr = becomeParent(stringToSearchForExpr);
+		this.stringExpr = BecomeParent(stringExpr);
+		this.stringToSearchForExpr = BecomeParent(stringToSearchForExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(stringExpr);
-		children.add(stringToSearchForExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(stringExpr);
+		children.Add(stringToSearchForExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("string");
-		childrenNames.add("stringToSearchFor");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("string");
+		childrenNames.Add("stringToSearchFor");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("The string function method startsWith can only be employed on an object of type string"
-					+ " (but is employed on an object of type " + stringExpr.getType().getTypeName() + ").");
+		if(!stringExpr.Type.IsEqual(BasicTypeNode.stringType))
+		{
+			stringExpr.ReportError("The string function method startsWith can only be employed on an object of type string"
+					+ " (but is employed on an object of type " + stringExpr.Type.TypeName + ").");
 			return false;
 		}
-		if(!stringToSearchForExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringToSearchForExpr.reportError("The string function method startsWith expects as argument (stringToSearchFor) a value of type string"
-					+ " (but is given a value of type " + stringToSearchForExpr.getType().getTypeName() + ").");
+		if(!stringToSearchForExpr.Type.IsEqual(BasicTypeNode.stringType))
+		{
+			stringToSearchForExpr.ReportError("The string function method startsWith expects as argument (stringToSearchFor) a value of type string"
+					+ " (but is given a value of type " + stringToSearchForExpr.Type.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		stringExpr = stringExpr.evaluate();
-		stringToSearchForExpr = stringToSearchForExpr.evaluate();
-		return new StringStartsWith(stringExpr.checkIR(Expression.class),
-				stringToSearchForExpr.checkIR(Expression.class));
+		stringExpr = stringExpr.Evaluate();
+		stringToSearchForExpr = stringToSearchForExpr.Evaluate();
+		return new StringStartsWith(stringExpr.CheckIR(typeof(Expression)),
+				stringToSearchForExpr.CheckIR(typeof(Expression)));
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.booleanType;
+		}
 	}
+}
+
 }

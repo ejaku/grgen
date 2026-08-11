@@ -1,82 +1,77 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.util;
-
-import java.util.HashSet;
-import java.util.Set;
-
-/**
- * Empty annotations.
- */
-public class EmptyAnnotations implements Annotations
+namespace de.unika.ipd.grgen.util
 {
-	private static final Annotations EMPTY = new EmptyAnnotations();
 
-	public static Annotations get()
+using System;
+using System.Collections.Generic;
+
+/// <summary>
+/// Empty annotations.
+/// </summary>
+public class EmptyAnnotations : Annotations
+{
+	private static readonly Annotations EMPTY = new EmptyAnnotations();
+
+	public static Annotations Get()
 	{
 		return EMPTY;
 	}
 
-	/** @see de.unika.ipd.grgen.util.Annotations#containsKey(java.lang.String) */
-	@Override
-	public boolean containsKey(String key)
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.containsKey(java.lang.String) "/>
+	public virtual bool ContainsKey(string key)
 	{
 		return false;
 	}
 
-	/** @see de.unika.ipd.grgen.util.Annotations#get(java.lang.String) */
-	@Override
-	public Object get(String key)
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.get(java.lang.String) "/>
+	public virtual object Get(string key)
 	{
 		return null;
 	}
 
-	/** @see de.unika.ipd.grgen.util.Annotations#put(java.lang.String, java.lang.Object) */
-	@Override
-	public void put(String key, Object value)
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.put(java.lang.String, java.lang.Object) "/>
+	public virtual void Put(string key, object value)
 	{
-		throw new RuntimeException("Not implemented! Would be silently swallowed, which would be typically a bug.");
+		throw new Exception("Not implemented! Would be silently swallowed, which would be typically a bug.");
 	}
 
-	/** @see de.unika.ipd.grgen.util.Annotations#isInteger(java.lang.String) */
-	@Override
-	public boolean isInteger(String key)
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isInteger(java.lang.String) "/>
+	public virtual bool IsInteger(string key)
 	{
 		return false;
 	}
 
-	/** @see de.unika.ipd.grgen.util.Annotations#isBoolean(java.lang.String) */
-	@Override
-	public boolean isBoolean(String key)
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isBoolean(java.lang.String) "/>
+	public virtual bool IsBoolean(string key)
 	{
 		return false;
 	}
 
-	/** @see de.unika.ipd.grgen.util.Annotations#isString(java.lang.String) */
-	@Override
-	public boolean isString(String key)
+	/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isString(java.lang.String) "/>
+	public virtual bool IsString(string key)
 	{
 		return false;
 	}
 
-	@Override
-	public boolean isFlagSet(String key)
+	public virtual bool IsFlagSet(string key)
 	{
 		return false;
 	}
 
-	@Override
-	public Set<String> keySet()
+	public virtual ISet<string> KeySet()
 	{
-		return new HashSet<String>();
+		return new HashSet<string>();
 	}
+}
+
 }

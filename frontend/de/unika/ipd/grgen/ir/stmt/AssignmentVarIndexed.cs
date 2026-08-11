@@ -1,48 +1,52 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
-package de.unika.ipd.grgen.ir.stmt;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-
-/**
- * Represents an indexed assignment statement in the IR.
- */
-public class AssignmentVarIndexed extends AssignmentVar
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+namespace de.unika.ipd.grgen.ir.stmt
 {
-	/** The index to the lhs. */
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+
+/// <summary>
+/// Represents an indexed assignment statement in the IR.
+/// </summary>
+public class AssignmentVarIndexed : AssignmentVar
+{
+	/// <summary>
+	/// The index to the lhs. </summary>
 	private Expression index;
 
 	public AssignmentVarIndexed(Variable target, Expression expr, Expression index)
+		: base("assignment var indexed", target, expr)
 	{
-		super("assignment var indexed", target, expr);
 		this.index = index;
 	}
 
-	public Expression getIndex()
+	public virtual Expression Index
 	{
+		get
+		{
 		return index;
+		}
 	}
 
-	@Override
-	public String toString()
+	public override string ToString()
 	{
-		return getTarget() + "[" + getIndex() + "] = " + getExpression();
+		return Target + "[" + Index + "] = " + Expression;
 	}
 
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		super.collectNeededEntities(needs);
-		getIndex().collectNeededEntities(needs);
+		base.CollectNeededEntities(needs);
+		Index.CollectNeededEntities(needs);
 	}
+}
+
 }

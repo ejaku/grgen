@@ -1,42 +1,43 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll, Edgar Jakumeit
- */
+/// <summary>
+/// @author Moritz Kroll, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.map;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ContainerInitNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.ExprPairNode;
-import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
-import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
-import de.unika.ipd.grgen.ast.util.MemberResolver;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.ExpressionPair;
-import de.unika.ipd.grgen.ir.expr.map.MapInit;
-import de.unika.ipd.grgen.ir.type.container.MapType;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class MapInitNode extends ContainerInitNode
+namespace de.unika.ipd.grgen.ast.expr.map
 {
-	static {
-		setClassName(MapInitNode.class, "map init");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ContainerInitNode = de.unika.ipd.grgen.ast.expr.ContainerInitNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using ExprPairNode = de.unika.ipd.grgen.ast.expr.ExprPairNode;
+using DeclaredTypeNode = de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ContainerTypeNode = de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
+using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ExpressionPair = de.unika.ipd.grgen.ir.expr.ExpressionPair;
+using MapInit = de.unika.ipd.grgen.ir.expr.map.MapInit;
+using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class MapInitNode : ContainerInitNode
+{
+	static MapInitNode()
+	{
+		SetClassName(typeof(MapInitNode), "map init");
 	}
 
 	private CollectNode<ExprPairNode> mapItems = new CollectNode<ExprPairNode>();
@@ -50,208 +51,240 @@ public class MapInitNode extends ContainerInitNode
 	private MapTypeNode mapType;
 
 	public MapInitNode(Coords coords, IdentNode member, MapTypeNode mapType)
+		: base(coords)
 	{
-		super(coords);
 
-		if(member != null) {
-			lhsUnresolved = becomeParent(member);
-		} else {
+		if(member != null)
+			lhsUnresolved = BecomeParent(member);
+		else
 			this.mapType = mapType;
-		}
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(mapItems);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(mapItems);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("mapItems");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("mapItems");
 		return childrenNames;
+		}
 	}
 
-	public void addPairItem(ExprPairNode item)
+	public virtual void AddPairItem(ExprPairNode item)
 	{
-		mapItems.addChild(item);
+		mapItems.AddChild(item);
 	}
 
-	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
+	private static readonly MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		if(lhsUnresolved != null) {
-			if(!lhsResolver.resolve(lhsUnresolved))
+		if(lhsUnresolved != null)
+		{
+			if(!lhsResolver.Resolve(lhsUnresolved))
 				return false;
-			lhs = lhsResolver.getResult(DeclNode.class);
-			return lhsResolver.finish();
-		} else {
+			lhs = lhsResolver.GetResult(typeof(DeclNode));
+			return lhsResolver.Finish();
+		}
+		else
+		{
 			if(mapType == null)
-				mapType = createMapType();
-			return mapType.resolve();
+				mapType = CreateMapType();
+			return mapType.Resolve();
 		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		boolean success = true;
+		bool success = true;
 
-		MapTypeNode mapType = (MapTypeNode)getContainerType();
-		for(ExprPairNode item : mapItems.getChildrenExact()) {
-			if(item.keyExpr.getType() != mapType.keyType) {
-				if(!isInitInModel()) {
+		MapTypeNode mapType = (MapTypeNode)ContainerType;
+		foreach(ExprPairNode item in mapItems.ChildrenExact)
+		{
+			if(item.keyExpr.GetType() != mapType.keyType)
+			{
+				if(!IsInitInModel())
+				{
 					ExprNode oldKeyExpr = item.keyExpr;
-					item.keyExpr = item.keyExpr.adjustType(mapType.keyType, getCoords());
-					item.switchParenthood(oldKeyExpr, item.keyExpr);
-					if(item.keyExpr == ConstNode.getInvalid()) {
+					item.keyExpr = item.keyExpr.AdjustType(mapType.keyType, Coords);
+					item.SwitchParenthood(oldKeyExpr, item.keyExpr);
+					if(item.keyExpr == ConstNode.Invalid)
+					{
 						success = false;
-						oldKeyExpr.reportError("The key type " + oldKeyExpr.getType().toStringWithDeclarationCoords()
-								+ " of the initializer does not fit to the key type " + mapType.keyType.toStringWithDeclarationCoords()
-								+ " of the map (" + mapType.getTypeName() + ").");
+						oldKeyExpr.ReportError("The key type " + oldKeyExpr.Type.ToStringWithDeclarationCoords()
+								+ " of the initializer does not fit to the key type " + mapType.keyType.ToStringWithDeclarationCoords()
+								+ " of the map (" + mapType.TypeName + ").");
 					}
-				} else {
+				}
+				else
+				{
 					success = false;
-					item.keyExpr.reportError("The key type " + item.keyExpr.getType().toStringWithDeclarationCoords()
-							+ " of the initializer does not fit to the key type " + mapType.keyType.toStringWithDeclarationCoords()
-							+ " of the map (" + mapType.getTypeName()
+					item.keyExpr.ReportError("The key type " + item.keyExpr.GetType().ToStringWithDeclarationCoords()
+							+ " of the initializer does not fit to the key type " + mapType.keyType.ToStringWithDeclarationCoords()
+							+ " of the map (" + mapType.TypeName
 							+ " -- all items must be of exactly the same type).");
 				}
 			}
-			if(item.valueExpr.getType() != mapType.valueType) {
-				if(this.mapType != null) {
+			if(item.valueExpr.GetType() != mapType.valueType)
+			{
+				if(this.mapType != null)
+				{
 					ExprNode oldValueExpr = item.valueExpr;
-					item.valueExpr = item.valueExpr.adjustType(mapType.valueType, getCoords());
-					item.switchParenthood(oldValueExpr, item.valueExpr);
-					if(item.valueExpr == ConstNode.getInvalid()) {
+					item.valueExpr = item.valueExpr.AdjustType(mapType.valueType, Coords);
+					item.SwitchParenthood(oldValueExpr, item.valueExpr);
+					if(item.valueExpr == ConstNode.Invalid)
+					{
 						success = false;
-						oldValueExpr.reportError("The value type " + oldValueExpr.getType().toStringWithDeclarationCoords()
-								+ " of the initializer does not fit to the value type " + mapType.valueType.toStringWithDeclarationCoords()
-								+ " of the map (" + mapType.getTypeName() + ").");
+						oldValueExpr.ReportError("The value type " + oldValueExpr.Type.ToStringWithDeclarationCoords()
+								+ " of the initializer does not fit to the value type " + mapType.valueType.ToStringWithDeclarationCoords()
+								+ " of the map (" + mapType.TypeName + ").");
 					}
-				} else {
+				}
+				else
+				{
 					success = false;
-					item.valueExpr.reportError("The value type " + item.valueExpr.getType().toStringWithDeclarationCoords()
-							+ " of the initializer does not fit to the value type " + mapType.valueType.toStringWithDeclarationCoords()
-							+ " of the map (" + mapType.getTypeName()
+					item.valueExpr.ReportError("The value type " + item.valueExpr.GetType().ToStringWithDeclarationCoords()
+							+ " of the initializer does not fit to the value type " + mapType.valueType.ToStringWithDeclarationCoords()
+							+ " of the map (" + mapType.TypeName
 							+ " -- all items must be of exactly the same type).");
 				}
 			}
 		}
 
-		if(!isConstant() && lhs != null) {
-			reportError("Only constant items are allowed in a map initialization in the model.");
+		if(!IsConstant() && lhs != null)
+		{
+			ReportError("Only constant items are allowed in a map initialization in the model.");
 			success = false;
 		}
 
 		return success;
 	}
 
-	private MapTypeNode createMapType()
+	private MapTypeNode CreateMapType()
 	{
-		TypeNode keyTypeNode = mapItems.getChildrenExact().iterator().next().keyExpr.getType();
-		TypeNode valueTypeNode = mapItems.getChildrenExact().iterator().next().valueExpr.getType();
-		IdentNode keyTypeIdent = ((DeclaredTypeNode)keyTypeNode).getIdent();
-		IdentNode valueTypeIdent = ((DeclaredTypeNode)valueTypeNode).getIdent();
+		TypeNode keyTypeNode = mapItems.ChildrenExact.GetEnumerator().Next().keyExpr.GetType();
+		TypeNode valueTypeNode = mapItems.ChildrenExact.GetEnumerator().Next().valueExpr.GetType();
+		IdentNode keyTypeIdent = ((DeclaredTypeNode)keyTypeNode).Ident;
+		IdentNode valueTypeIdent = ((DeclaredTypeNode)valueTypeNode).Ident;
 		return new MapTypeNode(keyTypeIdent, valueTypeIdent);
 	}
 
-	/**
-	 * Checks whether the map only contains constants.
-	 * @return True, if all map items are constant.
-	 */
-	public final boolean isConstant()
+	/// <summary>
+	/// Checks whether the map only contains constants. </summary>
+	/// <returns> True, if all map items are constant. </returns>
+	public bool IsConstant()
 	{
-		for(ExprPairNode item : mapItems.getChildrenExact()) {
-			if(!(item.keyExpr instanceof ConstNode || isEnumValue(item.keyExpr)))
+		foreach(ExprPairNode item in mapItems.ChildrenExact)
+		{
+			if(!(item.keyExpr is ConstNode || IsEnumValue(item.keyExpr)))
 				return false;
-			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
-				return false;
-		}
-		return true;
-	}
-
-	public final boolean areKeysConstant()
-	{
-		for(ExprPairNode item : mapItems.getChildrenExact()) {
-			if(!(item.keyExpr instanceof ConstNode || isEnumValue(item.keyExpr)))
+			if(!(item.valueExpr is ConstNode || IsEnumValue(item.valueExpr)))
 				return false;
 		}
 		return true;
 	}
 
-	public boolean contains(ConstNode node)
+	public bool AreKeysConstant()
 	{
-		for(ExprPairNode item : mapItems.getChildrenExact()) {
-			if(item.keyExpr instanceof ConstNode) {
+		foreach(ExprPairNode item in mapItems.ChildrenExact)
+		{
+			if(!(item.keyExpr is ConstNode || IsEnumValue(item.keyExpr)))
+				return false;
+		}
+		return true;
+	}
+
+	public virtual bool Contains(ConstNode node)
+	{
+		foreach(ExprPairNode item in mapItems.ChildrenExact)
+		{
+			if(item.keyExpr is ConstNode)
+			{
 				ConstNode itemConst = (ConstNode)item.keyExpr;
-				if(node.getValue().equals(itemConst.getValue()))
+				if(node.Value.Equals(itemConst.Value))
 					return true;
 			}
 		}
 		return false;
 	}
 
-	public ExprNode getAtIndex(ConstNode node)
+	public virtual ExprNode GetAtIndex(ConstNode node)
 	{
-		for(ExprPairNode item : mapItems.getChildrenExact()) {
-			if(item.keyExpr instanceof ConstNode) {
+		foreach(ExprPairNode item in mapItems.ChildrenExact)
+		{
+			if(item.keyExpr is ConstNode)
+			{
 				ConstNode itemConst = (ConstNode)item.keyExpr;
-				if(node.getValue().equals(itemConst.getValue()))
+				if(node.Value.Equals(itemConst.Value))
 					return item.valueExpr;
 			}
 		}
 		return null;
 	}
 
-	@Override
-	public ContainerTypeNode getContainerType()
+	public override ContainerTypeNode ContainerType
 	{
-		assert(isResolved());
-		if(lhs != null) {
-			TypeNode type = lhs.getDeclType();
+		get
+		{
+		Debug.Assert((IsResolved()));
+		if(lhs != null)
+		{
+			TypeNode type = lhs.DeclType;
 			return (MapTypeNode)type;
-		} else {
+		}
+		else
 			return mapType;
 		}
 	}
 
-	@Override
-	public boolean isInitInModel()
+	public override bool IsInitInModel()
 	{
 		return mapType == null;
 	}
 
-	public CollectNode<ExprPairNode> getItems()
+	public virtual CollectNode<ExprPairNode> Items
 	{
+		get
+		{
 		return mapItems;
-	}
-
-	@Override
-	protected IR constructIR()
-	{
-		List<ExpressionPair> items = new ArrayList<ExpressionPair>();
-		for(ExprPairNode item : mapItems.getChildrenExact()) {
-			items.add(item.getIRExpressionPair());
 		}
-		Entity member = lhs != null ? lhs.getIREntity() : null;
-		MapType type = mapType != null ? mapType.checkIR(MapType.class) : null;
-		return new MapInit(items, member, type, isConstant());
 	}
 
-	public MapInit getIRMapInit()
+	protected internal override IR ConstructIR()
 	{
-		return checkIR(MapInit.class);
+		IList<ExpressionPair> items = new List<ExpressionPair>();
+		foreach(ExprPairNode item in mapItems.ChildrenExact)
+			items.Add(item.IRExpressionPair);
+		Entity member = lhs != null ? lhs.IREntity : null;
+		MapType type = mapType != null ? mapType.CheckIR(typeof(MapType)) : null;
+		return new MapInit(items, member, type, IsConstant());
 	}
 
-	public static String getKindStr()
+	public virtual MapInit IRMapInit
 	{
+		get
+		{
+		return CheckIR(typeof(MapInit));
+		}
+	}
+
+	public static string KindStr
+	{
+		get
+		{
 		return "map initialization";
+		}
 	}
+}
+
 }

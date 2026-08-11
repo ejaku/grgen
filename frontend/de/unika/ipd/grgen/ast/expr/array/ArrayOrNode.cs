@@ -1,71 +1,76 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.array;
-
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayOrExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ArrayOrNode extends ArrayAccumulationMethodNode
+namespace de.unika.ipd.grgen.ast.expr.array
 {
-	static {
-		setClassName(ArrayOrNode.class, "array or");
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayOrExpr = de.unika.ipd.grgen.ir.expr.array.ArrayOrExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ArrayOrNode : ArrayAccumulationMethodNode
+{
+	static ArrayOrNode()
+	{
+		SetClassName(typeof(ArrayOrNode), "array or");
 	}
 
 	public ArrayOrNode(Coords coords, ExprNode targetExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = getTargetTypeExact();
-		if(!arrayType.valueType.isEqual(BasicTypeNode.booleanType)) {
-			targetExpr.reportError("The array function method or can only be employed on an object of type array<boolean>"
-					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
+		ArrayTypeNode arrayType = TargetTypeExact;
+		if(!arrayType.valueType.IsEqual(BasicTypeNode.booleanType))
+		{
+			targetExpr.ReportError("The array function method or can only be employed on an object of type array<boolean>"
+					+ " (but is employed on an object of type " + arrayType.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.booleanType;
+		}
 	}
 
-	@Override
-	public boolean isValidTargetTypeOfAccumulation(TypeNode type)
+	public override bool IsValidTargetTypeOfAccumulation(TypeNode type)
 	{
-		return type.isEqual(BasicTypeNode.booleanType);
+		return type.IsEqual(BasicTypeNode.booleanType);
 	}
 
-	@Override
-	public String getValidTargetTypesOfAccumulation()
+	public override string ValidTargetTypesOfAccumulation
 	{
+		get
+		{
 		return "boolean";
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		targetExpr = targetExpr.evaluate();
-		return new ArrayOrExpr(targetExpr.checkIR(Expression.class));
+		targetExpr = targetExpr.Evaluate();
+		return new ArrayOrExpr(targetExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

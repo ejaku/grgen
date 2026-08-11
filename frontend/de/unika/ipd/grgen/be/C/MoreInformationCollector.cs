@@ -1,120 +1,119 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * Extracts all the information needed by the FrameBasedBackend
- * from the GrGen-internal IR
- * @author Adam Szalkowski
- */
+/// <summary>
+/// Extracts all the information needed by the FrameBasedBackend
+/// from the GrGen-internal IR
+/// @author Adam Szalkowski
+/// </summary>
 
-package de.unika.ipd.grgen.be.C;
+namespace de.unika.ipd.grgen.be.C
+{
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.ArrayList;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.executable.Action;
-import de.unika.ipd.grgen.ir.executable.MatchingAction;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.Operator;
-import de.unika.ipd.grgen.ir.expr.OperatorCode;
-import de.unika.ipd.grgen.ir.expr.Qualification;
-import de.unika.ipd.grgen.ir.model.type.InheritanceType;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.stmt.Assignment;
-import de.unika.ipd.grgen.ir.stmt.EvalStatement;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
-import de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
-import de.unika.ipd.grgen.util.Annotations;
+using de.unika.ipd.grgen.ir;
+using Action = de.unika.ipd.grgen.ir.executable.Action;
+using MatchingAction = de.unika.ipd.grgen.ir.executable.MatchingAction;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Operator = de.unika.ipd.grgen.ir.expr.Operator;
+using OperatorCode = de.unika.ipd.grgen.ir.expr.OperatorCode;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using Assignment = de.unika.ipd.grgen.ir.stmt.Assignment;
+using EvalStatement = de.unika.ipd.grgen.ir.stmt.EvalStatement;
+using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
+using PrimitiveType = de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
+using Annotations = de.unika.ipd.grgen.util.Annotations;
 
-public class MoreInformationCollector extends InformationCollector
+public class MoreInformationCollector : InformationCollector
 {
 	/* maps an eval list to the action_id it belong to */
-	protected Map<Collection<Assignment>, Integer> evalListMap = new HashMap<Collection<Assignment>, Integer>();
+	protected internal IDictionary<ICollection<Assignment>, int> evalListMap = new Dictionary<ICollection<Assignment>, int>();
 
 	/* replacement and pattern nodes/edges involved in an eval */
-	protected Map<Collection<Assignment>, Collection<Node>> evalInvolvedNodes = new HashMap<Collection<Assignment>, Collection<Node>>();
-	protected Map<Collection<Assignment>, Collection<Edge>> evalInvolvedEdges = new HashMap<Collection<Assignment>, Collection<Edge>>();
+	protected internal IDictionary<ICollection<Assignment>, ICollection<Node>> evalInvolvedNodes = new Dictionary<ICollection<Assignment>, ICollection<Node>>();
+	protected internal IDictionary<ICollection<Assignment>, ICollection<Edge>> evalInvolvedEdges = new Dictionary<ICollection<Assignment>, ICollection<Edge>>();
 
 	/* maps action id to eval list */
-	protected Map<Collection<Assignment>, Action> evalActions = new HashMap<Collection<Assignment>, Action>();
+	protected internal IDictionary<ICollection<Assignment>, Action> evalActions = new Dictionary<ICollection<Assignment>, Action>();
 
 	/* edge and node attributes involved in that eval */
-	protected List<Map<Node, Collection<Integer>>> involvedEvalNodeAttrIds;
-	protected List<Map<Edge, Collection<Integer>>> involvedEvalEdgeAttrIds;
+	protected internal IList<IDictionary<Node, ICollection<int>>> involvedEvalNodeAttrIds;
+	protected internal IList<IDictionary<Edge, ICollection<int>>> involvedEvalEdgeAttrIds;
 
 	//returns id of corresponding pattern edge id if edge is kept
 	//else -1 if edge is new one
 	//usage: replacementEdgeIsPresevedNode[act_id][replacement_edge_num]
-	protected int[][] replacementEdgeIsPreservedEdge;
+	protected internal int[][] replacementEdgeIsPreservedEdge;
 
 	//returns id of corresponding replacement edge id if edge is kept
 	//else -1 if edge is to be deleted
 	//usage: patternEdgeIsToBeKept[act_id][pattern_edge_num]
-	protected int[][] patternEdgeIsToBeKept;
+	protected internal int[][] patternEdgeIsToBeKept;
 
-	private static final int min_subgraph_size = 4;
+	private const int min_subgraph_size = 4;
 
 	/*
 	 * collect some information about evals
 	 */
-	protected void collectEvalInfo()
+	protected internal virtual void CollectEvalInfo()
 	{
-		involvedEvalNodeAttrIds = new ArrayList<Map<Node, Collection<Integer>>>(actionRuleMap.size());
-		involvedEvalEdgeAttrIds = new ArrayList<Map<Edge, Collection<Integer>>>(actionRuleMap.size());
+		involvedEvalNodeAttrIds = new List<IDictionary<Node, ICollection<int>>>(actionRuleMap.Count);
+		involvedEvalEdgeAttrIds = new List<IDictionary<Edge, ICollection<int>>>(actionRuleMap.Count);
 
-		for(Rule act : actionRuleMap.keySet()) {
-			if(act.getRight() != null) {
-				Integer act_id = actionRuleMap.get(act);
+		foreach(Rule act in actionRuleMap.Keys)
+		{
+			if(act.Right != null)
+			{
+				int? act_id = actionRuleMap[act];
 
-				Collection<Assignment> rule_evals = new ArrayList<Assignment>();
-				for(EvalStatements evalStmts : act.getEvals()) {
-					for(EvalStatement evalStmt : evalStmts.evalStatements) {
-						if(evalStmt instanceof Assignment)
-							rule_evals.add((Assignment)evalStmt);
+				ICollection<Assignment> rule_evals = new List<Assignment>();
+				foreach(EvalStatements evalStmts in act.Evals)
+				{
+					foreach(EvalStatement evalStmt in evalStmts.evalStatements)
+					{
+						if(evalStmt is Assignment)
+							rule_evals.Add((Assignment)evalStmt);
 					}
 				}
 
-				evalListMap.put(rule_evals, act_id);
-				evalActions.put(rule_evals, act);
+				evalListMap[rule_evals] = act_id.Value;
+				evalActions[rule_evals] = act;
 
-				Set<Node> involvedNodes = new HashSet<Node>();
-				Set<Edge> involvedEdges = new HashSet<Edge>();
-				involvedEvalNodeAttrIds.set(act_id.intValue(), new HashMap<Node, Collection<Integer>>());
-				involvedEvalEdgeAttrIds.set(act_id.intValue(), new HashMap<Edge, Collection<Integer>>());
+				ISet<Node> involvedNodes = new HashSet<Node>();
+				ISet<Edge> involvedEdges = new HashSet<Edge>();
+				involvedEvalNodeAttrIds[act_id.Value] = new Dictionary<Node, ICollection<int>>();
+				involvedEvalEdgeAttrIds[act_id.Value] = new Dictionary<Edge, ICollection<int>>();
 
-				for(Assignment eval : rule_evals) {
-					Expression targetExpr = eval.getTarget();
-					if(!(targetExpr instanceof Qualification)) {
-						throw new UnsupportedOperationException(
-								"The C backend only supports assignments to qualified expressions, yet!");
-					}
+				foreach(Assignment eval in rule_evals)
+				{
+					Expression targetExpr = eval.Target;
+					if(!(targetExpr is Qualification))
+						throw new System.NotSupportedException("The C backend only supports assignments to qualified expressions, yet!");
 					Qualification target = (Qualification)targetExpr;
-					Expression expr = eval.getExpression();
+					Expression expr = eval.Expression;
 
 					/* generate an expression that consists of both parts of the Assignment to use the already implemented methods for gathering InvolvedNodes/Edges etc. */
-					Operator op = new Operator((PrimitiveType)target.getType(), OperatorCode.EQ);
-					op.addOperand(target);
-					op.addOperand(expr);
+					Operator op = new Operator((PrimitiveType)target.Type, OperatorCode.EQ);
+					op.AddOperand(target);
+					op.AddOperand(expr);
 
 					//...extract the pattern nodes and edges involved in the evaluation
-					involvedNodes.addAll(collectInvolvedNodes(op));
-					involvedEdges.addAll(collectInvolvedEdges(op));
+					involvedNodes.AddAll(CollectInvolvedNodes(op));
+					involvedEdges.AddAll(CollectInvolvedEdges(op));
 
 					/* for all evaluations the pairs (pattern_node_num, attr_id), which occur
 					 in qualifications at the leaves of the eval, are needed.
@@ -128,103 +127,105 @@ public class MoreInformationCollector extends InformationCollector
 					//collect the attr ids in dependency of evaluation and the pattern node
 
 					//descent to the conditions leaves and look for qualifications
-					__recursive_qual_collect(act_id.intValue(),
-							involvedEvalNodeAttrIds.get(act_id.intValue()),
-							involvedEvalEdgeAttrIds.get(act_id.intValue()),
-							op);
+					_recursiveQualCollect(act_id.Value, involvedEvalNodeAttrIds[act_id.Value], involvedEvalEdgeAttrIds[act_id.Value], op);
 				}
 
 				//add Collections of involved Nodes/Edges to prepared Maps
-				evalInvolvedNodes.put(rule_evals, involvedNodes);
-				evalInvolvedEdges.put(rule_evals, involvedEdges);
+				evalInvolvedNodes[rule_evals] = involvedNodes;
+				evalInvolvedEdges[rule_evals] = involvedEdges;
 			}
 		}
 	}
 
-	/**
-	 * Method collectReplacementEdgeIsPreservedEdgeInfo
-	 */
-	private void collectReplacementEdgeIsPreservedEdgeInfo()
+	/// <summary>
+	/// Method collectReplacementEdgeIsPreservedEdgeInfo
+	/// </summary>
+	private void CollectReplacementEdgeIsPreservedEdgeInfo()
 	{
-		replacementEdgeIsPreservedEdge = new int[n_graph_actions][max_n_replacement_edges];
+		replacementEdgeIsPreservedEdge = RectangularArrays.RectangularIntArray(n_graph_actions, max_n_replacement_edges);
 
 		//init the array with -1
-		for(int i = 0; i < n_graph_actions; i++) {
-			for(int j = 0; j < max_n_replacement_edges; j++) {
+		for(int i = 0; i < n_graph_actions; i++)
+		{
+			for(int j = 0; j < max_n_replacement_edges; j++)
 				replacementEdgeIsPreservedEdge[i][j] = -1;
-			}
 		}
 
 		//for all edges preserved set the corresponding array entry to the
 		//appropriate pattern edge number
-		for(Rule action : actionRuleMap.keySet()) {
-			int act_id = actionRuleMap.get(action).intValue();
+		foreach(Rule action in actionRuleMap.Keys)
+		{
+			int act_id = actionRuleMap[action];
 
-			if(action.getRight() != null) {
+			if(action.Right != null)
+			{
 				//compute the set of replacement edges preserved by this action
-				Set<Edge> replacement_edges_preserved = new HashSet<Edge>();
-				replacement_edges_preserved.addAll(action.getRight().getEdges());
-				replacement_edges_preserved.retainAll(action.getPattern().getEdges());
+				ISet<Edge> replacement_edges_preserved = new HashSet<Edge>();
+				replacement_edges_preserved.AddAll(action.Right.Edges);
+				replacement_edges_preserved.RetainAll(action.Pattern.GetEdges());
 				//for all those preserved replacement edges store the
 				//corresponding pattern edge
-				for(Edge edge : replacement_edges_preserved) {
-					int edge_num = replacement_edge_num.get(act_id).get(edge).intValue();
-					replacementEdgeIsPreservedEdge[act_id][edge_num] =
-							pattern_edge_num.get(act_id).get(edge).intValue();
+				foreach(Edge edge in replacement_edges_preserved)
+				{
+					int edge_num = replacement_edge_num[act_id][edge];
+					replacementEdgeIsPreservedEdge[act_id][edge_num] = pattern_edge_num[act_id][edge];
 				}
 			}
 		}
 	}
 
-	/**
-	 * Method collectPatternEdgesToBeKeptInfo
-	 */
-	private void collectPatternEdgesToBeKeptInfo()
+	/// <summary>
+	/// Method collectPatternEdgesToBeKeptInfo
+	/// </summary>
+	private void CollectPatternEdgesToBeKeptInfo()
 	{
-		patternEdgeIsToBeKept = new int[n_graph_actions][max_n_pattern_edges];
+		patternEdgeIsToBeKept = RectangularArrays.RectangularIntArray(n_graph_actions, max_n_pattern_edges);
 
 		//init the arrays with -1
-		for(int i = 0; i < n_graph_actions; i++) {
-			for(int j = 0; j < max_n_pattern_edges; j++) {
+		for(int i = 0; i < n_graph_actions; i++)
+		{
+			for(int j = 0; j < max_n_pattern_edges; j++)
 				patternEdgeIsToBeKept[i][j] = -1;
-			}
 		}
 
 		//for all edges to be kept set the corresponding array entry to the
 		//appropriate replacement edge number
-		for(Rule action : actionRuleMap.keySet()) {
-			int act_id = actionRuleMap.get(action).intValue();
+		foreach(Rule action in actionRuleMap.Keys)
+		{
+			int act_id = actionRuleMap[action];
 
 			//compute the set of pattern edges to be kept for this action
-			Set<Edge> pattern_edges_to_keep = new HashSet<Edge>();
-			pattern_edges_to_keep.addAll(action.getPattern().getEdges());
-			if(action.getRight() != null) {
-				PatternGraphBase replacement = action.getRight();
-				pattern_edges_to_keep.retainAll(replacement.getEdges());
+			ISet<Edge> pattern_edges_to_keep = new HashSet<Edge>();
+			pattern_edges_to_keep.AddAll(action.Pattern.GetEdges());
+			if(action.Right != null)
+			{
+				PatternGraphBase replacement = action.Right;
+				pattern_edges_to_keep.RetainAll(replacement.Edges);
 				//iterate over the pattern edges to be kept and store their
 				//corresponding replacement edge number
-				for(Edge edge : pattern_edges_to_keep) {
-					int edge_num = pattern_edge_num.get(act_id).get(edge).intValue();
-					patternEdgeIsToBeKept[act_id][edge_num] = replacement_edge_num.get(act_id).get(edge).intValue();
+				foreach(Edge edge in pattern_edges_to_keep)
+				{
+					int edge_num = pattern_edge_num[act_id][edge];
+					patternEdgeIsToBeKept[act_id][edge_num] = replacement_edge_num[act_id][edge];
 				}
 			}
 		}
 	}
 
-	protected int max_n_negative_nodes = 0;
-	protected int max_n_negative_edges = 0;
-	protected int max_n_negative_patterns = 0;
-	protected int[] n_negative_patterns;
+	protected internal int max_n_negative_nodes = 0;
+	protected internal int max_n_negative_edges = 0;
+	protected internal int max_n_negative_patterns = 0;
+	protected internal int[] n_negative_patterns;
 	//	action_id --> neg_id --> pattern_node_num
-	protected List<List<Map<Node, Integer>>> negative_node_num;
+	protected internal IList<IList<IDictionary<Node, int>>> negative_node_num;
 	//	action_id --> neg_id --> pattern_edge_num
-	protected List<List<Map<Edge, Integer>>> negative_edge_num;
-	protected List<Map<PatternGraphLhs, Integer>> negMap;
+	protected internal IList<IList<IDictionary<Edge, int>>> negative_edge_num;
+	protected internal IList<IDictionary<PatternGraphLhs, int>> negMap;
 
-	protected int[][][] patternNodeIsNegativeNode;
-	protected int[][][] patternEdgeIsNegativeEdge;
+	protected internal int[][][] patternNodeIsNegativeNode;
+	protected internal int[][][] patternEdgeIsNegativeEdge;
 
-	private void collectNegativeInfo()
+	private void CollectNegativeInfo()
 	{
 		/* get the overall maximum numbers of nodes and edges of all pattern
 		 and replacement graphs respectively */
@@ -233,24 +234,26 @@ public class MoreInformationCollector extends InformationCollector
 		max_n_negative_patterns = 0;
 
 		n_negative_patterns = new int[n_graph_actions];
-		negMap = new ArrayList<Map<PatternGraphLhs, Integer>>(n_graph_actions);
+		negMap = new List<IDictionary<PatternGraphLhs, int>>(n_graph_actions);
 
-		for(Rule act : actionRuleMap.keySet()) {
-			int act_id = actionRuleMap.get(act).intValue();
+		foreach(Rule act in actionRuleMap.Keys)
+		{
+			int act_id = actionRuleMap[act];
 			int negs = 0;
 
-			negMap.set(act_id, new HashMap<PatternGraphLhs, Integer>());
+			negMap[act_id] = new Dictionary<PatternGraphLhs, int>();
 
 			//check whether its graphs node and edge set sizes are greater
 			int size;
 
-			for(PatternGraphLhs negPattern : act.getPattern().getNegs()) {
-				negMap.get(act_id).put(negPattern, new Integer(negs++));
+			foreach(PatternGraphLhs negPattern in act.Pattern.GetNegs())
+			{
+				negMap[act_id][negPattern] = new int?(negs++);
 
-				size = negPattern.getNodes().size();
+				size = negPattern.Nodes.Count;
 				if(size > max_n_negative_nodes)
 					max_n_negative_nodes = size;
-				size = negPattern.getEdges().size();
+				size = negPattern.Edges.Count;
 				if(size > max_n_negative_edges)
 					max_n_negative_edges = size;
 			}
@@ -261,149 +264,159 @@ public class MoreInformationCollector extends InformationCollector
 		}
 
 		/* compute the numbers of nodes/edges of all negative-pattern-graphs */
-		negative_node_num = new ArrayList<List<Map<Node, Integer>>>(n_graph_actions);
-		negative_edge_num = new ArrayList<List<Map<Edge, Integer>>>(n_graph_actions);
+		negative_node_num = new List<IList<IDictionary<Node, int>>>(n_graph_actions);
+		negative_edge_num = new List<IList<IDictionary<Edge, int>>>(n_graph_actions);
 
-		for(Rule act : actionRuleMap.keySet()) {
-			int act_id = actionRuleMap.get(act).intValue();
+		foreach(Rule act in actionRuleMap.Keys)
+		{
+			int act_id = actionRuleMap[act];
 
-			negative_node_num.set(act_id, new ArrayList<Map<Node, Integer>>(max_n_negative_patterns));
+			negative_node_num[act_id] = new List<IDictionary<Node, int>>(max_n_negative_patterns);
 
 			/* if action has negative pattern graphs, compute node/edge numbers */
-			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
-				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
-				negative_node_num.get(act_id).set(neg_num, new HashMap<Node, Integer>());
-				negative_edge_num.get(act_id).set(neg_num, new HashMap<Edge, Integer>());
+			foreach(PatternGraphLhs neg_pattern in negMap[act_id].Keys)
+			{
+				int neg_num = negMap[act_id][neg_pattern];
+				negative_node_num[act_id][neg_num] = new Dictionary<Node, int>();
+				negative_edge_num[act_id][neg_num] = new Dictionary<Edge, int>();
 
 				/* fill the map with pairs (node, node_num) */
 				int node_num = 0;
-				for(Node node : neg_pattern.getNodes()) {
-					negative_node_num.get(act_id).get(neg_num).put(node, new Integer(node_num++));
-				}
-				assert node_num == neg_pattern.getNodes().size() : "Wrong number of node_nums was created";
+				foreach(Node node in neg_pattern.Nodes)
+					negative_node_num[act_id][neg_num][node] = new int?(node_num++);
+				Debug.Assert(node_num == neg_pattern.Nodes.Count, "Wrong number of node_nums was created");
 
 				/* fill the map with pairs (edge, edge_num) */
 				int edge_num = 0;
-				for(Edge edge : neg_pattern.getEdges()) {
-					negative_edge_num.get(act_id).get(neg_num).put(edge, new Integer(edge_num++));
-				}
-				assert edge_num == neg_pattern.getEdges().size() : "Wrong number of edge_nums was created";
+				foreach(Edge edge in neg_pattern.Edges)
+					negative_edge_num[act_id][neg_num][edge] = new int?(edge_num++);
+				Debug.Assert(edge_num == neg_pattern.Edges.Count, "Wrong number of edge_nums was created");
 			}
 		}
 	}
 
-	protected void collectPatternNodeIsNegativeNodeInfo()
+	protected internal virtual void CollectPatternNodeIsNegativeNodeInfo()
 	{
-		patternNodeIsNegativeNode = new int[n_graph_actions][max_n_negative_patterns][max_n_pattern_nodes];
+		patternNodeIsNegativeNode = RectangularArrays.RectangularIntArray(n_graph_actions, max_n_negative_patterns, max_n_pattern_nodes);
 
 		//init the array with -1
-		for(int i = 0; i < n_graph_actions; i++) {
-			for(int j = 0; j < max_n_negative_patterns; j++) {
-				for(int k = 0; k < max_n_pattern_nodes; k++) {
+		for(int i = 0; i < n_graph_actions; i++)
+		{
+			for(int j = 0; j < max_n_negative_patterns; j++)
+			{
+				for(int k = 0; k < max_n_pattern_nodes; k++)
 					patternNodeIsNegativeNode[i][j][k] = -1;
-				}
 			}
 		}
 
 		//for all negative patterns insert the correspondig negative node numbers
 		//for the pattern nodes that are also present in that negative pattern
-		for(Rule action : actionRuleMap.keySet()) {
-			int act_id = actionRuleMap.get(action).intValue();
+		foreach(Rule action in actionRuleMap.Keys)
+		{
+			int act_id = actionRuleMap[action];
 
-			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
-				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
+			foreach(PatternGraphLhs neg_pattern in negMap[act_id].Keys)
+			{
+				int neg_num = negMap[act_id][neg_pattern];
 
-				Set<Node> negatives_also_in_pattern = new HashSet<Node>();
-				negatives_also_in_pattern.addAll(neg_pattern.getNodes());
-				negatives_also_in_pattern.retainAll(action.getPattern().getNodes());
+				ISet<Node> negatives_also_in_pattern = new HashSet<Node>();
+				negatives_also_in_pattern.AddAll(neg_pattern.Nodes);
+				negatives_also_in_pattern.RetainAll(action.Pattern.GetNodes());
 
-				for(Node node : negatives_also_in_pattern) {
-					int node_num = pattern_node_num.get(act_id).get(node).intValue();
+				foreach(Node node in negatives_also_in_pattern)
+				{
+					int node_num = pattern_node_num[act_id][node];
 
-					patternNodeIsNegativeNode[act_id][neg_num][node_num] =
-							negative_node_num.get(act_id).get(neg_num).get(node).intValue();
+					patternNodeIsNegativeNode[act_id][neg_num][node_num] = negative_node_num[act_id][neg_num][node];
 				}
 			}
 		}
 	}
 
-	protected void collectPatternEdgeIsNegativeEdgeInfo()
+	protected internal virtual void CollectPatternEdgeIsNegativeEdgeInfo()
 	{
-		patternEdgeIsNegativeEdge = new int[n_graph_actions][max_n_negative_patterns][max_n_pattern_edges];
+		patternEdgeIsNegativeEdge = RectangularArrays.RectangularIntArray(n_graph_actions, max_n_negative_patterns, max_n_pattern_edges);
 
 		//init the array with -1
-		for(int i = 0; i < n_graph_actions; i++) {
-			for(int j = 0; j < max_n_negative_patterns; j++) {
-				for(int k = 0; k < max_n_pattern_edges; k++) {
+		for(int i = 0; i < n_graph_actions; i++)
+		{
+			for(int j = 0; j < max_n_negative_patterns; j++)
+			{
+				for(int k = 0; k < max_n_pattern_edges; k++)
 					patternEdgeIsNegativeEdge[i][j][k] = -1;
-				}
 			}
 		}
 
 		//for all negative patterns insert the correspondig negative edge numbers
 		//for the pattern edges that are also present in that negative pattern
-		for(Rule action : actionRuleMap.keySet()) {
-			int act_id = actionRuleMap.get(action).intValue();
+		foreach(Rule action in actionRuleMap.Keys)
+		{
+			int act_id = actionRuleMap[action];
 
-			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
-				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
+			foreach(PatternGraphLhs neg_pattern in negMap[act_id].Keys)
+			{
+				int neg_num = negMap[act_id][neg_pattern];
 
-				Set<Edge> negatives_also_in_pattern = new HashSet<Edge>();
-				negatives_also_in_pattern.addAll(neg_pattern.getEdges());
-				negatives_also_in_pattern.retainAll(action.getPattern().getEdges());
+				ISet<Edge> negatives_also_in_pattern = new HashSet<Edge>();
+				negatives_also_in_pattern.AddAll(neg_pattern.Edges);
+				negatives_also_in_pattern.RetainAll(action.Pattern.GetEdges());
 
-				for(Edge edge : negatives_also_in_pattern) {
-					int edge_num = pattern_edge_num.get(act_id).get(edge).intValue();
+				foreach(Edge edge in negatives_also_in_pattern)
+				{
+					int edge_num = pattern_edge_num[act_id][edge];
 
-					patternEdgeIsNegativeEdge[act_id][neg_num][edge_num] =
-							negative_edge_num.get(act_id).get(neg_num).get(edge).intValue();
+					patternEdgeIsNegativeEdge[act_id][neg_num][edge_num] = negative_edge_num[act_id][neg_num][edge];
 				}
 			}
 		}
 	}
 
-	protected Map<Collection<InheritanceType>, Integer> typeConditionsPatternNum = new HashMap<Collection<InheritanceType>, Integer>();
-	protected Map<Expression, Integer> conditionsPatternNum = new HashMap<Expression, Integer>();
+	protected internal IDictionary<ICollection<InheritanceType>, int> typeConditionsPatternNum = new Dictionary<ICollection<InheritanceType>, int>();
+	protected internal IDictionary<Expression, int> conditionsPatternNum = new Dictionary<Expression, int>();
 
 	/* it is a little bit stupid to do this again. so merge it into InformationCollector if it really works */
-	protected void collectNegativePatternConditionsInfo()
+	protected internal virtual void CollectNegativePatternConditionsInfo()
 	{
 		//init a subexpression counter
 		int subConditionCounter = n_conditions;
 
 		//iterate over all actions
-		for(Rule act : actionRuleMap.keySet()) {
-			int act_id = actionRuleMap.get(act).intValue();
+		foreach(Rule act in actionRuleMap.Keys)
+		{
+			int act_id = actionRuleMap[act];
 
 			//iterate over negative patterns
-			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
-				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
+			foreach(PatternGraphLhs neg_pattern in negMap[act_id].Keys)
+			{
+				int neg_num = negMap[act_id][neg_pattern];
 
 				//iterate over all conditions of the current action
-				for(Expression condition : neg_pattern.getConditions()) {
+				foreach(Expression condition in neg_pattern.Conditions)
+				{
 					// divide the expression to all AND-connected parts, which do
 					//not have an AND-Operator as root themselves
-					Collection<Expression> subConditions = decomposeAndParts(condition);
+					ICollection<Expression> subConditions = DecomposeAndParts(condition);
 
 					//for all the subconditions just computed...
-					for(Expression sub_condition : subConditions) {
-						assert conditionNumbers.get(sub_condition) == null;
+					foreach(Expression sub_condition in subConditions)
+					{
+						Debug.Assert(conditionNumbers[sub_condition] == null);
 
 						//...create condition numbers
-						conditionNumbers.put(sub_condition, new Integer(subConditionCounter++));
+						conditionNumbers[sub_condition] = new int?(subConditionCounter++);
 
 						//...extract the pattern nodes and edges involved in the condition
-						Collection<Node> involvedNodes = collectInvolvedNodes(sub_condition);
-						Collection<Edge> involvedEdges = collectInvolvedEdges(sub_condition);
+						ICollection<Node> involvedNodes = CollectInvolvedNodes(sub_condition);
+						ICollection<Edge> involvedEdges = CollectInvolvedEdges(sub_condition);
 						//and at these Collections to prepared Maps
-						conditionsInvolvedNodes.put(sub_condition, involvedNodes);
-						conditionsInvolvedEdges.put(sub_condition, involvedEdges);
+						conditionsInvolvedNodes[sub_condition] = involvedNodes;
+						conditionsInvolvedEdges[sub_condition] = involvedEdges;
 
 						//..store the negative pattern num the conditions belongs to
-						conditionsPatternNum.put(sub_condition, new Integer(neg_num + 1));
+						conditionsPatternNum[sub_condition] = new int?(neg_num + 1);
 
 						//store the subcondition in an ordered Collection
-						conditions.get(Integer.valueOf(act_id)).add(sub_condition);
+						conditions[Convert.ToInt32(act_id)].Add(sub_condition);
 					}
 				}
 			}
@@ -421,90 +434,98 @@ public class MoreInformationCollector extends InformationCollector
 		 which yields a Collection of attr-ids.
 		 */
 
-		involvedPatternNodeAttrIds = new HashMap<Expression, Map<Node, Collection<Integer>>>();
-		involvedPatternEdgeAttrIds = new HashMap<Expression, Map<Edge, Collection<Integer>>>();
+		involvedPatternNodeAttrIds = new Dictionary<Expression, IDictionary<Node, ICollection<int>>>();
+		involvedPatternEdgeAttrIds = new Dictionary<Expression, IDictionary<Edge, ICollection<int>>>();
 
-		for(Rule act : actionRuleMap.keySet()) {
-			int act_id = actionRuleMap.get(act).intValue();
+		foreach(Rule act in actionRuleMap.Keys)
+		{
+			int act_id = actionRuleMap[act];
 
 			//collect the attr ids in dependency of condition and the pattern node
-			for(Expression cond : conditions.get(Integer.valueOf(act_id))) {
+			foreach(Expression cond in conditions[Convert.ToInt32(act_id)])
+			{
 				// TODO use or remove it
 				// int cond_num = conditionNumbers.get(cond).intValue();
 
 				//descent to the conditions leaves and look for qualifications
-				Map<Node, Collection<Integer>> node_map = new HashMap<Node, Collection<Integer>>();
-				Map<Edge, Collection<Integer>> edge_map = new HashMap<Edge, Collection<Integer>>();
-				__recursive_qual_collect(act_id, node_map, edge_map, cond);
-				involvedPatternNodeAttrIds.put(cond, node_map);
-				involvedPatternEdgeAttrIds.put(cond, edge_map);
+				IDictionary<Node, ICollection<int>> node_map = new Dictionary<Node, ICollection<int>>();
+				IDictionary<Edge, ICollection<int>> edge_map = new Dictionary<Edge, ICollection<int>>();
+				_recursiveQualCollect(act_id, node_map, edge_map, cond);
+				involvedPatternNodeAttrIds[cond] = node_map;
+				involvedPatternEdgeAttrIds[cond] = edge_map;
 			}
 		}
 	}
 
-	protected void collectNegativePatternTypeConditionsInfo()
+	protected internal virtual void CollectNegativePatternTypeConditionsInfo()
 	{
 		/* collect the type constraints of the node of all actions pattern graphs */
 		int typeConditionCounter = n_conditions;
 
-		for(Rule act : actionRuleMap.keySet()) {
-			int act_id = actionRuleMap.get(act).intValue();
+		foreach(Rule act in actionRuleMap.Keys)
+		{
+			int act_id = actionRuleMap[act];
 
 			//iterate over negative patterns
-			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
-				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
+			foreach(PatternGraphLhs neg_pattern in negMap[act_id].Keys)
+			{
+				int neg_num = negMap[act_id][neg_pattern];
 
 				/* for all nodes of the current MatchingActions negative pattern graphs
 				 extract that nodes type constraints */
-				for(Node node : neg_pattern.getNodes()) {
+				foreach(Node node in neg_pattern.Nodes)
+				{
 					//if node has type constraints, register the as conditions
-					if(!node.getConstraints().isEmpty()) {
+					if(node.GetConstraints().Count > 0)
+					{
 						//note that a type condition is the set of all types,
 						//the corresponding node/edge is not allowed to be of
-						Collection<InheritanceType> type_condition = node.getConstraints();
+						ICollection<InheritanceType> type_condition = node.GetConstraints();
 
 						//...create condition numbers
-						typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
+						typeConditionNumbers[type_condition] = new int?(typeConditionCounter++);
 
 						//...extract the pattern nodes and edges involved in the condition
-						Collection<Node> involvedNodes = new HashSet<Node>();
-						involvedNodes.add(node);
+						ICollection<Node> involvedNodes = new HashSet<Node>();
+						involvedNodes.Add(node);
 						//and at these Collections to prepared Maps
-						typeConditionsInvolvedNodes.put(type_condition, involvedNodes);
-						Collection<Edge> empty = Collections.emptySet();
-						typeConditionsInvolvedEdges.put(type_condition, empty);
+						typeConditionsInvolvedNodes[type_condition] = involvedNodes;
+						ICollection<Edge> empty = Collections.EmptySet();
+						typeConditionsInvolvedEdges[type_condition] = empty;
 
 						//..store the negative pattern num the conditions belongs to
-						typeConditionsPatternNum.put(type_condition, new Integer(neg_num + 1));
+						typeConditionsPatternNum[type_condition] = new int?(neg_num + 1);
 
 						//store the subcondition in an ordered Collection
-						typeConditions.get(act_id).add(type_condition);
+						typeConditions[act_id].Add(type_condition);
 					}
 				}
 				//do the same thing for all edges of the current pattern
-				for(Edge edge : neg_pattern.getEdges()) {
+				foreach(Edge edge in neg_pattern.Edges)
+				{
 					//if node has type constraints, register the as conditions
-					if(!edge.getConstraints().isEmpty()) {
+					if(edge.GetConstraints().Count > 0)
+					{
 						//note that a type condition is the set of all types,
 						//the corresponding edge is not allowed to be of
-						Collection<InheritanceType> type_condition = edge.getConstraints();
+						ICollection<InheritanceType> type_condition = edge.GetConstraints();
 
 						//...create condition numbers
-						typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
+						typeConditionNumbers[type_condition] = new int?(typeConditionCounter++);
 
 						//...extract the pattern edges and edges involved in the condition
-						Collection<Edge> involvedEdges = new HashSet<Edge>();
-						involvedEdges.add(edge);
+						ICollection<Edge> involvedEdges = new HashSet<Edge>();
+						involvedEdges.Add(edge);
 						//and at these Collections to prepared Maps
-						Collection<Node> empty = Collections.emptySet();
-						typeConditionsInvolvedNodes.put(type_condition, empty);
-						typeConditionsInvolvedEdges.put(type_condition, involvedEdges);
+						ICollection<Node> empty = Collections.EmptySet();
+						typeConditionsInvolvedNodes[type_condition] = empty;
+						typeConditionsInvolvedEdges[type_condition] = involvedEdges;
 
 						//..store the negative pattern num the conditions belongs to
-						typeConditionsPatternNum.put(type_condition, new Integer(neg_num + 1));
+						typeConditionsPatternNum[type_condition] = new int?(neg_num + 1);
 
 						//store the subcondition in an ordered Collection
-						typeConditions.get(act_id).add(type_condition);
+						typeConditions[act_id].Add(type_condition);
 					}
 				}
 			}
@@ -514,228 +535,243 @@ public class MoreInformationCollector extends InformationCollector
 		n_conditions = typeConditionCounter;
 	}
 
-	protected int[] n_subgraphs;
-	protected int[] first_subgraph;
-	protected int max_n_subgraphs;
+	protected internal int[] n_subgraphs;
+	protected internal int[] first_subgraph;
+	protected internal int max_n_subgraphs;
 	//protected Map[] subGraphMap;
-	protected List<LinkedList<Set<Node>>> nodesOfSubgraph;
-	protected List<LinkedList<Set<Edge>>> edgesOfSubgraph;
-	protected Map<Node, Integer> subgraphOfNode;
-	protected Map<Edge, Integer> subgraphOfEdge;
+	protected internal IList<LinkedList<ISet<Node>>> nodesOfSubgraph;
+	protected internal IList<LinkedList<ISet<Edge>>> edgesOfSubgraph;
+	protected internal IDictionary<Node, int> subgraphOfNode;
+	protected internal IDictionary<Edge, int> subgraphOfEdge;
 
-	private void collectSubGraphInfo()
+	private void CollectSubGraphInfo()
 	{
-		n_subgraphs = new int[actionRuleMap.size()];
-		first_subgraph = new int[actionRuleMap.size()];
+		n_subgraphs = new int[actionRuleMap.Count];
+		first_subgraph = new int[actionRuleMap.Count];
 		//subGraphMap = new HashMap[actionMap.size()];
-		nodesOfSubgraph = new ArrayList<LinkedList<Set<Node>>>(actionRuleMap.size());
-		edgesOfSubgraph = new ArrayList<LinkedList<Set<Edge>>>(actionRuleMap.size());
-		subgraphOfNode = new HashMap<Node, Integer>();
-		subgraphOfEdge = new HashMap<Edge, Integer>();
+		nodesOfSubgraph = new List<LinkedList<ISet<Node>>>(actionRuleMap.Count);
+		edgesOfSubgraph = new List<LinkedList<ISet<Edge>>>(actionRuleMap.Count);
+		subgraphOfNode = new Dictionary<Node, int>();
+		subgraphOfEdge = new Dictionary<Edge, int>();
 
 		max_n_subgraphs = 0;
 
-		for(Rule action : actionRuleMap.keySet()) {
-			PatternGraphLhs pattern = action.getPattern();
-			int act_id = actionRuleMap.get(action).intValue();
+		foreach(Rule action in actionRuleMap.Keys)
+		{
+			PatternGraphLhs pattern = action.Pattern;
+			int act_id = actionRuleMap[action];
 
 			int subgraph = 0;
 
-			Set<IR> remainingNodes = new HashSet<IR>();
-			Set<IR> remainingEdges = new HashSet<IR>();
+			ISet<IR> remainingNodes = new HashSet<IR>();
+			ISet<IR> remainingEdges = new HashSet<IR>();
 
-			remainingNodes.addAll(pattern.getNodes());
-			remainingEdges.addAll(pattern.getEdges());
+			remainingNodes.AddAll(pattern.Nodes);
+			remainingEdges.AddAll(pattern.Edges);
 
-			nodesOfSubgraph.set(act_id, new LinkedList<Set<Node>>());
-			edgesOfSubgraph.set(act_id, new LinkedList<Set<Edge>>());
+			nodesOfSubgraph[act_id] = new LinkedList<ISet<Node>>();
+			edgesOfSubgraph[act_id] = new LinkedList<ISet<Edge>>();
 
 			n_subgraphs[act_id] = 0;
 			//subGraphMap[act_id] = new HashMap();
 
-			while(!remainingNodes.isEmpty()) {
+			while(remainingNodes.Count > 0)
+			{
 				Node node;
-				Set<Node> currentSubgraphNodes = new HashSet<Node>();
-				Set<Edge> currentSubgraphEdges = new HashSet<Edge>();
+				ISet<Node> currentSubgraphNodes = new HashSet<Node>();
+				ISet<Edge> currentSubgraphEdges = new HashSet<Edge>();
 
-				nodesOfSubgraph.get(act_id).addLast(currentSubgraphNodes);
-				edgesOfSubgraph.get(act_id).addLast(currentSubgraphEdges);
+				nodesOfSubgraph[act_id].AddLast(currentSubgraphNodes);
+				edgesOfSubgraph[act_id].AddLast(currentSubgraphEdges);
 
-				node = (Node)remainingNodes.iterator().next();
-				remainingNodes.remove(node);
+				node = (Node)remainingNodes.GetEnumerator().Next();
+				remainingNodes.Remove(node);
 
-				subgraphOfNode.put(node, new Integer(subgraph));
-				currentSubgraphNodes.add(node);
+				subgraphOfNode[node] = new int?(subgraph);
+				currentSubgraphNodes.Add(node);
 
-				__deep_first_collect_subgraph_info(remainingNodes, remainingEdges, currentSubgraphNodes,
-						currentSubgraphEdges, subgraph, node, action, pattern);
+				_deepFirstCollectSubgraphInfo(remainingNodes, remainingEdges, currentSubgraphNodes, currentSubgraphEdges, subgraph, node, action, pattern);
 
 				subgraph++;
 			}
 
-			if(nodesOfSubgraph.get(act_id).size() > 1) {
+			if(nodesOfSubgraph[act_id].Count > 1)
+			{
 				//if a subgraph is smaller than 5 then merge it with the next smallest one
-				Set<Node> smallest_subgraph;
-				Set<Edge> smallest_subgraph_edges;
-				do {
-					smallest_subgraph = nodesOfSubgraph.get(act_id).getFirst();
-					smallest_subgraph_edges = edgesOfSubgraph.get(act_id).getFirst();
-					assert nodesOfSubgraph.get(act_id).size() == edgesOfSubgraph.get(act_id).size();
-					for(int i = 0; i < nodesOfSubgraph.get(act_id).size(); i++) {
-						if((nodesOfSubgraph.get(act_id).get(i)).size() < smallest_subgraph.size()) {
-							smallest_subgraph = nodesOfSubgraph.get(act_id).get(i);
-							smallest_subgraph_edges = edgesOfSubgraph.get(act_id).get(i);
+				ISet<Node> smallest_subgraph;
+				ISet<Edge> smallest_subgraph_edges;
+				do
+				{
+					smallest_subgraph = nodesOfSubgraph[act_id].First.Value;
+					smallest_subgraph_edges = edgesOfSubgraph[act_id].First.Value;
+					Debug.Assert(nodesOfSubgraph[act_id].Count == edgesOfSubgraph[act_id].Count);
+					for(int i = 0; i < nodesOfSubgraph[act_id].Count; i++)
+					{
+						if((nodesOfSubgraph[act_id].ToList()[i]).Size() < smallest_subgraph.Count)
+						{
+							smallest_subgraph = nodesOfSubgraph[act_id].ToList()[i];
+							smallest_subgraph_edges = edgesOfSubgraph[act_id].ToList()[i];
 						}
 					}
 
-					if(smallest_subgraph.size() >= min_subgraph_size)
+					if(smallest_subgraph.Count >= min_subgraph_size)
 						break;
 
-					boolean succ = nodesOfSubgraph.get(act_id).remove(smallest_subgraph);
-					assert succ;
-					succ = edgesOfSubgraph.get(act_id).remove(smallest_subgraph_edges);
-					assert succ;
+// JAVA TO C# CONVERTER TASK: There is no .NET LinkedList equivalent to the Java 'remove' method:
+					bool succ = nodesOfSubgraph[act_id].Remove(smallest_subgraph);
+					Debug.Assert(succ);
+// JAVA TO C# CONVERTER TASK: There is no .NET LinkedList equivalent to the Java 'remove' method:
+					succ = edgesOfSubgraph[act_id].Remove(smallest_subgraph_edges);
+					Debug.Assert(succ);
 
-					Collection<Node> next_smallest_subgraph = nodesOfSubgraph.get(act_id).getFirst();
-					Collection<Edge> next_smallest_subgraph_edges = edgesOfSubgraph.get(act_id).getFirst();
-					assert nodesOfSubgraph.get(act_id).size() == edgesOfSubgraph.get(act_id).size();
-					for(int i = 0; i < nodesOfSubgraph.get(act_id).size(); i++) {
-						if((nodesOfSubgraph.get(act_id).get(i)).size() < next_smallest_subgraph.size()) {
-							next_smallest_subgraph = nodesOfSubgraph.get(act_id).get(i);
-							next_smallest_subgraph_edges = edgesOfSubgraph.get(act_id).get(i);
+					ICollection<Node> next_smallest_subgraph = nodesOfSubgraph[act_id].First.Value;
+					ICollection<Edge> next_smallest_subgraph_edges = edgesOfSubgraph[act_id].First.Value;
+					Debug.Assert(nodesOfSubgraph[act_id].Count == edgesOfSubgraph[act_id].Count);
+					for(int i = 0; i < nodesOfSubgraph[act_id].Count; i++)
+					{
+						if((nodesOfSubgraph[act_id].ToList()[i]).Size() < next_smallest_subgraph.Count)
+						{
+							next_smallest_subgraph = nodesOfSubgraph[act_id].ToList()[i];
+							next_smallest_subgraph_edges = edgesOfSubgraph[act_id].ToList()[i];
 						}
 					}
 
 					//merge the two subgraphs
-					next_smallest_subgraph.addAll(smallest_subgraph);
-					next_smallest_subgraph_edges.addAll(smallest_subgraph_edges);
-				} while(nodesOfSubgraph.get(act_id).size() > 1);
+					next_smallest_subgraph.AddAll(smallest_subgraph);
+					next_smallest_subgraph_edges.AddAll(smallest_subgraph_edges);
+				} while(nodesOfSubgraph[act_id].Count > 1);
 
 				//move smallest subgraph to the beginning of the list
-				smallest_subgraph = nodesOfSubgraph.get(act_id).getFirst();
-				smallest_subgraph_edges = edgesOfSubgraph.get(act_id).getFirst();
-				for(int i = 0; i < nodesOfSubgraph.get(act_id).size(); i++) {
-					if((nodesOfSubgraph.get(act_id).get(i)).size() < smallest_subgraph.size()) {
-						smallest_subgraph = nodesOfSubgraph.get(act_id).get(i);
-						smallest_subgraph_edges = edgesOfSubgraph.get(act_id).get(i);
+				smallest_subgraph = nodesOfSubgraph[act_id].First.Value;
+				smallest_subgraph_edges = edgesOfSubgraph[act_id].First.Value;
+				for(int i = 0; i < nodesOfSubgraph[act_id].Count; i++)
+				{
+					if((nodesOfSubgraph[act_id].ToList()[i]).Size() < smallest_subgraph.Count)
+					{
+						smallest_subgraph = nodesOfSubgraph[act_id].ToList()[i];
+						smallest_subgraph_edges = edgesOfSubgraph[act_id].ToList()[i];
 					}
 				}
-				nodesOfSubgraph.get(act_id).remove(smallest_subgraph);
-				edgesOfSubgraph.get(act_id).remove(smallest_subgraph_edges);
-				nodesOfSubgraph.get(act_id).addFirst(smallest_subgraph);
-				edgesOfSubgraph.get(act_id).addFirst(smallest_subgraph_edges);
+// JAVA TO C# CONVERTER TASK: There is no .NET LinkedList equivalent to the Java 'remove' method:
+				nodesOfSubgraph[act_id].Remove(smallest_subgraph);
+// JAVA TO C# CONVERTER TASK: There is no .NET LinkedList equivalent to the Java 'remove' method:
+				edgesOfSubgraph[act_id].Remove(smallest_subgraph_edges);
+				nodesOfSubgraph[act_id].AddFirst(smallest_subgraph);
+				edgesOfSubgraph[act_id].AddFirst(smallest_subgraph_edges);
 			}
 
-			n_subgraphs[act_id] = nodesOfSubgraph.get(act_id).size();
+			n_subgraphs[act_id] = nodesOfSubgraph[act_id].Count;
 
 			if(max_n_subgraphs < n_subgraphs[act_id])
 				max_n_subgraphs = n_subgraphs[act_id];
 
-			for(subgraph = 0; subgraph < edgesOfSubgraph.get(act_id).size(); subgraph++) {
-				Collection<Edge> subgraph_edges = edgesOfSubgraph.get(act_id).get(subgraph);
-				for(Edge edge : subgraph_edges) {
-					subgraphOfEdge.put(edge, new Integer(subgraph));
-				}
+			for(subgraph = 0; subgraph < edgesOfSubgraph[act_id].Count; subgraph++)
+			{
+				ICollection<Edge> subgraph_edges = edgesOfSubgraph[act_id].ToList()[subgraph];
+				foreach(Edge edge in subgraph_edges)
+					subgraphOfEdge[edge] = new int?(subgraph);
 			}
 
-			for(subgraph = 0; subgraph < nodesOfSubgraph.get(act_id).size(); subgraph++) {
-				Collection<Node> subgraph_nodes = nodesOfSubgraph.get(act_id).get(subgraph);
-				for(Node node : subgraph_nodes) {
-					subgraphOfNode.put(node, new Integer(subgraph));
-				}
+			for(subgraph = 0; subgraph < nodesOfSubgraph[act_id].Count; subgraph++)
+			{
+				ICollection<Node> subgraph_nodes = nodesOfSubgraph[act_id].ToList()[subgraph];
+				foreach(Node node in subgraph_nodes)
+					subgraphOfNode[node] = new int?(subgraph);
 			}
 
 			int max_prio = 0;
-			if(pattern.getNodes().size() > 0) {
+			if(pattern.Nodes.Count > 0)
+			{
 				//get any node as initial node
-				Node max_prio_node = pattern.getNodes().iterator().next();
-				for(Node node : pattern.getNodes()) {
+				Node max_prio_node = pattern.Nodes.GetEnumerator().Next();
+				foreach(Node node in pattern.Nodes)
+				{
 					//get the nodes priority
 					int prio = 0;
-					Annotations a = node.getAnnotations();
-					if(a != null) {
-						if(a.containsKey("prio") && a.isInteger("prio"))
-							prio = ((Integer)a.get("prio")).intValue();
+					Annotations a = node.Annotations;
+					if(a != null)
+					{
+						if(a.ContainsKey("prio") && a.IsInteger("prio"))
+							prio = ((int?)a.Get("prio")).Value;
 					}
 
 					//if the current priority is greater, update the maximum priority node
-					if(prio > max_prio) {
+					if(prio > max_prio)
+					{
 						max_prio = prio;
 						max_prio_node = node;
 					}
 				}
-				first_subgraph[act_id] = subgraphOfNode.get(max_prio_node).intValue();
-			} else {
-				first_subgraph[act_id] = 0;
+				first_subgraph[act_id] = subgraphOfNode[max_prio_node];
 			}
+			else
+				first_subgraph[act_id] = 0;
 		}
 	}
 
-	private void __deep_first_collect_subgraph_info(
-			Collection<IR> remainingNodes, Collection<IR> remainingEdges,
-			Collection<Node> currentSubgraphNodes, Collection<Edge> currentSubgraphEdges,
-			int subgraph,
-			final Node node, MatchingAction action,
-			final PatternGraphLhs pattern)
+	private void _deepFirstCollectSubgraphInfo(ICollection<IR> remainingNodes, ICollection<IR> remainingEdges, ICollection<Node> currentSubgraphNodes, ICollection<Edge> currentSubgraphEdges, int subgraph, in Node node, MatchingAction action, in PatternGraphLhs pattern)
 	{
 		//final PatternGraph pattern = action.getPattern();
 
 		//a collection of all edges incident to the current node. The collection
 		//is ordered by the priority of the nodes at the far end of each edge.
 		//nodes without priority get the priority 0.
-		Set<Edge> incidentEdges = new HashSet<Edge>();
+		ISet<Edge> incidentEdges = new HashSet<Edge>();
 
 		//put all edges incident to the current node in that collection (edges that are incoming and outgoing occur only once)
-		pattern.getOutgoing(node, incidentEdges);
-		pattern.getIncoming(node, incidentEdges);
+		pattern.GetOutgoing(node, incidentEdges);
+		pattern.GetIncoming(node, incidentEdges);
 
 		//iterate over all those incident edges...
-		for(Edge edge : incidentEdges) {
+		foreach(Edge edge in incidentEdges)
+		{
 			//...and check whether the current edge has already been visited
-			if(remainingEdges.contains(edge)) {
+			if(remainingEdges.Contains(edge))
+			{
 				//if the edge has not been visited yet mark it as visited
-				currentSubgraphEdges.add(edge);
+				currentSubgraphEdges.Add(edge);
 
 				//mark the current edge as visited
-				remainingEdges.remove(edge);
+				remainingEdges.Remove(edge);
 
 				//if the far node is not yet visited follow the current edge to
 				//continue the deep first traversal
-				if(remainingNodes.contains(getFarEndNode(edge, node, pattern))) {
+				if(remainingNodes.Contains(GetFarEndNode(edge, node, pattern)))
+				{
 					//mark the edge and the far end node as visited
-					currentSubgraphNodes.add(getFarEndNode(edge, node, pattern));
+					currentSubgraphNodes.Add(GetFarEndNode(edge, node, pattern));
 
-					remainingNodes.remove(getFarEndNode(edge, node, pattern));
+					remainingNodes.Remove(GetFarEndNode(edge, node, pattern));
 					//continue recursicly the deep fisrt traversal of the pattern graph
-					__deep_first_collect_subgraph_info(remainingNodes, remainingEdges, currentSubgraphNodes,
-							currentSubgraphEdges, subgraph, getFarEndNode(edge, node, pattern), action, pattern);
+					_deepFirstCollectSubgraphInfo(remainingNodes, remainingEdges, currentSubgraphNodes, currentSubgraphEdges, subgraph, GetFarEndNode(edge, node, pattern), action, pattern);
 				}
 			}
 		}
 	}
 
-	private static Node getFarEndNode(Edge e, Node fromNode, PatternGraphBase graph)
+	private static Node GetFarEndNode(Edge e, Node fromNode, PatternGraphBase graph)
 	{
 		Node farEndNode = null;
-		if(graph.getTarget(e) == fromNode)
-			farEndNode = graph.getSource(e);
-		if(graph.getSource(e) == fromNode)
-			farEndNode = graph.getTarget(e);
+		if(graph.GetTarget(e) == fromNode)
+			farEndNode = graph.GetSource(e);
+		if(graph.GetSource(e) == fromNode)
+			farEndNode = graph.GetTarget(e);
 
 		return farEndNode;
 	}
 
-	@Override
-	protected void collectActionInfo()
+	protected internal override void CollectActionInfo()
 	{
-		super.collectActionInfo();
-		collectPatternEdgesToBeKeptInfo();
-		collectReplacementEdgeIsPreservedEdgeInfo();
-		collectNegativeInfo();
-		collectPatternNodeIsNegativeNodeInfo();
-		collectPatternEdgeIsNegativeEdgeInfo();
-		collectNegativePatternConditionsInfo();
-		collectNegativePatternTypeConditionsInfo();
-		collectSubGraphInfo();
+		base.CollectActionInfo();
+		CollectPatternEdgesToBeKeptInfo();
+		CollectReplacementEdgeIsPreservedEdgeInfo();
+		CollectNegativeInfo();
+		CollectPatternNodeIsNegativeNodeInfo();
+		CollectPatternEdgeIsNegativeEdgeInfo();
+		CollectNegativePatternConditionsInfo();
+		CollectNegativePatternTypeConditionsInfo();
+		CollectSubGraphInfo();
 	}
+}
+
 }

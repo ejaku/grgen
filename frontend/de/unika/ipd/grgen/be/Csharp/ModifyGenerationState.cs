@@ -1,274 +1,325 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * Class holding the state needed for generating the rewrite part of an action.
- * @author Edgar Jakumeit, Moritz Kroll
- */
+/// <summary>
+/// Class holding the state needed for generating the rewrite part of an action.
+/// @author Edgar Jakumeit, Moritz Kroll
+/// </summary>
 
-package de.unika.ipd.grgen.be.Csharp;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
-import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
-import de.unika.ipd.grgen.ir.expr.map.MapInit;
-import de.unika.ipd.grgen.ir.expr.set.SetInit;
-import de.unika.ipd.grgen.ir.model.Model;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.util.SourceBuilder;
-
-public class ModifyGenerationState implements ModifyGenerationStateConst
+namespace de.unika.ipd.grgen.be.Csharp
 {
-	@Override
-	public String getName()
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayInit = de.unika.ipd.grgen.ir.expr.array.ArrayInit;
+using DequeInit = de.unika.ipd.grgen.ir.expr.deque.DequeInit;
+using MapInit = de.unika.ipd.grgen.ir.expr.map.MapInit;
+using SetInit = de.unika.ipd.grgen.ir.expr.set.SetInit;
+using Model = de.unika.ipd.grgen.ir.model.Model;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using SubpatternUsage = de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using SourceBuilder = de.unika.ipd.grgen.util.SourceBuilder;
+
+public class ModifyGenerationState : ModifyGenerationStateConst
+{
+	public virtual string Name
 	{
-		return functionOrProcedureName != null ? functionOrProcedureName : actionName;
+		get
+		{
+		return !string.ReferenceEquals(functionOrProcedureName, null) ? functionOrProcedureName : actionName;
+		}
 	}
 
-	@Override
-	public Collection<Node> getCommonNodes()
+	public virtual ICollection<Node> CommonNodes
 	{
-		return Collections.unmodifiableSet(commonNodes);
+		get
+		{
+		return Collections.UnmodifiableSet(commonNodes);
+		}
 	}
 
-	@Override
-	public Collection<Edge> getCommonEdges()
+	public virtual ICollection<Edge> CommonEdges
 	{
-		return Collections.unmodifiableSet(commonEdges);
+		get
+		{
+		return Collections.UnmodifiableSet(commonEdges);
+		}
 	}
 
-	@Override
-	public Collection<SubpatternUsage> getCommonSubpatternUsages()
+	public virtual ICollection<SubpatternUsage> CommonSubpatternUsages
 	{
-		return Collections.unmodifiableSet(commonSubpatternUsages);
+		get
+		{
+		return Collections.UnmodifiableSet(commonSubpatternUsages);
+		}
 	}
 
-	@Override
-	public Collection<Node> getNewNodes()
+	public virtual ICollection<Node> NewNodes
 	{
-		return Collections.unmodifiableSet(newNodes);
+		get
+		{
+		return Collections.UnmodifiableSet(newNodes);
+		}
 	}
 
-	@Override
-	public Collection<Edge> getNewEdges()
+	public virtual ICollection<Edge> NewEdges
 	{
-		return Collections.unmodifiableSet(newEdges);
+		get
+		{
+		return Collections.UnmodifiableSet(newEdges);
+		}
 	}
 
-	@Override
-	public Collection<SubpatternUsage> getNewSubpatternUsages()
+	public virtual ICollection<SubpatternUsage> NewSubpatternUsages
 	{
-		return Collections.unmodifiableSet(newSubpatternUsages);
+		get
+		{
+		return Collections.UnmodifiableSet(newSubpatternUsages);
+		}
 	}
 
-	@Override
-	public Collection<Node> getDelNodes()
+	public virtual ICollection<Node> DelNodes
 	{
-		return Collections.unmodifiableSet(delNodes);
+		get
+		{
+		return Collections.UnmodifiableSet(delNodes);
+		}
 	}
 
-	@Override
-	public Collection<Edge> getDelEdges()
+	public virtual ICollection<Edge> DelEdges
 	{
-		return Collections.unmodifiableSet(delEdges);
+		get
+		{
+		return Collections.UnmodifiableSet(delEdges);
+		}
 	}
 
-	@Override
-	public boolean isDeleted(Entity entity)
+	public virtual bool IsDeleted(Entity entity)
 	{
-		if(entity instanceof Node)
-			return delNodes.contains((Node)entity);
-		else if(entity instanceof Edge)
-			return delEdges.contains((Edge)entity);
+		if(entity is Node)
+			return delNodes.Contains((Node)entity);
+		else if(entity is Edge)
+			return delEdges.Contains((Edge)entity);
 		else
 			return false;
 	}
 
-	@Override
-	public Collection<SubpatternUsage> getDelSubpatternUsages()
+	public virtual ICollection<SubpatternUsage> DelSubpatternUsages
 	{
-		return Collections.unmodifiableSet(delSubpatternUsages);
+		get
+		{
+		return Collections.UnmodifiableSet(delSubpatternUsages);
+		}
 	}
 
-	@Override
-	public Collection<Node> getYieldedNodes()
+	public virtual ICollection<Node> YieldedNodes
 	{
-		return Collections.unmodifiableSet(yieldedNodes);
+		get
+		{
+		return Collections.UnmodifiableSet(yieldedNodes);
+		}
 	}
 
-	@Override
-	public Collection<Edge> getYieldedEdges()
+	public virtual ICollection<Edge> YieldedEdges
 	{
-		return Collections.unmodifiableSet(yieldedEdges);
+		get
+		{
+		return Collections.UnmodifiableSet(yieldedEdges);
+		}
 	}
 
-	@Override
-	public Collection<Variable> getYieldedVariables()
+	public virtual ICollection<Variable> YieldedVariables
 	{
-		return Collections.unmodifiableSet(yieldedVariables);
+		get
+		{
+		return Collections.UnmodifiableSet(yieldedVariables);
+		}
 	}
 
-	@Override
-	public Collection<Node> getNewOrRetypedNodes()
+	public virtual ICollection<Node> NewOrRetypedNodes
 	{
-		return Collections.unmodifiableSet(newOrRetypedNodes);
+		get
+		{
+		return Collections.UnmodifiableSet(newOrRetypedNodes);
+		}
 	}
 
-	@Override
-	public Collection<Edge> getNewOrRetypedEdges()
+	public virtual ICollection<Edge> NewOrRetypedEdges
 	{
-		return Collections.unmodifiableSet(newOrRetypedEdges);
+		get
+		{
+		return Collections.UnmodifiableSet(newOrRetypedEdges);
+		}
 	}
 
-	@Override
-	public Collection<GraphEntity> getAccessViaInterface()
+	public virtual ICollection<GraphEntity> AccessViaInterface
 	{
-		return Collections.unmodifiableSet(accessViaInterface);
+		get
+		{
+		return Collections.UnmodifiableSet(accessViaInterface);
+		}
 	}
 
-	@Override
-	public Map<GraphEntity, HashSet<Entity>> getNeededAttributes()
+	public virtual IDictionary<GraphEntity, HashSet<Entity>> NeededAttributes
 	{
-		return Collections.unmodifiableMap(neededAttributes);
+		get
+		{
+		return Collections.UnmodifiableMap(neededAttributes);
+		}
 	}
 
-	@Override
-	public Map<GraphEntity, HashSet<Entity>> getAttributesStoredBeforeDelete()
+	public virtual IDictionary<GraphEntity, HashSet<Entity>> AttributesStoredBeforeDelete
 	{
-		return Collections.unmodifiableMap(attributesStoredBeforeDelete);
+		get
+		{
+		return Collections.UnmodifiableMap(attributesStoredBeforeDelete);
+		}
 	}
 
-	@Override
-	public Collection<Variable> getNeededVariables()
+	public virtual ICollection<Variable> NeededVariables
 	{
-		return Collections.unmodifiableSet(neededVariables);
+		get
+		{
+		return Collections.UnmodifiableSet(neededVariables);
+		}
 	}
 
-	@Override
-	public Collection<Node> getNodesNeededAsElements()
+	public virtual ICollection<Node> NodesNeededAsElements
 	{
-		return Collections.unmodifiableSet(nodesNeededAsElements);
+		get
+		{
+		return Collections.UnmodifiableSet(nodesNeededAsElements);
+		}
 	}
 
-	@Override
-	public Collection<Edge> getEdgesNeededAsElements()
+	public virtual ICollection<Edge> EdgesNeededAsElements
 	{
-		return Collections.unmodifiableSet(edgesNeededAsElements);
+		get
+		{
+		return Collections.UnmodifiableSet(edgesNeededAsElements);
+		}
 	}
 
-	@Override
-	public Collection<Node> getNodesNeededAsAttributes()
+	public virtual ICollection<Node> NodesNeededAsAttributes
 	{
-		return Collections.unmodifiableSet(nodesNeededAsAttributes);
+		get
+		{
+		return Collections.UnmodifiableSet(nodesNeededAsAttributes);
+		}
 	}
 
-	@Override
-	public Collection<Edge> getEdgesNeededAsAttributes()
+	public virtual ICollection<Edge> EdgesNeededAsAttributes
 	{
-		return Collections.unmodifiableSet(edgesNeededAsAttributes);
+		get
+		{
+		return Collections.UnmodifiableSet(edgesNeededAsAttributes);
+		}
 	}
 
-	@Override
-	public Collection<Node> getNodesNeededAsTypes()
+	public virtual ICollection<Node> NodesNeededAsTypes
 	{
-		return Collections.unmodifiableSet(nodesNeededAsTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(nodesNeededAsTypes);
+		}
 	}
 
-	@Override
-	public Collection<Edge> getEdgesNeededAsTypes()
+	public virtual ICollection<Edge> EdgesNeededAsTypes
 	{
-		return Collections.unmodifiableSet(edgesNeededAsTypes);
+		get
+		{
+		return Collections.UnmodifiableSet(edgesNeededAsTypes);
+		}
 	}
 
-	@Override
-	public Map<GraphEntity, HashSet<Entity>> getForceAttributeToVar()
+	public virtual IDictionary<GraphEntity, HashSet<Entity>> ForceAttributeToVar
 	{
-		return Collections.unmodifiableMap(forceAttributeToVar);
+		get
+		{
+		return Collections.UnmodifiableMap(forceAttributeToVar);
+		}
 	}
 
-	@Override
-	public String getMatchClassName()
+	public virtual string MatchClassName
 	{
+		get
+		{
 		return matchClassName;
+		}
 	}
 
-	@Override
-	public String getPackagePrefix()
+	public virtual string PackagePrefix
 	{
+		get
+		{
 		return packagePrefix;
+		}
 	}
 
-	@Override
-	public Map<Expression, String> getMapExprToTempVar()
+	public virtual IDictionary<Expression, string> MapExprToTempVar
 	{
-		return Collections.unmodifiableMap(mapExprToTempVar);
+		get
+		{
+		return Collections.UnmodifiableMap(mapExprToTempVar);
+		}
 	}
 
-	@Override
-	public boolean useVarForResult()
+	public virtual bool UseVarForResult()
 	{
 		return useVarForResult_;
 	}
 
-	@Override
-	public boolean switchToVarForResultAfterFirstVarUsage()
+	public virtual bool SwitchToVarForResultAfterFirstVarUsage()
 	{
 		return switchToVarForResultAfterFirstVarUsage_;
 	}
 
-	@Override
-	public void switchToVarForResult()
+	public virtual void SwitchToVarForResult()
 	{
 		useVarForResult_ = true;
 	}
 
-	@Override
-	public Model getModel()
+	public virtual Model Model
 	{
+		get
+		{
 		return model;
+		}
 	}
 
-	@Override
-	public boolean isToBeParallelizedActionExisting()
+	public virtual bool IsToBeParallelizedActionExisting()
 	{
 		return isToBeParallelizedActionExisting_;
 	}
 
-	@Override
-	public boolean emitProfilingInstrumentation()
+	public virtual bool EmitProfilingInstrumentation()
 	{
 		return emitProfiling_;
 	}
-	
-	@Override
-	public SourceBuilder getPerElementMethodSourceBuilder()
+
+	public virtual SourceBuilder PerElementMethodSourceBuilder
 	{
+		get
+		{
 		return perElementMethodSourceBuilder;
+		}
 	}
 
 	// --------------------
 
 	// if not null this is the generation state of a function or procedure (with all entries empty)
-	public String functionOrProcedureName;
+	public string functionOrProcedureName;
 	// otherwise it is the generation state of the modify of an action
-	public String actionName;
+	public string actionName;
 
 	public HashSet<Node> commonNodes = new LinkedHashSet<Node>();
 	public HashSet<Edge> commonEdges = new LinkedHashSet<Edge>();
@@ -290,8 +341,8 @@ public class ModifyGenerationState implements ModifyGenerationStateConst
 	public HashSet<Edge> newOrRetypedEdges = new LinkedHashSet<Edge>();
 	public HashSet<GraphEntity> accessViaInterface = new LinkedHashSet<GraphEntity>();
 
-	public HashMap<GraphEntity, HashSet<Entity>> neededAttributes;
-	public HashMap<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
+	public Dictionary<GraphEntity, HashSet<Entity>> neededAttributes;
+	public Dictionary<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 
 	public HashSet<Variable> neededVariables;
 
@@ -303,22 +354,22 @@ public class ModifyGenerationState implements ModifyGenerationStateConst
 	public HashSet<Node> nodesNeededAsTypes = new LinkedHashSet<Node>();
 	public HashSet<Edge> edgesNeededAsTypes = new LinkedHashSet<Edge>();
 
-	public HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
+	public Dictionary<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 
-	public HashMap<Expression, String> mapExprToTempVar = new LinkedHashMap<Expression, String>();
-	public boolean useVarForResult_;
-	public boolean switchToVarForResultAfterFirstVarUsage_;
+	public Dictionary<Expression, string> mapExprToTempVar = new LinkedHashMap<Expression, string>();
+	public bool useVarForResult_;
+	public bool switchToVarForResultAfterFirstVarUsage_;
 
 	private Model model;
-	private String matchClassName;
-	private String packagePrefix;
-	private boolean isToBeParallelizedActionExisting_;
-	private boolean emitProfiling_;
+	private string matchClassName;
+	private string packagePrefix;
+	private bool isToBeParallelizedActionExisting_;
+	private bool emitProfiling_;
 
 	private SourceBuilder perElementMethodSourceBuilder;
 
 
-	public void InitNeeds(NeededEntities needs)
+	public virtual void InitNeeds(NeededEntities needs)
 	{
 		neededAttributes = needs.attrEntityMap;
 		nodesNeededAsElements = needs.nodes;
@@ -328,36 +379,38 @@ public class ModifyGenerationState implements ModifyGenerationStateConst
 		neededVariables = needs.variables;
 
 		int i = 0;
-		for(Expression expr : needs.containerExprs) {
-			if(expr instanceof MapInit || expr instanceof SetInit
-					|| expr instanceof ArrayInit || expr instanceof DequeInit)
+		foreach(Expression expr in needs.containerExprs)
+		{
+			if(expr is MapInit || expr is SetInit
+					|| expr is ArrayInit || expr is DequeInit)
 				continue;
-			mapExprToTempVar.put(expr, "tempcontainervar_" + i);
+			mapExprToTempVar[expr] = "tempcontainervar_" + i;
 			i++;
 		}
 	}
 
-	public void InitNeeds(HashSet<Expression> containerExprs)
+	public virtual void InitNeeds(HashSet<Expression> containerExprs)
 	{
 		int i = 0;
-		for(Expression expr : containerExprs) {
-			if(expr instanceof MapInit || expr instanceof SetInit
-					|| expr instanceof ArrayInit || expr instanceof DequeInit)
+		foreach(Expression expr in containerExprs)
+		{
+			if(expr is MapInit || expr is SetInit
+					|| expr is ArrayInit || expr is DequeInit)
 				continue;
-			mapExprToTempVar.put(expr, "tempcontainervar_" + i);
+			mapExprToTempVar[expr] = "tempcontainervar_" + i;
 			i++;
 		}
 	}
 
-	public void ClearContainerExprs()
+	public virtual void ClearContainerExprs()
 	{
-		mapExprToTempVar.clear();
+		mapExprToTempVar.Clear();
 	}
 
 	public ModifyGenerationState(Model model,
-			String matchClassName, String packagePrefix,
-			boolean isToBeParallelizedActionExisting,
-			boolean emitProfiling)
+			string matchClassName, string packagePrefix,
+			bool isToBeParallelizedActionExisting,
+			bool emitProfiling)
 	{
 		this.model = model;
 		this.matchClassName = matchClassName;
@@ -366,4 +419,6 @@ public class ModifyGenerationState implements ModifyGenerationStateConst
 		this.emitProfiling_ = emitProfiling;
 		this.perElementMethodSourceBuilder = new SourceBuilder();
 	}
+}
+
 }

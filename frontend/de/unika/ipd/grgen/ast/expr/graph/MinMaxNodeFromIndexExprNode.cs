@@ -1,94 +1,102 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.expr.graph;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.graph.MinMaxFromIndexExpr;
-import de.unika.ipd.grgen.ir.model.Index;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A node yielding the bottom node from an index with the lowest value or the top node from an index with the highest value.
- */
-public class MinMaxNodeFromIndexExprNode extends FromIndexAccessExprNode
+namespace de.unika.ipd.grgen.ast.expr.graph
 {
-	static {
-		setClassName(MinMaxNodeFromIndexExprNode.class, "min/max node from index expr");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using MinMaxFromIndexExpr = de.unika.ipd.grgen.ir.expr.graph.MinMaxFromIndexExpr;
+using Index = de.unika.ipd.grgen.ir.model.Index;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A node yielding the bottom node from an index with the lowest value or the top node from an index with the highest value.
+/// </summary>
+public class MinMaxNodeFromIndexExprNode : FromIndexAccessExprNode
+{
+	static MinMaxNodeFromIndexExprNode()
+	{
+		SetClassName(typeof(MinMaxNodeFromIndexExprNode), "min/max node from index expr");
 	}
 
-	boolean isMin;
-	
-	public MinMaxNodeFromIndexExprNode(Coords coords, BaseNode index, boolean isMin)
+	internal bool isMin;
+
+	public MinMaxNodeFromIndexExprNode(Coords coords, BaseNode index, bool isMin)
+		: base(coords, index)
 	{
-		super(coords, index);
 		this.isMin = isMin;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(indexUnresolved, index));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(indexUnresolved, index));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("index");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("index");
 		return childrenNames;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		return super.resolveLocal();
+		return base.ResolveLocal();
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.checkLocal() "/>
+	protected internal override bool CheckLocal()
 	{
-		return super.checkLocal();
-	}
-	
-	@Override
-	protected IdentNode getRoot()
-	{
-		return getNodeRoot();
+		return base.CheckLocal();
 	}
 
-	@Override
-	protected String shortSignature()
+	protected internal override IdentNode Root
+	{
+		get
+		{
+		return NodeRoot;
+		}
+	}
+
+	protected internal override string ShortSignature()
 	{
 		return isMin ? "minNodeFromIndex(.)" : "maxNodeFromIndex(.)";
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		return getRoot().getDecl().getDeclType();
+		get
+		{
+		return Root.Decl.GetDeclType();
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		return new MinMaxFromIndexExpr(index.checkIR(Index.class), isMin,
-				getType().getIRType());
+		return new MinMaxFromIndexExpr(index.CheckIR(typeof(Index)), isMin,
+				Type.IRType);
 	}
+}
+
 }

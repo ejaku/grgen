@@ -1,104 +1,114 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.numeric;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.numeric.PowExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class PowExprNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.numeric
 {
-	static {
-		setClassName(PowExprNode.class, "pow expr");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using PowExpr = de.unika.ipd.grgen.ir.expr.numeric.PowExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class PowExprNode : BuiltinFunctionInvocationBaseNode
+{
+	static PowExprNode()
+	{
+		SetClassName(typeof(PowExprNode), "pow expr");
 	}
 
 	private ExprNode leftExpr;
 	private ExprNode rightExpr;
 
 	public PowExprNode(Coords coords, ExprNode leftExpr, ExprNode rightExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.leftExpr = becomeParent(leftExpr);
-		this.rightExpr = becomeParent(rightExpr);
+		this.leftExpr = BecomeParent(leftExpr);
+		this.rightExpr = BecomeParent(rightExpr);
 	}
 
 	public PowExprNode(Coords coords, ExprNode rightExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.rightExpr = becomeParent(rightExpr);
+		this.rightExpr = BecomeParent(rightExpr);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		if(leftExpr != null)
-			children.add(leftExpr);
-		children.add(rightExpr);
+			children.Add(leftExpr);
+		children.Add(rightExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		if(leftExpr != null)
-			childrenNames.add("left");
-		childrenNames.add("right");
+			childrenNames.Add("left");
+		childrenNames.Add("right");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if(!rightExpr.getType().isEqual(BasicTypeNode.doubleType)) {
-			reportError("The function Math::pow() expects as 1. argument a value of type double"
-					+ " (but is given a value of type " + rightExpr.getType().getTypeName() + ").");
+		if(!rightExpr.Type.IsEqual(BasicTypeNode.doubleType))
+		{
+			ReportError("The function Math::pow() expects as 1. argument a value of type double"
+					+ " (but is given a value of type " + rightExpr.Type.TypeName + ").");
 			return false;
 		}
-		if(leftExpr != null && !leftExpr.getType().isEqual(BasicTypeNode.doubleType)) {
-			reportError("The function Math::pow() expects as 2. argument a value of type double"
-					+ " (but is given a value of type " + leftExpr.getType().getTypeName() + ").");
+		if(leftExpr != null && !leftExpr.Type.IsEqual(BasicTypeNode.doubleType))
+		{
+			ReportError("The function Math::pow() expects as 2. argument a value of type double"
+					+ " (but is given a value of type " + leftExpr.Type.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		rightExpr = rightExpr.evaluate();
-		if(leftExpr != null) {
-			leftExpr = leftExpr.evaluate();
-			return new PowExpr(leftExpr.checkIR(Expression.class), rightExpr.checkIR(Expression.class));
-		} else
-			return new PowExpr(rightExpr.checkIR(Expression.class));
+		rightExpr = rightExpr.Evaluate();
+		if(leftExpr != null)
+		{
+			leftExpr = leftExpr.Evaluate();
+			return new PowExpr(leftExpr.CheckIR(typeof(Expression)), rightExpr.CheckIR(typeof(Expression)));
+		}
+		else
+			return new PowExpr(rightExpr.CheckIR(typeof(Expression)));
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.doubleType;
+		}
 	}
+}
+
 }

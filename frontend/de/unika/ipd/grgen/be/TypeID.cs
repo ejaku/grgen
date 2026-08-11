@@ -1,31 +1,33 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.be;
+namespace de.unika.ipd.grgen.be
+{
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
+using Type = de.unika.ipd.grgen.ir.type.Type;
 
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.ir.model.type.NodeType;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * Something that can give IDs for types.
- */
+/// <summary>
+/// Something that can give IDs for types.
+/// </summary>
 public interface TypeID
 {
 
-	int getId(NodeType nt);
+	int GetId(NodeType nt);
 
-	int getId(EdgeType et);
+	int GetId(EdgeType et);
 
-	int getId(Type type, boolean forNode);
+	int GetId(Type type, bool forNode);
 
-	short[][] getIsAMatrix(boolean forNode);
+	short[][] GetIsAMatrix(bool forNode);
+}
+
 }

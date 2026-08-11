@@ -1,76 +1,81 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.FilterAutoSupplied;
-import de.unika.ipd.grgen.ir.executable.Rule;
-
-/**
- * AST node class representing auto supplied filters (automatically declared)
- */
-public class FilterAutoSuppliedDeclNode extends FilterAutoDeclNode
+namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	static {
-		setClassName(FilterAutoSuppliedDeclNode.class, "auto supplied filter");
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using FilterAutoSupplied = de.unika.ipd.grgen.ir.executable.FilterAutoSupplied;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+
+/// <summary>
+/// AST node class representing auto supplied filters (automatically declared)
+/// </summary>
+public class FilterAutoSuppliedDeclNode : FilterAutoDeclNode
+{
+	static FilterAutoSuppliedDeclNode()
+	{
+		SetClassName(typeof(FilterAutoSuppliedDeclNode), "auto supplied filter");
 	}
 
-	protected IdentNode actionUnresolved;
-	protected ActionDeclNode action;
-	protected IteratedDeclNode iterated;
+	protected internal IdentNode actionUnresolved;
+	protected internal ActionDeclNode action;
+	protected internal IteratedDeclNode iterated;
 
 	public FilterAutoSuppliedDeclNode(IdentNode ident, IdentNode action)
+		: base(ident)
 	{
-		super(ident);
 
 		this.ident = ident;
 		this.actionUnresolved = action;
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(actionUnresolved, action, iterated));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(actionUnresolved, action, iterated));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("actionOrIterated");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("actionOrIterated");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationPairResolver<ActionDeclNode, IteratedDeclNode> actionOrIteratedResolver =
-			new DeclarationPairResolver<ActionDeclNode, IteratedDeclNode>(ActionDeclNode.class, IteratedDeclNode.class);
+	private static readonly DeclarationPairResolver<ActionDeclNode, IteratedDeclNode> actionOrIteratedResolver =
+			new DeclarationPairResolver<ActionDeclNode, IteratedDeclNode>(typeof(ActionDeclNode), typeof(IteratedDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		Pair<ActionDeclNode, IteratedDeclNode> actionOrIterated = actionOrIteratedResolver.resolve(actionUnresolved, this);
+		Pair<ActionDeclNode, IteratedDeclNode> actionOrIterated = actionOrIteratedResolver.Resolve(actionUnresolved, this);
 		if(actionOrIterated == null)
 			return false;
 		action = actionOrIterated.fst;
@@ -78,36 +83,38 @@ public class FilterAutoSuppliedDeclNode extends FilterAutoDeclNode
 		return action != null || iterated != null;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean checkLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
-		if(isIRAlreadySet()) {
-			return getIR();
-		}
+		if(IsIRAlreadySet())
+			return IR;
 
-		FilterAutoSupplied filterAutoSup = new FilterAutoSupplied(ident.toString());
+		FilterAutoSupplied filterAutoSup = new FilterAutoSupplied(ident.ToString());
 
 		// mark this node as already visited
-		setIR(filterAutoSup);
+		IR = filterAutoSup;
 
-		Rule actionOrIterated = action != null ? action.getIRMatcher() : iterated.getIRMatcher();
-		filterAutoSup.setAction(actionOrIterated);
-		actionOrIterated.addFilter(filterAutoSup);
+		Rule actionOrIterated = action != null ? action.IRMatcher : iterated.IRMatcher;
+		filterAutoSup.Action = actionOrIterated;
+		actionOrIterated.AddFilter(filterAutoSup);
 
 		return filterAutoSup;
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "auto supplied filter";
+		}
 	}
+}
+
 }

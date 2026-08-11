@@ -1,72 +1,77 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.array;
-
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayMinExpr;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ArrayMinNode extends ArrayAccumulationMethodNode
+namespace de.unika.ipd.grgen.ast.expr.array
 {
-	static {
-		setClassName(ArrayMinNode.class, "array min");
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayMinExpr = de.unika.ipd.grgen.ir.expr.array.ArrayMinExpr;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ArrayMinNode : ArrayAccumulationMethodNode
+{
+	static ArrayMinNode()
+	{
+		SetClassName(typeof(ArrayMinNode), "array min");
 	}
 
 	public ArrayMinNode(Coords coords, ExprNode targetExpr)
+		: base(coords, targetExpr)
 	{
-		super(coords, targetExpr);
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = getTargetTypeExact();
-		if(!arrayType.valueType.isAccumulatableType()) {
-			targetExpr.reportError("The array function method min can only be employed on an object of type array<" + TypeNode.getAccumulatableTypesAsString() + ">"
-					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
+		ArrayTypeNode arrayType = TargetTypeExact;
+		if(!arrayType.valueType.IsAccumulatableType())
+		{
+			targetExpr.ReportError("The array function method min can only be employed on an object of type array<" + TypeNode.AccumulatableTypesAsString + ">"
+					+ " (but is employed on an object of type " + arrayType.TypeName + ").");
 			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		ArrayTypeNode arrayType = getTargetTypeExact();
-		return BasicTypeNode.getArrayAccumulationResultType(arrayType.valueType);
+		get
+		{
+		ArrayTypeNode arrayType = TargetTypeExact;
+		return BasicTypeNode.GetArrayAccumulationResultType(arrayType.valueType);
+		}
 	}
 
-	@Override
-	public boolean isValidTargetTypeOfAccumulation(TypeNode type)
+	public override bool IsValidTargetTypeOfAccumulation(TypeNode type)
 	{
-		return type.isAccumulationTargetType();
+		return type.IsAccumulationTargetType();
 	}
 
-	@Override
-	public String getValidTargetTypesOfAccumulation()
+	public override string ValidTargetTypesOfAccumulation
 	{
-		return TypeNode.getAccumulationTargetTypesAsString();
+		get
+		{
+		return TypeNode.AccumulationTargetTypesAsString;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		targetExpr = targetExpr.evaluate();
-		return new ArrayMinExpr(targetExpr.checkIR(Expression.class));
+		targetExpr = targetExpr.Evaluate();
+		return new ArrayMinExpr(targetExpr.CheckIR(typeof(Expression)));
 	}
+}
+
 }

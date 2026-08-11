@@ -1,32 +1,34 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * NullOutputStream.java
- *
- * @author Sebastian Hack
- */
+/// <summary>
+/// NullOutputStream.java
+/// 
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.util;
-
-import java.io.IOException;
-import java.io.OutputStream;
-
-public class NullOutputStream extends OutputStream
+namespace de.unika.ipd.grgen.util
 {
-	public static final OutputStream STREAM = new NullOutputStream();
 
-	@Override
-	public void write(int p1) throws IOException
+using System;
+using System.IO;
+
+public class NullOutputStream : Stream
+{
+	public static readonly Stream STREAM = new NullOutputStream();
+
+	public override void Write(int p1)
 	{
-		System.out.println("write to null stream");
+		Console.WriteLine("write to null stream");
 	}
 
 	private NullOutputStream()
 	{
 	}
+}
+
 }

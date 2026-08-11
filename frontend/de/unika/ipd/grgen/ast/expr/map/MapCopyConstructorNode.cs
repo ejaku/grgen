@@ -1,34 +1,35 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.map;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.map.MapCopyConstructor;
-import de.unika.ipd.grgen.ir.type.container.MapType;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class MapCopyConstructorNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr.map
 {
-	static {
-		setClassName(MapCopyConstructorNode.class, "map copy constructor");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using MapCopyConstructor = de.unika.ipd.grgen.ir.expr.map.MapCopyConstructor;
+using MapType = de.unika.ipd.grgen.ir.type.container.MapType;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class MapCopyConstructorNode : ExprNode
+{
+	static MapCopyConstructorNode()
+	{
+		SetClassName(typeof(MapCopyConstructorNode), "map copy constructor");
 	}
 
 	private MapTypeNode mapType;
@@ -36,59 +37,65 @@ public class MapCopyConstructorNode extends ExprNode
 	private BaseNode lhsUnresolved;
 
 	public MapCopyConstructorNode(Coords coords, IdentNode member, MapTypeNode mapType, ExprNode mapToCopy)
+		 : base(coords)
 	{
-		super(coords);
 
-		if(member != null) {
-			lhsUnresolved = becomeParent(member);
-		} else {
+		if(member != null)
+			lhsUnresolved = BecomeParent(member);
+		else
 			this.mapType = mapType;
-		}
 		this.mapToCopy = mapToCopy;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(mapToCopy);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(mapToCopy);
 		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("mapToCopy");
-		return childrenNames;
-	}
-
-	@Override
-	protected boolean resolveLocal()
-	{
-		if(mapType != null) {
-			return mapType.resolve();
-		} else {
-			return true;
 		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	public override ICollection<string> ChildrenNames
 	{
-		boolean success = true;
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("mapToCopy");
+		return childrenNames;
+		}
+	}
 
-		if(lhsUnresolved != null) {
-			reportError("A map copy constructor is not allowed in a map initialization in the model.");
+	protected internal override bool ResolveLocal()
+	{
+		if(mapType != null)
+			return mapType.Resolve();
+		else
+			return true;
+	}
+
+	protected internal override bool CheckLocal()
+	{
+		bool success = true;
+
+		if(lhsUnresolved != null)
+		{
+			ReportError("A map copy constructor is not allowed in a map initialization in the model.");
 			success = false;
-		} else {
-			if(mapToCopy.getType() instanceof MapTypeNode) {
-				MapTypeNode sourceMapType = (MapTypeNode)mapToCopy.getType();
-				success &= checkCopyConstructorTypes(mapType.keyType, sourceMapType.keyType, "map", true);
-				success &= checkCopyConstructorTypes(mapType.valueType, sourceMapType.valueType, "map", false);
-			} else {
-				reportError("A map copy constructor expects a value of map type to copy"
-						+ " (but is given " + mapToCopy.getType().getTypeName() + ").");
+		}
+		else
+		{
+			if(mapToCopy.Type is MapTypeNode)
+			{
+				MapTypeNode sourceMapType = (MapTypeNode)mapToCopy.Type;
+				success &= CheckCopyConstructorTypes(mapType.keyType, sourceMapType.keyType, "map", true);
+				success &= CheckCopyConstructorTypes(mapType.valueType, sourceMapType.valueType, "map", false);
+			}
+			else
+			{
+				ReportError("A map copy constructor expects a value of map type to copy"
+						+ " (but is given " + mapToCopy.Type.TypeName + ").");
 				success = false;
 			}
 		}
@@ -96,22 +103,28 @@ public class MapCopyConstructorNode extends ExprNode
 		return success;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		assert(isResolved());
+		get
+		{
+		Debug.Assert((IsResolved()));
 		return mapType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		mapToCopy = mapToCopy.evaluate();
-		return new MapCopyConstructor(mapToCopy.checkIR(Expression.class), mapType.checkIR(MapType.class));
+		mapToCopy = mapToCopy.Evaluate();
+		return new MapCopyConstructor(mapToCopy.CheckIR(typeof(Expression)), mapType.CheckIR(typeof(MapType)));
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "map copy constructor";
+		}
 	}
+}
+
 }

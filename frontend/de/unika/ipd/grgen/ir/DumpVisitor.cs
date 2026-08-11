@@ -1,161 +1,172 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.util.GraphDumpVisitor;
-import de.unika.ipd.grgen.util.GraphDumpable;
-import de.unika.ipd.grgen.util.GraphDumpableProxy;
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.Walkable; // does not make sense, Walkable references AST-children, unusable in IR
-
-/**
- * A IR pretty graph dumper.
- */
-public class DumpVisitor extends GraphDumpVisitor
+namespace de.unika.ipd.grgen.ir
 {
-	private class PrefixNode extends GraphDumpableProxy
-	{
-		private String prefix;
 
-		public PrefixNode(GraphDumpable dumpable, String prefix)
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using PatternGraphBase = de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using GraphDumpVisitor = de.unika.ipd.grgen.util.GraphDumpVisitor;
+using GraphDumpable = de.unika.ipd.grgen.util.GraphDumpable;
+using GraphDumpableProxy = de.unika.ipd.grgen.util.GraphDumpableProxy;
+using GraphDumper = de.unika.ipd.grgen.util.GraphDumper;
+using Walkable = de.unika.ipd.grgen.util.Walkable; // does not make sense, Walkable references AST-children, unusable in IR
+
+/// <summary>
+/// A IR pretty graph dumper.
+/// </summary>
+public class DumpVisitor : GraphDumpVisitor
+{
+	private class PrefixNode : GraphDumpableProxy
+	{
+		private readonly DumpVisitor outerInstance;
+
+		internal string prefix;
+
+		public PrefixNode(DumpVisitor outerInstance, GraphDumpable dumpable, string prefix)
+			: base(dumpable)
 		{
-			super(dumpable);
+			this.outerInstance = outerInstance;
 			this.prefix = prefix;
 		}
 
-		/**
-		 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
-		 */
-		@Override
-		public String getNodeId()
+		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeId()"/>
+		public override string NodeId
 		{
-			return prefix + getGraphDumpable().getNodeId();
+			get
+			{
+			return prefix + GraphDumpable.GetNodeId();
+			}
 		}
 
-		@Override
-		public String toString()
+		public override string ToString()
 		{
-			return getNodeId();
+			return NodeId;
 		}
 	}
 
-	private void dumpGraph(PatternGraphBase patternGraph, String prefix)
+	private void DumpGraph(PatternGraphBase patternGraph, string prefix)
 	{
-		Map<Entity, DumpVisitor.PrefixNode> prefixMap = new HashMap<Entity, DumpVisitor.PrefixNode>();
-		Collection<Node> nodes = patternGraph.getNodes();
+		IDictionary<Entity, DumpVisitor.PrefixNode> prefixMap = new Dictionary<Entity, DumpVisitor.PrefixNode>();
+		ICollection<Node> nodes = patternGraph.Nodes;
 
-		dumper.beginSubgraph(patternGraph);
+		dumper.BeginSubgraph(patternGraph);
 
-		for(Node node : nodes) {
-			debug.report(NOTE, "node: " + node);
-			PrefixNode prefixNode = new PrefixNode(node, prefix);
-			prefixMap.put(node, prefixNode);
-			dumper.node(prefixNode);
+		foreach(Node node in nodes)
+		{
+			debug.Report(NOTE, "node: " + node);
+			PrefixNode prefixNode = new PrefixNode(this, node, prefix);
+			prefixMap[node] = prefixNode;
+			dumper.Node(prefixNode);
 		}
 
-		Collection<Edge> edges = patternGraph.getEdges();
+		ICollection<Edge> edges = patternGraph.Edges;
 
-		for(Edge edge : edges) {
+		foreach(Edge edge in edges)
+		{
 			PrefixNode prefixFrom, prefixTo, prefixEdge;
 
-			prefixEdge = new PrefixNode(edge, prefix);
-			prefixMap.put(edge, prefixEdge);
+			prefixEdge = new PrefixNode(this, edge, prefix);
+			prefixMap[edge] = prefixEdge;
 
-			debug.report(NOTE, "true edge from: " + patternGraph.getSource(edge)
-					+ " to: " + patternGraph.getTarget(edge));
+			debug.Report(NOTE, "true edge from: " + patternGraph.GetSource(edge)
+					+ " to: " + patternGraph.GetTarget(edge));
 
-			prefixFrom = prefixMap.get(patternGraph.getSource(edge));
-			prefixTo = prefixMap.get(patternGraph.getTarget(edge));
+			prefixFrom = prefixMap[patternGraph.GetSource(edge)];
+			prefixTo = prefixMap[patternGraph.GetTarget(edge)];
 
-			debug.report(NOTE, "edge from: " + prefixFrom + " to: " + prefixTo);
+			debug.Report(NOTE, "edge from: " + prefixFrom + " to: " + prefixTo);
 
-			dumper.node(prefixEdge);
-			dumper.edge(prefixFrom, prefixEdge);
-			dumper.edge(prefixEdge, prefixTo);
+			dumper.Node(prefixEdge);
+			dumper.Edge(prefixFrom, prefixEdge);
+			dumper.Edge(prefixEdge, prefixTo);
 		}
 
-		if(patternGraph instanceof PatternGraphLhs) {
+		if(patternGraph is PatternGraphLhs)
+		{
 			PatternGraphLhs patternGraphLhs = (PatternGraphLhs)patternGraph;
 
-			for(Collection<GraphEntity> homSet : patternGraphLhs.getHomomorphic()) {
-				if(!homSet.isEmpty()) {
-					for(Entity hom1 : homSet) {
-						for(Entity hom2 : homSet) {
-							PrefixNode prefixFrom = prefixMap.get(hom1);
-							PrefixNode prefixTo = prefixMap.get(hom2);
-							dumper.edge(prefixFrom, prefixTo, "hom", GraphDumper.DASHED);
+			foreach(ICollection<GraphEntity> homSet in patternGraphLhs.Homomorphic)
+			{
+				if(homSet.Count > 0)
+				{
+					foreach(Entity hom1 in homSet)
+					{
+						foreach(Entity hom2 in homSet)
+						{
+							PrefixNode prefixFrom = prefixMap[hom1];
+							PrefixNode prefixTo = prefixMap[hom2];
+							dumper.Edge(prefixFrom, prefixTo, "hom", GraphDumper.DASHED);
 						}
 					}
 				}
 			}
 		}
 
-		dumper.endSubgraph();
+		dumper.EndSubgraph();
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.Visitor#visit(de.unika.ipd.grgen.util.Walkable)
-	 */
-	@Override
-	public void visit(Walkable walkable)
+	/// <seealso cref="de.unika.ipd.grgen.util.Visitor.visit(de.unika.ipd.grgen.util.Walkable)"/>
+	public override void Visit(Walkable walkable)
 	{
-		assert walkable instanceof IR : "must have an ir object to dump";
+		Debug.Assert(walkable is IR, "must have an ir object to dump");
 
-		if(walkable instanceof Node || walkable instanceof Edge || walkable instanceof PatternGraphBase) {
+		if(walkable is Node || walkable is Edge || walkable is PatternGraphBase)
 			return;
-		}
 
-		if(walkable instanceof Rule && ((Rule)walkable).getRight() != null) {
+		if(walkable is Rule && ((Rule)walkable).Right != null)
+		{
 			Rule rule = (Rule)walkable;
-			dumper.beginSubgraph(rule);
-			if(rule.getRight() == null) {
-				dumpGraph(rule.getPattern(), "");
-				dumper.endSubgraph();
+			dumper.BeginSubgraph(rule);
+			if(rule.Right == null)
+			{
+				DumpGraph(rule.Pattern, "");
+				dumper.EndSubgraph();
 			}
-			dumpGraph(rule.getLeft(), "l");
-			dumpGraph(rule.getRight(), "r");
+			DumpGraph(rule.Left, "l");
+			DumpGraph(rule.Right, "r");
 
 			// Draw edges from left nodes that occur also on the right side.
-			for(Node node : rule.getCommonNodes()) {
-				PrefixNode prefixLeft = new PrefixNode(node, "l");
-				PrefixNode prefixRight = new PrefixNode(node, "r");
+			foreach(Node node in rule.CommonNodes)
+			{
+				PrefixNode prefixLeft = new PrefixNode(this, node, "l");
+				PrefixNode prefixRight = new PrefixNode(this, node, "r");
 
-				dumper.edge(prefixLeft, prefixRight, null, GraphDumper.DOTTED);
+				dumper.Edge(prefixLeft, prefixRight, null, GraphDumper.DOTTED);
 			}
 
-			for(Edge edge : rule.getCommonEdges()) {
-				PrefixNode prefixLeft = new PrefixNode(edge, "l");
-				PrefixNode prefixRight = new PrefixNode(edge, "r");
+			foreach(Edge edge in rule.CommonEdges)
+			{
+				PrefixNode prefixLeft = new PrefixNode(this, edge, "l");
+				PrefixNode prefixRight = new PrefixNode(this, edge, "r");
 
-				dumper.edge(prefixLeft, prefixRight, null, GraphDumper.DOTTED);
+				dumper.Edge(prefixLeft, prefixRight, null, GraphDumper.DOTTED);
 			}
 
 			// dump evalations
 			//dumper.beginSubgraph(r);
 			//dumper.endSubgraph();
 
-			dumper.endSubgraph();
-		} else {
-			super.visit(walkable);
+			dumper.EndSubgraph();
 		}
+		else
+			base.Visit(walkable);
 	}
+}
+
 }

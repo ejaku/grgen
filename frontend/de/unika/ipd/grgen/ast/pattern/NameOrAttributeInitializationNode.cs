@@ -1,35 +1,34 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.pattern;
+namespace de.unika.ipd.grgen.ast.pattern
+{
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
-import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
-import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.pattern.GraphEntity;
-import de.unika.ipd.grgen.ir.pattern.NameOrAttributeInitialization;
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using ConstraintDeclNode = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using MemberDeclNode = de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
+using EdgeTypeNode = de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using StringTypeNode = de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using GraphEntity = de.unika.ipd.grgen.ir.pattern.GraphEntity;
+using NameOrAttributeInitialization = de.unika.ipd.grgen.ir.pattern.NameOrAttributeInitialization;
 
-public class NameOrAttributeInitializationNode extends BaseNode
+public class NameOrAttributeInitializationNode : BaseNode
 {
 	public ConstraintDeclNode owner;
 	public GraphEntity ownerIR;
@@ -51,123 +50,133 @@ public class NameOrAttributeInitializationNode extends BaseNode
 		this.initialization = initialization;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
 		if(attributeUnresolved != null)
-			children.add(getValidVersion(attributeUnresolved, attribute));
-		children.add(initialization);
+			children.Add(GetValidVersion(attributeUnresolved, attribute));
+		children.Add(initialization);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
+		get
+		{
+		IList<string> childrenNames = new List<string>();
 		if(attributeUnresolved != null)
-			childrenNames.add("attribute");
-		childrenNames.add("initialization");
+			childrenNames.Add("attribute");
+		childrenNames.Add("initialization");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<MemberDeclNode> memberResolver =
-			new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
+	private static readonly DeclarationResolver<MemberDeclNode> memberResolver =
+			new DeclarationResolver<MemberDeclNode>(typeof(MemberDeclNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
-		if(attributeUnresolved != null) {
-			owner.getDeclInhType().fixupDefinition(attributeUnresolved);
-			attribute = memberResolver.resolve(attributeUnresolved, this);
+		if(attributeUnresolved != null)
+		{
+			owner.DeclInhType.FixupDefinition(attributeUnresolved);
+			attribute = memberResolver.Resolve(attributeUnresolved, this);
 			return attribute != null;
 		}
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if(attributeUnresolved == null) {
+		if(attributeUnresolved == null)
+		{
 			TypeNode targetTypeNameInit = StringTypeNode.stringType;
-			TypeNode exprTypeNameInit = initialization.getType();
+			TypeNode exprTypeNameInit = initialization.Type;
 
-			if(exprTypeNameInit.isEqual(targetTypeNameInit))
+			if(exprTypeNameInit.IsEqual(targetTypeNameInit))
 				return true;
 
-			initialization = becomeParent(initialization.adjustType(targetTypeNameInit, owner.getCoords()));
-			if(initialization == ConstNode.getInvalid()) {
-				owner.reportError("The name of an element must be initialized with a value of type string"
-						+ " (but it is initialized with a value of type " + exprTypeNameInit.getTypeName() + ").");
+			initialization = BecomeParent(initialization.AdjustType(targetTypeNameInit, owner.Coords));
+			if(initialization == ConstNode.Invalid)
+			{
+				owner.ReportError("The name of an element must be initialized with a value of type string"
+						+ " (but it is initialized with a value of type " + exprTypeNameInit.TypeName + ").");
 				return false;
 			}
 
 			return true;
 		}
 
-		if(attribute.isConst()) {
-			owner.reportError("An assignment to a const member is not allowed"
-					+ " (but " + attribute.getIdent() + " is const).");
+		if(attribute.IsConst())
+		{
+			owner.ReportError("An assignment to a const member is not allowed"
+					+ " (but " + attribute.Ident + " is const).");
 			return false;
 		}
 
-		if(owner.getDeclInhType().isConst()) {
-			owner.reportError("An assignment to a const type object is not allowed"
-					+ " (but " + owner.getDeclType().getTypeName() + " is const).");
+		if(owner.DeclInhType.IsConst())
+		{
+			owner.ReportError("An assignment to a const type object is not allowed"
+					+ " (but " + owner.DeclType.TypeName + " is const).");
 			return false;
 		}
 
-		TypeNode targetType = attribute.getDeclType();
-		TypeNode exprType = initialization.getType();
+		TypeNode targetType = attribute.DeclType;
+		TypeNode exprType = initialization.Type;
 
-		if(exprType.isEqual(targetType))
+		if(exprType.IsEqual(targetType))
 			return true;
 
-		initialization = becomeParent(initialization.adjustType(targetType, owner.getCoords()));
-		if(initialization == ConstNode.getInvalid())
+		initialization = BecomeParent(initialization.AdjustType(targetType, owner.Coords));
+		if(initialization == ConstNode.Invalid)
 			return false;
 
-		if(targetType instanceof NodeTypeNode && exprType instanceof NodeTypeNode
-				|| targetType instanceof EdgeTypeNode && exprType instanceof EdgeTypeNode) {
-			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
-			exprType.doGetCompatibleToTypes(superTypes);
-			if(!superTypes.contains(targetType)) {
-				owner.reportError("Cannot initialize an attribute of type " + targetType.toStringWithDeclarationCoords()
-						+ " with a value of type " + exprType.toStringWithDeclarationCoords() + ".");
+		if(targetType is NodeTypeNode && exprType is NodeTypeNode
+				|| targetType is EdgeTypeNode && exprType is EdgeTypeNode)
+		{
+			ICollection<TypeNode> superTypes = new HashSet<TypeNode>();
+			exprType.DoGetCompatibleToTypes(superTypes);
+			if(!superTypes.Contains(targetType))
+			{
+				owner.ReportError("Cannot initialize an attribute of type " + targetType.ToStringWithDeclarationCoords()
+						+ " with a value of type " + exprType.ToStringWithDeclarationCoords() + ".");
 				return false;
 			}
 		}
-		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
-				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-			owner.reportError("Cannot initialize an attribute of type " + targetType.toStringWithDeclarationCoords()
-					+ " with a value of type " + exprType.toStringWithDeclarationCoords() + ".");
+		if(targetType is NodeTypeNode && exprType is EdgeTypeNode
+				|| targetType is EdgeTypeNode && exprType is NodeTypeNode)
+		{
+			owner.ReportError("Cannot initialize an attribute of type " + targetType.ToStringWithDeclarationCoords()
+					+ " with a value of type " + exprType.ToStringWithDeclarationCoords() + ".");
 			return false;
 		}
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
+	protected internal override IR ConstructIR()
 	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
-		if(isIRAlreadySet()) {
-			return getIR();
-		}
+		if(IsIRAlreadySet())
+			return IR;
 
 		NameOrAttributeInitialization nai = new NameOrAttributeInitialization();
 
 		// mark this node as already visited
-		setIR(nai);
+		IR = nai;
 
-		assert(ownerIR != null);
+		Debug.Assert((ownerIR != null));
 		nai.owner = ownerIR;
 		if(attribute != null)
-			nai.attribute = attribute.checkIR(Entity.class);
-		initialization = initialization.evaluate();
-		nai.expr = initialization.checkIR(Expression.class);
+			nai.attribute = attribute.CheckIR(typeof(Entity));
+		initialization = initialization.Evaluate();
+		nai.expr = initialization.CheckIR(typeof(Expression));
 
 		return nai;
 	}
+}
+
 }

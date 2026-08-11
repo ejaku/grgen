@@ -1,44 +1,45 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt.invocation;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
-import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Procedure;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureMethodInvocation;
-import de.unika.ipd.grgen.ir.type.Type;
-
-/**
- * Invocation of a procedure method
- */
-public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.stmt.invocation
 {
-	static {
-		setClassName(ProcedureMethodInvocationNode.class, "procedure method invocation");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ProcedureDeclNode = de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
+using EdgeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ProcedureMethodInvocation = de.unika.ipd.grgen.ir.stmt.invocation.ProcedureMethodInvocation;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+/// <summary>
+/// Invocation of a procedure method
+/// </summary>
+public class ProcedureMethodInvocationNode : ProcedureInvocationBaseNode
+{
+	static ProcedureMethodInvocationNode()
+	{
+		SetClassName(typeof(ProcedureMethodInvocationNode), "procedure method invocation");
 	}
 
 	private IdentNode ownerUnresolved;
@@ -49,67 +50,74 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 
 	public ProcedureMethodInvocationNode(IdentNode owner, IdentNode procedureOrExternalProcedureUnresolved,
 			CollectNode<ExprNode> arguments, int context)
+		: base(procedureOrExternalProcedureUnresolved.Coords, arguments, context)
 	{
-		super(procedureOrExternalProcedureUnresolved.getCoords(), arguments, context);
-		this.ownerUnresolved = becomeParent(owner);
-		this.procedureUnresolved = becomeParent(procedureOrExternalProcedureUnresolved);
+		this.ownerUnresolved = BecomeParent(owner);
+		this.procedureUnresolved = BecomeParent(procedureOrExternalProcedureUnresolved);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(ownerUnresolved, owner));
-		children.add(getValidVersion(procedureUnresolved, procedureDecl));
-		children.add(arguments);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(ownerUnresolved, owner));
+		children.Add(GetValidVersion(procedureUnresolved, procedureDecl));
+		children.Add(arguments);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("owner");
-		childrenNames.add("procedure");
-		childrenNames.add("arguments");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("owner");
+		childrenNames.Add("procedure");
+		childrenNames.Add("arguments");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationResolver<DeclNode> ownerResolver =
-			new DeclarationResolver<DeclNode>(DeclNode.class);
-	private static final DeclarationResolver<ProcedureDeclNode> resolver =
-			new DeclarationResolver<ProcedureDeclNode>(ProcedureDeclNode.class);
+	private static readonly DeclarationResolver<DeclNode> ownerResolver =
+			new DeclarationResolver<DeclNode>(typeof(DeclNode));
+	private static readonly DeclarationResolver<ProcedureDeclNode> resolver =
+			new DeclarationResolver<ProcedureDeclNode>(typeof(ProcedureDeclNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope
 		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
 		 * 3) resolve now complete/correct right hand side identifier into its declaration */
-		boolean res = fixupDefinition(ownerUnresolved, ownerUnresolved.getScope());
+		bool res = FixupDefinition(ownerUnresolved, ownerUnresolved.Scope);
 		if(!res)
 			return false;
 
-		boolean successfullyResolved = true;
-		owner = ownerResolver.resolve(ownerUnresolved, this);
+		bool successfullyResolved = true;
+		owner = ownerResolver.Resolve(ownerUnresolved, this);
 		successfullyResolved = owner != null && successfullyResolved;
-		boolean ownerResolveResult = owner != null && owner.resolve();
+		bool ownerResolveResult = owner != null && owner.Resolve();
 
-		if(!ownerResolveResult) {
+		if(!ownerResolveResult)
+		{
 			// member can not be resolved due to inaccessible owner
 			return false;
 		}
 
 		if(ownerResolveResult && owner != null
-				&& (owner instanceof NodeDeclNode || owner instanceof EdgeDeclNode || owner instanceof VarDeclNode)) {
-			TypeNode ownerType = owner.getDeclType();
-			if(ownerType instanceof ScopeOwner) {
+				&& (owner is NodeDeclNode || owner is EdgeDeclNode || owner is VarDeclNode))
+		{
+			TypeNode ownerType = owner.DeclType;
+			if(ownerType is ScopeOwner)
+			{
 				ScopeOwner o = (ScopeOwner)ownerType;
-				res = o.fixupDefinition(procedureUnresolved);
+				res = o.FixupDefinition(procedureUnresolved);
 
-				procedureDecl = resolver.resolve(procedureUnresolved, this);
-				if(procedureDecl == null) {
-					procedureUnresolved.reportError("Unknown procedure method called."
+				procedureDecl = resolver.Resolve(procedureUnresolved, this);
+				if(procedureDecl == null)
+				{
+					procedureUnresolved.ReportError("Unknown procedure method called."
 							+ " (Maybe a misspelled procedure name? Or is a function call intended?"
 							+ " An assignment target within parenthesis denotes a procedure call, as in "
 							+ "(var) = " + owner + "." + procedureUnresolved + "(...)).");
@@ -117,60 +125,69 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 				}
 
 				successfullyResolved = procedureDecl != null && successfullyResolved;
-			} else {
-				reportError("Left hand side of '.' does not own a scope"
-						+ " (type " + ownerType.toStringWithDeclarationCoords() + ").");
+			}
+			else
+			{
+				ReportError("Left hand side of '.' does not own a scope"
+						+ " (type " + ownerType.ToStringWithDeclarationCoords() + ").");
 				successfullyResolved = false;
 			}
-		} else {
-			reportError("Left hand side of '.' is neither a node nor an edge nor a variable"
-					+ (owner != null && owner.getDeclType() != null ? " (type " + owner.getDeclType().toStringWithDeclarationCoords() + ")." : ".") );
+		}
+		else
+		{
+			ReportError("Left hand side of '.' is neither a node nor an edge nor a variable"
+					+ (owner != null && owner.DeclType != null ? " (type " + owner.DeclType.ToStringWithDeclarationCoords() + ")." : "."));
 			successfullyResolved = false;
 		}
 
 		return successfullyResolved;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			reportError("Procedure method call not allowed in function or pattern part context (attempted on " + procedureUnresolved + ").");
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION)
+		{
+			ReportError("Procedure method call not allowed in function or pattern part context (attempted on " + procedureUnresolved + ").");
 			return false;
 		}
-		return checkSignatureAdhered(procedureDecl, procedureUnresolved, true);
+		return CheckSignatureAdhered(procedureDecl, procedureUnresolved, true);
 	}
 
-	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	public override bool CheckStatementLocal(bool isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}
 
-	@Override
-	public List<TypeNode> getType()
+	public override IList<TypeNode> Type
 	{
-		assert isResolved();
-		return procedureDecl.getResultTypes();
+		get
+		{
+		Debug.Assert(IsResolved());
+		return procedureDecl.ResultTypes;
+		}
 	}
 
-	public int getNumReturnTypes()
+	public virtual int NumReturnTypes
 	{
-		return procedureDecl.resultTypesCollectNode.size();
+		get
+		{
+		return procedureDecl.resultTypesCollectNode.Size();
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		ProcedureMethodInvocation pmi = new ProcedureMethodInvocation(owner.checkIR(Entity.class),
-				procedureDecl.checkIR(Procedure.class));
-		for(ExprNode argument : arguments.getChildrenExact()) {
-			ExprNode argumentEvaluated = argument.evaluate();
-			pmi.addArgument(argumentEvaluated.checkIR(Expression.class));
+		ProcedureMethodInvocation pmi = new ProcedureMethodInvocation(owner.CheckIR(typeof(Entity)),
+				procedureDecl.CheckIR(typeof(Procedure)));
+		foreach(ExprNode argument in arguments.ChildrenExact)
+		{
+			ExprNode argumentEvaluated = argument.Evaluate();
+			pmi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
 		}
-		for(TypeNode type : procedureDecl.resultTypesCollectNode.getChildrenExact()) {
-			pmi.addReturnType(type.checkIR(Type.class));
-		}
+		foreach(TypeNode type in procedureDecl.resultTypesCollectNode.ChildrenExact)
+			pmi.AddReturnType(type.CheckIR(typeof(Type)));
 		return pmi;
 	}
+}
+
 }

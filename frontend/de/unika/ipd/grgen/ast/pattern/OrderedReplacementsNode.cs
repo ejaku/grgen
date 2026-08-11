@@ -1,91 +1,93 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ast.pattern;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
-import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class OrderedReplacementsNode extends BaseNode
+namespace de.unika.ipd.grgen.ast.pattern
 {
-	public String name;
+
+using System.Collections.Generic;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using de.unika.ipd.grgen.ast;
+using IR = de.unika.ipd.grgen.ir.IR;
+using OrderedReplacement = de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
+using OrderedReplacements = de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class OrderedReplacementsNode : BaseNode
+{
+	public string name;
 	public CollectNode<OrderedReplacementNode> orderedReplacements;
 
-	public OrderedReplacementsNode(Coords coords, String name)
+	public OrderedReplacementsNode(Coords coords, string name)
+		: base(coords)
 	{
-		super(coords);
 		this.name = name;
 		orderedReplacements = new CollectNode<OrderedReplacementNode>();
 	}
 
-	public void addChild(OrderedReplacementNode c)
+	public virtual void AddChild(OrderedReplacementNode c)
 	{
-		orderedReplacements.addChild(c);
+		orderedReplacements.AddChild(c);
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		return orderedReplacements.getChildren();
-	}
-
-	public Collection<OrderedReplacementNode> getChildrenExact()
-	{
-		return orderedReplacements.getChildrenExact();
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> res = new ArrayList<String>();
-		for(int i = 0; i < getChildren().size(); ++i) {
-			res.add("eval" + i);
+		get
+		{
+		return orderedReplacements.Children;
 		}
-		return res;
 	}
 
-	@Override
-	protected boolean resolveLocal()
+	public virtual ICollection<OrderedReplacementNode> ChildrenExact
+	{
+		get
+		{
+		return orderedReplacements.ChildrenExact;
+		}
+	}
+
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> res = new List<string>();
+		for(int i = 0; i < Children.Count; ++i)
+			res.Add("eval" + i);
+		return res;
+		}
+	}
+
+	protected internal override bool ResolveLocal()
 	{
 		return true;
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
 		return true;
 	}
 
-	public boolean noExecStatement()
+	public virtual bool NoExecStatement()
 	{
-		boolean res = true;
-		for(OrderedReplacementNode orderedReplacement : orderedReplacements.getChildrenExact()) {
-			res &= orderedReplacement.noExecStatement(true);
-		}
+		bool res = true;
+		foreach(OrderedReplacementNode orderedReplacement in orderedReplacements.ChildrenExact)
+			res &= orderedReplacement.NoExecStatement(true);
 		return res;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
 		OrderedReplacements ors = new OrderedReplacements(name);
 
-		for(OrderedReplacementNode orderedReplacement : orderedReplacements.getChildrenExact()) {
-			ors.orderedReplacements.add((OrderedReplacement)orderedReplacement.getIR());
-		}
+		foreach(OrderedReplacementNode orderedReplacement in orderedReplacements.ChildrenExact)
+			ors.orderedReplacements.Add((OrderedReplacement)orderedReplacement.IR);
 
 		return ors;
 	}
+}
+
 }

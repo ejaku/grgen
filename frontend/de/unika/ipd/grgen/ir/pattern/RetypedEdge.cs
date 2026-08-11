@@ -1,56 +1,62 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.pattern;
-
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.model.type.EdgeType;
-import de.unika.ipd.grgen.util.Annotations;
-import de.unika.ipd.grgen.util.Retyped;
-
-public class RetypedEdge extends Edge implements Retyped
+namespace de.unika.ipd.grgen.ir.pattern
 {
-	/**  The original edge */
+using Entity = de.unika.ipd.grgen.ir.Entity;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;
+using Annotations = de.unika.ipd.grgen.util.Annotations;
+using Retyped = de.unika.ipd.grgen.util.Retyped;
+
+public class RetypedEdge : Edge, Retyped
+{
+	/// <summary>
+	///  The original edge </summary>
 	public Edge oldEdge = null;
 
 	public RetypedEdge(Ident ident, EdgeType type, Annotations annots,
-			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context)
+			bool maybeDeleted, bool maybeRetyped, bool isDefToBeYieldedTo, int context)
+		: base(ident, type, annots, null, maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context)
 	{
-		super(ident, type, annots, null, maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 	}
 
-	@Override
-	public Entity getOldEntity()
+	public virtual Entity OldEntity
 	{
+		get
+		{
 		return oldEdge;
+		}
+		set
+		{
+		this.oldEdge = (Edge)value;
+		}
 	}
 
-	@Override
-	public void setOldEntity(Entity old)
-	{
-		this.oldEdge = (Edge)old;
-	}
 
-	/** returns the original edge in the graph. */
-	public Edge getOldEdge()
+	/// <summary>
+	/// returns the original edge in the graph. </summary>
+	public virtual Edge OldEdge
 	{
+		get
+		{
 		return oldEdge;
+		}
+		set
+		{
+		this.oldEdge = value;
+		}
 	}
 
-	/** Set the old edge being retyped to this one */
-	public void setOldEdge(Edge old)
-	{
-		this.oldEdge = old;
-	}
 
-	@Override
-	public boolean isRetyped()
+	public override bool IsRetyped()
 	{
 		return true;
 	}
+}
+
 }

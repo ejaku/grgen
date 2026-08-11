@@ -1,46 +1,49 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import de.unika.ipd.grgen.ast.expr.string.StringConstNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * A boolean constant.
- */
-public class BoolConstNode extends ConstNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	public BoolConstNode(Coords coords, boolean value)
+using StringConstNode = de.unika.ipd.grgen.ast.expr.@string.StringConstNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// A boolean constant.
+/// </summary>
+public class BoolConstNode : ConstNode
+{
+	public BoolConstNode(Coords coords, bool value)
+		: base(coords, "boolean", new bool?(value))
 	{
-		super(coords, "boolean", new Boolean(value));
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.booleanType;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.expr.ConstNode#doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) */
-	@Override
-	protected ConstNode doCastTo(TypeNode type)
+	/// <seealso cref="de.unika.ipd.grgen.ast.expr.ConstNode.doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) "/>
+	protected internal override ConstNode DoCastTo(TypeNode type)
 	{
-		Boolean value = (Boolean)getValue();
+		bool? value = (bool?)Value;
 
-		if(type.isEqual(BasicTypeNode.stringType)) {
-			return new StringConstNode(getCoords(), value.toString());
-		} else
-			throw new UnsupportedOperationException();
+		if(type.IsEqual(BasicTypeNode.stringType))
+			return new StringConstNode(Coords, value.ToString());
+		else
+			throw new System.NotSupportedException();
 	}
+}
+
 }

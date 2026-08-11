@@ -1,34 +1,34 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Moritz Kroll, Edgar Jakumeit
- */
+/// <summary>
+/// @author Moritz Kroll, Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.string;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.string.StringSubstring;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class StringSubstringNode extends BuiltinFunctionInvocationBaseNode
+namespace de.unika.ipd.grgen.ast.expr.@string
 {
-	static {
-		setClassName(StringSubstringNode.class, "string substring");
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using BuiltinFunctionInvocationBaseNode = de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using StringSubstring = de.unika.ipd.grgen.ir.expr.@string.StringSubstring;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class StringSubstringNode : BuiltinFunctionInvocationBaseNode
+{
+	static StringSubstringNode()
+	{
+		SetClassName(typeof(StringSubstringNode), "string substring");
 	}
 
 	private ExprNode stringExpr;
@@ -36,83 +36,93 @@ public class StringSubstringNode extends BuiltinFunctionInvocationBaseNode
 	private ExprNode lengthExpr;
 
 	public StringSubstringNode(Coords coords, ExprNode stringExpr, ExprNode startExpr, ExprNode lengthExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.stringExpr = becomeParent(stringExpr);
-		this.startExpr = becomeParent(startExpr);
-		this.lengthExpr = becomeParent(lengthExpr);
+		this.stringExpr = BecomeParent(stringExpr);
+		this.startExpr = BecomeParent(startExpr);
+		this.lengthExpr = BecomeParent(lengthExpr);
 	}
 
 	public StringSubstringNode(Coords coords, ExprNode stringExpr, ExprNode startExpr)
+		: base(coords)
 	{
-		super(coords);
 
-		this.stringExpr = becomeParent(stringExpr);
-		this.startExpr = becomeParent(startExpr);
+		this.stringExpr = BecomeParent(stringExpr);
+		this.startExpr = BecomeParent(startExpr);
 		this.lengthExpr = null;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(stringExpr);
-		children.add(startExpr);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(stringExpr);
+		children.Add(startExpr);
 		if(lengthExpr != null)
-			children.add(lengthExpr);
+			children.Add(lengthExpr);
 		return children;
+		}
 	}
 
-	@Override
-	public Collection<String> getChildrenNames()
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("string");
-		childrenNames.add("start");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("string");
+		childrenNames.Add("start");
 		if(lengthExpr != null)
-			childrenNames.add("length");
+			childrenNames.Add("length");
 		return childrenNames;
+		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	protected internal override bool CheckLocal()
 	{
-		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("The string function method substring can only be employed on an object of type string"
-					+ " (but is employed on an object of type " + stringExpr.getType().getTypeName() + ").");
+		if(!stringExpr.Type.IsEqual(BasicTypeNode.stringType))
+		{
+			stringExpr.ReportError("The string function method substring can only be employed on an object of type string"
+					+ " (but is employed on an object of type " + stringExpr.Type.TypeName + ").");
 			return false;
 		}
-		if(!startExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startExpr.reportError("The string function method substring expects as 1. argument (startPosition) a value of type int"
-					+ " (but is given a value of type " + startExpr.getType().getTypeName() + ").");
+		if(!startExpr.Type.IsEqual(BasicTypeNode.intType))
+		{
+			startExpr.ReportError("The string function method substring expects as 1. argument (startPosition) a value of type int"
+					+ " (but is given a value of type " + startExpr.Type.TypeName + ").");
 			return false;
 		}
-		if(lengthExpr != null) {
-			if(!lengthExpr.getType().isEqual(BasicTypeNode.intType)) {
-				lengthExpr.reportError("The string function method substring expects as 2. argument (length) a value of type int"
-						+ " (but is given a value of type " + lengthExpr.getType().getTypeName() + ").");
+		if(lengthExpr != null)
+		{
+			if(!lengthExpr.Type.IsEqual(BasicTypeNode.intType))
+			{
+				lengthExpr.ReportError("The string function method substring expects as 2. argument (length) a value of type int"
+						+ " (but is given a value of type " + lengthExpr.Type.TypeName + ").");
 				return false;
 			}
 		}
 		return true;
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		stringExpr = stringExpr.evaluate();
-		startExpr = startExpr.evaluate();
+		stringExpr = stringExpr.Evaluate();
+		startExpr = startExpr.Evaluate();
 		if(lengthExpr != null)
-			lengthExpr = lengthExpr.evaluate();
-		return new StringSubstring(stringExpr.checkIR(Expression.class),
-				startExpr.checkIR(Expression.class),
-				lengthExpr != null ? lengthExpr.checkIR(Expression.class) : null);
+			lengthExpr = lengthExpr.Evaluate();
+		return new StringSubstring(stringExpr.CheckIR(typeof(Expression)),
+				startExpr.CheckIR(typeof(Expression)),
+				lengthExpr != null ? lengthExpr.CheckIR(typeof(Expression)) : null);
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
+		get
+		{
 		return BasicTypeNode.stringType;
+		}
 	}
+}
+
 }

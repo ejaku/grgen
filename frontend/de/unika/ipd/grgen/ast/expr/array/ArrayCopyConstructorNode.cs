@@ -1,34 +1,35 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr.array;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.array.ArrayCopyConstructor;
-import de.unika.ipd.grgen.ir.type.container.ArrayType;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class ArrayCopyConstructorNode extends ExprNode
+namespace de.unika.ipd.grgen.ast.expr.array
 {
-	static {
-		setClassName(ArrayCopyConstructorNode.class, "array copy constructor");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using ArrayCopyConstructor = de.unika.ipd.grgen.ir.expr.array.ArrayCopyConstructor;
+using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class ArrayCopyConstructorNode : ExprNode
+{
+	static ArrayCopyConstructorNode()
+	{
+		SetClassName(typeof(ArrayCopyConstructorNode), "array copy constructor");
 	}
 
 	private ArrayTypeNode arrayType;
@@ -36,58 +37,64 @@ public class ArrayCopyConstructorNode extends ExprNode
 	private BaseNode lhsUnresolved;
 
 	public ArrayCopyConstructorNode(Coords coords, IdentNode member, ArrayTypeNode arrayType, ExprNode arrayToCopy)
+		: base(coords)
 	{
-		super(coords);
 
-		if(member != null) {
-			lhsUnresolved = becomeParent(member);
-		} else {
+		if(member != null)
+			lhsUnresolved = BecomeParent(member);
+		else
 			this.arrayType = arrayType;
-		}
 		this.arrayToCopy = arrayToCopy;
 	}
 
-	@Override
-	public Collection<BaseNode> getChildren()
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(arrayToCopy);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(arrayToCopy);
 		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("arrayToCopy");
-		return childrenNames;
-	}
-
-	@Override
-	protected boolean resolveLocal()
-	{
-		if(arrayType != null) {
-			return arrayType.resolve();
-		} else {
-			return true;
 		}
 	}
 
-	@Override
-	protected boolean checkLocal()
+	public override ICollection<string> ChildrenNames
 	{
-		boolean success = true;
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("arrayToCopy");
+		return childrenNames;
+		}
+	}
 
-		if(lhsUnresolved != null) {
-			reportError("An array copy constructor is not allowed in an array initialization in the model.");
+	protected internal override bool ResolveLocal()
+	{
+		if(arrayType != null)
+			return arrayType.Resolve();
+		else
+			return true;
+	}
+
+	protected internal override bool CheckLocal()
+	{
+		bool success = true;
+
+		if(lhsUnresolved != null)
+		{
+			ReportError("An array copy constructor is not allowed in an array initialization in the model.");
 			success = false;
-		} else {
-			if(arrayToCopy.getType() instanceof ArrayTypeNode) {
-				ArrayTypeNode sourceArrayType = (ArrayTypeNode)arrayToCopy.getType();
-				success &= checkCopyConstructorTypes(arrayType.valueType, sourceArrayType.valueType, "array", false);
-			} else {
-				reportError("An array copy constructor expects a value of array type to copy"
-						+ " (but is given " + arrayToCopy.getType().getTypeName() + ").");
+		}
+		else
+		{
+			if(arrayToCopy.Type is ArrayTypeNode)
+			{
+				ArrayTypeNode sourceArrayType = (ArrayTypeNode)arrayToCopy.Type;
+				success &= CheckCopyConstructorTypes(arrayType.valueType, sourceArrayType.valueType, "array", false);
+			}
+			else
+			{
+				ReportError("An array copy constructor expects a value of array type to copy"
+						+ " (but is given " + arrayToCopy.Type.TypeName + ").");
 				success = false;
 			}
 		}
@@ -95,22 +102,28 @@ public class ArrayCopyConstructorNode extends ExprNode
 		return success;
 	}
 
-	@Override
-	public TypeNode getType()
+	public override TypeNode Type
 	{
-		assert(isResolved());
+		get
+		{
+		Debug.Assert((IsResolved()));
 		return arrayType;
+		}
 	}
 
-	@Override
-	protected IR constructIR()
+	protected internal override IR ConstructIR()
 	{
-		arrayToCopy = arrayToCopy.evaluate();
-		return new ArrayCopyConstructor(arrayToCopy.checkIR(Expression.class), arrayType.checkIR(ArrayType.class));
+		arrayToCopy = arrayToCopy.Evaluate();
+		return new ArrayCopyConstructor(arrayToCopy.CheckIR(typeof(Expression)), arrayType.CheckIR(typeof(ArrayType)));
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "array copy constructor";
+		}
 	}
+}
+
 }

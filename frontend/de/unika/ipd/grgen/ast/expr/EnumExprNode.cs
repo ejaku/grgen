@@ -1,110 +1,118 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.ast.expr;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
-import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.EnumExpression;
-import de.unika.ipd.grgen.ir.model.EnumItem;
-import de.unika.ipd.grgen.ir.model.type.EnumType;
-import de.unika.ipd.grgen.parser.Coords;
-
-public class EnumExprNode extends QualIdentNode
+namespace de.unika.ipd.grgen.ast.expr
 {
-	static {
-		setClassName(EnumExprNode.class, "enum access expression");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using EnumItemDeclNode = de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
+using EnumTypeNode = de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using EnumExpression = de.unika.ipd.grgen.ir.expr.EnumExpression;
+using EnumItem = de.unika.ipd.grgen.ir.model.EnumItem;
+using EnumType = de.unika.ipd.grgen.ir.model.type.EnumType;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class EnumExprNode : QualIdentNode
+{
+	static EnumExprNode()
+	{
+		SetClassName(typeof(EnumExprNode), "enum access expression");
 	}
 
 	public EnumExprNode(Coords coords, IdentNode owner, IdentNode member)
+		: base(coords, owner, member)
 	{
-		super(coords, owner, member);
 	}
 
 	private EnumTypeNode owner;
 
 	private EnumItemDeclNode member;
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersion(ownerUnresolved, owner));
-		children.add(getValidVersion(memberUnresolved, member));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersion(ownerUnresolved, owner));
+		children.Add(GetValidVersion(memberUnresolved, member));
 		return children;
+		}
 	}
 	// TODO Missing getChildrenNames()...
 
-	private static final DeclarationTypeResolver<EnumTypeNode> ownerResolver =
-			new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
+	private static readonly DeclarationTypeResolver<EnumTypeNode> ownerResolver =
+			new DeclarationTypeResolver<EnumTypeNode>(typeof(EnumTypeNode));
 
-	private static final DeclarationResolver<EnumItemDeclNode> memberResolver =
-			new DeclarationResolver<EnumItemDeclNode>(EnumItemDeclNode.class);
+	private static readonly DeclarationResolver<EnumItemDeclNode> memberResolver =
+			new DeclarationResolver<EnumItemDeclNode>(typeof(EnumItemDeclNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		boolean successfullyResolved = true;
-		owner = ownerResolver.resolve(ownerUnresolved, this);
+		bool successfullyResolved = true;
+		owner = ownerResolver.Resolve(ownerUnresolved, this);
 		successfullyResolved = owner != null && successfullyResolved;
 
-		if(owner != null) {
-			owner.fixupDefinition(memberUnresolved);
+		if(owner != null)
+		{
+			owner.FixupDefinition(memberUnresolved);
 
-			member = memberResolver.resolve(memberUnresolved, this);
+			member = memberResolver.Resolve(memberUnresolved, this);
 			successfullyResolved = member != null && successfullyResolved;
-		} else {
-			successfullyResolved = false;
 		}
+		else
+			successfullyResolved = false;
 
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
-	@Override
-	public EnumItemDeclNode getDecl()
+	/// <seealso cref="de.unika.ipd.grgen.ast.DeclaredCharacter.getDecl() "/>
+	public override EnumItemDeclNode Decl
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return member;
+		}
 	}
 
-	@Override
-	public DeclNode getOwner()
+	public override DeclNode Owner
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
-		return DeclNode.getInvalid();
+		return DeclNode.Invalid;
+		}
 	}
 
-	/**
-	 * Build the IR of an enum expression.
-	 * @return An enum expression IR object.
-	 */
-	@Override
-	protected IR constructIR()
+	/// <summary>
+	/// Build the IR of an enum expression. </summary>
+	/// <returns> An enum expression IR object. </returns>
+	protected internal override IR ConstructIR()
 	{
-		EnumType et = owner.checkIR(EnumType.class);
-		EnumItem it = member.checkIR(EnumItem.class);
+		EnumType et = owner.CheckIR(typeof(EnumType));
+		EnumItem it = member.CheckIR(typeof(EnumItem));
 		return new EnumExpression(et, it);
 	}
+}
+
 }

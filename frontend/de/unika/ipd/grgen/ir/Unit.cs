@@ -1,313 +1,355 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
-
-import java.security.MessageDigest;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
-import de.unika.ipd.grgen.ir.executable.FilterFunction;
-import de.unika.ipd.grgen.ir.executable.Function;
-import de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
-import de.unika.ipd.grgen.ir.executable.Procedure;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.executable.Sequence;
-import de.unika.ipd.grgen.ir.model.Model;
-import de.unika.ipd.grgen.ir.model.NodeEdgeEnumBearer;
-import de.unika.ipd.grgen.ir.model.type.InheritanceType;
-import de.unika.ipd.grgen.ir.model.type.PackageType;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-import de.unika.ipd.grgen.ir.type.DefinedMatchType;
-import de.unika.ipd.grgen.ir.type.PackageActionType;
-import de.unika.ipd.grgen.util.Util;
-
-/**
- * A unit with all declared entities
- */
-public class Unit extends IR implements ActionsBearer
+namespace de.unika.ipd.grgen.ir
 {
-	private final ArrayList<Model> models = new ArrayList<Model>();
 
-	private final ArrayList<Rule> subpatternRules = new ArrayList<Rule>();
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-	private final ArrayList<Rule> actionRules = new ArrayList<Rule>();
+using FilterFunction = de.unika.ipd.grgen.ir.executable.FilterFunction;
+using Function = de.unika.ipd.grgen.ir.executable.Function;
+using MatchClassFilterFunction = de.unika.ipd.grgen.ir.executable.MatchClassFilterFunction;
+using Procedure = de.unika.ipd.grgen.ir.executable.Procedure;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using Sequence = de.unika.ipd.grgen.ir.executable.Sequence;
+using Model = de.unika.ipd.grgen.ir.model.Model;
+using NodeEdgeEnumBearer = de.unika.ipd.grgen.ir.model.NodeEdgeEnumBearer;
+using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
+using PackageType = de.unika.ipd.grgen.ir.model.type.PackageType;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using DefinedMatchType = de.unika.ipd.grgen.ir.type.DefinedMatchType;
+using PackageActionType = de.unika.ipd.grgen.ir.type.PackageActionType;
+using Util = de.unika.ipd.grgen.util.Util;
 
-	private final ArrayList<FilterFunction> filterFunctions = new ArrayList<FilterFunction>();
+/// <summary>
+/// A unit with all declared entities
+/// </summary>
+public class Unit : IR, ActionsBearer
+{
+	private readonly List<Model> models = new List<Model>();
 
-	private final ArrayList<DefinedMatchType> matchClasses = new ArrayList<DefinedMatchType>();
+	private readonly List<Rule> subpatternRules = new List<Rule>();
 
-	private final ArrayList<MatchClassFilterFunction> matchClassFilterFunctions = new ArrayList<MatchClassFilterFunction>();
+	private readonly List<Rule> actionRules = new List<Rule>();
 
-	private final ArrayList<Function> functions = new ArrayList<Function>();
+	private readonly List<FilterFunction> filterFunctions = new List<FilterFunction>();
 
-	private final ArrayList<Procedure> procedures = new ArrayList<Procedure>();
+	private readonly List<DefinedMatchType> matchClasses = new List<DefinedMatchType>();
 
-	private final ArrayList<Sequence> sequences = new ArrayList<Sequence>();
+	private readonly List<MatchClassFilterFunction> matchClassFilterFunctions = new List<MatchClassFilterFunction>();
 
-	private final ArrayList<PackageActionType> packages = new ArrayList<PackageActionType>();
+	private readonly List<Function> functions = new List<Function>();
 
-	private String digest = "";
+	private readonly List<Procedure> procedures = new List<Procedure>();
 
-	private boolean digestValid = false;
+	private readonly List<Sequence> sequences = new List<Sequence>();
 
-	/** The unit name of this unit. */
-	private String unitName;
+	private readonly List<PackageActionType> packages = new List<PackageActionType>();
 
-	/** The source filename of this unit. */
-	private String filename;
+	private string digest = "";
 
-	public Unit(String unitName, String filename)
+	private bool digestValid = false;
+
+	/// <summary>
+	/// The unit name of this unit. </summary>
+	private string unitName;
+
+	/// <summary>
+	/// The source filename of this unit. </summary>
+	private string filename;
+
+	public Unit(string unitName, string filename)
+		: base("unit")
 	{
-		super("unit");
 		this.unitName = unitName;
 		this.filename = filename;
 	}
 
-	/** Add a model to the unit. */
-	public void addModel(Model model)
+	/// <summary>
+	/// Add a model to the unit. </summary>
+	public virtual void AddModel(Model model)
 	{
-		models.add(model);
+		models.Add(model);
 		digestValid = false;
 	}
 
-	/** @return The type model of this unit. */
-	public Collection<Model> getModels()
+	/// <returns> The type model of this unit. </returns>
+	public virtual ICollection<Model> Models
 	{
-		return Collections.unmodifiableList(models);
+		get
+		{
+		return models.AsReadOnly();
+		}
 	}
 
-	/** Add a subpattern-rule to the unit. */
-	public void addSubpatternRule(Rule subpatternRule)
+	/// <summary>
+	/// Add a subpattern-rule to the unit. </summary>
+	public virtual void AddSubpatternRule(Rule subpatternRule)
 	{
-		subpatternRules.add(subpatternRule);
+		subpatternRules.Add(subpatternRule);
 	}
 
-	@Override
-	public Collection<Rule> getSubpatternRules()
+	public virtual ICollection<Rule> SubpatternRules
 	{
-		return Collections.unmodifiableList(subpatternRules);
+		get
+		{
+		return subpatternRules.AsReadOnly();
+		}
 	}
 
-	/** Add an action-rule to the unit. */
-	public void addActionRule(Rule actionRule)
+	/// <summary>
+	/// Add an action-rule to the unit. </summary>
+	public virtual void AddActionRule(Rule actionRule)
 	{
-		actionRules.add(actionRule);
+		actionRules.Add(actionRule);
 	}
 
-	@Override
-	public Collection<Rule> getActionRules()
+	public virtual ICollection<Rule> ActionRules
 	{
-		return Collections.unmodifiableList(actionRules);
+		get
+		{
+		return actionRules.AsReadOnly();
+		}
 	}
 
-	/** Add a filter function to the unit. */
-	public void addFilterFunction(FilterFunction filterFunction)
+	/// <summary>
+	/// Add a filter function to the unit. </summary>
+	public virtual void AddFilterFunction(FilterFunction filterFunction)
 	{
-		filterFunctions.add(filterFunction);
+		filterFunctions.Add(filterFunction);
 	}
 
-	@Override
-	public Collection<FilterFunction> getFilterFunctions()
+	public virtual ICollection<FilterFunction> FilterFunctions
 	{
-		return Collections.unmodifiableList(filterFunctions);
+		get
+		{
+		return filterFunctions.AsReadOnly();
+		}
 	}
 
-	/** Add a match class to the unit. */
-	public void addMatchClass(DefinedMatchType matchClass)
+	/// <summary>
+	/// Add a match class to the unit. </summary>
+	public virtual void AddMatchClass(DefinedMatchType matchClass)
 	{
-		matchClasses.add(matchClass);
+		matchClasses.Add(matchClass);
 	}
 
-	@Override
-	public Collection<DefinedMatchType> getMatchClasses()
+	public virtual ICollection<DefinedMatchType> MatchClasses
 	{
-		return Collections.unmodifiableList(matchClasses);
+		get
+		{
+		return matchClasses.AsReadOnly();
+		}
 	}
 
-	/** Add a match filter function to the unit. */
-	public void addMatchClassFilterFunction(MatchClassFilterFunction matchClassFilterFunction)
+	/// <summary>
+	/// Add a match filter function to the unit. </summary>
+	public virtual void AddMatchClassFilterFunction(MatchClassFilterFunction matchClassFilterFunction)
 	{
-		matchClassFilterFunctions.add(matchClassFilterFunction);
+		matchClassFilterFunctions.Add(matchClassFilterFunction);
 	}
 
-	@Override
-	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions()
+	public virtual ICollection<MatchClassFilterFunction> MatchClassFilterFunctions
 	{
-		return Collections.unmodifiableList(matchClassFilterFunctions);
+		get
+		{
+		return matchClassFilterFunctions.AsReadOnly();
+		}
 	}
 
-	/** Add a function to the unit. */
-	public void addFunction(Function function)
+	/// <summary>
+	/// Add a function to the unit. </summary>
+	public virtual void AddFunction(Function function)
 	{
-		functions.add(function);
+		functions.Add(function);
 	}
 
-	@Override
-	public Collection<Function> getFunctions()
+	public virtual ICollection<Function> Functions
 	{
-		return Collections.unmodifiableList(functions);
+		get
+		{
+		return functions.AsReadOnly();
+		}
 	}
 
-	/** Add a procedure to the unit. */
-	public void addProcedure(Procedure procedure)
+	/// <summary>
+	/// Add a procedure to the unit. </summary>
+	public virtual void AddProcedure(Procedure procedure)
 	{
-		procedures.add(procedure);
+		procedures.Add(procedure);
 	}
 
-	@Override
-	public Collection<Procedure> getProcedures()
+	public virtual ICollection<Procedure> Procedures
 	{
-		return Collections.unmodifiableList(procedures);
+		get
+		{
+		return procedures.AsReadOnly();
+		}
 	}
 
-	/** Add a sequence to the unit. */
-	public void addSequence(Sequence sequence)
+	/// <summary>
+	/// Add a sequence to the unit. </summary>
+	public virtual void AddSequence(Sequence sequence)
 	{
-		sequences.add(sequence);
+		sequences.Add(sequence);
 	}
 
-	@Override
-	public Collection<Sequence> getSequences()
+	public virtual ICollection<Sequence> Sequences
 	{
-		return Collections.unmodifiableList(sequences);
+		get
+		{
+		return sequences.AsReadOnly();
+		}
 	}
 
-	/** Add a package to the unit. */
-	public void addPackage(PackageActionType packageActionType)
+	/// <summary>
+	/// Add a package to the unit. </summary>
+	public virtual void AddPackage(PackageActionType packageActionType)
 	{
-		packages.add(packageActionType);
+		packages.Add(packageActionType);
 	}
 
-	public Collection<PackageActionType> getPackages()
+	public virtual ICollection<PackageActionType> Packages
 	{
-		return Collections.unmodifiableList(packages);
+		get
+		{
+		return packages.AsReadOnly();
+		}
 	}
 
-	public Model getActionsGraphModel()
+	public virtual Model ActionsGraphModel
 	{
-		return models.get(0);
+		get
+		{
+		return models[0];
+		}
 	}
 
-	public String getActionsGraphModelName()
+	public virtual string ActionsGraphModelName
 	{
-		return models.get(0).getIdent().toString();
+		get
+		{
+		return models[0].Ident.ToString();
+		}
 	}
 
-	/** @return The unit name of this unit. */
-	public String getUnitName()
+	/// <returns> The unit name of this unit. </returns>
+	public virtual string UnitName
 	{
+		get
+		{
 		return unitName;
+		}
 	}
 
-	/** @return The source filename corresponding to this unit. */
-	public String getFilename()
+	/// <returns> The source filename corresponding to this unit. </returns>
+	public virtual string Filename
 	{
+		get
+		{
 		return filename;
+		}
 	}
 
-	@Override
-	public void addFields(Map<String, Object> fields)
+	public override void AddFields(IDictionary<string, object> fields)
 	{
-		super.addFields(fields);
-		fields.put("models", models.iterator());
+		base.AddFields(fields);
+		fields["models"] = models.GetEnumerator();
 	}
 
-	@Override
-	protected void canonicalizeLocal()
+	protected internal override void CanonicalizeLocal()
 	{
 		//Collections.sort(models, Identifiable.COMPARATOR);
 		//Collections.sort(actions, Identifiable.COMPARATOR);
 		//Collections.sort(subpatterns, Identifiable.COMPARATOR);
 
-		for(Model model : models) {
-			model.canonicalize();
-		}
+		foreach(Model model in models)
+			model.Canonicalize();
 	}
 
-	public void addToDigest(StringBuffer sb)
+	public virtual void AddToDigest(StringBuilder sb)
 	{
-		for(Model model : models) {
-			model.addToDigest(sb);
-		}
+		foreach(Model model in models)
+			model.AddToDigest(sb);
 	}
 
-	/** Build the digest string of this type model. */
-	private void buildDigest()
+	/// <summary>
+	/// Build the digest string of this type model. </summary>
+	private void BuildDigest()
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
-		addToDigest(sb);
+		AddToDigest(sb);
 
-		try {
-			byte[] serialData = sb.toString().getBytes("US-ASCII");
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			digest = Util.hexString(md.digest(serialData));
-		} catch(Exception e) {
-			e.printStackTrace(System.err);
+		try
+		{
+			sbyte[] serialData = sb.ToString().GetBytes(Encoding.ASCII);
+			MessageDigest md = MessageDigest.GetInstance("MD5");
+			digest = Util.HexString(md.Digest(serialData));
+		}
+		catch(Exception e)
+		{
+			e.PrintStackTrace(System.err);
 			digest = "<error>";
 		}
 
 		digestValid = true;
 	}
 
-	/** Get the digest of this type model. */
-	public final String getTypeDigest()
+	/// <summary>
+	/// Get the digest of this type model. </summary>
+	public string TypeDigest
 	{
+		get
+		{
 		if(!digestValid)
-			buildDigest();
+			BuildDigest();
 
 		return digest;
-	}
-
-	public void postPatchIR()
-	{
-		for(Model model : models) {
-			//model.forceFunctionsParallel(); // comment out to parallelize everything as far as possible, for testing - don't forget "uncomment to parallelize everything as far as possible, for testing"
-			postPatchIR(model);
-			for(PackageType pt : model.getPackages()) {
-				postPatchIR(pt);
-			}
 		}
-		postPatchIR(new ComposedActionsBearer(this));
 	}
 
-	public static void postPatchIR(NodeEdgeEnumBearer bearer)
+	public virtual void PostPatchIR()
+	{
+		foreach(Model model in models)
+		{
+			//model.forceFunctionsParallel(); // comment out to parallelize everything as far as possible, for testing - don't forget "uncomment to parallelize everything as far as possible, for testing"
+			PostPatchIR(model);
+			foreach(PackageType pt in model.Packages)
+				PostPatchIR(pt);
+		}
+		PostPatchIR(new ComposedActionsBearer(this));
+	}
+
+	public static void PostPatchIR(NodeEdgeEnumBearer bearer)
 	{
 		// deferred step that has to be done after IR was built
 		// filling in transitive members for inheritance types
 		// can't be called during IR building because of dependencies (node/edge attributes of subtypes)
-		for(InheritanceType type : bearer.getNodeTypes()) {
-			type.getAllMembers(); // checks overwriting of attributes
-		}
-		for(InheritanceType type : bearer.getEdgeTypes()) {
-			type.getAllMembers(); // checks overwriting of attributes
-		}
-		for(InheritanceType type : bearer.getObjectTypes()) {
-			type.getAllMembers(); // checks overwriting of attributes
-		}
-		for(InheritanceType type : bearer.getTransientObjectTypes()) {
-			type.getAllMembers(); // checks overwriting of attributes
-		}
+		foreach(InheritanceType type in bearer.NodeTypes)
+			type.AllMembers; // checks overwriting of attributes
+		foreach(InheritanceType type in bearer.EdgeTypes)
+			type.AllMembers; // checks overwriting of attributes
+		foreach(InheritanceType type in bearer.ObjectTypes)
+			type.AllMembers; // checks overwriting of attributes
+		foreach(InheritanceType type in bearer.TransientObjectTypes)
+			type.AllMembers; // checks overwriting of attributes
 	}
 
-	public static void postPatchIR(ActionsBearer bearer)
+	public static void PostPatchIR(ActionsBearer bearer)
 	{
 		/*for(Rule actionRule : bearer.getActionRules()) {
 			if(!actionRule.getAnnotations().containsKey("parallelize")) // uncomment to parallelize everything as far as possible, for testing
@@ -315,103 +357,108 @@ public class Unit extends IR implements ActionsBearer
 		}*/
 	}
 
-	public void checkForEmptyPatternsInIterateds()
+	public virtual void CheckForEmptyPatternsInIterateds()
 	{
-		checkForEmptyPatternsInIterateds(new ComposedActionsBearer(this));
+		CheckForEmptyPatternsInIterateds(new ComposedActionsBearer(this));
 	}
 
-	public static void checkForEmptyPatternsInIterateds(ActionsBearer bearer)
+	public static void CheckForEmptyPatternsInIterateds(ActionsBearer bearer)
 	{
 		// iterateds don't terminate if they match an empty pattern again and again
 		// so we compute maybe empty/epsilon patterns and emit error messages if they occur inside an iterated
-		for(Rule actionRule : bearer.getActionRules()) {
-			actionRule.pattern.checkForEmptyPatternsInIterateds();
-		}
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternRule.pattern.checkForEmptyPatternsInIterateds();
-		}
+		foreach(Rule actionRule in bearer.ActionRules)
+			actionRule.pattern.CheckForEmptyPatternsInIterateds();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+			subpatternRule.pattern.CheckForEmptyPatternsInIterateds();
 	}
 
-	public void checkForEmptySubpatternRecursions()
+	public virtual void CheckForEmptySubpatternRecursions()
 	{
-		checkForEmptySubpatternRecursions(new ComposedActionsBearer(this));
+		CheckForEmptySubpatternRecursions(new ComposedActionsBearer(this));
 	}
 
-	public static void checkForEmptySubpatternRecursions(ActionsBearer bearer)
+	public static void CheckForEmptySubpatternRecursions(ActionsBearer bearer)
 	{
 		// subpatterns may not terminate if there is a recursion only involving empty terminal graphs
 		// so we compute the subpattern derivation paths containing only empty graphs
 		// and emit error messages if they contain a subpattern calling itself
 		HashSet<PatternGraphLhs> subpatternsAlreadyVisited = new HashSet<PatternGraphLhs>();
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternsAlreadyVisited.add(subpatternRule.pattern);
-			subpatternRule.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisited);
-			subpatternsAlreadyVisited.clear();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+		{
+			subpatternsAlreadyVisited.Add(subpatternRule.pattern);
+			subpatternRule.pattern.CheckForEmptySubpatternRecursions(subpatternsAlreadyVisited);
+			subpatternsAlreadyVisited.Clear();
 		}
 	}
 
-	public void checkForNeverSucceedingSubpatternRecursions()
+	public virtual void CheckForNeverSucceedingSubpatternRecursions()
 	{
-		checkForNeverSucceedingSubpatternRecursions(new ComposedActionsBearer(this));
+		CheckForNeverSucceedingSubpatternRecursions(new ComposedActionsBearer(this));
 	}
 
-	public static void checkForNeverSucceedingSubpatternRecursions(ActionsBearer bearer)
+	public static void CheckForNeverSucceedingSubpatternRecursions(ActionsBearer bearer)
 	{
 		// matching a subpattern never terminates successfully 
 		// if there is no terminal pattern on any of its alternative branches/bodies
 		// emit an error message in this case (it might be the case more often, this is what we can tell for sure)
 		HashSet<PatternGraphLhs> subpatternsAlreadyVisited = new HashSet<PatternGraphLhs>();
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternsAlreadyVisited.add(subpatternRule.pattern);
-			if(subpatternRule.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisited)) {
-				error.warning(subpatternRule.getIdent().getCoords(), "Matching the subpattern "
-						+ subpatternRule.getIdent()
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+		{
+			subpatternsAlreadyVisited.Add(subpatternRule.pattern);
+			if(subpatternRule.pattern.IsNeverTerminatingSuccessfully(subpatternsAlreadyVisited))
+			{
+				error.Warning(subpatternRule.Ident.Coords, "Matching the subpattern "
+						+ subpatternRule.Ident
 						+ " will never terminate successfully (endless recursion on any path, only (potentially) terminated by failing matching).");
 			}
-			subpatternsAlreadyVisited.clear();
+			subpatternsAlreadyVisited.Clear();
 		}
 	}
 
-	public void checkForMultipleRetypes()
+	public virtual void CheckForMultipleRetypes()
 	{
-		checkForMultipleRetypes(new ComposedActionsBearer(this));
+		CheckForMultipleRetypes(new ComposedActionsBearer(this));
 	}
 
-	public static void checkForMultipleRetypes(ActionsBearer bearer)
+	public static void CheckForMultipleRetypes(ActionsBearer bearer)
 	{
 		// an iterated may cause an element matched once to be retyped multiple times
 		// check for this situation (collect elements on descending over nesting structure, 
 		// spark checker on visiting an iterated to check its local and nested content)
 		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
 		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();
-		for(Rule actionRule : bearer.getActionRules()) {
-			if(actionRule.getRight() != null) {
-				actionRule.pattern.checkForMultipleRetypes(
-						alreadyDefinedNodes, alreadyDefinedEdges, actionRule.getRight());
-				alreadyDefinedNodes.clear();
-				alreadyDefinedEdges.clear();
+		foreach(Rule actionRule in bearer.ActionRules)
+		{
+			if(actionRule.Right != null)
+			{
+				actionRule.pattern.CheckForMultipleRetypes(
+						alreadyDefinedNodes, alreadyDefinedEdges, actionRule.Right);
+				alreadyDefinedNodes.Clear();
+				alreadyDefinedEdges.Clear();
 			}
 		}
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			if(subpatternRule.getRight() != null) {
-				subpatternRule.pattern.checkForMultipleRetypes(
-						alreadyDefinedNodes, alreadyDefinedEdges, subpatternRule.getRight());
-				alreadyDefinedNodes.clear();
-				alreadyDefinedEdges.clear();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+		{
+			if(subpatternRule.Right != null)
+			{
+				subpatternRule.pattern.CheckForMultipleRetypes(
+						alreadyDefinedNodes, alreadyDefinedEdges, subpatternRule.Right);
+				alreadyDefinedNodes.Clear();
+				alreadyDefinedEdges.Clear();
 			}
 		}
 	}
 
-	public void checkForMultipleDeletesOrRetypes()
+	public virtual void CheckForMultipleDeletesOrRetypes()
 	{
 		ComposedActionsBearer bearer = new ComposedActionsBearer(this);
-		checkForMultipleDeletesOrRetypesGlobal(bearer);
-		checkForMultipleRetypesLocal(bearer);
+		CheckForMultipleDeletesOrRetypesGlobal(bearer);
+		CheckForMultipleRetypesLocal(bearer);
 	}
 
 	// protection against multiple changes (from retypes or deletes) of an element on a subpattern call path
 	// (potentially homomorphically matched, inter-pattern)
-	public static void checkForMultipleDeletesOrRetypesGlobal(ActionsBearer bearer)
+	public static void CheckForMultipleDeletesOrRetypesGlobal(ActionsBearer bearer)
 	{
 		// an element may be deleted/retyped several times at different nesting levels
 		// or even in a subpattern called and outside of this subpattern
@@ -419,42 +466,42 @@ public class Unit extends IR implements ActionsBearer
 		// and emit error messages if this is not the case
 
 		// initial step: compute the subpatterns where a subpattern is used
-		HashMap<Rule, HashSet<Rule>> subpatternsDefToUse = new HashMap<Rule, HashSet<Rule>>();
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternsDefToUse.put(subpatternRule, new HashSet<Rule>());
-		}
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternRule.computeUsageDependencies(subpatternsDefToUse, subpatternRule);
-		}
+		Dictionary<Rule, HashSet<Rule>> subpatternsDefToUse = new Dictionary<Rule, HashSet<Rule>>();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+			subpatternsDefToUse[subpatternRule] = new HashSet<Rule>();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+			subpatternRule.ComputeUsageDependencies(subpatternsDefToUse, subpatternRule);
 		// then: compute which parameters may get deleted/retyped, 
 		// if this information changed from before, the used subpatterns are added to a worklist
 		// which is processed step by step until it gets empty due to a fixpoint being reached
-		HashMap<Rule, HashMap<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern = new HashMap<Rule, HashMap<Entity, Rule>>();
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternsToParametersToTheirDeletingOrRetypingPattern.put(subpatternRule, new HashMap<Entity, Rule>());
-			for(Entity param : subpatternRule.getParameters()) {
-				subpatternsToParametersToTheirDeletingOrRetypingPattern.get(subpatternRule).put(param, null);
-			}
+		Dictionary<Rule, Dictionary<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern = new Dictionary<Rule, Dictionary<Entity, Rule>>();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+		{
+			subpatternsToParametersToTheirDeletingOrRetypingPattern[subpatternRule] = new Dictionary<Entity, Rule>();
+			foreach(Entity param in subpatternRule.Parameters)
+				subpatternsToParametersToTheirDeletingOrRetypingPattern[subpatternRule][param] = null;
 		}
-		ArrayDeque<Rule> subpatternsToProcess = new ArrayDeque<Rule>();
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternsToProcess.add(subpatternRule);
-		}
-		while(subpatternsToProcess.size() > 0) {
-			Rule subpattern = subpatternsToProcess.remove();
-			boolean changed = subpattern.checkForMultipleDeletesOrRetypes(new HashMap<Entity, Rule>(),
+		LinkedList<Rule> subpatternsToProcess = new LinkedList<Rule>();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+			subpatternsToProcess.AddLast(subpatternRule);
+		while(subpatternsToProcess.Count > 0)
+		{
+			Rule subpattern = subpatternsToProcess.RemoveFirst();
+			bool changed = subpattern.CheckForMultipleDeletesOrRetypes(new Dictionary<Entity, Rule>(),
 					subpatternsToParametersToTheirDeletingOrRetypingPattern);
-			if(changed) {
-				for(Rule needsRecomputation : subpatternsDefToUse.get(subpattern)) {
-					if(!subpatternsToProcess.contains(needsRecomputation)) {
-						subpatternsToProcess.add(needsRecomputation);
-					}
+			if(changed)
+			{
+				foreach(Rule needsRecomputation in subpatternsDefToUse[subpattern])
+				{
+					if(!subpatternsToProcess.Contains(needsRecomputation))
+						subpatternsToProcess.AddLast(needsRecomputation);
 				}
 			}
 		}
 		// finally: do the computation on the (non-callable) rules
-		for(Rule actionRule : bearer.getActionRules()) {
-			actionRule.checkForMultipleDeletesOrRetypes(new HashMap<Entity, Rule>(),
+		foreach(Rule actionRule in bearer.ActionRules)
+		{
+			actionRule.CheckForMultipleDeletesOrRetypes(new Dictionary<Entity, Rule>(),
 					subpatternsToParametersToTheirDeletingOrRetypingPattern);
 		}
 	}
@@ -463,22 +510,20 @@ public class Unit extends IR implements ActionsBearer
 	// (within/intra-pattern; note that a retype and a delete or multiple deletes 
 	// of a homomorphically matched element are ok -- SPO-like deletion has priority,
 	// while multiple deletes won't harm/are idempotent)
-	public static void checkForMultipleRetypesLocal(ActionsBearer bearer)
+	public static void CheckForMultipleRetypesLocal(ActionsBearer bearer)
 	{
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternRule.checkForMultipleRetypesLocal();
-		}
-		for(Rule actionRule : bearer.getActionRules()) {
-			actionRule.checkForMultipleRetypesLocal();
-		}
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+			subpatternRule.CheckForMultipleRetypesLocal();
+		foreach(Rule actionRule in bearer.ActionRules)
+			actionRule.CheckForMultipleRetypesLocal();
 	}
 
-	public void transmitExecUsageToRules()
+	public virtual void TransmitExecUsageToRules()
 	{
-		transmitExecUsageToRules(new ComposedActionsBearer(this));
+		TransmitExecUsageToRules(new ComposedActionsBearer(this));
 	}
 
-	public static void transmitExecUsageToRules(ActionsBearer bearer)
+	public static void TransmitExecUsageToRules(ActionsBearer bearer)
 	{
 		// if an alternative, iterated, or subpattern used from a rule employs an exec,
 		// the execs are not executed directly but added to a to-be-executed-queue;
@@ -487,35 +532,34 @@ public class Unit extends IR implements ActionsBearer
 		// so we generate the queue-executing code only for them
 
 		// step 1a: compute the subpatterns and rules where a subpattern is used
-		HashMap<Rule, HashSet<Rule>> defToUse = new HashMap<Rule, HashSet<Rule>>();
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			defToUse.put(subpatternRule, new HashSet<Rule>());
-		}
-		for(Rule actionRule : bearer.getActionRules()) {
-			defToUse.put(actionRule, new HashSet<Rule>());
-		}
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternRule.computeUsageDependencies(defToUse, subpatternRule);
-		}
-		for(Rule actionRule : bearer.getActionRules()) {
-			actionRule.computeUsageDependencies(defToUse, actionRule);
-		}
+		Dictionary<Rule, HashSet<Rule>> defToUse = new Dictionary<Rule, HashSet<Rule>>();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+			defToUse[subpatternRule] = new HashSet<Rule>();
+		foreach(Rule actionRule in bearer.ActionRules)
+			defToUse[actionRule] = new HashSet<Rule>();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+			subpatternRule.ComputeUsageDependencies(defToUse, subpatternRule);
+		foreach(Rule actionRule in bearer.ActionRules)
+			actionRule.ComputeUsageDependencies(defToUse, actionRule);
 		// step 1b: compute which subpatterns and rules use non-direct execs (alternative,iterated,usage of subpattern with exec)
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternRule.mightThereBeDeferredExecs = subpatternRule.isUsingNonDirectExec(false);
-		}
-		for(Rule actionRule : bearer.getActionRules()) {
-			actionRule.mightThereBeDeferredExecs = actionRule.isUsingNonDirectExec(true);
-		}
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+			subpatternRule.mightThereBeDeferredExecs = subpatternRule.IsUsingNonDirectExec(false);
+		foreach(Rule actionRule in bearer.ActionRules)
+			actionRule.mightThereBeDeferredExecs = actionRule.IsUsingNonDirectExec(true);
 		// step 2: propagate the exec-using to the subpatterns and rules containing the exec-using-subpatterns
 		// until nothing changes, i.e. a fixpoint was reached
-		boolean changed;
-		do {
+		bool changed;
+		do
+		{
 			changed = false;
-			for(Rule subpatternRule : bearer.getSubpatternRules()) {
-				if(subpatternRule.mightThereBeDeferredExecs) {
-					for(Rule toBeMarkedAsNonDirectExecUser : defToUse.get(subpatternRule)) {
-						if(!toBeMarkedAsNonDirectExecUser.mightThereBeDeferredExecs) {
+			foreach(Rule subpatternRule in bearer.SubpatternRules)
+			{
+				if(subpatternRule.mightThereBeDeferredExecs)
+				{
+					foreach(Rule toBeMarkedAsNonDirectExecUser in defToUse[subpatternRule])
+					{
+						if(!toBeMarkedAsNonDirectExecUser.mightThereBeDeferredExecs)
+						{
 							toBeMarkedAsNonDirectExecUser.mightThereBeDeferredExecs = true;
 							changed = true;
 						}
@@ -525,99 +569,97 @@ public class Unit extends IR implements ActionsBearer
 		} while(changed);
 
 		// final step: remove the information again from the subpatterns to prevent the exec-dequeing code being called from there
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
 			subpatternRule.mightThereBeDeferredExecs = false;
-		}
 	}
 
-	public void resolvePatternLockedModifier()
+	public virtual void ResolvePatternLockedModifier()
 	{
-		resolvePatternLockedModifier(new ComposedActionsBearer(this));
+		ResolvePatternLockedModifier(new ComposedActionsBearer(this));
 	}
 
-	public static void resolvePatternLockedModifier(ActionsBearer bearer)
+	public static void ResolvePatternLockedModifier(ActionsBearer bearer)
 	{
-		for(Rule actionRule : bearer.getActionRules()) {
-			actionRule.pattern.resolvePatternLockedModifier();
-		}
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternRule.pattern.resolvePatternLockedModifier();
-		}
+		foreach(Rule actionRule in bearer.ActionRules)
+			actionRule.pattern.ResolvePatternLockedModifier();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+			subpatternRule.pattern.ResolvePatternLockedModifier();
 	}
 
-	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern()
+	public virtual void EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern()
 	{
-		ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(new ComposedActionsBearer(this));
+		EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(new ComposedActionsBearer(this));
 	}
 
-	public static void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(ActionsBearer bearer)
+	public static void EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(ActionsBearer bearer)
 	{
 		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
 		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();
 		HashSet<Variable> alreadyDefinedVariables = new HashSet<Variable>();
-		for(Rule actionRule : bearer.getActionRules()) {
-			actionRule.pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+		foreach(Rule actionRule in bearer.ActionRules)
+		{
+			actionRule.pattern.EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodes, alreadyDefinedEdges, alreadyDefinedVariables,
-					actionRule.getRight());
-			alreadyDefinedNodes.clear();
-			alreadyDefinedEdges.clear();
-			alreadyDefinedVariables.clear();
+					actionRule.Right);
+			alreadyDefinedNodes.Clear();
+			alreadyDefinedEdges.Clear();
+			alreadyDefinedVariables.Clear();
 		}
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternRule.pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+		{
+			subpatternRule.pattern.EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodes, alreadyDefinedEdges, alreadyDefinedVariables,
-					subpatternRule.getRight());
-			alreadyDefinedNodes.clear();
-			alreadyDefinedEdges.clear();
-			alreadyDefinedVariables.clear();
+					subpatternRule.Right);
+			alreadyDefinedNodes.Clear();
+			alreadyDefinedEdges.Clear();
+			alreadyDefinedVariables.Clear();
 		}
 	}
 
-	public void checkForRhsElementsUsedOnLhs()
+	public virtual void CheckForRhsElementsUsedOnLhs()
 	{
-		checkForRhsElementsUsedOnLhs(new ComposedActionsBearer(this));
+		CheckForRhsElementsUsedOnLhs(new ComposedActionsBearer(this));
 	}
 
-	public static void checkForRhsElementsUsedOnLhs(ActionsBearer bearer)
+	public static void CheckForRhsElementsUsedOnLhs(ActionsBearer bearer)
 	{
-		for(Rule actionRule : bearer.getActionRules()) {
-			actionRule.checkForRhsElementsUsedOnLhs();
-		}
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternRule.checkForRhsElementsUsedOnLhs();
-		}
+		foreach(Rule actionRule in bearer.ActionRules)
+			actionRule.CheckForRhsElementsUsedOnLhs();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+			subpatternRule.CheckForRhsElementsUsedOnLhs();
 	}
 
-	public void setDependencyLevelOfInterElementDependencies()
+	public virtual void SetDependencyLevelOfInterElementDependencies()
 	{
-		setDependencyLevelOfInterElementDependencies(new ComposedActionsBearer(this));
+		DependencyLevelOfInterElementDependencies = new ComposedActionsBearer(this);
 	}
 
 	public static void setDependencyLevelOfInterElementDependencies(ActionsBearer bearer)
 	{
-		for(Rule actionRule : bearer.getActionRules()) {
-			actionRule.setDependencyLevelOfInterElementDependencies();
-		}
-		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			subpatternRule.setDependencyLevelOfInterElementDependencies();
-		}
+		foreach(Rule actionRule in bearer.ActionRules)
+			actionRule.SetDependencyLevelOfInterElementDependencies();
+		foreach(Rule subpatternRule in bearer.SubpatternRules)
+			subpatternRule.SetDependencyLevelOfInterElementDependencies();
 	}
 
-	public void checkForParallelizedModelIfParallelizedActionExists()
+	public virtual void CheckForParallelizedModelIfParallelizedActionExists()
 	{
-		checkForParallelizedModelIfParallelizedActionExists(new ComposedActionsBearer(this), getActionsGraphModel());
+		CheckForParallelizedModelIfParallelizedActionExists(new ComposedActionsBearer(this), ActionsGraphModel);
 	}
 
-	public static void checkForParallelizedModelIfParallelizedActionExists(ActionsBearer bearer, Model model)
+	public static void CheckForParallelizedModelIfParallelizedActionExists(ActionsBearer bearer, Model model)
 	{
-		if(!model.areFunctionsParallel()) {
-			for(Rule actionRule : bearer.getActionRules()) {
-				if(actionRule.getAnnotations().containsKey("parallelize")) {
-					error.error(actionRule.getIdent().getCoords(), "Parallelized matching is requested from the action "
-							+ actionRule.getIdent() + ","
+		if(!model.AreFunctionsParallel())
+		{
+			foreach(Rule actionRule in bearer.ActionRules)
+			{
+				if(actionRule.Annotations.ContainsKey("parallelize"))
+					error.Error(actionRule.Ident.Coords, "Parallelized matching is requested from the action "
+							+ actionRule.Ident + ","
 							+ " but parallelization is not requested in the model (\"for function[parallelize=true];\").");
-				}
 			}
 		}
 	}
+}
+
 }

@@ -1,40 +1,43 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.stmt;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.parser.Coords;
-
-/**
- * AST node representing an eval statement that contains nested statements; it opens a block.
- * (For non-top-level statements (eval part, function, procedure).)
- */
-public abstract class NestingStatementNode extends EvalStatementNode
+namespace de.unika.ipd.grgen.ast.stmt
 {
-	static {
-		setClassName(NestingStatementNode.class, "NestingStatement");
+using de.unika.ipd.grgen.ast;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// AST node representing an eval statement that contains nested statements; it opens a block.
+/// (For non-top-level statements (eval part, function, procedure).)
+/// </summary>
+public abstract class NestingStatementNode : EvalStatementNode
+{
+	static NestingStatementNode()
+	{
+		SetClassName(typeof(NestingStatementNode), "NestingStatement");
 	}
 
-	protected CollectNode<EvalStatementNode> statements;
+	protected internal CollectNode<EvalStatementNode> statements;
 
-	protected NestingStatementNode(Coords coords, CollectNode<EvalStatementNode> statements)
+	protected internal NestingStatementNode(Coords coords, CollectNode<EvalStatementNode> statements)
+		: base(coords)
 	{
-		super(coords);
 		this.statements = statements;
-		becomeParent(this.statements);
+		BecomeParent(this.statements);
 	}
 
 	/*public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		return true;
 	}*/
+}
+
 }

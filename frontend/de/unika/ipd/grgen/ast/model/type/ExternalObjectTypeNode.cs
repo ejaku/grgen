@@ -1,220 +1,238 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.model.type;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
-import de.unika.ipd.grgen.ast.decl.executable.Operator;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
-import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
-import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
-
-/**
- * A class representing an external object type
- */
-public class ExternalObjectTypeNode extends InheritanceTypeNode
+namespace de.unika.ipd.grgen.ast.model.type
 {
-	static {
-		setClassName(ExternalObjectTypeNode.class, "external object type");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using ExternalFunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.ExternalFunctionDeclNode;
+using ExternalProcedureDeclNode = de.unika.ipd.grgen.ast.decl.executable.ExternalProcedureDeclNode;
+using OperatorDeclNode = de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+using OperatorEvaluator = de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
+using Operator = de.unika.ipd.grgen.ast.decl.executable.Operator;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using ExternalFunctionMethod = de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;
+using ExternalProcedureMethod = de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
+using ExternalObjectType = de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
+
+/// <summary>
+/// A class representing an external object type
+/// </summary>
+public class ExternalObjectTypeNode : InheritanceTypeNode
+{
+	static ExternalObjectTypeNode()
+	{
+		SetClassName(typeof(ExternalObjectTypeNode), "external object type");
 	}
 
 	private CollectNode<ExternalObjectTypeNode> extend;
 
-	/**
-	 * Create a new external object type
-	 * @param ext The collect node containing the types which are extended by this type.
-	 */
+	/// <summary>
+	/// Create a new external object type </summary>
+	/// <param name="ext"> The collect node containing the types which are extended by this type. </param>
 	public ExternalObjectTypeNode(CollectNode<IdentNode> ext, CollectNode<BaseNode> body)
 	{
 		this.extendUnresolved = ext;
-		becomeParent(this.extendUnresolved);
+		BecomeParent(this.extendUnresolved);
 		this.bodyUnresolved = body;
-		becomeParent(this.bodyUnresolved);
+		BecomeParent(this.bodyUnresolved);
 
 		// allow the conditional operator on the external type
-		OperatorDeclNode.makeOp(Operator.COND, this,
+		OperatorDeclNode.MakeOp(Operator.COND, this,
 				new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(getValidVersionCollectNode(extendUnresolved, extend));
-		children.add(getValidVersionCollectNode(bodyUnresolved, body));
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(GetValidVersionCollectNode(extendUnresolved, extend));
+		children.Add(GetValidVersionCollectNode(bodyUnresolved, body));
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("extends");
-		childrenNames.add("body");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("extends");
+		childrenNames.Add("body");
 		return childrenNames;
+		}
 	}
 
-	private static final CollectResolver<ExternalObjectTypeNode> extendResolver =
-			new CollectResolver<ExternalObjectTypeNode>(new DeclarationTypeResolver<ExternalObjectTypeNode>(ExternalObjectTypeNode.class));
+	private static readonly CollectResolver<ExternalObjectTypeNode> extendResolver =
+			new CollectResolver<ExternalObjectTypeNode>(new DeclarationTypeResolver<ExternalObjectTypeNode>(typeof(ExternalObjectTypeNode)));
 
-	private static final CollectResolver<BaseNode> bodyResolver =
-			new CollectResolver<BaseNode>(new DeclarationResolver<BaseNode>(ExternalFunctionDeclNode.class, ExternalProcedureDeclNode.class));
+	private static readonly CollectResolver<BaseNode> bodyResolver =
+			new CollectResolver<BaseNode>(new DeclarationResolver<BaseNode>(typeof(ExternalFunctionDeclNode), typeof(ExternalProcedureDeclNode)));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		OperatorDeclNode.makeOp(Operator.COND, this, new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.GE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.GT, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.LE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
-		OperatorDeclNode.makeBinOp(Operator.LT, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeOp(Operator.COND, this, new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorEvaluator.condEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.EQ, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.NE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.GE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.GT, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.LE, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
+		OperatorDeclNode.MakeBinOp(Operator.LT, BasicTypeNode.booleanType, this, this, OperatorEvaluator.emptyEvaluator);
 
-		body = bodyResolver.resolve(bodyUnresolved, this);
-		extend = extendResolver.resolve(extendUnresolved, this);
+		body = bodyResolver.Resolve(bodyUnresolved, this);
+		extend = extendResolver.Resolve(extendUnresolved, this);
 
 		// Initialize direct sub types
-		if(extend != null) {
-			for(InheritanceTypeNode type : extend.getChildrenExact()) {
-				type.addDirectSubType(this);
-			}
+		if(extend != null)
+		{
+			foreach(InheritanceTypeNode type in extend.ChildrenExact)
+				type.AddDirectSubType(this);
 		}
 
 		return body != null && extend != null;
 	}
 
-	/**
-	 * Get the IR external object type for this AST node.
-	 * @return The correctly casted IR external object type.
-	 */
-	protected ExternalObjectType getIRExternalObjectType()
+	/// <summary>
+	/// Get the IR external object type for this AST node. </summary>
+	/// <returns> The correctly casted IR external object type. </returns>
+	protected internal virtual ExternalObjectType IRExternalObjectType
 	{
-		return checkIR(ExternalObjectType.class);
+		get
+		{
+		return CheckIR(typeof(ExternalObjectType));
+		}
 	}
 
-	/**
-	 * Construct IR object for this AST node.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+	/// <summary>
+	/// Construct IR object for this AST node. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
 	{
-		if(isIRAlreadySet()) { // break endless recursion in case of a member of node/edge type
-			return getIR();
-		}
+		if(IsIRAlreadySet()) // break endless recursion in case of a member of node/edge type
+			return IR;
 
-		ExternalObjectType et = new ExternalObjectType(getDecl().getIdent().getIRIdent());
+		ExternalObjectType et = new ExternalObjectType(Decl.GetIdent().GetIRIdent());
 
-		setIR(et);
+		IR = et;
 
-		constructIR(et);
+		ConstructIR(et);
 
 		return et;
 	}
 
-	protected void constructIR(ExternalObjectType extType)
+	protected internal virtual void ConstructIR(ExternalObjectType extType)
 	{
-		for(BaseNode child : body.getChildrenExact()) {
-			if(child instanceof ExternalFunctionDeclNode) {
-				extType.addExternalFunctionMethod(child.checkIR(ExternalFunctionMethod.class));
-			} else {
-				extType.addExternalProcedureMethod(child.checkIR(ExternalProcedureMethod.class));
-			}
+		foreach(BaseNode child in body.ChildrenExact)
+		{
+			if(child is ExternalFunctionDeclNode)
+				extType.AddExternalFunctionMethod(child.CheckIR(typeof(ExternalFunctionMethod)));
+			else
+				extType.AddExternalProcedureMethod(child.CheckIR(typeof(ExternalProcedureMethod)));
 		}
-		for(InheritanceTypeNode inh : getDirectSuperTypes()) {
-			extType.addDirectSuperType(inh.getInheritanceIRType());
+		foreach(InheritanceTypeNode inh in DirectSuperTypes)
+			extType.AddDirectSuperType(inh.InheritanceIRType);
+	}
+
+	public override void DoGetCompatibleToTypes(ICollection<TypeNode> coll)
+	{
+		Debug.Assert(IsResolved());
+
+		foreach(ExternalObjectTypeNode inh in extend.ChildrenExact)
+		{
+			coll.Add(inh);
+			coll.AddAll(inh.CompatibleToTypes);
 		}
 	}
 
-	@Override
-	public void doGetCompatibleToTypes(Collection<TypeNode> coll)
+	public static string KindStr
 	{
-		assert isResolved();
-
-		for(ExternalObjectTypeNode inh : extend.getChildrenExact()) {
-			coll.add(inh);
-			coll.addAll(inh.getCompatibleToTypes());
-		}
-	}
-
-	public static String getKindStr()
-	{
+		get
+		{
 		return "external class";
+		}
 	}
 
-	@Override
-	public Collection<InheritanceTypeNode> getDirectSuperTypes()
+	public override ICollection<InheritanceTypeNode> DirectSuperTypes
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
-		return new ArrayList<InheritanceTypeNode>(extend.getChildrenExact());
+		return new List<InheritanceTypeNode>(extend.ChildrenExact);
+		}
 	}
 
-	@Override
-	protected void getMembers(Map<String, DeclNode> members)
+	protected internal override void GetMembers(IDictionary<string, DeclNode> members)
 	{
-		for(BaseNode child : body.getChildrenExact()) {
-			if(child instanceof ExternalFunctionDeclNode) {
+		foreach(BaseNode child in body.ChildrenExact)
+		{
+			if(child is ExternalFunctionDeclNode)
+			{
 				ExternalFunctionDeclNode function = (ExternalFunctionDeclNode)child;
-				checkExternalFunctionOverride(function);
-			} else if(child instanceof ExternalProcedureDeclNode) {
+				CheckExternalFunctionOverride(function);
+			}
+			else if(child is ExternalProcedureDeclNode)
+			{
 				ExternalProcedureDeclNode procedure = (ExternalProcedureDeclNode)child;
-				checkExternalProcedureOverride(procedure);
+				CheckExternalProcedureOverride(procedure);
 			}
 		}
 	}
 
-	private void checkExternalFunctionOverride(ExternalFunctionDeclNode function)
+	private void CheckExternalFunctionOverride(ExternalFunctionDeclNode function)
 	{
-		for(InheritanceTypeNode base : getAllSuperTypes()) {
-			for(BaseNode baseChild : base.getBody().getChildrenExact()) {
-				if(baseChild instanceof ExternalFunctionDeclNode) {
+		foreach(InheritanceTypeNode @base in AllSuperTypes)
+		{
+			foreach(BaseNode baseChild in @base.Body.ChildrenExact)
+			{
+				if(baseChild is ExternalFunctionDeclNode)
+				{
 					ExternalFunctionDeclNode functionBase = (ExternalFunctionDeclNode)baseChild;
-					if(function.ident.toString().equals(functionBase.ident.toString()))
+					if(function.ident.ToString().Equals(functionBase.ident.ToString()))
 						checkSignatureAdhered(functionBase, function);
 				}
 			}
 		}
 	}
-	
-	private void checkExternalProcedureOverride(ExternalProcedureDeclNode procedure)
+
+	private void CheckExternalProcedureOverride(ExternalProcedureDeclNode procedure)
 	{
-		for(InheritanceTypeNode base : getAllSuperTypes()) {
-			for(BaseNode baseChild : base.getBody().getChildrenExact()) {
-				if(baseChild instanceof ExternalProcedureDeclNode) {
+		foreach(InheritanceTypeNode @base in AllSuperTypes)
+		{
+			foreach(BaseNode baseChild in @base.Body.ChildrenExact)
+			{
+				if(baseChild is ExternalProcedureDeclNode)
+				{
 					ExternalProcedureDeclNode procedureBase = (ExternalProcedureDeclNode)baseChild;
-					if(procedure.ident.toString().equals(procedureBase.ident.toString()))
-						checkSignatureAdhered(procedureBase, procedure);
+					if(procedure.ident.ToString().Equals(procedureBase.ident.ToString()))
+						CheckSignatureAdhered(procedureBase, procedure);
 				}
 			}
 		}
 	}
+}
+
 }

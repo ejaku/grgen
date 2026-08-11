@@ -1,106 +1,106 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.util.report;
+namespace de.unika.ipd.grgen.util.report
+{
 
-import java.util.HashSet;
-import java.util.Set;
+using System.Collections.Generic;
 
-/**
- * Base class for a reporting facility
- */
+/// <summary>
+/// Base class for a reporting facility
+/// </summary>
 public abstract class Reporter
 {
 	private int mask = 0;
 
-	protected final Set<Handler> handlers = new HashSet<Handler>();
+	protected internal readonly ISet<Handler> handlers = new HashSet<Handler>();
 
-	/**
-	 * Add a handler to this reporter
-	 * @param handler The handler to add
-	 */
-	public void addHandler(Handler handler)
+	/// <summary>
+	/// Add a handler to this reporter </summary>
+	/// <param name="handler"> The handler to add </param>
+	public virtual void AddHandler(Handler handler)
 	{
-		handlers.add(handler);
+		handlers.Add(handler);
 	}
 
-	/**
-	 * Remove a handler from this reporter
-	 * @param handler The handler to remove
-	 */
-	public void removeHandler(Handler handler)
+	/// <summary>
+	/// Remove a handler from this reporter </summary>
+	/// <param name="handler"> The handler to remove </param>
+	public virtual void RemoveHandler(Handler handler)
 	{
-		handlers.remove(handler);
+		handlers.Remove(handler);
 	}
 
-	/**
-	 * Set the reporting level.
-	 * Setting it to 0 will disable all reporting. Basically, all messages
-	 * with reporting level smaller than <code>level</code> will be displayed.
-	 * @param level The new level for the reporter.
-	 */
-	public void setMask(int mask)
+	/// <summary>
+	/// Set the reporting level.
+	/// Setting it to 0 will disable all reporting. Basically, all messages
+	/// with reporting level smaller than <code>level</code> will be displayed. </summary>
+	/// <param name="level"> The new level for the reporter. </param>
+	public virtual int Mask
 	{
-		this.mask = mask;
+		set
+		{
+		this.mask = value;
+		}
 	}
 
-	public void enableChannel(int channel)
+	public virtual void EnableChannel(int channel)
 	{
 		mask |= channel;
 	}
 
-	public void disableChannel(int channel)
+	public virtual void DisableChannel(int channel)
 	{
 		mask &= ~channel;
 	}
 
-	/**
-	 * Disables reporting on this reporter.
-	 * Re-enable it by setting the level to some value > 0
-	 */
-	public void disable()
+	/// <summary>
+	/// Disables reporting on this reporter.
+	/// Re-enable it by setting the level to some value > 0
+	/// </summary>
+	public virtual void Disable()
 	{
 		mask = 0;
 	}
 
-	/**
-	 * Check whether this reporter is disabled
-	 * @return true, if no message will be reported, false otherwise.
-	 */
-	public boolean isDisabled()
+	/// <summary>
+	/// Check whether this reporter is disabled </summary>
+	/// <returns> true, if no message will be reported, false otherwise. </returns>
+	public virtual bool IsDisabled()
 	{
 		return mask == 0;
 	}
 
-	/**
-	 * Checks, whether a message supplied with this level will be reported
-	 * @param channel The channel to check
-	 * @return true, if the message would be reported, false if not.
-	 */
-	public boolean willReport(int channel)
+	/// <summary>
+	/// Checks, whether a message supplied with this level will be reported </summary>
+	/// <param name="channel"> The channel to check </param>
+	/// <returns> true, if the message would be reported, false if not. </returns>
+	public virtual bool WillReport(int channel)
 	{
 		return (channel & mask) != 0;
 	}
 
-	public void report(int level, Location loc, String msg)
+	public virtual void Report(int level, Location loc, string msg)
 	{
-		if(willReport(level)) {
-			for(Handler h : handlers) {
-				h.report(level, loc, msg);
-			}
+		if(WillReport(level))
+		{
+			foreach(Handler h in handlers)
+				h.Report(level, loc, msg);
 		}
 	}
 
-	public void report(int channel, String msg)
+	public virtual void Report(int channel, string msg)
 	{
-		report(channel, EmptyLocation.getEmptyLoc(), msg);
+		Report(channel, EmptyLocation.EmptyLoc, msg);
 	}
+}
+
 }

@@ -1,49 +1,51 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.stmt;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
-import de.unika.ipd.grgen.ir.NeededEntities;
-
-/**
- * Represents a multi statement in the IR.
- */
-public class MultiStatement extends EvalStatement
+namespace de.unika.ipd.grgen.ir.stmt
 {
-	private ArrayList<EvalStatement> statements = new ArrayList<EvalStatement>();
+
+using System.Collections.Generic;
+
+using NeededEntities = de.unika.ipd.grgen.ir.NeededEntities;
+
+/// <summary>
+/// Represents a multi statement in the IR.
+/// </summary>
+public class MultiStatement : EvalStatement
+{
+	private List<EvalStatement> statements = new List<EvalStatement>();
 
 	public MultiStatement()
+		: base("multi statement")
 	{
-		super("multi statement");
 	}
 
-	public void addStatement(EvalStatement loopedStatement)
+	public virtual void AddStatement(EvalStatement loopedStatement)
 	{
-		statements.add(loopedStatement);
+		statements.Add(loopedStatement);
 	}
 
-	public Collection<EvalStatement> getStatements()
+	public virtual ICollection<EvalStatement> Statements
 	{
-		return Collections.unmodifiableList(statements);
-	}
-
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
-	{
-		for(EvalStatement statement : statements) {
-			statement.collectNeededEntities(needs);
+		get
+		{
+		return statements.AsReadOnly();
 		}
 	}
+
+	public override void CollectNeededEntities(NeededEntities needs)
+	{
+		foreach(EvalStatement statement in statements)
+			statement.CollectNeededEntities(needs);
+	}
+}
+
 }

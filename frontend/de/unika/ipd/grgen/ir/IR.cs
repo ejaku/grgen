@@ -1,103 +1,110 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author shack
- */
+/// <summary>
+/// @author shack
+/// </summary>
 
-package de.unika.ipd.grgen.ir;
-
-import java.awt.Color;
-import java.util.Map;
-
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.GraphDumpable;
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.XMLDumpable;
-
-/**
- * Base class for all IR classes.
- */
-public abstract class IR extends Base implements GraphDumpable, XMLDumpable
+namespace de.unika.ipd.grgen.ir
 {
-	/** The name of this IR object */
-	private String name;
 
-	/** Names of the children of this node */
-	private String[] childrenNames;
+using System.Collections.Generic;
 
-	/** children name object for children without names */
-	private static final String[] noChildrenNames = { };
+using Base = de.unika.ipd.grgen.util.Base;
+using GraphDumpable = de.unika.ipd.grgen.util.GraphDumpable;
+using GraphDumper = de.unika.ipd.grgen.util.GraphDumper;
+using XMLDumpable = de.unika.ipd.grgen.util.XMLDumpable;
 
-	private boolean canonicalValid = false;
+/// <summary>
+/// Base class for all IR classes.
+/// </summary>
+public abstract class IR : Base, GraphDumpable, XMLDumpable
+{
+	/// <summary>
+	/// The name of this IR object </summary>
+	private string name;
 
-	/** Make a new IR object and name it. */
-	protected IR(String name)
+	/// <summary>
+	/// Names of the children of this node </summary>
+	private string[] childrenNames;
+
+	/// <summary>
+	/// children name object for children without names </summary>
+	private static readonly string[] noChildrenNames = new string[] { };
+
+	private bool canonicalValid = false;
+
+	/// <summary>
+	/// Make a new IR object and name it. </summary>
+	protected internal IR(string name)
 	{
 		this.name = name;
 		childrenNames = noChildrenNames;
 	}
 
-	/** @return true, if this ir object is bad, false otherwise. */
-	public boolean isBad()
+	/// <returns> true, if this ir object is bad, false otherwise. </returns>
+	public virtual bool IsBad()
 	{
 		return false;
 	}
 
-	/** @return The name of this IR object (that is group, node, edge, test, ...). */
-	public String getName()
+	/// <returns> The name of this IR object (that is group, node, edge, test, ...). </returns>
+	public virtual string Name
+	{
+		get
+		{
+		return name;
+		}
+		set // Set the name of this IR object.
+		{
+		name = value;
+		}
+	}
+
+
+	/// <summary>
+	/// View an IR object as a string.
+	/// The string of an IR object is its name. </summary>
+	/// <seealso cref="java.lang.Object.toString()"/>
+	public override string ToString()
 	{
 		return name;
 	}
 
-	/** Set the name of this IR object. */
-	public void setName(String newName)
+	/// <summary>
+	/// Set the names of the children of this node. </summary>
+	/// <param name="names"> A string array with the names. </param>
+	protected internal virtual string[] ChildrenNames
 	{
-		name = newName;
+		set
+		{
+		this.childrenNames = value;
+		}
 	}
 
-	/**
-	 * View an IR object as a string.
-	 * The string of an IR object is its name.
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString()
-	{
-		return name;
-	}
-
-	/**
-	 * Set the names of the children of this node.
-	 * @param names A string array with the names.
-	 */
-	protected void setChildrenNames(String[] names)
-	{
-		this.childrenNames = names;
-	}
-
-	/**
-	 * Build the canonical form.
-	 * Compound types must sort their members alphabetically.
-	 */
-	protected void canonicalizeLocal()
+	/// <summary>
+	/// Build the canonical form.
+	/// Compound types must sort their members alphabetically.
+	/// </summary>
+	protected internal virtual void CanonicalizeLocal()
 	{
 		// default implementation for IR objects without named members
 	}
 
-	public final void canonicalize()
+	public void Canonicalize()
 	{
-		if(!canonicalValid) {
-			canonicalizeLocal();
+		if(!canonicalValid)
+		{
+			CanonicalizeLocal();
 			canonicalValid = true;
 		}
 	}
 
-	protected final void invalidateCanonical()
+	protected internal void InvalidateCanonical()
 	{
 		canonicalValid = false;
 	}
@@ -106,83 +113,97 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	// XML dumping
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	/** @return Name of the tag as string. */
-	@Override
-	public String getTagName()
+	/// <returns> Name of the tag as string. </returns>
+	public virtual string TagName
 	{
-		return getName().replace(' ', '_');
+		get
+		{
+		return Name.Replace(' ', '_');
+		}
 	}
 
-	/** @return Name of the tag that expresses a reference to this object. */
-	@Override
-	public String getRefTagName()
+	/// <returns> Name of the tag that expresses a reference to this object. </returns>
+	public virtual string RefTagName
 	{
-		return getName().replace(' ', '_') + "_ref";
+		get
+		{
+		return Name.Replace(' ', '_') + "_ref";
+		}
 	}
 
-	/**
-	 * Add the XML fields to a map.
-	 * @param fields The map to add the fields to.
-	 */
-	@Override
-	public void addFields(Map<String, Object> fields)
+	/// <summary>
+	/// Add the XML fields to a map. </summary>
+	/// <param name="fields"> The map to add the fields to. </param>
+	public virtual void AddFields(IDictionary<string, object> fields)
 	{
 		// empty
 	}
 
-	/** @return A unique ID for this object. */
-	@Override
-	public String getXMLId()
+	/// <returns> A unique ID for this object. </returns>
+	public virtual string XMLId
 	{
-		return getId();
+		get
+		{
+		return Id;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// graph dumping
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId() */
-	@Override
-	public String getNodeId()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeId() "/>
+	public virtual string NodeId
 	{
-		return getId();
+		get
+		{
+		return Id;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
-	@Override
-	public Color getNodeColor()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeColor() "/>
+	public virtual Color NodeColor
 	{
+		get
+		{
 		return Color.WHITE;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeShape() */
-	@Override
-	public int getNodeShape()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeShape() "/>
+	public virtual int NodeShape
 	{
+		get
+		{
 		return GraphDumper.DEFAULT;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
-	@Override
-	public String getNodeLabel()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeLabel() "/>
+	public virtual string NodeLabel
 	{
+		get
+		{
 		return name;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo() */
-	@Override
-	public String getNodeInfo()
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeInfo() "/>
+	public virtual string NodeInfo
 	{
-		return "ID: " + getId();
+		get
+		{
+		return "ID: " + Id;
+		}
 	}
 
-	/**
-	 * By default this object has the number of the edge as edge label.
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
-	 */
-	@Override
-	public String getEdgeLabel(int edge)
+	/// <summary>
+	/// By default this object has the number of the edge as edge label. </summary>
+	/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getEdgeLabel(int)"/>
+	public virtual string GetEdgeLabel(int edge)
 	{
-		return edge < childrenNames.length ? childrenNames[edge] : "" + edge;
+		return edge < childrenNames.Length ? childrenNames[edge] : "" + edge;
 	}
+}
+
 }

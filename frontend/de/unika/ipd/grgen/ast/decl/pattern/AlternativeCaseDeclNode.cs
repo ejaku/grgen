@@ -1,146 +1,154 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast.decl.pattern;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.executable.NestedMatcherDeclNode;
-import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
-import de.unika.ipd.grgen.ast.type.AlternativeCaseTypeNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.executable.Rule;
-import de.unika.ipd.grgen.ir.executable.Rule.RuleKind;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
-import de.unika.ipd.grgen.ir.stmt.EvalStatements;
-
-/**
- * AST node for an alternative case pattern, maybe including replacements.
- */
-public class AlternativeCaseDeclNode extends NestedMatcherDeclNode
+namespace de.unika.ipd.grgen.ast.decl.pattern
 {
-	static {
-		setClassName(AlternativeCaseDeclNode.class, "alternative case");
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
+using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
+using NestedMatcherDeclNode = de.unika.ipd.grgen.ast.decl.executable.NestedMatcherDeclNode;
+using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
+using AlternativeCaseTypeNode = de.unika.ipd.grgen.ast.type.AlternativeCaseTypeNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using de.unika.ipd.grgen.ast.util;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Rule = de.unika.ipd.grgen.ir.executable.Rule;
+using RuleKind = de.unika.ipd.grgen.ir.executable.Rule.RuleKind;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using PatternGraphRhs = de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
+using EvalStatements = de.unika.ipd.grgen.ir.stmt.EvalStatements;
+
+/// <summary>
+/// AST node for an alternative case pattern, maybe including replacements.
+/// </summary>
+public class AlternativeCaseDeclNode : NestedMatcherDeclNode
+{
+	static AlternativeCaseDeclNode()
+	{
+		SetClassName(typeof(AlternativeCaseDeclNode), "alternative case");
 	}
 
 	private AlternativeCaseTypeNode type;
 
-	/** Type for this declaration. */
-	private static final TypeNode alternativeCaseType = new AlternativeCaseTypeNode();
+	/// <summary>
+	/// Type for this declaration. </summary>
+	private static readonly TypeNode alternativeCaseType = new AlternativeCaseTypeNode();
 
-	/**
-	 * Make a new alternative case rule.
-	 * @param id The identifier of this rule.
-	 * @param left The left hand side (The pattern to match).
-	 * @param right The right hand side.
-	 */
+	/// <summary>
+	/// Make a new alternative case rule. </summary>
+	/// <param name="id"> The identifier of this rule. </param>
+	/// <param name="left"> The left hand side (The pattern to match). </param>
+	/// <param name="right"> The right hand side. </param>
 	public AlternativeCaseDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)
+		 : base(id, alternativeCaseType, left, right)
 	{
-		super(id, alternativeCaseType, left, right);
 	}
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
+	/// <summary>
+	/// returns children of this node </summary>
+	public override ICollection<BaseNode> Children
 	{
-		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
-		children.add(pattern);
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ident);
+		children.Add(GetValidVersion(typeUnresolved, type));
+		children.Add(pattern);
 		if(right != null)
-			children.add(right);
+			children.Add(right);
 		return children;
+		}
 	}
 
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
+	/// <summary>
+	/// returns names of the children, same order as in getChildren </summary>
+	public override ICollection<string> ChildrenNames
 	{
-		List<String> childrenNames = new ArrayList<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("pattern");
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("ident");
+		childrenNames.Add("type");
+		childrenNames.Add("pattern");
 		if(right != null)
-			childrenNames.add("right");
+			childrenNames.Add("right");
 		return childrenNames;
+		}
 	}
 
-	private static final DeclarationTypeResolver<AlternativeCaseTypeNode> typeResolver =
-		new DeclarationTypeResolver<AlternativeCaseTypeNode>(AlternativeCaseTypeNode.class);
+	private static readonly DeclarationTypeResolver<AlternativeCaseTypeNode> typeResolver =
+		new DeclarationTypeResolver<AlternativeCaseTypeNode>(typeof(AlternativeCaseTypeNode));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		type = typeResolver.resolve(typeUnresolved, this);
+		type = typeResolver.Resolve(typeUnresolved, this);
 
 		return type != null;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	@Override
-	protected IR constructIR()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
+	protected internal override IR ConstructIR()
 	{
 		// return if the pattern graph already constructed the IR object
 		// that may happen in recursive patterns (and other usages/references)
-		if(isIRAlreadySet()) {
-			return getIR();
-		}
+		if(IsIRAlreadySet())
+			return IR;
 
-		Rule altCaseRule = new Rule(getIdent().getIRIdent(), RuleKind.AlternativeCase);
+		Rule altCaseRule = new Rule(Ident.IRIdent, Rule.RuleKind.AlternativeCase);
 
 		// mark this node as already visited
-		setIR(altCaseRule);
+		IR = altCaseRule;
 
-		PatternGraphLhs left = pattern.getIRPatternGraphLhs();
+		PatternGraphLhs left = pattern.IRPatternGraphLhs;
 
 		PatternGraphRhs rightPattern = null;
-		if(right != null) {
-			rightPattern = right.getIRPatternGraph(left);
-		}
+		if(right != null)
+			rightPattern = right.GetIRPatternGraph(left);
 
-		altCaseRule.initialize(left, rightPattern);
+		altCaseRule.Initialize(left, rightPattern);
 
-		constructImplicitNegs(left);
-		constructIRaux(altCaseRule, right);
+		ConstructImplicitNegs(left);
+		ConstructIRaux(altCaseRule, right);
 
 		// add Eval statements to the IR
-		if(right != null) {
-			for(EvalStatements evalStatement : right.getRhsGraph().getEvalStatements()) {
-				altCaseRule.addEval(evalStatement);
-			}
+		if(right != null)
+		{
+			foreach(EvalStatements evalStatement in right.RhsGraph.EvalStatements)
+				altCaseRule.AddEval(evalStatement);
 		}
 
 		return altCaseRule;
 	}
 
-	@Override
-	public TypeNode getDeclType()
+	public override TypeNode DeclType
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 
 		return type;
+		}
 	}
 
-	public static String getKindStr()
+	public static string KindStr
 	{
+		get
+		{
 		return "alternative case";
+		}
 	}
+}
+
 }

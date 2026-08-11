@@ -1,45 +1,47 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ast;
-
-import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.parser.Coords;
-
-public abstract class FilterInvocationBaseNode extends BaseNode
+namespace de.unika.ipd.grgen.ast
 {
-	static {
-		setClassName(FilterInvocationBaseNode.class, "filter invocation base");
+using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
+using de.unika.ipd.grgen.ast.util;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public abstract class FilterInvocationBaseNode : BaseNode
+{
+	static FilterInvocationBaseNode()
+	{
+		SetClassName(typeof(FilterInvocationBaseNode), "filter invocation base");
 	}
 
-	protected IdentNode iteratedUnresolved;
-	protected IteratedDeclNode iterated;
+	protected internal IdentNode iteratedUnresolved;
+	protected internal IteratedDeclNode iterated;
 
 	public FilterInvocationBaseNode(Coords coords, IdentNode iteratedUnresolved)
+		: base(coords)
 	{
-		super(coords);
-		this.iteratedUnresolved = becomeParent(iteratedUnresolved);
+		this.iteratedUnresolved = BecomeParent(iteratedUnresolved);
 	}
 
-	private static final DeclarationResolver<IteratedDeclNode> iteratedResolver =
-			new DeclarationResolver<IteratedDeclNode>(IteratedDeclNode.class);
+	private static readonly DeclarationResolver<IteratedDeclNode> iteratedResolver =
+			new DeclarationResolver<IteratedDeclNode>(typeof(IteratedDeclNode));
 
-	@Override
-	protected boolean resolveLocal()
+	protected internal override bool ResolveLocal()
 	{
 		// owner
-		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
+		iterated = iteratedResolver.Resolve(iteratedUnresolved, this);
 		if(iterated == null)
 			return false;
 		return true;
 	}
+}
+
 }

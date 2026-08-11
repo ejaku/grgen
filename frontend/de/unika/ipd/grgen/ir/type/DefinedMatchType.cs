@@ -1,87 +1,103 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Edgar Jakumeit
- */
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
 
-package de.unika.ipd.grgen.ir.type;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import de.unika.ipd.grgen.ir.ContainedInPackage;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.executable.MatchClassFilter;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Node;
-import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.pattern.Variable;
-
-public class DefinedMatchType extends CompoundType implements ContainedInPackage
+namespace de.unika.ipd.grgen.ir.type
 {
-	private String packageContainedIn;
+
+using System.Collections.Generic;
+
+using ContainedInPackage = de.unika.ipd.grgen.ir.ContainedInPackage;
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using MatchClassFilter = de.unika.ipd.grgen.ir.executable.MatchClassFilter;
+using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
+using Node = de.unika.ipd.grgen.ir.pattern.Node;
+using PatternGraphLhs = de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+
+public class DefinedMatchType : CompoundType, ContainedInPackage
+{
+	private string packageContainedIn;
 	private PatternGraphLhs pattern;
-	private ArrayList<MatchClassFilter> matchClassFilters;
+	private List<MatchClassFilter> matchClassFilters;
 
-	public DefinedMatchType(String name, Ident ident, PatternGraphLhs pattern)
+	public DefinedMatchType(string name, Ident ident, PatternGraphLhs pattern)
+		: base(name, ident)
 	{
-		super(name, ident);
 		this.pattern = pattern;
-		matchClassFilters = new ArrayList<MatchClassFilter>();
+		matchClassFilters = new List<MatchClassFilter>();
 	}
 
-	@Override
-	public String getPackageContainedIn()
+	public virtual string PackageContainedIn
 	{
+		get
+		{
 		return packageContainedIn;
+		}
+		set
+		{
+		this.packageContainedIn = value;
+		}
 	}
 
-	public void setPackageContainedIn(String packageContainedIn)
+
+	public virtual void AddMatchClassFilter(MatchClassFilter filter)
 	{
-		this.packageContainedIn = packageContainedIn;
+		matchClassFilters.Add(filter);
 	}
 
-	public void addMatchClassFilter(MatchClassFilter filter)
+	public virtual IList<MatchClassFilter> MatchClassFilters
 	{
-		matchClassFilters.add(filter);
+		get
+		{
+		return matchClassFilters.AsReadOnly();
+		}
 	}
 
-	public List<MatchClassFilter> getMatchClassFilters()
+	public virtual PatternGraphLhs PatternGraph
 	{
-		return Collections.unmodifiableList(matchClassFilters);
-	}
-
-	public PatternGraphLhs getPatternGraph()
-	{
+		get
+		{
 		return pattern;
+		}
 	}
 
-	public Collection<Node> getNodes()
+	public virtual ICollection<Node> Nodes
 	{
-		return pattern.getNodes();
+		get
+		{
+		return pattern.Nodes;
+		}
 	}
 
-	public Collection<Edge> getEdges()
+	public virtual ICollection<Edge> Edges
 	{
-		return pattern.getEdges();
+		get
+		{
+		return pattern.Edges;
+		}
 	}
 
-	public Collection<Variable> getVars()
+	public virtual ICollection<Variable> Vars
 	{
-		return pattern.getVars();
+		get
+		{
+		return pattern.Vars;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ir.type.Type#classify() */
-	@Override
-	public TypeClass classify()
+	/// <seealso cref="de.unika.ipd.grgen.ir.type.Type.classify() "/>
+	public override TypeClass Classify()
 	{
 		return TypeClass.IS_DEFINED_MATCH;
 	}
+}
+
 }

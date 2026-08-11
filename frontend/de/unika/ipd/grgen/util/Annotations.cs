@@ -1,36 +1,39 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-/**
- * @author Sebastian Hack
- */
+/// <summary>
+/// @author Sebastian Hack
+/// </summary>
 
-package de.unika.ipd.grgen.util;
+namespace de.unika.ipd.grgen.util
+{
 
-import java.util.Set;
+using System.Collections.Generic;
 
-/**
- * A collection of annotations.
- */
+/// <summary>
+/// A collection of annotations.
+/// </summary>
 public interface Annotations
 {
-	boolean containsKey(String key);
+	bool ContainsKey(string key);
 
-	Object get(String key);
+	object Get(string key);
 
-	boolean isInteger(String key);
+	bool IsInteger(string key);
 
-	boolean isBoolean(String key);
+	bool IsBoolean(string key);
 
-	boolean isString(String key);
+	bool IsString(string key);
 
-	boolean isFlagSet(String key);
+	bool IsFlagSet(string key);
 
-	void put(String key, Object value);
+	void Put(string key, object value);
 
-	Set<String> keySet();
+	ISet<string> KeySet();
+}
+
 }

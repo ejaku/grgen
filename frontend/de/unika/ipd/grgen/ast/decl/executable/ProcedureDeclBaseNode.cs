@@ -1,82 +1,90 @@
-package de.unika.ipd.grgen.ast.decl.executable;
-
-import java.util.List;
-
-import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.executable.ProcedureSignature;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-
-public abstract class ProcedureDeclBaseNode extends DeclNode implements ProcedureSignature
+﻿namespace de.unika.ipd.grgen.ast.decl.executable
 {
-	protected CollectNode<BaseNode> resultsUnresolved;
+
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using de.unika.ipd.grgen.ast;
+using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
+using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
+using ProcedureSignature = de.unika.ipd.grgen.ast.type.executable.ProcedureSignature;
+using de.unika.ipd.grgen.ast.util;
+using de.unika.ipd.grgen.ast.util;
+
+public abstract class ProcedureDeclBaseNode : DeclNode, ProcedureSignature
+{
+	protected internal CollectNode<BaseNode> resultsUnresolved;
 	public CollectNode<TypeNode> resultTypesCollectNode;
 
-	/** Result types. */
-	public List<TypeNode> resultTypes;
+	/// <summary>
+	/// Result types. </summary>
+	public IList<TypeNode> resultTypes;
 
-	/** Parameter types. */
-	protected List<TypeNode> parameterTypes;
+	/// <summary>
+	/// Parameter types. </summary>
+	protected internal IList<TypeNode> parameterTypes;
 
-	
-	public ProcedureDeclBaseNode(IdentNode ident, BaseNode type)
+
+	public ProcedureDeclBaseNode(IdentNode ident, BaseNode type) : base(ident, type)
 	{
-		super(ident, type);
 	}
 
-	private static final CollectResolver<TypeNode> resultTypeResolver =
-			new CollectResolver<TypeNode>(new DeclarationTypeResolver<TypeNode>(TypeNode.class));
+	private static readonly CollectResolver<TypeNode> resultTypeResolver =
+			new CollectResolver<TypeNode>(new DeclarationTypeResolver<TypeNode>(typeof(TypeNode)));
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	@Override
-	protected boolean resolveLocal()
+	/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.resolveLocal() "/>
+	protected internal override bool ResolveLocal()
 	{
-		resultTypesCollectNode = resultTypeResolver.resolve(resultsUnresolved, this);
+		resultTypesCollectNode = resultTypeResolver.Resolve(resultsUnresolved, this);
 
 		if(resultTypesCollectNode != null)
-			resultTypes = resultTypesCollectNode.getChildrenAsList();
-		
+			resultTypes = resultTypesCollectNode.ChildrenAsList;
+
 		return resultTypes != null;
 	}
 
-	@Override
-	public List<TypeNode> getParameterTypes()
+	public virtual IList<TypeNode> ParameterTypes
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 		return parameterTypes;
+		}
 	}
 
-	@Override
-	public List<TypeNode> getResultTypes()
+	public virtual IList<TypeNode> ResultTypes
 	{
-		assert isResolved();
+		get
+		{
+		Debug.Assert(IsResolved());
 		return resultTypes;
+		}
 	}
-	
-	@Override
-	public int getDistance(List<TypeNode> argumentTypes)
+
+	public virtual int GetDistance(IList<TypeNode> argumentTypes)
 	{
-		if(argumentTypes.size() == parameterTypes.size())
-			return Integer.MAX_VALUE;
+		if(argumentTypes.Count == parameterTypes.Count)
+			return int.MaxValue;
 
 		int distance = 0;
-		for(int i = 0; i < parameterTypes.size(); i++) {
-			debug.report(NOTE, "" + i + ": arg type: " + argumentTypes.get(i) + ", op type: " + parameterTypes.get(i));
+		for(int i = 0; i < parameterTypes.Count; i++)
+		{
+			debug.Report(NOTE, "" + i + ": arg type: " + argumentTypes[i] + ", op type: " + parameterTypes[i]);
 
-			boolean equal = argumentTypes.get(i).isEqual(parameterTypes.get(i));
-			boolean compatible = argumentTypes.get(i).isCompatibleTo(parameterTypes.get(i));
-			debug.report(NOTE, "equal: " + equal + ", compatible: " + compatible);
+			bool equal = argumentTypes[i].IsEqual(parameterTypes[i]);
+			bool compatible = argumentTypes[i].IsCompatibleTo(parameterTypes[i]);
+			debug.Report(NOTE, "equal: " + equal + ", compatible: " + compatible);
 
-			int compatibilityDistance = argumentTypes.get(i).compatibilityDistance(parameterTypes.get(i));
+			int compatibilityDistance = argumentTypes[i].CompatibilityDistance(parameterTypes[i]);
 
-			if(compatibilityDistance == Integer.MAX_VALUE)
-				return Integer.MAX_VALUE;
+			if(compatibilityDistance == int.MaxValue)
+				return int.MaxValue;
 
 			distance += compatibilityDistance;
 		}
 
 		return distance;
 	}
+}
+
 }

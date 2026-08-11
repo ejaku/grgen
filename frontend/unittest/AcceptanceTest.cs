@@ -1,104 +1,116 @@
-// by Claude Code with Edgar Jakumeit
+﻿// by Claude Code with Edgar Jakumeit
 
-package unittest;
+namespace unittest
+{
+using System;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+using Before = org.junit.Before;
+using BeforeClass = org.junit.BeforeClass;
+using Test = org.junit.Test;
+// JAVA TO C# CONVERTER TASK: This Java 'import static' statement cannot be converted to C#:
+//	import static org.junit.Assert.*;
 
-import de.unika.ipd.grgen.Main;
-import de.unika.ipd.grgen.ast.UnitNode;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
+using Main = de.unika.ipd.grgen.Main;
+using UnitNode = de.unika.ipd.grgen.ast.UnitNode;
+using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
-/**
- * Acceptance tests for the GrGen frontend compiler.
- * Uses JUnit as a safety net to verify that known-good inputs compile without errors.
- *
- * Extends Main via AcceptanceTestMain, overriding systemExit() to throw instead of terminating.
- */
+/// <summary>
+/// Acceptance tests for the GrGen frontend compiler.
+/// Uses JUnit as a safety net to verify that known-good inputs compile without errors.
+/// 
+/// Extends Main via AcceptanceTestMain, overriding systemExit() to throw instead of terminating.
+/// </summary>
 public class AcceptanceTest
 {
-	/** Exception thrown by AcceptanceTestMain.systemExit() instead of terminating the process. */
-	public static class SystemExitException extends RuntimeException
+	/// <summary>
+	/// Exception thrown by AcceptanceTestMain.systemExit() instead of terminating the process. </summary>
+	public class SystemExitException : Exception
 	{
-		public final int exitCode;
+		public readonly int exitCode;
 
-		public SystemExitException(int exitCode)
+		public SystemExitException(int exitCode) : base("systemExit(" + exitCode + ")")
 		{
-			super("systemExit(" + exitCode + ")");
 			this.exitCode = exitCode;
 		}
 	}
 
-	/** Main subclass that throws SystemExitException instead of calling System.exit(). */
-	static class AcceptanceTestMain extends Main
+	/// <summary>
+	/// Main subclass that throws SystemExitException instead of calling System.exit(). </summary>
+	internal class AcceptanceTestMain : Main
 	{
-		protected AcceptanceTestMain(String[] args)
+		protected internal AcceptanceTestMain(string[] args) : base(args)
 		{
-			super(args);
 		}
 
-		@Override
-		protected void systemExit(int status)
+		protected internal override void SystemExit(int status)
 		{
 			throw new SystemExitException(status);
 		}
 
-		/** Expose staticInit() for test setup. */
-		public static void doStaticInit()
+		/// <summary>
+		/// Expose staticInit() for test setup. </summary>
+		public static void DoStaticInit()
 		{
-			staticInit();
+			StaticInit();
 		}
 
-		/** Public entry point for tests. */
-		public void runCompiler()
+		/// <summary>
+		/// Public entry point for tests. </summary>
+		public virtual void RunCompiler()
 		{
-			run();
+			Run();
 		}
 	}
 
-	@BeforeClass
-	public static void staticSetup()
+// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
+// ORIGINAL LINE: @BeforeClass public static void staticSetup()
+	public static void StaticSetup()
 	{
-		AcceptanceTestMain.doStaticInit();
+		AcceptanceTestMain.DoStaticInit();
 	}
 
-	@Before
-	public void setup()
+// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
+// ORIGINAL LINE: @Before public void setup()
+	public virtual void Setup()
 	{
-		ErrorReporter.resetCounters();
-		UnitNode.clearRoot();
+		ErrorReporter.ResetCounters();
+		UnitNode.ClearRoot();
 	}
 
-	/** Run the compiler on the given input files (without backend/code generation). */
-	private void compile(String... inputFiles)
+	/// <summary>
+	/// Run the compiler on the given input files (without backend/code generation). </summary>
+	private void Compile(params string[] inputFiles)
 	{
 		AcceptanceTestMain main = new AcceptanceTestMain(inputFiles);
-		main.runCompiler();
+		main.RunCompiler();
 	}
 
-	@Test
-	public void allTypesWithAllTypesModel()
+// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
+// ORIGINAL LINE: @Test public void allTypesWithAllTypesModel()
+	public virtual void AllTypesWithAllTypesModel()
 	{
-		compile("unittest/all_types.grg", "unittest/all_types_model.gm");
-		assertEquals("No errors after compilation", 0, ErrorReporter.getErrorCount());
-		assertEquals("No warnings after compilation", 0, ErrorReporter.getWarnCount());
+		Compile("unittest/all_types.grg", "unittest/all_types_model.gm");
+		assertEquals("No errors after compilation", 0, ErrorReporter.ErrorCount);
+		assertEquals("No warnings after compilation", 0, ErrorReporter.WarnCount);
 	}
 
-	@Test
-	public void nestedAndSubpatterns()
+// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
+// ORIGINAL LINE: @Test public void nestedAndSubpatterns()
+	public virtual void NestedAndSubpatterns()
 	{
-		compile("unittest/nested_and_subpatterns.grg", "unittest/nested_and_subpatterns_model.gm");
-		assertEquals("No errors after compilation", 0, ErrorReporter.getErrorCount());
-		assertEquals("No warnings after compilation", 0, ErrorReporter.getWarnCount());
+		Compile("unittest/nested_and_subpatterns.grg", "unittest/nested_and_subpatterns_model.gm");
+		assertEquals("No errors after compilation", 0, ErrorReporter.ErrorCount);
+		assertEquals("No warnings after compilation", 0, ErrorReporter.WarnCount);
 	}
 
-	@Test
-	public void advancedConstructs()
+// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
+// ORIGINAL LINE: @Test public void advancedConstructs()
+	public virtual void AdvancedConstructs()
 	{
-		compile("unittest/advanced_constructs.grg", "unittest/advanced_constructs_model.gm");
-		assertEquals("No errors after compilation", 0, ErrorReporter.getErrorCount());
-		assertEquals("No warnings after compilation", 0, ErrorReporter.getWarnCount());
+		Compile("unittest/advanced_constructs.grg", "unittest/advanced_constructs_model.gm");
+		assertEquals("No errors after compilation", 0, ErrorReporter.ErrorCount);
+		assertEquals("No warnings after compilation", 0, ErrorReporter.WarnCount);
 	}
+}
+
 }

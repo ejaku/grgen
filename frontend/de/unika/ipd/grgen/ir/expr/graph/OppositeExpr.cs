@@ -1,44 +1,51 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.ir.expr.graph;
-
-import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
-import de.unika.ipd.grgen.ir.type.Type;
-
-public class OppositeExpr extends BuiltinFunctionInvocationExpr
+namespace de.unika.ipd.grgen.ir.expr.graph
 {
-	private final Expression edge;
-	private final Expression node;
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using BuiltinFunctionInvocationExpr = de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+public class OppositeExpr : BuiltinFunctionInvocationExpr
+{
+	private readonly Expression edge;
+	private readonly Expression node;
 
 	public OppositeExpr(Expression edge, Expression node, Type type)
+		: base("opposite expression", type)
 	{
-		super("opposite expression", type);
 		this.edge = edge;
 		this.node = node;
 	}
 
-	public Expression getEdgeExpr()
+	public virtual Expression EdgeExpr
 	{
+		get
+		{
 		return edge;
+		}
 	}
 
-	public Expression getNodeExpr()
+	public virtual Expression NodeExpr
 	{
+		get
+		{
 		return node;
+		}
 	}
 
-	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
-	@Override
-	public void collectNeededEntities(NeededEntities needs)
+	/// <seealso cref="de.unika.ipd.grgen.ir.expr.Expression.collectNeededEntities() "/>
+	public override void CollectNeededEntities(NeededEntities needs)
 	{
-		edge.collectNeededEntities(needs);
-		node.collectNeededEntities(needs);
+		edge.CollectNeededEntities(needs);
+		node.CollectNeededEntities(needs);
 	}
+}
+
 }
