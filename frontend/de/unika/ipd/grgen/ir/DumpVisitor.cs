@@ -26,6 +26,7 @@ namespace de.unika.ipd.grgen.ir
 	using GraphDumpableProxy = de.unika.ipd.grgen.util.GraphDumpableProxy;
 	using GraphDumper = de.unika.ipd.grgen.util.GraphDumper;
 	using Walkable = de.unika.ipd.grgen.util.Walkable; // does not make sense, Walkable references AST-children, unusable in IR
+	using Style = de.unika.ipd.grgen.util.Style;
 
 	/// <summary>
 	/// A IR pretty graph dumper.
@@ -111,7 +112,7 @@ namespace de.unika.ipd.grgen.ir
 							{
 								PrefixNode prefixFrom = prefixMap[hom1];
 								PrefixNode prefixTo = prefixMap[hom2];
-								dumper.Edge(prefixFrom, prefixTo, "hom", GraphDumper.DASHED);
+								dumper.Edge(prefixFrom, prefixTo, "hom", Style.DASHED);
 							}
 						}
 					}
@@ -147,7 +148,7 @@ namespace de.unika.ipd.grgen.ir
 					PrefixNode prefixLeft = new PrefixNode(this, node, "l");
 					PrefixNode prefixRight = new PrefixNode(this, node, "r");
 
-					dumper.Edge(prefixLeft, prefixRight, null, GraphDumper.DOTTED);
+					dumper.Edge(prefixLeft, prefixRight, null, Style.DOTTED);
 				}
 
 				foreach(Edge edge in rule.CommonEdges)
@@ -155,7 +156,7 @@ namespace de.unika.ipd.grgen.ir
 					PrefixNode prefixLeft = new PrefixNode(this, edge, "l");
 					PrefixNode prefixRight = new PrefixNode(this, edge, "r");
 
-					dumper.Edge(prefixLeft, prefixRight, null, GraphDumper.DOTTED);
+					dumper.Edge(prefixLeft, prefixRight, null, Style.DOTTED);
 				}
 
 				// dump evalations

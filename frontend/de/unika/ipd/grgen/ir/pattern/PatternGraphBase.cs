@@ -19,6 +19,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using GraphDumpable = de.unika.ipd.grgen.util.GraphDumpable;
 	using GraphDumper = de.unika.ipd.grgen.util.GraphDumper;
+	using Shape = de.unika.ipd.grgen.util.Shape;
 
 	/// <summary>
 	/// This is a base class for the pattern graph containing the nodes/edges, and analogously variables and subpatterns.
@@ -97,11 +98,11 @@ namespace de.unika.ipd.grgen.ir.pattern
 				}
 			}
 
-			public override int NodeShape
+			public override Shape NodeShape
 			{
 				get
 				{
-					return GraphDumper.ELLIPSE;
+					return Shape.ELLIPSE;
 				}
 			}
 

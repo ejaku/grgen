@@ -34,6 +34,7 @@ namespace de.unika.ipd.grgen.ast
 	using GraphDumper = de.unika.ipd.grgen.util.GraphDumper;
 	using Walkable = de.unika.ipd.grgen.util.Walkable;
 	using Color = de.unika.ipd.grgen.util.Color;
+	using Shape = de.unika.ipd.grgen.util.Shape;
 
 	/// <summary>
 	/// The base class for AST nodes.
@@ -1004,11 +1005,11 @@ namespace de.unika.ipd.grgen.ast
 		}
 
 		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpableNode.getNodeShape()"/>
-		public virtual int NodeShape
+		public virtual Shape NodeShape
 		{
 			get
 			{
-				return GraphDumper.DEFAULT;
+				return Shape.DEFAULT;
 			}
 		}
 

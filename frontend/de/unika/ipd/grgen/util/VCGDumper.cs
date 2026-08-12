@@ -32,14 +32,14 @@ namespace de.unika.ipd.grgen.util
 		private static string prefix = "n";
 
 		private static Dictionary<Color, string> colorMap;
-		private static Dictionary<int, string> shapeMap;
-		private static Dictionary<int, string> lineStyleMap;
+		private static Dictionary<Shape, string> shapeMap;
+		private static Dictionary<Style, string> lineStyleMap;
 
 		static VCGDumper()
 		{
 			colorMap = new Dictionary<Color, string>();
-			shapeMap = new Dictionary<int, string>();
-			lineStyleMap = new Dictionary<int, string>();
+			shapeMap = new Dictionary<Shape, string>();
+			lineStyleMap = new Dictionary<Style, string>();
 
 			colorMap[Color.BLACK] = "black";
 			colorMap[Color.BLUE] = "lightblue";
@@ -54,14 +54,14 @@ namespace de.unika.ipd.grgen.util
 			colorMap[Color.YELLOW] = "yellow";
 			colorMap[Color.WHITE] = "white";
 
-			shapeMap[new int?(GraphDumper.BOX)] = "box";
-			shapeMap[new int?(GraphDumper.RHOMB)] = "rhomb";
-			shapeMap[new int?(GraphDumper.ELLIPSE)] = "ellipse";
-			shapeMap[new int?(GraphDumper.TRIANGLE)] = "triangle";
+			shapeMap[Shape.BOX] = "box";
+			shapeMap[Shape.RHOMB] = "rhomb";
+			shapeMap[Shape.ELLIPSE] = "ellipse";
+			shapeMap[Shape.TRIANGLE] = "triangle";
 
-			lineStyleMap[new int?(GraphDumper.SOLID)] = "continuous";
-			lineStyleMap[new int?(GraphDumper.DASHED)] = "dashed";
-			lineStyleMap[new int?(GraphDumper.DOTTED)] = "dotted";
+			lineStyleMap[Style.SOLID] = "continuous";
+			lineStyleMap[Style.DASHED] = "dashed";
+			lineStyleMap[Style.DOTTED] = "dotted";
 		}
 
 		/// <summary>
@@ -149,7 +149,7 @@ namespace de.unika.ipd.grgen.util
 		private string GetNodeAttributes(GraphDumpable d)
 		{
 			string col = GetColor(d.NodeColor);
-			int? shp = new int?(d.NodeShape);
+			Shape shp = d.NodeShape;
 
 			string info = d.NodeInfo;
 			if(!string.ReferenceEquals(info, null))
@@ -175,7 +175,7 @@ namespace de.unika.ipd.grgen.util
 		}
 
 		public virtual void Edge(GraphDumpable from, GraphDumpable to, string label,
-				int style, Color color)
+				Style style, Color color)
 		{
 			if(from != null && to != null)
 			{
@@ -189,8 +189,8 @@ namespace de.unika.ipd.grgen.util
 
 				s += " color:" + col;
 
-				if(style != GraphDumper.DEFAULT)
-					s += " linestyle:" + lineStyleMap[new int?(style)];
+				if(style != Style.DEFAULT)
+					s += " linestyle:" + lineStyleMap[style];
 
 				s += "}";
 
@@ -198,19 +198,19 @@ namespace de.unika.ipd.grgen.util
 			}
 		}
 
-		public virtual void Edge(GraphDumpable from, GraphDumpable to, string label, int style)
+		public virtual void Edge(GraphDumpable from, GraphDumpable to, string label, Style style)
 		{
 			Edge(from, to, label, style, Color.BLACK);
 		}
 
 		public virtual void Edge(GraphDumpable from, GraphDumpable to, string label)
 		{
-			Edge(from, to, label, GraphDumper.DEFAULT, Color.BLACK);
+			Edge(from, to, label, Style.DEFAULT, Color.BLACK);
 		}
 
 		public virtual void Edge(GraphDumpable from, GraphDumpable to)
 		{
-			Edge(from, to, null, GraphDumper.DEFAULT, Color.BLACK);
+			Edge(from, to, null, Style.DEFAULT, Color.BLACK);
 		}
 
 		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumper.beginSubgraph(java.lang.String)"/>

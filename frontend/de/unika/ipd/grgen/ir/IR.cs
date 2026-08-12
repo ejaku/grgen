@@ -19,6 +19,7 @@ namespace de.unika.ipd.grgen.ir
 	using GraphDumper = de.unika.ipd.grgen.util.GraphDumper;
 	using XMLDumpable = de.unika.ipd.grgen.util.XMLDumpable;
 	using Color = de.unika.ipd.grgen.util.Color;
+	using Shape = de.unika.ipd.grgen.util.Shape;
 
 	/// <summary>
 	/// Base class for all IR classes.
@@ -172,11 +173,11 @@ namespace de.unika.ipd.grgen.ir
 		}
 
 		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeShape() "/>
-		public virtual int NodeShape
+		public virtual Shape NodeShape
 		{
 			get
 			{
-				return GraphDumper.DEFAULT;
+				return Shape.DEFAULT;
 			}
 		}
 

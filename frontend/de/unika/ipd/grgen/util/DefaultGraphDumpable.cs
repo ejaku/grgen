@@ -24,11 +24,11 @@ namespace de.unika.ipd.grgen.util
 		private ICollection<BaseNode> children = null;
 
 		private readonly Color color;
-		private readonly int shape;
+		private readonly Shape shape;
 		private readonly string label;
 		private readonly string info;
 
-		protected internal DefaultGraphDumpable(string label, string info, Color col, int shape)
+		protected internal DefaultGraphDumpable(string label, string info, Color col, Shape shape)
 		{
 			this.label = label;
 			this.shape = shape;
@@ -37,7 +37,7 @@ namespace de.unika.ipd.grgen.util
 		}
 
 		protected internal DefaultGraphDumpable(string label, string info, Color col)
-			: this(label, info, col, GraphDumper.DEFAULT)
+			: this(label, info, col, Shape.DEFAULT)
 		{
 		}
 
@@ -80,7 +80,7 @@ namespace de.unika.ipd.grgen.util
 		}
 
 		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeShape()"/>
-		public virtual int NodeShape
+		public virtual Shape NodeShape
 		{
 			get
 			{

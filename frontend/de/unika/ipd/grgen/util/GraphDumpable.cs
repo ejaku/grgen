@@ -29,7 +29,7 @@ namespace de.unika.ipd.grgen.util
 		/// Get the shape of this node. </summary>
 		/// <seealso cref="GraphDumper"/>
 		/// <returns> The node's shape </returns>
-		int NodeShape {get;}
+		Shape NodeShape {get;}
 
 		/// <summary>
 		/// Get the label for a node.

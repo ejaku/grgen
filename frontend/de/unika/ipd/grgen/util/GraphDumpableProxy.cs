@@ -56,7 +56,7 @@ namespace de.unika.ipd.grgen.util
 		}
 
 		/// <seealso cref="de.unika.ipd.grgen.util.GraphDumpable.getNodeShape()"/>
-		public virtual int NodeShape
+		public virtual Shape NodeShape
 		{
 			get
 			{

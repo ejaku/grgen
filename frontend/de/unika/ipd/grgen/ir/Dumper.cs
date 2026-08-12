@@ -36,6 +36,8 @@ namespace de.unika.ipd.grgen.ir
 	using GraphDumper = de.unika.ipd.grgen.util.GraphDumper;
 	using GraphDumperFactory = de.unika.ipd.grgen.util.GraphDumperFactory;
 	using Color = de.unika.ipd.grgen.util.Color;
+	using Shape = de.unika.ipd.grgen.util.Shape;
+	using Style = de.unika.ipd.grgen.util.Style;
 
 	/// <summary>
 	/// A custom dumper for the IR.
@@ -117,9 +119,9 @@ namespace de.unika.ipd.grgen.ir
 			{
 				Dump(patternGraph, dumper);
 				if(patternGraph == right)
-					dumper.Edge(pattern, patternGraph, patternGraph.NodeLabel.ToLower(), GraphDumper.DASHED, Color.GREEN);
+					dumper.Edge(pattern, patternGraph, patternGraph.NodeLabel.ToLower(), Style.DASHED, Color.GREEN);
 				else
-					dumper.Edge(pattern, patternGraph, patternGraph.NodeLabel.ToLower(), GraphDumper.DASHED, Color.RED);
+					dumper.Edge(pattern, patternGraph, patternGraph.NodeLabel.ToLower(), Style.DASHED, Color.RED);
 
 				if(interGraphEdges)
 				{
@@ -127,14 +129,14 @@ namespace de.unika.ipd.grgen.ir
 					{
 						if(pattern.HasNode(node))
 							dumper.Edge(pattern.GetLocalDumpable(node), patternGraph.GetLocalDumpable(node), "",
-									GraphDumper.DOTTED);
+									Style.DOTTED);
 					}
 
 					foreach(Edge edge in patternGraph.Edges)
 					{
 						if(pattern.HasEdge(edge))
 							dumper.Edge(pattern.GetLocalDumpable(edge), patternGraph.GetLocalDumpable(edge), "",
-									GraphDumper.DOTTED);
+									Style.DOTTED);
 					}
 				}
 			}
@@ -153,7 +155,7 @@ namespace de.unika.ipd.grgen.ir
 				if(evals.Count > 0)
 				{
 					dumper.BeginSubgraph("evals");
-					dumper.Edge(rule.Right, evals.GetEnumerator().Next(), "eval", GraphDumper.DASHED, Color.GRAY);
+					dumper.Edge(rule.Right, evals.GetEnumerator().Next(), "eval", Style.DASHED, Color.GRAY);
 				}
 
 				EvalStatement oldEvalStatement = null;
@@ -171,7 +173,7 @@ namespace de.unika.ipd.grgen.ir
 									Formatter.FormatConditionEval(target) + " = " + Formatter.FormatConditionEval(expr),
 									dumper);
 							if(oldEvalStatement != null)
-								dumper.Edge(oldEvalStatement, assignment, "next", GraphDumper.DASHED, Color.RED);
+								dumper.Edge(oldEvalStatement, assignment, "next", Style.DASHED, Color.RED);
 						}
 						else
 						{
@@ -229,11 +231,11 @@ namespace de.unika.ipd.grgen.ir
 				}
 			}
 
-			public int NodeShape
+			public Shape NodeShape
 			{
 				get
 				{
-					return GraphDumper.BOX;
+					return Shape.BOX;
 				}
 			}
 
@@ -292,11 +294,11 @@ namespace de.unika.ipd.grgen.ir
 				}
 			}
 
-			public int NodeShape
+			public Shape NodeShape
 			{
 				get
 				{
-					return GraphDumper.BOX;
+					return Shape.BOX;
 				}
 			}
 
@@ -349,11 +351,11 @@ namespace de.unika.ipd.grgen.ir
 				}
 			}
 
-			public int NodeShape
+			public Shape NodeShape
 			{
 				get
 				{
-					return GraphDumper.BOX;
+					return Shape.BOX;
 				}
 			}
 

@@ -14,23 +14,21 @@ namespace de.unika.ipd.grgen.util
 		BLACK, BLUE, CYAN, GRAY, DARK_GRAY, MAGENTA, ORANGE, GREEN, RED, PINK, YELLOW, WHITE
 	}
 
+	public enum Shape
+	{
+		DEFAULT = -1, BOX, RHOMB, ELLIPSE, TRIANGLE
+	}
+
+	public enum Style
+	{
+		DEFAULT = -1, SOLID, DASHED, DOTTED
+	}
+
 	/// <summary>
 	/// A Dumper for Graphs
 	/// </summary>
 	public interface GraphDumper
 	{
-
-		public static int DEFAULT = -1;
-
-		public static int BOX = 0;
-		public static int RHOMB = 1;
-		public static int ELLIPSE = 2;
-		public static int TRIANGLE = 3;
-
-		public static int SOLID = 0;
-		public static int DASHED = 1;
-		public static int DOTTED = 2;
-
 		void Begin();
 
 		void Finish();
@@ -43,9 +41,9 @@ namespace de.unika.ipd.grgen.util
 
 		void Node(GraphDumpable d);
 
-		void Edge(GraphDumpable from, GraphDumpable to, string label, int style, Color color);
+		void Edge(GraphDumpable from, GraphDumpable to, string label, Style style, Color color);
 
-		void Edge(GraphDumpable from, GraphDumpable to, string label, int style);
+		void Edge(GraphDumpable from, GraphDumpable to, string label, Style style);
 
 		void Edge(GraphDumpable from, GraphDumpable to, string label);
 
