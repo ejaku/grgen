@@ -21,6 +21,7 @@ namespace de.unika.ipd.grgen.ast
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 	using Coords = de.unika.ipd.grgen.parser.Coords;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	public class EmitNode : OrderedReplacementNode
 	{

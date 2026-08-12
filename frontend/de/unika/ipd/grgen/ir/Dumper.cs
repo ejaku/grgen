@@ -35,6 +35,7 @@ namespace de.unika.ipd.grgen.ir
 	using GraphDumpable = de.unika.ipd.grgen.util.GraphDumpable;
 	using GraphDumper = de.unika.ipd.grgen.util.GraphDumper;
 	using GraphDumperFactory = de.unika.ipd.grgen.util.GraphDumperFactory;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	/// <summary>
 	/// A custom dumper for the IR.
@@ -116,9 +117,9 @@ namespace de.unika.ipd.grgen.ir
 			{
 				Dump(patternGraph, dumper);
 				if(patternGraph == right)
-					dumper.Edge(pattern, patternGraph, patternGraph.NodeLabel.ToLower(), GraphDumper.DASHED, Color.green);
+					dumper.Edge(pattern, patternGraph, patternGraph.NodeLabel.ToLower(), GraphDumper.DASHED, Color.GREEN);
 				else
-					dumper.Edge(pattern, patternGraph, patternGraph.NodeLabel.ToLower(), GraphDumper.DASHED, Color.red);
+					dumper.Edge(pattern, patternGraph, patternGraph.NodeLabel.ToLower(), GraphDumper.DASHED, Color.RED);
 
 				if(interGraphEdges)
 				{

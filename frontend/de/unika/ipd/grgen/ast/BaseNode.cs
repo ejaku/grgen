@@ -33,6 +33,7 @@ namespace de.unika.ipd.grgen.ast
 	using GraphDumpable = de.unika.ipd.grgen.util.GraphDumpable;
 	using GraphDumper = de.unika.ipd.grgen.util.GraphDumper;
 	using Walkable = de.unika.ipd.grgen.util.Walkable;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	/// <summary>
 	/// The base class for AST nodes.

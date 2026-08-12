@@ -10,6 +10,7 @@ namespace de.unika.ipd.grgen.ast
 
 	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
 	using ExprPairNode = de.unika.ipd.grgen.ast.expr.ExprPairNode;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	public abstract class CollectBaseNode : BaseNode
 	{

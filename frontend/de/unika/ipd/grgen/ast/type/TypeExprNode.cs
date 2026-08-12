@@ -18,6 +18,7 @@ namespace de.unika.ipd.grgen.ast.type
 	using de.unika.ipd.grgen.ast;
 	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
 	using Coords = de.unika.ipd.grgen.parser.Coords;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	/// <summary>
 	/// AST node representing type expressions.

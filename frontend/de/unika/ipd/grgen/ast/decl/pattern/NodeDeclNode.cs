@@ -34,6 +34,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 	using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;
 	using NameOrAttributeInitialization = de.unika.ipd.grgen.ir.pattern.NameOrAttributeInitialization;
 	using Node = de.unika.ipd.grgen.ir.pattern.Node;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	/// <summary>
 	/// Declaration of a node.

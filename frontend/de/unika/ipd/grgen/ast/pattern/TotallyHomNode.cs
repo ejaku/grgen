@@ -23,6 +23,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 	using de.unika.ipd.grgen.ast.util;
 	using TypeChecker = de.unika.ipd.grgen.ast.util.TypeChecker;
 	using Coords = de.unika.ipd.grgen.parser.Coords;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	/// <summary>
 	/// AST node that represents a totally homomorph node and a set of nodes it must be isomorph to

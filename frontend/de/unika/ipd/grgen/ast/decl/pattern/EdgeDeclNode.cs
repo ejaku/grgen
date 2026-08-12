@@ -34,6 +34,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 	using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
 	using NameOrAttributeInitialization = de.unika.ipd.grgen.ir.pattern.NameOrAttributeInitialization;
 	using IR = de.unika.ipd.grgen.ir.IR;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	public class EdgeDeclNode : ConstraintDeclNode
 	{

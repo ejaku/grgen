@@ -8,6 +8,12 @@
 namespace de.unika.ipd.grgen.util
 {
 
+	// originally color definitions from java.awt.Color (including RGB values)
+	public enum Color
+	{
+		BLACK, BLUE, CYAN, GRAY, DARK_GRAY, MAGENTA, ORANGE, GREEN, RED, PINK, YELLOW, WHITE
+	}
+
 	/// <summary>
 	/// A Dumper for Graphs
 	/// </summary>

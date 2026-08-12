@@ -14,6 +14,8 @@ namespace de.unika.ipd.grgen.ast
 
 	using System.Collections.Generic;
 
+	using Color = de.unika.ipd.grgen.util.Color;
+
 	/// <summary>
 	/// Dummy AST node, that is used in the case of an error.
 	/// children: none

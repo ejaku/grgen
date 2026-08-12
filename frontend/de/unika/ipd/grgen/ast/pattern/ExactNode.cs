@@ -19,6 +19,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 	using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 	using de.unika.ipd.grgen.ast.util;
 	using Coords = de.unika.ipd.grgen.parser.Coords;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	public class ExactNode : BaseNode
 	{

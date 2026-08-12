@@ -28,6 +28,7 @@ namespace de.unika.ipd.grgen.ast.expr
 	using ObjectTypeNode = de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
 	using TypeTypeNode = de.unika.ipd.grgen.ast.type.basic.TypeTypeNode;
 	using Coords = de.unika.ipd.grgen.parser.Coords;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	/// <summary>
 	/// Base class for all AST nodes representing expressions.

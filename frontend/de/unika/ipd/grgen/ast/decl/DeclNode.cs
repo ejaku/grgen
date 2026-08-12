@@ -21,6 +21,7 @@ namespace de.unika.ipd.grgen.ast.decl
 	using UndirectedEdgeTypeNode = de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using Entity = de.unika.ipd.grgen.ir.Entity;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	/// <summary>
 	/// Base class for all AST nodes representing declarations.

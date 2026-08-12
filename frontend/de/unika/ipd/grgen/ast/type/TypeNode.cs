@@ -27,6 +27,7 @@ namespace de.unika.ipd.grgen.ast.type
 	using MapTypeNode = de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 	using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 	using Type = de.unika.ipd.grgen.ir.type.Type;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 
 	/// <summary>

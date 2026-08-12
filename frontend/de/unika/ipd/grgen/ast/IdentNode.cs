@@ -20,6 +20,7 @@ namespace de.unika.ipd.grgen.ast
 	using Annotated = de.unika.ipd.grgen.util.Annotated;
 	using Annotations = de.unika.ipd.grgen.util.Annotations;
 	using EmptyAnnotations = de.unika.ipd.grgen.util.EmptyAnnotations;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	/// <summary>
 	/// AST node that represents an Identifier (name that appears within the specification)

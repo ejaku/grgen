@@ -49,6 +49,7 @@ namespace de.unika.ipd.grgen.ast
 	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 	using Coords = de.unika.ipd.grgen.parser.Coords;
 	using Symbol = de.unika.ipd.grgen.parser.Symbol;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	public class ExecNode : BaseNode
 	{

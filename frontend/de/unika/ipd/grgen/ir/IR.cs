@@ -18,6 +18,7 @@ namespace de.unika.ipd.grgen.ir
 	using GraphDumpable = de.unika.ipd.grgen.util.GraphDumpable;
 	using GraphDumper = de.unika.ipd.grgen.util.GraphDumper;
 	using XMLDumpable = de.unika.ipd.grgen.util.XMLDumpable;
+	using Color = de.unika.ipd.grgen.util.Color;
 
 	/// <summary>
 	/// Base class for all IR classes.

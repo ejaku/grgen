@@ -114,6 +114,7 @@ namespace de.unika.ipd.grgen.util
 				res = colorMap[col];
 			else if(currSetColor < 256)
 			{
+				/*
 				// Get the current index and increment it
 				int index = currSetColor++;
 
@@ -124,6 +125,8 @@ namespace de.unika.ipd.grgen.util
 				// issue a vcg colormap statement
 				ps.Println("colorentry " + index + ": " +
 						col.GetRed() + " " + col.GetGreen() + " " + col.GetBlue());
+				*/
+				throw new System.NotImplementedException(); // removed during the porting to C#, re-implement when needed (with System.Drawing.Color) - but using de.unika.ipd.grGen.libGr.GrColor should be sufficient
 			}
 			else
 				res = "white";
