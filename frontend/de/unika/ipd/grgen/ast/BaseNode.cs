@@ -45,20 +45,20 @@ namespace de.unika.ipd.grgen.ast
 		public const int CONTEXT_LHS_OR_RHS = 1;
 		public const int CONTEXT_LHS = 0;
 		public const int CONTEXT_RHS = 1;
-		public static readonly int CONTEXT_ACTION_OR_PATTERN = 1 << 1;
-		public static readonly int CONTEXT_ACTION = 0 << 1;
-		public static readonly int CONTEXT_PATTERN = 1 << 1;
-		public static readonly int CONTEXT_TEST_OR_RULE = 1 << 2; // only valid if CONTEXT_ACTION
-		public static readonly int CONTEXT_TEST = 0 << 2;
-		public static readonly int CONTEXT_RULE = 1 << 2;
-		public static readonly int CONTEXT_NEGATIVE = 1 << 3;
-		public static readonly int CONTEXT_INDEPENDENT = 1 << 4;
-		public static readonly int CONTEXT_PARAMETER = 1 << 5;
-		public static readonly int CONTEXT_COMPUTATION = 1 << 6;
-		public static readonly int CONTEXT_FUNCTION_OR_PROCEDURE = 1 << 7;
-		public static readonly int CONTEXT_FUNCTION = 0 << 7;
-		public static readonly int CONTEXT_PROCEDURE = 1 << 7;
-		public static readonly int CONTEXT_METHOD = 1 << 8;
+		public const int CONTEXT_ACTION_OR_PATTERN = 1 << 1;
+		public const int CONTEXT_ACTION = 0 << 1;
+		public const int CONTEXT_PATTERN = 1 << 1;
+		public const int CONTEXT_TEST_OR_RULE = 1 << 2; // only valid if CONTEXT_ACTION
+		public const int CONTEXT_TEST = 0 << 2;
+		public const int CONTEXT_RULE = 1 << 2;
+		public const int CONTEXT_NEGATIVE = 1 << 3;
+		public const int CONTEXT_INDEPENDENT = 1 << 4;
+		public const int CONTEXT_PARAMETER = 1 << 5;
+		public const int CONTEXT_COMPUTATION = 1 << 6;
+		public const int CONTEXT_FUNCTION_OR_PROCEDURE = 1 << 7;
+		public const int CONTEXT_FUNCTION = 0 << 7;
+		public const int CONTEXT_PROCEDURE = 1 << 7;
+		public const int CONTEXT_METHOD = 1 << 8;
 
 		/// <summary>
 		/// AST global name map, that maps from Class to String.

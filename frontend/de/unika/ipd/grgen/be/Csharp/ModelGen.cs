@@ -77,7 +77,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			TransientObject
 		}
 
-		private readonly int MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING = 20;
+		private const int MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING = 20;
 		private const string ATTR_IMPL_SUFFIX = "_M0no_suXx_h4rD";
 
 		public ModelGen(SearchPlanBackend2 backend, string nodeTypePrefix, string edgeTypePrefix, string objectTypePrefix, string transientObjectTypePrefix)

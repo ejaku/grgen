@@ -88,9 +88,9 @@ namespace de.unika.ipd.grgen.ir.pattern
 		/// modifiers of pattern as defined in PatternGraphNode, only pattern locked, pattern path locked relevant </summary>
 		internal int modifiers;
 
-		internal readonly int PATTERN_NOT_YET_VISITED = 0;
-		internal readonly int PATTERN_MAYBE_EMPTY = 1;
-		internal readonly int PATTERN_NOT_EMPTY = 2;
+		internal const int PATTERN_NOT_YET_VISITED = 0;
+		internal const int PATTERN_MAYBE_EMPTY = 1;
+		internal const int PATTERN_NOT_EMPTY = 2;
 		internal int mayPatternBeEmptyComputationState;
 
 		// if this pattern graph is a negative or independent nested inside an iterated

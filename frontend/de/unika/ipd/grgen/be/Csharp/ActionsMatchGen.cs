@@ -34,14 +34,14 @@ namespace de.unika.ipd.grgen.be.Csharp
 	{
 		// constants encoding different types of match parts
 		// must be consecutive, beginning with MATCH_PART_NODES, ending with terminating dummy-element MATCH_PART_END
-		internal readonly int MATCH_PART_NODES = 0;
-		internal readonly int MATCH_PART_EDGES = 1;
-		internal readonly int MATCH_PART_VARIABLES = 2;
-		internal readonly int MATCH_PART_EMBEDDED_GRAPHS = 3;
-		internal readonly int MATCH_PART_ALTERNATIVES = 4;
-		internal readonly int MATCH_PART_ITERATEDS = 5;
-		internal readonly int MATCH_PART_INDEPENDENTS = 6;
-		internal readonly int MATCH_PART_END = 7;
+		internal const int MATCH_PART_NODES = 0;
+		internal const int MATCH_PART_EDGES = 1;
+		internal const int MATCH_PART_VARIABLES = 2;
+		internal const int MATCH_PART_EMBEDDED_GRAPHS = 3;
+		internal const int MATCH_PART_ALTERNATIVES = 4;
+		internal const int MATCH_PART_ITERATEDS = 5;
+		internal const int MATCH_PART_INDEPENDENTS = 6;
+		internal const int MATCH_PART_END = 7;
 
 		public ActionsMatchGen(string nodeTypePrefix, string edgeTypePrefix, string objectTypePrefix, string transientObjectTypePrefix)
 			: base(nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix)
