@@ -66,14 +66,14 @@ namespace de.unika.ipd.grgen.ast.pattern
 
 			// add Condition elements only mentioned there to the IR
 			// (they're declared in an enclosing pattern graph and locally only show up in the condition)
-			NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.VARS, NeededEntities.Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.VARS | NeededEntities.Needs.CONTAINER_EXPRS);
 			foreach(Expression condition in patternGraph.Conditions)
 				condition.CollectNeededEntities(needs);
 			AddNeededEntities(patternGraph, needs);
 
 			// add Yielded elements only mentioned there to the IR
 			// (they're declared in an enclosing pattern graph and locally only show up in the yield)
-			needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.VARS, NeededEntities.Needs.CONTAINER_EXPRS));
+			needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.VARS | NeededEntities.Needs.CONTAINER_EXPRS);
 			foreach(EvalStatements yield in patternGraph.Yields)
 				yield.CollectNeededEntities(needs);
 			AddNeededEntities(patternGraph, needs);
@@ -107,7 +107,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 
 			// add index access elements only mentioned there to the IR
 			// (they're declared in an enclosing pattern graph and locally only show up in the index access)
-			needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.VARS, NeededEntities.Needs.CONTAINER_EXPRS));
+			needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.VARS | NeededEntities.Needs.CONTAINER_EXPRS);
 			foreach(Node node in patternGraph.Nodes)
 			{
 				if(node.indexAccess != null)
@@ -160,7 +160,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 				}
 				else
 				{
-					NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.VARS));
+					NeededEntities needs = new NeededEntities(NeededEntities.Needs.VARS);
 					expr.CollectNeededEntities(needs);
 					foreach(Variable neededVariable in needs.variables)
 					{
@@ -188,7 +188,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 				}
 				else
 				{
-					NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.VARS));
+					NeededEntities needs = new NeededEntities(NeededEntities.Needs.VARS);
 					expr.CollectNeededEntities(needs);
 					foreach(Variable neededVariable in needs.variables)
 					{
@@ -405,7 +405,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 			}
 			else
 			{
-				NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.VARS));
+				NeededEntities needs = new NeededEntities(NeededEntities.Needs.VARS);
 				expr.CollectNeededEntities(needs);
 				foreach(Variable neededVariable in needs.variables)
 				{

@@ -2195,7 +2195,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				{
 					// call of generated array map method
 					SwitchToVarForResultAsNeeded(modifyGenerationState);
-					NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+					NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.COMPUTATION_CONTEXT | Needs.LAMBDAS);
 					am.CollectNeededEntities(needs);
 					string arrayMapName = "ArrayMap_" + am.Id;
 					sb.Append(arrayMapName + "(actionEnv, ");
@@ -2237,7 +2237,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				{
 					// call of generated array removeIf method
 					SwitchToVarForResultAsNeeded(modifyGenerationState);
-					NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+					NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.COMPUTATION_CONTEXT | Needs.LAMBDAS);
 					ari.CollectNeededEntities(needs);
 					string arrayRemoveIfName = "ArrayRemoveIf_" + ari.Id;
 					sb.Append(arrayRemoveIfName + "(actionEnv, ");
@@ -2279,7 +2279,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				{
 					// call of generated array map start with accumulate by method
 					SwitchToVarForResultAsNeeded(modifyGenerationState);
-					NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+					NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.COMPUTATION_CONTEXT | Needs.LAMBDAS);
 					am.CollectNeededEntities(needs);
 					string arrayMapName = "ArrayMapStartWithAccumulateBy_" + am.Id;
 					sb.Append(arrayMapName + "(actionEnv, ");
@@ -4825,7 +4825,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 		protected internal static void ForceNotConstant(ICollection<EvalStatement> statements)
 		{
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.CONTAINER_EXPRS);
 			foreach(EvalStatement eval in statements)
 				eval.CollectNeededEntities(needs);
 			ForceNotConstant(needs);
@@ -4863,7 +4863,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				IList<string> staticInitializers, string pathPrefixForElements,
 				Dictionary<Entity, string> alreadyDefinedEntityToName)
 		{
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.CONTAINER_EXPRS);
 			foreach(EvalStatement eval in evals)
 				eval.CollectNeededEntities(needs);
 			GenLocalContainers(sb, needs, staticInitializers, false);
@@ -5301,7 +5301,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
 
 			// collect all variables, create parameters - like for if/eval
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+			NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.COMPUTATION_CONTEXT | Needs.LAMBDAS);
 			arrayMap.CollectNeededEntities(needs);
 
 			sb.Append(", " + arrayInputType + " " + sourceVarName);
@@ -5385,7 +5385,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
 
 			// collect all variables, create parameters - like for if/eval
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+			NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.COMPUTATION_CONTEXT | Needs.LAMBDAS);
 			arrayRemoveIf.CollectNeededEntities(needs);
 
 			sb.Append(", " + arrayType + " " + sourceVarName);
@@ -5473,7 +5473,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Append("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv");
 
 			// collect all variables, create parameters - like for if/eval
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
+			NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.COMPUTATION_CONTEXT | Needs.LAMBDAS);
 			arrayMap.CollectNeededEntities(needs);
 
 			sb.Append(", " + arrayInputType + " " + sourceVarName);

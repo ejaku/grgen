@@ -572,7 +572,7 @@ namespace de.unika.ipd.grgen.ir.executable
 					}
 					if(node.indexAccess != null)
 					{
-						NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+						NeededEntities needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.CONTAINER_EXPRS);
 						node.indexAccess.CollectNeededEntities(needs);
 						GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, node);
 						if(indexGraphEntity != null)
@@ -587,7 +587,7 @@ namespace de.unika.ipd.grgen.ir.executable
 					}
 					if(node.multipleIndexAccesses.Count > 0)
 					{
-						NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+						NeededEntities needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.CONTAINER_EXPRS);
 						foreach(IndexAccessOrdering indexAccess in node.multipleIndexAccesses)
 							indexAccess.CollectNeededEntities(needs);
 						GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, node);
@@ -603,7 +603,7 @@ namespace de.unika.ipd.grgen.ir.executable
 					}
 					if(node.nameMapAccess != null)
 					{
-						NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+						NeededEntities needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.CONTAINER_EXPRS);
 						node.nameMapAccess.CollectNeededEntities(needs);
 						GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, node);
 						if(indexGraphEntity != null)
@@ -618,7 +618,7 @@ namespace de.unika.ipd.grgen.ir.executable
 					}
 					if(node.uniqueIndexAccess != null)
 					{
-						NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+						NeededEntities needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.CONTAINER_EXPRS);
 						node.uniqueIndexAccess.CollectNeededEntities(needs);
 						GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, node);
 						if(indexGraphEntity != null)
@@ -665,7 +665,7 @@ namespace de.unika.ipd.grgen.ir.executable
 					}
 					if(edge.indexAccess != null)
 					{
-						NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+						NeededEntities needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.CONTAINER_EXPRS);
 						edge.indexAccess.CollectNeededEntities(needs);
 						GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, edge);
 						if(indexGraphEntity != null)
@@ -680,7 +680,7 @@ namespace de.unika.ipd.grgen.ir.executable
 					}
 					if(edge.multipleIndexAccesses.Count > 0)
 					{
-						NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+						NeededEntities needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.CONTAINER_EXPRS);
 						foreach(IndexAccessOrdering indexAccess in edge.multipleIndexAccesses)
 							indexAccess.CollectNeededEntities(needs);
 						GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, edge);
@@ -696,7 +696,7 @@ namespace de.unika.ipd.grgen.ir.executable
 					}
 					if(edge.nameMapAccess != null)
 					{
-						NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+						NeededEntities needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.CONTAINER_EXPRS);
 						edge.nameMapAccess.CollectNeededEntities(needs);
 						GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, edge);
 						if(indexGraphEntity != null)
@@ -711,7 +711,7 @@ namespace de.unika.ipd.grgen.ir.executable
 					}
 					if(edge.uniqueIndexAccess != null)
 					{
-						NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.CONTAINER_EXPRS));
+						NeededEntities needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.CONTAINER_EXPRS);
 						edge.uniqueIndexAccess.CollectNeededEntities(needs);
 						GraphEntity indexGraphEntity = GetAtMostOneNeededGraphElement(needs, edge);
 						if(indexGraphEntity != null)

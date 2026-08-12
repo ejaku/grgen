@@ -137,7 +137,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			state.ClearContainerExprs();
 			foreach(ImperativeStmt istmt in task.right.ImperativeStmts)
 			{
-				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.CONTAINER_EXPRS));
+				NeededEntities needs = new NeededEntities(Needs.CONTAINER_EXPRS);
 				CollectContainerExprsNeededByImperativeStatement(istmt, needs);
 				state.InitNeeds(needs.containerExprs);
 

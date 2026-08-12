@@ -1482,7 +1482,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 		private void GenMemberInitsNonConstPrimitiveType(InheritanceType type, InheritanceType targetType, string varName)
 		{
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.MEMBERS));
+			NeededEntities needs = new NeededEntities(Needs.MEMBERS);
 			foreach(MemberInit memberInit in type.MemberInits)
 				memberInit.Expression.CollectNeededEntities(needs);
 			foreach(MemberInit memberInit in targetType.MemberInits)

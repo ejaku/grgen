@@ -71,7 +71,7 @@ namespace de.unika.ipd.grgen.ir
 			{
 				if(neededEntitiesForComputation == null)
 				{
-					NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.ALL_ENTITIES, Needs.COMPUTATION_CONTEXT));
+					NeededEntities needs = new NeededEntities(Needs.ALL_ENTITIES | Needs.COMPUTATION_CONTEXT);
 					foreach(Expression param in Arguments)
 						param.CollectNeededEntities(needs);
 					neededEntitiesForComputation = needs.entities;
@@ -82,7 +82,7 @@ namespace de.unika.ipd.grgen.ir
 			{
 				if(neededEntities == null)
 				{
-					NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.ALL_ENTITIES));
+					NeededEntities needs = new NeededEntities(Needs.ALL_ENTITIES);
 					foreach(Expression param in Arguments)
 						param.CollectNeededEntities(needs);
 					neededEntities = needs.entities;

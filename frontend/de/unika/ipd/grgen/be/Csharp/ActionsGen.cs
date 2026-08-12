@@ -2187,7 +2187,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				PatternGraphLhs directlyNestingLHSPattern, IList<string> staticInitializers,
 				string pathPrefixForElements, Dictionary<Entity, string> alreadyDefinedEntityToName)
 		{
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.CONTAINER_EXPRS);
 			foreach(Variable var in rhsPattern.Vars)
 			{
 				if(var.initialization != null)
@@ -2204,7 +2204,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				IList<string> staticInitializers,
 				string pathPrefixForElements, Dictionary<Entity, string> alreadyDefinedEntityToName)
 		{
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.CONTAINER_EXPRS);
 			foreach(Variable var in pattern.Vars)
 			{
 				if(var.initialization != null)
@@ -2219,7 +2219,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		private void GenLocalContainersConditions(SourceBuilder sb, PatternGraphLhs pattern, IList<string> staticInitializers,
 				string pathPrefixForElements, Dictionary<Entity, string> alreadyDefinedEntityToName)
 		{
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.CONTAINER_EXPRS);
 			foreach(Expression expr in pattern.Conditions)
 				expr.CollectNeededEntities(needs);
 			GenLocalContainers(sb, needs, staticInitializers, true);
@@ -2229,7 +2229,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		private void GenLocalContainersReturns(SourceBuilder sb, IList<Expression> returns, IList<string> staticInitializers,
 				string pathPrefixForElements, Dictionary<Entity, string> alreadyDefinedEntityToName)
 		{
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.CONTAINER_EXPRS);
 			foreach(Expression expr in returns)
 				expr.CollectNeededEntities(needs);
 			GenLocalContainers(sb, needs, staticInitializers, true);
@@ -2239,7 +2239,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				IList<string> staticInitializers,
 				string pathPrefixForElements, Dictionary<Entity, string> alreadyDefinedEntityToName)
 		{
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.CONTAINER_EXPRS);
 			foreach(ImperativeStmt istmt in istmts)
 			{
 				if(istmt is Emit)
@@ -2895,7 +2895,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Indent();
 
 			sb.AppendFront("new GRGEN_EXPR.Expression[] {\n");
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.CONTAINER_EXPRS);
 			foreach(Expression expr in sub.SubpatternConnections)
 			{
 				expr.CollectNeededEntities(needs);
@@ -2974,11 +2974,11 @@ namespace de.unika.ipd.grgen.be.Csharp
 				Dictionary<Entity, string> alreadyDefinedEntityToName,
 				string pathPrefixForElements, Expression expr, string condName)
 		{
-			NeededEntities needsForLambda = new NeededEntities(EnumSet.Of(Needs.LAMBDAS));
+			NeededEntities needsForLambda = new NeededEntities(Needs.LAMBDAS);
 			expr.CollectNeededEntities(needsForLambda);
 			GenLambaVariables(sb, className, alreadyDefinedEntityToName, pathPrefixForElements, needsForLambda);
 
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.CONTAINER_EXPRS);
 			expr.CollectNeededEntities(needs);
 			sb.AppendFront("GRGEN_LGSP.PatternCondition " + condName + " = new GRGEN_LGSP.PatternCondition(\n");
 			sb.Indent();
@@ -3005,7 +3005,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		private void GenPatternYielding(SourceBuilder sb, string className,
 				Dictionary<Entity, string> alreadyDefinedEntityToName, string pathPrefixForElements, EvalStatements yields)
 		{
-			NeededEntities needsForLambda = new NeededEntities(EnumSet.Of(Needs.LAMBDAS));
+			NeededEntities needsForLambda = new NeededEntities(Needs.LAMBDAS);
 			yields.CollectNeededEntities(needsForLambda);
 			GenLambaVariables(sb, className, alreadyDefinedEntityToName, pathPrefixForElements, needsForLambda);
 
@@ -3025,7 +3025,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Unindent();
 			sb.AppendFront("}, \n");
 
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.CONTAINER_EXPRS);
 			yields.CollectNeededEntities(needs);
 			sb.AppendFront("new string[] ");
 			GenEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
@@ -3168,7 +3168,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				if(entity.indexAccess is IndexAccessEquality)
 				{
 					IndexAccessEquality indexAccess = (IndexAccessEquality)entity.indexAccess;
-					NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
+					NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.CONTAINER_EXPRS);
 					indexAccess.expr.CollectNeededEntities(needs);
 					Entity neededEntity = GetAtMostOneNeededGraphElement(needs, parameters);
 					sb.Append("new GRGEN_LGSP.IndexAccessEquality(");
@@ -3184,7 +3184,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				else if(entity.indexAccess is IndexAccessOrdering)
 				{
 					IndexAccessOrdering indexAccess = (IndexAccessOrdering)entity.indexAccess;
-					NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
+					NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.CONTAINER_EXPRS);
 					if(indexAccess.From() != null)
 						indexAccess.From().CollectNeededEntities(needs);
 					if(indexAccess.To() != null)
@@ -3206,7 +3206,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			}
 			else if(entity.multipleIndexAccesses.Count > 0)
 			{
-				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
+				NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.CONTAINER_EXPRS);
 				foreach(IndexAccessOrdering indexAccess in entity.multipleIndexAccesses)
 					indexAccess.CollectNeededEntities(needs);
 				Entity neededEntity = GetAtMostOneNeededGraphElement(needs, parameters);
@@ -3258,7 +3258,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			if(entity.nameMapAccess != null)
 			{
 				NameLookup nameMapAccess = entity.nameMapAccess;
-				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
+				NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.CONTAINER_EXPRS);
 				nameMapAccess.expr.CollectNeededEntities(needs);
 				Entity neededEntity = GetAtMostOneNeededGraphElement(needs, parameters);
 				sb.Append("new GRGEN_LGSP.NameLookup(");
@@ -3280,7 +3280,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			if(entity.uniqueIndexAccess != null)
 			{
 				UniqueLookup uniqueIndexAccess = entity.uniqueIndexAccess;
-				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
+				NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.CONTAINER_EXPRS);
 				uniqueIndexAccess.expr.CollectNeededEntities(needs);
 				Entity neededEntity = GetAtMostOneNeededGraphElement(needs, parameters);
 				sb.Append("new GRGEN_LGSP.UniqueLookup(");

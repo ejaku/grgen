@@ -28,52 +28,52 @@ namespace de.unika.ipd.grgen.ir
 		// specifies the needed entities that are to be collected
 		public enum Needs
 		{
-			NODES, // Specifies, whether needed nodes shall be collected.
-			EDGES, // Specifies, whether needed edges shall be collected.
-			VARS, // Specifies, whether needed variables shall be collected.
-			ALL_ENTITIES, // Specifies, whether all needed entities (nodes, edges, vars) shall be collected.
-			ALL_ATTRIBUTES, // Specifies, whether all pattern graph entities needed for attributes
+			NODES = 1, // Specifies, whether needed nodes shall be collected.
+			EDGES = 2, // Specifies, whether needed edges shall be collected.
+			VARS = 4, // Specifies, whether needed variables shall be collected.
+			ALL_ENTITIES = 8, // Specifies, whether all needed entities (nodes, edges, vars) shall be collected.
+			ALL_ATTRIBUTES = 16, // Specifies, whether all pattern graph entities needed for attributes
 							// and the according attributes shall be collected. If this is true,
 							// the pattern graph entities used to access the attributes will not be
 							// automatically added to the nodes, edges, and entities sets, but only
 							// in the attrNodes and attrEdges sets.
-			CONTAINER_EXPRS, // Specifies, whether map, set, array, deque expressions shall be collected.
-			COMPUTATION_CONTEXT, // Specifies, whether entities declared in computation context shall be collected.
-			MEMBERS, // Specifies, whether entities referenced in member expressions
+			CONTAINER_EXPRS = 32, // Specifies, whether map, set, array, deque expressions shall be collected.
+			COMPUTATION_CONTEXT = 64, // Specifies, whether entities declared in computation context shall be collected.
+			MEMBERS = 128, // Specifies, whether entities referenced in member expressions
 					 // of member initializations in the model shall be collected.
-			LAMBDAS // Specifies, whether lamba expressions (to be evaluated multiple times) shall be collected
+			LAMBDAS = 256 // Specifies, whether lamba expressions (to be evaluated multiple times) shall be collected
 					// also causes lambda expression variables to appear in the variables/entities in case these are collected.
 		}
 
 		/// <summary>
 		/// Instantiates a new NeededEntities object.
 		/// </summary>
-		public NeededEntities(EnumSet<Needs> needs)
+		public NeededEntities(Needs needs)
 		{
-			if(needs.Contains(Needs.NODES))
+			if((needs & Needs.NODES) == Needs.NODES)
 				nodes = new LinkedHashSet<Node>();
-			if(needs.Contains(Needs.EDGES))
+			if((needs & Needs.EDGES) == Needs.EDGES)
 				edges = new LinkedHashSet<Edge>();
-			if(needs.Contains(Needs.VARS))
+			if((needs & Needs.VARS) == Needs.VARS)
 				variables = new LinkedHashSet<Variable>();
-			if(needs.Contains(Needs.ALL_ENTITIES))
+			if((needs & Needs.ALL_ENTITIES) == Needs.ALL_ENTITIES)
 				entities = new LinkedHashSet<Entity>();
-			if(needs.Contains(Needs.ALL_ATTRIBUTES))
+			if((needs & Needs.ALL_ATTRIBUTES) == Needs.ALL_ATTRIBUTES)
 			{
 				attrEntityMap = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 				attrNodes = new LinkedHashSet<Node>();
 				attrEdges = new LinkedHashSet<Edge>();
 			}
-			if(needs.Contains(Needs.CONTAINER_EXPRS))
+			if((needs & Needs.CONTAINER_EXPRS) == Needs.CONTAINER_EXPRS)
 			{
 				this.collectContainerExprs = true;
 				containerExprs = new LinkedHashSet<Expression>();
 			}
-			if(needs.Contains(Needs.MEMBERS))
+			if((needs & Needs.MEMBERS) == Needs.MEMBERS)
 				members = new LinkedHashSet<Entity>();
-			if(needs.Contains(Needs.COMPUTATION_CONTEXT))
+			if((needs & Needs.COMPUTATION_CONTEXT) == Needs.COMPUTATION_CONTEXT)
 				collectComputationContext = true;
-			if(needs.Contains(Needs.LAMBDAS))
+			if((needs & Needs.LAMBDAS) == Needs.LAMBDAS)
 				lambdaExprs = new LinkedHashSet<Expression>();
 		}
 

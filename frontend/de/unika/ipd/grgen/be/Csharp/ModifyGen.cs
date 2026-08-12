@@ -533,7 +533,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 			CollectElementsAccessedByInterface(task, state.accessViaInterface);
 
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.ALL_ATTRIBUTES, Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.ALL_ATTRIBUTES | Needs.CONTAINER_EXPRS);
 			CollectElementsAndAttributesNeededByImperativeStatements(task, needs);
 			needs.collectContainerExprs = false;
 			CollectElementsAndAttributesNeededByReturns(task, needs);
@@ -1539,7 +1539,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.AppendFront("GRGEN_ACTIONS." + GetPackagePrefixDot(subRule) + "Pattern_" + FormatIdentifiable(subRule)
 					+ ".Instance." + FormatIdentifiable(subRule) +
 					"_Modify(actionEnv, subpattern_" + subName);
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.ALL_ATTRIBUTES, Needs.CONTAINER_EXPRS));
+			NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.ALL_ATTRIBUTES | Needs.CONTAINER_EXPRS);
 			IList<Entity> replParameters = subRule.Right.ReplParameters;
 			for(int i = 0; i < subRep.ReplConnections.Count; ++i)
 			{

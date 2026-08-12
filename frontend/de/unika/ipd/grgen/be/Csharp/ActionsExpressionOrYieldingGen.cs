@@ -1402,7 +1402,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			else if(expr is ArrayMapExpr)
 			{
 				ArrayMapExpr am = (ArrayMapExpr)expr;
-				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.LAMBDAS));
+				NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.LAMBDAS);
 				am.CollectNeededEntities(needs);
 				sb.Append("new GRGEN_EXPR.ArrayMap(");
 				GenExpressionTree(sb, am.TargetExpr, className, pathPrefix, alreadyDefinedEntityToName);
@@ -1433,7 +1433,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			else if(expr is ArrayRemoveIfExpr)
 			{
 				ArrayRemoveIfExpr ari = (ArrayRemoveIfExpr)expr;
-				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.LAMBDAS));
+				NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.LAMBDAS);
 				ari.CollectNeededEntities(needs);
 				sb.Append("new GRGEN_EXPR.ArrayRemoveIf(");
 				GenExpressionTree(sb, ari.TargetExpr, className, pathPrefix, alreadyDefinedEntityToName);
@@ -1464,7 +1464,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			else if(expr is ArrayMapStartWithAccumulateByExpr)
 			{
 				ArrayMapStartWithAccumulateByExpr am = (ArrayMapStartWithAccumulateByExpr)expr;
-				NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.LAMBDAS));
+				NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.LAMBDAS);
 				am.CollectNeededEntities(needs);
 				sb.Append("new GRGEN_EXPR.ArrayMapStartWithAccumulateBy(");
 				GenExpressionTree(sb, am.TargetExpr, className, pathPrefix, alreadyDefinedEntityToName);
@@ -4044,7 +4044,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Append("\"" + FormatEntity(fi.ElementVariable, pathPrefix, alreadyDefinedEntityToName) + "\"" + ", ");
 			Expression lambdaExpression = fi.LambdaExpression;
 			GenExpressionTree(sb, lambdaExpression, className, pathPrefix, alreadyDefinedEntityToName);
-			NeededEntities needs = new NeededEntities(EnumSet.Of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.LAMBDAS));
+			NeededEntities needs = new NeededEntities(Needs.NODES | Needs.EDGES | Needs.VARS | Needs.LAMBDAS);
 			fi.CollectNeededEntities(needs);
 			sb.Append(", new GRGEN_LGSP.PatternNode[] ");
 			GenEntitySet(sb, needs.nodes, "", "", true, pathPrefix, alreadyDefinedEntityToName);

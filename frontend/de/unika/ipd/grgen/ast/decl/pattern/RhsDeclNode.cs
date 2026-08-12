@@ -236,7 +236,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs)
 			// will add them to the left hand side, too
 
-			NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.VARS));
+			NeededEntities needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.VARS);
 			ICollection<EvalStatements> evalStatements = patternGraph.EvalStatements;
 			foreach(EvalStatements evalStatement in evalStatements)
 				evalStatement.CollectNeededEntities(needs);
@@ -286,7 +286,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs)
 			// will add them to the left hand side, too
 
-			NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.NODES, NeededEntities.Needs.EDGES, NeededEntities.Needs.VARS));
+			NeededEntities needs = new NeededEntities(NeededEntities.Needs.NODES | NeededEntities.Needs.EDGES | NeededEntities.Needs.VARS);
 			ICollection<OrderedReplacements> evalStatements = patternGraph.OrderedReplacements;
 			foreach(OrderedReplacements evalStatement in evalStatements)
 			{

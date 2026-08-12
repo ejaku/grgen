@@ -779,7 +779,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 					if(orderedRepl is EvalStatement)
 					{
 						EvalStatement evalStmt = (EvalStatement)orderedRepl;
-						NeededEntities needs = new NeededEntities(EnumSet.Of(NeededEntities.Needs.EDGES, NeededEntities.Needs.ALL_ATTRIBUTES));
+						NeededEntities needs = new NeededEntities(NeededEntities.Needs.EDGES | NeededEntities.Needs.ALL_ATTRIBUTES);
 						evalStmt.CollectNeededEntities(needs);
 						foreach(Edge edge in needs.edges)
 						{
