@@ -78,7 +78,7 @@ namespace de.unika.ipd.grgen.be.C
 			{
 				if(act.Right != null)
 				{
-					int? act_id = actionRuleMap[act];
+					int act_id = actionRuleMap[act];
 
 					ICollection<Assignment> rule_evals = new List<Assignment>();
 					foreach(EvalStatements evalStmts in act.Evals)
@@ -90,13 +90,13 @@ namespace de.unika.ipd.grgen.be.C
 						}
 					}
 
-					evalListMap[rule_evals] = act_id.Value;
+					evalListMap[rule_evals] = act_id;
 					evalActions[rule_evals] = act;
 
 					ISet<Node> involvedNodes = new HashSet<Node>();
 					ISet<Edge> involvedEdges = new HashSet<Edge>();
-					involvedEvalNodeAttrIds[act_id.Value] = new Dictionary<Node, ICollection<int>>();
-					involvedEvalEdgeAttrIds[act_id.Value] = new Dictionary<Edge, ICollection<int>>();
+					involvedEvalNodeAttrIds[act_id] = new Dictionary<Node, ICollection<int>>();
+					involvedEvalEdgeAttrIds[act_id] = new Dictionary<Edge, ICollection<int>>();
 
 					foreach(Assignment eval in rule_evals)
 					{
@@ -127,7 +127,7 @@ namespace de.unika.ipd.grgen.be.C
 						//collect the attr ids in dependency of evaluation and the pattern node
 
 						//descent to the conditions leaves and look for qualifications
-						_recursiveQualCollect(act_id.Value, involvedEvalNodeAttrIds[act_id.Value], involvedEvalEdgeAttrIds[act_id.Value], op);
+						_recursiveQualCollect(act_id, involvedEvalNodeAttrIds[act_id], involvedEvalEdgeAttrIds[act_id], op);
 					}
 
 					//add Collections of involved Nodes/Edges to prepared Maps
@@ -248,7 +248,7 @@ namespace de.unika.ipd.grgen.be.C
 
 				foreach(PatternGraphLhs negPattern in act.Pattern.GetNegs())
 				{
-					negMap[act_id][negPattern] = new int?(negs++);
+					negMap[act_id][negPattern] = negs++;
 
 					size = negPattern.Nodes.Count;
 					if(size > max_n_negative_nodes)
@@ -283,13 +283,13 @@ namespace de.unika.ipd.grgen.be.C
 					/* fill the map with pairs (node, node_num) */
 					int node_num = 0;
 					foreach(Node node in neg_pattern.Nodes)
-						negative_node_num[act_id][neg_num][node] = new int?(node_num++);
+						negative_node_num[act_id][neg_num][node] = node_num++;
 					Debug.Assert(node_num == neg_pattern.Nodes.Count, "Wrong number of node_nums was created");
 
 					/* fill the map with pairs (edge, edge_num) */
 					int edge_num = 0;
 					foreach(Edge edge in neg_pattern.Edges)
-						negative_edge_num[act_id][neg_num][edge] = new int?(edge_num++);
+						negative_edge_num[act_id][neg_num][edge] = edge_num++;
 					Debug.Assert(edge_num == neg_pattern.Edges.Count, "Wrong number of edge_nums was created");
 				}
 			}
@@ -403,7 +403,7 @@ namespace de.unika.ipd.grgen.be.C
 							Debug.Assert(conditionNumbers[sub_condition] == null);
 
 							//...create condition numbers
-							conditionNumbers[sub_condition] = new int?(subConditionCounter++);
+							conditionNumbers[sub_condition] = subConditionCounter++;
 
 							//...extract the pattern nodes and edges involved in the condition
 							ICollection<Node> involvedNodes = CollectInvolvedNodes(sub_condition);
@@ -413,7 +413,7 @@ namespace de.unika.ipd.grgen.be.C
 							conditionsInvolvedEdges[sub_condition] = involvedEdges;
 
 							//..store the negative pattern num the conditions belongs to
-							conditionsPatternNum[sub_condition] = new int?(neg_num + 1);
+							conditionsPatternNum[sub_condition] = neg_num + 1;
 
 							//store the subcondition in an ordered Collection
 							conditions[Convert.ToInt32(act_id)].Add(sub_condition);
@@ -483,7 +483,7 @@ namespace de.unika.ipd.grgen.be.C
 							ICollection<InheritanceType> type_condition = node.GetConstraints();
 
 							//...create condition numbers
-							typeConditionNumbers[type_condition] = new int?(typeConditionCounter++);
+							typeConditionNumbers[type_condition] = typeConditionCounter++;
 
 							//...extract the pattern nodes and edges involved in the condition
 							ICollection<Node> involvedNodes = new HashSet<Node>();
@@ -494,7 +494,7 @@ namespace de.unika.ipd.grgen.be.C
 							typeConditionsInvolvedEdges[type_condition] = empty;
 
 							//..store the negative pattern num the conditions belongs to
-							typeConditionsPatternNum[type_condition] = new int?(neg_num + 1);
+							typeConditionsPatternNum[type_condition] = neg_num + 1;
 
 							//store the subcondition in an ordered Collection
 							typeConditions[act_id].Add(type_condition);
@@ -511,7 +511,7 @@ namespace de.unika.ipd.grgen.be.C
 							ICollection<InheritanceType> type_condition = edge.GetConstraints();
 
 							//...create condition numbers
-							typeConditionNumbers[type_condition] = new int?(typeConditionCounter++);
+							typeConditionNumbers[type_condition] = typeConditionCounter++;
 
 							//...extract the pattern edges and edges involved in the condition
 							ICollection<Edge> involvedEdges = new HashSet<Edge>();
@@ -522,7 +522,7 @@ namespace de.unika.ipd.grgen.be.C
 							typeConditionsInvolvedEdges[type_condition] = involvedEdges;
 
 							//..store the negative pattern num the conditions belongs to
-							typeConditionsPatternNum[type_condition] = new int?(neg_num + 1);
+							typeConditionsPatternNum[type_condition] = neg_num + 1;
 
 							//store the subcondition in an ordered Collection
 							typeConditions[act_id].Add(type_condition);
@@ -587,7 +587,7 @@ namespace de.unika.ipd.grgen.be.C
 					node = (Node)remainingNodes.GetEnumerator().Next();
 					remainingNodes.Remove(node);
 
-					subgraphOfNode[node] = new int?(subgraph);
+					subgraphOfNode[node] = subgraph;
 					currentSubgraphNodes.Add(node);
 
 					_deepFirstCollectSubgraphInfo(remainingNodes, remainingEdges, currentSubgraphNodes, currentSubgraphEdges, subgraph, node, action, pattern);
@@ -669,14 +669,14 @@ namespace de.unika.ipd.grgen.be.C
 				{
 					ICollection<Edge> subgraph_edges = edgesOfSubgraph[act_id].ToList()[subgraph];
 					foreach(Edge edge in subgraph_edges)
-						subgraphOfEdge[edge] = new int?(subgraph);
+						subgraphOfEdge[edge] = subgraph;
 				}
 
 				for(subgraph = 0; subgraph < nodesOfSubgraph[act_id].Count; subgraph++)
 				{
 					ICollection<Node> subgraph_nodes = nodesOfSubgraph[act_id].ToList()[subgraph];
 					foreach(Node node in subgraph_nodes)
-						subgraphOfNode[node] = new int?(subgraph);
+						subgraphOfNode[node] = subgraph;
 				}
 
 				int max_prio = 0;

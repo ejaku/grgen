@@ -195,13 +195,13 @@ namespace de.unika.ipd.grgen.be.C
 		{
 			string[] name = new string[attrMap.Count];
 			Type[] types = new Type[attrMap.Count];
-			int?[] owner = new int?[attrMap.Count];
+			int[] owner = new int[attrMap.Count];
 
 			foreach(Entity ent in attrMap.Keys)
 			{
 				int index = attrMap[ent];
 				name[index] = ent.Ident.ToString();
-				owner[index] = new int?(GetTypeId(typeMap, ent.Owner));
+				owner[index] = GetTypeId(typeMap, ent.Owner);
 				types[index] = ent.Type;
 			}
 

@@ -293,14 +293,14 @@ namespace de.unika.ipd.grgen.be.C
 				int node_num = 0;
 
 				foreach(Node node in act.Pattern.Nodes)
-					pattern_node_num[act_id][node] = new int?(node_num++);
+					pattern_node_num[act_id][node] = node_num++;
 				Debug.Assert(node_num == act.Pattern.Nodes.Size(), "Wrong number of node_nums was created");
 
 				//fill the map with pairs (edge, edge_num)
 				int edge_num = 0;
 
 				foreach(Edge edge in act.Pattern.Edges)
-					pattern_edge_num[act_id][edge] = new int?(edge_num++);
+					pattern_edge_num[act_id][edge] = edge_num++;
 				Debug.Assert(edge_num == act.Pattern.Edges.Size(), "Wrong number of edge_nums was created");
 
 				// if action has a replacement graph, compute node/edge numbers
@@ -313,14 +313,14 @@ namespace de.unika.ipd.grgen.be.C
 					node_num = 0;
 
 					foreach(Node node in act.Right.Nodes)
-						replacement_node_num[act_id][node] = new int?(node_num++);
+						replacement_node_num[act_id][node] = node_num++;
 					Debug.Assert(node_num == act.Right.Nodes.Count, "Wrong number of node_nums was created");
 
 					//fill the map with pairs (edge, edge_num)
 					edge_num = 0;
 
 					foreach(Edge edge in act.Right.Edges)
-						replacement_edge_num[act_id][edge] = new int?(edge_num++);
+						replacement_edge_num[act_id][edge] = edge_num++;
 					Debug.Assert(edge_num == act.Right.Edges.Count, "Wrong number of edge_nums was created");
 				}
 				else
@@ -357,7 +357,7 @@ namespace de.unika.ipd.grgen.be.C
 					foreach(Expression sub_condition in subConditions)
 					{
 						//...create condition numbers
-						conditionNumbers[sub_condition] = new int?(subConditionCounter++);
+						conditionNumbers[sub_condition] = subConditionCounter++;
 
 						//...extract the pattern nodes and edges involved in the condition
 						ICollection<Node> involvedNodes = CollectInvolvedNodes(sub_condition);
@@ -397,7 +397,7 @@ namespace de.unika.ipd.grgen.be.C
 						ICollection<InheritanceType> type_condition = node.GetConstraints();
 
 						//...create condition numbers
-						typeConditionNumbers[type_condition] = new int?(typeConditionCounter++);
+						typeConditionNumbers[type_condition] = typeConditionCounter++;
 
 						//...extract the pattern nodes and edges involved in the condition
 						ICollection<Node> involvedNodes = new HashSet<Node>();
@@ -422,7 +422,7 @@ namespace de.unika.ipd.grgen.be.C
 						ICollection<InheritanceType> type_condition = edge.GetConstraints();
 
 						//...create condition numbers
-						typeConditionNumbers[type_condition] = new int?(typeConditionCounter++);
+						typeConditionNumbers[type_condition] = typeConditionCounter++;
 
 						//...extract the pattern edges and edges involved in the condition
 						ICollection<Edge> involvedEdges = new HashSet<Edge>();
@@ -724,7 +724,7 @@ namespace de.unika.ipd.grgen.be.C
 				{
 					Node node = (Node)owner;
 					//Integer node_num = (Integer) pattern_node_num[ act_id ].get( owner );
-					int? attr_id = nodeAttrMap[member];
+					int attr_id = nodeAttrMap[member];
 
 					//add the pair (node_num, attr_id to the map)
 					if(node_map.ContainsKey(node))
@@ -742,7 +742,7 @@ namespace de.unika.ipd.grgen.be.C
 				{
 					Edge egde = (Edge)owner;
 					//Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
-					int? attr_id = edgeAttrMap[member];
+					int attr_id = edgeAttrMap[member];
 
 					//add the pair (edge_num, attr_id to the map)
 					if(edge_map.ContainsKey(egde))

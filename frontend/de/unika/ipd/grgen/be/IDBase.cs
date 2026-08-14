@@ -84,9 +84,9 @@ namespace de.unika.ipd.grgen.be
 			foreach(Entity ent in ct.Members)
 			{
 				if(ct is NodeType)
-					nodeAttrMap[ent] = new int?(nodeAttrMap.Count);
+					nodeAttrMap[ent] = nodeAttrMap.Count;
 				else if(ct is EdgeType)
-					edgeAttrMap[ent] = new int?(edgeAttrMap.Count);
+					edgeAttrMap[ent] = edgeAttrMap.Count;
 				else
 					Debug.Assert(false, "Wrong type");
 			}
@@ -99,11 +99,11 @@ namespace de.unika.ipd.grgen.be
 			foreach(Type type in unit.ActionsGraphModel.Types)
 			{
 				if(type is NodeType)
-					nodeTypeMap[(NodeType)type] = new int?(nodeTypeMap.Count);
+					nodeTypeMap[(NodeType)type] = nodeTypeMap.Count;
 				else if(type is EdgeType)
-					edgeTypeMap[(EdgeType)type] = new int?(edgeTypeMap.Count);
+					edgeTypeMap[(EdgeType)type] = edgeTypeMap.Count;
 				else if(type is EnumType)
-					enumMap[(EnumType)type] = new int?(enumMap.Count);
+					enumMap[(EnumType)type] = enumMap.Count;
 
 				if(type is CompoundType)
 				{
@@ -117,8 +117,8 @@ namespace de.unika.ipd.grgen.be
 		{
 			int maxId = 0;
 
-			foreach(int? id in typeMap.Values)
-				maxId = id.Value > maxId ? id.Value : maxId;
+			foreach(int id in typeMap.Values)
+				maxId = id > maxId ? id : maxId;
 
 			short[][] res = RectangularArrays.RectangularShortArray(maxId + 1, maxId + 1);
 
@@ -190,9 +190,9 @@ namespace de.unika.ipd.grgen.be
 
 				res[id] = new int[aux.Count];
 				int i = 0;
-				foreach(int? j in aux)
+				foreach(int j in aux)
 				{
-					res[id][i] = j.Value;
+					res[id][i] = j;
 					++i;
 				}
 			}
@@ -215,9 +215,9 @@ namespace de.unika.ipd.grgen.be
 
 				res[id] = new int[aux.Count];
 				int i = 0;
-				foreach(int? j in aux)
+				foreach(int j in aux)
 				{
-					res[id][i] = j.Value;
+					res[id][i] = j;
 					++i;
 				}
 			}
@@ -245,7 +245,7 @@ namespace de.unika.ipd.grgen.be
 			int id = 0;
 			foreach(Rule rule in unit.SubpatternRules)
 			{
-				subpatternRuleMap[rule] = new int?(id);
+				subpatternRuleMap[rule] = id;
 				++id;
 			}
 		}
@@ -258,7 +258,7 @@ namespace de.unika.ipd.grgen.be
 			int id = 0;
 			foreach(Rule rule in unit.ActionRules)
 			{
-				actionRuleMap[rule] = new int?(id);
+				actionRuleMap[rule] = id;
 				++id;
 			}
 		}
@@ -270,8 +270,8 @@ namespace de.unika.ipd.grgen.be
 		/// <returns> The type id for this type. </returns>
 		protected internal static int GetTypeId<T1>(IDictionary<T1, int> map, Type t) where T1 : de.unika.ipd.grgen.ir.type.Type
 		{
-			int? res = map[t];
-			return res.Value;
+			int res = map[t]; // in case the key would not be found, the code would have crashed when the integer value was fetched from the Integer in the original Java code, now it would crash directly when the dictionary is accessed
+			return res;
 		}
 
 		public int GetId(EdgeType et)
@@ -322,8 +322,8 @@ namespace de.unika.ipd.grgen.be
 			int[] res = new int[map.Count];
 
 			int i = 0;
-			foreach(int? typeId in map.Values)
-				res[i++] = typeId.Value;
+			foreach(int typeId in map.Values)
+				res[i++] = typeId;
 
 			return res;
 		}
