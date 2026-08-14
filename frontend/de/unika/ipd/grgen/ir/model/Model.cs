@@ -144,7 +144,7 @@ namespace de.unika.ipd.grgen.ir.model
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(indices);
+				return indices; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -157,7 +157,7 @@ namespace de.unika.ipd.grgen.ir.model
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(externalFuncs);
+				return externalFuncs; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -170,7 +170,7 @@ namespace de.unika.ipd.grgen.ir.model
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(externalProcs);
+				return externalProcs; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -187,7 +187,7 @@ namespace de.unika.ipd.grgen.ir.model
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(nodeTypes);
+				return nodeTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -217,7 +217,7 @@ namespace de.unika.ipd.grgen.ir.model
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(edgeTypes);
+				return edgeTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -262,7 +262,7 @@ namespace de.unika.ipd.grgen.ir.model
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(objectTypes);
+				return objectTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -292,7 +292,7 @@ namespace de.unika.ipd.grgen.ir.model
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(transientObjectTypes);
+				return transientObjectTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -339,7 +339,7 @@ namespace de.unika.ipd.grgen.ir.model
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(enumTypes);
+				return enumTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -347,7 +347,7 @@ namespace de.unika.ipd.grgen.ir.model
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(externalObjectTypes);
+				return externalObjectTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 

@@ -29,7 +29,7 @@ namespace de.unika.ipd.grgen.ir.type
 
 		public override ISet<InheritanceType> Evaluate()
 		{
-			return Collections.UnmodifiableSet(types);
+			return types; // TODO: Collections.UnmodifiableSet
 		}
 	}
 

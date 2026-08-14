@@ -606,7 +606,7 @@ namespace de.unika.ipd.grgen.ast
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(parents);
+				return /*Collections.UnmodifiableSet(*/parents/*)*/; // no AsReadOnly() available on set like on list, the very limited IReadOnlyCollection is only implemented by the HashSet<T>, not by the ISet<T>, other options are not supported by .NET Framework/Mono => Collections.UnmodifiableSet left as comment (TODO: Collections.UnmodifiableSet maybe supply own implementation)
 			}
 		}
 

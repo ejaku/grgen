@@ -355,7 +355,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 		public virtual ISet<ConstraintDeclNode> GetElementsToDelete(PatternGraphLhsNode pattern)
 		{
 			if(elementsToDelete == null)
-				elementsToDelete = Collections.UnmodifiableSet(GetElementsToDeleteImpl(pattern));
+				elementsToDelete = GetElementsToDeleteImpl(pattern); // TODO: Collections.UnmodifiableSet
 			return elementsToDelete;
 		}
 
@@ -368,7 +368,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 		public virtual ISet<ConnectionNode> GetConnectionsToReuse(PatternGraphLhsNode pattern)
 		{
 			if(connectionsToReuse == null)
-				connectionsToReuse = Collections.UnmodifiableSet(GetConnectionsToReuseImpl(pattern));
+				connectionsToReuse = GetConnectionsToReuseImpl(pattern); // TODO: Collections.UnmodifiableSet
 			return connectionsToReuse;
 		}
 
@@ -380,7 +380,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 		public virtual ISet<NodeDeclNode> GetNodesToReuse(PatternGraphLhsNode pattern)
 		{
 			if(nodesToReuse == null)
-				nodesToReuse = Collections.UnmodifiableSet(GetNodesToReuseImpl(pattern));
+				nodesToReuse = GetNodesToReuseImpl(pattern); // TODO: Collections.UnmodifiableSet
 			return nodesToReuse;
 		}
 

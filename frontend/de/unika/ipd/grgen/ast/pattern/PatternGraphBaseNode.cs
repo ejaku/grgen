@@ -300,7 +300,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 			get
 			{
 				if(nodes == null)
-					nodes = Collections.UnmodifiableSet(NodesImpl);
+					nodes = NodesImpl; // TODO: Collections.UnmodifiableSet
 				return nodes;
 			}
 		}
@@ -327,7 +327,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 			get
 			{
 				if(edges == null)
-					edges = Collections.UnmodifiableSet(EdgesImpl);
+					edges = EdgesImpl; // TODO: Collections.UnmodifiableSet
 				return edges;
 			}
 		}
@@ -362,7 +362,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 			get
 			{
 				if(variables == null)
-					variables = Collections.UnmodifiableSet(VariablesImpl);
+					variables = VariablesImpl; // TODO: Collections.UnmodifiableSet
 				return variables;
 			}
 		}
@@ -398,7 +398,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 					tempEntities.AddAll(Nodes);
 					tempEntities.AddAll(Edges);
 					tempEntities.AddAll(Variables);
-					entities = Collections.UnmodifiableSet(tempEntities);
+					entities = tempEntities; // TODO: Collections.UnmodifiableSet
 				}
 				return entities;
 			}

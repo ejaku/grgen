@@ -247,7 +247,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(nodes.Keys);
+				return nodes.Keys; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -328,7 +328,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 		/// Get the set of all incoming edges for a given node </summary>
 		public virtual ISet<Edge> GetIncoming(Node node)
 		{
-			return Collections.UnmodifiableSet(GetIncoming(node, new HashSet<Edge>()));
+			return GetIncoming(node, new HashSet<Edge>()); // TODO: Collections.UnmodifiableSet
 		}
 
 		/// <summary>
@@ -345,7 +345,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 		/// Get the set of all outgoing edges for a given node </summary>
 		public virtual ISet<Edge> GetOutgoing(Node node)
 		{
-			return Collections.UnmodifiableSet(GetOutgoing(node, new HashSet<Edge>()));
+			return GetOutgoing(node, new HashSet<Edge>()); // TODO: Collections.UnmodifiableSet
 		}
 
 		/// <summary>
@@ -433,7 +433,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(edges.Keys);
+				return edges.Keys; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -501,7 +501,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(vars);
+				return vars; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -526,7 +526,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(subpatternUsages);
+				return subpatternUsages; // TODO: Collections.UnmodifiableSet
 			}
 		}
 

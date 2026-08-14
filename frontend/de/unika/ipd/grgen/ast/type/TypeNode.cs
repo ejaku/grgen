@@ -181,7 +181,7 @@ namespace de.unika.ipd.grgen.ast.type
 					compatibleToTypes = new HashSet<TypeNode>();
 					DoGetCompatibleToTypes(compatibleToTypes);
 					compatibleToTypes.Add(this);
-					compatibleToTypes = Collections.UnmodifiableSet(compatibleToTypes);
+					//compatibleToTypes = compatibleToTypes; TODO: Collections.UnmodifiableSet
 				}
 				return compatibleToTypes;
 			}
@@ -230,7 +230,7 @@ namespace de.unika.ipd.grgen.ast.type
 					castableToTypes = new HashSet<TypeNode>();
 					DoGetCastableToTypes(castableToTypes);
 					castableToTypes.AddAll(CompatibleToTypes);
-					castableToTypes = Collections.UnmodifiableSet(castableToTypes);
+					//castableToTypes = castableToTypes; TODO: Collections.UnmodifiableSet
 				}
 				return castableToTypes;
 			}

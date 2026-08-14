@@ -144,7 +144,7 @@ namespace de.unika.ipd.grgen.ir.model.type
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(directSuperTypes);
+				return directSuperTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -163,7 +163,7 @@ namespace de.unika.ipd.grgen.ir.model.type
 						allSuperTypes.Add(type);
 					}
 				}
-				return Collections.UnmodifiableSet(allSuperTypes);
+				return allSuperTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -183,7 +183,7 @@ namespace de.unika.ipd.grgen.ir.model.type
 						allSubTypes.Add(type);
 					}
 				}
-				return Collections.UnmodifiableSet(allSubTypes);
+				return allSubTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -193,7 +193,7 @@ namespace de.unika.ipd.grgen.ir.model.type
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(directSubTypes);
+				return directSubTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 

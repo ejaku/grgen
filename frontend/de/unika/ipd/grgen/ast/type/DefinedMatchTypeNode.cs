@@ -312,7 +312,7 @@ namespace de.unika.ipd.grgen.ast.type
 					if(!(node is DummyNodeDeclNode))
 						nodes.Add(node);
 				}
-				return Collections.UnmodifiableSet(nodes);
+				return nodes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -336,7 +336,7 @@ namespace de.unika.ipd.grgen.ast.type
 					VarDeclNode var = (VarDeclNode)varCand;
 					vars.Add(var);
 				}
-				return Collections.UnmodifiableSet(vars);
+				return vars; // TODO: Collections.UnmodifiableSet
 			}
 		}
 

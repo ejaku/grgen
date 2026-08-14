@@ -246,7 +246,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 					homs.Add(GetGraphEntities(edges));
 				foreach(ICollection<Node> nodes in homNodesLists)
 					homs.Add(GetGraphEntities(nodes));
-				return Collections.UnmodifiableSet(homs);
+				return homs; // TODO: Collections.UnmodifiableSet
 			}
 		}
 

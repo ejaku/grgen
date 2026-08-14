@@ -43,7 +43,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(commonNodes);
+				return commonNodes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(commonEdges);
+				return commonEdges; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(commonSubpatternUsages);
+				return commonSubpatternUsages; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -67,7 +67,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(newNodes);
+				return newNodes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(newEdges);
+				return newEdges; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(newSubpatternUsages);
+				return newSubpatternUsages; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -91,7 +91,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(delNodes);
+				return delNodes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -99,7 +99,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(delEdges);
+				return delEdges; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -117,7 +117,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(delSubpatternUsages);
+				return delSubpatternUsages; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -125,7 +125,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(yieldedNodes);
+				return yieldedNodes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -133,7 +133,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(yieldedEdges);
+				return yieldedEdges; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -141,7 +141,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(yieldedVariables);
+				return yieldedVariables; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -149,7 +149,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(newOrRetypedNodes);
+				return newOrRetypedNodes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -157,7 +157,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(newOrRetypedEdges);
+				return newOrRetypedEdges; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -165,7 +165,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(accessViaInterface);
+				return accessViaInterface; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -173,7 +173,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableMap(neededAttributes);
+				return neededAttributes; // TODO: Collections.UnmodifiableMap => IReadOnlyDictionary
 			}
 		}
 
@@ -181,7 +181,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableMap(attributesStoredBeforeDelete);
+				return attributesStoredBeforeDelete; // TODO: Collections.UnmodifiableMap => IReadOnlyDictionary
 			}
 		}
 
@@ -189,7 +189,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(neededVariables);
+				return neededVariables; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -197,7 +197,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(nodesNeededAsElements);
+				return nodesNeededAsElements; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -205,7 +205,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(edgesNeededAsElements);
+				return edgesNeededAsElements; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -213,7 +213,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(nodesNeededAsAttributes);
+				return nodesNeededAsAttributes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -221,7 +221,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(edgesNeededAsAttributes);
+				return edgesNeededAsAttributes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -229,7 +229,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(nodesNeededAsTypes);
+				return nodesNeededAsTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -237,7 +237,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(edgesNeededAsTypes);
+				return edgesNeededAsTypes; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
@@ -245,7 +245,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableMap(forceAttributeToVar);
+				return forceAttributeToVar; // TODO: Collections.UnmodifiableMap => IReadOnlyDictionary
 			}
 		}
 
@@ -269,7 +269,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			get
 			{
-				return Collections.UnmodifiableMap(mapExprToTempVar);
+				return mapExprToTempVar; // TODO: Collections.UnmodifiableMap => IReadOnlyDictionary
 			}
 		}
 

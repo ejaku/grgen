@@ -61,7 +61,7 @@ namespace de.unika.ipd.grgen.ir
 		{
 			get
 			{
-				return Collections.UnmodifiableSet(parameters);
+				return parameters; // TODO: Collections.UnmodifiableSet
 			}
 		}
 

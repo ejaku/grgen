@@ -128,7 +128,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 			}
 			get
 			{
-				return Collections.UnmodifiableSet(constraints);
+				return constraints; // TODO: Collections.UnmodifiableSet
 			}
 		}
 
