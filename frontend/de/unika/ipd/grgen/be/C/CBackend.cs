@@ -105,7 +105,7 @@ namespace de.unika.ipd.grgen.be.C
 		/// <param name="sb"> The string buffer to add to. </param>
 		/// <param name="typeMap"> The type map containing the types to dump. </param>
 		/// <param name="labelAdd"> The string that should be added to the define. </param>
-		protected internal static void MakeTypeDefines<T1>(PrintStream ps, IDictionary<T1> typeMap, string labelAdd) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
+		protected internal static void MakeTypeDefines<T1>(PrintStream ps, IDictionary<T1, int> typeMap, string labelAdd) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
 		{
 			ps.Print("/** Use this macro to check, if an id is a valid type */\n");
 			ps.Print("#define GR_" + labelAdd + "_TYPE_VALID(t) "
@@ -190,7 +190,7 @@ namespace de.unika.ipd.grgen.be.C
 		/// <param name="enumMap"> The enum type map. </param>
 		/// <param name="add"> A string to add to the identifier of the map. </param>
 		protected internal static void MakeAttrMap<T1>(PrintStream ps, IDictionary<Entity, int> attrMap,
-				IDictionary<T1> typeMap,
+				IDictionary<T1, int> typeMap,
 				IDictionary<EnumType, int> enumMap, string add) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
 		{
 			string[] name = new string[attrMap.Count];
@@ -322,7 +322,7 @@ namespace de.unika.ipd.grgen.be.C
 		/// <param name="attrMap"> The map of all attributes. </param>
 		/// <param name="typeMap"> The type map to use. </param>
 		protected internal static void MakeAttrMatrix<T1>(PrintStream ps, string add,
-				IDictionary<Entity, int> attrMap, IDictionary<T1> typeMap) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
+				IDictionary<Entity, int> attrMap, IDictionary<T1, int> typeMap) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
 		{
 
 			int maxTypeId = typeMap.Count;

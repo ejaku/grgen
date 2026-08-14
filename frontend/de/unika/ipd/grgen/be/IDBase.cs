@@ -268,7 +268,7 @@ namespace de.unika.ipd.grgen.be
 		/// <param name="map"> The map to look into. </param>
 		/// <param name="ty"> The inheritance type to get the id for. </param>
 		/// <returns> The type id for this type. </returns>
-		protected internal static int GetTypeId<T1>(IDictionary<T1> map, Type t) where T1 : de.unika.ipd.grgen.ir.type.Type
+		protected internal static int GetTypeId<T1>(IDictionary<T1, int> map, Type t) where T1 : de.unika.ipd.grgen.ir.type.Type
 		{
 			int? res = map[t];
 			return res.Value;
@@ -328,7 +328,7 @@ namespace de.unika.ipd.grgen.be
 			return res;
 		}
 
-		public static IDictionary<InheritanceType, int> GetTypeMap<T1>(IDictionary<T1> typeMap) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
+		public static IDictionary<InheritanceType, int> GetTypeMap<T1>(IDictionary<T1, int> typeMap) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
 		{
 			return new LinkedHashMap<InheritanceType, int>(typeMap); // TODO: performance optimization caching (and maybe another collection type fits better)
 		}
