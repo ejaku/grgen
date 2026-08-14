@@ -262,10 +262,10 @@ namespace de.unika.ipd.grgen.ast.pattern
 				if(AllMarked(candidate))
 				{
 					string witnessesLoc = "";
-					foreach(int? index in witnesses)
-						witnessesLoc += induceds.Get(index.Value).Coords + " ";
+					foreach(int index in witnesses)
+						witnessesLoc += induceds.Get(index).Coords + " ";
 					witnessesLoc = witnessesLoc.Trim();
-					induceds.Get(candidate.Value.IntValue()).ReportWarning(
+					induceds.Get(candidate.Value).ReportWarning(
 							"Induced statement is redundant, since covered by statement(s) at " + witnessesLoc);
 				}
 			}
@@ -285,7 +285,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 					edge.Add(src);
 					edge.Add(tgt);
 
-					markedMap[edge] = Convert.ToBoolean(false);
+					markedMap[edge] = false;
 				}
 			}
 
@@ -302,7 +302,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 			foreach(KeyValuePair<IList<NodeDeclNode>, bool> candidateMarkedMapEntry in candidate.Key.EntrySet())
 			{
 				// TODO also mark witness edge (and candidate as witness)
-				if(!candidateMarkedMapEntry.Value.BooleanValue())
+				if(!candidateMarkedMapEntry.Value)
 				{
 					foreach(KeyValuePair<IDictionary<IList<NodeDeclNode>, bool>, int> witness in inducedEdgeMap.SetOfKeyValuePairs())
 					{

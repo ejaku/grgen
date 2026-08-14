@@ -42,19 +42,15 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		static OperatorDeclNode()
 		{
-			int? two = new int?(2);
-			int? one = new int?(1);
-			int? zero = new int?(0);
-
 			foreach(Operator op in (Operator[])Enum.GetValues(typeof(Operator)))
-				arities[op] = two.Value;
+				arities[op] = 2;
 
-			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.COND] = new int?(3);
-			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_NOT] = one.Value;
-			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_NOT] = one.Value;
-			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.NEG] = one.Value;
-			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.CONST] = zero.Value;
-			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.ERROR] = zero.Value;
+			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.COND] = 3;
+			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_NOT] = 1;
+			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_NOT] = 1;
+			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.NEG] = 1;
+			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.CONST] = 0;
+			arities[de.unika.ipd.grgen.ast.decl.executable.Operator.ERROR] = 0;
 
 			names[de.unika.ipd.grgen.ast.decl.executable.Operator.COND] = "Cond";
 			names[de.unika.ipd.grgen.ast.decl.executable.Operator.LOG_OR] = "LogOr";
