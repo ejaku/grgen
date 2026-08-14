@@ -44,7 +44,7 @@ namespace de.unika.ipd.grgen.ast.util
 				return resolved;
 			}
 			if(cls.IsInstanceOfType(bn))
-				return cls.Cast(bn);
+				return bn as T;
 			bn.ReportError(bn + " is a " + bn.Kind +
 					" but a " + Util.GetStr(cls, typeof(BaseNode), "getKindStr") + " is expected.");
 			return default(T);
@@ -65,7 +65,7 @@ namespace de.unika.ipd.grgen.ast.util
 
 				TypeNode resolved = decl.DeclType;
 				if(cls.IsInstanceOfType(resolved))
-					return cls.Cast(resolved);
+					return resolved as T;
 				n.ReportError(n + " is a " + resolved.Kind +
 						" but a " + Util.GetStr(cls, typeof(BaseNode), "getKindStr") + " is expected.");
 			}

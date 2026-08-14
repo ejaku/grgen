@@ -89,11 +89,11 @@ namespace de.unika.ipd.grgen.ast.util
 				foreach(Type curCls in classes)
 				{
 					if(curCls.IsInstanceOfType(bn))
-						return curCls.Cast(bn);
+						return bn as R;
 				}
 			}
 			else if(cls.IsInstanceOfType(bn))
-				return cls.Cast(bn);
+				return bn as R;
 			return default(R);
 		}
 

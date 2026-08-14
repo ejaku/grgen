@@ -61,11 +61,11 @@ namespace de.unika.ipd.grgen.ast.util
 
 			triple = new Triple<R, S, T>();
 			if(clsR.IsInstanceOfType(bn))
-				triple.first = clsR.Cast(bn);
+				triple.first = bn as R;
 			if(clsS.IsInstanceOfType(bn))
-				triple.second = clsS.Cast(bn);
+				triple.second = bn as S;
 			if(clsT.IsInstanceOfType(bn))
-				triple.third = clsT.Cast(bn);
+				triple.third = bn as T;
 			if(triple.first != null || triple.second != null || triple.third != null)
 			{
 				Debug.Assert((triple.first == null ? 0 : 1)
@@ -95,11 +95,11 @@ namespace de.unika.ipd.grgen.ast.util
 			Triple<R, S, T> triple = new Triple<R, S, T>();
 			DeclNode resolved = n.Decl;
 			if(clsR.IsInstanceOfType(resolved))
-				triple.first = clsR.Cast(resolved);
+				triple.first = resolved as R;
 			if(clsS.IsInstanceOfType(resolved))
-				triple.second = clsS.Cast(resolved);
+				triple.second = resolved as S;
 			if(clsT.IsInstanceOfType(resolved))
-				triple.third = clsT.Cast(resolved);
+				triple.third = resolved as T;
 			if(triple.first != null || triple.second != null || triple.third != null)
 				return triple;
 

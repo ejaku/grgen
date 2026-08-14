@@ -105,14 +105,14 @@ namespace de.unika.ipd.grgen.ast.util
 		/// Returns the last resolved BaseNode, if it has the given type.
 		/// Otherwise it returns null.
 		/// </summary>
-		public virtual S GetResult<S>(Type cls) where S : T
+		public virtual S GetResult<S>(Type cls) where S : class, T
 		{
 			triedClasses.Add(cls);
 			if(cls.IsInstanceOfType(unresolvedNode))
 			{
 				validClasses++;
-				resolvedNode = cls.Cast(unresolvedNode);
-				return cls.Cast(unresolvedNode);
+				resolvedNode = unresolvedNode as S;
+				return unresolvedNode as S;
 			}
 
 			return default(S);

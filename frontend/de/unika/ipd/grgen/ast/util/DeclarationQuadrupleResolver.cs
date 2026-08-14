@@ -65,13 +65,13 @@ namespace de.unika.ipd.grgen.ast.util
 
 			quadruple = new Quadruple<R, S, T, U>();
 			if(clsR.IsInstanceOfType(bn))
-				quadruple.first = clsR.Cast(bn);
+				quadruple.first = bn as R;
 			if(clsS.IsInstanceOfType(bn))
-				quadruple.second = clsS.Cast(bn);
+				quadruple.second = bn as S;
 			if(clsT.IsInstanceOfType(bn))
-				quadruple.third = clsT.Cast(bn);
+				quadruple.third = bn as T;
 			if(clsU.IsInstanceOfType(bn))
-				quadruple.fourth = clsU.Cast(bn);
+				quadruple.fourth = bn as U;
 			if(quadruple.first != null || quadruple.second != null || quadruple.third != null || quadruple.fourth != null)
 			{
 				Debug.Assert((quadruple.first == null ? 0 : 1)
@@ -102,13 +102,13 @@ namespace de.unika.ipd.grgen.ast.util
 			Quadruple<R, S, T, U> quadruple = new Quadruple<R, S, T, U>();
 			DeclNode resolved = n.Decl;
 			if(clsR.IsInstanceOfType(resolved))
-				quadruple.first = clsR.Cast(resolved);
+				quadruple.first = resolved as R;
 			if(clsS.IsInstanceOfType(resolved))
-				quadruple.second = clsS.Cast(resolved);
+				quadruple.second = resolved as S;
 			if(clsT.IsInstanceOfType(resolved))
-				quadruple.third = clsT.Cast(resolved);
+				quadruple.third = resolved as T;
 			if(clsU.IsInstanceOfType(resolved))
-				quadruple.fourth = clsU.Cast(resolved);
+				quadruple.fourth = resolved as U;
 			if(quadruple.first != null || quadruple.second != null || quadruple.third != null || quadruple.fourth != null)
 				return quadruple;
 

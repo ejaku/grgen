@@ -56,9 +56,9 @@ namespace de.unika.ipd.grgen.ast.util
 			{
 				Pair<R, S> pair = new Pair<R, S>();
 				if(clsR.IsInstanceOfType(bn))
-					pair.fst = clsR.Cast(bn);
+					pair.fst = bn as R;
 				if(clsS.IsInstanceOfType(bn))
-					pair.snd = clsS.Cast(bn);
+					pair.snd = bn as S;
 				if(pair.fst != null || pair.snd != null)
 				{
 					Debug.Assert(pair.fst == null || pair.snd == null);
@@ -86,9 +86,9 @@ namespace de.unika.ipd.grgen.ast.util
 			Pair<R, S> pair = new Pair<R, S>();
 			DeclNode resolved = n.Decl;
 			if(clsR.IsInstanceOfType(resolved))
-				pair.fst = clsR.Cast(resolved);
+				pair.fst = resolved as R;
 			if(clsS.IsInstanceOfType(resolved))
-				pair.snd = clsS.Cast(resolved);
+				pair.snd = resolved as S;
 			if(pair.fst != null || pair.snd != null)
 				return pair;
 

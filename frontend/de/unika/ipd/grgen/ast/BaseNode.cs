@@ -944,6 +944,8 @@ namespace de.unika.ipd.grgen.ast
 		/// <returns> The IR object. </returns>
 		public T CheckIR<T>(Type cls) where T : de.unika.ipd.grgen.ir.IR
 		{
+			Debug.Assert(cls == typeof(T)); // TODO: remove cls parameter, use typeof(T) ... remainder from Java ... but maybe keep it so that an automatic port to Java from the by-now reference C# version is easy...
+
 			IR ir = IR;
 
 			debug.Report(NOTE, Coords, "checking ir object in \"" + Name
@@ -951,7 +953,7 @@ namespace de.unika.ipd.grgen.ast
 			Debug.Assert(cls.IsInstanceOfType(ir), "checking ir object in \"" + Name
 					+ "\" should be \"" + cls + "\" is \"" + ir.GetType() + "\"");
 
-			return cls.Cast(ir);
+			return (T)ir; // Convert.ChangeType(ir, cls) would resemble cls.Cast(ir) but without an according result type, so pointless ... but at least we can use a cast here and are not forced to switch to as
 		}
 
 		/// <summary>
