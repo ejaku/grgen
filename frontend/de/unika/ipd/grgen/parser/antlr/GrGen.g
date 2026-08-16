@@ -349,7 +349,7 @@ textActions returns [ UnitNode main = null ]
 usingDecl [ CollectNode<ModelNode> modelChilds ]
 	options { k = 1; }
 	@init {
-		ICollection<String> modelNames = new ArrayList<String>();
+		ICollection<String> modelNames = new List<String>();
 	}
 	: u=USING identList[modelNames]
 		{
@@ -919,8 +919,8 @@ matchClassFilterDeclList [ IdentNode matchClassIdent, List<MatchClassFilterChara
 filterExtension [ String idText, List<String> filterVariables ] returns [ String res = null ]
 	: idExtension=IDENT LT fvl2=filterVariableList GT idExtension2=IDENT LT fvl3=filterVariableList GT
 		{
-			filterVariables.Add(fvl2.get(0));
-			filterVariables.Add(fvl3.get(0));
+			filterVariables.Add(fvl2[0]);
+			filterVariables.Add(fvl3[0]);
 			res = idText + idExtension.Text + idExtension2.Text;
 		}
 	;
@@ -1482,10 +1482,10 @@ filterUse [ IdentNode iterated, AnonymousScopeNamer namer, int context ] returns
 					reportError(getCoords(id), "The filter " + fullName + " expects 0 arguments (given are " + args.Size() + ").");
 
 				if(idText.Equals("assign")) {
-					res = new FilterInvocationLambdaExpressionNode(iterated, getCoords(id), idText, fvl.get(0),
+					res = new FilterInvocationLambdaExpressionNode(iterated, getCoords(id), idText, fvl[0],
 						$lambdaExprVar.va, $lambdaExprVar.vi, $lambdaExprVar.vd, e);
 				} else if(idText.Equals("assignStartWithAccumulateBy")) {
-					res = new FilterInvocationLambdaExpressionNode(iterated, getCoords(id), idText, fvl.get(0),
+					res = new FilterInvocationLambdaExpressionNode(iterated, getCoords(id), idText, fvl[0],
 						$initExp.va, $initExp.expr,
 						$lambdaExprVar.va, $lambdaExprVar.vp, $lambdaExprVar.vi, $lambdaExprVar.vd, e);
 				} else {
@@ -2368,7 +2368,7 @@ yielding [ CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer, int
 	
 rets [ CollectNode<ExprNode> res, AnonymousScopeNamer namer, int context ]
 	@init {
-		bool multipleReturns = !res.ChildrenExact.isEmpty();
+		bool multipleReturns = res.ChildrenExact.Count > 0;
 	}
 	: r=RETURN
 		{
