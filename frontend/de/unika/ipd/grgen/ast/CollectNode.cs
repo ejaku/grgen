@@ -27,7 +27,7 @@ namespace de.unika.ipd.grgen.ast
 	{
 		static CollectNode()
 		{
-			SetClassName(typeof(CollectNode), "collect");
+			SetClassName(typeof(CollectNode<T>), "collect");
 		}
 
 		private IList<T> children = new List<T>();

@@ -454,7 +454,7 @@ namespace de.unika.ipd.grgen.be.C
 						return GetUnusedEvalParams(op.GetOperand(0))
 								| GetUnusedEvalParams(op.GetOperand(1))
 								| GetUnusedEvalParams(op.GetOperand(2));
-					//$FALL-THROUGH$
+					goto default; //$FALL-THROUGH$
 				default:
 					// nothing to do
 						break;
@@ -1092,7 +1092,7 @@ namespace de.unika.ipd.grgen.be.C
 						sb.Append(")");
 						break;
 					}
-					//$FALL-THROUGH$
+					goto default; //$FALL-THROUGH$
 				default:
 					throw new System.NotSupportedException("Unsupported Operation arrity (" + op.Arity() + ")");
 				}

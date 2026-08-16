@@ -867,12 +867,12 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 		public static string FormatInt(int i)
 		{
-			return (i == int.MaxValue) ? "int.MaxValue" : (new int?(i)).ToString();
+			return (i == int.MaxValue) ? "int.MaxValue" : i.ToString();
 		}
 
 		public static string FormatLong(long l)
 		{
-			return (l == long.MaxValue) ? "long.MaxValue" : (new long?(l)).ToString();
+			return (l == long.MaxValue) ? "long.MaxValue" : l.ToString();
 		}
 
 		public static GraphEntity GetAtMostOneNeededGraphElement(NeededEntities needs, IList<Entity> parameters)

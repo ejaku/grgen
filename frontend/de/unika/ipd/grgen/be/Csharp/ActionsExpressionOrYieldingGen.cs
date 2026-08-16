@@ -378,7 +378,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 						GenExpressionTree(sb, op.GetOperand(2), className, pathPrefix, alreadyDefinedEntityToName);
 						break;
 					}
-					//$FALL-THROUGH$
+					goto default; //$FALL-THROUGH$
 				default:
 					throw new System.NotSupportedException("Unsupported operation arity (" + op.Arity() + ")");
 				}
