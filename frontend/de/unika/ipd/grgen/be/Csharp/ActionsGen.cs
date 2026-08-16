@@ -493,7 +493,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Append("\n");
 
 			string patGraphVarName = "pat_" + pattern.NameOfGraph;
-			genRuleOrSubpatternClassEntities(sb, subpatternRule, patGraphVarName, staticInitializers,
+			GenRuleOrSubpatternClassEntities(sb, subpatternRule, patGraphVarName, staticInitializers,
 					pattern.NameOfGraph + "_", new Dictionary<Entity, string>());
 			sb.Append("\n");
 			GenRuleOrSubpatternInit(sb, subpatternRule, className, packageName, true);
@@ -538,7 +538,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Append("\n");
 
 			string patGraphVarName = "pat_" + pattern.NameOfGraph;
-			genRuleOrSubpatternClassEntities(sb, actionRule, patGraphVarName, staticInitializers,
+			GenRuleOrSubpatternClassEntities(sb, actionRule, patGraphVarName, staticInitializers,
 					pattern.NameOfGraph + "_", new Dictionary<Entity, string>());
 			sb.Append("\n");
 			GenRuleOrSubpatternInit(sb, actionRule, className, packageName, false);

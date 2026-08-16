@@ -477,12 +477,12 @@ namespace de.unika.ipd.grgen.be.C
 			{
 				foreach(InheritanceType type in map.Keys)
 				{
-					dumpXMLTag(1, ps, ">\n", type);
+					DumpXMLTag(1, ps, ">\n", type);
 
 					if(type.DirectSuperTypes.Count > 0)
 						ps.Print("    <inherits>\n");
 					foreach(InheritanceType inh in type.DirectSuperTypes)
-						dumpXMLTag(3, ps, "/>\n", inh);
+						DumpXMLTag(3, ps, "/>\n", inh);
 					if(type.DirectSuperTypes.Count > 0)
 						ps.Print("    </inherits>\n");
 
@@ -493,13 +493,13 @@ namespace de.unika.ipd.grgen.be.C
 					if(type.Members.Count > 0)
 						ps.Print("    </attributes>\n");
 
-					dumpXMLEndTag(1, ps, type);
+					DumpXMLEndTag(1, ps, type);
 				}
 			}
 
 			foreach(EnumType type in enumMap.Keys)
 			{
-				dumpXMLTag(1, ps, ">\n", type);
+				DumpXMLTag(1, ps, ">\n", type);
 
 				if(type.Items.Count > 0)
 					ps.Print("    <attributes>\n");
@@ -509,7 +509,7 @@ namespace de.unika.ipd.grgen.be.C
 				if(type.Items.Count > 0)
 					ps.Print("    </items>\n");
 
-				dumpXMLEndTag(1, ps, type);
+				DumpXMLEndTag(1, ps, type);
 			}
 
 			ps.Print("</unit>\n");

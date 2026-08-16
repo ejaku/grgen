@@ -434,7 +434,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		/// </summary>
 		private void GenInheritanceTypeInterface(InheritanceType type)
 		{
-			string iname = "I" + getInheritanceTypePrefix(type) + FormatIdentifiable(type);
+			string iname = "I" + GetInheritanceTypePrefix(type) + FormatIdentifiable(type);
 			sb.AppendFront("public interface " + iname + " : ");
 			GenDirectSuperTypeList(type);
 			sb.Append("\n");
@@ -452,7 +452,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		/// </summary>
 		private void GenDirectSuperTypeList(InheritanceType type)
 		{
-			string iprefix = "I" + getInheritanceTypePrefix(type);
+			string iprefix = "I" + GetInheritanceTypePrefix(type);
 
 			bool first = true;
 			foreach(InheritanceType superType in type.DirectSuperTypes)
@@ -1299,22 +1299,22 @@ namespace de.unika.ipd.grgen.be.Csharp
 				if(t is MapType)
 				{
 					MapType mapType = (MapType)t;
-					sb.Append("new " + formatAttributeType(mapType) + "();\n");
+					sb.Append("new " + FormatAttributeType(mapType) + "();\n");
 				}
 				else if(t is SetType)
 				{
 					SetType setType = (SetType)t;
-					sb.Append("new " + formatAttributeType(setType) + "();\n");
+					sb.Append("new " + FormatAttributeType(setType) + "();\n");
 				}
 				else if(t is ArrayType)
 				{
 					ArrayType arrayType = (ArrayType)t;
-					sb.Append("new " + formatAttributeType(arrayType) + "();\n");
+					sb.Append("new " + FormatAttributeType(arrayType) + "();\n");
 				}
 				else if(t is DequeType)
 				{
 					DequeType dequeType = (DequeType)t;
-					sb.Append("new " + formatAttributeType(dequeType) + "();\n");
+					sb.Append("new " + FormatAttributeType(dequeType) + "();\n");
 				}
 			}
 		}
@@ -2321,7 +2321,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			default:
 				sb.AppendFront("public override string " + FormatInheritanceTypeValue(type) + "InterfaceName { get { return "
 						+ "\"de.unika.ipd.grGen.Model_" + model.Ident + "."
-						+ GetPackagePrefixDot(type) + "I" + getInheritanceTypePrefix(type) + FormatIdentifiable(type)
+						+ GetPackagePrefixDot(type) + "I" + GetInheritanceTypePrefix(type) + FormatIdentifiable(type)
 						+ "\"; } }\n");
 			break;
 			}
