@@ -219,7 +219,7 @@ namespace de.unika.ipd.grgen.util
 				{
 					if(IsSubClass(c, sc) &&
 							ContainsMethod(c, m) &&
-							c.GetMethod("m").GetReturnType() == typeof(string))
+							c.GetMethod("m").ReturnType == typeof(string))
 					{
 						res.Append((string)c.GetMethod(m).Invoke(null));
 					}
@@ -257,7 +257,7 @@ namespace de.unika.ipd.grgen.util
 
 					if(IsSubClass(c, sc) && ContainsMethod(c, m))
 					{
-						if(c.GetMethod(m).GetReturnType() == typeof(string))
+						if(c.GetMethod(m).ReturnType == typeof(string))
 						{
 							res.Append((string)c.GetMethod(m).Invoke(null));
 							continue;
@@ -282,7 +282,7 @@ namespace de.unika.ipd.grgen.util
 			{
 				if(IsSubClass(c, sc) && ContainsMethod(c, m))
 				{
-					if(c.GetMethod(m).GetReturnType() == typeof(string))
+					if(c.GetMethod(m).ReturnType == typeof(string))
 					{
 						string str = (string)c.GetMethod(m).Invoke(null);
 						if(str.Equals("base node"))

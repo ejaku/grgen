@@ -56,7 +56,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		{
 			//note the early exit in checkLocal of FromIndexAccessMultipleFromToExprNode if the same index check fails (silently), when the parts FromIndexAccessFromToPartExprNode inheriting from this class are inspected 
 			bool res = true;
-			TypeNode expectedEntityType = Root.Decl.GetDeclType();
+			TypeNode expectedEntityType = Root.Decl.DeclType;
 			TypeNode entityType = index.Type;
 			if(!entityType.IsCompatibleTo(expectedEntityType))
 			{

@@ -333,7 +333,7 @@ namespace de.unika.ipd.grgen.ast
 				formalParameterType = typeChangeFormalParam.interfaceType.DeclType;
 			}
 			else
-				formalParameterType = formalParam.Decl.GetDeclType();
+				formalParameterType = formalParam.Decl.DeclType;
 
 			TypeNode actualParameterType = actualParam.Type;
 
@@ -400,7 +400,7 @@ namespace de.unika.ipd.grgen.ast
 		private bool CheckReturn(TypeNode formalReturn, ExecVarDeclNode actualReturn, int returnPos)
 		{
 			TypeNode formalReturnType = formalReturn;
-			TypeNode actualReturnType = actualReturn.Decl.GetDeclType();
+			TypeNode actualReturnType = actualReturn.Decl.DeclType;
 
 			if(actualReturnType is UntypedExecVarTypeNode)
 				return true;

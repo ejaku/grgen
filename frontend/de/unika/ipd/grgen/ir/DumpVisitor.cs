@@ -51,7 +51,7 @@ namespace de.unika.ipd.grgen.ir
 			{
 				get
 				{
-					return prefix + GraphDumpable.GetNodeId();
+					return prefix + GraphDumpable.NodeId;
 				}
 			}
 

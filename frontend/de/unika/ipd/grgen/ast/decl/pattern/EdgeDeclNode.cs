@@ -116,7 +116,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 				Debug.Assert(IsResolved());
 				DeclNode curr = GetValidResolvedVersion<DeclNode>(typeEdgeDecl, typeTypeDecl);
 				TypeNode type = curr.DeclType;
-				//assert curr.getDeclType() != null;
+				//assert curr.DeclType != null;
 				return (EdgeTypeNode)type;
 			}
 		}

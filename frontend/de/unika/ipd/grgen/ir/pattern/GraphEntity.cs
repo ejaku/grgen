@@ -348,7 +348,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 			get
 			{
 				return base.NodeInfo
-						+ "\nconstraints: " + GetConstraints();
+						+ "\nconstraints: " + Constraints;
 			}
 		}
 	}

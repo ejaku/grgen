@@ -347,7 +347,7 @@ namespace de.unika.ipd.grgen.be.C
 				conditions[Convert.ToInt32(act_id)] = new SortedSet<Expression>(conditionsComparator);
 
 				//iterate over all conditions of the current action
-				foreach(Expression condition in act.Pattern.GetConditions())
+				foreach(Expression condition in act.Pattern.Conditions)
 				{
 					// divide the expression to all AND-connected parts, which do
 					//not have an AND-Operator as root themselves
@@ -390,11 +390,11 @@ namespace de.unika.ipd.grgen.be.C
 				foreach(Node node in pattern.Nodes)
 				{
 					//if node has type constraints, register the as conditions
-					if(node.GetConstraints().Count > 0)
+					if(node.Constraints.Count > 0)
 					{
 						//note that a type condition is the set of all types,
 						//the corresponding node/edge is not allowed to be of
-						ICollection<InheritanceType> type_condition = node.GetConstraints();
+						ICollection<InheritanceType> type_condition = node.Constraints;
 
 						//...create condition numbers
 						typeConditionNumbers[type_condition] = typeConditionCounter++;
@@ -415,11 +415,11 @@ namespace de.unika.ipd.grgen.be.C
 				foreach(Edge edge in pattern.Edges)
 				{
 					//if node has type constraints, register the as conditions
-					if(edge.GetConstraints().Count > 0)
+					if(edge.Constraints.Count > 0)
 					{
 						//note that a type condition is the set of all types,
 						//the corresponding edge is not allowed to be of
-						ICollection<InheritanceType> type_condition = edge.GetConstraints();
+						ICollection<InheritanceType> type_condition = edge.Constraints;
 
 						//...create condition numbers
 						typeConditionNumbers[type_condition] = typeConditionCounter++;

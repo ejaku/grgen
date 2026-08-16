@@ -770,7 +770,7 @@ namespace de.unika.ipd.grgen.be.C
 
 				// TODO make type constraints:
 				// sb.append(indent + "/* TODO typeof("+name+") = " + type +
-				//			  " \\ " + node.getConstraints()  +"*/\n");
+				//			  " \\ " + node.Constraints  +"*/\n");
 
 				name = name.Replace('$', '_');
 
@@ -1146,7 +1146,7 @@ namespace de.unika.ipd.grgen.be.C
 				case Type.TypeClass.IS_STRING: //emit C-code for string constants
 					// CAUTION! This was modified for INTEGET CONSTANTS!
 					// TODO: Make it general if you need it!
-					// sb.append("\"" + constant.getValue() + "\"");
+					// sb.append("\"" + constant.Value + "\"");
 					sb.Append(constant.Value.ToString());
 
 					break;

@@ -82,7 +82,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		{
 			bool successfullyChecked = true;
 
-			TypeNode expectedEntityType = Root.Decl.GetDeclType();
+			TypeNode expectedEntityType = Root.Decl.DeclType;
 			foreach(FromIndexAccessFromToPartExprNode indexAccessExpr in indexAccessExprs.ChildrenExact)
 			{
 				TypeNode entityType = indexAccessExpr.index.Type;

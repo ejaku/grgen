@@ -266,7 +266,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 			if(IsIRAlreadySet()) // break endless recursion in case of a member of edge or container of edge typ
 				return IR;
 
-			EdgeType et = new EdgeType(Decl.Ident.GetIRIdent(), IRModifiers, ExternalName);
+			EdgeType et = new EdgeType(Decl.Ident.IRIdent, IRModifiers, ExternalName);
 
 			IR = et;
 

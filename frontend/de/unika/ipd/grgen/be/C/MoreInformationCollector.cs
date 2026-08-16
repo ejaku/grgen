@@ -476,11 +476,11 @@ namespace de.unika.ipd.grgen.be.C
 					foreach(Node node in neg_pattern.Nodes)
 					{
 						//if node has type constraints, register the as conditions
-						if(node.GetConstraints().Count > 0)
+						if(node.Constraints.Count > 0)
 						{
 							//note that a type condition is the set of all types,
 							//the corresponding node/edge is not allowed to be of
-							ICollection<InheritanceType> type_condition = node.GetConstraints();
+							ICollection<InheritanceType> type_condition = node.Constraints;
 
 							//...create condition numbers
 							typeConditionNumbers[type_condition] = typeConditionCounter++;
@@ -504,11 +504,11 @@ namespace de.unika.ipd.grgen.be.C
 					foreach(Edge edge in neg_pattern.Edges)
 					{
 						//if node has type constraints, register the as conditions
-						if(edge.GetConstraints().Count > 0)
+						if(edge.Constraints.Count > 0)
 						{
 							//note that a type condition is the set of all types,
 							//the corresponding edge is not allowed to be of
-							ICollection<InheritanceType> type_condition = edge.GetConstraints();
+							ICollection<InheritanceType> type_condition = edge.Constraints;
 
 							//...create condition numbers
 							typeConditionNumbers[type_condition] = typeConditionCounter++;

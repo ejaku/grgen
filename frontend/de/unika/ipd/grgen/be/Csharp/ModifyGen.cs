@@ -1534,7 +1534,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes,
 				SubpatternDependentReplacement subRep)
 		{
-			Rule subRule = subRep.SubpatternUsage.GetSubpatternAction();
+			Rule subRule = subRep.SubpatternUsage.SubpatternAction;
 			string subName = FormatIdentifiable(subRep);
 			sb.AppendFront("GRGEN_ACTIONS." + GetPackagePrefixDot(subRule) + "Pattern_" + FormatIdentifiable(subRule)
 					+ ".Instance." + FormatIdentifiable(subRule) +

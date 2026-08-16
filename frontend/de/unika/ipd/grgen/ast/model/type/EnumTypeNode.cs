@@ -47,9 +47,9 @@ namespace de.unika.ipd.grgen.ast.model.type
 	
 		 switch(op.getOpId()) {
 		 case OperatorSignature.EQ:
-		 return new BoolConstNode(coords, args[0].getValue().equals(args[1].getValue()));
+		 return new BoolConstNode(coords, args[0].Value.equals(args[1].getValue()));
 		 case OperatorSignature.NE:
-		 return new BoolConstNode(coords, !args[0].getValue().equals(args[1].getValue()));
+		 return new BoolConstNode(coords, !args[0].Value.equals(args[1].getValue()));
 		 }
 		 return ConstNode.getInvalid();
 		 }

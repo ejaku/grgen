@@ -545,7 +545,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 				if(e[0] is TypeConstNode)
 				{
-					TypeNode type = (TypeNode)((TypeConstNode)e[0]).GetValue();
+					TypeNode type = (TypeNode)((TypeConstNode)e[0]).Value;
 					is_node1 = type is NodeTypeNode;
 				}
 				else if(e[0] is TypeofNode)
@@ -558,7 +558,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 				if(e[1] is TypeConstNode)
 				{
-					TypeNode type = (TypeNode)((TypeConstNode)e[1]).GetValue();
+					TypeNode type = (TypeNode)((TypeConstNode)e[1]).Value;
 					is_node2 = type is NodeTypeNode;
 				}
 				else if(e[1] is TypeofNode)

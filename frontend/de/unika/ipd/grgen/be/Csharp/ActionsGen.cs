@@ -2010,11 +2010,11 @@ namespace de.unika.ipd.grgen.be.Csharp
 				sb.AppendFront("public static GRGEN_LIBGR.NodeType[] "
 						+ FormatEntity(node, pathPrefixForElements) + "_AllowedTypes = ");
 				aux.AppendFront("public static bool[] " + FormatEntity(node, pathPrefixForElements) + "_IsAllowedType = ");
-				if(node.GetConstraints().Count > 0)
+				if(node.Constraints.Count > 0)
 				{
 					// alle verbotenen Typen und deren Untertypen
 					HashSet<Type> allForbiddenTypes = new HashSet<Type>();
-					foreach(Type forbiddenType in node.GetConstraints())
+					foreach(Type forbiddenType in node.Constraints)
 					{
 						foreach(Type type in model.AllNodeTypes)
 						{
@@ -2062,11 +2062,11 @@ namespace de.unika.ipd.grgen.be.Csharp
 				sb.AppendFront("public static GRGEN_LIBGR.EdgeType[] "
 						+ FormatEntity(edge, pathPrefixForElements) + "_AllowedTypes = ");
 				aux.AppendFront("public static bool[] " + FormatEntity(edge, pathPrefixForElements) + "_IsAllowedType = ");
-				if(edge.GetConstraints().Count > 0)
+				if(edge.Constraints.Count > 0)
 				{
 					// alle verbotenen Typen und deren Untertypen
 					HashSet<Type> allForbiddenTypes = new HashSet<Type>();
-					foreach(Type forbiddenType in edge.GetConstraints())
+					foreach(Type forbiddenType in edge.Constraints)
 					{
 						foreach(Type type in model.AllEdgeTypes)
 						{

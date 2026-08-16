@@ -159,12 +159,12 @@ namespace de.unika.ipd.grgen.ast.expr
 
 			if(targetExpr.IR is VariableExpression)
 			{
-				return new Qualification(targetExpr.CheckIR<VariableExpression>(typeof(VariableExpression)).GetVariable(),
+				return new Qualification(targetExpr.CheckIR<VariableExpression>(typeof(VariableExpression)).Variable,
 						member.CheckIR<Entity>(typeof(Entity)));
 			}
 			else if(targetExpr.IR is GraphEntityExpression)
 			{
-				return new Qualification(targetExpr.CheckIR<GraphEntityExpression>(typeof(GraphEntityExpression)).GetGraphEntity(),
+				return new Qualification(targetExpr.CheckIR<GraphEntityExpression>(typeof(GraphEntityExpression)).GraphEntity,
 						member.CheckIR<Entity>(typeof(Entity)));
 			}
 			else
