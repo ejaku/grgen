@@ -276,7 +276,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			bool isOk = true;
 
 			string actionName = Kind + " " + Ident.ToString();
-			string matchTypeName = matchType.Ident.ToString() + matchType.Decl.GetDeclarationCoords();
+			string matchTypeName = matchType.Ident.ToString() + matchType.Decl.DeclarationCoords;
 			string nodeName = node.Ident.ToString();
 			if(!knownNodes.ContainsKey(nodeName))
 			{
@@ -322,7 +322,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			bool isOk = true;
 
 			string actionName = Kind + " " + Ident.ToString();
-			string matchTypeName = matchType.Ident.ToString() + matchType.Decl.GetDeclarationCoords();
+			string matchTypeName = matchType.Ident.ToString() + matchType.Decl.DeclarationCoords;
 			string edgeName = edge.Ident.ToString();
 			if(!knownEdges.ContainsKey(edgeName))
 			{
@@ -368,7 +368,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			bool isOk = true;
 
 			string actionName = Kind + " " + Ident.ToString();
-			string matchTypeName = matchType.Ident.ToString() + matchType.Decl.GetDeclarationCoords();
+			string matchTypeName = matchType.Ident.ToString() + matchType.Decl.DeclarationCoords;
 			string varName = var.Ident.ToString();
 			if(!knownVariables.ContainsKey(varName))
 			{

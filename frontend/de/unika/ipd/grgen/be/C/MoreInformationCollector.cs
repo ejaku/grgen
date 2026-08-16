@@ -246,7 +246,7 @@ namespace de.unika.ipd.grgen.be.C
 				//check whether its graphs node and edge set sizes are greater
 				int size;
 
-				foreach(PatternGraphLhs negPattern in act.Pattern.GetNegs())
+				foreach(PatternGraphLhs negPattern in act.Pattern.Negs)
 				{
 					negMap[act_id][negPattern] = negs++;
 
