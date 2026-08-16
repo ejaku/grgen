@@ -16,4 +16,22 @@ internal static class MyCollectionHelper
             collection.Add(element);
         }
     }
+
+    public static void RemoveAll<T, TGen>(this ICollection<T> collection, ICollection<TGen> otherCollection) where T : TGen
+    {
+        if(collection == null)
+            throw new System.NullReferenceException();
+        if(otherCollection == null)
+            throw new System.NullReferenceException();
+
+        foreach(TGen element in otherCollection)
+        {
+            if(element is T)
+            {
+                T elementAsT = (T)element;
+                if(collection.Contains(elementAsT))
+                    collection.Remove(elementAsT);
+            }
+        }
+    }
 }
