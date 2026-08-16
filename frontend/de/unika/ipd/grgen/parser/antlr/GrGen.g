@@ -386,27 +386,27 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 globalVarDecl 
 	: DOUBLECOLON id=entIdentDecl COLON type=typeIdentUse SEMI
 		{
-			id.setDecl(new NodeDeclNode(id, type, CopyKind.None, 0, TypeExprNode.Empty, null));
+			id.Decl = new NodeDeclNode(id, type, CopyKind.None, 0, TypeExprNode.Empty, null);
 		}
 	| MINUS DOUBLECOLON id=entIdentDecl COLON type=typeIdentUse (RARROW | MINUS) SEMI
 		{
-			id.setDecl(new EdgeDeclNode(id, type, CopyKind.None, 0, TypeExprNode.Empty, null));
+			id.Decl = new EdgeDeclNode(id, type, CopyKind.None, 0, TypeExprNode.Empty, null);
 		}
 	| modifier=IDENT DOUBLECOLON id=entIdentDecl COLON 
 		(
 			type=typeIdentUse
 			{
-				id.setDecl(new VarDeclNode(id, type, null, 0, false, false, modifier.Text));
+				id.Decl = new VarDeclNode(id, type, null, 0, false, false, modifier.Text);
 			}
 		|
 			containerType=containerTypeUse
 			{
-				id.setDecl(new VarDeclNode(id, containerType, null, 0, false, false, modifier.Text));
+				id.Decl = new VarDeclNode(id, containerType, null, 0, false, false, modifier.Text);
 			}
 		|
 			matchTypeIdent=matchTypeIdentUse
 			{
-				id.setDecl(new VarDeclNode(id, matchTypeIdent, null, 0, false, false, modifier.Text));
+				id.Decl = new VarDeclNode(id, matchTypeIdent, null, 0, false, false, modifier.Text);
 			}
 		)
 		SEMI
@@ -439,7 +439,7 @@ packageActionDecl returns [ IdentNode res = ParserEnvironment.DummyIdent ]
 			PackageActionTypeNode pt = new PackageActionTypeNode(patternChilds, actionChilds, 
 				matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds, matchTypeIteratedChilds,
 				functionChilds, procedureChilds, sequenceChilds);
-			id.setDecl(new TypeDeclNode(id, pt));
+			id.Decl = new TypeDeclNode(id, pt);
 			res = id;
 		}
 		{ env.CurrentPackage = null; env.PopScope(); }
@@ -532,7 +532,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		left=patternBody[getCoords(t), paramz, conn, returnz, namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.ToString()]
 			{
 				actionDecl = new TestDeclNode(id, left, implementedMatchTypes, ret);
-				id.setDecl(actionDecl);
+				id.Decl = actionDecl;
 				actionChilds.AddChild(id);
 			}
 		defEntitiesOrYieldings[conn, defVariablesToBeYieldedTo, evalss, returnz, namer, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, left]
@@ -553,19 +553,19 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		( rightReplace=replacePart[new CollectNode<BaseNode>(), namer, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
 				actionDecl = new RuleDeclNode(id, left, implementedMatchTypes, rightReplace, ret);
-				id.setDecl(actionDecl);
+				id.Decl = actionDecl;
 				actionChilds.AddChild(id);
 			}
 		| rightModify=modifyPart[dels, new CollectNode<BaseNode>(), namer, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
 				actionDecl = new RuleDeclNode(id, left, implementedMatchTypes, rightModify, ret);
-				id.setDecl(actionDecl);
+				id.Decl = actionDecl;
 				actionChilds.AddChild(id);
 			}
 		| emptyRightModify=emptyModifyPart[getCoords(r), dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
 				actionDecl = new RuleDeclNode(id, left, implementedMatchTypes, emptyRightModify, ret);
-				id.setDecl(actionDecl);
+				id.Decl = actionDecl;
 				actionChilds.AddChild(id);
 			}
 		)
@@ -585,7 +585,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			{ rightHandSide = rightModify; }
 		)?
 			{
-				id.setDecl(new SubpatternDeclNode(id, left, rightHandSide));
+				id.Decl = new SubpatternDeclNode(id, left, rightHandSide);
 				patternChilds.AddChild(id);
 			}
 		RBRACE { env.PopScope(); }
@@ -596,14 +596,14 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			sequence[exec]
 		RBRACE { env.PopScope(); }
 		{
-			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
+			id.Decl = new SequenceDeclNode(id, exec, inParams, outParams);
 			sequenceChilds.AddChild(id);
 		}
 	| EXTERNAL s=SEQUENCE id=actionIdentDecl { env.PushScope(id); } { exec = new ExecNode(getCoords(s)); }
 		inParams=sequenceInParameters[exec] outParams=sequenceOutParameters[exec]
 		SEMI { env.PopScope(); }
 		{
-			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
+			id.Decl = new SequenceDeclNode(id, exec, inParams, outParams);
 			sequenceChilds.AddChild(id);
 		}
 	| f=FUNCTION id=funcOrExtFuncIdentDecl { env.PushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.Invalid]
@@ -622,7 +622,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			)
 		RBRACE { env.PopScope(); }
 		{
-			id.setDecl(new FunctionDeclNode(id, evals, functionAutoImplementation, paramz, retType, false));
+			id.Decl = new FunctionDeclNode(id, evals, functionAutoImplementation, paramz, retType, false);
 			functionChilds.AddChild(id);
 		}
 	| pr=PROCEDURE id=funcOrExtFuncIdentDecl { env.PushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphLhsNode.Invalid]
@@ -637,7 +637,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			)*
 		RBRACE { env.PopScope(); }
 		{
-			id.setDecl(new ProcedureDeclNode(id, evals, paramz, retTypes, false));
+			id.Decl = new ProcedureDeclNode(id, evals, paramz, retTypes, false);
 			procedureChilds.AddChild(id);
 		}
 	| f=FILTER id=actionIdentDecl filterFunctionDecl[f, id, filterChilds, matchClassFilterChilds]
@@ -646,13 +646,13 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		(body=matchClassBody[getCoords(mc), namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.ToString()]
 			{
 				mt = new DefinedMatchTypeNode(body);
-				id.setDecl(new TypeDeclNode(id, mt));
+				id.Decl = new TypeDeclNode(id, mt);
 				matchClassChilds.AddChild(id);
 			}
 		| autoBody=matchClassAutoBody[getCoords(mc), namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.ToString()]
 			{
 				mt = new DefinedMatchTypeNode(autoBody);
-				id.setDecl(new TypeDeclNode(id, mt));
+				id.Decl = new TypeDeclNode(id, mt);
 				matchClassChilds.AddChild(id);
 			}
 		)
@@ -706,7 +706,7 @@ filterFunctionDecl [ IToken f, IdentNode id, CollectNode<IdentNode> filterChilds
 		RBRACE { env.PopScope(); }
 		{
 			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, evals, paramz, actionId);
-			id.setDecl(ff);
+			id.Decl = ff;
 			filterChilds.AddChild(id);
 		}
 	| LT CLASS typeId=typeIdentUse GT { env.PushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.Invalid]
@@ -724,7 +724,7 @@ filterFunctionDecl [ IToken f, IdentNode id, CollectNode<IdentNode> filterChilds
 		RBRACE { env.PopScope(); }
 		{
 			MatchClassFilterFunctionDeclNode mff = new MatchClassFilterFunctionDeclNode(id, evals, paramz, typeId);
-			id.setDecl(mff);
+			id.Decl = mff;
 			matchClassFilterChilds.AddChild(id);
 		}
 	;
@@ -734,14 +734,14 @@ externalFilterFunctionDecl [ IToken f, IdentNode id, CollectNode<IdentNode> filt
 		SEMI { env.PopScope(); }
 		{
 			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, paramz, actionId);
-			id.setDecl(ff);
+			id.Decl = ff;
 			filterChilds.AddChild(id);
 		} 
 	| LT CLASS typeId=typeIdentUse GT { env.PushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.Invalid]
 		SEMI { env.PopScope(); }
 		{
 			MatchClassFilterFunctionDeclNode mff = new MatchClassFilterFunctionDeclNode(id, null, paramz, typeId);
-			id.setDecl(mff);
+			id.Decl = mff;
 			matchClassFilterChilds.AddChild(id);
 		} 
 	;
@@ -857,7 +857,7 @@ filterDeclList [ IdentNode actionOrIteratedIdent, List<FilterAutoDeclNode> filte
 			else
 				filterAutoGenerated = new FilterAutoGeneratedDeclNode(filterIdent, filterBaseText, fvl, actionOrIteratedIdent);
 
-			filterIdent.setDecl(filterAutoGenerated);
+			filterIdent.Decl = filterAutoGenerated;
 			filters.Add(filterAutoGenerated);
 		}
 	(
@@ -877,7 +877,7 @@ filterDeclListContinuation [ IdentNode actionOrIteratedIdent, List<FilterAutoDec
 			else
 				filterAutoGenerated = new FilterAutoGeneratedDeclNode(filterIdent, filterBase.Text, fvl, actionOrIteratedIdent);
 
-			filterIdent.setDecl(filterAutoGenerated);
+			filterIdent.Decl = filterAutoGenerated;
 			filters.Add(filterAutoGenerated);
 		}
 	;
@@ -908,7 +908,7 @@ matchClassFilterDeclList [ IdentNode matchClassIdent, List<MatchClassFilterChara
 			MatchClassFilterAutoGeneratedDeclNode filterAutoGenerated = 
 				new MatchClassFilterAutoGeneratedDeclNode(filterIdent, filterBaseText, fvl, matchClassIdent);
 
-			filterIdent.setDecl(filterAutoGenerated);
+			filterIdent.Decl = filterAutoGenerated;
 			matchClassFilters.Add(filterAutoGenerated);
 		}
 	(
@@ -934,7 +934,7 @@ matchClassFilterDeclListContinuation [ IdentNode matchClassIdent, List<MatchClas
 			MatchClassFilterAutoGeneratedDeclNode filterAutoGenerated =
 				new MatchClassFilterAutoGeneratedDeclNode(filterIdent, filterBase.Text, fvl, matchClassIdent);
 
-			filterIdent.setDecl(filterAutoGenerated);
+			filterIdent.Decl = filterAutoGenerated;
 			matchClassFilters.Add(filterAutoGenerated);
 		}
 	;
@@ -2631,9 +2631,9 @@ indexDecl [ CollectNode<IdentNode> indices ] returns [ bool res = false ]
 
 indexDeclBody [ IdentNode id ]
 	: type=typeIdentUse DOT member=memberIdentUse
-		{ id.setDecl(new AttributeIndexDeclNode(id, type, member)); }
+		{ id.Decl = new AttributeIndexDeclNode(id, type, member); }
 	| i=IDENT LPAREN startNodeType=typeIdentUse (COMMA incidentEdgeType=typeIdentUse (COMMA adjacentNodeType=typeIdentUse)?)? RPAREN 
-		{ id.setDecl(new IncidenceCountIndexDeclNode(id, i.Text, startNodeType, incidentEdgeType, adjacentNodeType, env)); }
+		{ id.Decl = new IncidenceCountIndexDeclNode(id, i.Text, startNodeType, incidentEdgeType, adjacentNodeType, env); }
 	;
 
 externalFunctionOrProcedureDecl [ CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs ]
@@ -2642,12 +2642,12 @@ externalFunctionOrProcedureDecl [ CollectNode<IdentNode> externalFuncs, CollectN
 	}
 	: EXTERNAL f=FUNCTION id=funcOrExtFuncIdentDecl paramz=paramTypes COLON ret=returnType SEMI
 		{
-			id.setDecl(new ExternalFunctionDeclNode(id, paramz, ret, false));
+			id.Decl = new ExternalFunctionDeclNode(id, paramz, ret, false);
 			externalFuncs.AddChild(id);
 		}
 	| EXTERNAL p=PROCEDURE id=funcOrExtFuncIdentDecl paramz=paramTypes (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
 		{
-			id.setDecl(new ExternalProcedureDeclNode(id, paramz, returnTypes, false));
+			id.Decl = new ExternalProcedureDeclNode(id, paramz, returnTypes, false);
 			externalProcs.AddChild(id);
 		}
 	;
@@ -2672,7 +2672,7 @@ packageDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = ParserEnviro
 	  RBRACE
 		{
 			PackageTypeNode pt = new PackageTypeNode(types);
-			id.setDecl(new TypeDeclNode(id, pt));
+			id.Decl = new TypeDeclNode(id, pt);
 			res = id;
 		}
 		{ env.PopScope(); }
@@ -2737,7 +2737,7 @@ edgeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode r
 					et = new DirectedEdgeTypeNode(ext, cas, body, modifiers, externalName);
 				}
 			}
-			id.setDecl(new TypeDeclNode(id, et));
+			id.Decl = new TypeDeclNode(id, et);
 			res = id;
 		}
 		{ env.PopScope(); }
@@ -2753,7 +2753,7 @@ nodeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode r
 		)
 		{
 			NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers, externalName);
-			id.setDecl(new TypeDeclNode(id, nt));
+			id.Decl = new TypeDeclNode(id, nt);
 			res = id;
 		}
 		{ env.PopScope(); }
@@ -2768,7 +2768,7 @@ objectClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode
 		)
 		{
 			InternalObjectTypeNode iot = new InternalObjectTypeNode(ext, body, modifiers);
-			id.setDecl(new TypeDeclNode(id, iot));
+			id.Decl = new TypeDeclNode(id, iot);
 			res = id;
 		}
 		{ env.PopScope(); }
@@ -2783,7 +2783,7 @@ transientObjectClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ 
 		)
 		{
 			InternalTransientObjectTypeNode itot = new InternalTransientObjectTypeNode(ext, body, modifiers);
-			id.setDecl(new TypeDeclNode(id, itot));
+			id.Decl = new TypeDeclNode(id, itot);
 			res = id;
 		}
 		{ env.PopScope(); }
@@ -2971,7 +2971,7 @@ enumDecl returns [ IdentNode res = ParserEnvironment.DummyIdent ]
 		LBRACE enumList[id, c]
 		{
 			TypeNode enumType = new EnumTypeNode(c);
-			id.setDecl(new TypeDeclNode(id, enumType));
+			id.Decl = new TypeDeclNode(id, enumType);
 			res = id;
 		}
 		RBRACE { env.PopScope(); }
@@ -2998,7 +2998,7 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemDeclNode> coll, ExprNode defI
 				value = defInit;
 			}
 			EnumItemDeclNode memberDecl = new EnumItemDeclNode(id, type, value, pos);
-			id.setDecl(memberDecl);
+			id.Decl = memberDecl;
 			coll.AddChild(memberDecl);
 			OperatorNode add = new ArithmeticOperatorNode(id.Coords, Operator.ADD);
 			add.AddChild(value);
@@ -3017,7 +3017,7 @@ extClassDecl returns [ IdentNode res = ParserEnvironment.DummyIdent ]
 		)
 		{
 			ExternalObjectTypeNode et = new ExternalObjectTypeNode(ext, body);
-			id.setDecl(new TypeDeclNode(id, et));
+			id.Decl = new TypeDeclNode(id, et);
 			res = id;
 		}
 		{ env.PopScope(); }
@@ -3060,7 +3060,7 @@ inClassExtFunctionDecl [ IdentNode clsId ] returns [ ExternalFunctionDeclNode re
 			paramz=paramTypes COLON retType=returnType SEMI { env.PopScope(); }
 		{
 			res = new ExternalFunctionDeclNode(id, paramz, retType, true);
-			id.setDecl(res);
+			id.Decl = res;
 		}
 	;
 
@@ -3072,7 +3072,7 @@ inClassExtProcedureDecl [ IdentNode clsId ] returns [ ExternalProcedureDeclNode 
 		paramz=paramTypes (COLON LPAREN (returnTypeList[retTypes])? RPAREN)? SEMI { env.PopScope(); }
 		{
 			res = new ExternalProcedureDeclNode(id, paramz, retTypes, true);
-			id.setDecl(res);
+			id.Decl = res;
 		}
 	;
 	
@@ -3107,7 +3107,7 @@ basicDecl [ AnonymousScopeNamer namer, IdentNode id, bool isConst, CollectNode<B
 	: type=typeIdentUse
 		{
 			decl = new MemberDeclNode(id, type, isConst);
-			id.setDecl(decl);
+			id.Decl = decl;
 			c.AddChild(decl);
 		}
 		(
@@ -3128,7 +3128,7 @@ mapDecl [ AnonymousScopeNamer namer, IdentNode id, bool isConst, CollectNode<Bas
 		IDENT LT keyType=typeIdentUse COMMA valueType=typeIdentUse
 			{
 				decl = new MemberDeclNode(id, new MapTypeNode(keyType, valueType), isConst);
-				id.setDecl(decl);
+				id.Decl = decl;
 				c.AddChild(decl);
 			}
 		(
@@ -3151,7 +3151,7 @@ setDecl [ AnonymousScopeNamer namer, IdentNode id, bool isConst, CollectNode<Bas
 		IDENT LT valueType=typeIdentUse
 			{
 				decl = new MemberDeclNode(id, new SetTypeNode(valueType), isConst);
-				id.setDecl(decl);
+				id.Decl = decl;
 				c.AddChild(decl);
 			}
 		(
@@ -3174,7 +3174,7 @@ arrayDecl [ AnonymousScopeNamer namer, IdentNode id, bool isConst, CollectNode<B
 		IDENT LT valueType=typeIdentUse
 			{
 				decl = new MemberDeclNode(id, new ArrayTypeNode(valueType), isConst);
-				id.setDecl(decl);
+				id.Decl = decl;
 				c.AddChild(decl);
 			}
 		(
@@ -3197,7 +3197,7 @@ dequeDecl [ AnonymousScopeNamer namer, IdentNode id, bool isConst, CollectNode<B
 		IDENT LT valueType=typeIdentUse
 			{
 				decl = new MemberDeclNode(id, new DequeTypeNode(valueType), isConst);
-				id.setDecl(decl);
+				id.Decl = decl;
 				c.AddChild(decl);
 			}
 		(
@@ -3255,7 +3255,7 @@ inClassFunctionDecl [ IdentNode clsId, InheritanceTypeKind kind ] returns [ Func
 		RBRACE { env.PopScope(); }
 		{
 			res = new FunctionDeclNode(id, evals, null, paramz, retType, true);
-			id.setDecl(res);
+			id.Decl = res;
 		}
 	;
 
@@ -3303,7 +3303,7 @@ inClassProcedureDecl [ IdentNode clsId, InheritanceTypeKind kind ] returns [ Pro
 		RBRACE { env.PopScope(); }
 		{
 			res = new ProcedureDeclNode(id, evals, paramz, retTypes, true);
-			id.setDecl(res);
+			id.Decl = res;
 		}
 	;
 

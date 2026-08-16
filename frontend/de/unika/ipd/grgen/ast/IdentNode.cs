@@ -137,20 +137,6 @@ namespace de.unika.ipd.grgen.ast
 			}
 		}
 
-
-		/// <summary>
-		/// set the declaration node for this ident node. Each ident node
-		/// declares an entity. To resolve this declared entity from the name,
-		/// an ident node (which gets the name from the symbol defined
-		/// by the symbol definition) has a declaration as its only child. </summary>
-		/// <param name="n"> The declaration this ident represents. </param>
-		/// <returns> For convenience, this method returns <code>this</code>. </returns>
-		public virtual IdentNode setDecl(DeclNode n)
-		{
-			decl = n;
-			return this;
-		}
-
 		/// <summary>
 		/// Get the declaration corresponding to this node. </summary>
 		/// <seealso cref=".setDecl() for a detailed description."/>
@@ -170,6 +156,16 @@ namespace de.unika.ipd.grgen.ast
 				}
 				else
 					return DeclNode.GetInvalid(this);
+			}
+			/// <summary>
+			/// set the declaration node for this ident node. Each ident node
+			/// declares an entity. To resolve this declared entity from the name,
+			/// an ident node (which gets the name from the symbol defined
+			/// by the symbol definition) has a declaration as its only child. </summary>
+			/// <param name="value"> The declaration this ident represents. </param>
+			set
+			{
+				decl = value;
 			}
 		}
 
