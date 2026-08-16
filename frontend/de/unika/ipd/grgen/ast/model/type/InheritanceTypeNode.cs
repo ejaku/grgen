@@ -404,8 +404,8 @@ namespace de.unika.ipd.grgen.ast.model.type
 		// maybe TODO: maybe remember type of member instead of ascending syntax tree afterwards
 		private TypeNode GetContainingType(DeclNode decl)
 		{
-			BaseNode parent = decl.Parents.GetEnumerator().Next();
-			BaseNode grandParent = parent.Parents.GetEnumerator().Next();
+			BaseNode parent = EnumeratorHelper.GetFirstElement(decl.Parents);
+			BaseNode grandParent = EnumeratorHelper.GetFirstElement(parent.Parents);
 			return (TypeNode)grandParent;
 		}
 

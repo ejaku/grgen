@@ -1035,7 +1035,7 @@ namespace de.unika.ipd.grgen.ast
 			// get root node
 			BaseNode root = this;
 			while(!root.IsRoot())
-				root = root.Parents.GetEnumerator().Next();
+				root = EnumeratorHelper.GetFirstElement(root.Parents);
 
 			// find a root-type
 			TypeDeclNode rootType = null;

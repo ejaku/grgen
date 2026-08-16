@@ -155,7 +155,7 @@ namespace de.unika.ipd.grgen.ir
 				if(evals.Count > 0)
 				{
 					dumper.BeginSubgraph("evals");
-					dumper.Edge(rule.Right, evals.GetEnumerator().Next(), "eval", Style.DASHED, Color.GRAY);
+					dumper.Edge(rule.Right, EnumeratorHelper.GetFirstElement(evals), "eval", Style.DASHED, Color.GRAY);
 				}
 
 				EvalStatement oldEvalStatement = null;

@@ -91,7 +91,7 @@ namespace de.unika.ipd.grgen.ast.expr.deque
 
 		protected internal virtual DequeTypeNode CreateDequeType()
 		{
-			TypeNode itemTypeNode = containerItems.ChildrenExact.GetEnumerator().Next().Type;
+			TypeNode itemTypeNode = EnumeratorHelper.GetFirstElement(containerItems.ChildrenExact).Type;
 			IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).Ident;
 			return new DequeTypeNode(itemTypeIdent);
 		}

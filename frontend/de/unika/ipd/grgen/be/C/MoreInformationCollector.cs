@@ -584,7 +584,7 @@ namespace de.unika.ipd.grgen.be.C
 					nodesOfSubgraph[act_id].AddLast(currentSubgraphNodes);
 					edgesOfSubgraph[act_id].AddLast(currentSubgraphEdges);
 
-					node = (Node)remainingNodes.GetEnumerator().Next();
+					node = (Node)EnumeratorHelper.GetFirstElement(remainingNodes);
 					remainingNodes.Remove(node);
 
 					subgraphOfNode[node] = subgraph;
@@ -683,7 +683,7 @@ namespace de.unika.ipd.grgen.be.C
 				if(pattern.Nodes.Count > 0)
 				{
 					//get any node as initial node
-					Node max_prio_node = pattern.Nodes.GetEnumerator().Next();
+					Node max_prio_node = EnumeratorHelper.GetFirstElement(pattern.Nodes);
 					foreach(Node node in pattern.Nodes)
 					{
 						//get the nodes priority

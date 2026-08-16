@@ -567,7 +567,7 @@ namespace de.unika.ipd.grgen.ast.stmt
 				{
 					ArithmeticOperatorNode @operator = (ArithmeticOperatorNode)curLoc;
 					@operator.MarkToBreakUpIntoStateChangingOperations(lhsQual);
-					ExprNode left = @operator.ChildrenExact.GetEnumerator().Next();
+					ExprNode left = EnumeratorHelper.GetFirstElement(@operator.ChildrenExact);
 					curLoc = left;
 				}
 				else

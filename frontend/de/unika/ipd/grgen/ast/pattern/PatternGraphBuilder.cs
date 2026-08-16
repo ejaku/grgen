@@ -304,7 +304,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 		public static void AddHoms(PatternGraphLhs patternGraph, ISet<ConstraintDeclNode> homEntityNodes)
 		{
 			// homSet is not empty, first element defines type of all elements
-			if(homEntityNodes.GetEnumerator().Next() is NodeDeclNode)
+			if(EnumeratorHelper.GetFirstElement(homEntityNodes) is NodeDeclNode)
 			{
 				HashSet<Node> homNodes = new HashSet<Node>();
 				foreach(DeclNode node in homEntityNodes)

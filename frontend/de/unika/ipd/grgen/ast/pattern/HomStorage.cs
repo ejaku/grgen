@@ -184,7 +184,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 
 			foreach(ISet<ConstraintDeclNode> homSet in homSets)
 			{
-				if(homSet.GetEnumerator().Next() is NodeDeclNode)
+				if(EnumeratorHelper.GetFirstElement(homSet) is NodeDeclNode)
 					FillHomNodesInNodesToHomNodes(homSet);
 				else
 					FillHomEdgesInEdgesToHomEdges(homSet);

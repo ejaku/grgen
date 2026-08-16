@@ -172,8 +172,8 @@ namespace de.unika.ipd.grgen.ast.expr.map
 
 		private MapTypeNode CreateMapType()
 		{
-			TypeNode keyTypeNode = mapItems.ChildrenExact.GetEnumerator().Next().keyExpr.Type;
-			TypeNode valueTypeNode = mapItems.ChildrenExact.GetEnumerator().Next().valueExpr.Type;
+			TypeNode keyTypeNode = EnumeratorHelper.GetFirstElement(mapItems.ChildrenExact).keyExpr.Type;
+			TypeNode valueTypeNode = EnumeratorHelper.GetFirstElement(mapItems.ChildrenExact).valueExpr.Type;
 			IdentNode keyTypeIdent = ((DeclaredTypeNode)keyTypeNode).Ident;
 			IdentNode valueTypeIdent = ((DeclaredTypeNode)valueTypeNode).Ident;
 			return new MapTypeNode(keyTypeIdent, valueTypeIdent);

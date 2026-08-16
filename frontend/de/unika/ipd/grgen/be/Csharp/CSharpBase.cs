@@ -891,7 +891,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				neededEntities.Add(edge);
 			}
 			if(neededEntities.Count == 1)
-				return neededEntities.GetEnumerator().Next();
+				return EnumeratorHelper.GetFirstElement(neededEntities);
 			else if(neededEntities.Count > 1)
 				throw new System.NotSupportedException("INTERNAL ERROR, more than one needed entity for index access!");
 			return null;

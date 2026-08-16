@@ -777,7 +777,7 @@ namespace de.unika.ipd.grgen.ir.executable
 				neededEntities.Add(edge);
 			}
 			if(neededEntities.Count == 1)
-				return neededEntities.GetEnumerator().Next();
+				return EnumeratorHelper.GetFirstElement(neededEntities);
 			else if(neededEntities.Count > 1)
 			{
 				error.Error(entity.Ident.Coords, "There are " + neededEntities.Count + " entities specified in an index access or name map access of "
