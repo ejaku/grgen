@@ -272,9 +272,9 @@ textActions returns [ UnitNode main = null ]
 		)*
 		EOF
 		{
-			if(modelChilds.ChildrenExact.size() == 0)
+			if(modelChilds.ChildrenExact.Count == 0)
 				modelChilds.AddChild(env.StdModel);
-			else if(modelChilds.ChildrenExact.size() > 1) {
+			else if(modelChilds.ChildrenExact.Count > 1) {
 				//
 				// If more than one model is specified, generate a new graph model
 				// using the name of the grg-file containing all given models.
@@ -609,7 +609,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 	| f=FUNCTION id=funcOrExtFuncIdentDecl { env.PushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.Invalid]
 		COLON retType=returnType
 		{
-			if(ParserEnvironment.IsGlobalFunction(id.ToString(), paramz.ChildrenExact.size()))
+			if(ParserEnvironment.IsGlobalFunction(id.ToString(), paramz.ChildrenExact.Count))
 				reportError(id.Coords, "The function " + id.ToString() + " cannot be defined - a builtin function of the same name and with the same number of parameters already exists.");
 		}
 		LBRACE
@@ -628,7 +628,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 	| pr=PROCEDURE id=funcOrExtFuncIdentDecl { env.PushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphLhsNode.Invalid]
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		{
-			if(ParserEnvironment.IsGlobalProcedure(id.ToString(), paramz.ChildrenExact.size()))
+			if(ParserEnvironment.IsGlobalProcedure(id.ToString(), paramz.ChildrenExact.Count))
 				reportError(id.Coords, "The procedure " + id.ToString() + " cannot be defined - a builtin procedure of the same name and with the same number of parameters already exists.");
 		}
 		LBRACE
@@ -2500,7 +2500,7 @@ textTypes returns [ ModelNode model = null ]
 	: ( usingDecl[modelChilds] )*
 		specialClasses = typeDecls[namer, types, packages, externalFuncs, externalProcs, indices] EOF
 		{
-			if(modelChilds.ChildrenExact.size() == 0)
+			if(modelChilds.ChildrenExact.Count == 0)
 				modelChilds.AddChild(env.StdModel);
 			model = new ModelNode(id, packages, types, externalFuncs, externalProcs, indices, modelChilds,
 				$specialClasses.isEmitClassDefined, $specialClasses.isEmitGraphClassDefined, $specialClasses.isCopyClassDefined, 
@@ -2856,7 +2856,7 @@ edgeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c, bool undirected ]
 		}
 	)*
 		{
-			if(c.ChildrenExact.size() == 0) {
+			if(c.ChildrenExact.Count == 0) {
 				if(undirected) {
 					c.AddChild(env.UndirectedEdgeRoot);
 				} else {
@@ -2888,7 +2888,7 @@ nodeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 		}
 	)*
 		{
-			if(c.ChildrenExact.size() == 0)
+			if(c.ChildrenExact.Count == 0)
 				c.AddChild(env.NodeRoot);
 		}
 	;
@@ -2915,7 +2915,7 @@ objectExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 		}
 	)*
 		{
-			if(c.ChildrenExact.size() == 0)
+			if(c.ChildrenExact.Count == 0)
 				c.AddChild(env.InternalObjectRoot);
 		}
 	;
@@ -2942,7 +2942,7 @@ transientObjectExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 		}
 	)*
 		{
-			if(c.ChildrenExact.size() == 0)
+			if(c.ChildrenExact.Count == 0)
 				c.AddChild(env.InternalTransientObjectRoot);
 		}
 	;

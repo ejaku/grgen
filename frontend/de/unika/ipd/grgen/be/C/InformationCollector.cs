@@ -257,10 +257,10 @@ namespace de.unika.ipd.grgen.be.C
 				//check whether its graphs node and edge set sizes are greater
 				int size;
 
-				size = act.Pattern.Nodes.Size();
+				size = act.Pattern.Nodes.Count;
 				if(size > max_n_pattern_nodes)
 					max_n_pattern_nodes = size;
-				size = act.Pattern.Edges.Size();
+				size = act.Pattern.Edges.Count;
 				if(size > max_n_pattern_edges)
 					max_n_pattern_edges = size;
 
@@ -294,14 +294,14 @@ namespace de.unika.ipd.grgen.be.C
 
 				foreach(Node node in act.Pattern.Nodes)
 					pattern_node_num[act_id][node] = node_num++;
-				Debug.Assert(node_num == act.Pattern.Nodes.Size(), "Wrong number of node_nums was created");
+				Debug.Assert(node_num == act.Pattern.Nodes.Count, "Wrong number of node_nums was created");
 
 				//fill the map with pairs (edge, edge_num)
 				int edge_num = 0;
 
 				foreach(Edge edge in act.Pattern.Edges)
 					pattern_edge_num[act_id][edge] = edge_num++;
-				Debug.Assert(edge_num == act.Pattern.Edges.Size(), "Wrong number of edge_nums was created");
+				Debug.Assert(edge_num == act.Pattern.Edges.Count, "Wrong number of edge_nums was created");
 
 				// if action has a replacement graph, compute node/edge numbers
 				if(act.Right != null)

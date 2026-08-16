@@ -600,7 +600,7 @@ seqFunctionCall [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.InitE
 	  ( i=IDENT | i=COPY | i=CLONE | i=NAMEOF | i=TYPEOF ) LPAREN { xg.Append(i.Text); xg.Append("("); }
 			paramz=seqFunctionCallParameters[xg] RPAREN { xg.Append(")"); }
 		{
-			if(i.Text.Equals("now") && paramz.ChildrenExact.size() == 0 || ParserEnvironment.IsGlobalFunction(null, i, paramz)) {
+			if(i.Text.Equals("now") && paramz.ChildrenExact.Count == 0 || ParserEnvironment.IsGlobalFunction(null, i, paramz)) {
 				IdentNode funcIdent = new IdentNode(env.Occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.Text, getCoords(i)));
 				if(packPrefix) {
 					res = new PackageFunctionInvocationDecisionNode(p.Text, funcIdent, paramz, env);
@@ -626,14 +626,14 @@ seqScanFunctionCall [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.I
 	: ( s=SCAN { xg.Append(s.Text); } | s=TRYSCAN { xg.Append(s.Text); } ) (LT { xg.Append("<"); } type=seqTypeOrContainerTypeContinuation[xg])? LPAREN { xg.Append("("); }
 			paramz=seqFunctionCallParameters[xg] RPAREN { xg.Append(")"); }
 		{
-			if(paramz.ChildrenExact.size() == 1) {
+			if(paramz.ChildrenExact.Count == 1) {
 				if(s.Text.Equals("scan")) {
 					res = new ScanExprNode(getCoords(s), type, paramz.Get(0));
 				} else {
 					res = new TryScanExprNode(getCoords(s), type, paramz.Get(0));
 				}
 			} else {
-				reportError(getCoords(s), "The function " + s.Text + " expects 1 parameter (and a type parameter) (given are " + paramz.ChildrenExact.size() + ").");
+				reportError(getCoords(s), "The function " + s.Text + " expects 1 parameter (and a type parameter) (given are " + paramz.ChildrenExact.Count + ").");
 			}
 		}
 	;

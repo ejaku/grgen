@@ -607,7 +607,7 @@ namespace de.unika.ipd.grgen.be.C
 						Debug.Assert(nodesOfSubgraph[act_id].Count == edgesOfSubgraph[act_id].Count);
 						for(int i = 0; i < nodesOfSubgraph[act_id].Count; i++)
 						{
-							if((nodesOfSubgraph[act_id].ToList()[i]).Size() < smallest_subgraph.Count)
+							if((nodesOfSubgraph[act_id].ToList()[i]).Count < smallest_subgraph.Count)
 							{
 								smallest_subgraph = nodesOfSubgraph[act_id].ToList()[i];
 								smallest_subgraph_edges = edgesOfSubgraph[act_id].ToList()[i];
@@ -629,7 +629,7 @@ namespace de.unika.ipd.grgen.be.C
 						Debug.Assert(nodesOfSubgraph[act_id].Count == edgesOfSubgraph[act_id].Count);
 						for(int i = 0; i < nodesOfSubgraph[act_id].Count; i++)
 						{
-							if((nodesOfSubgraph[act_id].ToList()[i]).Size() < next_smallest_subgraph.Count)
+							if((nodesOfSubgraph[act_id].ToList()[i]).Count < next_smallest_subgraph.Count)
 							{
 								next_smallest_subgraph = nodesOfSubgraph[act_id].ToList()[i];
 								next_smallest_subgraph_edges = edgesOfSubgraph[act_id].ToList()[i];
@@ -646,7 +646,7 @@ namespace de.unika.ipd.grgen.be.C
 					smallest_subgraph_edges = edgesOfSubgraph[act_id].First.Value;
 					for(int i = 0; i < nodesOfSubgraph[act_id].Count; i++)
 					{
-						if((nodesOfSubgraph[act_id].ToList()[i]).Size() < smallest_subgraph.Count)
+						if((nodesOfSubgraph[act_id].ToList()[i]).Count < smallest_subgraph.Count)
 						{
 							smallest_subgraph = nodesOfSubgraph[act_id].ToList()[i];
 							smallest_subgraph_edges = edgesOfSubgraph[act_id].ToList()[i];
