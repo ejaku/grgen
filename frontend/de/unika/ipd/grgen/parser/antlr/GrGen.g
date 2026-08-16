@@ -1478,8 +1478,8 @@ filterUse [ IdentNode iterated, AnonymousScopeNamer namer, int context ] returns
 			if(fvl != null)
 			{
 				String fullName = idText + "<" + join("_", fvl) + ">";
-				if(args.size() != 0)
-					reportError(getCoords(id), "The filter " + fullName + " expects 0 arguments (given are " + args.size() + ").");
+				if(args.Size() != 0)
+					reportError(getCoords(id), "The filter " + fullName + " expects 0 arguments (given are " + args.Size() + ").");
 
 				if(idText.Equals("assign")) {
 					res = new FilterInvocationLambdaExpressionNode(iterated, getCoords(id), idText, fvl.get(0),
@@ -1497,8 +1497,8 @@ filterUse [ IdentNode iterated, AnonymousScopeNamer namer, int context ] returns
 			}
 			else if(idText.Equals("auto"))
 			{
-				if(args.size() != 0)
-					reportError(getCoords(id), "The filter " + idText + " expects 0 arguments (given are " + args.size() + ").");
+				if(args.Size() != 0)
+					reportError(getCoords(id), "The filter " + idText + " expects 0 arguments (given are " + args.Size() + ").");
 				reportError(getCoords(id), "The filter " + idText + " is not supported for iterateds.");
 				/*IdentNode filterAutoGen = new IdentNode(env.Occurs(ParserEnvironment.ACTIONS, fullName, getCoords(id)));
 				res = new FilterInvocationNode(iterated, filterAutoGen, args);*/
@@ -1510,8 +1510,8 @@ filterUse [ IdentNode iterated, AnonymousScopeNamer namer, int context ] returns
 			}
 			else if(ParserEnvironment.IsAutoSuppliedFilterName(idText))
 			{
-				if(args.size() != 1)
-					reportError(getCoords(id), "The filter " + idText + " expects 1 arguments (given are " + args.size() + ").");
+				if(args.Size() != 1)
+					reportError(getCoords(id), "The filter " + idText + " expects 1 arguments (given are " + args.Size() + ").");
 				IdentNode filterAutoSup = new IdentNode(env.Occurs(ParserEnvironment.ACTIONS, idText, getCoords(id)));
 				res = new FilterInvocationNode(iterated, filterAutoSup, args);
 			}
