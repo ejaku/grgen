@@ -151,8 +151,8 @@ namespace de.unika.ipd.grgen.be.C
 			internal virtual int ComputeId(T elem)
 			{
 				if(!idMap.ContainsKey(elem))
-					idMap.Put(elem, Convert.ToInt32(MaxIndex + 1));
-				return idMap.Get(elem).IntValue();
+					idMap.Add(elem, Convert.ToInt32(MaxIndex + 1));
+				return idMap[elem];
 			}
 
 			internal virtual bool IsKnown(T elem)
@@ -164,7 +164,7 @@ namespace de.unika.ipd.grgen.be.C
 			{
 				get
 				{
-					return (idMap.Size() + offset - 1);
+					return (idMap.Count + offset - 1);
 				}
 			}
 		}

@@ -299,7 +299,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 
 			IList<IList<NodeDeclNode>> toBeMarkedKeys = new List<IList<NodeDeclNode>>();
 
-			foreach(KeyValuePair<IList<NodeDeclNode>, bool> candidateMarkedMapEntry in candidate.Key.EntrySet())
+			foreach(KeyValuePair<IList<NodeDeclNode>, bool> candidateMarkedMapEntry in candidate.Key)
 			{
 				// TODO also mark witness edge (and candidate as witness)
 				if(!candidateMarkedMapEntry.Value)
@@ -324,7 +324,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 			foreach(IList<NodeDeclNode> toBeMarkedKey in toBeMarkedKeys)
 			{
 				Debug.Assert((candidate.Key.ContainsKey(toBeMarkedKey)));
-				candidate.Key.Put(toBeMarkedKey, true);
+				candidate.Key[toBeMarkedKey] = true;
 			}
 
 			return witnesses;

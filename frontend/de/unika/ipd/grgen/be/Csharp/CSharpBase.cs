@@ -5611,7 +5611,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			if(elem is GraphEntity)
 			{
-				HashSet<Entity> forcedAttrs = state.ForceAttributeToVar[(GraphEntity)elem];
+				ISet<Entity> forcedAttrs = state.ForceAttributeToVar[(GraphEntity)elem];
 				return forcedAttrs != null && forcedAttrs.Contains(attr);
 			}
 			else

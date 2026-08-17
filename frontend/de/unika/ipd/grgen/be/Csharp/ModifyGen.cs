@@ -1132,7 +1132,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		private void GenVariablesForUsedAttributesBeforeDelete(SourceBuilder sb,
 				ModifyGenerationStateConst state, IDictionary<GraphEntity, ISet<Entity>> forceAttributeToVar)
 		{
-			foreach(KeyValuePair<GraphEntity, HashSet<Entity>> entry in state.AttributesStoredBeforeDelete.SetOfKeyValuePairs())
+			foreach(KeyValuePair<GraphEntity, ISet<Entity>> entry in state.AttributesStoredBeforeDelete.SetOfKeyValuePairs())
 			{
 				GraphEntity owner = entry.Key;
 

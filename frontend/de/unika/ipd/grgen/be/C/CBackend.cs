@@ -113,7 +113,7 @@ namespace de.unika.ipd.grgen.be.C
 
 			ps.Print("/** The number of types defined */\n");
 			ps.Print("#define GR_" + labelAdd + "_TYPES " + typeMap.Count + "\n\n");
-			foreach(InheritanceType ty in typeMap.Keys)
+			foreach(T1 ty in typeMap.Keys)
 			{
 				Ident id = ty.Ident;
 
@@ -201,7 +201,7 @@ namespace de.unika.ipd.grgen.be.C
 			{
 				int index = attrMap[ent];
 				name[index] = ent.Ident.ToString();
-				owner[index] = GetTypeId(typeMap, ent.Owner);
+				owner[index] = GetTypeId(typeMap, (T1)ent.Owner);
 				types[index] = ent.Type;
 			}
 
@@ -213,7 +213,7 @@ namespace de.unika.ipd.grgen.be.C
 
 				if(types[i] is EnumType)
 				{
-					int id = GetTypeId(enumMap, types[i]);
+					int id = GetTypeId(enumMap, (EnumType)types[i]);
 					ps.Print(id + " },\n");
 				}
 				else
@@ -332,7 +332,7 @@ namespace de.unika.ipd.grgen.be.C
 			foreach(Entity ent in attrMap.Keys)
 			{
 				int attrId = attrMap[ent];
-				int typeId = GetTypeId(typeMap, ent.Owner);
+				int typeId = GetTypeId(typeMap, (T1)ent.Owner);
 				matrix[typeId][attrId] = 1;
 			}
 

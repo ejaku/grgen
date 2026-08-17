@@ -3663,7 +3663,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				foreach(InheritanceType subType in type.DirectSubTypes)
 				{
 					// TODO: HACK, because direct sub types may also contain types from other models...
-					if(!types.Contains(subType))
+					if(!types.Contains((T1)subType))
 						continue;
 					sb.AppendFront(FormatTypeClassRef(subType) + ".typeVar,\n");
 				}

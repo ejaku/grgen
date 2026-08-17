@@ -65,7 +65,7 @@ namespace de.unika.ipd.grgen.util
 			annots[key] = value;
 		}
 
-		public virtual ISet<string> KeySet()
+		public virtual ICollection<string> KeySet()
 		{
 			return annots.Keys;
 		}

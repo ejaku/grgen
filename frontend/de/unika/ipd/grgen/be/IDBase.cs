@@ -268,9 +268,9 @@ namespace de.unika.ipd.grgen.be
 		/// <param name="map"> The map to look into. </param>
 		/// <param name="ty"> The inheritance type to get the id for. </param>
 		/// <returns> The type id for this type. </returns>
-		protected internal static int GetTypeId<T1>(IDictionary<T1, int> map, Type t) where T1 : de.unika.ipd.grgen.ir.type.Type
+		protected internal static int GetTypeId<T1>(IDictionary<T1, int> map, T1 t) where T1 : de.unika.ipd.grgen.ir.type.Type
 		{
-			int res = map[t]; // in case the key would not be found, the code would have crashed when the integer value was fetched from the Integer in the original Java code, now it would crash directly when the dictionary is accessed
+			int res = map[t]; // in case the key would not be found, the code would have crashed when the integer value was fetched from the Integer in the original Java code, now it would crash directly when the dictionary is accessed (this allowed a type sharpening of t to T1 instead of Type)
 			return res;
 		}
 
@@ -286,7 +286,7 @@ namespace de.unika.ipd.grgen.be
 
 		public int GetId(Type t, bool forNode)
 		{
-			return forNode ? GetTypeId(nodeTypeMap, t) : GetTypeId(edgeTypeMap, t);
+			return forNode ? GetTypeId(nodeTypeMap, (NodeType)t) : GetTypeId(edgeTypeMap, (EdgeType)t);
 		}
 
 		public short[][] GetIsAMatrix(bool forNode)

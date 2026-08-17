@@ -387,7 +387,8 @@ namespace de.unika.ipd.grgen.ast.model.type
 				else if(child is DeclNode)
 				{
 					DeclNode decl = (DeclNode)child;
-					DeclNode old = allInheritedMembers.Get(decl.Ident.ToString());
+					DeclNode old;
+					allInheritedMembers.TryGetValue(decl.Ident.ToString(), out old);
 					if(old != null && !(old is AbstractMemberDeclNode))
 					{
 						decl.ReportError("The member " + decl.Ident
