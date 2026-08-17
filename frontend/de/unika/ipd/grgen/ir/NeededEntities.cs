@@ -110,7 +110,7 @@ namespace de.unika.ipd.grgen.ir
 		/// <summary>
 		/// The pattern graph entities needed for attributes mapped to the according attributes.
 		/// </summary>
-		public Dictionary<GraphEntity, ISet<Entity>> attrEntityMap;
+		public IDictionary<GraphEntity, ISet<Entity>> attrEntityMap;
 
 		/// <summary>
 		/// The nodes needed for attributes.

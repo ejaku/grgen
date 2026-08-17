@@ -1130,7 +1130,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		}
 
 		private void GenVariablesForUsedAttributesBeforeDelete(SourceBuilder sb,
-				ModifyGenerationStateConst state, Dictionary<GraphEntity, ISet<Entity>> forceAttributeToVar)
+				ModifyGenerationStateConst state, IDictionary<GraphEntity, ISet<Entity>> forceAttributeToVar)
 		{
 			foreach(KeyValuePair<GraphEntity, HashSet<Entity>> entry in state.AttributesStoredBeforeDelete.SetOfKeyValuePairs())
 			{

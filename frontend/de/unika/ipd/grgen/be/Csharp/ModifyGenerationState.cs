@@ -341,8 +341,8 @@ namespace de.unika.ipd.grgen.be.Csharp
 		public ISet<Edge> newOrRetypedEdges = new LinkedHashSet<Edge>();
 		public ISet<GraphEntity> accessViaInterface = new LinkedHashSet<GraphEntity>();
 
-		public Dictionary<GraphEntity, ISet<Entity>> neededAttributes;
-		public Dictionary<GraphEntity, ISet<Entity>> attributesStoredBeforeDelete = new LinkedHashMap<GraphEntity, ISet<Entity>>();
+		public IDictionary<GraphEntity, ISet<Entity>> neededAttributes;
+		public IDictionary<GraphEntity, ISet<Entity>> attributesStoredBeforeDelete = new LinkedHashMap<GraphEntity, ISet<Entity>>();
 
 		public ISet<Variable> neededVariables;
 
@@ -354,9 +354,9 @@ namespace de.unika.ipd.grgen.be.Csharp
 		public ISet<Node> nodesNeededAsTypes = new LinkedHashSet<Node>();
 		public ISet<Edge> edgesNeededAsTypes = new LinkedHashSet<Edge>();
 
-		public Dictionary<GraphEntity, ISet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, ISet<Entity>>();
+		public IDictionary<GraphEntity, ISet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, ISet<Entity>>();
 
-		public Dictionary<Expression, string> mapExprToTempVar = new LinkedHashMap<Expression, string>();
+		public IDictionary<Expression, string> mapExprToTempVar = new LinkedHashMap<Expression, string>();
 		public bool useVarForResult_;
 		public bool switchToVarForResultAfterFirstVarUsage_;
 

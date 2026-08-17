@@ -330,7 +330,7 @@ namespace de.unika.ipd.grgen.be
 
 		public static IDictionary<InheritanceType, int> GetTypeMap<T1>(IDictionary<T1, int> typeMap) where T1 : de.unika.ipd.grgen.ir.model.type.InheritanceType
 		{
-			return new LinkedHashMap<InheritanceType, int>(typeMap); // TODO: performance optimization caching (and maybe another collection type fits better)
+			return LinkedHashMap<InheritanceType, int>.FromDictionary(typeMap); // TODO: performance optimization caching (and maybe another collection type fits better)
 		}
 
 		/// <summary>
