@@ -60,7 +60,7 @@ namespace de.unika.ipd.grgen.ir
 				entities = new LinkedHashSet<Entity>();
 			if((needs & Needs.ALL_ATTRIBUTES) == Needs.ALL_ATTRIBUTES)
 			{
-				attrEntityMap = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
+				attrEntityMap = new LinkedHashMap<GraphEntity, ISet<Entity>>();
 				attrNodes = new LinkedHashSet<Node>();
 				attrEdges = new LinkedHashSet<Edge>();
 			}
@@ -85,42 +85,42 @@ namespace de.unika.ipd.grgen.ir
 		/// <summary>
 		/// The nodes needed.
 		/// </summary>
-		public HashSet<Node> nodes;
+		public ISet<Node> nodes;
 
 		/// <summary>
 		/// The edges needed.
 		/// </summary>
-		public HashSet<Edge> edges;
+		public ISet<Edge> edges;
 
 		/// <summary>
 		/// The variables needed.
 		/// </summary>
-		public HashSet<Variable> variables;
+		public ISet<Variable> variables;
 
 		/// <summary>
 		/// The entities needed (nodes, edges, and variables).
 		/// </summary>
-		public HashSet<Entity> entities;
+		public ISet<Entity> entities;
 
 		/// <summary>
 		/// The members needed (from member expressions for member initialization).
 		/// </summary>
-		public HashSet<Entity> members;
+		public ISet<Entity> members;
 
 		/// <summary>
 		/// The pattern graph entities needed for attributes mapped to the according attributes.
 		/// </summary>
-		public Dictionary<GraphEntity, HashSet<Entity>> attrEntityMap;
+		public Dictionary<GraphEntity, ISet<Entity>> attrEntityMap;
 
 		/// <summary>
 		/// The nodes needed for attributes.
 		/// </summary>
-		public HashSet<Node> attrNodes;
+		public ISet<Node> attrNodes;
 
 		/// <summary>
 		/// The edges needed for attributes.
 		/// </summary>
-		public HashSet<Edge> attrEdges;
+		public ISet<Edge> attrEdges;
 
 		/// <summary>
 		/// Specifies whether container expressions should be collected.
@@ -131,7 +131,7 @@ namespace de.unika.ipd.grgen.ir
 		/// <summary>
 		/// The container expressions.
 		/// </summary>
-		public HashSet<Expression> containerExprs;
+		public ISet<Expression> containerExprs;
 
 		/// <summary>
 		/// Specifies whether entities declared in computation context should be collected.
@@ -141,7 +141,7 @@ namespace de.unika.ipd.grgen.ir
 		/// <summary>
 		/// The lambda expressions.
 		/// </summary>
-		public HashSet<Expression> lambdaExprs;
+		public ISet<Expression> lambdaExprs;
 
 		/// <summary>
 		/// Adds a needed graph entity. </summary>
@@ -227,7 +227,7 @@ namespace de.unika.ipd.grgen.ir
 				return;
 			}
 
-			HashSet<Entity> attrs = attrEntityMap[grEnt];
+			ISet<Entity> attrs = attrEntityMap[grEnt];
 			if(attrs == null)
 				attrEntityMap[grEnt] = attrs = new LinkedHashSet<Entity>();
 			attrs.Add(attr);

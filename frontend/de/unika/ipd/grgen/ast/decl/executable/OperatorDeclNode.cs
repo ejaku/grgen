@@ -105,8 +105,8 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		/// <summary>
 		/// Each generic operator is mapped by its ID to a set of concrete operator signatures.
 		/// </summary>
-		private static readonly IDictionary<Operator, HashSet<OperatorDeclNode>> operators =
-				new Dictionary<Operator, HashSet<OperatorDeclNode>>();
+		private static readonly IDictionary<Operator, ISet<OperatorDeclNode>> operators =
+				new Dictionary<Operator, ISet<OperatorDeclNode>>();
 
 		/// <summary>
 		/// Makes an entry in the <seealso cref="operators"/> map.
@@ -118,7 +118,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		public static void MakeOp(Operator @operator, TypeNode resultType,
 				TypeNode[] operandTypes, OperatorEvaluator evaluator)
 		{
-			HashSet<OperatorDeclNode> typeMap = operators[@operator];
+			ISet<OperatorDeclNode> typeMap = operators[@operator];
 			if(typeMap == null)
 			{
 				typeMap = new LinkedHashSet<OperatorDeclNode>();
@@ -410,7 +410,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 				}
 			}
 
-			HashSet<OperatorDeclNode> operatorCandidates = operators[@operator];
+			ISet<OperatorDeclNode> operatorCandidates = operators[@operator];
 			if(operatorCandidates == null)
 				return INVALID;
 

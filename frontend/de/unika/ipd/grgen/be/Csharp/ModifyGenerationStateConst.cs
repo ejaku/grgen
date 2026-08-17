@@ -58,9 +58,9 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 		ICollection<GraphEntity> AccessViaInterface {get;}
 
-		IDictionary<GraphEntity, HashSet<Entity>> NeededAttributes {get;}
+		IDictionary<GraphEntity, ISet<Entity>> NeededAttributes {get;}
 
-		IDictionary<GraphEntity, HashSet<Entity>> AttributesStoredBeforeDelete {get;}
+		IDictionary<GraphEntity, ISet<Entity>> AttributesStoredBeforeDelete {get;}
 
 		ICollection<Variable> NeededVariables {get;}
 
@@ -76,7 +76,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 		ICollection<Edge> EdgesNeededAsTypes {get;}
 
-		IDictionary<GraphEntity, HashSet<Entity>> ForceAttributeToVar {get;}
+		IDictionary<GraphEntity, ISet<Entity>> ForceAttributeToVar {get;}
 
 		string MatchClassName {get;}
 

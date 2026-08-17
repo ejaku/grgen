@@ -169,7 +169,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			}
 		}
 
-		public virtual IDictionary<GraphEntity, HashSet<Entity>> NeededAttributes
+		public virtual IDictionary<GraphEntity, ISet<Entity>> NeededAttributes
 		{
 			get
 			{
@@ -177,7 +177,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			}
 		}
 
-		public virtual IDictionary<GraphEntity, HashSet<Entity>> AttributesStoredBeforeDelete
+		public virtual IDictionary<GraphEntity, ISet<Entity>> AttributesStoredBeforeDelete
 		{
 			get
 			{
@@ -241,7 +241,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			}
 		}
 
-		public virtual IDictionary<GraphEntity, HashSet<Entity>> ForceAttributeToVar
+		public virtual IDictionary<GraphEntity, ISet<Entity>> ForceAttributeToVar
 		{
 			get
 			{
@@ -321,40 +321,40 @@ namespace de.unika.ipd.grgen.be.Csharp
 		// otherwise it is the generation state of the modify of an action
 		public string actionName;
 
-		public HashSet<Node> commonNodes = new LinkedHashSet<Node>();
-		public HashSet<Edge> commonEdges = new LinkedHashSet<Edge>();
-		public HashSet<SubpatternUsage> commonSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
+		public ISet<Node> commonNodes = new LinkedHashSet<Node>();
+		public ISet<Edge> commonEdges = new LinkedHashSet<Edge>();
+		public ISet<SubpatternUsage> commonSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
-		public HashSet<Node> newNodes = new LinkedHashSet<Node>();
-		public HashSet<Edge> newEdges = new LinkedHashSet<Edge>();
-		public HashSet<SubpatternUsage> newSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
+		public ISet<Node> newNodes = new LinkedHashSet<Node>();
+		public ISet<Edge> newEdges = new LinkedHashSet<Edge>();
+		public ISet<SubpatternUsage> newSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
-		public HashSet<Node> delNodes = new LinkedHashSet<Node>();
-		public HashSet<Edge> delEdges = new LinkedHashSet<Edge>();
-		public HashSet<SubpatternUsage> delSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
+		public ISet<Node> delNodes = new LinkedHashSet<Node>();
+		public ISet<Edge> delEdges = new LinkedHashSet<Edge>();
+		public ISet<SubpatternUsage> delSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
-		public HashSet<Node> yieldedNodes = new LinkedHashSet<Node>();
-		public HashSet<Edge> yieldedEdges = new LinkedHashSet<Edge>();
-		public HashSet<Variable> yieldedVariables = new LinkedHashSet<Variable>();
+		public ISet<Node> yieldedNodes = new LinkedHashSet<Node>();
+		public ISet<Edge> yieldedEdges = new LinkedHashSet<Edge>();
+		public ISet<Variable> yieldedVariables = new LinkedHashSet<Variable>();
 
-		public HashSet<Node> newOrRetypedNodes = new LinkedHashSet<Node>();
-		public HashSet<Edge> newOrRetypedEdges = new LinkedHashSet<Edge>();
-		public HashSet<GraphEntity> accessViaInterface = new LinkedHashSet<GraphEntity>();
+		public ISet<Node> newOrRetypedNodes = new LinkedHashSet<Node>();
+		public ISet<Edge> newOrRetypedEdges = new LinkedHashSet<Edge>();
+		public ISet<GraphEntity> accessViaInterface = new LinkedHashSet<GraphEntity>();
 
-		public Dictionary<GraphEntity, HashSet<Entity>> neededAttributes;
-		public Dictionary<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
+		public Dictionary<GraphEntity, ISet<Entity>> neededAttributes;
+		public Dictionary<GraphEntity, ISet<Entity>> attributesStoredBeforeDelete = new LinkedHashMap<GraphEntity, ISet<Entity>>();
 
-		public HashSet<Variable> neededVariables;
+		public ISet<Variable> neededVariables;
 
-		public HashSet<Node> nodesNeededAsElements;
-		public HashSet<Edge> edgesNeededAsElements;
-		public HashSet<Node> nodesNeededAsAttributes;
-		public HashSet<Edge> edgesNeededAsAttributes;
+		public ISet<Node> nodesNeededAsElements;
+		public ISet<Edge> edgesNeededAsElements;
+		public ISet<Node> nodesNeededAsAttributes;
+		public ISet<Edge> edgesNeededAsAttributes;
 
-		public HashSet<Node> nodesNeededAsTypes = new LinkedHashSet<Node>();
-		public HashSet<Edge> edgesNeededAsTypes = new LinkedHashSet<Edge>();
+		public ISet<Node> nodesNeededAsTypes = new LinkedHashSet<Node>();
+		public ISet<Edge> edgesNeededAsTypes = new LinkedHashSet<Edge>();
 
-		public Dictionary<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
+		public Dictionary<GraphEntity, ISet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, ISet<Entity>>();
 
 		public Dictionary<Expression, string> mapExprToTempVar = new LinkedHashMap<Expression, string>();
 		public bool useVarForResult_;
@@ -389,7 +389,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			}
 		}
 
-		public virtual void InitNeeds(HashSet<Expression> containerExprs)
+		public virtual void InitNeeds(ISet<Expression> containerExprs)
 		{
 			int i = 0;
 			foreach(Expression expr in containerExprs)
