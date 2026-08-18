@@ -34,4 +34,9 @@ internal static class MyCollectionHelper
             }
         }
     }
+
+    public static ISet<T> CreateEmptySet<T>()
+    {
+        return new HashSet<T>(); // TODO: Immutable.ImmutableHashSet<T>.Empty;
+    }
 }

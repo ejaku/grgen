@@ -67,7 +67,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 		/// The unique index access used to get the node or edge, if any (i.e. not null) </summary>
 		public UniqueLookup uniqueIndexAccess = null;
 
-		protected internal ISet<InheritanceType> constraints = Collections.emptySet();
+		protected internal ISet<InheritanceType> constraints = MyCollectionHelper.CreateEmptySet<InheritanceType>();
 
 		private bool maybeDeleted;
 		private bool maybeRetyped;

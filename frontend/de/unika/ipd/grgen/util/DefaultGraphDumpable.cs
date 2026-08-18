@@ -117,7 +117,7 @@ namespace de.unika.ipd.grgen.util
 		{
 			get
 			{
-				ICollection<BaseNode> empty = Collections.EmptySet();
+				ICollection<BaseNode> empty = MyCollectionHelper.CreateEmptySet<BaseNode>();
 				return children == null ? empty : children;
 			}
 		}

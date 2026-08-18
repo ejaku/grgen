@@ -40,7 +40,7 @@ namespace de.unika.ipd.grgen.ir.type
 
 			public override ISet<InheritanceType> evaluate()
 			{
-				return Collections.EmptySet();
+				return MyCollectionHelper.CreateEmptySet<InheritanceType>();
 			}
 		}
 	}

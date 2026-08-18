@@ -404,7 +404,7 @@ namespace de.unika.ipd.grgen.be.C
 						involvedNodes.Add(node);
 						//and at these Collections to prepared Maps
 						typeConditionsInvolvedNodes[type_condition] = involvedNodes;
-						ICollection<Edge> empty = Collections.EmptySet();
+						ICollection<Edge> empty = MyCollectionHelper.CreateEmptySet<Edge>();
 						typeConditionsInvolvedEdges[type_condition] = empty;
 
 						//store the subcondition in an ordered Collection
@@ -428,7 +428,7 @@ namespace de.unika.ipd.grgen.be.C
 						ICollection<Edge> involvedEdges = new HashSet<Edge>();
 						involvedEdges.Add(edge);
 						//and at these Collections to prepared Maps
-						ICollection<Node> empty = Collections.EmptySet();
+						ICollection<Node> empty = MyCollectionHelper.CreateEmptySet<Node>();
 						typeConditionsInvolvedNodes[type_condition] = empty;
 						typeConditionsInvolvedEdges[type_condition] = involvedEdges;
 
