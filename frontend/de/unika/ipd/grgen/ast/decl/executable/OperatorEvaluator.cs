@@ -165,7 +165,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				ObjectTypeNode.Value a0, a1;
 
@@ -201,7 +201,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				throw new NotEvaluatableException(coords);
 			}
@@ -213,7 +213,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				if(OperatorDeclNode.GetArity(op.Operator) != 2)
 					throw new NotEvaluatableException(coords);
@@ -247,7 +247,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				string a0;
 				object aobj1;
@@ -291,7 +291,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				int a0, a1;
 
@@ -361,7 +361,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				long a0, a1;
 
@@ -431,7 +431,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				float a0, a1;
 
@@ -485,7 +485,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				double a0, a1;
 
@@ -539,7 +539,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				bool is_node1, is_node2;
 
@@ -597,7 +597,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				bool a0, a1;
 
@@ -644,7 +644,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			public override ExprNode evaluate(ExprNode expr, OperatorDeclNode op, ExprNode[] args)
+			public override ExprNode Evaluate(ExprNode expr, OperatorDeclNode op, ExprNode[] args)
 			{
 				try
 				{
@@ -663,7 +663,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				switch(op.Operator)
 				{
@@ -750,7 +750,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				switch(op.Operator)
 				{
@@ -813,7 +813,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				switch(op.Operator)
 				{
@@ -854,7 +854,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				switch(op.Operator)
 				{
@@ -895,7 +895,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				throw new NotEvaluatableException(coords);
 			}
@@ -907,7 +907,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			private readonly OperatorEvaluator outerInstance;
 
-			protected internal override ExprNode eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
+			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				throw new NotEvaluatableException(coords);
 			}
