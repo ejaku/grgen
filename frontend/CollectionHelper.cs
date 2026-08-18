@@ -39,4 +39,11 @@ internal static class MyCollectionHelper
     {
         return new HashSet<T>(); // TODO: Immutable.ImmutableHashSet<T>.Empty;
     }
+
+    public static ISet<T> CreateSingletonSet<T>(T element)
+    {
+        HashSet<T> singleton = new HashSet<T>();
+        singleton.Add(element);
+        return singleton;
+    }
 }

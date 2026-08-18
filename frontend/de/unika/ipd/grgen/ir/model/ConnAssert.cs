@@ -104,8 +104,8 @@ namespace de.unika.ipd.grgen.ir.model
 			fields["src_upper"] = Convert.ToString(srcUpper);
 			fields["tgt_lower"] = Convert.ToString(tgtLower);
 			fields["tgt_upper"] = Convert.ToString(tgtUpper);
-			fields["src_type"] = Collections.Singleton(SrcType);
-			fields["tgt_type"] = Collections.Singleton(TgtType);
+			fields["src_type"] = MyCollectionHelper.CreateSingletonSet(SrcType);
+			fields["tgt_type"] = MyCollectionHelper.CreateSingletonSet(TgtType);
 		}
 
 		/// <summary>

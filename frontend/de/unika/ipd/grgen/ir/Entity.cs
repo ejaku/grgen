@@ -100,8 +100,8 @@ namespace de.unika.ipd.grgen.ir
 		public override void AddFields(IDictionary<string, object> fields)
 		{
 			base.AddFields(fields);
-			fields["type"] = Collections.Singleton(type);
-			fields["owner"] = Collections.Singleton(owner);
+			fields["type"] = MyCollectionHelper.CreateSingletonSet(type);
+			fields["owner"] = MyCollectionHelper.CreateSingletonSet(owner);
 		}
 
 		/// <returns> true, if this is a retyped entity, i.e. the result of a retype, else false </returns>

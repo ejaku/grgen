@@ -156,8 +156,8 @@ namespace de.unika.ipd.grgen.ir.pattern
 		{
 			base.AddFields(fields);
 			fields["valid_types"] = constraints.GetEnumerator();
-			fields["retyped"] = Collections.Singleton(retyped);
-			fields["typeof"] = Collections.Singleton(@typeof);
+			fields["retyped"] = MyCollectionHelper.CreateSingletonSet(retyped);
+			fields["typeof"] = MyCollectionHelper.CreateSingletonSet(@typeof);
 		}
 
 		/// <returns> true, if this is a retyped entity, i.e. the result of a retype, else false </returns>
