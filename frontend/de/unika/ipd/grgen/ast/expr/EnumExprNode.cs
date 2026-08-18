@@ -84,7 +84,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		}
 
 		/// <seealso cref="de.unika.ipd.grgen.ast.DeclaredCharacter.getDecl() "/>
-		public override EnumItemDeclNode Decl
+		public override DeclNode Decl
 		{
 			get
 			{

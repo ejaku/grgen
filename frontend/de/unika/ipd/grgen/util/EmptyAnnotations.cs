@@ -68,7 +68,7 @@ namespace de.unika.ipd.grgen.util
 			return false;
 		}
 
-		public virtual ISet<string> KeySet()
+		public virtual ICollection<string> KeySet()
 		{
 			return new HashSet<string>();
 		}

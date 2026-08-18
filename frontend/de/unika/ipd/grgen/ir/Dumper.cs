@@ -255,7 +255,7 @@ namespace de.unika.ipd.grgen.ir
 				}
 			}
 
-			public string getEdgeLabel(int edge)
+			public string GetEdgeLabel(int edge)
 			{
 				return null;
 			}
@@ -318,7 +318,7 @@ namespace de.unika.ipd.grgen.ir
 				}
 			}
 
-			public string getEdgeLabel(int edge)
+			public string GetEdgeLabel(int edge)
 			{
 				return null;
 			}
@@ -375,7 +375,7 @@ namespace de.unika.ipd.grgen.ir
 				}
 			}
 
-			public string getEdgeLabel(int edge)
+			public string GetEdgeLabel(int edge)
 			{
 				return null;
 			}

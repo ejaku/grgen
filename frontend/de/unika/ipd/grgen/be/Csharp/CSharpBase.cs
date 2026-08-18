@@ -4108,7 +4108,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 					sb.Append("))");
 					break;
 				}
-				//$FALL-THROUGH$
+				goto default; //$FALL-THROUGH$
 			default:
 				throw new System.NotSupportedException("Unsupported operation arity (" + op.Arity() + ")");
 			}
@@ -4688,7 +4688,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			case Type.TypeClass.IS_DEFINED_MATCH:
 				if(constant.Value == null)
 					return "null";
-				//$FALL-THROUGH$
+				goto default; //$FALL-THROUGH$
 			default:
 				throw new System.NotSupportedException("unsupported type");
 			}

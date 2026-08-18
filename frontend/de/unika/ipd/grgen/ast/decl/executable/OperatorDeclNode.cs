@@ -494,7 +494,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 				this.outerInstance = outerInstance;
 			}
 
-			public override bool isValid()
+			public override bool IsValid()
 			{
 				return false;
 			}

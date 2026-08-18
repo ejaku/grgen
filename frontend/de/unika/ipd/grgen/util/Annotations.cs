@@ -33,7 +33,7 @@ namespace de.unika.ipd.grgen.util
 
 		void Put(string key, object value);
 
-		ISet<string> KeySet();
+		ICollection<string> KeySet();
 	}
 
 }
