@@ -2971,7 +2971,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				ISet<InheritanceType> firstCommonAncestors = new LinkedHashSet<InheritanceType>();
 				GetFirstCommonAncestors(itype, type, firstCommonAncestors);
 
-				SortedSet<InheritanceType> sortedCommonTypes = new SortedSet<InheritanceType>(new ComparatorAnonymousInnerClass(this));
+				SortedSet<InheritanceType> sortedCommonTypes = new SortedSet<InheritanceType>(new ComparatorAnonymousInnerClass());
 
 				sortedCommonTypes.AddAll(firstCommonAncestors);
 				foreach(InheritanceType commonType in sortedCommonTypes)
@@ -3015,13 +3015,6 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 		private class ComparatorAnonymousInnerClass : IComparer<InheritanceType>
 		{
-			private readonly ModelGen outerInstance;
-
-			public ComparatorAnonymousInnerClass(ModelGen outerInstance)
-			{
-				this.outerInstance = outerInstance;
-			}
-
 			public int Compare(InheritanceType o1, InheritanceType o2)
 			{
 				return o2.MaxDist - o1.MaxDist;

@@ -52,8 +52,6 @@ namespace de.unika.ipd.grgen.ast.type.basic
 
 		private class ObjectAnonymousInnerClass : object
 		{
-			private readonly BasicTypeNode outerInstance;
-
 			public override string ToString()
 			{
 				return "invalid value";

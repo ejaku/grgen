@@ -69,18 +69,11 @@ namespace de.unika.ipd.grgen.ir.model.type
 		/// </summary>
 		public virtual void CanonicalizeConnectionAsserts()
 		{
-			connectionAsserts.Sort(new ComparatorAnonymousInnerClass(this));
+			connectionAsserts.Sort(new ComparatorAnonymousInnerClass());
 		}
 
 		private class ComparatorAnonymousInnerClass : IComparer<ConnAssert>
 		{
-			private readonly EdgeType outerInstance;
-
-			public ComparatorAnonymousInnerClass(EdgeType outerInstance)
-			{
-				this.outerInstance = outerInstance;
-			}
-
 			public int Compare(ConnAssert ca1, ConnAssert ca2)
 			{
 				return ca1.CompareTo(ca2);

@@ -30,8 +30,6 @@ namespace de.unika.ipd.grgen.ir
 
 		private class ComparatorAnonymousInnerClass : IComparer<Identifiable>
 		{
-			private readonly Identifiable outerInstance;
-
 			public int Compare(Identifiable lt, Identifiable rt)
 			{
 				return lt.Ident.CompareTo(rt.Ident);

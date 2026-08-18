@@ -36,9 +36,7 @@ namespace de.unika.ipd.grgen.ir.type
 
 		private class TypeExprAnonymousInnerClass : TypeExpr
 		{
-			private readonly TypeExpr outerInstance;
-
-			public override ISet<InheritanceType> evaluate()
+			public override ISet<InheritanceType> Evaluate()
 			{
 				return MyCollectionHelper.CreateEmptySet<InheritanceType>();
 			}

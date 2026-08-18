@@ -33,8 +33,6 @@ namespace de.unika.ipd.grgen.ir.type
 
 		private class ComparatorAnonymousInnerClass : IComparer<Type>
 		{
-			private readonly Type outerInstance;
-
 			public int Compare(Type t1, Type t2)
 			{
 				if(t1.IsEqual(t2))

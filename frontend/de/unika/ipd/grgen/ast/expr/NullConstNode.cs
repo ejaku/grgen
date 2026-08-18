@@ -40,8 +40,6 @@ namespace de.unika.ipd.grgen.ast.expr
 
 			private class ValueAnonymousInnerClass : Value
 			{
-				private readonly Value outerInstance;
-
 				public override string ToString()
 				{
 					return "Const null";

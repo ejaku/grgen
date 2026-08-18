@@ -107,8 +107,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 
 		private class TypeNodeAnonymousInnerClass : TypeNode
 		{
-			private readonly FunctionMethodInvocationDecisionNode outerInstance;
-
 			public override ICollection<BaseNode> Children
 			{
 				get

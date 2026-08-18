@@ -163,8 +163,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				ObjectTypeNode.Value a0, a1;
@@ -199,8 +197,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass2 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				throw new NotEvaluatableException(coords);
@@ -211,8 +207,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass3 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				if(OperatorDeclNode.GetArity(op.Operator) != 2)
@@ -245,8 +239,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass4 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				string a0;
@@ -289,8 +281,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass5 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				int a0, a1;
@@ -359,8 +349,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass6 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				long a0, a1;
@@ -429,8 +417,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass7 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				float a0, a1;
@@ -483,8 +469,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass8 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				double a0, a1;
@@ -537,8 +521,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass9 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				bool is_node1, is_node2;
@@ -595,8 +577,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass10 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				bool a0, a1;
@@ -642,8 +622,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass11 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			public override ExprNode Evaluate(ExprNode expr, OperatorDeclNode op, ExprNode[] args)
 			{
 				try
@@ -661,8 +639,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass12 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				switch(op.Operator)
@@ -748,8 +724,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass13 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				switch(op.Operator)
@@ -811,8 +785,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass14 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				switch(op.Operator)
@@ -852,8 +824,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass15 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				switch(op.Operator)
@@ -893,8 +863,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass16 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				throw new NotEvaluatableException(coords);
@@ -905,8 +873,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 		private class OperatorEvaluatorAnonymousInnerClass17 : OperatorEvaluator
 		{
-			private readonly OperatorEvaluator outerInstance;
-
 			protected internal override ExprNode Eval(Coords coords, OperatorDeclNode op, ExprNode[] e)
 			{
 				throw new NotEvaluatableException(coords);

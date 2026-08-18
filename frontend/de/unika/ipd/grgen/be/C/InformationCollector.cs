@@ -199,9 +199,7 @@ namespace de.unika.ipd.grgen.be.C
 
 		private class ComparatorAnonymousInnerClass3 : IComparer<int>
 		{
-			private readonly InformationCollector outerInstance;
-
-			public int Compare(int? i1, int? i2)
+			public int Compare(int i1, int i2)
 			{
 				return i1.CompareTo(i2);
 			}

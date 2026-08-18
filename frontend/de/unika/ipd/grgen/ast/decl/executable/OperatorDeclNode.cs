@@ -482,16 +482,12 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		/// <summary>
 		/// An invalid operator signature.
 		/// </summary>
-		private static readonly OperatorDeclNode INVALID = new OperatorDeclNodeAnonymousInnerClass(BasicTypeNode.errorType,
-				OperatorEvaluator.emptyEvaluator);
+		private static readonly OperatorDeclNode INVALID = new OperatorDeclNodeAnonymousInnerClass(BasicTypeNode.errorType, OperatorEvaluator.emptyEvaluator);
 
 		private class OperatorDeclNodeAnonymousInnerClass : OperatorDeclNode
 		{
-			private readonly OperatorDeclNode outerInstance;
-
-			public OperatorDeclNodeAnonymousInnerClass(OperatorDeclNode outerInstance, TypeNode errorType, UnknownType emptyEvaluator) : base(Operator.ERROR, errorType, new TypeNode[] {}, emptyEvaluator)
+			public OperatorDeclNodeAnonymousInnerClass(TypeNode errorType, OperatorEvaluator emptyEvaluator) : base(Operator.ERROR, errorType, new TypeNode[] {}, emptyEvaluator)
 			{
-				this.outerInstance = outerInstance;
 			}
 
 			public override bool IsValid()

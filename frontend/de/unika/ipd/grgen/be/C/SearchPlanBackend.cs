@@ -128,13 +128,6 @@ namespace de.unika.ipd.grgen.be.C
 
 		private class IdGenerator<T>
 		{
-			private readonly SearchPlanBackend outerInstance;
-
-			public IdGenerator(SearchPlanBackend outerInstance)
-			{
-				this.outerInstance = outerInstance;
-			}
-
 			internal LinkedHashMap<T, int> idMap = new LinkedHashMap<T, int>();
 
 			internal int offset = 0;
@@ -369,8 +362,8 @@ namespace de.unika.ipd.grgen.be.C
 					string actionName = action.Ident.ToString();
 
 					StringBuilder sb2 = new StringBuilder(); // append pattern after condition
-					IdGenerator<Node> nodeIds = new IdGenerator<Node>(this); // To generate uique numbers per rule
-					IdGenerator<Edge> edgeIds = new IdGenerator<Edge>(this);
+					IdGenerator<Node> nodeIds = new IdGenerator<Node>(); // To generate uique numbers per rule
+					IdGenerator<Edge> edgeIds = new IdGenerator<Edge>();
 
 					// Initialize function
 					sb2.Append("/* functions for building the pattern of action " + actionName + " */\n");

@@ -34,8 +34,6 @@ namespace de.unika.ipd.grgen.ir.pattern
 	{
 		public class GraphNode : Node
 		{
-			private readonly PatternGraphBase outerInstance;
-
 			internal readonly ISet<PatternGraphBase.GraphEdge> outgoing;
 			internal readonly ISet<PatternGraphBase.GraphEdge> incoming;
 			internal readonly Node node;
@@ -45,7 +43,6 @@ namespace de.unika.ipd.grgen.ir.pattern
 				: base(node.Ident, node.NodeType, node.directlyNestingLHSGraph,
 						node.IsMaybeDeleted(), node.IsMaybeRetyped(), node.IsDefToBeYieldedTo(), node.context)
 			{
-				this.outerInstance = outerInstance;
 				this.incoming = new LinkedHashSet<PatternGraphBase.GraphEdge>();
 				this.outgoing = new LinkedHashSet<PatternGraphBase.GraphEdge>();
 				this.node = node;
@@ -73,8 +70,6 @@ namespace de.unika.ipd.grgen.ir.pattern
 
 		public class GraphEdge : Edge
 		{
-			private readonly PatternGraphBase outerInstance;
-
 			internal GraphNode source;
 			internal GraphNode target;
 			internal Edge edge;
@@ -84,7 +79,6 @@ namespace de.unika.ipd.grgen.ir.pattern
 				: base(edge.Ident, edge.EdgeType, edge.directlyNestingLHSGraph,
 						edge.IsMaybeDeleted(), edge.IsMaybeRetyped(), edge.IsDefToBeYieldedTo(), edge.context)
 			{
-				this.outerInstance = outerInstance;
 				this.edge = edge;
 				this.nodeId = "g" + outerInstance.Id + "_" + base.NodeId;
 				this.fixedDirection = edge.fixedDirection;
