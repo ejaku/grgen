@@ -295,7 +295,9 @@ namespace de.unika.ipd.grgen.ir.model.type
 			get
 			{
 				if(allFunctionMethods == null)
-					AllFunctionMethods;
+				{
+					ICollection<FunctionMethod> temp = AllFunctionMethods; // ensure the function methods are computed
+				}
 
 				return allFunctionMethods;
 			}
@@ -326,7 +328,9 @@ namespace de.unika.ipd.grgen.ir.model.type
 			get
 			{
 				if(allProcedureMethods == null)
-					AllProcedureMethods;
+				{
+					ICollection<ProcedureMethod> temp = AllProcedureMethods; // ensure the procedure methods are computed
+				}
 
 				return allProcedureMethods;
 			}

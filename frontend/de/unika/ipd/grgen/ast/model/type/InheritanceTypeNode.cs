@@ -170,7 +170,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 		protected internal override bool CheckLocal()
 		{
 			bool res = base.CheckLocal();
-			AllSuperTypes;
+			ICollection<InheritanceTypeNode> temp = AllSuperTypes; // ensure the super types are computed
 
 			foreach(DeclNode member in AllMembers.Values)
 			{

@@ -94,7 +94,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 				return false;
 			}
 
-			TargetType;
+			type.container.ContainerTypeNode temp = TargetType;
 
 			return true;
 		}

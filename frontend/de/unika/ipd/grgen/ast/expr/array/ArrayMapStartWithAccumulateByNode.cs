@@ -124,7 +124,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 				return false;
 			}
 
-			TargetType;
+			ContainerTypeNode temp = TargetType;
 
 			TypeDeclNode resultValueTypeDecl = typeResolver.Resolve(resultValueTypeUnresolved, this);
 			if(resultValueTypeDecl == null)

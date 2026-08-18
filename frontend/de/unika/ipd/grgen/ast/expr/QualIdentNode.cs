@@ -54,7 +54,7 @@ namespace de.unika.ipd.grgen.ast.expr
 			: base(coords)
 		{
 			this.ownerUnresolved = owner;
-			ownerUnresolved.Coords;
+			Coords temp = ownerUnresolved.Coords;
 			BecomeParent(this.ownerUnresolved);
 			this.memberUnresolved = member;
 			BecomeParent(this.memberUnresolved);
