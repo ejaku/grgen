@@ -70,15 +70,15 @@ namespace de.unika.ipd.grgen.ast.type.basic
 		{
 			SetClassName(typeof(BasicTypeNode), "basic type");
 
-			valueMap[byteType] = typeof(Byte);
-			valueMap[shortType] = typeof(Short);
-			valueMap[intType] = typeof(Integer);
-			valueMap[longType] = typeof(Long);
-			valueMap[floatType] = typeof(Float);
+			valueMap[byteType] = typeof(SByte);
+			valueMap[shortType] = typeof(Int16);
+			valueMap[intType] = typeof(Int32);
+			valueMap[longType] = typeof(Int64);
+			valueMap[floatType] = typeof(Single);
 			valueMap[doubleType] = typeof(Double);
 			valueMap[booleanType] = typeof(Boolean);
-			valueMap[stringType] = typeof(string);
-			valueMap[enumItemType] = typeof(Integer);
+			valueMap[stringType] = typeof(String);
+			valueMap[enumItemType] = typeof(Int32);
 			valueMap[objectType] = typeof(ObjectTypeNode.Value);
 			valueMap[nullType] = typeof(NullConstNode.Value);
 			valueMap[untypedType] = typeof(UntypedExecVarTypeNode.Value);
