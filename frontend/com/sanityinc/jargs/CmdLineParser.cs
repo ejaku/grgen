@@ -309,12 +309,12 @@ namespace com.sanityinc.jargs
 			{
 			}
 
-			protected internal override bool? ParseValue(string arg, Locale lcoale)
+			protected internal override bool ParseValue(string arg, Locale lcoale)
 			{
 				return true;
 			}
 
-			protected internal override bool? DefaultValue
+			protected internal override bool DefaultValue
 			{
 				get
 				{
@@ -338,7 +338,7 @@ namespace com.sanityinc.jargs
 			{
 			}
 
-			protected internal override int? ParseValue(string arg, Locale locale)
+			protected internal override int ParseValue(string arg, Locale locale)
 			{
 				try
 				{
@@ -366,7 +366,7 @@ namespace com.sanityinc.jargs
 			{
 			}
 
-			protected internal override long? ParseValue(string arg, Locale locale)
+			protected internal override long ParseValue(string arg, Locale locale)
 			{
 				try
 				{
@@ -394,7 +394,7 @@ namespace com.sanityinc.jargs
 			{
 			}
 
-			protected internal override double? ParseValue(string arg, Locale locale)
+			protected internal override double ParseValue(string arg, Locale locale)
 			{
 				try
 				{

@@ -340,13 +340,21 @@ namespace de.unika.ipd.grgen.ir
 			// filling in transitive members for inheritance types
 			// can't be called during IR building because of dependencies (node/edge attributes of subtypes)
 			foreach(InheritanceType type in bearer.NodeTypes)
-				type.AllMembers; // checks overwriting of attributes
+			{
+				ICollection<Entity> temp = type.AllMembers; // checks overwriting of attributes
+			}
 			foreach(InheritanceType type in bearer.EdgeTypes)
-				type.AllMembers; // checks overwriting of attributes
+			{
+				ICollection<Entity> temp = type.AllMembers; // checks overwriting of attributes
+			}
 			foreach(InheritanceType type in bearer.ObjectTypes)
-				type.AllMembers; // checks overwriting of attributes
+			{
+				ICollection<Entity> temp = type.AllMembers; // checks overwriting of attributes
+			}
 			foreach(InheritanceType type in bearer.TransientObjectTypes)
-				type.AllMembers; // checks overwriting of attributes
+			{
+				ICollection<Entity> temp = type.AllMembers; // checks overwriting of attributes
+			}
 		}
 
 		public static void PostPatchIR(ActionsBearer bearer)
@@ -486,7 +494,8 @@ namespace de.unika.ipd.grgen.ir
 				subpatternsToProcess.AddLast(subpatternRule);
 			while(subpatternsToProcess.Count > 0)
 			{
-				Rule subpattern = subpatternsToProcess.RemoveFirst();
+				Rule subpattern = subpatternsToProcess.First.Value;
+				subpatternsToProcess.RemoveFirst();
 				bool changed = subpattern.CheckForMultipleDeletesOrRetypes(new Dictionary<Entity, Rule>(),
 						subpatternsToParametersToTheirDeletingOrRetypingPattern);
 				if(changed)

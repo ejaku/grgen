@@ -417,7 +417,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			return pathPrefix + ident.Replace('$', '_');
 		}
 
-		public static string FormatIdentifiable<T1>(Identifiable id, string pathPrefix,
+		public static string FormatIdentifiable<T1>(T1 id, string pathPrefix,
 				Dictionary<T1, string> alreadyDefinedIdentifiableToName) where T1 : Identifiable
 		{
 			if(alreadyDefinedIdentifiableToName != null && alreadyDefinedIdentifiableToName[id] != null)

@@ -48,7 +48,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
 		protected internal override IR ConstructIR()
 		{
-			return new Constant(Type.IRType, id.Decl.DeclType.GetIR());
+			return new Constant(Type.IRType, id.Decl.DeclType.IR);
 		}
 
 		/// <seealso cref="de.unika.ipd.grgen.ast.expr.ExprNode.getType() "/>

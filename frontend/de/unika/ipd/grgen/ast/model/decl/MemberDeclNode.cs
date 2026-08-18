@@ -131,7 +131,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 		}
 
 		private static readonly Checker typeChecker = new SimpleChecker(
-				new Type[] {typeof(BasicTypeNode), typeof(EnumTypeNode),
+				new System.Type[] {typeof(BasicTypeNode), typeof(EnumTypeNode),
 						typeof(InternalObjectTypeNode), typeof(InternalTransientObjectTypeNode), typeof(ExternalObjectTypeNode),
 						typeof(NodeTypeNode), typeof(EdgeTypeNode),
 						typeof(MapTypeNode), typeof(SetTypeNode), typeof(ArrayTypeNode), typeof(DequeTypeNode)});

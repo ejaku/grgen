@@ -371,7 +371,7 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 		{
 			modelChilds.Coords = getCoords(h);
 			String modelName = s.Text;
-			modelName = modelName.Substring(1,modelName.length()-2);
+			modelName = modelName.Substring(1,modelName.Length-2);
 			File modelFile = env.FindModel(modelName);
 			if(modelFile == null) {
 				reportError(getCoords(h), "The model " + modelName + " could not be found.");
@@ -4444,7 +4444,7 @@ constant returns [ ExprNode res = ParserEnvironment.InitExprNode() ]
 		{
 			String buff = s.Text;
 			// Strip the " from the string
-			buff = buff.Substring(1, buff.length() - 2);
+			buff = buff.Substring(1, buff.Length - 2);
 			res = new StringConstNode(getCoords(s), buff);
 		}
 	| tt=TRUE

@@ -120,7 +120,7 @@ namespace de.unika.ipd.grgen.parser
 				this.outerInstance = outerInstance;
 			}
 
-			public override bool isKeyword()
+			public override bool IsKeyword()
 			{
 				return true;
 			}
