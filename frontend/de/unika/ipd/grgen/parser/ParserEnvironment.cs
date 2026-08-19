@@ -16,9 +16,9 @@ namespace de.unika.ipd.grgen.parser
 	using System.Collections.Generic;
 	using System.Diagnostics;
 
-	using RecognitionException = org.antlr.runtime.RecognitionException;
-	using Token = org.antlr.runtime.Token;
-	using Lexer = org.antlr.runtime.Lexer;
+	using RecognitionException = Antlr.Runtime.RecognitionException;
+	using IToken = Antlr.Runtime.IToken;
+	using Lexer = Antlr.Runtime.Lexer;
 
 	using de.unika.ipd.grgen.ast;
 	using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
@@ -583,7 +583,7 @@ namespace de.unika.ipd.grgen.parser
 			}
 		}
 
-		public static bool IsKnownFunction(Token pack, Token i, CollectNode<ExprNode> @params)
+		public static bool IsKnownFunction(IToken pack, IToken i, CollectNode<ExprNode> @params)
 		{
 			if(IsMathFunction(pack, i, @params)
 					|| IsFileFunction(pack, i, @params)
@@ -593,12 +593,12 @@ namespace de.unika.ipd.grgen.parser
 			return false;
 		}
 
-		internal static bool IsMathFunction(Token pack, Token i, CollectNode<ExprNode> @params)
+		internal static bool IsMathFunction(IToken pack, IToken i, CollectNode<ExprNode> @params)
 		{
-			if(pack == null || !pack.GetText().Equals("Math"))
+			if(pack == null || !pack.Text.Equals("Math"))
 				return false;
 
-			switch(i.GetText())
+			switch(i.Text)
 			{
 			case "min":
 			case "max":
@@ -638,12 +638,12 @@ namespace de.unika.ipd.grgen.parser
 			}
 		}
 
-		internal static bool IsFileFunction(Token pack, Token i, CollectNode<ExprNode> @params)
+		internal static bool IsFileFunction(IToken pack, IToken i, CollectNode<ExprNode> @params)
 		{
-			if(pack == null || !pack.GetText().Equals("File"))
+			if(pack == null || !pack.Text.Equals("File"))
 				return false;
 
-			switch(i.GetText())
+			switch(i.Text)
 			{
 			case "exists":
 			case "import":
@@ -653,12 +653,12 @@ namespace de.unika.ipd.grgen.parser
 			}
 		}
 
-		internal static bool IsTimeFunction(Token pack, Token i, CollectNode<ExprNode> @params)
+		internal static bool IsTimeFunction(IToken pack, IToken i, CollectNode<ExprNode> @params)
 		{
-			if(pack == null || !pack.GetText().Equals("Time"))
+			if(pack == null || !pack.Text.Equals("Time"))
 				return false;
 
-			switch(i.GetText())
+			switch(i.Text)
 			{
 			case "now":
 				return true;
@@ -667,9 +667,9 @@ namespace de.unika.ipd.grgen.parser
 			}
 		}
 
-		public static bool IsGlobalFunction(Token pack, Token i, CollectNode<ExprNode> @params)
+		public static bool IsGlobalFunction(IToken pack, IToken i, CollectNode<ExprNode> @params)
 		{
-			return IsGlobalFunction(i.GetText(), @params.ChildrenExact.Count);
+			return IsGlobalFunction(i.Text, @params.ChildrenExact.Count);
 		}
 
 		public static bool IsGlobalFunction(string functionName, int numParams)
@@ -1033,7 +1033,7 @@ namespace de.unika.ipd.grgen.parser
 			}
 		}
 
-		public static bool IsKnownProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
+		public static bool IsKnownProcedure(IToken pack, IToken i, CollectNode<ExprNode> @params)
 		{
 			if(IsFileProcedure(pack, i, @params)
 					|| IsTransactionProcedure(pack, i, @params)
@@ -1044,12 +1044,12 @@ namespace de.unika.ipd.grgen.parser
 			return false;
 		}
 
-		internal static bool IsFileProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
+		internal static bool IsFileProcedure(IToken pack, IToken i, CollectNode<ExprNode> @params)
 		{
-			if(pack == null || !pack.GetText().Equals("File"))
+			if(pack == null || !pack.Text.Equals("File"))
 				return false;
 
-			switch(i.GetText())
+			switch(i.Text)
 			{
 			case "export":
 			case "delete":
@@ -1059,12 +1059,12 @@ namespace de.unika.ipd.grgen.parser
 			}
 		}
 
-		internal static bool IsTransactionProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
+		internal static bool IsTransactionProcedure(IToken pack, IToken i, CollectNode<ExprNode> @params)
 		{
-			if(pack == null || !pack.GetText().Equals("Transaction"))
+			if(pack == null || !pack.Text.Equals("Transaction"))
 				return false;
 
-			switch(i.GetText())
+			switch(i.Text)
 			{
 			case "start":
 			case "pause":
@@ -1077,12 +1077,12 @@ namespace de.unika.ipd.grgen.parser
 			}
 		}
 
-		internal static bool IsDebugProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
+		internal static bool IsDebugProcedure(IToken pack, IToken i, CollectNode<ExprNode> @params)
 		{
-			if(pack == null || !pack.GetText().Equals("Debug"))
+			if(pack == null || !pack.Text.Equals("Debug"))
 				return false;
 
-			switch(i.GetText())
+			switch(i.Text)
 			{
 			case "add":
 			case "rem":
@@ -1095,12 +1095,12 @@ namespace de.unika.ipd.grgen.parser
 			}
 		}
 
-		internal static bool IsSynchronizationProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
+		internal static bool IsSynchronizationProcedure(IToken pack, IToken i, CollectNode<ExprNode> @params)
 		{
-			if(pack == null || !pack.GetText().Equals("Synchronization"))
+			if(pack == null || !pack.Text.Equals("Synchronization"))
 				return false;
 
-			switch(i.GetText())
+			switch(i.Text)
 			{
 			case "enter":
 			case "tryenter":
@@ -1111,9 +1111,9 @@ namespace de.unika.ipd.grgen.parser
 			}
 		}
 
-		public static bool IsGlobalProcedure(Token pack, Token i, CollectNode<ExprNode> @params)
+		public static bool IsGlobalProcedure(IToken pack, IToken i, CollectNode<ExprNode> @params)
 		{
-			return IsGlobalProcedure(i.GetText(), @params.ChildrenExact.Count);
+			return IsGlobalProcedure(i.Text, @params.ChildrenExact.Count);
 		}
 
 		public static bool IsGlobalProcedure(string procedureName, int numParams)

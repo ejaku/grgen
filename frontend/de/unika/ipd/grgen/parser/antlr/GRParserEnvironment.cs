@@ -15,7 +15,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 	using System;
 	using System.Collections.Generic;
 
-	using org.antlr.runtime;
+	using Antlr.Runtime;
 
 	using Sys = de.unika.ipd.grgen.Sys;
 	using de.unika.ipd.grgen.ast;
@@ -52,8 +52,8 @@ namespace de.unika.ipd.grgen.parser.antlr
 			string filePath = file.GetPath();
 			if(filesOnStack.Contains(filePath))
 			{
-				Console.Error.WriteLine("GrGen: [ERROR at " + Filename + ":" + lexer.GetLine()
-						+ "," + lexer.GetCharPositionInLine() + "] found circular include with file \""
+				Console.Error.WriteLine("GrGen: [ERROR at " + Filename + ":" + lexer.Line
+						+ "," + lexer.CharPositionInLine + "] found circular include with file \""
 						+ filePath + "\"");
 				Environment.Exit(1);
 			}
@@ -62,20 +62,20 @@ namespace de.unika.ipd.grgen.parser.antlr
 			try
 			{
 				// save current lexer's state
-				CharStream input = lexer.GetCharStream();
+				ICharStream input = lexer.CharStream;
 				int marker = input.Mark();
 				includes.Push(new SubunitInclude(input, marker));
 
 				// switch on new input stream
 				ANTLRFileStream stream = new ANTLRFileStream(file.GetPath());
-				lexer.SetCharStream(stream);
+				lexer.CharStream = stream;
 				lexer.Reset();
 				filename = file.GetPath();
 			}
 			catch(IOException)
 			{
-				Console.Error.WriteLine("GrGen: [ERROR at " + Filename + ":" + lexer.GetLine()
-						+ "," + lexer.GetCharPositionInLine() + "] included file could not be found: \""
+				Console.Error.WriteLine("GrGen: [ERROR at " + Filename + ":" + lexer.Line
+						+ "," + lexer.CharPositionInLine + "] included file could not be found: \""
 						+ filePath + "\"");
 				Environment.Exit(1);
 			}
@@ -86,12 +86,12 @@ namespace de.unika.ipd.grgen.parser.antlr
 			// We've got EOF on an include (not a model using or the initial parser).
 			if(includes.Count > 1 && includes.Peek().charStream != null)
 			{
-				filesOnStack.Remove(lexer.GetSourceName());
+				filesOnStack.Remove(lexer.SourceName);
 
 				SubunitInclude include = includes.Pop();
-				lexer.SetCharStream(include.charStream);
-				lexer.GetCharStream().Rewind(include.marking);
-				filename = lexer.GetCharStream().GetSourceName();
+				lexer.CharStream = include.charStream;
+				lexer.CharStream.Rewind(include.marking);
+				filename = lexer.CharStream.SourceName;
 				return true;
 			}
 
@@ -116,7 +116,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 			{
 				ANTLRFileStream stream = new ANTLRFileStream(inputFile.GetPath());
 				GrGenLexer lexer = new GrGenLexer(stream);
-				lexer.SetEnv(this);
+				lexer.Env = this;
 				CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 				GrGenParser parser = new GrGenParser(tokenStream);
 				includes.Push(new SubunitInclude(parser));
@@ -124,9 +124,9 @@ namespace de.unika.ipd.grgen.parser.antlr
 
 				try
 				{
-					parser.SetEnv(this);
-					root = parser.TextActions();
-					hadError_ = hadError_ || parser.HadError();
+					parser.Env = this;
+					root = parser.TextActions;
+					hadError_ = hadError_ || parser.HadError;
 				}
 				catch(RecognitionException e)
 				{
@@ -169,7 +169,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 			{
 				ANTLRFileStream stream = new ANTLRFileStream(inputFile.GetPath());
 				GrGenLexer lexer = new GrGenLexer(stream);
-				lexer.SetEnv(this);
+				lexer.Env = this;
 				CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 				GrGenParser parser = new GrGenParser(tokenStream);
 				includes.Push(new SubunitInclude(parser));
@@ -178,9 +178,9 @@ namespace de.unika.ipd.grgen.parser.antlr
 
 				try
 				{
-					parser.SetEnv(this);
-					root = parser.TextTypes();
-					hadError_ = hadError_ || parser.HadError();
+					parser.Env = this;
+					root = parser.TextTypes;
+					hadError_ = hadError_ || parser.HadError;
 				}
 				catch(RecognitionException e)
 				{

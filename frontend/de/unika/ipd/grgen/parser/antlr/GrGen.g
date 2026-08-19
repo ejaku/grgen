@@ -48,10 +48,11 @@ tokens {
 @lexer::members {
 	GRParserEnvironment env;
 
-	void setEnv(GRParserEnvironment env) {
-		this.env = env;
+	public GRParserEnvironment Env
+	{
+		set { env = value; }
 	}
-  
+
 	// overriden for handling EOF of included file
 	public IToken nextToken() {
 		IToken token = base.NextToken();
@@ -187,9 +188,13 @@ tokens {
 
 	protected ParserEnvironment env;
 
-	public void setEnv(ParserEnvironment env) {
-		this.env = env;
-		gEmbeddedExec.env = env;
+	public ParserEnvironment Env
+	{
+		set
+		{
+			env = value;
+			gEmbeddedExec.env = env;
+		}
 	}
 
 	protected Coords getCoords(Antlr.Runtime.IToken tok) {
@@ -211,8 +216,9 @@ tokens {
 		env.Sys.ErrorReporter.Warning(c, s);
 	}
 
-	public bool hadError() {
-		return hadError_;
+	public bool HadError
+	{
+		get { return hadError_; }
 	}
 
 	public String getFilename() {
@@ -230,6 +236,16 @@ tokens {
 			sb.Append(joinee);
 		}
 		return sb.ToString();
+	}
+
+	public ModelNode TextTypes
+	{
+		get { return textTypes(); }
+	}
+
+	public UnitNode TextActions
+	{
+		get { return textActions(); }
 	}
 }
 

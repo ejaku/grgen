@@ -7,7 +7,7 @@
 
 namespace de.unika.ipd.grgen.parser.antlr
 {
-	using org.antlr.runtime;
+	using Antlr.Runtime;
 
 	/// <summary>
 	/// An entry of the stack of subunits,
@@ -21,7 +21,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 			this.parser = parser;
 		}
 
-		public SubunitInclude(CharStream charStream, int marking)
+		public SubunitInclude(ICharStream charStream, int marking)
 		{
 			this.charStream = charStream;
 			this.marking = marking;
@@ -32,7 +32,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 
 		// in case of a plain include the char stream is != null, 
 		// and the marking gives the position where lexing the including file was interrupted
-		public CharStream charStream;
+		public ICharStream charStream;
 		public int marking;
 	}
 

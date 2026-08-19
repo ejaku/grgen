@@ -11,7 +11,7 @@
 
 namespace de.unika.ipd.grgen.parser.antlr
 {
-	using CharStream = org.antlr.runtime.CharStream;
+	using ICharStream = Antlr.Runtime.ICharStream;
 
 	/// <summary>
 	/// Coordinates more suitable for an ANTLR parser.
@@ -21,30 +21,30 @@ namespace de.unika.ipd.grgen.parser.antlr
 		/// <summary>
 		/// Construct coordinates from an ANTLR token. </summary>
 		/// <param name="tok"> The ANTLR token. </param>
-		public Coords(org.antlr.runtime.Token tok)
+		public Coords(Antlr.Runtime.IToken tok)
 		{
 			if(tok != null)
 			{
-				line = tok.GetLine();
-				column = tok.GetCharPositionInLine();
+				line = tok.Line;
+				column = tok.CharPositionInLine;
 
-				CharStream stream = tok.GetInputStream();
+				ICharStream stream = tok.InputStream;
 				if(stream != null)
-					filename = tok.GetInputStream().GetSourceName();
+					filename = tok.InputStream.SourceName;
 			}
 		}
 
 		/// <summary>
 		/// Get the coordinates from an ANTLR recognition exception. </summary>
 		/// <param name="e"> The ANTLR recognition exception. </param>
-		public Coords(org.antlr.runtime.RecognitionException e)
+		public Coords(Antlr.Runtime.RecognitionException e)
 		{
 			if(e != null)
 			{
-				line = e.line;
-				column = e.charPositionInLine;
-				if(e.input != null)
-					filename = e.input.GetSourceName();
+				line = e.Line;
+				column = e.CharPositionInLine;
+				if(e.Input != null)
+					filename = e.Input.SourceName;
 			}
 		}
 	}
