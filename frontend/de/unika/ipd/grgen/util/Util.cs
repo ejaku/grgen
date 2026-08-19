@@ -93,12 +93,12 @@ namespace de.unika.ipd.grgen.util
 			return !name.Matches("[^a-zA-Z0-9_]");
 		}
 
-		public static File FindFile(File[] paths, string file)
+		public static FileInfo FindFile(DirectoryInfo[] paths, string file)
 		{
 			for(int i = 0; i < paths.Length; i++)
 			{
-				File curr = new File(paths[i], file);
-				if(curr.Exists())
+				FileInfo curr = FileAndDirectoryHelper.GetFileInfo(paths[i], file);
+				if(curr.Exists)
 					return curr;
 			}
 
@@ -125,18 +125,14 @@ namespace de.unika.ipd.grgen.util
 		/// <summary>
 		/// Write a string buffer to a file. </summary>
 		/// <param name="file"> The file. </param>
-		/// <param name="The"> character sequence to print (can be a
-		/// <seealso cref="string"/> or <seealso cref="System.Text.StringBuilder"/> </param>
-		public static void WriteFile(File file, CharSequence cs, ErrorReporter reporter)
+		/// <param name="sb"> The string builder to write </param>
+		public static void WriteFile(FileInfo file, StringBuilder sb, ErrorReporter reporter)
 		{
 			try
 			{
-				using(BufferedOutputStream bos = new BufferedOutputStream(new FileStream(file, FileMode.Create, FileAccess.Write)))
+				using(StreamWriter sw = new StreamWriter(new FileStream(file.FullName, FileMode.Create, FileAccess.Write)))
 				{
-					using(PrintStream ps = new PrintStream(bos))
-					{
-						ps.Print(cs);
-					}
+					sw.Write(sb.ToString());
 				}
 			}
 			catch(IOException e)
@@ -145,13 +141,13 @@ namespace de.unika.ipd.grgen.util
 			}
 		}
 
-		public static PrintStream OpenFile(File file, ErrorReporter reporter)
+		public static PrintStream OpenFile(FileInfo file, ErrorReporter reporter)
 		{
-			Stream os = NullOutputStream.STREAM;
+			Stream os = Stream.Null;
 
 			try
 			{
-				os = new BufferedOutputStream(new FileStream(file, FileMode.Create, FileAccess.Write));
+				os = new FileStream(file.FullName, FileMode.Create, FileAccess.Write);
 			}
 			catch(FileNotFoundException e)
 			{
@@ -164,7 +160,7 @@ namespace de.unika.ipd.grgen.util
 		public static void CloseFile(PrintStream ps)
 		{
 			ps.Flush();
-			ps.close();
+			ps.Close();
 		}
 
 		/// <summary>
@@ -321,7 +317,7 @@ namespace de.unika.ipd.grgen.util
 			}
 		}
 
-		public static void CopyFile(File sourceFile, File targetFile)
+		/*public static void CopyFile(File sourceFile, File targetFile)
 		{
 			if(!targetFile.Exists())
 				targetFile.CreateNewFile();
@@ -344,7 +340,7 @@ namespace de.unika.ipd.grgen.util
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 }

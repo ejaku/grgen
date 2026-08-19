@@ -99,7 +99,7 @@ namespace de.unika.ipd.grgen.util
 		{
 			ps.Println("}");
 			ps.Flush();
-			ps.close();
+			ps.Close();
 		}
 
 		/// <summary>

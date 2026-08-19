@@ -20,11 +20,11 @@ namespace de.unika.ipd.grgen
 
 	public interface Sys
 	{
-		File ModelPath {get;}
+		DirectoryInfo ModelPath {get;}
 
 		ErrorReporter ErrorReporter {get;}
 
-		Stream CreateDebugFile(File file);
+		Stream CreateDebugFile(FileInfo file);
 
 		bool MayFireEvents();
 

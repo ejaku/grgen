@@ -14,6 +14,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 
 	using System;
 	using System.Collections.Generic;
+	using System.IO;
 
 	using Antlr.Runtime;
 
@@ -35,7 +36,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 
 		/// <summary>
 		/// The base directory of the specification or null for the current directory </summary>
-		private File baseDir = null;
+		private DirectoryInfo baseDir = null;
 
 		private string filename;
 
@@ -44,12 +45,12 @@ namespace de.unika.ipd.grgen.parser.antlr
 		{
 		}
 
-		public override void PushFile(Lexer lexer, File file)
+		public override void PushFile(Lexer lexer, FileInfo file)
 		{
-			if(baseDir != null && !file.IsAbsolute())
-				file = new File(baseDir, file.GetPath());
+			if(baseDir != null && !Path.IsPathRooted(file.FullName))
+				file = FileAndDirectoryHelper.GetFileInfo(baseDir, file.Name);
 
-			string filePath = file.GetPath();
+			string filePath = file.FullName;
 			if(filesOnStack.Contains(filePath))
 			{
 				Console.Error.WriteLine("GrGen: [ERROR at " + Filename + ":" + lexer.Line
@@ -67,10 +68,10 @@ namespace de.unika.ipd.grgen.parser.antlr
 				includes.Push(new SubunitInclude(input, marker));
 
 				// switch on new input stream
-				ANTLRFileStream stream = new ANTLRFileStream(file.GetPath());
+				ANTLRFileStream stream = new ANTLRFileStream(file.FullName);
 				lexer.CharStream = stream;
 				lexer.Reset();
-				filename = file.GetPath();
+				filename = file.FullName;
 			}
 			catch(IOException)
 			{
@@ -106,21 +107,21 @@ namespace de.unika.ipd.grgen.parser.antlr
 			}
 		}
 
-		public override UnitNode ParseActions(File inputFile)
+		public override UnitNode ParseActions(FileInfo inputFile)
 		{
 			UnitNode root = null;
 
-			baseDir = inputFile.GetParentFile();
+			baseDir = inputFile.Directory;
 
 			try
 			{
-				ANTLRFileStream stream = new ANTLRFileStream(inputFile.GetPath());
+				ANTLRFileStream stream = new ANTLRFileStream(inputFile.FullName);
 				GrGenLexer lexer = new GrGenLexer(stream);
 				lexer.Env = this;
 				CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 				GrGenParser parser = new GrGenParser(tokenStream);
 				includes.Push(new SubunitInclude(parser));
-				filename = inputFile.GetPath();
+				filename = inputFile.FullName;
 
 				try
 				{
@@ -130,7 +131,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 				}
 				catch(RecognitionException e)
 				{
-					e.PrintStackTrace(System.err);
+					e.PrintStackTrace(Console.Error);
 					Console.Error.WriteLine("parser exception: " + e.Message);
 					Environment.Exit(1);
 				}
@@ -146,11 +147,11 @@ namespace de.unika.ipd.grgen.parser.antlr
 			return root;
 		}
 
-		public override ModelNode ParseModel(File inputFile)
+		public override ModelNode ParseModel(FileInfo inputFile)
 		{
 			ModelNode root = null;
 
-			string filePath = inputFile.GetAbsolutePath();
+			string filePath = inputFile.FullName;
 			if(modelsOnStack.Contains(filePath))
 			{
 				Console.Error.WriteLine("GrGen: [ERROR at " + Filename + /*":" + curlexer.getLine()
@@ -167,14 +168,14 @@ namespace de.unika.ipd.grgen.parser.antlr
 
 			try
 			{
-				ANTLRFileStream stream = new ANTLRFileStream(inputFile.GetPath());
+				ANTLRFileStream stream = new ANTLRFileStream(inputFile.FullName);
 				GrGenLexer lexer = new GrGenLexer(stream);
 				lexer.Env = this;
 				CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 				GrGenParser parser = new GrGenParser(tokenStream);
 				includes.Push(new SubunitInclude(parser));
 				string oldFilename = filename;
-				filename = inputFile.GetPath();
+				filename = inputFile.FullName;
 
 				try
 				{
@@ -184,7 +185,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 				}
 				catch(RecognitionException e)
 				{
-					e.PrintStackTrace(System.err);
+					e.PrintStackTrace(Console.Error);
 					Console.Error.WriteLine("parser exception: " + e.Message);
 					Environment.Exit(1);
 				}

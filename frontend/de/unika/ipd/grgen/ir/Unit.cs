@@ -302,7 +302,7 @@ namespace de.unika.ipd.grgen.ir
 			}
 			catch(Exception e)
 			{
-				e.PrintStackTrace(System.err);
+				e.PrintStackTrace(Console.Error);
 				digest = "<error>";
 			}
 

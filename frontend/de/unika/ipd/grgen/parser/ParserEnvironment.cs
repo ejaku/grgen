@@ -15,6 +15,7 @@ namespace de.unika.ipd.grgen.parser
 	using System;
 	using System.Collections.Generic;
 	using System.Diagnostics;
+	using System.IO;
 
 	using RecognitionException = Antlr.Runtime.RecognitionException;
 	using IToken = Antlr.Runtime.IToken;
@@ -206,20 +207,20 @@ namespace de.unika.ipd.grgen.parser
 			}
 		}
 
-		public virtual File FindModel(string modelName)
+		public virtual FileInfo FindModel(string modelName)
 		{
-			File modelPath = sys.ModelPath;
+			DirectoryInfo modelPath = sys.ModelPath;
 			string modelFile = modelName.EndsWith(MODEL_SUFFIX, StringComparison.Ordinal) ? modelName : modelName + MODEL_SUFFIX;
 
-			File curr;
-			if(modelPath.GetPath().Equals("."))
-				curr = new File(modelFile);
+			FileInfo curr;
+			if(modelPath.Name.Equals("."))
+				curr = new FileInfo(modelFile);
 			else
-				curr = new File(modelPath, modelFile);
+				curr = FileAndDirectoryHelper.GetFileInfo(modelPath, modelFile);
 			debug.Report(NOTE, "trying: " + curr);
 
-			File res = null;
-			if(curr.Exists())
+			FileInfo res = null;
+			if(curr.Exists)
 				res = curr;
 			return res;
 		}
@@ -1247,11 +1248,11 @@ namespace de.unika.ipd.grgen.parser
 			return new FilterAutoSuppliedDeclNode(filterIdent, iterated.Ident);
 		}
 
-		public abstract UnitNode ParseActions(File inputFile);
+		public abstract UnitNode ParseActions(FileInfo inputFile);
 
-		public abstract ModelNode ParseModel(File inputFile);
+		public abstract ModelNode ParseModel(FileInfo inputFile);
 
-		public abstract void PushFile(Lexer lexer, File inputFile);
+		public abstract void PushFile(Lexer lexer, FileInfo inputFile);
 
 		public abstract bool PopFile(Lexer lexer);
 

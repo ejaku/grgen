@@ -82,6 +82,7 @@ tokens {
 
 	//using System.Diagnostics;
 	using System.Text;
+	using System.IO;
 	using System;
 
 	using de.unika.ipd.grgen.parser;
@@ -372,7 +373,7 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 			modelChilds.Coords = getCoords(u);
 			foreach(String modelName in modelNames)
 			{
-				File modelFile = env.FindModel(modelName);
+				FileInfo modelFile = env.FindModel(modelName);
 				if(modelFile == null) {
 					reportError(getCoords(u), "The model " + modelName + " could not be found.");
 				} else {
@@ -388,7 +389,7 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 			modelChilds.Coords = getCoords(h);
 			String modelName = s.Text;
 			modelName = modelName.Substring(1,modelName.Length-2);
-			File modelFile = env.FindModel(modelName);
+			FileInfo modelFile = env.FindModel(modelName);
 			if(modelFile == null) {
 				reportError(getCoords(h), "The model " + modelName + " could not be found.");
 			} else {
@@ -4902,7 +4903,7 @@ INCLUDE
 			//getCanonicalFile can throw an IOException if that happens we just return to the old behaviour
 		}
 	}
-	env.PushFile(this, file);
+	env.PushFile(this, new FileInfo(filename));
   }
   ;
 

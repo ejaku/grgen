@@ -17,6 +17,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 	using System.Collections;
 	using System.Collections.Generic;
 	using System.Diagnostics;
+	using System.IO;
 
 	using de.unika.ipd.grgen.ir;
 	using Needs = de.unika.ipd.grgen.ir.NeededEntities.Needs;
@@ -198,13 +199,13 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.AppendFront("}\n");
 
 			Console.WriteLine("    writing to " + be.path + " / " + filename);
-			WriteFile(be.path, filename, sb.ToString());
+			WriteFile(be.path, filename, sb.StringBuilder);
 
 			if(stubsb != null)
 			{
 				string stubFilename = model.Ident + "ModelStub.cs";
 				Console.WriteLine("  writing the " + stubFilename + " stub file...");
-				WriteFile(be.path, stubFilename, stubsb.ToString());
+				WriteFile(be.path, stubFilename, stubsb.StringBuilder);
 			}
 
 			///////////////////////////////////////////////////////////////////////////////////////////
@@ -232,15 +233,15 @@ namespace de.unika.ipd.grgen.be.Csharp
 			modelExternalGen.GenExternalFunctionsFile(be.unit.Filename);
 
 			Console.WriteLine("    writing to " + be.path + " / " + filename);
-			WriteFile(be.path, filename, sb.ToString());
+			WriteFile(be.path, filename, sb.StringBuilder);
 
-			if(be.path.CompareTo(new File(".")) == 0)
+			if(FileAndDirectoryHelper.AreDirectoriesTheSame(be.path, new DirectoryInfo(".")))
 				Console.WriteLine("    no copy needed for " + be.path + " / " + filename);
 			else
 			{
 				Console.WriteLine("    copying " + be.path + " / " + filename + " to "
-						+ be.path.GetAbsoluteFile().GetParent() + " / " + filename);
-				CopyFile(new File(be.path, filename), new File(be.path.GetAbsoluteFile().GetParent(), filename));
+						+ be.path.Parent + " / " + filename); // be.path was resolved before (getAbsoluteFile()), maybe still needed...
+				CopyFile(FileAndDirectoryHelper.GetFileInfo(be.path, filename), FileAndDirectoryHelper.GetFileInfo(be.path.Parent, filename));
 			}
 		}
 

@@ -30,7 +30,6 @@ namespace de.unika.ipd.grgen
 	using Base = de.unika.ipd.grgen.util.Base;
 	using GraphDumpVisitor = de.unika.ipd.grgen.util.GraphDumpVisitor;
 	using GraphDumperFactory = de.unika.ipd.grgen.util.GraphDumperFactory;
-	using NullOutputStream = de.unika.ipd.grgen.util.NullOutputStream;
 	using PostWalker = de.unika.ipd.grgen.util.PostWalker;
 	using PrePostWalker = de.unika.ipd.grgen.util.PrePostWalker;
 	using VCGDumper = de.unika.ipd.grgen.util.VCGDumper;
@@ -99,19 +98,19 @@ namespace de.unika.ipd.grgen
 
 		/// <summary>
 		/// Output path. </summary>
-		private File outputPath = new File(".");
+		private DirectoryInfo outputPath = new DirectoryInfo(".");
 
 		/// <summary>
 		/// The path to the source files. </summary>
-		private File sourcePath;
+		private DirectoryInfo sourcePath;
 
-		private File debugPath;
+		private DirectoryInfo debugPath;
 
 		/// <summary>
 		/// A file containing a path where the graph model can be searched. </summary>
-		private File modelPath = null;
+		private DirectoryInfo modelPath = null;
 
-		public virtual File ModelPath
+		public virtual DirectoryInfo ModelPath
 		{
 			get
 			{
@@ -157,7 +156,7 @@ namespace de.unika.ipd.grgen
 			// Debugging has an empty reporter if the flag is not set
 			if(enableDebug)
 			{
-				debugHandler = new StreamHandler(System.out);
+				debugHandler = new StreamHandler(new PrintStream(Console.Out));
 
 				DebugReporter dr = new DebugReporter(15);
 				dr.AddHandler(debugHandler);
@@ -176,7 +175,7 @@ namespace de.unika.ipd.grgen
 
 			// Main error reporter
 			errorReporter = new ErrorReporter();
-			errorReporter.AddHandler(new StreamHandler(System.err));
+			errorReporter.AddHandler(new StreamHandler(new PrintStream(Console.Error)));
 
 			Base.SetReporters(debugReporter, errorReporter);
 		}
@@ -208,9 +207,9 @@ namespace de.unika.ipd.grgen
 				{
 					try
 					{
-						PrintStream dumpOutputStream = new PrintStream(new FileStream(dumpOutputToFile, FileMode.Create, FileAccess.Write));
-						System.SetErr(dumpOutputStream);
-						System.SetOut(dumpOutputStream);
+						StreamWriter dumpOutputStream = new StreamWriter(new FileStream(dumpOutputToFile, FileMode.Create, FileAccess.Write));
+						Console.SetError(dumpOutputStream);
+						Console.SetOut(dumpOutputStream);
 					}
 					catch(FileNotFoundException e)
 					{
@@ -232,7 +231,7 @@ namespace de.unika.ipd.grgen
 				invDebugFilter = (string)parser.GetOptionValue(invDebugFilterOpt);
 				backend = (string)parser.GetOptionValue(beOpt);
 				string s = (string)parser.GetOptionValue(optOutputPath);
-				outputPath = new File(!string.ReferenceEquals(s, null) ? s : System.GetProperty("user.dir"));
+				outputPath = new DirectoryInfo(!string.ReferenceEquals(s, null) ? s : /*System.GetProperty("user.dir")*/".");
 
 				inputFileNames = parser.RemainingArgs;
 				if(inputFileNames.Length == 0)
@@ -264,18 +263,18 @@ namespace de.unika.ipd.grgen
 			return emitProfiling;
 		}
 
-		public virtual Stream CreateDebugFile(File file)
+		public virtual Stream CreateDebugFile(FileInfo file)
 		{
-			debugPath.Mkdirs();
-			File debFile = new File(debugPath, file.GetName());
+			FileAndDirectoryHelper.Mkdirs(debugPath);
+			FileInfo debFile = FileAndDirectoryHelper.GetFileInfo(debugPath, file.Name);
 			try
 			{
-				return new BufferedOutputStream(new FileStream(debFile, FileMode.Create, FileAccess.Write));
+				return new FileStream(debFile.FullName, FileMode.Create, FileAccess.Write);
 			}
 			catch(FileNotFoundException)
 			{
-				errorReporter.Error("Cannot open debug file " + debFile.GetPath() + ".");
-				return NullOutputStream.STREAM;
+				errorReporter.Error("Cannot open debug file " + debFile.FullName + ".");
+				return Stream.Null;
 			}
 		}
 
@@ -289,7 +288,7 @@ namespace de.unika.ipd.grgen
 			// First process the .grg file, if one was specified
 			foreach(string inputFileName in inputFileNames)
 			{
-				File inputFile = new File(inputFileName);
+				FileInfo inputFile = new FileInfo(inputFileName);
 				string ext = GetFileExt(inputFileName);
 				if(ext.Equals("grg"))
 				{
@@ -324,7 +323,7 @@ namespace de.unika.ipd.grgen
 			// Now all .gm files
 			foreach(string inputFileName in inputFileNames)
 			{
-				File inputFile = new File(inputFileName);
+				FileInfo inputFile = new FileInfo(inputFileName);
 				if(GetFileExt(inputFileName).Equals("gm"))
 				{
 					InitPaths(inputFileName, inputFile, setDebugPath);
@@ -355,21 +354,21 @@ namespace de.unika.ipd.grgen
 			return filename.Substring(lastDot + 1).ToLower();
 		}
 
-		private void InitPaths(string inputFileName, File inputFile, bool setDebugPath)
+		private void InitPaths(string inputFileName, FileInfo inputFile, bool setDebugPath) // TODO: rename to InitAuxPaths
 		{
+			// assume: inputFile is created from the inputFileName
 			if(inputFileName.IndexOf('/') != -1 || inputFileName.IndexOf('\\') != -1)
-				sourcePath = inputFile.GetAbsoluteFile().GetParentFile();
+				sourcePath = inputFile.Directory;
 			else
-				sourcePath = new File(".");
+				sourcePath = new DirectoryInfo(".");
 			if(setDebugPath)
-				debugPath = new File(sourcePath, inputFile.GetName() + "_debug");
+				debugPath = FileAndDirectoryHelper.GetDirectoryInfo(sourcePath, inputFile.Name + "_debug");
 			modelPath = sourcePath;
 		}
 
-		private void DumpVCG(Walkable node, GraphDumpVisitor visitor, string suffix)
+		private void DumpVCG(Walkable node, GraphDumpVisitor visitor, string name)
 		{
-
-			File file = new File(suffix + ".vcg");
+			FileInfo file = new FileInfo(name + ".vcg");
 			try
 			{
 				using(Stream os = CreateDebugFile(file))
@@ -467,7 +466,7 @@ namespace de.unika.ipd.grgen
 			ParseOptions();
 			Init();
 
-			debug.Report(NOTE, "working directory: " + System.GetProperty("user.dir"));
+			debug.Report(NOTE, "working directory: " + /*System.GetProperty("user.dir")*/new DirectoryInfo(".").FullName);
 
 			startUp += DateTimeHelper.CurrentUnixTimeMillis();
 			parse = -DateTimeHelper.CurrentUnixTimeMillis();
@@ -546,7 +545,7 @@ namespace de.unika.ipd.grgen
 
 				try
 				{
-					using(Stream os = CreateDebugFile(new File("ir.xml")))
+					using(Stream os = CreateDebugFile(new FileInfo("ir.xml")))
 					{
 						using(PrintStream ps = new PrintStream(os))
 						{

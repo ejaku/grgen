@@ -17,7 +17,8 @@ namespace de.unika.ipd.grgen.util
 	using System;
 	using System.IO;
 
-	public class NullOutputStream : Stream
+	// replaced in .NET version by Stream.Null, TODO: purge
+	/*public class NullOutputStream : Stream
 	{
 		public static readonly Stream STREAM = new NullOutputStream();
 
@@ -29,6 +30,6 @@ namespace de.unika.ipd.grgen.util
 		private NullOutputStream()
 		{
 		}
-	}
+	}*/
 
 }

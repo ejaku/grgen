@@ -44,7 +44,7 @@ namespace de.unika.ipd.grgen.be.C
 
 		/// <summary>
 		/// The output path as handed over by the frontend. </summary>
-		private File path;
+		private DirectoryInfo path;
 
 		/// <summary>
 		/// the extension of the generated include files </summary>
@@ -83,14 +83,14 @@ namespace de.unika.ipd.grgen.be.C
 		/// Write a character sequence to a file using the path set. </summary>
 		/// <param name="filename"> The filename. </param>
 		/// <param name="cs"> A character sequence. </param>
-		protected internal void WriteFile(string filename, CharSequence cs)
+		protected internal void WriteFile(string filename, StringBuilder sb)
 		{
-			Util.WriteFile(new File(path, filename), cs, error);
+			Util.WriteFile(FileAndDirectoryHelper.GetFileInfo(path, filename), sb, error);
 		}
 
 		protected internal PrintStream OpenFile(string filename)
 		{
-			return Util.OpenFile(new File(path, filename), error);
+			return Util.OpenFile(FileAndDirectoryHelper.GetFileInfo(path, filename), error);
 		}
 
 		protected internal static void CloseFile(PrintStream ps)
@@ -611,12 +611,12 @@ namespace de.unika.ipd.grgen.be.C
 		}
 
 		/// <seealso cref="de.unika.ipd.grgen.be.Backend.init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)"/>
-		public virtual void Init(Unit unit, Sys sys, File outputPath)
+		public virtual void Init(Unit unit, Sys sys, DirectoryInfo outputPath)
 		{
 			this.unit = unit;
 			error = sys.ErrorReporter;
 			this.path = outputPath;
-			path.Mkdirs();
+			FileAndDirectoryHelper.Mkdirs(path);
 
 			MakeTypes(unit);
 		}
@@ -732,7 +732,7 @@ namespace de.unika.ipd.grgen.be.C
 			PrintStream ps = new PrintStream(bos);
 			FormatString(ps, s);
 			ps.Flush();
-			ps.close();
+			ps.Close();
 			return bos.ToString();
 		}
 

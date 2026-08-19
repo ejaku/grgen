@@ -15,6 +15,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 	using System;
 	using System.Collections.Generic;
+	using System.IO;
 
 	using Sys = de.unika.ipd.grgen.Sys;
 	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
@@ -36,7 +37,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 		/// <summary>
 		/// The output path as handed over by the frontend. </summary>
-		public File path;
+		public DirectoryInfo path;
 
 		private HashSet<string> reservedWords;
 
@@ -54,12 +55,12 @@ namespace de.unika.ipd.grgen.be.Csharp
 		/// <summary>
 		/// Initializes this backend. </summary>
 		/// <seealso cref="de.unika.ipd.grgen.be.Backend.init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)"/>
-		public virtual void Init(Unit unit, Sys sys, File outputPath)
+		public virtual void Init(Unit unit, Sys sys, DirectoryInfo outputPath)
 		{
 			this.unit = unit;
 			this.sys = sys;
 			this.path = outputPath;
-			path.Mkdirs();
+			FileAndDirectoryHelper.Mkdirs(path);
 
 			// These names are declared as "reserved" as most of them
 			// are needed in their original meaning in the generated code.

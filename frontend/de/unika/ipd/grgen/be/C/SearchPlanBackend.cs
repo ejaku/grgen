@@ -24,6 +24,8 @@ using System.Text;
 namespace de.unika.ipd.grgen.be.C
 {
 
+	using System.IO;
+
 	using Sys = de.unika.ipd.grgen.Sys;
 	using Backend = de.unika.ipd.grgen.be.Backend;
 	using BackendFactory = de.unika.ipd.grgen.be.BackendFactory;
@@ -180,7 +182,7 @@ namespace de.unika.ipd.grgen.be.C
 		 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.Sys, java.io.File)
 		 * --------------------------------------------------------------------------------------------------------- */
 
-		public override void Init(Unit unit, Sys system, File outputPath)
+		public override void Init(Unit unit, Sys system, DirectoryInfo outputPath)
 		{
 			base.Init(unit, system, outputPath);
 			//		this.unit = unit;

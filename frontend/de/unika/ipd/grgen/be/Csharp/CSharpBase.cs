@@ -16,6 +16,8 @@ namespace de.unika.ipd.grgen.be.Csharp
 	using System;
 	using System.Collections.Generic;
 	using System.Diagnostics;
+	using System.IO;
+	using System.Text;
 
 	using de.unika.ipd.grgen.ir;
 	using Needs = de.unika.ipd.grgen.ir.NeededEntities.Needs;
@@ -255,22 +257,22 @@ namespace de.unika.ipd.grgen.be.Csharp
 		/// Write a character sequence to a file using the given path. </summary>
 		/// <param name="path"> The path for the file. </param>
 		/// <param name="filename"> The filename. </param>
-		/// <param name="cs"> A character sequence. </param>
-		public static void WriteFile(File path, string filename, CharSequence cs)
+		/// <param name="sb"> A string builder. </param>
+		public static void WriteFile(DirectoryInfo path, string filename, StringBuilder sb)
 		{
-			Util.WriteFile(new File(path, filename), cs, Base.error);
+			Util.WriteFile(FileAndDirectoryHelper.GetFileInfo(path, filename), sb, Base.error);
 		}
 
-		public static bool ExistsFile(File path, string filename)
+		/*public static bool ExistsFile(File path, string filename)
 		{
 			return (new File(path, filename)).Exists();
-		}
+		}*/
 
-		public static void CopyFile(File sourcePath, File targetPath)
+		public static void CopyFile(FileInfo sourcePath, FileInfo targetPath)
 		{
 			try
 			{
-				Util.CopyFile(sourcePath, targetPath);
+				File.Copy(sourcePath.FullName, targetPath.FullName, true);
 			}
 			catch(IOException ex)
 			{

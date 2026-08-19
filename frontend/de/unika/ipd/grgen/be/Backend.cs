@@ -11,6 +11,7 @@
 
 namespace de.unika.ipd.grgen.be
 {
+	using System.IO;
 
 	using Sys = de.unika.ipd.grgen.Sys;
 	using Unit = de.unika.ipd.grgen.ir.Unit;
@@ -27,7 +28,7 @@ namespace de.unika.ipd.grgen.be
 		/// <param name="sys"> The sys(tem). </param>
 		/// <param name="outputPath"> The output path, where
 		/// all generated files should go. </param>
-		void Init(Unit unit, Sys sys, File outputPath);
+		void Init(Unit unit, Sys sys, DirectoryInfo outputPath);
 
 		/// <summary>
 		/// Initiates the generation of code.
