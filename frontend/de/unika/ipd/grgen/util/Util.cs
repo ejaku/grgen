@@ -18,6 +18,7 @@ namespace de.unika.ipd.grgen.util
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Text;
+	using System.Text.RegularExpressions;
 
 	using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
@@ -74,7 +75,7 @@ namespace de.unika.ipd.grgen.util
 		public static string GetActionsNameFromFilename(string filename)
 		{
 			string name = Util.RemovePathPrefix(Util.RemoveFileSuffix(filename, "grg"));
-			name = name.ReplaceAll("[^a-zA-Z0-9_]", "_");
+			name = Regex.Replace(name, "[^a-zA-Z0-9_]", "_");
 			char firstChar = name[0];
 			if(firstChar >= '0' && firstChar <= '9')
 				name = "_" + name;
@@ -90,7 +91,7 @@ namespace de.unika.ipd.grgen.util
 		public static bool IsFilenameValidActionName(string filename)
 		{
 			string name = Util.RemovePathPrefix(Util.RemoveFileSuffix(filename, "grg"));
-			return !name.Matches("[^a-zA-Z0-9_]");
+			return !Regex.IsMatch(name, "[^a-zA-Z0-9_]");
 		}
 
 		public static FileInfo FindFile(DirectoryInfo[] paths, string file)
