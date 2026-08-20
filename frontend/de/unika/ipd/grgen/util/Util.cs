@@ -116,7 +116,7 @@ namespace de.unika.ipd.grgen.util
 				sbyte b = arr[i];
 
 				sb.Append(hexChars[b & 0xf]);
-				sb.Append(hexChars[(b >>> 4) & 0xf]);
+				sb.Append(hexChars[(b >> 4) & 0xf]);
 			}
 
 			return sb.ToString();

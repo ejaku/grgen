@@ -327,7 +327,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 				case de.unika.ipd.grgen.ast.decl.executable.Operator.SHR:
 					return new IntConstNode(coords, a0 >> a1);
 				case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_SHR:
-					return new IntConstNode(coords, a0 >>> a1);
+					return new IntConstNode(coords, (int)(((uint)a0) >> a1));
 				case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_OR:
 					return new IntConstNode(coords, a0 | a1);
 				case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_AND:
@@ -391,11 +391,11 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 				case de.unika.ipd.grgen.ast.decl.executable.Operator.MOD:
 					return new LongConstNode(coords, a0 % a1);
 				case de.unika.ipd.grgen.ast.decl.executable.Operator.SHL:
-					return new LongConstNode(coords, a0 << a1);
+					return new LongConstNode(coords, a0 << (int)a1);
 				case de.unika.ipd.grgen.ast.decl.executable.Operator.SHR:
-					return new LongConstNode(coords, a0 >> a1);
+					return new LongConstNode(coords, a0 >> (int)a1);
 				case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_SHR:
-					return new LongConstNode(coords, a0 >>> a1);
+					return new LongConstNode(coords, (long)(((ulong)a0) >> (int)a1));
 				case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_OR:
 					return new LongConstNode(coords, a0 | a1);
 				case de.unika.ipd.grgen.ast.decl.executable.Operator.BIT_AND:

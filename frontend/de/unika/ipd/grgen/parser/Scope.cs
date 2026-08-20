@@ -346,7 +346,7 @@ namespace de.unika.ipd.grgen.parser
 
 		public string ToStringWithOpeningCoords()
 		{
-			return ToString() + " [opened at " + (ident != null ? ident.Coords : "0,0") + "]";
+			return ToString() + " [opened at " + (ident != null ? ident.Coords.ToString() : "0,0") + "]";
 		}
 
 		/// <seealso cref="java.lang.Object.toString()"/>
