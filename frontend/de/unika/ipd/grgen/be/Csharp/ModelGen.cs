@@ -3000,7 +3000,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				if(!mustCopyAttribs)
 					continue;
 
-				BitArray commonTypesBitset = new BitArray();
+				BitArray commonTypesBitset = new BitArray(InheritanceType.MaxTypeID);
 				foreach(InheritanceType commonType in firstCommonAncestors)
 					commonTypesBitset.Set(commonType.TypeID, true);
 				IList<InheritanceType> commonList = commonGroups[commonTypesBitset];
@@ -3033,8 +3033,11 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Indent();
 			BitArray bitset = entry.Key;
 			HashSet<Entity> copiedAttribs = new HashSet<Entity>();
-			for(int i = bitset.NextSetBit(0); i >= 0; i = bitset.NextSetBit(i + 1))
+			for(int i = 0; i < bitset.Count; ++i)
 			{
+				if(!bitset.Get(i))
+					continue;
+
 				InheritanceType commonType = InheritanceType.GetByTypeID(i);
 				ICollection<Entity> members = commonType.AllMembers;
 				if(members.Count != 0)

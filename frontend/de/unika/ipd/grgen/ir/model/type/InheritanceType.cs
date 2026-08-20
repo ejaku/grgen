@@ -102,6 +102,15 @@ namespace de.unika.ipd.grgen.ir.model.type
 			}
 		}
 
+		// returned value is only valid if the property is queried after a all types were created
+		public static int MaxTypeID
+		{
+			get
+			{
+				return nextTypeID;
+			}
+		}
+
 		public static InheritanceType GetByTypeID(int typeID)
 		{
 			return typesByID[typeID];
