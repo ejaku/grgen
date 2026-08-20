@@ -92,8 +92,8 @@ namespace de.unika.ipd.grgen.util
 					IEnumerator<object> childs = (IEnumerator<object>)fields[obj];
 					string tag = obj.ToString();
 
-	// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
-					if(childs.HasNext())
+					bool hasNext = childs.MoveNext();
+					if(hasNext)
 					{
 						Indent();
 						ps.Print('<');
@@ -101,13 +101,14 @@ namespace de.unika.ipd.grgen.util
 						ps.Println('>');
 						indentationLevel++;
 
-						while(childs.MoveNext())
+						do
 						{
 							object d = childs.Current;
 
 							Debug.Assert(d is XMLDumpable);
 							Dump((XMLDumpable)d);
 						}
+						while(childs.MoveNext());
 
 						indentationLevel--;
 						Indent();

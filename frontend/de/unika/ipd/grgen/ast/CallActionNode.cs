@@ -308,8 +308,8 @@ namespace de.unika.ipd.grgen.ast
 				int paramCounter = 1;
 				foreach(DeclNode formalParam in formalParams)
 				{
-	// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
-					ExprNode actualParam = iterAP.Next();
+					bool hasNext = iterAP.MoveNext();
+					ExprNode actualParam = iterAP.Current;
 
 					res &= CheckParam(paramCounter, formalParam, actualParam);
 
@@ -388,8 +388,8 @@ namespace de.unika.ipd.grgen.ast
 				int returnPos = 0;
 				foreach(TypeNode formalReturn in formalReturns)
 				{
-	// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
-					ExecVarDeclNode actualReturn = iterAR.Next();
+					bool hasNext = iterAR.MoveNext();
+					ExecVarDeclNode actualReturn = iterAR.Current;
 					res &= CheckReturn(formalReturn, actualReturn, returnPos);
 					++returnPos;
 				}

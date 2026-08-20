@@ -381,11 +381,10 @@ namespace de.unika.ipd.grgen.ir.executable
 				IEnumerator<Expression> argumentsIt = arguments.GetEnumerator();
 				while(argumentsIt.MoveNext())
 				{
-	// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
-					Debug.Assert(parametersIt.HasNext());
 					Expression argument = argumentsIt.Current;
-	// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
-					Entity parameter = parametersIt.Next();
+					bool hasNext = parametersIt.MoveNext();
+					Debug.Assert(hasNext);
+					Entity parameter = parametersIt.Current;
 					if(argument is GraphEntityExpression)
 					{
 						GraphEntity argumentEntity = ((GraphEntityExpression)argument).GraphEntity;

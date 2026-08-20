@@ -481,9 +481,7 @@ namespace de.unika.ipd.grgen.be.C
 				//pick out the node with the highest priority as start node
 				int max_prio = 0;
 				//get any node as initial node
-				Node max_prio_node = null;
-				if(pattern.Nodes.GetEnumerator().HasNext())
-					max_prio_node = pattern.Nodes.GetEnumerator().Next();
+				Node max_prio_node = EnumeratorHelper.GetFirstElementIfAvailableOrDefault(pattern.Nodes);
 				foreach(Node node in pattern.Nodes)
 				{
 					//get the nodes priority

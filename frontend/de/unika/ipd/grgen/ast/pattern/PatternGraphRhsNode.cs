@@ -142,9 +142,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 					if(orderedRepls.ChildrenExact.Count > 0)
 					{
 						IList<OrderedReplacementNode> orderedReplsToDelete = new List<OrderedReplacementNode>();
-						IEnumerator<OrderedReplacementNode> subCand = orderedRepls.ChildrenExact.GetEnumerator();
-	// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
-						OrderedReplacementNode orderedRepl = subCand.Next();
+						OrderedReplacementNode orderedRepl = EnumeratorHelper.GetFirstElement(orderedRepls.ChildrenExact);
 						if(orderedRepl is SubpatternReplNode)
 						{
 							SubpatternReplNode orderedSubpatternRepl = (SubpatternReplNode)orderedRepl;

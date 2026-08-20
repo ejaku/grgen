@@ -7,8 +7,18 @@ internal static class EnumeratorHelper
     public static T GetFirstElement<T>(ICollection<T> collection)
     {
         IEnumerator<T> it = collection.GetEnumerator();
-        bool elementAvailable = it.MoveNext();
-        Debug.Assert(elementAvailable);
+        bool hasNext = it.MoveNext();
+        Debug.Assert(hasNext);
         return it.Current;
+    }
+
+    public static T GetFirstElementIfAvailableOrDefault<T>(ICollection<T> collection)
+    {
+        IEnumerator<T> it = collection.GetEnumerator();
+        bool hasNext = it.MoveNext();
+        if(hasNext)
+            return it.Current;
+        else
+            return default(T);
     }
 }

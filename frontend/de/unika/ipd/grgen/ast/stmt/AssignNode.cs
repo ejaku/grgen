@@ -518,10 +518,10 @@ namespace de.unika.ipd.grgen.ast.stmt
 						return false;
 					ICollection<ExprNode> children = @operator.ChildrenExact;
 					IEnumerator<ExprNode> it = children.GetEnumerator();
-	// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
-					ExprNode left = it.Next();
-	// JAVA TO C# CONVERTER TASK: Java iterators are only converted within the context of 'while' and 'for' loops:
-					ExprNode right = it.Next();
+					bool hasNext = it.MoveNext();
+					ExprNode left = it.Current;
+					hasNext = it.MoveNext();
+					ExprNode right = it.Current;
 					if(!(right is SetInitNode) && !(right is MapInitNode))
 						return false;
 
