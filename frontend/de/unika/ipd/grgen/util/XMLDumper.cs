@@ -64,14 +64,13 @@ namespace de.unika.ipd.grgen.util
 			foreach(string obj in fields.Keys)
 			{
 				object val = fields[obj];
-	// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-	// ORIGINAL LINE: if(!(val instanceof java.util.Iterator<?>))
+				// maybe todo: IEnumerator plain
 				if(!(val is IEnumerator<object>))
 				{
 					ps.Print(' ');
 					ps.Print(obj);
 					ps.Print("=\"");
-					ps.Print(val);
+					ps.Print(val.ToString()); // maybe todo: null handling
 					ps.Print('\"');
 					keysToRemove.Add(obj);
 				}
@@ -84,13 +83,12 @@ namespace de.unika.ipd.grgen.util
 			{
 				ps.Println('>');
 				indentationLevel++;
-				foreach(object obj in fields.Keys)
+				foreach(string obj in fields.Keys)
 				{
 					// the cast was checked some lines above
-	// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-	// ORIGINAL LINE: java.util.Iterator<?> childs = (java.util.Iterator<?>)fields.get(obj);
+					// maybe todo: IEnumerator plain
 					IEnumerator<object> childs = (IEnumerator<object>)fields[obj];
-					string tag = obj.ToString();
+					string tag = obj.ToString(); // todo: clean this...
 
 					bool hasNext = childs.MoveNext();
 					if(hasNext)
