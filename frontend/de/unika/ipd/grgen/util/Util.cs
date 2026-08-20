@@ -7,7 +7,7 @@
 
 /// <summary>
 /// Util.java
-/// 
+/// Gut gammlige utilities
 /// @author Created by Omnicore CodeGuide
 /// </summary>
 
@@ -197,7 +197,8 @@ namespace de.unika.ipd.grgen.util
 		/// <param name="m"> The Name of the method </param>
 		public static bool ContainsMethod(Type c, string m)
 		{
-			IList<System.Reflection.MethodInfo> allMethods = new List<System.Reflection.MethodInfo>();
+			return c.GetMethod(m) != null;
+			/*IList<System.Reflection.MethodInfo> allMethods = new List<System.Reflection.MethodInfo>();
 			foreach(System.Reflection.MethodInfo mm in c.GetMethods())
 				allMethods.Add(mm);
 
@@ -208,16 +209,27 @@ namespace de.unika.ipd.grgen.util
 			catch(Exception)
 			{
 				return false;
-			}
+			}*/
 		}
+
+		/// <summary>
+		/// Tells whether a given class contains a given property </summary>
+		/// <param name="c"> The class object </param>
+		/// <param name="p"> The Name of the property </param>
+		public static bool ContainsProperty(Type c, string p)
+		{
+			return c.GetProperty(p) != null;
+		}
+
+		// TODO: GetStrList, GetStrListWithOr, GetStr are only used to fetch the KindStr property value (formerly invoke the getKindStr method) - reduce to this instead of having a more general kind of reflection helper?
 
 		/// <summary>
 		/// Get a comma separated list of strings characterising the kinds of
 		/// the given class objects. </summary>
 		/// <param name="classes"> The class objects </param>
-		/// <param name="sc"> A class all the given classes must be subclass of </param>
-		/// <param name="m"> The Name of the method </param>
-		public static string GetStrList(Type[] classes, Type sc, string m)
+		/// <param name="baseClass"> A class all the given classes must be subclass of </param>
+		/// <param name="property"> The Name of the property </param>
+		public static string GetStrList(Type[] classes, Type baseClass, string property)
 		{
 			StringBuilder res = new StringBuilder();
 			bool first = true;
@@ -228,11 +240,11 @@ namespace de.unika.ipd.grgen.util
 					res.Append(", ");
 				try
 				{
-					if(IsSubClass(c, sc) &&
-							ContainsMethod(c, m) &&
+					if(IsSubClass(c, baseClass) &&
+							ContainsProperty(c, property) &&
 							c.GetMethod("m").ReturnType == typeof(string))
 					{
-						res.Append((string)c.GetMethod(m).Invoke(null));
+						res.Append((string)c.GetProperty(property).GetValue(null));
 					}
 					else
 						res.Append("<invalid>");
@@ -250,7 +262,7 @@ namespace de.unika.ipd.grgen.util
 		/// Get a comma separated list of strings characterising the kinds of
 		/// the given class objects. Between the last two entries there is an 'or'.
 		/// </summary>
-		public static string GetStrListWithOr(Type[] classes, Type sc, string m)
+		public static string GetStrListWithOr(Type[] classes, Type baseClass, string property)
 		{
 			StringBuilder res = new StringBuilder();
 
@@ -266,11 +278,11 @@ namespace de.unika.ipd.grgen.util
 					else if(i > 0 && length > 2) // , as separator before other entries (none before first)
 						res.Append(", ");
 
-					if(IsSubClass(c, sc) && ContainsMethod(c, m))
+					if(IsSubClass(c, baseClass) && ContainsProperty(c, property))
 					{
-						if(c.GetMethod(m).ReturnType == typeof(string))
+						if(c.GetProperty(property).PropertyType == typeof(string))
 						{
-							res.Append((string)c.GetMethod(m).Invoke(null));
+							res.Append((string)c.GetProperty(property).GetValue(null));
 							continue;
 						}
 					}
@@ -286,16 +298,16 @@ namespace de.unika.ipd.grgen.util
 		}
 
 		/// <summary>
-		/// return result string of invoking method m on c </summary>
-		public static string GetStr(Type c, Type sc, string m)
+		/// return result string of invoking property p on c </summary>
+		public static string GetStr(Type c, Type baseClass, string p)
 		{
 			try
 			{
-				if(IsSubClass(c, sc) && ContainsMethod(c, m))
+				if(IsSubClass(c, baseClass) && ContainsProperty(c, p))
 				{
-					if(c.GetMethod(m).ReturnType == typeof(string))
+					if(c.GetProperty(p).PropertyType == typeof(string))
 					{
-						string str = (string)c.GetMethod(m).Invoke(null);
+						string str = (string)c.GetProperty(p).GetValue(null);
 						if(str.Equals("base node"))
 							str += " <" + c.ToString() + ">";
 

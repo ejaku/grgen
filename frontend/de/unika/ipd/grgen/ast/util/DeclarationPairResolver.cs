@@ -66,7 +66,7 @@ namespace de.unika.ipd.grgen.ast.util
 				}
 
 				bn.ReportError(bn + " is a " + bn.Kind +
-						" but a " + Util.GetStrListWithOr(classes, typeof(BaseNode), "getKindStr") + " is expected.");
+						" but a " + Util.GetStrListWithOr(classes, typeof(BaseNode), "KindStr") + " is expected.");
 				return null;
 			}
 		}
@@ -93,7 +93,7 @@ namespace de.unika.ipd.grgen.ast.util
 				return pair;
 
 			n.ReportError(n + " is a " + resolved.Kind +
-					" but a " + Util.GetStrListWithOr(classes, typeof(BaseNode), "getKindStr") + " is expected.");
+					" but a " + Util.GetStrListWithOr(classes, typeof(BaseNode), "KindStr") + " is expected.");
 			return null;
 		}
 	}

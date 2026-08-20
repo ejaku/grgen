@@ -102,9 +102,9 @@ namespace de.unika.ipd.grgen.ast.util
 			get
 			{
 				if(cls != null)
-					return Util.GetStr(cls, typeof(BaseNode), "getKindStr");
+					return Util.GetStr(cls, typeof(BaseNode), "KindStr");
 				else
-					return Util.GetStrListWithOr(classes, typeof(BaseNode), "getKindStr");
+					return Util.GetStrListWithOr(classes, typeof(BaseNode), "KindStr");
 			}
 		}
 	}

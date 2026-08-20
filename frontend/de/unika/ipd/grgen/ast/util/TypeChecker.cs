@@ -80,7 +80,7 @@ namespace de.unika.ipd.grgen.ast.util
 
 			try
 			{
-				res = (string)cls.GetMethod("getKindStr").Invoke(null);
+				res = (string)cls.GetProperty("KindStr").GetValue(null);
 			}
 			catch(Exception)
 			{

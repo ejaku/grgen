@@ -198,7 +198,7 @@ namespace de.unika.ipd.grgen.ast
 
 		// Employs reflection while a simple virtual method overriden in the subclasses would be more appropriate,
 		// but a static method that can be used via reflection is required anyhow by the resolvers and checkers,
-		// so it is better to re-use getKindStr than adding another method to all classes (basically duplicating the functionality).
+		// so it is better to re-use KindStr than adding another method to all classes (basically duplicating the functionality).
 		public string Kind
 		{
 			get
@@ -206,7 +206,7 @@ namespace de.unika.ipd.grgen.ast
 				string res = "<unknown>";
 				try
 				{
-					res = (string)this.GetType().GetMethod("getKindStr").Invoke(null);
+					res = (string)this.GetType().GetProperty("KindStr").GetValue(null); // was previously in Java: getClass().getMethod("getKindStr").invoke(null)
 				}
 				catch(Exception e)
 				{

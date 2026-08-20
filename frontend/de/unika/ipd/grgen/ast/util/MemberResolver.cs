@@ -125,7 +125,7 @@ namespace de.unika.ipd.grgen.ast.util
 		{
 			Type[] classes = new Type[triedClasses.Count];
 			orginalNode.ReportError(orginalNode + " is a " + orginalNode.Kind + " but a "
-					+ Util.GetStrListWithOr(triedClasses.ToArray(classes), typeof(BaseNode), "getKindStr")
+					+ Util.GetStrListWithOr(triedClasses.ToArray(classes), typeof(BaseNode), "KindStr")
 					+ " is expected.");
 		}
 
