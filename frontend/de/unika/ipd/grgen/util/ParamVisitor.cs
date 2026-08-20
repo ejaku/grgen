@@ -16,7 +16,7 @@ namespace de.unika.ipd.grgen.util
 	/// </summary>
 	public abstract class ParamVisitor : Visitor
 	{
-		public abstract void visit(Walkable n);
+		public abstract void Visit(Walkable n);
 		private object[] parameters;
 
 		/// <summary>
