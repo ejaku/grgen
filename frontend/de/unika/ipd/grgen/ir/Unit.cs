@@ -642,7 +642,7 @@ namespace de.unika.ipd.grgen.ir
 
 		public virtual void SetDependencyLevelOfInterElementDependencies()
 		{
-			DependencyLevelOfInterElementDependencies = new ComposedActionsBearer(this);
+			setDependencyLevelOfInterElementDependencies(new ComposedActionsBearer(this));
 		}
 
 		public static void setDependencyLevelOfInterElementDependencies(ActionsBearer bearer)

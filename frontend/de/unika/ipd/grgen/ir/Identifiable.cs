@@ -91,7 +91,7 @@ namespace de.unika.ipd.grgen.ir
 
 		public override int GetHashCode()
 		{
-			return Ident.hashCode();
+			return Ident.GetHashCode();
 		}
 
 		public virtual int CompareTo(Identifiable id)
@@ -104,7 +104,7 @@ namespace de.unika.ipd.grgen.ir
 		{
 			get
 			{
-				return Ident.GetCustomAttributes(true);
+				return Ident.Annotations;
 			}
 		}
 	}
