@@ -47,7 +47,7 @@ namespace de.unika.ipd.grgen
 	/// Main.java
 	/// Created: Wed Jul  2 11:22:43 2003
 	/// </summary>
-	public class Main : Base, Sys
+	public class Frontend : Base, Sys
 	{
 		private string[] args;
 		private string[] inputFileNames;
@@ -410,17 +410,17 @@ namespace de.unika.ipd.grgen
 				be.Generate();
 				be.Done();
 			}
-			catch(ClassNotFoundException)
+			catch(TypeLoadException)  // ClassNotFoundException
 			{
 				Console.Error.WriteLine("cannot locate backend class: " + backend);
 				SystemExit(-1);
 			}
-			catch(IllegalAccessException)
+			catch(MethodAccessException) // IllegalAccessException
 			{
 				Console.Error.WriteLine("no rights to create backend class: " + backend);
 				SystemExit(-1);
 			}
-			catch(InstantiationException)
+			catch(MemberAccessException) // InstantiationException
 			{
 				Console.Error.WriteLine("cannot create backend class: " + backend);
 				SystemExit(-1);
@@ -430,6 +430,7 @@ namespace de.unika.ipd.grgen
 				Console.Error.WriteLine("unexpected exception occurred:");
 				Console.WriteLine(e.ToString());
 				Console.Write(e.StackTrace);
+				Console.Error.WriteLine("whern trying to create backend class: " + backend);
 				SystemExit(-1);
 			}
 
@@ -587,21 +588,21 @@ namespace de.unika.ipd.grgen
 			}
 		}
 
-		protected internal Main(string[] args)
+		protected internal Frontend(string[] args)
 		{
 			this.args = args;
 		}
 
 		protected internal static void StaticInit()
 		{
-			string packageName = typeof(Main).Assembly.GetName().Name;
+			string packageName = typeof(Frontend).Assembly.GetName().Name;
 			// used to initialize prefs/preferences, kept as a hook for now, TODO: remove
 		}
 
 		public static void Main(string[] args)
 		{
 			StaticInit();
-			Main main = new Main(args);
+			Frontend main = new Frontend(args);
 			main.Run();
 		}
 	}

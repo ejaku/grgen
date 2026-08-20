@@ -10,7 +10,7 @@ namespace unittest
 	// JAVA TO C# CONVERTER TASK: This Java 'import static' statement cannot be converted to C#:
 	//	import static org.junit.Assert.*;
 
-	using Main = de.unika.ipd.grgen.Main;
+	using Frontend = de.unika.ipd.grgen.Frontend;
 	using UnitNode = de.unika.ipd.grgen.ast.UnitNode;
 	using ErrorReporter = de.unika.ipd.grgen.util.report.ErrorReporter;
 
@@ -36,7 +36,7 @@ namespace unittest
 
 		/// <summary>
 		/// Main subclass that throws SystemExitException instead of calling System.exit(). </summary>
-		internal class AcceptanceTestMain : Main
+		internal class AcceptanceTestMain : Frontend
 		{
 			protected internal AcceptanceTestMain(string[] args) : base(args)
 			{

@@ -131,7 +131,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 				}
 				catch(RecognitionException e)
 				{
-					e.PrintStackTrace(Console.Error);
+					Console.Error.WriteLine(e.StackTrace);
 					Console.Error.WriteLine("parser exception: " + e.Message);
 					Environment.Exit(1);
 				}
@@ -185,7 +185,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 				}
 				catch(RecognitionException e)
 				{
-					e.PrintStackTrace(Console.Error);
+					Console.Error.WriteLine(e.StackTrace);
 					Console.Error.WriteLine("parser exception: " + e.Message);
 					Environment.Exit(1);
 				}

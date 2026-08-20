@@ -296,13 +296,15 @@ namespace de.unika.ipd.grgen.ir
 
 			try
 			{
-				sbyte[] serialData = sb.ToString().GetBytes(Encoding.ASCII);
-				MessageDigest md = MessageDigest.GetInstance("MD5");
-				digest = Util.HexString(md.Digest(serialData));
+				byte[] serialData = System.Text.Encoding.ASCII.GetBytes(sb.ToString());
+				using(System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+				{
+					digest = Util.HexString(md5.ComputeHash(serialData));
+				}
 			}
 			catch(Exception e)
 			{
-				e.PrintStackTrace(Console.Error);
+				Console.Error.WriteLine(e.StackTrace);
 				digest = "<error>";
 			}
 

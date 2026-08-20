@@ -122,6 +122,21 @@ namespace de.unika.ipd.grgen.util
 			return sb.ToString();
 		}
 
+		public static string HexString(byte[] arr)
+		{
+			StringBuilder sb = new StringBuilder();
+
+			for(int i = 0; i < arr.Length; i++)
+			{
+				byte b = arr[i];
+
+				sb.Append(hexChars[b & 0xf]);
+				sb.Append(hexChars[(b >> 4) & 0xf]);
+			}
+
+			return sb.ToString();
+		}
+
 		/// <summary>
 		/// Write a string buffer to a file. </summary>
 		/// <param name="file"> The file. </param>
