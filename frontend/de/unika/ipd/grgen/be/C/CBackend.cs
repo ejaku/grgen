@@ -73,7 +73,7 @@ namespace de.unika.ipd.grgen.be.C
 		{
 			string s = id.Ident.ToString();
 
-			s = s.ReplaceAll("_", "__");
+			s = s.Replace("_", "__");
 			s = s.Replace('$', '_');
 
 			return s;

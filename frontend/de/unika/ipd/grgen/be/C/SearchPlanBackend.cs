@@ -870,7 +870,7 @@ namespace de.unika.ipd.grgen.be.C
 				string edgePos = "ext_grs_NO_EDGE_POS";
 				string name = edge.Ident.ToString().Replace('$', '_') + nameSuffix;
 				//System.out.println("'" + edge.getIdent().toString() + "'\n");
-				if(name.Length > 4 && name.Substring(0, 4).Matches("pos[0123456789]"))
+				if(name.Length > 4 && name.StartsWith("pos") && name[3] >= '0' && name[3] <= '9') // I'd assume this should be >= 4
 					edgePos = edge.Ident.ToString().Substring(3, 1);
 				if(edge.EdgeType.Ident.ToString().Equals("dep"))
 				{

@@ -71,7 +71,7 @@ namespace de.unika.ipd.grgen.util
 		/// <returns> A string ready for dumping. </returns>
 		private static string EscapeString(string s)
 		{
-			return s.ReplaceAll("\"", "\\\\\"");
+			return s.Replace("\"", "\\\\\"");
 		}
 
 		/// <summary>
