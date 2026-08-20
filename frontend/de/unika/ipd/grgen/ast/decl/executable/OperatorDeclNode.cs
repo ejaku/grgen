@@ -355,7 +355,8 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			get
 			{
 				TypeNode[] array = new TypeNode[parameterTypes.Count];
-				return parameterTypes.ToArray(array);
+				parameterTypes.CopyTo(array, 0);
+				return array;
 			}
 		}
 

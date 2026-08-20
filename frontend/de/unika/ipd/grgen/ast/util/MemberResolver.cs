@@ -124,8 +124,9 @@ namespace de.unika.ipd.grgen.ast.util
 		public virtual void Failed()
 		{
 			Type[] classes = new Type[triedClasses.Count];
+			triedClasses.CopyTo(classes, 0);
 			orginalNode.ReportError(orginalNode + " is a " + orginalNode.Kind + " but a "
-					+ Util.GetStrListWithOr(triedClasses.ToArray(classes), typeof(BaseNode), "KindStr")
+					+ Util.GetStrListWithOr(classes, typeof(BaseNode), "KindStr")
 					+ " is expected.");
 		}
 

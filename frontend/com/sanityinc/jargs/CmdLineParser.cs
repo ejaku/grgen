@@ -666,7 +666,7 @@ namespace com.sanityinc.jargs
 				otherArgs.Add(argv[position]);
 
 			this.remainingArgs = new string[otherArgs.Count];
-			remainingArgs = otherArgs.ToArray(remainingArgs);
+			otherArgs.CopyTo(remainingArgs, 0); // eja wonders about the type mismatch...
 		}
 
 

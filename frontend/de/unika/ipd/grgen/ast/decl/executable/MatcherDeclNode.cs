@@ -14,7 +14,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 	using System;
 	using System.Collections.Generic;
 	using System.Diagnostics;
-	using System.Linq;
 
 	using BaseNode = de.unika.ipd.grgen.ast.BaseNode;
 	using CallActionNode = de.unika.ipd.grgen.ast.CallActionNode;
@@ -283,7 +282,8 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			foreach(PatternGraphLhsNode independent in pattern.idpts.ChildrenExact)
 				leftHandGraphs.Add(independent);
 
-			PatternGraphLhsNode[] graphs = leftHandGraphs.ToArray();
+			PatternGraphLhsNode[] graphs = new PatternGraphLhsNode[leftHandGraphs.Count];
+			leftHandGraphs.CopyTo(graphs, 0);
 			ICollection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
 
 			for(int i = 0; i < graphs.Length; i++)
