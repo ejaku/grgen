@@ -118,8 +118,8 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		public static void MakeOp(Operator @operator, TypeNode resultType,
 				TypeNode[] operandTypes, OperatorEvaluator evaluator)
 		{
-			ISet<OperatorDeclNode> typeMap = operators[@operator];
-			if(typeMap == null)
+			ISet<OperatorDeclNode> typeMap;
+			if(!operators.TryGetValue(@operator, out typeMap))
 			{
 				typeMap = new LinkedHashSet<OperatorDeclNode>();
 				operators[@operator] = typeMap;

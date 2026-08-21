@@ -131,9 +131,9 @@ namespace de.unika.ipd.grgen.ast.pattern
 					Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>> key = new Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>>(
 							patternGraph.GetHomomorphic(cn.Src), patternGraph.GetHomomorphic(cn.Tgt));
 
-					ISet<ConnectionNode> edges = homNodePairsToEdges[key];
-					// edges == null if conn is a dangling edge or one of the nodes is not induced
-					if(edges != null)
+					ISet<ConnectionNode> edges;
+					// edges == null/not found if conn is a dangling edge or one of the nodes is not induced
+					if(homNodePairsToEdges.TryGetValue(key, out edges))
 					{
 						edges.Add(cn);
 						homNodePairsToEdges[key] = edges;

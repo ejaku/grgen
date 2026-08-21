@@ -2005,7 +2005,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 			foreach(Node node in pattern.Nodes)
 			{
-				if(!string.ReferenceEquals(alreadyDefinedEntityToName[node], null))
+				if(alreadyDefinedEntityToName.ContainsKey(node))
 					continue;
 				sb.AppendFront("public static GRGEN_LIBGR.NodeType[] "
 						+ FormatEntity(node, pathPrefixForElements) + "_AllowedTypes = ");
@@ -2057,7 +2057,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 			foreach(Edge edge in pattern.Edges)
 			{
-				if(!string.ReferenceEquals(alreadyDefinedEntityToName[edge], null))
+				if(alreadyDefinedEntityToName.ContainsKey(edge))
 					continue;
 				sb.AppendFront("public static GRGEN_LIBGR.EdgeType[] "
 						+ FormatEntity(edge, pathPrefixForElements) + "_AllowedTypes = ");
@@ -2562,7 +2562,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 				foreach(Node node in pattern.Nodes)
 				{
-					if(!string.ReferenceEquals(alreadyDefinedEntityToName[node], null))
+					if(alreadyDefinedEntityToName.ContainsKey(node))
 						continue;
 					if(node.DependencyLevel > dependencyLevel)
 					{
@@ -2579,7 +2579,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 				foreach(Edge edge in pattern.Edges)
 				{
-					if(!string.ReferenceEquals(alreadyDefinedEntityToName[edge], null))
+					if(alreadyDefinedEntityToName.ContainsKey(edge))
 						continue;
 					if(edge.DependencyLevel > dependencyLevel)
 					{
@@ -2599,7 +2599,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 			foreach(SubpatternUsage sub in pattern.SubpatternUsages)
 			{
-				if(!string.ReferenceEquals(alreadyDefinedIdentifiableToName[sub], null))
+				if(alreadyDefinedIdentifiableToName.ContainsKey(sub))
 					continue;
 
 				string subName = FormatIdentifiable(sub, pathPrefixForElements);

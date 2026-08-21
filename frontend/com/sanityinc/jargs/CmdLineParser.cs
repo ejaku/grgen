@@ -534,7 +534,8 @@ namespace com.sanityinc.jargs
 		/// if the option was not set </returns>
 		public T GetOptionValue<T>(Option<T> o, T def)
 		{
-			IList<object> v = values[o.LongForm];
+			IList<object> v;
+			bool hasValue = values.TryGetValue(o.LongForm, out v);
 
 			if(v == null)
 				return def;
@@ -674,7 +675,8 @@ namespace com.sanityinc.jargs
 			object value = opt.GetValue(valueArg, locale);
 			string lf = opt.LongForm;
 
-			IList<object> v = values[lf];
+			IList<object> v;
+			bool hasValue = values.TryGetValue(lf, out v);
 
 			if(v == null)
 			{

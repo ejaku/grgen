@@ -189,15 +189,17 @@ namespace de.unika.ipd.grgen.ast.type
 
 		public static void AddCompatibility(TypeNode a, TypeNode b)
 		{
-			if(compatibleMap[a] == null)
-				compatibleMap[a] = new HashSet<TypeNode>();
+			HashSet<TypeNode> compatibleTypes;
+			if(!compatibleMap.TryGetValue(a, out compatibleTypes))
+				compatibleMap.Add(a, new HashSet<TypeNode>());
 			compatibleMap[a].Add(b);
 		}
 
 		public static void AddCastability(TypeNode from, TypeNode to)
 		{
-			if(castableMap[from] == null)
-				castableMap[from] = new HashSet<TypeNode>();
+			HashSet<TypeNode> castableTypes;
+			if(!castableMap.TryGetValue(from, out castableTypes))
+				castableMap.Add(from, new HashSet<TypeNode>());
 			castableMap[from].Add(to);
 		}
 
