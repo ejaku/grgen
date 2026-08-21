@@ -37,4 +37,7 @@
       <HintPath>antlr-dotnet-csharpbootstrap-3.5.0.2\Antlr3.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="test/**/*.cs" />
+  </ItemGroup>
 </Project>
