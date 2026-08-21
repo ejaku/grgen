@@ -9,6 +9,8 @@
 /// @author shack
 /// </summary>
 
+// eja commented regex out, commented stack trace out so the build works again -- at least for now for testing, maybe forever ... it's unclear whether this functionality was ever used and/or working, TODO purge the feature or convert and comment in again
+
 namespace de.unika.ipd.grgen.util.report
 {
 
@@ -22,11 +24,11 @@ namespace de.unika.ipd.grgen.util.report
 	{
 		private void InitializeInstanceFields()
 		{
-			matcher = pattern.Matcher("");
+			//matcher = pattern.Matcher("");
 		}
 
-		private Pattern pattern = Pattern.compile(".*");
-		private Matcher matcher;
+		//private Pattern pattern = Pattern.compile(".*");
+		//private Matcher matcher;
 		private bool inclusive = true;
 		private bool includeClassName = false;
 
@@ -49,8 +51,8 @@ namespace de.unika.ipd.grgen.util.report
 		{
 			set
 			{
-				pattern = Pattern.Compile(value);
-				matcher = pattern.Matcher("");
+				//pattern = Pattern.Compile(value);
+				//matcher = pattern.Matcher("");
 			}
 		}
 
@@ -81,7 +83,7 @@ namespace de.unika.ipd.grgen.util.report
 		{
 			if(enableStackTrace)
 			{
-				StackTraceElement[] st = (new Exception()).GetStackTrace();
+				/*StackTraceElement[] st = (new Exception()).GetStackTrace();
 				StackTraceElement ste = st[2];
 				StringBuilder sb = new StringBuilder();
 				for(int i = 0; i < st.Length; i++)
@@ -98,7 +100,8 @@ namespace de.unika.ipd.grgen.util.report
 					sb.Append('.');
 				}
 				sb.Append(ste.GetMethodName());
-				prefix = sb.ToString();
+				prefix = sb.ToString();*/
+				prefix = "";
 			}
 			else
 				prefix = "";
@@ -114,8 +117,8 @@ namespace de.unika.ipd.grgen.util.report
 
 			if(prefix.Length != 0)
 			{
-				bool matches = matcher.Reset(prefix).Matches();
-				res += matches ? 1 : 0;
+				//bool matches = matcher.Reset(prefix).Matches();
+				//res += matches ? 1 : 0;
 			}
 
 			return (res == 0 || res == 2) && base.WillReport(channel);

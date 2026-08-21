@@ -2,7 +2,8 @@
 
 namespace unittest
 {
-	using System;
+	// AI TODO: convert to NUnit (replacing the current result of the automatic convervsion of JUnit usages from Java to C#)
+	/*using System;
 
 	using Before = org.junit.Before;
 	using BeforeClass = org.junit.BeforeClass;
@@ -112,5 +113,5 @@ namespace unittest
 			assertEquals("No warnings after compilation", 0, ErrorReporter.WarnCount);
 		}
 	}
-
+	*/
 }
