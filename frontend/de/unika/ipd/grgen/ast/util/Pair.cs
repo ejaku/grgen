@@ -27,7 +27,7 @@ namespace de.unika.ipd.grgen.ast.util
 				return true;
 	// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
 	// ORIGINAL LINE: if(!(that instanceof Pair<?,?>))
-			if(!(that is Pair<object, object>))
+			if(!(that is Pair<BaseNode, BaseNode>))
 				return false;
 			try
 			{

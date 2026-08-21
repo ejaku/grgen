@@ -134,7 +134,7 @@ namespace de.unika.ipd.grgen.util
 						sb.Append(")");
 						break;
 					}
-					//$FALL-THROUGH$
+					goto default; //$FALL-THROUGH$
 				default:
 					throw new System.NotSupportedException("Unsupported Operation arrity (" + op.Arity() + ")");
 				}

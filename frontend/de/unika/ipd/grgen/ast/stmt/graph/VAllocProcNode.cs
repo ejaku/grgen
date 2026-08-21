@@ -68,7 +68,7 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 
 		protected internal override IR ConstructIR()
 		{
-			VAllocProc vAlloc = new VAllocProc(BasicTypeNode.intType.GetIRType());
+			VAllocProc vAlloc = new VAllocProc(BasicTypeNode.intType.IRType);
 			return vAlloc;
 		}
 

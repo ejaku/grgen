@@ -79,7 +79,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		{
 			BaseNode declNode = (BaseNode)decl;
 			if(declNode is TypeDeclNode)
-				return new Constant(BasicTypeNode.typeType.GetIRType(), ((TypeDeclNode)decl).DeclType.IR);
+				return new Constant(BasicTypeNode.typeType.IRType, ((TypeDeclNode)decl).DeclType.IR);
 			else
 				return base.ConstructIR();
 		}

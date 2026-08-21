@@ -93,7 +93,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 				return null;
 
 			LinkedList<ICollection<BaseNode>> queue = new LinkedList<ICollection<BaseNode>>();
-			for(ICollection<BaseNode> parents = pattern.Parents; parents != null; parents = queue.RemoveFirst())
+			for(ICollection<BaseNode> parents = pattern.Parents; parents != null; parents = queue.First.Value, queue.RemoveFirst())
 			{
 				foreach(BaseNode parent in parents)
 				{

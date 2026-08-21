@@ -41,7 +41,7 @@ namespace de.unika.ipd.grgen.ir.stmt
 		public override void CollectNeededEntities(NeededEntities needs)
 		{
 			needs.NeedsGraph();
-			foreach(Expression arg in Exec.GetArguments())
+			foreach(Expression arg in Exec.Arguments)
 				arg.CollectNeededEntities(needs);
 		}
 

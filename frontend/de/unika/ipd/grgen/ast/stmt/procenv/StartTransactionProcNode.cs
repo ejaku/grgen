@@ -68,7 +68,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 
 		protected internal override IR ConstructIR()
 		{
-			StartTransactionProc startTransaction = new StartTransactionProc(BasicTypeNode.intType.GetIRType());
+			StartTransactionProc startTransaction = new StartTransactionProc(BasicTypeNode.intType.IRType);
 			return startTransaction;
 		}
 

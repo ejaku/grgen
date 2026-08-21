@@ -19,7 +19,7 @@ namespace de.unika.ipd.grgen.ast.expr.numeric
 	public class FloatConstNode : ConstNode
 	{
 		public FloatConstNode(Coords coords, double v)
-			: base(coords, "float", new float?(v))
+			: base(coords, "float", new float?((float)v))
 		{
 		}
 

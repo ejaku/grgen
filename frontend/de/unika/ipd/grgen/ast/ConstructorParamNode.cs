@@ -76,7 +76,7 @@ namespace de.unika.ipd.grgen.ast
 		{
 			if(!lhsResolver.Resolve(lhsUnresolved))
 				return false;
-			lhs = lhsResolver.GetResult(typeof(DeclNode));
+			lhs = lhsResolver.GetResult<DeclNode>(typeof(DeclNode));
 
 			return lhsResolver.Finish();
 		}

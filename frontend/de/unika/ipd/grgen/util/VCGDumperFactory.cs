@@ -30,7 +30,7 @@ namespace de.unika.ipd.grgen.util
 		public virtual GraphDumper Get(string fileNamePart)
 		{
 			string fileName = fileNamePart + ".vcg";
-			Stream os = sys.CreateDebugFile(new File(fileName));
+			Stream os = sys.CreateDebugFile(new FileInfo(fileName));
 			PrintStream ps = new PrintStream(os);
 			return new VCGDumper(ps);
 		}

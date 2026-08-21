@@ -26,7 +26,7 @@ namespace de.unika.ipd.grgen.util
 
 		private class VisitorAnonymousInnerClass : Visitor
 		{
-			public void visit(Walkable w)
+			public void Visit(Walkable w)
 			{
 				// nothing to do
 			}

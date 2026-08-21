@@ -17,7 +17,7 @@ namespace de.unika.ipd.grgen.util
 	/// </summary>
 	public abstract class BooleanResultVisitor : ResultVisitor<bool>
 	{
-		public abstract void visit(Walkable n);
+		public abstract void Visit(Walkable n);
 		private bool result;
 
 		/// <summary>
@@ -28,7 +28,7 @@ namespace de.unika.ipd.grgen.util
 			result = init;
 		}
 
-		protected internal virtual bool Result
+		public virtual bool Result
 		{
 			set
 			{
@@ -36,7 +36,7 @@ namespace de.unika.ipd.grgen.util
 			}
 			get
 			{
-				return new bool?(result);
+				return result;
 			}
 		}
 

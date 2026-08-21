@@ -34,7 +34,7 @@ namespace de.unika.ipd.grgen.ast.type
 			}
 		}
 
-		public override abstract DeclNode TryGetMember(string name);
+		public abstract DeclNode TryGetMember(string name);
 
 		public abstract ISet<DeclNode> Entities {get;}
 
