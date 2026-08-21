@@ -218,14 +218,14 @@ namespace de.unika.ipd.grgen
 					}
 				}
 
-				dumpAST = parser.GetOptionValue(astDumpOpt) != null;
-				dumpIR = parser.GetOptionValue(irDumpOpt) != null;
-				dumpRules = parser.GetOptionValue(ruleDumpOpt) != null;
-				enableDebug = parser.GetOptionValue(debugOpt) != null;
-				emitProfiling = parser.GetOptionValue(profOpt) != null;
-				printTiming = parser.GetOptionValue(timeOpt) != null;
-				noEvents = parser.GetOptionValue(noEventsOpt) != null;
-				noDebugEvents = parser.GetOptionValue(noDebugEventsOpt) != null;
+				dumpAST = parser.GetOptionValue(astDumpOpt);// != null;
+				dumpIR = parser.GetOptionValue(irDumpOpt);// != null;
+				dumpRules = parser.GetOptionValue(ruleDumpOpt);// != null;
+				enableDebug = parser.GetOptionValue(debugOpt);// != null;
+				emitProfiling = parser.GetOptionValue(profOpt);// != null;
+				printTiming = parser.GetOptionValue(timeOpt);// != null;
+				noEvents = parser.GetOptionValue(noEventsOpt);// != null;
+				noDebugEvents = parser.GetOptionValue(noDebugEventsOpt);// != null;
 
 				debugFilter = (string)parser.GetOptionValue(debugFilterOpt);
 				invDebugFilter = (string)parser.GetOptionValue(invDebugFilterOpt);
