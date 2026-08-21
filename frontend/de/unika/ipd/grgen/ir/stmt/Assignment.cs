@@ -71,7 +71,7 @@ namespace de.unika.ipd.grgen.ir.stmt
 			}
 
 			// Temporarily do not collect variables for target
-			HashSet<Variable> varSet = needs.variables;
+			ISet<Variable> varSet = needs.variables;
 			needs.variables = null;
 			target.CollectNeededEntities(needs);
 			needs.variables = varSet;

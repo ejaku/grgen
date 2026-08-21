@@ -75,7 +75,7 @@ namespace de.unika.ipd.grgen.ir.stmt
 				needs.Add((GraphEntity)entity);
 
 			// Temporarily do not collect variables for changed target
-			HashSet<Variable> varSet = needs.variables;
+			ISet<Variable> varSet = needs.variables;
 			needs.variables = null;
 			changedTarget.CollectNeededEntities(needs);
 			needs.variables = varSet;
