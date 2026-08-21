@@ -681,7 +681,7 @@ seqConstantOfBasicOrEnumType [ ExecNode xg ] returns [ ExprNode res = ParserEnvi
 	| d=NUM_DOUBLE { xg.Append(d.Text); res = new DoubleConstNode(getCoords(d), Double.Parse(d.Text, System.Globalization.CultureInfo.InvariantCulture)); }
 	| s=STRING_LITERAL { xg.Append(s.Text); String buff = s.Text;
 			// Strip the " from the string
-			buff = buff.Substring(1, buff.length() - 2);
+			buff = buff.Substring(1, buff.Length - 2);
 			res = new StringConstNode(getCoords(s), buff); }
 	| tt=TRUE { xg.Append(tt.Text); res = new BoolConstNode(getCoords(tt), true); }
 	| ff=FALSE { xg.Append(ff.Text); res = new BoolConstNode(getCoords(ff), false); }
@@ -1054,15 +1054,15 @@ seqCallRuleFilterContinuationNonMember [ ExecNode xg, CollectNode<BaseNode> filt
 
 			if(ParserEnvironment.IsAutoSuppliedFilterName(filterId.Text))
 			{
-				if(paramz.size() != 1)
-					reportError(getCoords(filterId), "The filter " + filterId.Text + " expects 1 argument (given are " + paramz.size() + " arguments).");
+				if(paramz.Size() != 1)
+					reportError(getCoords(filterId), "The filter " + filterId.Text + " expects 1 argument (given are " + paramz.Size() + " arguments).");
 			}
 			else if(filterId.Text.Equals("auto"))
 			{
 				if(isMatchClassFilter)
 					reportError(getCoords(filterId), "The auto filter is not available for multi rule call or multi rule backtracking constructs.");
-				if(paramz.size() != 0)
-					reportError(getCoords(filterId), "The filter " + filterId.Text + " expects 0 arguments (given are " + paramz.size() + " arguments).");
+				if(paramz.Size() != 0)
+					reportError(getCoords(filterId), "The filter " + filterId.Text + " expects 0 arguments (given are " + paramz.Size() + " arguments).");
 			}
 			else
 			{
@@ -1142,8 +1142,8 @@ seqCallMatchClassFilterContinuationNonMember [ ExecNode xg, CollectNode<BaseNode
 
 			if(ParserEnvironment.IsAutoSuppliedFilterName(filterId.Text))
 			{
-				if(paramz.size() != 1)
-					reportError(getCoords(filterId), "The filter " + filterId.Text + " expects 1 argument (given are " + paramz.size() + " arguments).");
+				if(paramz.Size() != 1)
+					reportError(getCoords(filterId), "The filter " + filterId.Text + " expects 1 argument (given are " + paramz.Size() + " arguments).");
 			}
 			else
 			{
@@ -1204,7 +1204,7 @@ seqFilterCallVariableList [ ExecNode xg ]
 	;
 
 seqRuleParam [ ExecNode xg, CollectNode<BaseNode> parameters ]
-	: exp=seqExpression[xg] { parameters.AddChild(exp); if(exp == null) throw new RuntimeException(); }
+	: exp=seqExpression[xg] { parameters.AddChild(exp); if(exp == null) throw new Exception(); }
 	;
 
 seqRuleParams [ ExecNode xg, CollectNode<BaseNode> parameters ]
