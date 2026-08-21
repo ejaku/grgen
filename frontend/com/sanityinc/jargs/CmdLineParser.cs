@@ -37,6 +37,7 @@ namespace com.sanityinc.jargs
 
 	using System;
 	using System.Collections.Generic;
+	using System.Globalization;
 
 	/// <summary>
 	/// Largely GNU-compatible command-line options parser. Has short (-v) and
@@ -199,7 +200,7 @@ namespace com.sanityinc.jargs
 			public abstract bool WantsValue();
 			public abstract string ShortForm {get;}
 			public abstract string LongForm {get;}
-			public abstract object GetValue(string arg, Locale locale);
+			public abstract object GetValue(string arg, CultureInfo locale);
 		}
 
 		/// <summary>
@@ -251,7 +252,7 @@ namespace com.sanityinc.jargs
 				return this.wantsValue_;
 			}
 
-			public T GetValueExact(string arg, Locale locale)
+			public T GetValueExact(string arg, CultureInfo locale)
 			{
 				if(this.wantsValue_)
 				{
@@ -263,7 +264,7 @@ namespace com.sanityinc.jargs
 					return this.DefaultValue;
 			}
 
-			public sealed override object GetValue(string arg, Locale locale)
+			public sealed override object GetValue(string arg, CultureInfo locale)
 			{
 				return this.GetValueExact(arg, locale);
 			}
@@ -272,7 +273,7 @@ namespace com.sanityinc.jargs
 			/// Override to extract and convert an option value passed on the
 			/// command-line
 			/// </summary>
-			protected internal virtual T ParseValue(string arg, Locale locale)
+			protected internal virtual T ParseValue(string arg, CultureInfo locale)
 			{
 				return default(T);
 			}
@@ -309,7 +310,7 @@ namespace com.sanityinc.jargs
 			{
 			}
 
-			protected internal override bool ParseValue(string arg, Locale lcoale)
+			protected internal override bool ParseValue(string arg, CultureInfo lcoale)
 			{
 				return true;
 			}
@@ -338,7 +339,7 @@ namespace com.sanityinc.jargs
 			{
 			}
 
-			protected internal override int ParseValue(string arg, Locale locale)
+			protected internal override int ParseValue(string arg, CultureInfo locale)
 			{
 				try
 				{
@@ -366,7 +367,7 @@ namespace com.sanityinc.jargs
 			{
 			}
 
-			protected internal override long ParseValue(string arg, Locale locale)
+			protected internal override long ParseValue(string arg, CultureInfo locale)
 			{
 				try
 				{
@@ -394,15 +395,13 @@ namespace com.sanityinc.jargs
 			{
 			}
 
-			protected internal override double ParseValue(string arg, Locale locale)
+			protected internal override double ParseValue(string arg, CultureInfo locale)
 			{
 				try
 				{
-					NumberFormat format = NumberFormat.GetNumberInstance(locale);
-					Number num = (Number)format.Parse(arg);
-					return new double?(num.DoubleValue());
+					return double.Parse(arg, locale);
 				}
-				catch(ParseException)
+				catch(FormatException) // ParseException
 				{
 					throw IllegalOptionValueException.CreateIllegalOptionValueException(this, arg);
 				}
@@ -424,7 +423,7 @@ namespace com.sanityinc.jargs
 			{
 			}
 
-			protected internal override string ParseValue(string arg, Locale locale)
+			protected internal override string ParseValue(string arg, CultureInfo locale)
 			{
 				return arg;
 			}
@@ -588,7 +587,7 @@ namespace com.sanityinc.jargs
 		/// </summary>
 		public void Parse(string[] argv)
 		{
-			Parse(argv, Locale.GetDefault());
+			Parse(argv, CultureInfo.CurrentCulture); // Locale.GetDefault()
 		}
 
 		/// <summary>
@@ -596,7 +595,7 @@ namespace com.sanityinc.jargs
 		/// list of command-line arguments. The specified locale is used for
 		/// parsing options whose values might be locale-specific.
 		/// </summary>
-		public void Parse(string[] argv, Locale locale)
+		public void Parse(string[] argv, CultureInfo locale)
 		{
 			List<object> otherArgs = new List<object>();
 			int position = 0;
@@ -670,7 +669,7 @@ namespace com.sanityinc.jargs
 		}
 
 
-		private void AddValue(OptionBase opt, string valueArg, Locale locale)
+		private void AddValue(OptionBase opt, string valueArg, CultureInfo locale)
 		{
 			object value = opt.GetValue(valueArg, locale);
 			string lf = opt.LongForm;
