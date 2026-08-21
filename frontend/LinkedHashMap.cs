@@ -22,10 +22,14 @@ public class LinkedHashMap<TKey, TValue> : IDictionary<TKey, TValue> /*,ICollect
     Dictionary<TKey, LinkedListNode<KeyValuePair<TKey, TValue>>> unorderedDictionary; // replacement for the HashMap/Dictionary, pointing to the LinkedListNode so that removal is an O(1)-operation
     LinkedList<KeyValuePair<TKey, TValue>> orderedLinkedList; // for ensuring iteration order is the same as addition order, LinkedList so that removal is an O(1)-operation
 
+    LinkedHashSet<TValue> cachedValues; // will be invalidated upon modifications by setting to null
+
     public LinkedHashMap()
     {
         unorderedDictionary = new Dictionary<TKey, LinkedListNode<KeyValuePair<TKey, TValue>>>();
         orderedLinkedList = new LinkedList<KeyValuePair<TKey, TValue>>();
+
+        cachedValues = null;
     }
 
     public LinkedHashMap(IEnumerable<KeyValuePair<TKey, TValue>> collection)
@@ -70,6 +74,7 @@ public class LinkedHashMap<TKey, TValue> : IDictionary<TKey, TValue> /*,ICollect
     {
         unorderedDictionary.Clear();
         orderedLinkedList.Clear();
+        cachedValues = null;
     }
 
     public bool Contains(KeyValuePair<TKey, TValue> item)
@@ -95,6 +100,7 @@ public class LinkedHashMap<TKey, TValue> : IDictionary<TKey, TValue> /*,ICollect
         {
             unorderedDictionary.Remove(item.Key);
             orderedLinkedList.Remove(node);
+            cachedValues = null;
             return true;
         }
         return false;
@@ -124,6 +130,7 @@ public class LinkedHashMap<TKey, TValue> : IDictionary<TKey, TValue> /*,ICollect
                 LinkedListNode<KeyValuePair<TKey, TValue>> node = orderedLinkedList.AddLast(new KeyValuePair<TKey, TValue>(key, value));
                 unorderedDictionary[key] = node;
             }
+            cachedValues = null;
         }
     }
 
@@ -136,33 +143,26 @@ public class LinkedHashMap<TKey, TValue> : IDictionary<TKey, TValue> /*,ICollect
     {
         get
         {
-            //throw new System.NotImplementedException(); potential TODO: offer a Values iterator and throw again - then a typeswitch could be used, or when the type is known statically directly the iterator
-            // alternative TODO: performance optimization -- cache the result (requires tracking of changes, so the cache can be invalidated upon changes)
-            LinkedHashSet<TValue> values = new LinkedHashSet<TValue>();
-            foreach(KeyValuePair<TKey, TValue> kvp in orderedLinkedList)
+            if(cachedValues != null)
+                return cachedValues;
+            else
             {
-                values.Add(kvp.Value);
+                cachedValues = new LinkedHashSet<TValue>();
+                foreach(KeyValuePair<TKey, TValue> kvp in orderedLinkedList)
+                {
+                    cachedValues.Add(kvp.Value);
+                }
+                return cachedValues;
             }
-            return values;
         }
     }
-
-    /*public IEnumerable<TValue> ValuesIterator
-    {
-        get
-        {
-            foreach(KeyValuePair<TKey, TValue> kvp in orderedLinkedList)
-            {
-                yield return kvp.Value;
-            }
-        }
-    }*/
 
     public void Add(TKey key, TValue value)
     {
         LinkedListNode<KeyValuePair<TKey, TValue>> node = new LinkedListNode<KeyValuePair<TKey, TValue>>(new KeyValuePair<TKey, TValue>(key, value));
-        unorderedDictionary.Add(key, node);
+        unorderedDictionary.Add(key, node); // throws Exception when key already exists
         orderedLinkedList.AddLast(node);
+        cachedValues = null;
     }
 
     public bool ContainsKey(TKey key)
@@ -177,6 +177,7 @@ public class LinkedHashMap<TKey, TValue> : IDictionary<TKey, TValue> /*,ICollect
         {
             unorderedDictionary.Remove(key);
             orderedLinkedList.Remove(node);
+            cachedValues = null;
             return true;
         }
         return false;
