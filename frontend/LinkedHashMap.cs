@@ -134,8 +134,29 @@ public class LinkedHashMap<TKey, TValue> : IDictionary<TKey, TValue> /*,ICollect
 
     public ICollection<TValue> Values
     {
-        get { throw new System.NotImplementedException(); }
+        get
+        {
+            //throw new System.NotImplementedException(); potential TODO: offer a Values iterator and throw again - then a typeswitch could be used, or when the type is known statically directly the iterator
+            // alternative TODO: performance optimization -- cache the result (requires tracking of changes, so the cache can be invalidated upon changes)
+            LinkedHashSet<TValue> values = new LinkedHashSet<TValue>();
+            foreach(KeyValuePair<TKey, TValue> kvp in orderedLinkedList)
+            {
+                values.Add(kvp.Value);
+            }
+            return values;
+        }
     }
+
+    /*public IEnumerable<TValue> ValuesIterator
+    {
+        get
+        {
+            foreach(KeyValuePair<TKey, TValue> kvp in orderedLinkedList)
+            {
+                yield return kvp.Value;
+            }
+        }
+    }*/
 
     public void Add(TKey key, TValue value)
     {
