@@ -32,6 +32,7 @@ namespace de.unika.ipd.grgen.ast.decl
 		static DeclNode()
 		{
 			SetClassName(typeof(DeclNode), "declaration");
+			invalidDecl = new InvalidDeclNode(IdentNode.Invalid);
 		}
 
 		public IdentNode ident;
@@ -40,7 +41,7 @@ namespace de.unika.ipd.grgen.ast.decl
 
 		/// <summary>
 		/// An invalid declaration. </summary>
-		private static readonly DeclNode invalidDecl = new InvalidDeclNode(IdentNode.Invalid);
+		private static readonly DeclNode invalidDecl;
 
 		/// <summary>
 		/// Get an invalid declaration. </summary>

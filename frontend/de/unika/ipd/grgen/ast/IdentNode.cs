@@ -31,6 +31,8 @@ namespace de.unika.ipd.grgen.ast
 		static IdentNode()
 		{
 			SetClassName(typeof(IdentNode), "identifier");
+			INVALID = new IdentNode(Symbol.Definition.Invalid);
+			INVALID.decl = DeclNode.Invalid; // was not set in constructor in order to break circular reference upon creating INVALID, set it now that INVALID exists (creating DeclNode.Invalid)
 		}
 
 		/// <summary>
@@ -43,9 +45,9 @@ namespace de.unika.ipd.grgen.ast
 
 		/// <summary>
 		/// The declaration associated with this identifier. </summary>
-		protected internal DeclNode decl = DeclNode.Invalid;
+		protected internal DeclNode decl;
 
-		protected internal static readonly IdentNode INVALID = new IdentNode(Symbol.Definition.Invalid);
+		protected internal static readonly IdentNode INVALID;
 
 		/// <summary>
 		/// Get an invalid ident node. </summary>
@@ -74,6 +76,8 @@ namespace de.unika.ipd.grgen.ast
 			: base(occ.Coords)
 		{
 			this.occ = occ;
+			if(INVALID != null) // break circular reference upon creating INVALID
+				decl = DeclNode.Invalid;
 		}
 
 		/// <summary>
