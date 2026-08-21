@@ -152,7 +152,6 @@ tokens {
 		putOpId(BAND, Operator.BIT_AND);
 		putOpId(BOR, Operator.BIT_OR);
 		putOpId(BXOR, Operator.BIT_XOR);
-		putOpId(BXOR, Operator.BIT_XOR);
 		putOpId(LAND, Operator.LOG_AND);
 		putOpId(LOR, Operator.LOG_OR);
 		putOpId(IN, Operator.IN);
