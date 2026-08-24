@@ -59,6 +59,8 @@ public class LinkedHashSet<T> : ICollection<T>, IEnumerable<T>, IEnumerable, ISe
 
     public bool Contains(T item)
     {
+        if(item == null)
+            return false;
         return unorderedDictionary.ContainsKey(item);
     }
 

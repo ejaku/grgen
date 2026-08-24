@@ -64,7 +64,8 @@ namespace de.unika.ipd.grgen.ast.expr
 			bool success = true;
 
 			TypeNode containerElementType = ContainerType.ElementType;
-			foreach(ExprNode item in containerItems.ChildrenExact)
+			IList<ExprNode> containerItemsCopy = new List<ExprNode>(containerItems.ChildrenExact);
+			foreach(ExprNode item in containerItemsCopy) // iteration in C# throws an InvalidOperationException when a single element in the list is replaced while the collection is iterated
 			{
 				if(item.Type != containerElementType)
 				{
