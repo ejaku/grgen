@@ -2543,7 +2543,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 			foreach(Variable var in pattern.Vars)
 			{
-				if(!string.ReferenceEquals(alreadyDefinedEntityToName[var], null))
+				if(alreadyDefinedEntityToName.ContainsKey(var))
 					continue;
 
 				string varName = FormatEntity(var, pathPrefixForElements);

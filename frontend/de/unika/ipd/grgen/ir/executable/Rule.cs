@@ -390,7 +390,8 @@ namespace de.unika.ipd.grgen.ir.executable
 						GraphEntity argumentEntity = ((GraphEntityExpression)argument).GraphEntity;
 						Dictionary<Entity, Rule> parametersToTheirDeletingOrRetypingPattern =
 								subpatternsToParametersToTheirDeletingOrRetypingPattern[sub.subpatternAction];
-						Rule deletingOrRetypingPattern = parametersToTheirDeletingOrRetypingPattern[parameter];
+						Rule deletingOrRetypingPattern;
+						parametersToTheirDeletingOrRetypingPattern.TryGetValue(parameter, out deletingOrRetypingPattern);
 						if(deletingOrRetypingPattern != null)
 						{
 							if(entitiesToTheirDeletingOrRetypingPattern.ContainsKey(argumentEntity))
@@ -421,8 +422,10 @@ namespace de.unika.ipd.grgen.ir.executable
 				{
 					foreach(Entity entityOfAlternativeCase in entitiesToTheirDeletingOrRetypingPatternOfAlternativCase.Keys)
 					{
-						Rule deletingOrRetypingPatternOld = entitiesToTheirDeletingOrRetypingPattern[entityOfAlternativeCase];
-						Rule deletingOrRetypingPatternNew = entitiesToTheirDeletingOrRetypingPatternOfAlternativCase[entityOfAlternativeCase];
+						Rule deletingOrRetypingPatternOld;
+						entitiesToTheirDeletingOrRetypingPattern.TryGetValue(entityOfAlternativeCase, out deletingOrRetypingPatternOld);
+						Rule deletingOrRetypingPatternNew;
+						entitiesToTheirDeletingOrRetypingPatternOfAlternativCase.TryGetValue(entityOfAlternativeCase, out deletingOrRetypingPatternNew);
 						if(deletingOrRetypingPatternOld == null && deletingOrRetypingPatternNew != null)
 							entitiesToTheirDeletingOrRetypingPattern[entityOfAlternativeCase] = deletingOrRetypingPatternNew;
 					}
@@ -442,8 +445,10 @@ namespace de.unika.ipd.grgen.ir.executable
 						subpatternsToParametersToTheirDeletingOrRetypingPattern[this];
 				foreach(Entity parameter in parametersToTheirDeletingOrRetypingPattern.Keys)
 				{
-					Rule deletingOrRetypingPatternOld = parametersToTheirDeletingOrRetypingPattern[parameter];
-					Rule deletingOrRetypingPatternNew = entitiesToTheirDeletingOrRetypingPattern[parameter];
+					Rule deletingOrRetypingPatternOld;
+					parametersToTheirDeletingOrRetypingPattern.TryGetValue(parameter, out deletingOrRetypingPatternOld);
+					Rule deletingOrRetypingPatternNew;
+					entitiesToTheirDeletingOrRetypingPattern.TryGetValue(parameter, out deletingOrRetypingPatternNew);
 					if(deletingOrRetypingPatternOld == null && deletingOrRetypingPatternNew != null)
 					{
 						parametersToTheirDeletingOrRetypingPattern[parameter] = deletingOrRetypingPatternNew;

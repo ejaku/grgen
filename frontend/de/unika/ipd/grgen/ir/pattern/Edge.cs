@@ -167,14 +167,18 @@ namespace de.unika.ipd.grgen.ir.pattern
 		{
 			if(this.redirectedSource == null)
 				return null;
-			return this.redirectedSource[graph];
+			Node redirectedSource;
+			this.redirectedSource.TryGetValue(graph, out redirectedSource);
+			return redirectedSource;
 		}
 
 		public virtual Node GetRedirectedTarget(PatternGraphBase graph)
 		{
 			if(this.redirectedTarget == null)
 				return null;
-			return this.redirectedTarget[graph];
+			Node redirectedTarget;
+			this.redirectedTarget.TryGetValue(graph, out redirectedTarget);
+			return redirectedTarget;
 		}
 
 		public override string Kind

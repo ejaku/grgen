@@ -3003,7 +3003,8 @@ namespace de.unika.ipd.grgen.be.Csharp
 				BitArray commonTypesBitset = new BitArray(InheritanceType.MaxTypeID);
 				foreach(InheritanceType commonType in firstCommonAncestors)
 					commonTypesBitset.Set(commonType.TypeID, true);
-				IList<InheritanceType> commonList = commonGroups[commonTypesBitset];
+				IList<InheritanceType> commonList;
+				commonGroups.TryGetValue(commonTypesBitset, out commonList);
 				if(commonList == null)
 				{
 					commonList = new List<InheritanceType>();

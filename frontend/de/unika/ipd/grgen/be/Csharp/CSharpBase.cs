@@ -862,7 +862,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		public static string FormatEntity(Entity entity, string pathPrefix,
 				Dictionary<Entity, string> alreadyDefinedEntityToName)
 		{
-			if(alreadyDefinedEntityToName != null && !string.ReferenceEquals(alreadyDefinedEntityToName[entity], null))
+			if(alreadyDefinedEntityToName != null && alreadyDefinedEntityToName.ContainsKey(entity))
 				return alreadyDefinedEntityToName[entity];
 			return FormatEntity(entity, pathPrefix);
 		}
@@ -5613,7 +5613,8 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			if(elem is GraphEntity)
 			{
-				ISet<Entity> forcedAttrs = state.ForceAttributeToVar[(GraphEntity)elem];
+				ISet<Entity> forcedAttrs;
+				state.ForceAttributeToVar.TryGetValue((GraphEntity)elem, out forcedAttrs);
 				return forcedAttrs != null && forcedAttrs.Contains(attr);
 			}
 			else

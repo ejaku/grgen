@@ -160,7 +160,7 @@ namespace de.unika.ipd.grgen.parser.antlr
 				Environment.Exit(1);
 			}
 
-			root = models[filePath];
+			models.TryGetValue(filePath, out root);
 			if(root != null)
 				return root;
 

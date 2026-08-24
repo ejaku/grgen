@@ -208,7 +208,8 @@ namespace de.unika.ipd.grgen.ast.type
 		{
 			debug.Report(NOTE, "compatible types to " + Name + ":");
 
-			ICollection<TypeNode> compatibleTypes = compatibleMap[this];
+			HashSet<TypeNode> compatibleTypes;
+			compatibleMap.TryGetValue(this, out compatibleTypes);
 			if(compatibleTypes == null)
 				return;
 
@@ -240,7 +241,8 @@ namespace de.unika.ipd.grgen.ast.type
 
 		private void DoGetCastableToTypes(ICollection<TypeNode> coll)
 		{
-			ICollection<TypeNode> castable = castableMap[this];
+			HashSet<TypeNode> castable;
+			castableMap.TryGetValue(this, out castable);
 			if(castable != null)
 				coll.AddAll(castable);
 		}

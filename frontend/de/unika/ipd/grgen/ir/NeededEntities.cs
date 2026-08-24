@@ -227,7 +227,8 @@ namespace de.unika.ipd.grgen.ir
 				return;
 			}
 
-			ISet<Entity> attrs = attrEntityMap[grEnt];
+			ISet<Entity> attrs;
+			attrEntityMap.TryGetValue(grEnt, out attrs);
 			if(attrs == null)
 				attrEntityMap[grEnt] = attrs = new LinkedHashSet<Entity>();
 			attrs.Add(attr);

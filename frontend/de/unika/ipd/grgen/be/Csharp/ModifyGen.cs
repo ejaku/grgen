@@ -544,7 +544,8 @@ namespace de.unika.ipd.grgen.be.Csharp
 			foreach(KeyValuePair<GraphEntity, ISet<Entity>> entry in needs.attrEntityMap.SetOfKeyValuePairs())
 			{
 				ISet<Entity> neededAttrs = entry.Value;
-				ISet<Entity> attributesStoredBeforeDelete = state.attributesStoredBeforeDelete[entry.Key];
+				ISet<Entity> attributesStoredBeforeDelete;
+				state.attributesStoredBeforeDelete.TryGetValue(entry.Key, out attributesStoredBeforeDelete);
 				if(attributesStoredBeforeDelete == null)
 					state.attributesStoredBeforeDelete[entry.Key] = attributesStoredBeforeDelete = new LinkedHashSet<Entity>();
 				attributesStoredBeforeDelete.AddAll(neededAttrs);
@@ -1148,7 +1149,8 @@ namespace de.unika.ipd.grgen.be.Csharp
 					GenQualAccess(sb, state, owner, entity);
 					sb.Append(";\n");
 
-					ISet<Entity> forcedAttrs = forceAttributeToVar[owner];
+					ISet<Entity> forcedAttrs;
+					forceAttributeToVar.TryGetValue(owner, out forcedAttrs);
 					if(forcedAttrs == null)
 						forceAttributeToVar[owner] = forcedAttrs = new HashSet<Entity>();
 					forcedAttrs.Add(entity);

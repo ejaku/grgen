@@ -215,7 +215,8 @@ namespace de.unika.ipd.grgen.ir.model.type
 			foreach(Entity member in type.Members)
 			{
 				string memberName = member.Ident.ToString();
-				Entity curMember = allMembers[memberName];
+				Entity curMember;
+				allMembers.TryGetValue(memberName, out curMember);
 				if(curMember != null)
 				{
 					if(curMember.Type.IsVoid())
@@ -371,7 +372,9 @@ namespace de.unika.ipd.grgen.ir.model.type
 		/// <returns> The overridden member, or null, if no such exists. </returns>
 		public virtual Entity GetOverriddenMember(Entity overridingMember)
 		{
-			return overridingMembers[overridingMember];
+			Entity overriddenMember;
+			overridingMembers.TryGetValue(overridingMember, out overriddenMember);
+			return overriddenMember;
 		}
 
 		public virtual void AddConstructor(Constructor constr)
