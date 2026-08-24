@@ -677,7 +677,7 @@ seqConstantOfBasicOrEnumType [ ExecNode xg ] returns [ ExprNode res = ParserEnvi
 	| sh=NUM_SHORT { xg.Append(sh.Text); res = new ShortConstNode(getCoords(sh), Int16.Parse(ShortConstNode.RemoveSuffix(sh.Text))); }
 	| i=NUM_INTEGER { xg.Append(i.Text); res = new IntConstNode(getCoords(i), Int32.Parse(i.Text)); }
 	| l=NUM_LONG { xg.Append(l.Text); res = new LongConstNode(getCoords(l), Int64.Parse(LongConstNode.RemoveSuffix(l.Text))); }
-	| f=NUM_FLOAT { xg.Append(f.Text); res = new FloatConstNode(getCoords(f), Single.Parse(f.Text, System.Globalization.CultureInfo.InvariantCulture)); }
+	| f=NUM_FLOAT { xg.Append(f.Text); res = new FloatConstNode(getCoords(f), Single.Parse(FloatConstNode.RemoveSuffix(f.Text), System.Globalization.CultureInfo.InvariantCulture)); }
 	| d=NUM_DOUBLE { xg.Append(d.Text); res = new DoubleConstNode(getCoords(d), Double.Parse(d.Text, System.Globalization.CultureInfo.InvariantCulture)); }
 	| s=STRING_LITERAL { xg.Append(s.Text); String buff = s.Text;
 			// Strip the " from the string

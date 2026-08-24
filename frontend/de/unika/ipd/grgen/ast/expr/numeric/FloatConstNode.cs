@@ -7,6 +7,8 @@
 
 namespace de.unika.ipd.grgen.ast.expr.numeric
 {
+	using System;
+
 	using ConstNode = de.unika.ipd.grgen.ast.expr.ConstNode;
 	using StringConstNode = de.unika.ipd.grgen.ast.expr.@string.StringConstNode;
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
@@ -50,6 +52,14 @@ namespace de.unika.ipd.grgen.ast.expr.numeric
 				return new StringConstNode(Coords, value.ToString());
 			else
 				throw new System.NotSupportedException();
+		}
+
+		public static string RemoveSuffix(string floatLiteral)
+		{
+			if(floatLiteral.EndsWith("f", StringComparison.Ordinal) || floatLiteral.EndsWith("F", StringComparison.Ordinal))
+				return floatLiteral.Substring(0, floatLiteral.Length - 1);
+			else
+				return floatLiteral;
 		}
 	}
 
