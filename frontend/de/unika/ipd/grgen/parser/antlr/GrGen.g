@@ -4455,7 +4455,7 @@ constant returns [ ExprNode res = ParserEnvironment.InitExprNode() ]
 	| f=NUM_FLOAT
 		{ res = new FloatConstNode(getCoords(f), Single.Parse(FloatConstNode.RemoveSuffix(f.Text), System.Globalization.CultureInfo.InvariantCulture)); }
 	| d=NUM_DOUBLE
-		{ res = new DoubleConstNode(getCoords(d), Double.Parse(d.Text, System.Globalization.CultureInfo.InvariantCulture)); }
+		{ res = new DoubleConstNode(getCoords(d), Double.Parse(DoubleConstNode.RemoveSuffix(d.Text), System.Globalization.CultureInfo.InvariantCulture)); }
 	| s=STRING_LITERAL
 		{
 			String buff = s.Text;
