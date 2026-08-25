@@ -3,10 +3,8 @@
 trap "echo; exit 1" INT QUIT HUP TERM
 
 GRGENDIR=".."
-ANTLR="$GRGENDIR/jars/antlr.jar"
 [ "$GRGENNET" ] || GRGENNET="$GRGENDIR/../engine-net-2/bin/"
 BE_CSC=de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2
-
 
 GOLD=summary_gold.log
 LOG=summary.log
@@ -44,15 +42,10 @@ done
 [ "$JUST_TEST" ] || touch $LOG
 
 if uname -s | grep -iq "cygwin"; then
-	SEP=";"
 	MONO=
 else
-	SEP=":"
 	MONO="mono"
 fi
-CLASSPATH=$ANTLR$SEP$GRGENNET/grgen.jar
-
-JAVA_ARGS="-Xss1M -Xms256M -Xmx1024M -cp $CLASSPATH -ea de.unika.ipd.grgen.Main -b $BE_CSC -t$WITHDEBUG"
 
 do_test()
 {
@@ -68,7 +61,8 @@ do_test()
 	if [ -f "$EXTIMPLFILEMODEL" ]; then cp "$EXTIMPLFILEMODEL" "$DIR/$PLAINEXTIMPLFILEMODEL"; fi
 	if [ -f "$EXTIMPLFILEACTIONS" ]; then cp "$EXTIMPLFILEACTIONS" "$DIR/$PLAINEXTIMPLFILEACTIONS"; fi
 	echo -n "===> TEST $FILE"
-	if java $JAVA_ARGS -o "$DIR" "$FILE" > "$DIR/log" 2>&1; then
+	FRONTEND_ARGS="-b $BE_CSC -t $WITHDEBUG -o $DIR $FILE"
+	if $MONO FrontendGrGen.exe $FRONTEND_ARGS > "$DIR/log" 2>&1; then
         if grep -q "WARNING" < "$DIR/log"; then
             echo -n " ... WARNED"
             local WARNED="TRUE";
