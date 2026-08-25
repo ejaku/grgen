@@ -231,7 +231,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private static bool ExecuteGrGenJava(String tmpDir, ProcessSpecFlags flags,
+        private static bool ExecuteGrGenFrontend(String tmpDir, ProcessSpecFlags flags,
             out List<String> genModelFiles, out List<String> genModelStubFiles,
             out List<String> genActionsFiles, params String[] sourceFiles)
         {
@@ -248,9 +248,9 @@ namespace de.unika.ipd.grGen.lgsp
             String binPath = FixDirectorySeparators(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
                     + Path.DirectorySeparatorChar;
 
-            Process grGenJava = null;
+            Process grGenFrontend = null;
 
-            // The code handling CTRL+C makes sure, the Java process is killed even if CTRL+C was pressed at the very
+            // The code handling CTRL+C makes sure, the process is killed even if CTRL+C was pressed at the very
             // begining of Process.Start without making the program hang in an indeterminate state.
 
             bool ctrlCPressed = false;
@@ -259,13 +259,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(!delayCtrlC)
                 {
-                    if(grGenJava == null || grGenJava.HasExited)
+                    if(grGenFrontend == null || grGenFrontend.HasExited)
                         return;
 
                     ConsoleUI.errorOutWriter.WriteLine("Aborting...");
                     System.Threading.Thread.Sleep(100);     // a short delay to make sure the process is correctly started
-                    if(!grGenJava.HasExited)
-                        grGenJava.Kill();
+                    if(!grGenFrontend.HasExited)
+                        grGenFrontend.Kill();
                 }
                 ctrlCPressed = true;
                 if(e != null)               // compare to null, as we also call this by ourself when handling has been delayed
@@ -273,36 +273,33 @@ namespace de.unika.ipd.grGen.lgsp
             };
 
             ProcessStartInfo startInfo = null;
-            String javaString = null;
+            String frontendString = binPath + "FrontendGrGen.exe"; // .NET frontend exe directly executed (well, in fact by the .NET runtime - instead of the previous jar executed by the java/javaw runtime)
             try
             {
-                if(Environment.OSVersion.Platform == PlatformID.Unix)
-                    javaString = "java";
-                else
-                    javaString = "javaw";
+                if(WorkaroundManager.IsMono)
+                    frontendString = "mono " + frontendString; // when executing with mono (under LINUX), use mono also for executing the frontend (maybe todo: dotnet handling)
 
-                String execStr = "-Xss1M -Xmx1024M -jar \"" + binPath + "grgen.jar\" "
-                    + "-b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
+                String execStr ="-b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
                     + "-c \"" + tmpDir + Path.DirectorySeparatorChar + "printOutput.txt\" "
                     + "-o \"" + tmpDir + "\""
                     + ((flags & ProcessSpecFlags.NoEvents) != 0 ? " --noevents" : "")
                     + ((flags & ProcessSpecFlags.NoDebugEvents) != 0 ? " --nodebugevents" : "")
                     + ((flags & ProcessSpecFlags.Profile) != 0 ? " --profile" : "")
                     + " \"" + String.Join("\" \"", sourceFiles) + "\"";
-                startInfo = new ProcessStartInfo(javaString, execStr);
+                startInfo = new ProcessStartInfo(frontendString, execStr);
                 startInfo.CreateNoWindow = true;
                 startInfo.UseShellExecute = false;
                 try
                 {
                     ConsoleUI.consoleIn.CancelKeyPress += ctrlCHandler;
 
-                    grGenJava = Process.Start(startInfo);
+                    grGenFrontend = Process.Start(startInfo);
 
                     delayCtrlC = false;
                     if(ctrlCPressed)
                         ctrlCHandler(null, null);
 
-                    grGenJava.WaitForExit();
+                    grGenFrontend.WaitForExit();
                 }
                 finally
                 {
@@ -312,7 +309,7 @@ namespace de.unika.ipd.grGen.lgsp
             catch(System.ComponentModel.Win32Exception e)
             {
                 ConsoleUI.errorOutWriter.WriteLine("Unable to process specification: " + e.Message);
-                ConsoleUI.errorOutWriter.WriteLine("Is Java installed and the executable " + javaString + " available in one of the folders of the search path? Search path: " + startInfo.EnvironmentVariables["path"]);
+                ConsoleUI.errorOutWriter.WriteLine("Is " + frontendString + " available in one of the folders of the search path? Search path: " + startInfo.EnvironmentVariables["path"]);
                 return false;
             }
             catch(Exception e)
@@ -370,7 +367,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
 
-        enum ErrorType { NoError, GrGenJavaError, GrGenNetError };
+        enum ErrorType { NoError, GrGenFrontendError, GrGenNetError };
 
         class CompileConfiguration
         {
@@ -483,7 +480,7 @@ namespace de.unika.ipd.grGen.lgsp
             CompileConfiguration cc = new CompileConfiguration(specFile, destDir, tmpDir, externalAssemblies);
 
             ///////////////////////////////////////////////
-            // use java frontend to build the model and intermediate action source files
+            // use frontend to build the model and intermediate action source files
 
             ErrorType res = GenerateModelAndIntermediateActions(cc);
             if(res != ErrorType.NoError)
@@ -612,7 +609,7 @@ namespace de.unika.ipd.grGen.lgsp
             String statisticsPath, out String actionsOutputSource)
         {
             ///////////////////////////////////////////////
-            // compile the intermediate action files generated by the java frontend
+            // compile the intermediate action files generated by the frontend
             // to gain access via reflection to their content needed for matcher code generation
             // and collect that content
 
@@ -674,7 +671,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(!actionPointFound)
             {
                 ConsoleUI.errorOutWriter.WriteLine("Illegal actions C# input source code: Actions insertion point not found!");
-                return ErrorType.GrGenJavaError;
+                return ErrorType.GrGenFrontendError;
             }
 
             source.Unindent();
@@ -1451,11 +1448,11 @@ namespace de.unika.ipd.grGen.lgsp
                 List<String> genModelFiles;
                 List<String> genModelStubFiles;
                 List<String> genActionsFiles;
-                if(!ExecuteGrGenJava(cc.tmpDir, flags,
+                if(!ExecuteGrGenFrontend(cc.tmpDir, flags,
                     out genModelFiles, out genModelStubFiles,
                     out genActionsFiles, cc.specFile))
                 {
-                    return ErrorType.GrGenJavaError;
+                    return ErrorType.GrGenFrontendError;
                 }
 
                 if(genModelFiles.Count == 1)
@@ -1508,7 +1505,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(cc.modelFilename == null || cc.actionsFilename == null)
             {
                 ConsoleUI.errorOutWriter.WriteLine("Not all required files have been generated!");
-                return ErrorType.GrGenJavaError;
+                return ErrorType.GrGenFrontendError;
             }
 
             return ErrorType.NoError;
@@ -1800,7 +1797,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(ret != ErrorType.NoError)
             {
-                if(ret == ErrorType.GrGenJavaError && File.Exists(intermediateDir + Path.DirectorySeparatorChar + "printOutput.txt"))
+                if(ret == ErrorType.GrGenFrontendError && File.Exists(intermediateDir + Path.DirectorySeparatorChar + "printOutput.txt"))
                 {
                     using(StreamReader sr = new StreamReader(intermediateDir + Path.DirectorySeparatorChar + "printOutput.txt"))
                     {
