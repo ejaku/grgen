@@ -30,7 +30,9 @@ namespace de.unika.ipd.grgen.util
 		/// <seealso cref="de.unika.ipd.grgen.util.Annotations.get(java.lang.String) "/>
 		public virtual object Get(string key)
 		{
-			return annots[key];
+			object res;
+			annots.TryGetValue(key, out res);
+			return res;
 		}
 
 		/// <seealso cref="de.unika.ipd.grgen.util.Annotations.isBoolean(java.lang.String) "/>

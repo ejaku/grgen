@@ -225,7 +225,8 @@ namespace de.unika.ipd.grgen.ast.pattern
 		/// Return the correspondent homomorphic set. </summary>
 		public virtual ISet<NodeDeclNode> GetHomomorphic(NodeDeclNode node)
 		{
-			ISet<NodeDeclNode> homSet = nodeToHomNodes[node];
+			ISet<NodeDeclNode> homSet;
+			nodeToHomNodes.TryGetValue(node, out homSet);
 
 			// If the node isn't part of the pattern, return empty set.
 			if(homSet == null)
@@ -238,7 +239,8 @@ namespace de.unika.ipd.grgen.ast.pattern
 		/// Return the correspondent homomorphic set. </summary>
 		public virtual ISet<EdgeDeclNode> GetHomomorphic(EdgeDeclNode edge)
 		{
-			ISet<EdgeDeclNode> homSet = edgeToHomEdges[edge];
+			ISet<EdgeDeclNode> homSet;
+			edgeToHomEdges.TryGetValue(edge, out homSet);
 
 			// If the edge isn't part of the pattern, return empty set.
 			if(homSet == null)

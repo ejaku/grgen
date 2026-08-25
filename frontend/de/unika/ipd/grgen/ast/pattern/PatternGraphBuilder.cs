@@ -85,7 +85,8 @@ namespace de.unika.ipd.grgen.ast.pattern
 
 			// add elements only mentioned in "map by / draw from storage" entities to the IR
 			// (they're declared in an enclosing pattern graph and locally only show up in the "map by / draw from storage" node)
-			foreach(Node node in patternGraph.Nodes)
+			ICollection<Node> nodesCopy = new List<Node>(patternGraph.Nodes);
+			foreach(Node node in nodesCopy)
 				AddElementsFromStorageAccess(patternGraph, node);
 
 			foreach(Node node in patternGraph.Nodes)
@@ -95,7 +96,8 @@ namespace de.unika.ipd.grgen.ast.pattern
 					patternGraph.AddNodeIfNotYetContained(((RetypedNode)node).OldNode);
 			}
 
-			foreach(Edge edge in patternGraph.Edges)
+			ICollection<Edge> edgesCopy = new List<Edge>(patternGraph.Edges);
+			foreach(Edge edge in edgesCopy)
 				AddElementsFromStorageAccess(patternGraph, edge);
 
 			foreach(Edge edge in patternGraph.Edges)

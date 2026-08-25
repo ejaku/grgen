@@ -195,7 +195,9 @@ namespace de.unika.ipd.grgen.ir.pattern
 		{
 			if(this.retyped == null)
 				return null;
-			return this.retyped[patternGraph];
+			GraphEntity retyped;
+			this.retyped.TryGetValue(patternGraph, out retyped);
+			return retyped;
 		}
 
 		/// <summary>

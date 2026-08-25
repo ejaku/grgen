@@ -223,7 +223,8 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 
 		private static void InsertElementsFromTypeofToRhsIfNotYetContained(PatternGraphRhs right, ISet<Entity> elementsToDelete)
 		{
-			foreach(Node rhsNode in right.Nodes)
+			List<Node> nodesCopy = new List<Node>(right.Nodes);
+			foreach(Node rhsNode in nodesCopy)
 			{
 				if(rhsNode.InheritsType())
 				{
@@ -232,7 +233,8 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 						right.AddNodeIfNotYetContained(nodeFromTypeof);
 				}
 			}
-			foreach(Edge rhsEdge in right.Edges)
+			List<Edge> edgesCopy = new List<Edge>(right.Edges);
+			foreach(Edge rhsEdge in edgesCopy)
 			{
 				if(rhsEdge.InheritsType())
 				{

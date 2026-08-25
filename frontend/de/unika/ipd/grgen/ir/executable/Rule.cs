@@ -443,7 +443,8 @@ namespace de.unika.ipd.grgen.ir.executable
 			{
 				Dictionary<Entity, Rule> parametersToTheirDeletingOrRetypingPattern =
 						subpatternsToParametersToTheirDeletingOrRetypingPattern[this];
-				foreach(Entity parameter in parametersToTheirDeletingOrRetypingPattern.Keys)
+				Dictionary<Entity, Rule> parametersToTheirDeletingOrRetypingPatternCopy = new Dictionary<Entity, Rule>(parametersToTheirDeletingOrRetypingPattern);
+				foreach(Entity parameter in parametersToTheirDeletingOrRetypingPatternCopy.Keys)
 				{
 					Rule deletingOrRetypingPatternOld;
 					parametersToTheirDeletingOrRetypingPattern.TryGetValue(parameter, out deletingOrRetypingPatternOld);

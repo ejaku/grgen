@@ -422,7 +422,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		public static string FormatIdentifiable<T1>(T1 id, string pathPrefix,
 				Dictionary<T1, string> alreadyDefinedIdentifiableToName) where T1 : Identifiable
 		{
-			if(alreadyDefinedIdentifiableToName != null && alreadyDefinedIdentifiableToName[id] != null)
+			if(alreadyDefinedIdentifiableToName != null && alreadyDefinedIdentifiableToName.ContainsKey(id))
 				return alreadyDefinedIdentifiableToName[id];
 			string ident = id.Ident.ToString();
 			return pathPrefix + ident.Replace('$', '_');
