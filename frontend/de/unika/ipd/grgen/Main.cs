@@ -110,6 +110,11 @@ namespace de.unika.ipd.grgen
 		/// A file containing a path where the graph model can be searched. </summary>
 		private DirectoryInfo modelPath = null;
 
+		/// <summary>
+		/// The file/stream console output will be written to when requested. </summary>
+		StreamWriter dumpOutputStream = null;
+
+
 		public virtual DirectoryInfo ModelPath
 		{
 			get
@@ -148,6 +153,7 @@ namespace de.unika.ipd.grgen
 
 		protected internal virtual void SystemExit(int status)
 		{
+			CloseDumpOutputStreamAsNeeded();
 			Environment.Exit(status);
 		}
 
@@ -207,7 +213,7 @@ namespace de.unika.ipd.grgen
 				{
 					try
 					{
-						StreamWriter dumpOutputStream = new StreamWriter(new FileStream(dumpOutputToFile, FileMode.Create, FileAccess.Write));
+						dumpOutputStream = new StreamWriter(new FileStream(dumpOutputToFile, FileMode.Create, FileAccess.Write));
 						Console.SetError(dumpOutputStream);
 						Console.SetOut(dumpOutputStream);
 					}
@@ -585,6 +591,16 @@ namespace de.unika.ipd.grgen
 				Console.WriteLine("manifest: " + manifest);
 				Console.WriteLine("build IR: " + buildIR);
 				Console.WriteLine("code gen: " + codeGen);
+			}
+
+			CloseDumpOutputStreamAsNeeded();
+		}
+
+		private void CloseDumpOutputStreamAsNeeded()
+		{
+			if(dumpOutputStream != null)
+			{
+				dumpOutputStream.Close(); // automatically flushes the stream
 			}
 		}
 

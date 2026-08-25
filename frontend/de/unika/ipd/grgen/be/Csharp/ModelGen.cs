@@ -3901,7 +3901,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.AppendFront("public override bool GraphElementsAreAccessibleByUniqueId { get { return "
 					+ (model.IsUniqueIndexDefined() ? "true" : "false") + "; } }\n");
 			sb.AppendFront("public override bool AreFunctionsParallelized { get { return "
-					+ model.AreFunctionsParallel() + "; } }\n");
+					+ (model.AreFunctionsParallel() ? "true" : "false") + "; } }\n");
 			sb.AppendFront("public override int BranchingFactorForEqualsAny { get { return "
 					+ model.IsoParallel + "; } }\n");
 			sb.AppendFront("public override int ThreadPoolSizeForSequencesParallelExecution { get { return "
@@ -4194,7 +4194,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				sb.Append(FormatLong(ca.SrcUpper) + ", ");
 				sb.Append(FormatLong(ca.TgtLower) + ", ");
 				sb.Append(FormatLong(ca.TgtUpper) + ", ");
-				sb.Append(ca.BothDirections);
+				sb.Append(ca.BothDirections ? "true" : "false");
 				sb.Append("),\n");
 			}
 		}

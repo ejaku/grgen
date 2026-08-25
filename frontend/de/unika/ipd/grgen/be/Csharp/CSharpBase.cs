@@ -4668,11 +4668,17 @@ namespace de.unika.ipd.grgen.be.Csharp
 			case Type.TypeClass.IS_SHORT:
 			case Type.TypeClass.IS_INTEGER: // this also applys to enum constants
 			case Type.TypeClass.IS_DOUBLE:
-				return constant.Value.ToString();
+				if(constant.Value is Double)
+					return ((double)constant.Value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+				else
+					return constant.Value.ToString(); // typically int
 			case Type.TypeClass.IS_LONG:
 				return constant.Value.ToString() + "L";
 			case Type.TypeClass.IS_FLOAT:
-				return constant.Value.ToString() + "f";
+				if(constant.Value is Single)
+					return ((float)constant.Value).ToString(System.Globalization.CultureInfo.InvariantCulture) + "f";
+				else
+					return constant.Value.ToString() + "f";
 			case Type.TypeClass.IS_TYPE:
 				InheritanceType it = (InheritanceType)constant.Value;
 				return FormatTypeClassRef(it) + ".typeVar";

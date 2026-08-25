@@ -2030,7 +2030,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 						// all permitted nodes, aka nodes that are not forbidden
 						if(isAllowed)
 							sb.Append(FormatTypeClassRef(type) + ".typeVar, ");
-						aux.Append(isAllowed);
+						aux.Append(isAllowed ? "true" : "false");
 						aux.Append(", ");
 					}
 					sb.Append("}");
@@ -2082,7 +2082,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 						// all permitted nodes, aka node that are not forbidden
 						if(isAllowed)
 							sb.Append(FormatTypeClassRef(type) + ".typeVar, ");
-						aux.Append(isAllowed);
+						aux.Append(isAllowed ? "true" : "false");
 						aux.Append(", ");
 					}
 					sb.Append("}");
@@ -3621,7 +3621,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			else
 				prio = 5.5;
 
-			sb.Append(prio + "F, ");
+			sb.Append(prio.ToString(System.Globalization.CultureInfo.InvariantCulture) + "F, ");
 		}
 
 		//////////////////////
