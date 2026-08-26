@@ -81,7 +81,9 @@ namespace de.unika.ipd.grgen.ast.util
 					}
 					InheritanceTypeNode typeNode = (InheritanceTypeNode)scopeDecl.DeclType;
 					IDictionary<string, DeclNode> allMembers = typeNode.AllMembers;
-					unresolvedNode = allMembers[identNode.ToString()];
+					DeclNode unresolvedDeclNode;
+					allMembers.TryGetValue(identNode.ToString(), out unresolvedDeclNode);
+					unresolvedNode = unresolvedDeclNode; 
 					if(unresolvedNode == null)
 					{
 						identNode.ReportError("Undefined member " + identNode

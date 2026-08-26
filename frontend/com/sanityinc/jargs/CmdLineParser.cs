@@ -625,7 +625,8 @@ namespace com.sanityinc.jargs
 					{ // handle -abcd
 						for(int i = 1; i < curArg.Length; i++)
 						{
-							OptionBase shortOpt = this.options["-" + curArg[i]];
+							OptionBase shortOpt;
+							this.options.TryGetValue("-" + curArg[i], out shortOpt);
 							if(shortOpt == null)
 								throw new UnknownSuboptionException(curArg,curArg[i]);
 							if(shortOpt.WantsValue())
@@ -637,7 +638,8 @@ namespace com.sanityinc.jargs
 						continue;
 					}
 
-					OptionBase opt = this.options[curArg];
+					OptionBase opt;
+					this.options.TryGetValue(curArg, out opt);
 					if(opt == null)
 						throw new UnknownOptionException(curArg);
 

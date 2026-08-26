@@ -338,7 +338,9 @@ namespace de.unika.ipd.grgen.ast.model.type
 
 		public virtual DeclNode TryGetMember(string name)
 		{
-			return AllMembers[name];
+			DeclNode member;
+			AllMembers.TryGetValue(name, out member);
+			return member;
 		}
 
 		/// <summary>
