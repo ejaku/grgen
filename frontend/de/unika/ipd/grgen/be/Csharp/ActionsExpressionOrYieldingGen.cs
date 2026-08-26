@@ -502,8 +502,8 @@ namespace de.unika.ipd.grgen.be.Csharp
 					sb.Append(", GRGEN_EXPR.CopyKind.ExternalObject");
 					sb.Append(", \"" + FormatType(t) + "\"");
 				}
-				sb.Append(", " + ce.Deep);
-				sb.Append(", " + model.IsCopyClassDefined());
+				sb.Append(", " + (ce.Deep ? "true" : "false"));
+				sb.Append(", " + (model.IsCopyClassDefined() ? "true" : "false"));
 				sb.Append(")");
 			}
 			else if(expr is Count)
@@ -3824,7 +3824,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			}
 			sb.Append("}");
 			sb.Append(", ");
-			sb.Append(ep.IsDebug());
+			sb.Append(ep.IsDebug() ? "true" : "false");
 			sb.Append(")");
 		}
 
