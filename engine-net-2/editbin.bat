@@ -4,6 +4,7 @@ rem support deeply nested structures, in pattern matching (GrShell for executing
 editbin /stack:16777216,16760832 bin\GrShell.exe
 editbin /stack:16777216,16760832 bin\GGrShell.exe
 editbin /stack:16777216,16760832 bin\GrGen.exe
+editbin /stack:16777216,16760832 bin\FrontendGrGen.exe
 
 rem create a 32bit version being able to support 3GB instead of just 2GB if main memory (somwhat obsolete now that 64bit rules)
 copy bin\GrShell.exe bin\GrShell3GB.exe
