@@ -54,19 +54,19 @@ tokens {
 	}
 
 	// overriden for handling EOF of included file
-	public IToken nextToken() {
+	public override IToken NextToken() {
 		IToken token = base.NextToken();
 
 		if(token.Type == EOF) {
 			if(env.PopFile(this)) {
-				token = this.nextToken();
+				token = this.NextToken();
 			}
 		}
 
 		// Skip first token after switching to another input.
 		int startIndex = ((CommonToken)token).StartIndex;
 		if(startIndex < 0) {
-			token = this.nextToken();
+			token = this.NextToken();
 		}
 			
 		return token;
