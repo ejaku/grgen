@@ -206,7 +206,14 @@ namespace de.unika.ipd.grgen.ast
 				string res = "<unknown>";
 				try
 				{
-					res = (string)this.GetType().GetProperty("KindStr").GetValue(null); // was previously in Java: getClass().getMethod("getKindStr").invoke(null)
+					Type type = this.GetType();
+					System.Reflection.PropertyInfo prop = type.GetProperty("KindStr");
+					while(prop == null) // all relevant classes inherit from BaseNode, which for sure offers a KindStr property (see below), causing termination
+					{
+						type = type.BaseType;
+						prop = type.GetProperty("KindStr");
+					}
+					res = (string)prop.GetValue(null); // was previously in Java: getClass().getMethod("getKindStr").invoke(null)
 				}
 				catch(Exception e)
 				{
