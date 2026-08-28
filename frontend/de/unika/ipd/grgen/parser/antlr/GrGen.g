@@ -206,7 +206,7 @@ tokens {
 		env.Sys.ErrorReporter.Error(c, s);
 	}
 
-	public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
+	public override void DisplayRecognitionError(String[] tokenNames, RecognitionException e) {
 		String hdr = GetErrorHeader(e);
 		String msg = GetErrorMessage(e, tokenNames);
 		reportError(new de.unika.ipd.grgen.parser.antlr.Coords(e), msg);
