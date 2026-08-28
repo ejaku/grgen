@@ -41,9 +41,7 @@ namespace de.unika.ipd.grgen.util.collection
 				return false;
 			if(this == that)
 				return true;
-	// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-	// ORIGINAL LINE: if(!(that instanceof Pair<?,?>))
-			if(!(that is Pair<object, object>))
+			if(!(that is Pair<T, S>))
 				return false;
 			try
 			{
