@@ -70,8 +70,9 @@ namespace de.unika.ipd.grgen.ast.pattern
 			{
 				InducedNode induced = patternGraph.induceds.Get(i);
 				ISet<NodeDeclNode> inducedNodes = induced.InducedNodesSet;
-				if(generatedInducedSets.ContainsKey(inducedNodes))
+				if(generatedInducedSets.ContainsSetKey(inducedNodes))
 				{
+					inducedNodes = generatedInducedSets.GetSetKey(inducedNodes); // get structurally equivalent set
 					InducedNode oldOcc = patternGraph.induceds.Get(generatedInducedSets[inducedNodes]);
 					induced.ReportWarning("Same induced statement also occurs at " + oldOcc.Coords);
 				}
@@ -103,7 +104,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 					Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>> key = new Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>>(
 							patternGraph.GetHomomorphic(src), patternGraph.GetHomomorphic(tgt));
 
-					if(!homNodePairsToEdges.ContainsKey(key))
+					if(!homNodePairsToEdges.ContainsPairSetKey(key))
 						homNodePairsToEdges[key] = new LinkedHashSet<ConnectionNode>();
 				}
 			}
@@ -133,8 +134,10 @@ namespace de.unika.ipd.grgen.ast.pattern
 
 					ISet<ConnectionNode> edges;
 					// edges == null/not found if conn is a dangling edge or one of the nodes is not induced
-					if(homNodePairsToEdges.TryGetValue(key, out edges))
+					if(homNodePairsToEdges.ContainsPairSetKey(key))
 					{
+						key = homNodePairsToEdges.GetPairSetKey(key); // get structurally equivalent pair of sets
+						edges = homNodePairsToEdges[key];
 						edges.Add(cn);
 						homNodePairsToEdges[key] = edges;
 					}
@@ -154,6 +157,8 @@ namespace de.unika.ipd.grgen.ast.pattern
 							patternGraph.GetHomomorphic(src), patternGraph.GetHomomorphic(tgt));
 					Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>> reverseKey = new Pair<ISet<NodeDeclNode>, ISet<NodeDeclNode>>(
 							patternGraph.GetHomomorphic(tgt), patternGraph.GetHomomorphic(src));
+					key = homNodePairsToEdges.GetPairSetKey(key); // get structurally equivalent pair of sets
+					reverseKey = homNodePairsToEdges.GetPairSetKey(reverseKey);
 
 					ISet<ConnectionNode> edgeSet = homNodePairsToEdges[key];
 					edgeSet.AddAll(homNodePairsToEdges[reverseKey]);
@@ -254,7 +259,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 			foreach(KeyValuePair<ISet<NodeDeclNode>, int> nodeMapEntry in generatedInducedSets.SetOfKeyValuePairs())
 				FillInducedEdgeMap(inducedEdgeMap, nodeMapEntry);
 
-			foreach(KeyValuePair<IDictionary<IList<NodeDeclNode>, bool>, int> candidate in inducedEdgeMap.SetOfKeyValuePairs())
+			foreach(KeyValuePair<IDictionary<IList<NodeDeclNode>, bool>, int> candidate in inducedEdgeMap.SetOfKeyValuePairs()) // SetOfKeyValuePairs returns a new set, changes are not reflected back to the backing map, this could cause semantic changes compared to Java, esp. changes to the int (induced set number) value would not be visible - but this is not of importance here, changes to the bool (marking state) are of importance, but that one is not transformed into a clone
 			{
 				ISet<int> witnesses = GetWitnessesAndMarkEdge(inducedEdgeMap, candidate);
 
@@ -309,7 +314,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 						if(candidate.Key != witness.Key && candidate.Value != witness.Value)
 						{
 							// if witness contains edge
-							if(witness.Key.ContainsKey(candidateMarkedMapEntry.Key))
+							if(witness.Key.ContainsListKey(candidateMarkedMapEntry.Key))
 							{
 								// remember to mark Edge
 								toBeMarkedKeys.Add(candidateMarkedMapEntry.Key);

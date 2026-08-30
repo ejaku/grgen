@@ -144,7 +144,12 @@ public class LinkedHashSet<T> : ICollection<T>, IEnumerable<T>, IEnumerable, ISe
 
     public bool IsSupersetOf(IEnumerable<T> other)
     {
-        throw new System.NotImplementedException();
+        foreach(T elem in other)
+        {
+            if(!Contains(elem))
+                return false;
+        }
+        return true;
     }
 
     public bool Overlaps(IEnumerable<T> other)
@@ -154,7 +159,24 @@ public class LinkedHashSet<T> : ICollection<T>, IEnumerable<T>, IEnumerable, ISe
 
     public bool SetEquals(IEnumerable<T> other)
     {
-        throw new System.NotImplementedException();
+        ISet<T> otherSet = other as ISet<T>;
+        if(otherSet != null)
+        {
+            if(Count != otherSet.Count)
+                return false;
+
+            if(!IsSupersetOf(other))
+                return false;
+
+            if(!otherSet.IsSupersetOf(this))
+                return false;
+
+            return true;
+        }
+        else
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public void SymmetricExceptWith(IEnumerable<T> other)

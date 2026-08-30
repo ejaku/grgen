@@ -117,7 +117,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 
 				nodesRequiringNeg.Add(node);
 				ISet<NodeDeclNode> homSet = patternGraph.GetHomomorphic(node);
-				if(!homNodesToEdges.ContainsKey(homSet))
+				if(!homNodesToEdges.ContainsSetKey(homSet))
 				{
 					ISet<ConnectionNode> edgeSet = new HashSet<ConnectionNode>();
 					homNodesToEdges[homSet] = edgeSet;
@@ -167,6 +167,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 					if(nodesRequiringNeg.Contains(src))
 					{
 						ISet<NodeDeclNode> homSet = patternGraph.GetHomomorphic(src);
+						homSet = homNodesToEdges.GetSetKey(homSet); // get structurally equivalent set
 						ISet<ConnectionNode> edges = homNodesToEdges[homSet];
 						edges.Add(cn);
 						homNodesToEdges[homSet] = edges;
@@ -175,6 +176,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 					if(nodesRequiringNeg.Contains(tgt))
 					{
 						ISet<NodeDeclNode> homSet = patternGraph.GetHomomorphic(tgt);
+						homSet = homNodesToEdges.GetSetKey(homSet); // get structurally equivalent set
 						ISet<ConnectionNode> edges = homNodesToEdges[homSet];
 						edges.Add(cn);
 						homNodesToEdges[homSet] = edges;
@@ -188,7 +190,9 @@ namespace de.unika.ipd.grgen.ast.pattern
 				foreach(NodeDeclNode nodeRequiringNeg in nodesRequiringNeg)
 				{
 					//for (int direction = INCOMING; direction <= OUTGOING; direction++) {
-					ISet<ConnectionNode> edgeSet = homNodesToEdges[patternGraph.GetHomomorphic(nodeRequiringNeg)];
+					ISet<NodeDeclNode> homSet = patternGraph.GetHomomorphic(nodeRequiringNeg);
+					homSet = homNodesToEdges.GetSetKey(homSet); // get structurally equivalent set
+					ISet<ConnectionNode> edgeSet = homNodesToEdges[homSet];
 
 					PatternGraphLhs neg = new PatternGraphLhs("implneg_" + implicitNegCounter, 0);
 					++implicitNegCounter;
