@@ -4669,13 +4669,13 @@ namespace de.unika.ipd.grgen.be.Csharp
 			case Type.TypeClass.IS_INTEGER: // this also applys to enum constants
 			case Type.TypeClass.IS_DOUBLE:
 				if(constant.Value is Double)
-					return ((double)constant.Value).ToString("F", System.Globalization.CultureInfo.InvariantCulture);
+					return ((double)constant.Value).ToString("R", System.Globalization.CultureInfo.InvariantCulture) + "d";
 				else
 					return constant.Value.ToString();
 			case Type.TypeClass.IS_LONG:
 				return constant.Value.ToString() + "L";
 			case Type.TypeClass.IS_FLOAT:
-				return ((float)constant.Value).ToString("F", System.Globalization.CultureInfo.InvariantCulture) + "f";
+				return ((float)constant.Value).ToString("R", System.Globalization.CultureInfo.InvariantCulture) + "f";
 			case Type.TypeClass.IS_TYPE:
 				InheritanceType it = (InheritanceType)constant.Value;
 				return FormatTypeClassRef(it) + ".typeVar";
@@ -4823,9 +4823,23 @@ namespace de.unika.ipd.grgen.be.Csharp
 		{
 			foreach(string annotationKey in ident.Annotations.KeySet())
 			{
-				string annotationValue = ident.Annotations.Get(annotationKey).ToString();
+				string annotationValue = GetValueAsCSSharpString(ident.Annotations.Get(annotationKey));
 				sb.AppendFront(targetName + ".annotations.Add(\"" + annotationKey + "\", \"" + annotationValue + "\");\n");
 			}
+		}
+
+		private static string GetValueAsCSSharpString(object obj) // TODO: use this in function of same name on Constant
+		{
+			if(obj == null)
+				return "null";
+			else if(obj is Boolean)
+				return (bool)obj ? "true" : "false";
+			else if(obj is Double)
+				return ((double)obj).ToString("R", System.Globalization.CultureInfo.InvariantCulture) + "d";
+			else if(obj is Single)
+				return ((float)obj).ToString("R", System.Globalization.CultureInfo.InvariantCulture) + "f";
+			else
+				return obj.ToString();
 		}
 
 		protected internal static void ForceNotConstant(ICollection<EvalStatement> statements)
