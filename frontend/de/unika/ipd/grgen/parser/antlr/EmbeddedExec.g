@@ -670,9 +670,6 @@ seqConstant [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.InitExprN
 	;
 	
 seqConstantOfBasicOrEnumType [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.InitExprNode() ]
-	@init {
-		IdentNode id;
-	}
 	: b=NUM_BYTE { xg.Append(b.Text); res = new ByteConstNode(getCoords(b), SByte.Parse(ByteConstNode.RemoveSuffix(b.Text))); }
 	| sh=NUM_SHORT { xg.Append(sh.Text); res = new ShortConstNode(getCoords(sh), Int16.Parse(ShortConstNode.RemoveSuffix(sh.Text))); }
 	| i=NUM_INTEGER { xg.Append(i.Text); res = new IntConstNode(getCoords(i), Int32.Parse(i.Text)); }
@@ -698,9 +695,6 @@ seqConstantOfContainerType [ ExecNode xg ] returns [ ExprNode res = ParserEnviro
 	;
 
 seqConstantOfContainerTypeCont [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.InitExprNode() ]
-	@init {
-		IdentNode id;
-	}
 	: { input.LT(1).Text.Equals("map") }?
 		IDENT LT typeName=seqTypeIdentUse COMMA toTypeName=seqTypeIdentUse GT { xg.Append("map<"+typeName+","+toTypeName+">"); } 
 		e1=seqInitMapExpr[xg, new MapTypeNode(typeName, toTypeName)] { res = e1; }

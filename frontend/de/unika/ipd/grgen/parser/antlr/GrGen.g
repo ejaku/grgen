@@ -4897,7 +4897,7 @@ INCLUDE
 			string parentDir = Directory.GetParent(env.Filename).FullName;
 			filename = parentDir + Path.DirectorySeparatorChar + filename;
 		}
-		catch(IOException e)
+		catch(IOException)
 		{
 			//getCanonicalFile can throw an IOException if that happens we just return to the old behaviour
 		}
