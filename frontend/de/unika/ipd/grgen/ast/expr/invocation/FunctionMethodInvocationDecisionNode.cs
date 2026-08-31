@@ -461,7 +461,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					else
 						return new ArrayPeekNode(env.Coords, targetExpr, arguments.Get(0));
 				}
-				goto case "indexOf";
 			case "indexOf":
 				if(arguments.Size() != 1 && arguments.Size() != 2)
 				{
@@ -571,7 +570,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					else
 						return new ArrayKeepOneForEachByNode(env.Coords, targetExpr, attributeIdent);
 				}
-				goto case "orderAscendingBy";
 			case "orderAscendingBy":
 				if(arguments.Size() != 0)
 				{
@@ -781,7 +779,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					else
 						return new DequePeekNode(env.Coords, targetExpr, arguments.Get(0));
 				}
-				goto case "indexOf";
 			case "indexOf":
 				if(arguments.Size() != 1 && arguments.Size() != 2)
 				{

@@ -163,7 +163,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new MapAddItemNode(env.Coords, targetVar, arguments.Get(0), arguments.Get(1));
 				}
-				goto case "rem";
 			case "rem":
 				if(arguments.Size() != 1)
 				{
@@ -177,7 +176,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new MapRemoveItemNode(env.Coords, targetVar, arguments.Get(0));
 				}
-				goto case "clear";
 			case "clear":
 				if(arguments.Size() != 0)
 				{
@@ -191,7 +189,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new MapClearNode(env.Coords, targetVar);
 				}
-				goto default;
 			default:
 				env.ReportError("map<S,T> does not have a procedure method named " + methodName
 						+ " (available are add, rem, clear).");
@@ -218,7 +215,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new SetAddItemNode(env.Coords, targetVar, arguments.Get(0));
 				}
-				goto case "addAll";
 			case "addAll":
 				if(arguments.Size() != 1)
 				{
@@ -228,11 +224,13 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 				else
 				{
 					if(targetQual != null)
+					{
 						env.ReportError("set<T>.addAll(set<T>) is not available on attributes (only variables; so you have to copy-assign or have to use a loop).");
+						return null;
+					}
 					else
 						return new SetAddAllNode(env.Coords, targetVar, arguments.Get(0));
 				}
-				goto case "rem";
 			case "rem":
 				if(arguments.Size() != 1)
 				{
@@ -246,7 +244,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new SetRemoveItemNode(env.Coords, targetVar, arguments.Get(0));
 				}
-				goto case "clear";
 			case "clear":
 				if(arguments.Size() != 0)
 				{
@@ -260,7 +257,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new SetClearNode(env.Coords, targetVar);
 				}
-				goto default;
 			default:
 				env.ReportError("set<T> does not have a procedure method named " + methodName
 						+ " (available are add, addAll, rem, clear).");
@@ -293,7 +289,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 								arguments.Size() != 1 ? arguments.Get(1) : null);
 					}
 				}
-				goto case "addAll";
 			case "addAll":
 				if(arguments.Size() != 1)
 				{
@@ -303,11 +298,13 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 				else
 				{
 					if(targetQual != null)
+					{
 						env.ReportError("array<T>.addAll(array<T>) is not available on attributes (only variables; so you have to copy-assign or have to use a loop).");
+						return null;
+					}
 					else
 						return new ArrayAddAllNode(env.Coords, targetVar, arguments.Get(0));
 				}
-				goto case "rem";
 			case "rem":
 				if(arguments.Size() != 1 && arguments.Size() != 0)
 				{
@@ -327,7 +324,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 								arguments.Size() != 0 ? arguments.Get(0) : null);
 					}
 				}
-				goto case "clear";
 			case "clear":
 				if(arguments.Size() != 0)
 				{
@@ -341,7 +337,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new ArrayClearNode(env.Coords, targetVar);
 				}
-				goto default;
 			default:
 				env.ReportError("array<T> does not have a procedure method named " + methodName
 						+ " (available are add, addAll, rem, clear).");
@@ -374,7 +369,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 								arguments.Size() != 1 ? arguments.Get(1) : null);
 					}
 				}
-				goto case "rem";
 			case "rem":
 				if(arguments.Size() != 1 && arguments.Size() != 0)
 				{
@@ -394,7 +388,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 								arguments.Size() != 0 ? arguments.Get(0) : null);
 					}
 				}
-				goto case "clear";
 			case "clear":
 				if(arguments.Size() != 0)
 				{
@@ -408,7 +401,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new DequeClearNode(env.Coords, targetVar);
 				}
-				goto default;
 			default:
 				env.ReportError("deque<T> does not have a procedure method named " + methodName
 						+ " (available are add, rem, clear).");

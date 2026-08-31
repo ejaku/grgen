@@ -287,7 +287,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "adjacentIncoming";
 			case "adjacentIncoming":
 			case "adjacentOutgoing":
 			case "adjacent":
@@ -311,7 +310,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "countIncoming";
 			case "countIncoming":
 			case "countOutgoing":
 			case "countIncident":
@@ -338,7 +336,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "countAdjacentIncoming";
 			case "countAdjacentIncoming":
 			case "countAdjacentOutgoing":
 			case "countAdjacent":
@@ -365,7 +362,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "isIncoming";
 			case "isIncoming":
 			case "isOutgoing":
 			case "isIncident":
@@ -392,7 +388,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "isAdjacentIncoming";
 			case "isAdjacentIncoming":
 			case "isAdjacentOutgoing":
 			case "isAdjacent":
@@ -419,7 +414,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "reachableEdgesIncoming";
 			case "reachableEdgesIncoming":
 			case "reachableEdgesOutgoing":
 			case "reachableEdges":
@@ -443,7 +437,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "reachableIncoming";
 			case "reachableIncoming":
 			case "reachableOutgoing":
 			case "reachable":
@@ -467,7 +460,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "countReachableEdgesIncoming";
 			case "countReachableEdgesIncoming":
 			case "countReachableEdgesOutgoing":
 			case "countReachableEdges":
@@ -494,7 +486,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "countReachableIncoming";
 			case "countReachableIncoming":
 			case "countReachableOutgoing":
 			case "countReachable":
@@ -521,7 +512,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "isReachableIncoming";
 			case "isReachableIncoming":
 			case "isReachableOutgoing":
 			case "isReachable":
@@ -548,7 +538,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "isReachableEdgesIncoming";
 			case "isReachableEdgesIncoming":
 			case "isReachableEdgesOutgoing":
 			case "isReachableEdges":
@@ -575,7 +564,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "boundedReachableEdgesIncoming";
 			case "boundedReachableEdgesIncoming":
 			case "boundedReachableEdgesOutgoing":
 			case "boundedReachableEdges":
@@ -602,7 +590,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "boundedReachableIncoming";
 			case "boundedReachableIncoming":
 			case "boundedReachableOutgoing":
 			case "boundedReachable":
@@ -629,7 +616,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "boundedReachableWithRemainingDepthIncoming";
 			case "boundedReachableWithRemainingDepthIncoming":
 			case "boundedReachableWithRemainingDepthOutgoing":
 			case "boundedReachableWithRemainingDepth":
@@ -656,7 +642,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "countBoundedReachableEdgesIncoming";
 			case "countBoundedReachableEdgesIncoming":
 			case "countBoundedReachableEdgesOutgoing":
 			case "countBoundedReachableEdges":
@@ -683,7 +668,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "countBoundedReachableIncoming";
 			case "countBoundedReachableIncoming":
 			case "countBoundedReachableOutgoing":
 			case "countBoundedReachable":
@@ -710,7 +694,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "isBoundedReachableIncoming";
 			case "isBoundedReachableIncoming":
 			case "isBoundedReachableOutgoing":
 			case "isBoundedReachable":
@@ -737,7 +720,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "isBoundedReachableEdgesIncoming";
 			case "isBoundedReachableEdgesIncoming":
 			case "isBoundedReachableEdgesOutgoing":
 			case "isBoundedReachableEdges":
@@ -764,7 +746,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					return null;
 				}
 			}
-				goto case "inducedSubgraph";
 			case "inducedSubgraph":
 				if(arguments.Size() != 1)
 				{

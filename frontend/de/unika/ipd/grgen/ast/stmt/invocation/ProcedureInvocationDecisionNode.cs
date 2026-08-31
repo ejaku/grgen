@@ -272,7 +272,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new GraphMergeProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2));
 				}
-				goto case "redirectSource";
 			case "redirectSource":
 				if(arguments.Size() < 2 || arguments.Size() > 3)
 				{
@@ -286,7 +285,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new GraphRedirectSourceProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2));
 				}
-				goto case "redirectTarget";
 			case "redirectTarget":
 				if(arguments.Size() < 2 || arguments.Size() > 3)
 				{
@@ -300,7 +298,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new GraphRedirectTargetProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2));
 				}
-				goto case "redirectSourceAndTarget";
 			case "redirectSourceAndTarget":
 				if(arguments.Size() != 3 && arguments.Size() != 5)
 				{
@@ -314,7 +311,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 					else
 						return new GraphRedirectSourceAndTargetProcNode(env.Coords, arguments.Get(0), arguments.Get(1), arguments.Get(2), arguments.Get(3), arguments.Get(4));
 				}
-				goto case "getEquivalentOrAdd";
 			case "getEquivalentOrAdd":
 				if(arguments.Size() != 2)
 				{

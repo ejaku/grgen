@@ -142,7 +142,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					else
 						return new NodesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
 				}
-				goto case "nodesFromIndexFromTo";
 			case "nodesFromIndexFromTo":
 			case "nodesFromIndexFromExclusiveTo":
 			case "nodesFromIndexFromToExclusive":
@@ -186,7 +185,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					else
 						return new EdgesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
 				}
-				goto case "edgesFromIndexFromTo";
 			case "edgesFromIndexFromTo":
 			case "edgesFromIndexFromExclusiveTo":
 			case "edgesFromIndexFromToExclusive":
@@ -230,7 +228,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					else
 						return new CountNodesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
 				}
-				goto case "countNodesFromIndexFromTo";
 			case "countNodesFromIndexFromTo":
 			case "countNodesFromIndexFromExclusiveTo":
 			case "countNodesFromIndexFromToExclusive":
@@ -274,7 +271,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					else
 						return new CountEdgesFromIndexAccessFromToExprNode(env.Coords, arguments.Get(0), null, false, (ExprNode)arguments.Get(1), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
 				}
-				goto case "countEdgesFromIndexFromTo";
 			case "countEdgesFromIndexFromTo":
 			case "countEdgesFromIndexFromExclusiveTo":
 			case "countEdgesFromIndexFromToExclusive":
@@ -318,7 +314,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					else
 						return new IsInNodesFromIndexAccessFromToExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), null, false, (ExprNode)arguments.Get(2), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
 				}
-				goto case "isInNodesFromIndexFromTo";
 			case "isInNodesFromIndexFromTo":
 			case "isInNodesFromIndexFromExclusiveTo":
 			case "isInNodesFromIndexFromToExclusive":
@@ -362,7 +357,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					else
 						return new IsInEdgesFromIndexAccessFromToExprNode(env.Coords, (ExprNode)arguments.Get(0), arguments.Get(1), null, false, (ExprNode)arguments.Get(2), functionName.EndsWith("Exclusive", StringComparison.Ordinal));
 				}
-				goto case "isInEdgesFromIndexFromTo";
 			case "isInEdgesFromIndexFromTo":
 			case "isInEdgesFromIndexFromExclusiveTo":
 			case "isInEdgesFromIndexFromToExclusive":
@@ -421,7 +415,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					else
 						return new NodesFromIndexAccessFromToAsArrayExprNode(env.Coords, arguments.Get(0), functionName.Contains("Ascending"), null, false, (ExprNode)arguments.Get(1), functionName.Contains("Exclusive"));
 				}
-				goto case "nodesFromIndexFromToAsArrayAscending";
 			case "nodesFromIndexFromToAsArrayAscending":
 			case "nodesFromIndexFromExclusiveToAsArrayAscending":
 			case "nodesFromIndexFromToExclusiveAsArrayAscending":
@@ -492,7 +485,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 					else
 						return new EdgesFromIndexAccessFromToAsArrayExprNode(env.Coords, arguments.Get(0), functionName.Contains("Ascending"), null, false, (ExprNode)arguments.Get(1), functionName.Contains("Exclusive"));
 				}
-				goto case "edgesFromIndexFromToAsArrayAscending";
 			case "edgesFromIndexFromToAsArrayAscending":
 			case "edgesFromIndexFromExclusiveToAsArrayAscending":
 			case "edgesFromIndexFromToExclusiveAsArrayAscending":
