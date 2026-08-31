@@ -400,7 +400,7 @@ namespace de.unika.ipd.grgen.be.C
 						//for all the subconditions just computed...
 						foreach(Expression sub_condition in subConditions)
 						{
-							Debug.Assert(conditionNumbers[sub_condition] == null);
+							Debug.Assert(!conditionNumbers.ContainsKey(sub_condition));
 
 							//...create condition numbers
 							conditionNumbers[sub_condition] = subConditionCounter++;

@@ -159,11 +159,16 @@ namespace de.unika.ipd.grgen.be.C
 		protected internal List<ISet<Edge>> newEdgesOfAction;
 
 		/* compares conditions by their condition numbers */
-		protected internal IComparer<Expression> conditionsComparator = new ComparatorAnonymousInnerClass();
+		protected internal IComparer<Expression> conditionsComparator;
 
 		private class ComparatorAnonymousInnerClass : IComparer<Expression>
 		{
 			private readonly InformationCollector outerInstance;
+
+			public ComparatorAnonymousInnerClass(InformationCollector outerInstance)
+			{
+				this.outerInstance = outerInstance;
+			}
 
 			public int Compare(Expression expr1, Expression expr2)
 			{
@@ -174,11 +179,16 @@ namespace de.unika.ipd.grgen.be.C
 			}
 		}
 
-		protected internal IComparer<ICollection<InheritanceType>> typeConditionsComparator = new ComparatorAnonymousInnerClass2();
+		protected internal IComparer<ICollection<InheritanceType>> typeConditionsComparator;
 
 		private class ComparatorAnonymousInnerClass2 : IComparer<ICollection<InheritanceType>>
 		{
 			private readonly InformationCollector outerInstance;
+
+			public ComparatorAnonymousInnerClass2(InformationCollector outerInstance)
+			{
+				this.outerInstance = outerInstance;
+			}
 
 			public int Compare(ICollection<InheritanceType> type_col1, ICollection<InheritanceType> type_col2)
 			{
@@ -203,6 +213,13 @@ namespace de.unika.ipd.grgen.be.C
 			{
 				return i1.CompareTo(i2);
 			}
+		}
+
+		protected InformationCollector()
+		{
+			// maybe further initialization would make sense here...
+			conditionsComparator = new ComparatorAnonymousInnerClass(this);
+			typeConditionsComparator = new ComparatorAnonymousInnerClass2(this);
 		}
 
 		/// <summary>

@@ -75,9 +75,9 @@ namespace de.unika.ipd.grgen.be
 
 		private string[] edgeTypeNames;
 
-		private int edgeRoot;
+		private int edgeRoot = 0;
 
-		private int nodeRoot;
+		private int nodeRoot = 0;
 
 		private void AddMembers(CompoundType ct)
 		{
