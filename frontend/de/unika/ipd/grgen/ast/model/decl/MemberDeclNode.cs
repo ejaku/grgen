@@ -33,7 +33,6 @@ namespace de.unika.ipd.grgen.ast.model.decl
 	using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 	using Checker = de.unika.ipd.grgen.ast.util.Checker;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using SimpleChecker = de.unika.ipd.grgen.ast.util.SimpleChecker;
 	using Entity = de.unika.ipd.grgen.ir.Entity;
 	using IR = de.unika.ipd.grgen.ir.IR;

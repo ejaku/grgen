@@ -38,8 +38,6 @@ namespace de.unika.ipd.grgen.ast
 	using ShortTypeNode = de.unika.ipd.grgen.ast.type.basic.ShortTypeNode;
 	using StringTypeNode = de.unika.ipd.grgen.ast.type.basic.StringTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using Exec = de.unika.ipd.grgen.ir.Exec;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Expression = de.unika.ipd.grgen.ir.expr.Expression;

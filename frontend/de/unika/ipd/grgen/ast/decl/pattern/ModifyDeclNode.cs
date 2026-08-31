@@ -24,8 +24,6 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 	using PatternGraphLhsNode = de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 	using SingleNodeConnNode = de.unika.ipd.grgen.ast.pattern.SingleNodeConnNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using Entity = de.unika.ipd.grgen.ir.Entity;
 	using Edge = de.unika.ipd.grgen.ir.pattern.Edge;
 	using Node = de.unika.ipd.grgen.ir.pattern.Node;

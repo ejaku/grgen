@@ -25,8 +25,6 @@ namespace de.unika.ipd.grgen.ast.pattern
 	using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 	using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using FilterInvocationBase = de.unika.ipd.grgen.ir.FilterInvocationBase;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Rule = de.unika.ipd.grgen.ir.executable.Rule;

@@ -20,7 +20,6 @@ namespace de.unika.ipd.grgen.ast.model.type
 	using TypeDeclNode = de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 	using CompoundTypeNode = de.unika.ipd.grgen.ast.type.CompoundTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Ident = de.unika.ipd.grgen.ir.Ident;
 	using PackageType = de.unika.ipd.grgen.ir.model.type.PackageType;

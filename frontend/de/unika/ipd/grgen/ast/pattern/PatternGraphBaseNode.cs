@@ -31,8 +31,6 @@ namespace de.unika.ipd.grgen.ast.pattern
 	using InternalObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalObjectTypeNode;
 	using InternalTransientObjectTypeNode = de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using Coords = de.unika.ipd.grgen.parser.Coords;
 
 	/// <summary>

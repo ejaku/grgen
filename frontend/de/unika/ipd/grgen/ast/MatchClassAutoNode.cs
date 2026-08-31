@@ -37,7 +37,6 @@ namespace de.unika.ipd.grgen.ast
 	using MatchTypeActionNode = de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Coords = de.unika.ipd.grgen.parser.Coords;
 

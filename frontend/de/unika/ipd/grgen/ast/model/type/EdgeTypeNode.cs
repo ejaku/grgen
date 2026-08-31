@@ -35,8 +35,6 @@ namespace de.unika.ipd.grgen.ast.model.type
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using ConnAssert = de.unika.ipd.grgen.ir.model.ConnAssert;
 	using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;

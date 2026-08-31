@@ -10,7 +10,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 	using de.unika.ipd.grgen.ast;
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 
 	public abstract class FunctionDeclBaseNode : FunctionOrOperatorDeclBaseNode
 	{

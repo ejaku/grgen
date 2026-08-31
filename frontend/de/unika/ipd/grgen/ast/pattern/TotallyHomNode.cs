@@ -20,7 +20,6 @@ namespace de.unika.ipd.grgen.ast.pattern
 	using UndirectedEdgeTypeNode = de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using TypeChecker = de.unika.ipd.grgen.ast.util.TypeChecker;
 	using Coords = de.unika.ipd.grgen.parser.Coords;
 	using Color = de.unika.ipd.grgen.util.Color;

@@ -31,9 +31,6 @@ namespace de.unika.ipd.grgen.ast
 	using UntypedExecVarTypeNode = de.unika.ipd.grgen.ast.type.basic.UntypedExecVarTypeNode;
 	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using Bad = de.unika.ipd.grgen.ir.Bad;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Coords = de.unika.ipd.grgen.parser.Coords;

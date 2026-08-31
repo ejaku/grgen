@@ -27,7 +27,6 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using Checker = de.unika.ipd.grgen.ast.util.Checker;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using TypeChecker = de.unika.ipd.grgen.ast.util.TypeChecker;
 	using Expression = de.unika.ipd.grgen.ir.expr.Expression;
 	using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;

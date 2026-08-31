@@ -22,7 +22,6 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 	using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;
 	using Function = de.unika.ipd.grgen.ir.executable.Function;

@@ -20,7 +20,6 @@ namespace de.unika.ipd.grgen.ast.expr
 	using EnumItemDeclNode = de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
 	using EnumTypeNode = de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using EnumExpression = de.unika.ipd.grgen.ir.expr.EnumExpression;
 	using EnumItem = de.unika.ipd.grgen.ir.model.EnumItem;

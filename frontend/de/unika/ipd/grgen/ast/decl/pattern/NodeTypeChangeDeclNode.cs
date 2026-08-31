@@ -24,7 +24,6 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 	using TypeExprNode = de.unika.ipd.grgen.ast.type.TypeExprNode;
 	using Checker = de.unika.ipd.grgen.ast.util.Checker;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using TypeChecker = de.unika.ipd.grgen.ast.util.TypeChecker;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using NodeType = de.unika.ipd.grgen.ir.model.type.NodeType;

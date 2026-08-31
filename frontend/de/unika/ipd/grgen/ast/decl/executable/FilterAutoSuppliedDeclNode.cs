@@ -18,7 +18,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
 	using IteratedDeclNode = de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using FilterAutoSupplied = de.unika.ipd.grgen.ir.executable.FilterAutoSupplied;
 	using Rule = de.unika.ipd.grgen.ir.executable.Rule;

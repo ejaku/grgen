@@ -20,7 +20,6 @@ namespace de.unika.ipd.grgen.ast.type
 	using IdentNode = de.unika.ipd.grgen.ast.IdentNode;
 	using InheritanceTypeNode = de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using InheritanceType = de.unika.ipd.grgen.ir.model.type.InheritanceType;
 	using TypeExprConst = de.unika.ipd.grgen.ir.type.TypeExprConst;

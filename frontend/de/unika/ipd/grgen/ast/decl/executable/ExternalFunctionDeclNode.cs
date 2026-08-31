@@ -18,7 +18,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using ExternalFunctionTypeNode = de.unika.ipd.grgen.ast.type.executable.ExternalFunctionTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;
 	using ExternalFunctionMethod = de.unika.ipd.grgen.ir.executable.ExternalFunctionMethod;

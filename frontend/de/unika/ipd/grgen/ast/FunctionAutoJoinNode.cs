@@ -22,7 +22,6 @@ namespace de.unika.ipd.grgen.ast
 	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using Entity = de.unika.ipd.grgen.ir.Entity;
 	using Ident = de.unika.ipd.grgen.ir.Ident;
 	using NestingStatement = de.unika.ipd.grgen.ir.NestingStatement;

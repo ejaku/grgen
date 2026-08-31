@@ -16,7 +16,6 @@ namespace de.unika.ipd.grgen.ast.pattern
 	using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 	using SubpatternUsageDeclNode = de.unika.ipd.grgen.ast.decl.pattern.SubpatternUsageDeclNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 
 	/// <summary>
 	/// Represents a reused single (pattern) graph entity.

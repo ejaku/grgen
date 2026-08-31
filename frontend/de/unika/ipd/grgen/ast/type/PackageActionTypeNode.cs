@@ -29,8 +29,6 @@ namespace de.unika.ipd.grgen.ast.type
 	using SubpatternDeclNode = de.unika.ipd.grgen.ast.decl.executable.SubpatternDeclNode;
 	using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Ident = de.unika.ipd.grgen.ir.Ident;
 	using FilterFunction = de.unika.ipd.grgen.ir.executable.FilterFunction;

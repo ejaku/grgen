@@ -25,7 +25,6 @@ namespace de.unika.ipd.grgen.ast.expr
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using ObjectTypeNode = de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Cast = de.unika.ipd.grgen.ir.expr.Cast;
 	using Expression = de.unika.ipd.grgen.ir.expr.Expression;

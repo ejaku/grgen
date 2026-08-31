@@ -24,7 +24,6 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 	using EvalStatementNode = de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using Type = de.unika.ipd.grgen.ir.type.Type;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using ExternalProcedure = de.unika.ipd.grgen.ir.executable.ExternalProcedure;

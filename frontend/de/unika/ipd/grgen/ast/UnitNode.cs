@@ -42,8 +42,6 @@ namespace de.unika.ipd.grgen.ast
 	using Checker = de.unika.ipd.grgen.ast.util.Checker;
 	using CollectChecker = de.unika.ipd.grgen.ast.util.CollectChecker;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using SimpleChecker = de.unika.ipd.grgen.ast.util.SimpleChecker;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Unit = de.unika.ipd.grgen.ir.Unit;

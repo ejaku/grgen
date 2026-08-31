@@ -24,7 +24,6 @@ namespace de.unika.ipd.grgen.ast.expr
 	using NodeDeclNode = de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using Entity = de.unika.ipd.grgen.ir.Entity;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;

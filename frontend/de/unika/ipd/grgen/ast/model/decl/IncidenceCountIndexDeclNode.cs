@@ -25,7 +25,6 @@ namespace de.unika.ipd.grgen.ast.model.decl
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using IntTypeNode = de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using IncidenceCountIndex = de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
 	using EdgeType = de.unika.ipd.grgen.ir.model.type.EdgeType;

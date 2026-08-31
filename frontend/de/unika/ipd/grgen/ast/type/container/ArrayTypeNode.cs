@@ -21,7 +21,6 @@ namespace de.unika.ipd.grgen.ast.type.container
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Type = de.unika.ipd.grgen.ir.type.Type;
 	using ArrayType = de.unika.ipd.grgen.ir.type.container.ArrayType;

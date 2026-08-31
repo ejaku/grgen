@@ -18,8 +18,6 @@ namespace de.unika.ipd.grgen.ast
 	using MatchClassFilterFunctionDeclNode = de.unika.ipd.grgen.ast.decl.executable.MatchClassFilterFunctionDeclNode;
 	using DefinedMatchTypeNode = de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using Bad = de.unika.ipd.grgen.ir.Bad;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Coords = de.unika.ipd.grgen.parser.Coords;

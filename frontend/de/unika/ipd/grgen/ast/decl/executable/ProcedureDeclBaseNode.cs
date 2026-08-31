@@ -9,7 +9,6 @@ using DeclNode = de.unika.ipd.grgen.ast.decl.DeclNode;
 using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 using ProcedureSignature = de.unika.ipd.grgen.ast.type.executable.ProcedureSignature;
 using de.unika.ipd.grgen.ast.util;
-using de.unika.ipd.grgen.ast.util;
 
 public abstract class ProcedureDeclBaseNode : DeclNode, ProcedureSignature
 {

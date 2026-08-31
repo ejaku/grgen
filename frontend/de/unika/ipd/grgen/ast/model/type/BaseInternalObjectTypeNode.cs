@@ -23,7 +23,6 @@ namespace de.unika.ipd.grgen.ast.model.type
 	using MemberInitNode = de.unika.ipd.grgen.ast.model.MemberInitNode;
 	using MemberDeclNode = de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 
 	/// <summary>
 	/// A class representing the base type for internal (non-node/edge) object types (i.e. classes)

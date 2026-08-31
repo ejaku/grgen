@@ -37,8 +37,6 @@ namespace de.unika.ipd.grgen.ast.model.decl
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using BasicTypeNode = de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using Ident = de.unika.ipd.grgen.ir.Ident;
 	using ExternalFunction = de.unika.ipd.grgen.ir.executable.ExternalFunction;

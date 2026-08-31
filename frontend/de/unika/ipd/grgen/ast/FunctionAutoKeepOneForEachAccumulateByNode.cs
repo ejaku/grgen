@@ -22,7 +22,6 @@ namespace de.unika.ipd.grgen.ast
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using ArrayTypeNode = de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
 	using FunctionAutoKeepOneForEachAccumulateBy = de.unika.ipd.grgen.ir.stmt.FunctionAutoKeepOneForEachAccumulateBy;
 	using Entity = de.unika.ipd.grgen.ir.Entity;

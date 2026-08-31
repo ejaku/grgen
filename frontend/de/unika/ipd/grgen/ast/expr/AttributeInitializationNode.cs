@@ -19,7 +19,6 @@ namespace de.unika.ipd.grgen.ast.expr
 	using NodeTypeNode = de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 	using TypeNode = de.unika.ipd.grgen.ast.type.TypeNode;
 	using de.unika.ipd.grgen.ast.util;
-	using de.unika.ipd.grgen.ast.util;
 	using Entity = de.unika.ipd.grgen.ir.Entity;
 	using IR = de.unika.ipd.grgen.ir.IR;
 	using AttributeInitialization = de.unika.ipd.grgen.ir.expr.AttributeInitialization;
