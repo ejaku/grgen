@@ -110,7 +110,6 @@ namespace de.unika.ipd.grgen.be.Csharp
 						goto modloopBreak;
 					}
 				}
-		modloopContinue:;
 			}
 	modloopBreak:
 

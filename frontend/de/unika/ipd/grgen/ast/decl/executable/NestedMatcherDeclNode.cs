@@ -63,7 +63,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 				}
 		nodeAbstrLoopContinue:;
 			}
-	nodeAbstrLoopBreak:
 
 			foreach(EdgeDeclNode edge in right.patternGraph.Edges)
 			{
@@ -82,7 +81,6 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 				}
 		edgeAbstrLoopContinue:;
 			}
-	edgeAbstrLoopBreak:
 
 			return abstr;
 		}

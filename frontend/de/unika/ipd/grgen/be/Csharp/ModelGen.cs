@@ -1339,7 +1339,6 @@ namespace de.unika.ipd.grgen.be.Csharp
 					++initializationOperations;
 		member_init_loopContinue:;
 				}
-	member_init_loopBreak:
 				foreach(MapInit mapInit in superType.MapInits)
 				{
 					if(mapInit.Member.IsConst())
@@ -1352,7 +1351,6 @@ namespace de.unika.ipd.grgen.be.Csharp
 					initializationOperations += mapInit.MapItems.Count;
 		map_init_loopContinue:;
 				}
-	map_init_loopBreak:
 				foreach(SetInit setInit in superType.SetInits)
 				{
 					if(setInit.Member.IsConst())
@@ -1365,7 +1363,6 @@ namespace de.unika.ipd.grgen.be.Csharp
 					initializationOperations += setInit.SetItems.Count;
 		set_init_loopContinue:;
 				}
-	set_init_loopBreak:
 				foreach(ArrayInit arrayInit in superType.ArrayInits)
 				{
 					if(arrayInit.Member.IsConst())
@@ -1378,7 +1375,6 @@ namespace de.unika.ipd.grgen.be.Csharp
 					initializationOperations += arrayInit.ArrayItems.Count;
 		array_init_loopContinue:;
 				}
-	array_init_loopBreak:
 				foreach(DequeInit dequeInit in superType.DequeInits)
 				{
 					if(dequeInit.Member.IsConst())
@@ -1391,7 +1387,6 @@ namespace de.unika.ipd.grgen.be.Csharp
 					initializationOperations += dequeInit.DequeItems.Count;
 		deque_init_loopContinue:;
 				}
-	deque_init_loopBreak:;
 			}
 
 			// attribute initializations of target class
@@ -2993,7 +2988,6 @@ namespace de.unika.ipd.grgen.be.Csharp
 						mustCopyAttribs = true;
 						goto commonLoopBreak;
 					}
-		commonLoopContinue:;
 				}
 	commonLoopBreak:
 

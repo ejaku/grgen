@@ -868,7 +868,6 @@ namespace de.unika.ipd.grgen.ir.pattern
 				break;
 		nodeHomContinue:;
 			}
-	nodeHomBreak:
 			if(mayPatternBeEmptyComputationState != PATTERN_NOT_EMPTY)
 			{
 				foreach(Edge edge in Edges)
@@ -884,7 +883,6 @@ namespace de.unika.ipd.grgen.ir.pattern
 					break;
 		edgeHomContinue:;
 				}
-	edgeHomBreak:;
 			}
 
 			///////////////////////////////////////////////////
@@ -957,7 +955,6 @@ namespace de.unika.ipd.grgen.ir.pattern
 				return; // node which must get matched found -> can't build empty path
 		nodeHomContinue:;
 			}
-	nodeHomBreak:
 			foreach(Edge edge in Edges)
 			{
 				if(edge.directlyNestingLHSGraph != this)
@@ -970,7 +967,6 @@ namespace de.unika.ipd.grgen.ir.pattern
 				return; // edge which must get matched found -> can't build empty path
 		edgeHomContinue:;
 			}
-	edgeHomBreak:
 
 			foreach(Expression cond in Conditions)
 			{
