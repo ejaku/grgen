@@ -78,7 +78,7 @@ namespace de.unika.ipd.grgen.ast.type.basic
 			valueMap[stringType] = typeof(String);
 			valueMap[enumItemType] = typeof(Int32);
 			valueMap[objectType] = typeof(ObjectTypeNode.Value);
-			valueMap[nullType] = typeof(NullConstNode.Value);
+			valueMap[nullType] = typeof(NullConstNode.NullValue);
 			valueMap[untypedType] = typeof(UntypedExecVarTypeNode.Value);
 
 			//////////////////////////////////////////////////////////

@@ -25,7 +25,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		private TypeNode type;
 
 		public NullConstNode(Coords coords)
-			: base(coords, "null", Value.NULL)
+			: base(coords, "null", NullValue.NULL)
 		{
 			type = BasicTypeNode.nullType;
 		}
@@ -34,11 +34,11 @@ namespace de.unika.ipd.grgen.ast.expr
 		/// Singleton class representing the only constant value 'null' that
 		/// the basic type 'object' has.
 		/// </summary>
-		public class Value
+		public class NullValue
 		{
-			public static Value NULL = new ValueAnonymousInnerClass();
+			public static NullValue NULL = new ValueAnonymousInnerClass();
 
-			private class ValueAnonymousInnerClass : Value
+			private class ValueAnonymousInnerClass : NullValue
 			{
 				public override string ToString()
 				{
@@ -46,7 +46,7 @@ namespace de.unika.ipd.grgen.ast.expr
 				}
 			}
 
-			internal Value()
+			internal NullValue()
 			{
 			}
 		}

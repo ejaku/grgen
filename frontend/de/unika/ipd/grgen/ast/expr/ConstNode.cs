@@ -40,7 +40,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		private static readonly ConstNode INVALID = new InvalidConstNode(
 			Coords.Builtin, "invalid const", "invalid value");
 
-		public static ConstNode Invalid
+		public static new ConstNode Invalid
 		{
 			get
 			{

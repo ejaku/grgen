@@ -79,7 +79,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 			TypeNode subgraphExprType = subgraphExpr.Type;
 			if(!(subgraphExprType is GraphTypeNode))
 			{
-				subgraphExpr.ReportError("The " + Name() + " procedure expects as 1. argument (subgraph)"
+				subgraphExpr.ReportError("The " + GetEquivalentOrAddProcName() + " procedure expects as 1. argument (subgraph)"
 						+ " a value of type graph"
 						+ " (but is given a value of type " + subgraphExprType.ToStringWithDeclarationCoords() + ").");
 				return false;
@@ -87,7 +87,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 			TypeNode subgraphArrayExprType = subgraphArrayExpr.Type;
 			if(!(subgraphArrayExprType is ArrayTypeNode))
 			{
-				subgraphArrayExpr.ReportError("The " + Name() + " procedure expects as 2. argument"
+				subgraphArrayExpr.ReportError("The " + GetEquivalentOrAddProcName() + " procedure expects as 2. argument"
 						+ " a value of type array<graph>"
 						+ " (but is given a value of type " + subgraphArrayExprType.ToStringWithDeclarationCoords() + ").");
 				return false;
@@ -95,7 +95,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 			TypeNode subgraphArrayExprValueType = ((ArrayTypeNode)subgraphArrayExprType).valueType;
 			if(!(subgraphArrayExprValueType is GraphTypeNode))
 			{
-				subgraphArrayExpr.ReportError("The " + Name() + " procedure expects as 2. argument"
+				subgraphArrayExpr.ReportError("The " + GetEquivalentOrAddProcName() + " procedure expects as 2. argument"
 						+ " a value of type array<graph>"
 						+ " (but is given a value of type " + subgraphArrayExprType.ToStringWithDeclarationCoords() + ").");
 				return false;
@@ -103,7 +103,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 			return true;
 		}
 
-		public virtual string Name()
+		private string GetEquivalentOrAddProcName()
 		{
 			return includingAttributes ? "getEquivalentOrAdd" : "getEquivalentStructurallyOrAdd";
 		}

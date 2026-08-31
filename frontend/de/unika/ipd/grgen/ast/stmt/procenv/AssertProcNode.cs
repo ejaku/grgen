@@ -82,7 +82,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 			TypeNode conditionType = condition.Type;
 			if(!conditionType.IsEqual(BasicTypeNode.booleanType))
 			{
-				condition.ReportError("The " + Name() + " procedure expects as 1. argument (condition to assert on)"
+				condition.ReportError("The " + AssertProcName() + " procedure expects as 1. argument (condition to assert on)"
 						+ " a value of type boolean"
 						+ " (but is given a value of type " + conditionType.ToStringWithDeclarationCoords() + ").");
 				return false;
@@ -94,7 +94,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 				TypeNode messageType = message.Type;
 				if(!messageType.IsEqual(BasicTypeNode.stringType))
 				{
-					message.ReportError("The " + Name() + " procedure expects as 2. argument (message)"
+					message.ReportError("The " + AssertProcName() + " procedure expects as 2. argument (message)"
 							+ " a value of type string"
 							+ " (but is given a value of type " + messageType.ToStringWithDeclarationCoords() + ").");
 					return false;
@@ -105,7 +105,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 			return true;
 		}
 
-		private string Name()
+		private string AssertProcName()
 		{
 			return isAlways ? "assertAlways" : "assert";
 		}
