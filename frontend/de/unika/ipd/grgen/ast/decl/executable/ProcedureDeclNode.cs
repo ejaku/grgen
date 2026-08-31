@@ -178,7 +178,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			return procedure;
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

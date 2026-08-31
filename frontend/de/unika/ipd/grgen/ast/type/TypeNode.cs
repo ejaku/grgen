@@ -51,7 +51,7 @@ namespace de.unika.ipd.grgen.ast.type
 		private ISet<TypeNode> compatibleToTypes;
 		private ISet<TypeNode> castableToTypes;
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

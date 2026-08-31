@@ -209,7 +209,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 			return incidenceCountIndex;
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

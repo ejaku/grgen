@@ -118,7 +118,7 @@ namespace de.unika.ipd.grgen.ast.expr.map
 			return new MapCopyConstructor(mapToCopy.CheckIR<Expression>(typeof(Expression)), mapType.CheckIR<MapType>(typeof(MapType)));
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

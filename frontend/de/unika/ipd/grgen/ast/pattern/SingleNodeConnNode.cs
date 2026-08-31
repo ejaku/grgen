@@ -177,7 +177,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 			set.Add(node);
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

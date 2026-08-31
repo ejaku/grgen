@@ -117,7 +117,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 			return new ArrayCopyConstructor(arrayToCopy.CheckIR<Expression>(typeof(Expression)), arrayType.CheckIR<ArrayType>(typeof(ArrayType)));
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

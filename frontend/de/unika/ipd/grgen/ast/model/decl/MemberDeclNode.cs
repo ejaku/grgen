@@ -147,7 +147,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 			return new Entity("entity", Ident.IRIdent, type, isConst, false, 0);
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

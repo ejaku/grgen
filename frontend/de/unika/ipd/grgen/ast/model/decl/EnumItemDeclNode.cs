@@ -229,7 +229,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 			return new EnumItem(ident.IRIdent, c.IREnumExpression);
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

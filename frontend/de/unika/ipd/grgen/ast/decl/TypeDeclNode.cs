@@ -178,7 +178,7 @@ namespace de.unika.ipd.grgen.ast.decl
 			return DeclType.IR;
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

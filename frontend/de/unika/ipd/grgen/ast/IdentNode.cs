@@ -201,7 +201,7 @@ namespace de.unika.ipd.grgen.ast
 			return occ.Symbol.ToString();
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

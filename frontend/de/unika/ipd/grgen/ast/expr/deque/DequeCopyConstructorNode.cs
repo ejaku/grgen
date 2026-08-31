@@ -117,7 +117,7 @@ namespace de.unika.ipd.grgen.ast.expr.deque
 			return new DequeCopyConstructor(dequeToCopy.CheckIR<Expression>(typeof(Expression)), dequeType.CheckIR<DequeType>(typeof(DequeType)));
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

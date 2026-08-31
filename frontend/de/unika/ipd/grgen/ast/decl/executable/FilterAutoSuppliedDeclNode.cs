@@ -107,7 +107,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			return filterAutoSup;
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

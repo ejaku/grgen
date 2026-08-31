@@ -142,7 +142,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 			}
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

@@ -107,7 +107,7 @@ namespace de.unika.ipd.grgen.ast.expr
 			}
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

@@ -82,7 +82,7 @@ namespace de.unika.ipd.grgen.ast.decl
 			return true;
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

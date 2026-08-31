@@ -209,7 +209,7 @@ namespace de.unika.ipd.grgen.ast.expr
 			return new Qualification(ownerIR, memberIR);
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

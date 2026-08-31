@@ -420,7 +420,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 			set.Add(right);
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

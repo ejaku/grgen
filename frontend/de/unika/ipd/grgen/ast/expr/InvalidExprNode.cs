@@ -79,7 +79,7 @@ namespace de.unika.ipd.grgen.ast.expr
 			return "invalid expression";
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

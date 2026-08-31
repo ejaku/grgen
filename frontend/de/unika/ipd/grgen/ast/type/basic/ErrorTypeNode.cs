@@ -65,7 +65,7 @@ namespace de.unika.ipd.grgen.ast.type.basic
 			return new VoidType(id.IRIdent);
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

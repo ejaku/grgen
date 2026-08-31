@@ -165,7 +165,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 			}
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

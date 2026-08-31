@@ -91,7 +91,7 @@ namespace de.unika.ipd.grgen.ast.decl
 			return true; // nothing to be resolved locally
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

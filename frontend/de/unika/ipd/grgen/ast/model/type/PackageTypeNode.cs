@@ -100,7 +100,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 			return "package " + Ident;
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

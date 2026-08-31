@@ -117,7 +117,7 @@ namespace de.unika.ipd.grgen.ast.expr.set
 			return new SetCopyConstructor(setToCopy.CheckIR<Expression>(typeof(Expression)), setType.CheckIR<SetType>(typeof(SetType)));
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

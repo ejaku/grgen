@@ -309,7 +309,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			return node;
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

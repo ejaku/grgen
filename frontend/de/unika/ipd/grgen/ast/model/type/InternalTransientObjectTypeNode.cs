@@ -142,7 +142,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 			coll.Add(BasicTypeNode.typeType); // ~~ addCompatibility(this, BasicTypeNode.typeType);
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

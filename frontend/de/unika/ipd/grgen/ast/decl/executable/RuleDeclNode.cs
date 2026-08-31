@@ -535,7 +535,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			return null;
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

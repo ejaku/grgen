@@ -218,7 +218,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			return filterFunction;
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

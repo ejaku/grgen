@@ -156,7 +156,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 			return attributeIndex;
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

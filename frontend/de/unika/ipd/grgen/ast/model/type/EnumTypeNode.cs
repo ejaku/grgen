@@ -127,7 +127,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 			return "enum " + Ident.ToString();
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

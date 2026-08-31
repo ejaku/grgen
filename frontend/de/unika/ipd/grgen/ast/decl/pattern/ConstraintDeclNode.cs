@@ -231,7 +231,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 
 		public abstract InheritanceTypeNode DeclInhType {get;}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

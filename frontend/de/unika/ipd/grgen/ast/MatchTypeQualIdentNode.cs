@@ -150,7 +150,7 @@ namespace de.unika.ipd.grgen.ast
 			return Bad.BadObject;
 		}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{

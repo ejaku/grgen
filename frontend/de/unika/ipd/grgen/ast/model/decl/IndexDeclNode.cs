@@ -35,7 +35,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 
 		public abstract TypeNode ExpectedAccessType {get;}
 
-		public static string KindStr
+		public static new string KindStr
 		{
 			get
 			{
