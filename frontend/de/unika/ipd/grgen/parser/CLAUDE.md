@@ -9,24 +9,24 @@ parser/
 ├── antlr/                          # ANTLR-based parser implementation
 │   ├── GrGen.g                     # Main grammar (~4,960 lines, hand-written)
 │   ├── EmbeddedExec.g              # Embedded sequences grammar (~1,486 lines, hand-written)
-│   ├── GrGenParser.java            # GENERATED from GrGen.g (~52K lines)
-│   ├── GrGenLexer.java             # GENERATED from GrGen.g (~6K lines)
-│   ├── GrGen_EmbeddedExec.java     # GENERATED from EmbeddedExec.g (~20K lines)
+│   ├── GrGenParser.cs              # GENERATED from GrGen.g (~52K lines)
+│   ├── GrGenLexer.cs               # GENERATED from GrGen.g (~6K lines)
+│   ├── GrGen_EmbeddedExec.cs       # GENERATED from EmbeddedExec.g (~20K lines)
 │   ├── GrGen.tokens                # GENERATED token definitions
 │   ├── EmbeddedExec.tokens         # GENERATED token definitions
-│   ├── GRParserEnvironment.java    # ANTLR-specific parser context
-│   ├── Coords.java                 # ANTLR token coordinate extraction
-│   ├── SubunitInclude.java         # File/model include stack management
+│   ├── GRParserEnvironment.cs      # ANTLR-specific parser context
+│   ├── Coords.cs                   # ANTLR token coordinate extraction
+│   ├── SubunitInclude.cs           # File/model include stack management
 │   ├── keywords.txt                # Reserved keyword list (67 keywords)
 │   └── gen-keywords-code.sh        # Script to generate keyword registration code
 │
-├── ParserEnvironment.java          # Base parser context (abstract, ~37K)
-├── Coords.java                     # Source location tracking (line, column, filename)
-├── Symbol.java                     # Lexical symbol with Definition and Occurrence inner classes
-├── SymbolTable.java                # Namespace mapping (String → Symbol)
-├── Scope.java                      # Nested scope/namespace management
-├── SymbolTableException.java       # Symbol table error exception
-└── AnonymousScopeNamer.java        # Auto-naming for unnamed constructs (alt_0, iter_0, neg_0, ...)
+├── ParserEnvironment.cs            # Base parser context (abstract, ~37K)
+├── Coords.cs                       # Source location tracking (line, column, filename)
+├── Symbol.cs                       # Lexical symbol with Definition and Occurrence inner classes
+├── SymbolTable.cs                  # Namespace mapping (String → Symbol)
+├── Scope.cs                        # Nested scope/namespace management
+├── SymbolTableException.cs         # Symbol table error exception
+└── AnonymousScopeNamer.cs          # Auto-naming for unnamed constructs (alt_0, iter_0, neg_0, ...)
 ```
 
 ## Parsing Pipeline
@@ -39,7 +39,7 @@ Input (.grg/.gm files)
         ├── delegates to GrGen_EmbeddedExec for embedded sequences
         ├── uses ParserEnvironment for scoping/symbol tracking
         ├── uses AnonymousScopeNamer for unnamed constructs
-        └── constructs AST nodes via embedded Java code
+        └── constructs AST nodes via embedded C# code
     → UnitNode (root of AST)
 ```
 
@@ -52,7 +52,7 @@ Central context managing 13 symbol tables:
 Manages scope push/pop, symbol definition/occurrence tracking, pre-defined root types (node, directed/undirected/arbitrary edge, internal object).
 
 ### GRParserEnvironment (ANTLR-specific)
-Extends `ParserEnvironment`. Manages file inclusion stack with circular-include detection. Handles `pushFile()` / `popFile()` for switching lexer input streams (implementations of abstract methods).
+Extends `ParserEnvironment`. Manages file inclusion stack with circular-include detection. Handles `PushFile()` / `PopFile()` for switching lexer input streams (implementations of abstract methods).
 
 ### Symbol Resolution
 - `Symbol.Definition` - Where a symbol is defined (location, scope, AST node).
@@ -78,5 +78,8 @@ Extends `ParserEnvironment`. Manages file inclusion stack with circular-include 
 
 After grammar changes:
 ```bash
-cd frontend && make .grammar
+./genparser.sh   # Linux
+genparser.bat    # Windows
 ```
+
+This invokes `antlr-dotnet-csharpbootstrap-3.5.0.2/Antlr3.exe` via Mono to regenerate `GrGenParser.cs`, `GrGenLexer.cs`, and `GrGen_EmbeddedExec.cs` from the grammar files.

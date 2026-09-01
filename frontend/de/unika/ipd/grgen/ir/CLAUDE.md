@@ -1,6 +1,6 @@
 # IR (Intermediate Representation)
 
-The `ir/` package contains ~250 Java classes forming the Intermediate Representation. The IR is created after AST resolution and semantic checking, and serves as input to the C# backend code generators.
+The `ir/` package contains ~250 C# classes forming the Intermediate Representation. The IR is created after AST resolution and semantic checking, and serves as input to the C# backend code generators.
 
 ## Directory Structure
 
@@ -54,7 +54,7 @@ Rules, functions, procedures, and filters.
 
 ### expr/
 Many diverse expressions for value computations.
-- **`Expression`** - Abstract base. Key method: `collectNeededEntities()` for static analysis.
+- **`Expression`** - Abstract base. Key method: `CollectNeededEntities()` for static analysis.
 - **`Constant`**, **`VariableExpression`**, **`Operator`** - Core expression types.
 - **`Qualification`** - Attribute access (entity.attribute).
 - **`Cast`**, **`Count`**, **`EnumExpression`**, **`GraphEntityExpression`** - Specialized expressions.
@@ -69,7 +69,7 @@ Graph model structure.
 ### pattern/
 Pattern graph representations for matching and rewriting.
 - **`GraphEntity`** (extends `Entity`) - Base for `Node` and `Edge` in patterns.
-- **`PatternGraphLhs`** / **`PatternGraphRhs`** - LHS (match) and RHS (replacement) patterns containing nodes, edges, variables, subpattern usages. Iterated patterns and alternative case patterns are modelled as Rule, negative/independent are PatternGraphLhs. Noteworthy method: `ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern()` propagates non-local elements from nested patterns (alternatives, iterateds) up into the enclosing pattern so that code generation can access them.
+- **`PatternGraphLhs`** / **`PatternGraphRhs`** - LHS (match) and RHS (replacement) patterns containing nodes, edges, variables, subpattern usages. Iterated patterns and alternative case patterns are modelled as Rule, negative/independent are PatternGraphLhs. Noteworthy method: `EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern()` propagates non-local elements from nested patterns (alternatives, iterateds) up into the enclosing pattern so that code generation can access them.
 - **`Alternative`** / **`SubpatternUsage`** - Nested pattern alternatives (disjunctive case groups) and subpattern instantiation.
 - **`RetypedNode` / `RetypedEdge`** - Elements that change type during rewriting.
 - **`StorageAccess`**, **`IndexAccess`**, **`NameLookup`**, **`UniqueLookup`** - Bind a pattern element to a graph element by accessing a container or an index.
@@ -94,6 +94,6 @@ Type hierarchy.
 Parser → AST (resolve/check) → IR (you are here) → C# Backend Code Generation
 ```
 
-The AST converts to IR via `constructIR()` methods. The IR is then consumed by `SearchPlanBackend2` and its generator classes.
+The AST converts to IR via `ConstructIR()` methods. The IR is then consumed by `SearchPlanBackend2` and its generator classes.
 
 Note: The directory/file/class structure of the IR maps quite well to the directory/file/class structure of the AST (the `ast/` package). Most IR classes have a corresponding AST node class that constructs them.

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is the Java frontend compiler for GrGen.NET.
+This is the compiler frontend of GrGen.NET, implemented in C# (formerly in Java).
 It parses `.grg` (rules) and `.gm` (model) files and generates C# code for the backend.
 
 ## Build Commands
@@ -19,8 +19,7 @@ Note that the compiler tests typically also include the backend part of the comp
 ## Compiler Usage
 
 ```bash
-java -cp jars/antlr-runtime-3.4.jar:../engine-net-2/bin/grgen.jar \
-    de.unika.ipd.grgen.Main [options] files
+mono ../engine-net-2/bin/FrontendGrGen.exe [options] files
 
 # Key options:
 -b, --backend=BE     # Backend class (default: SearchPlanBackend2)
@@ -35,9 +34,9 @@ java -cp jars/antlr-runtime-3.4.jar:../engine-net-2/bin/grgen.jar \
 
 ```
 de.unika.ipd.grgen/
-├── Main.java              # Entry point
+├── Main.cs                # Entry point (class Frontend)
 ├── ast/                   # Abstract Syntax Tree (~450 classes)
-│   ├── BaseNode.java      # Base class for all AST nodes
+│   ├── BaseNode.cs        # Base class for all AST nodes
 │   ├── decl/              # Declarations (rules, functions)
 │   ├── expr/              # Expressions
 │   ├── model/             # Graph model type definitions
@@ -46,7 +45,7 @@ de.unika.ipd.grgen/
 │   ├── type/              # Type system
 │   └── util/              # Resolvers and checkers
 ├── ir/                    # Intermediate Representation (~250 classes)
-│   ├── Unit.java          # Main IR container
+│   ├── Unit.cs            # Main IR container
 │   ├── executable/        # Rule, Function, Procedure IR
 │   ├── expr/              # Expressions
 │   ├── model/             # Type model IR
@@ -55,23 +54,23 @@ de.unika.ipd.grgen/
 │   └── type/              # Type system hierarchy
 ├── be/                    # Backends (code generators)
 │   └── Csharp/            # C# backend
-│       ├── SearchPlanBackend2.java  # Main generator
-│       ├── ModelGen.java            # Model code gen
-│       └── ActionsGen.java          # Actions code gen
+│       ├── SearchPlanBackend2.cs  # Main generator
+│       ├── ModelGen.cs            # Model code gen
+│       └── ActionsGen.cs          # Actions code gen
 ├── parser/antlr/          # ANTLR parser
-│   ├── GrGen.g            # Main grammar (4,960 lines)
-│   ├── EmbeddedExec.g     # Embedded sequences grammar (~1,486 lines)
-│   └── GRParserEnvironment.java
+│   ├── GrGen.g            # Main grammar (~5000 lines)
+│   ├── EmbeddedExec.g     # Embedded sequences grammar (~1,500 lines)
+│   └── GRParserEnvironment.cs
 └── util/                  # Utilities (dumpers, reporters)
 ```
 
 ## Compiler Pipeline
 
 ```
-1. parseInput()     → Parse .grg/.gm files → AST (UnitNode) utilizing ANTLR generated parser
-2. manifestAST()    → Resolve references, check types, check semantic constraints
-3. buildIR()        → Convert AST → IR (Unit)
-4. generateCode()   → Backend (BE) generates C# code
+1. ParseInput()     → Parse .grg/.gm files → AST (UnitNode) utilizing ANTLR generated parser
+2. ManifestAST()    → Resolve references, check types, check semantic constraints
+3. BuildIR()        → Convert AST → IR (Unit)
+4. GenerateCode()   → Backend (BE) generates C# code
 ```
 
 ## Grammar Files
@@ -79,13 +78,12 @@ de.unika.ipd.grgen/
 - `parser/antlr/GrGen.g` - Main grammar for rules and models
 - `parser/antlr/EmbeddedExec.g` - Embedded sequences grammar (sequences, computations, expressions)
 
-After editing grammars, run `make .grammar` to regenerate parser classes.
+After editing grammars, run `./genparser.sh` (Linux) or `genparser.bat` (Windows) to regenerate parser classes.
 
 ## Dependencies
 
-- Java 1.8+
-- ANTLR 3.4 (`jars/antlr-3.4-complete.jar` for build, `antlr-runtime-3.4.jar` for runtime)
-- jargs (source code at `com/sanityinc/jargs/`, compiled into `grgen.jar`; command-line argument parsing)
+- .NET Framework 4.7.2+ (or Mono on Linux)
+- ANTLR 3.5 (included in the repository, `antlr-dotnet-csharpbootstrap-3.5.0.2/Antlr3.Runtime.dll` for runtime; `Antlr3.exe` for parser generation)
 
 ## Further Reading
 

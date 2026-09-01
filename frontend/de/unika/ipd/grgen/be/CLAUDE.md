@@ -6,40 +6,40 @@ The `be/` package is the code generation layer of the GrGen compiler frontend. I
 
 ```
 be/
-├── Backend.java              # Backend interface (init, generate, done)
-├── BackendFactory.java       # Factory interface for backend creation
-├── IDBase.java               # Type ID assignment and mapping, using IDTypeModel.java and TypeID.java, all 3 are only used by the C backend
+├── Backend.cs                # Backend interface (Init, Generate, Done)
+├── BackendFactory.cs         # Factory interface for backend creation
+├── IDBase.cs                 # Type ID assignment and mapping, using IDTypeModel.cs and TypeID.cs, all 3 are only used by the C backend
 ├── C/                        # Legacy C backend (6 files aimed at integration into FIRM compiler, unused)
-│   ├── CBackend.java         # Abstract C backend base
-│   ├── SearchPlanBackend.java # C code generation (frame-based)
-│   ├── InformationCollector.java # Type/attribute metadata extraction
-│   ├── MoreInformationCollector.java
-│   ├── AttrTypeDescriptor.java
-│   └── EnumDescriptor.java
+│   ├── CBackend.cs           # Abstract C backend base
+│   ├── SearchPlanBackend.cs  # C code generation (frame-based)
+│   ├── InformationCollector.cs # Type/attribute metadata extraction
+│   ├── MoreInformationCollector.cs
+│   ├── AttrTypeDescriptor.cs
+│   └── EnumDescriptor.cs
 └── Csharp/                   # Primary C# backend (~27K lines total)
-    ├── SearchPlanBackend2.java     # Main orchestrator (entry point)
-    ├── CSharpBase.java             # Base utilities for all generators (~211KB)
-    ├── ModelGen.java               # Graph model code generation (~160KB)
-    ├── ModelIndexGen.java          # Index support generation (~85KB)
-    ├── ModelExternalGen.java       # External object/function stubs (~29KB)
-    ├── ActionsGen.java             # Rule/action code generation (~148KB)
-    ├── ActionsMatchGen.java        # Match object generation (~38KB)
-    ├── ActionsExpressionOrYieldingGen.java  # Expression (and yielding statement) compilation (~178KB)
-    ├── ActionsExecGen.java         # Exec statement generation (~22KB)
-    ├── ModifyGen.java              # Graph modification/rewrite code (~75KB)
-    ├── ModifyEvalGen.java          # Eval statements in rewrites (~150KB)
-    ├── ModifyExecGen.java          # Imperative exec in rules (~13KB)
-    ├── ExpressionGenerationState.java
-    ├── ModifyGenerationState.java
-    ├── ModifyGenerationStateConst.java
-    └── ModifyGenerationTask.java
+    ├── SearchPlanBackend2.cs     # Main orchestrator (entry point)
+    ├── CSharpBase.cs             # Base utilities for all generators (~211KB)
+    ├── ModelGen.cs               # Graph model code generation (~160KB)
+    ├── ModelIndexGen.cs          # Index support generation (~85KB)
+    ├── ModelExternalGen.cs       # External object/function stubs (~29KB)
+    ├── ActionsGen.cs             # Rule/action code generation (~148KB)
+    ├── ActionsMatchGen.cs        # Match object generation (~38KB)
+    ├── ActionsExpressionOrYieldingGen.cs  # Expression (and yielding statement) compilation (~178KB)
+    ├── ActionsExecGen.cs         # Exec statement generation (~22KB)
+    ├── ModifyGen.cs              # Graph modification/rewrite code (~75KB)
+    ├── ModifyEvalGen.cs          # Eval statements in rewrites (~150KB)
+    ├── ModifyExecGen.cs          # Imperative exec in rules (~13KB)
+    ├── ExpressionGenerationState.cs
+    ├── ModifyGenerationState.cs
+    ├── ModifyGenerationStateConst.cs
+    └── ModifyGenerationTask.cs
 ```
 
 ## Code Generation Flow (SearchPlanBackend2)
 
-The list below describes the module responsibilities. The actual top-level call structure is: `init()` → `generate()` → `ModelGen.genModel()` → `ActionsGen.genActionlike()`; `ModelIndexGen`/`ModelExternalGen` are called by `ModelGen` internally, and `ActionsExpressionOrYieldingGen`/`ActionsExecGen`/`ModifyGen`/`ModifyEvalGen`/`ModifyExecGen` are called by `ActionsGen` internally.
+The list below describes the module responsibilities. The actual top-level call structure is: `Init()` → `Generate()` → `ModelGen.GenModel()` → `ActionsGen.GenActionlike()`; `ModelIndexGen`/`ModelExternalGen` are called by `ModelGen` internally, and `ActionsExpressionOrYieldingGen`/`ActionsExecGen`/`ModifyGen`/`ModifyEvalGen`/`ModifyExecGen` are called by `ActionsGen` internally.
 
-1. **Initialization** (`init()`) - Receive IR unit as parameter, detect C# keyword conflicts in type names, set type prefixes if needed
+1. **Initialization** (`Init()`) - Receive IR unit as parameter, detect C# keyword conflicts in type names, set type prefixes if needed
 2. **Model generation** (`ModelGen`) - Generate `*Model.cs` with type definitions, attribute storage, type hierarchies, connection assertions
 3. **Index generation** (`ModelIndexGen`) - Generate attribute/incidence index interfaces and lookup methods
 4. **External types** (`ModelExternalGen`) - Generate `*ExternalFunctions.cs` stubs for user-implemented external functions
@@ -52,7 +52,7 @@ The list below describes the module responsibilities. The actual top-level call 
 
 ## Key Design Aspects
 
-- **`CSharpBase`** is the largest file (~211KB) providing shared utilities: type formatting, container operations, graph queries. Key method: `genExpression()` generates inline C# code executed at runtime — used especially for expressions in the rewrite/modify part of rules.
+- **`CSharpBase`** is the largest file (~211KB) providing shared utilities: type formatting, container operations, graph queries. Key method: `GenExpression()` generates inline C# code executed at runtime — used especially for expressions in the rewrite/modify part of rules.
 - **`SourceBuilder`** (from `util/`) used throughout for indentation-aware C# code emission.
 
 ## Modify Generation State
@@ -64,4 +64,4 @@ The four state/task classes support the `ModifyGen` / `ModifyEvalGen` / `ModifyE
 - **`ModifyGenerationState`** - Mutable implementation of `ModifyGenerationStateConst`. Holds all state needed for generating the rewrite part of an action, computed from the LHS/RHS pattern comparison in the `ModifyGenerationTask`.
 - **`ModifyGenerationTask`** - Specifies what rewrite code to generate: `MODIFY` (normal LHS → RHS rewrite); `CREATION` (subpattern-only — with an empty LHS and the subpattern as RHS); `DELETION` (subpattern-only — with the subpattern as LHS and an empty RHS). The CREATION/DELETION rewrites are used when a parent rule's RHS adds or removes a subpattern usage (in contrast to only using the subpattern dependent replacement).
 
-The ModifyGenerationStateConst default access offers a read-only view of the ModifyGenerationState to prevent inadvertent side-effects and enforce visibility of the changed members; note that within `ModifyGen.genModify()` a two-phase usage pattern is used: first a series of `collect*` calls to collect data in the state, then `gen*` methods using it to generate the code.
+The ModifyGenerationStateConst default access offers a read-only view of the ModifyGenerationState to prevent inadvertent side-effects and enforce visibility of the changed members; note that within `ModifyGen.GenModify()` a two-phase usage pattern is used: first a series of `Collect*` calls to collect data in the state, then `Gen*` methods using it to generate the code.

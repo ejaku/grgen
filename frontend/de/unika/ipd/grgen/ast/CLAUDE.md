@@ -1,6 +1,6 @@
 # AST (Abstract Syntax Tree)
 
-The `ast/` package contains ~450 Java classes forming the Abstract Syntax Tree for the GrGen frontend compiler. The AST is built during parsing of `.grg` (rules) and `.gm` (model) files, then undergoes resolution and semantic checking before conversion to IR.
+The `ast/` package contains ~450 C# classes forming the Abstract Syntax Tree for the GrGen frontend compiler. The AST is built during parsing of `.grg` (rules) and `.gm` (model) files, then undergoes resolution and semantic checking before conversion to IR.
 
 ## Directory Structure
 
@@ -50,10 +50,10 @@ ast/
 
 ## Two-Phase Processing
 
-1. **Resolve** (`resolveLocal()`) - Convert unresolved `IdentNode` references to resolved `DeclNode` declarations.
-2. **Check** (`checkLocal()`) - Semantic validation (type compatibility, scope correctness, constraint checking).
+1. **Resolve** (`ResolveLocal()`) - Convert unresolved `IdentNode` references to resolved `DeclNode` declarations.
+2. **Check** (`CheckLocal()`) - Semantic validation (type compatibility, scope correctness, constraint checking).
 
-After both phases, AST nodes convert themselves to IR via `constructIR()`.
+After both phases, AST nodes convert themselves to IR via `ConstructIR()`.
 
 ## Key Patterns
 
@@ -62,3 +62,5 @@ After both phases, AST nodes convert themselves to IR via `constructIR()`.
 - **`DeclNode`** - Base class for all declarations; carries a name (`IdentNode`) and a type (`TypeNode`).
 - **`DeclaredCharacter`** interface for anything that declares an identifier.
 - **`ConnectionCharacter`** interface for graph connections (edges between nodes in patterns).
+
+- **Property convention**: Getters/setters are exposed as C# properties (e.g. `WalkableChildren` instead of `getWalkableChildren()`); methods follow PascalCase (when compared to the former Java implementation).
