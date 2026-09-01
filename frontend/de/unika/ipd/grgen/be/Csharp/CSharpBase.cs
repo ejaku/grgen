@@ -919,8 +919,6 @@ namespace de.unika.ipd.grgen.be.Csharp
 			}
 		}
 
-	// JAVA TO C# CONVERTER TASK: There is no equivalent to 'strictfp' in C#:
-	// ORIGINAL LINE: public strictfp void genExpression(de.unika.ipd.grgen.util.SourceBuilder sb, Expression expr, ExpressionGenerationState modifyGenerationState)
 		public virtual void GenExpression(SourceBuilder sb, Expression expr,
 				ExpressionGenerationState modifyGenerationState)
 		{

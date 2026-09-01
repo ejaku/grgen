@@ -27,17 +27,9 @@ namespace de.unika.ipd.grgen.ast.util
 				return true;
 			if(!(that is Pair<R, S>))
 				return false;
-			try
-			{
-	// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
-	// ORIGINAL LINE: @SuppressWarnings("unchecked") Pair<R,S> that_ = (Pair<R,S>)that;
-				Pair<R, S> that_ = (Pair<R, S>)that;
-				return fst.Equals(that_.fst) && snd.Equals(that_.snd);
-			}
-			catch(System.InvalidCastException)
-			{
-				return false;
-			}
+
+			Pair<R, S> that_ = (Pair<R, S>)that;
+			return fst.Equals(that_.fst) && snd.Equals(that_.snd);
 		}
 	}
 

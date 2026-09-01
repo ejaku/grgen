@@ -127,8 +127,6 @@ namespace de.unika.ipd.grgen.be.Csharp
 					forceUniqueResulting = true;
 				if(model.IsoParallel > 0)
 					forceUniqueResulting = true;
-	// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
-	// ORIGINAL LINE: for(@SuppressWarnings("unused") de.unika.ipd.grgen.ir.model.Index index : model.getIndices())
 				foreach(Index index in model.Indices)
 					forceUniqueResulting = true;
 			}

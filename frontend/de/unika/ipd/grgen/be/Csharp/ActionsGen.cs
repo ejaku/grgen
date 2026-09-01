@@ -320,13 +320,9 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Append("\"" + functionName + "\",\n");
 			sb.AppendFront("true,\n");
 			sb.AppendFront("new String[] { ");
-			int i = 0;
-	// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
-	// ORIGINAL LINE: for(@SuppressWarnings("unused") de.unika.ipd.grgen.ir.type.Type inType : function.getParameterTypes())
-			foreach(Type inType in function.ParameterTypes)
+			for(int i = 0; i < function.ParameterTypes.Count; ++i)
 			{
 				sb.Append("\"in_" + i + "\", ");
-				++i;
 			}
 			sb.Append(" },\n");
 			sb.AppendFront("new GRGEN_LIBGR.GrGenType[] { ");
@@ -357,11 +353,10 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Indent();
 			sb.Append("return GRGEN_EXPR.ExternalFunctions." + functionName
 					+ "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
-			i = 0;
-			foreach(Type inType in function.ParameterTypes)
+			for(int i = 0; i < function.ParameterTypes.Count; ++i)
 			{
+				Type inType = function.ParameterTypes[i];
 				sb.Append(", (" + FormatType(inType) + ")arguments[" + i + "]");
-				++i;
 			}
 			sb.Append(");\n");
 			sb.Unindent();
@@ -394,13 +389,9 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Append("\"" + procedureName + "\",\n");
 			sb.AppendFront("true,\n");
 			sb.AppendFront("new String[] { ");
-			int i = 0;
-	// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
-	// ORIGINAL LINE: for(@SuppressWarnings("unused") de.unika.ipd.grgen.ir.type.Type inType : procedure.getParameterTypes())
-			foreach(Type inType in procedure.ParameterTypes)
+			for(int i = 0; i < procedure.ParameterTypes.Count; ++i)
 			{
 				sb.Append("\"in_" + i + "\", ");
-				++i;
 			}
 			sb.Append(" },\n");
 			sb.AppendFront("new GRGEN_LIBGR.GrGenType[] { ");
@@ -434,31 +425,29 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.AppendFront("{\n");
 			sb.Indent();
 
-			i = 0;
-			foreach(Type outType in procedure.ReturnTypes)
+			for(int i = 0; i < procedure.ReturnTypes.Count; ++i)
 			{
+				Type outType = procedure.ReturnTypes[i];
 				sb.Append(FormatType(outType));
 				sb.Append(" ");
 				sb.Append("_out_param_" + i + ";\n");
-				++i;
 			}
 
 			sb.Append("GRGEN_EXPR.ExternalProcedures." + procedureName
 					+ "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
-			i = 0;
-			foreach(Type inType in procedure.ParameterTypes)
+			for(int i = 0; i < procedure.ParameterTypes.Count; ++i)
 			{
+				Type inType = procedure.ParameterTypes[i];
 				sb.Append(", (" + FormatType(inType) + ")arguments[" + i + "]");
-				++i;
 			}
-			for(i = 0; i < procedure.ReturnTypes.Count; ++i)
+			for(int i = 0; i < procedure.ReturnTypes.Count; ++i)
 			{
 				sb.Append(", out ");
 				sb.Append("_out_param_" + i);
 			}
 			sb.Append(");\n");
 
-			for(i = 0; i < procedure.ReturnTypes.Count; ++i)
+			for(int i = 0; i < procedure.ReturnTypes.Count; ++i)
 			{
 				sb.AppendFront("ReturnArray[" + i + "] = ");
 				sb.Append("_out_param_" + i + ";\n");

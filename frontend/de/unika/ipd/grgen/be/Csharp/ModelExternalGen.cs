@@ -293,13 +293,9 @@ namespace de.unika.ipd.grgen.be.Csharp
 					+ "\",\n");
 			sb.AppendFront("true,\n");
 			sb.AppendFront("new String[] { ");
-			int i = 0;
-	// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
-	// ORIGINAL LINE: for(@SuppressWarnings("unused") de.unika.ipd.grgen.ir.type.Type inParamType : efm.getParameterTypes())
-			foreach(Type inParamType in efm.ParameterTypes)
+			for(int i = 0; i < efm.ParameterTypes.Count; ++i)
 			{
 				sb.Append("\"in_" + i + "\", ");
-				++i;
 			}
 			sb.Append(" },\n");
 			sb.AppendFront("new GRGEN_LIBGR.GrGenType[] { ");
@@ -359,13 +355,9 @@ namespace de.unika.ipd.grgen.be.Csharp
 					+ "\",\n");
 			sb.AppendFront("true,\n");
 			sb.AppendFront("new String[] { ");
-			int i = 0;
-	// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
-	// ORIGINAL LINE: for(@SuppressWarnings("unused") de.unika.ipd.grgen.ir.type.Type inParamType : epm.getParameterTypes())
-			foreach(Type inParamType in epm.ParameterTypes)
+			for(int i = 0; i < epm.ParameterTypes.Count; ++i)
 			{
 				sb.Append("\"in_" + i + "\", ");
-				++i;
 			}
 			sb.Append(" },\n");
 			sb.AppendFront("new GRGEN_LIBGR.GrGenType[] { ");

@@ -138,8 +138,6 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		{
 			StringBuilder sb = new StringBuilder();
 			bool first = true;
-	// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
-	// ORIGINAL LINE: for(@SuppressWarnings("unused") FromIndexAccessFromToExprNode indexAccessExpr : indexAccessExprs.getChildrenExact())
 			foreach(FromIndexAccessFromToExprNode indexAccessExpr in indexAccessExprs.ChildrenExact)
 			{
 				if(first)

@@ -546,8 +546,6 @@ namespace com.sanityinc.jargs
 				/* Cast should be safe because Option.parseValue has to return an
 				 * instance of type T or null
 				 */
-	// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
-	// ORIGINAL LINE: @SuppressWarnings("unchecked") T result = (T)v.remove(0);
 				T result = (T)v.RemoveAndReturn(0);
 				return result;
 			}
