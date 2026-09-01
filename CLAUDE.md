@@ -15,7 +15,7 @@ Its features can also by used via an API in end-user .NET-applications.
 Typical uses are in compiler construction, model transformation, computer linguistics/knowledge representation, and engineering domains (in which graph representations of data are natural/intuitive).
 
 **Two main components:**
-- **Frontend** (`frontend/`): Java compiler using ANTLR 3.4 that parses `.grg` (rules) and `.gm` (model) files, generates C# code
+- **Frontend** (`frontend/`): Compiler frontend using ANTLR 3.5 that parses `.grg` (rules) and `.gm` (model) files, formerly written in Java, now in C#, generates C# code
 - **Backend** (`engine-net-2/`): C# engine that compiles the generated code into assemblies and executes graph rewriting operations with the GrShell application (CSharpCC-based, it interprets `.grs` graph rewrite script files)
 
 ## Build Commands
@@ -57,10 +57,10 @@ For further test instructions, see frontend/TESTING.md and engine-net-2/TESTING.
 
 ```
 grgen/
-├── frontend/           # Java compiler
-│   ├── de/             # Java sources
+├── frontend/           # Compiler frontend
+│   ├── de/             # Sources organized by compiler pass (minor part in com directory)
 │   └── test/           # Compiler tests (should_pass/, should_fail/, should_warn/)
-├── engine-net-2/       # C# compiler backend and runtime libraries, as well as Graph Rewrite Shells including debugging and graph visualization
+├── engine-net-2/       # Compiler backend and runtime libraries, as well as Graph Rewrite Shells including debugging and graph visualization
 │   ├── src/            # Source projects
 │   ├── bin/            # Build output (and released binaries)
 │   ├── tests/          # Semantic tests
@@ -68,14 +68,14 @@ grgen/
 └── ...                 # See CLAUDE-AUX.md for further non-code directories
 ```
 
-### Frontend Compiler Pipeline
+### Frontend Compiler Project/Pipeline
 
-Pretty classical compiler pipeline with a parser creating an abstract syntax tree, reference resolving and type checking on the syntax tree, that is then lowered to an intermediate representation, and a code generator (producing C#).
+- **Frontend**: Compiler frontend - pretty classical compiler pipeline with a parser creating an abstract syntax tree, reference resolving and type checking on the syntax tree, that is then lowered to an intermediate representation, and a code generator (producing C#).
 For more see the CLAUDE.md in frontend.
 
 ### C# Application Projects
 
-- **GrGen**: Compiler driver - invokes Java frontend, extends and compiles generated C# code (main implementation in lgspBackend)
+- **GrGen**: Compiler driver - invokes the FrontendGrGen, extends and compiles generated C# code (main implementation in lgspBackend)
 - **GrShell**: Command-line shell for interactive graph manipulation and scripting (real implementation in libGrShell)
 - **GGrShell**: GUI shell/workbench with Windows Forms
 
@@ -111,7 +111,7 @@ Emphasize readability/understandability (use well-chosen/speaking names, don't g
 
 - .NET Framework 4.7.2+ or Mono
 - On Linux, executables run via `mono`: `mono bin/GrShell.exe script.grs`
-- Java (1.8+) to compile a specification or for graph visualization with the yComp app
+- Java (1.8+) for graph visualization with the yComp app
 
 ## Key language concepts
 
