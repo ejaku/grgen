@@ -471,8 +471,6 @@ namespace de.unika.ipd.grgen.be.C
 
 			ps.Print("<unit>\n");
 
-	// JAVA TO C# CONVERTER WARNING: Java wildcard generics have no direct equivalent in C#:
-	// ORIGINAL LINE: for(java.util.Map<? extends de.unika.ipd.grgen.ir.model.type.InheritanceType, int> map : maps)
 			foreach(IDictionary<InheritanceType, int> map in maps)
 			{
 				foreach(InheritanceType type in map.Keys)

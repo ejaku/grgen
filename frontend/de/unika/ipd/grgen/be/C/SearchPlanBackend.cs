@@ -733,8 +733,6 @@ namespace de.unika.ipd.grgen.be.C
 				// define the create_func
 				string create_func = "new_rd_" + type;
 				// TODO be_* nodes will become _bd_ t some point!
-	// JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-	// ORIGINAL LINE: final String[] starts = { "ia32_", "arm_", "mips_", "ppc32_" };
 				string[] starts = new string[] {"ia32_", "arm_", "mips_", "ppc32_"};
 				foreach(string start in starts)
 				{

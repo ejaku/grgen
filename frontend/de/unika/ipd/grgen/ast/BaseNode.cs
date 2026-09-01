@@ -153,7 +153,6 @@ namespace de.unika.ipd.grgen.ast
 		/// <returns> stripped class name. </returns>
 		protected internal static string StripPackageFromClasssName(Type cls)
 		{
-	// JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
 			string s = cls.FullName;
 			return s.Substring(s.LastIndexOf('.') + 1);
 		}
