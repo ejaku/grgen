@@ -30,7 +30,7 @@ namespace de.unika.ipd.grgen.util.report
 		//private Pattern pattern = Pattern.compile(".*");
 		//private Matcher matcher;
 		private bool inclusive = true;
-		private bool includeClassName = false;
+		//private bool includeClassName = false;
 
 		private string prefix = "";
 		private bool enableStackTrace = true;

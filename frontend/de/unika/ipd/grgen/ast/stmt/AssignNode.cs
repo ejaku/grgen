@@ -67,7 +67,7 @@ namespace de.unika.ipd.grgen.ast.stmt
 		internal QualIdentNode lhsQual;
 		internal VarDeclNode lhsVar;
 		internal ConstraintDeclNode lhsGraphElement;
-		internal MemberDeclNode lhsMember;
+		//internal MemberDeclNode lhsMember; // currently unused, would be needed for member assignment inside method without "this." prefix
 
 		/// <param name="coords"> The source code coordinates of = operator. </param>
 		/// <param name="target"> The left hand side. </param>
@@ -405,8 +405,8 @@ namespace de.unika.ipd.grgen.ast.stmt
 				targetType = lhsVar.DeclType;
 			if(lhsGraphElement != null)
 				targetType = lhsGraphElement.DeclType;
-			if(lhsMember != null)
-				targetType = lhsMember.DeclType;
+			//if(lhsMember != null)
+			//	targetType = lhsMember.DeclType;
 			TypeNode exprType = rhs.Type;
 
 			if(exprType.IsEqual(targetType))
@@ -477,7 +477,7 @@ namespace de.unika.ipd.grgen.ast.stmt
 
 				return new AssignmentVar(var, rhsEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
-			else if(lhsGraphElement != null)
+			else //if(lhsGraphElement != null)
 			{
 				GraphEntity graphEntity = lhsGraphElement.CheckIR<GraphEntity>(typeof(GraphEntity));
 
@@ -485,14 +485,14 @@ namespace de.unika.ipd.grgen.ast.stmt
 
 				return new AssignmentGraphEntity(graphEntity, rhsEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
-			else
+			/*else
 			{
 				Entity entity = lhsMember.CheckIR<Entity>(typeof(Entity));
 
 				// TODO: extend optimization to assignments to entities
 
 				return new AssignmentMember(entity, rhsEvaluated.CheckIR<Expression>(typeof(Expression)));
-			}
+			}*/
 		}
 
 		private bool CanSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()
