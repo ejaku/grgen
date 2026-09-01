@@ -30,8 +30,6 @@ namespace de.unika.ipd.grgen.ast.util
 			this.cls = cls;
 		}
 
-	// JAVA TO C# CONVERTER TASK: Most Java annotations will not have direct .NET equivalent attributes:
-	// ORIGINAL LINE: @SafeVarargs public DeclarationResolver(Class... classes)
 		public DeclarationResolver(params Type[] classes)
 		{
 			this.classes = classes;

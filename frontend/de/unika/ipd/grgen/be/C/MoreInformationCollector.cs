@@ -617,10 +617,8 @@ namespace de.unika.ipd.grgen.be.C
 						if(smallest_subgraph.Count >= min_subgraph_size)
 							break;
 
-	// JAVA TO C# CONVERTER TASK: There is no .NET LinkedList equivalent to the Java 'remove' method:
 						bool succ = nodesOfSubgraph[act_id].Remove(smallest_subgraph);
 						Debug.Assert(succ);
-	// JAVA TO C# CONVERTER TASK: There is no .NET LinkedList equivalent to the Java 'remove' method:
 						succ = edgesOfSubgraph[act_id].Remove(smallest_subgraph_edges);
 						Debug.Assert(succ);
 
@@ -652,9 +650,7 @@ namespace de.unika.ipd.grgen.be.C
 							smallest_subgraph_edges = edgesOfSubgraph[act_id].ToList()[i];
 						}
 					}
-	// JAVA TO C# CONVERTER TASK: There is no .NET LinkedList equivalent to the Java 'remove' method:
 					nodesOfSubgraph[act_id].Remove(smallest_subgraph);
-	// JAVA TO C# CONVERTER TASK: There is no .NET LinkedList equivalent to the Java 'remove' method:
 					edgesOfSubgraph[act_id].Remove(smallest_subgraph_edges);
 					nodesOfSubgraph[act_id].AddFirst(smallest_subgraph);
 					edgesOfSubgraph[act_id].AddFirst(smallest_subgraph_edges);
