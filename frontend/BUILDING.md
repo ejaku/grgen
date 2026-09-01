@@ -1,24 +1,20 @@
 # Build Commands
 
 ```bash
-# Build compiler frontend (produces grgen.jar)
-make
+# Build entire solution (compiler frontend)
+dotnet build Frontend.sln
 
-# Fast incremental build
-make fast
+# Build specific configuration
+dotnet build Frontend.sln -c Release
 
-# Regenerate ANTLR parser (after grammar changes)
-make .grammar
-
-# Clean build artifacts
-make clean
+# Generate parsers first (required if .g grammar files changed)
+./genparser.sh   # Linux
+genparser.bat    # Windows
 ```
 
-Output JAR: `../engine-net-2/bin/grgen.jar`
+Parser generation uses ANTLR to generate C# from `.g` files in:
+- `de/unika/ipd/grgen/parser/antlr`
 
-Under Windows you have to use cygwin:
-```bash
-make -f Makefile_Cygwin
-```
+Under Windows, you may also use msbuild or the Visual Studio GUI.
 
-You may also use an IDE but have to add the jars from the jars folder to the build path manually in that case (the test jars are only needed when executing unit tests).
+Output exe: `../engine-net-2/bin/FrontendGrGen.exe`
