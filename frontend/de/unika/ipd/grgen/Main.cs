@@ -617,9 +617,21 @@ namespace de.unika.ipd.grgen
 
 		public static void Main(string[] args)
 		{
-			StaticInit();
-			Frontend main = new Frontend(args);
-			main.Run();
+			Frontend main = null;
+			try
+			{
+				StaticInit();
+				main = new Frontend(args);
+				main.Run();
+			}
+			catch(Exception ex)
+			{
+				Console.Error.WriteLine("Internal error:");
+				Console.Error.WriteLine(ex.Message);
+				Console.Error.WriteLine(ex.StackTrace);
+				main.CloseDumpOutputStreamAsNeeded();
+				throw;
+			}
 		}
 	}
 
