@@ -2,10 +2,10 @@
 
 ```bash
 # Build entire solution
-dotnet build GrGen.sln
+dotnet build EngineNet2.sln
 
 # Build specific configuration
-dotnet build GrGen.sln -c Release
+dotnet build EngineNet2.sln -c Release
 
 # Generate parsers first (required if .csc grammar files changed)
 ./genparsers.sh   # Linux
