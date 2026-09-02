@@ -273,6 +273,7 @@ namespace de.unika.ipd.grGen.lgsp
             };
 
             ProcessStartInfo startInfo = null;
+            String frontendConsoleOutputFilePath = tmpDir + Path.DirectorySeparatorChar + "printOutput.txt";
             String processString = null;
             String frontendString = null;
             try
@@ -280,16 +281,16 @@ namespace de.unika.ipd.grGen.lgsp
                 if(WorkaroundManager.IsMono)
                 {
                     processString = "mono"; // when executing with mono (under LINUX), use mono also for executing the frontend (maybe todo: dotnet handling)
-                    frontendString = /*binPath +*/ "FrontendGrGen.exe" + " ";
+                    frontendString = binPath + "FrontendGrGen.exe" + " ";
                 }
                 else
                 {
-                    processString = /*binPath +*/ "FrontendGrGen.exe"; // .NET frontend exe directly executed (well, in fact by the .NET runtime - instead of the previous jar executed by the java/javaw runtime)
+                    processString = "FrontendGrGen.exe"; // .NET frontend exe directly executed (well, in fact by the .NET runtime - instead of the previous jar executed by the java/javaw runtime)
                     frontendString = "";
                 }
 
                 String execStr = "-b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
-                    + "-c \"" + tmpDir + Path.DirectorySeparatorChar + "printOutput.txt\" "
+                    + "-c \"" + frontendConsoleOutputFilePath + "\" "
                     + "-o \"" + tmpDir + "\""
                     + ((flags & ProcessSpecFlags.NoEvents) != 0 ? " --noevents" : "")
                     + ((flags & ProcessSpecFlags.NoDebugEvents) != 0 ? " --nodebugevents" : "")
@@ -331,9 +332,17 @@ namespace de.unika.ipd.grGen.lgsp
             if(ctrlCPressed)
                 return false;
 
+            if(!File.Exists(frontendConsoleOutputFilePath))
+            {
+                ConsoleUI.errorOutWriter.WriteLine("Unable to read the frontend console output file " + frontendConsoleOutputFilePath + " - it seems the frontend did not run!");
+                ConsoleUI.errorOutWriter.WriteLine("Is " + processString + " " + frontendString + " available in one of the folders of the search path? The search path is: " + startInfo.EnvironmentVariables["PATH"]);
+                ConsoleUI.errorOutWriter.WriteLine("The current working directory is: " + Directory.GetCurrentDirectory());
+                return false;
+            }
+
             bool noError = true;
             bool doneFound = false;
-            using(StreamReader sr = new StreamReader(tmpDir + Path.DirectorySeparatorChar + "printOutput.txt"))
+            using(StreamReader sr = new StreamReader(frontendConsoleOutputFilePath))
             {
                 String frontStr = "  generating the ";
                 String backStr = " file...";
@@ -1853,7 +1862,7 @@ namespace de.unika.ipd.grGen.lgsp
             while(Directory.Exists(dirname));
             try
             {
-                Directory.CreateDirectory(dirname);
+                DirectoryInfo dir = Directory.CreateDirectory(dirname);
             }
             catch(Exception ex)
             {
