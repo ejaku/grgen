@@ -1,0 +1,11 @@
+using deque_model_003;
+
+rule wrongDequeConstructorSyntaxInModel {
+	a:A -e:E-> a;
+
+	modify {
+		eval {
+			a.niceDeque = e.niceDeque;
+		}
+	}
+}
