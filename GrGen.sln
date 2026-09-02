@@ -10,150 +10,158 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples-api", "examples-ap
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{2D0AFB3F-4243-4CE2-9A96-2B02425EAFF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGr", "src\libGr\libGr.csproj", "{57A2E7A1-058E-4EBD-85E9-A65C3304FA49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGr", "engine-net-2\src\libGr\libGr.csproj", "{57A2E7A1-058E-4EBD-85E9-A65C3304FA49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrShell", "src\GrShell\GrShell.csproj", "{780E231D-7BFE-40E2-AA69-399AECB294DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrShell", "engine-net-2\src\GrShell\GrShell.csproj", "{780E231D-7BFE-40E2-AA69-399AECB294DE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{57A2E7A1-058E-4EBD-85E9-A65C3304FA49} = {57A2E7A1-058E-4EBD-85E9-A65C3304FA49}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lgspBackend", "src\lgspBackend\lgspBackend.csproj", "{28747063-D1D2-4626-B1F1-84CC201B2063}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lgspBackend", "engine-net-2\src\lgspBackend\lgspBackend.csproj", "{28747063-D1D2-4626-B1F1-84CC201B2063}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrShellBenchmarker", "tools\GrShellBenchmarker\GrShellBenchmarker.csproj", "{E633B507-F9FC-4F97-8649-BBD33361AB09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrShellBenchmarker", "engine-net-2\tools\GrShellBenchmarker\GrShellBenchmarker.csproj", "{E633B507-F9FC-4F97-8649-BBD33361AB09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spBench", "tools\spBench\spBench.csproj", "{17B1C694-F545-4621-BBE5-0B9037A2D664}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spBench", "engine-net-2\tools\spBench\spBench.csproj", "{17B1C694-F545-4621-BBE5-0B9037A2D664}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrGen", "src\GrGen\GrGen.csproj", "{88C2E9E9-1EF9-409E-BF92-40602F4DA91A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrGen", "engine-net-2\src\GrGen\GrGen.csproj", "{88C2E9E9-1EF9-409E-BF92-40602F4DA91A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarker", "tools\Benchmarker\Benchmarker.csproj", "{25C61E4A-5D75-4B8C-A85D-EB9CFDB8F9CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarker", "engine-net-2\tools\Benchmarker\Benchmarker.csproj", "{25C61E4A-5D75-4B8C-A85D-EB9CFDB8F9CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusyBeaverExample", "examples-api\BusyBeaverExample\BusyBeaverExample.csproj", "{82ABEC10-35CB-4455-93CA-732DFB53E024}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusyBeaverExample", "engine-net-2\examples-api\BusyBeaverExample\BusyBeaverExample.csproj", "{82ABEC10-35CB-4455-93CA-732DFB53E024}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MutexDirectExample", "examples-api\MutexDirectExample\MutexDirectExample.csproj", "{078429F1-A76D-41B9-823B-6855A2B9A188}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MutexDirectExample", "engine-net-2\examples-api\MutexDirectExample\MutexDirectExample.csproj", "{078429F1-A76D-41B9-823B-6855A2B9A188}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YCompExample", "examples-api\YCompExample\YCompExample.csproj", "{7F694C8F-C781-46FA-935F-0B0BBCC0B9DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YCompExample", "engine-net-2\examples-api\YCompExample\YCompExample.csproj", "{7F694C8F-C781-46FA-935F-0B0BBCC0B9DA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 		{77133185-36B5-4134-9F5B-C6AC0AEF9BD5} = {77133185-36B5-4134-9F5B-C6AC0AEF9BD5}
 		{88133185-36B5-4134-9F5B-C6AC0AEF9BD6} = {88133185-36B5-4134-9F5B-C6AC0AEF9BD6}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloMutex", "examples-api\HelloMutex\HelloMutex.csproj", "{E85C49AA-619C-4A4C-8D3D-BD73ED2D52CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloMutex", "engine-net-2\examples-api\HelloMutex\HelloMutex.csproj", "{E85C49AA-619C-4A4C-8D3D-BD73ED2D52CD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "tools\test\test.csproj", "{18C76E00-FF98-4C34-A11C-A2F58C35876B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "engine-net-2\tools\test\test.csproj", "{18C76E00-FF98-4C34-A11C-A2F58C35876B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBench", "tools\TestBench\TestBench.csproj", "{41B25111-5B8F-45A6-9824-47D1766AAE9D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBench", "engine-net-2\tools\TestBench\TestBench.csproj", "{41B25111-5B8F-45A6-9824-47D1766AAE9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNTExample", "examples-api\TNTExample\TNTExample.csproj", "{70206EDB-B613-4D8B-9A4E-870FB5DAE1D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNTExample", "engine-net-2\examples-api\TNTExample\TNTExample.csproj", "{70206EDB-B613-4D8B-9A4E-870FB5DAE1D5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlternativeExample", "examples-api\AlternativeExample\AlternativeExample.csproj", "{BA28BE01-2982-484B-9086-E6A7FA7C3E47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlternativeExample", "engine-net-2\examples-api\AlternativeExample\AlternativeExample.csproj", "{BA28BE01-2982-484B-9086-E6A7FA7C3E47}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecursiveExample", "examples-api\RecursiveExample\RecursiveExample.csproj", "{F3CACF35-E9C7-4836-9D6C-9B04AAD0BBEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecursiveExample", "engine-net-2\examples-api\RecursiveExample\RecursiveExample.csproj", "{F3CACF35-E9C7-4836-9D6C-9B04AAD0BBEB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "edge1Example", "examples-api\edge1Example\edge1Example.csproj", "{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "edge1Example", "engine-net-2\examples-api\edge1Example\edge1Example.csproj", "{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgramGraphsExample", "examples-api\ProgramGraphsExample\ProgramGraphsExample.csproj", "{C0042662-3CB1-4421-B724-FEE757888F62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgramGraphsExample", "engine-net-2\examples-api\ProgramGraphsExample\ProgramGraphsExample.csproj", "{C0042662-3CB1-4421-B724-FEE757888F62}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitedExample", "examples-api\VisitedExample\VisitedExample.csproj", "{0B80748D-A320-49A0-8FC3-9AB24DF3BB52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitedExample", "engine-net-2\examples-api\VisitedExample\VisitedExample.csproj", "{0B80748D-A320-49A0-8FC3-9AB24DF3BB52}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gxl2grs", "tools\gxl2grs\gxl2grs.csproj", "{FA735139-5370-4EEC-927C-856F62A2A396}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gxl2grs", "engine-net-2\tools\gxl2grs\gxl2grs.csproj", "{FA735139-5370-4EEC-927C-856F62A2A396}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndependentExample", "examples-api\IndependentExample\IndependentExample.csproj", "{70246EDB-B613-4D8C-9A4E-870FB5DAE1D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndependentExample", "engine-net-2\examples-api\IndependentExample\IndependentExample.csproj", "{70246EDB-B613-4D8C-9A4E-870FB5DAE1D5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaProgramGraphsExample", "examples-api\JavaProgramGraphsExample\JavaProgramGraphsExample.csproj", "{C0042662-3DB1-2321-B874-FEE757868F62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaProgramGraphsExample", "engine-net-2\examples-api\JavaProgramGraphsExample\JavaProgramGraphsExample.csproj", "{C0042662-3DB1-2321-B874-FEE757868F62}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IteratedExample", "examples-api\IteratedExample\IteratedExample.csproj", "{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IteratedExample", "engine-net-2\examples-api\IteratedExample\IteratedExample.csproj", "{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateGraphs", "tools\GenerateGraphs\GenerateGraphs.csproj", "{48FCC0E9-EBF4-49F0-B074-9E1F31E75385}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateGraphs", "engine-net-2\tools\GenerateGraphs\GenerateGraphs.csproj", "{48FCC0E9-EBF4-49F0-B074-9E1F31E75385}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalAttributeEvaluationExample", "examples-api\ExternalAttributeEvaluationExample\ExternalAttributeEvaluationExample.csproj", "{BA28DE01-2992-385B-9086-E6A8FA7C3E47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalAttributeEvaluationExample", "engine-net-2\examples-api\ExternalAttributeEvaluationExample\ExternalAttributeEvaluationExample.csproj", "{BA28DE01-2992-385B-9086-E6A8FA7C3E47}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalFiltersAndSequencesExample", "examples-api\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequencesExample.csproj", "{BA29DE01-2492-384B-9386-E6A8FB7C0000}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalFiltersAndSequencesExample", "engine-net-2\examples-api\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequencesExample.csproj", "{BA29DE01-2492-384B-9386-E6A8FB7C0000}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionsProceduresExample", "examples-api\FunctionsProceduresExample\FunctionsProceduresExample.csproj", "{BA28DE01-2793-385B-9096-E2A8FA7B3E46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionsProceduresExample", "engine-net-2\examples-api\FunctionsProceduresExample\FunctionsProceduresExample.csproj", "{BA28DE01-2793-385B-9096-E2A8FA7B3E46}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDatabaseBenchmarker", "tools\MovieDatabaseBenchmarker\MovieDatabaseBenchmarker.csproj", "{C0342861-3CB1-232F-B884-FEA757A68F62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDatabaseBenchmarker", "engine-net-2\tools\MovieDatabaseBenchmarker\MovieDatabaseBenchmarker.csproj", "{C0342861-3CB1-232F-B884-FEA757A68F62}"
 	ProjectSection(ProjectDependencies) = postProject
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "graphViewerAndSequenceDebugger", "src\graphViewerAndSequenceDebugger\graphViewerAndSequenceDebugger.csproj", "{77133185-36B5-4134-9F5B-C6AC0AEF9BD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "graphViewerAndSequenceDebugger", "engine-net-2\src\graphViewerAndSequenceDebugger\graphViewerAndSequenceDebugger.csproj", "{77133185-36B5-4134-9F5B-C6AC0AEF9BD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "graphViewerAndSequenceDebuggerWindowsForms", "src\graphViewerAndSequenceDebuggerWindowsForms\graphViewerAndSequenceDebuggerWindowsForms.csproj", "{88133185-36B5-4134-9F5B-C6AC0AEF9BD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "graphViewerAndSequenceDebuggerWindowsForms", "engine-net-2\src\graphViewerAndSequenceDebuggerWindowsForms\graphViewerAndSequenceDebuggerWindowsForms.csproj", "{88133185-36B5-4134-9F5B-C6AC0AEF9BD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebuggerExample", "examples-api\DebuggerExample\DebuggerExample.csproj", "{7F795C8F-C781-46FA-935F-0B0DBCC0B9DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebuggerExample", "engine-net-2\examples-api\DebuggerExample\DebuggerExample.csproj", "{7F795C8F-C781-46FA-935F-0B0DBCC0B9DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGrShell", "src\libGrShell\libGrShell.csproj", "{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGrShell", "engine-net-2\src\libGrShell\libGrShell.csproj", "{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellExample", "examples-api\ShellExample\ShellExample.csproj", "{7F7A5C9F-C781-46FA-936F-0B0DBCD0B9DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellExample", "engine-net-2\examples-api\ShellExample\ShellExample.csproj", "{7F7A5C9F-C781-46FA-936F-0B0DBCD0B9DC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{77133185-36B5-4134-9F5B-C6AC0AEF9BD5} = {77133185-36B5-4134-9F5B-C6AC0AEF9BD5}
 		{88133185-36B5-4134-9F5B-C6AC0AEF9BD6} = {88133185-36B5-4134-9F5B-C6AC0AEF9BD6}
 		{57B2E7B1-058E-4EBE-85EA-A65C3404FA49} = {57B2E7B1-058E-4EBE-85EA-A65C3404FA49}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationExample", "examples-api\ApplicationExample\ApplicationExample.csproj", "{A3424189-B2A7-455B-A7A5-BFCA20DA53F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationExample", "engine-net-2\examples-api\ApplicationExample\ApplicationExample.csproj", "{A3424189-B2A7-455B-A7A5-BFCA20DA53F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMSAGL", "tools\TestMSAGL\TestMSAGL.csproj", "{173422DE-FAB3-4473-9702-A4FBA866E5C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMSAGL", "engine-net-2\tools\TestMSAGL\TestMSAGL.csproj", "{173422DE-FAB3-4473-9702-A4FBA866E5C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGrShell", "src\GGrShell\GGrShell.csproj", "{5C9DC769-F5B9-4F52-BA9D-6597E4D56F91}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGrShell", "engine-net-2\src\GGrShell\GGrShell.csproj", "{5C9DC769-F5B9-4F52-BA9D-6597E4D56F91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellExampleWindowsForms", "examples-api\ShellExampleWindowsForms\ShellExampleWindowsForms.csproj", "{17B63989-2CFA-4255-9419-6292B36890AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellExampleWindowsForms", "engine-net-2\examples-api\ShellExampleWindowsForms\ShellExampleWindowsForms.csproj", "{17B63989-2CFA-4255-9419-6292B36890AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libConsoleAndOS", "src\libConsoleAndOS\libConsoleAndOS.csproj", "{F7A0A66B-136B-4E4C-83A6-5E0BDF92BE6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libConsoleAndOS", "engine-net-2\src\libConsoleAndOS\libConsoleAndOS.csproj", "{F7A0A66B-136B-4E4C-83A6-5E0BDF92BE6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libConsoleAndOSWindowsForms", "src\libConsoleAndOSWindowsForms\libConsoleAndOSWindowsForms.csproj", "{120C45F5-2CAF-46BB-9F64-838E9E557D61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libConsoleAndOSWindowsForms", "engine-net-2\src\libConsoleAndOSWindowsForms\libConsoleAndOSWindowsForms.csproj", "{120C45F5-2CAF-46BB-9F64-838E9E557D61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGrPersistenceProviderSQLite", "src\libGrPersistenceProviderSQLite\libGrPersistenceProviderSQLite.csproj", "{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGrPersistenceProviderSQLite", "engine-net-2\src\libGrPersistenceProviderSQLite\libGrPersistenceProviderSQLite.csproj", "{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unittests", "unittests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphAndModelTests", "unittests\GraphAndModelTests\GraphAndModelTests.csproj", "{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphAndModelTests", "engine-net-2\unittests\GraphAndModelTests\GraphAndModelTests.csproj", "{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{30B7A262-8549-42B8-80BD-DBC026C45635}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "frontend\Frontend.csproj", "{8F94D84D-5525-A66F-B0D4-2AED7225D780}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unittest", "unittest", "{D6941A74-93FE-41C8-80D3-6FAA65AE5B20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcceptanceTests", "frontend\unittest\AcceptanceTests.csproj", "{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -655,6 +663,30 @@ Global
 		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|x64.Build.0 = Release|x64
 		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|x86.ActiveCfg = Release|x86
 		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|x86.Build.0 = Release|x86
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Debug|x64.ActiveCfg = Debug|x64
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Debug|x64.Build.0 = Debug|x64
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Debug|x86.ActiveCfg = Debug|x86
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Debug|x86.Build.0 = Debug|x86
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Release|x64.ActiveCfg = Release|x64
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Release|x64.Build.0 = Release|x64
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Release|x86.ActiveCfg = Release|x86
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780}.Release|x86.Build.0 = Release|x86
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Debug|x64.ActiveCfg = Debug|x64
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Debug|x64.Build.0 = Debug|x64
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Debug|x86.ActiveCfg = Debug|x86
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Debug|x86.Build.0 = Debug|x86
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Release|x64.ActiveCfg = Release|x64
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Release|x64.Build.0 = Release|x64
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Release|x86.ActiveCfg = Release|x86
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -690,6 +722,9 @@ Global
 		{173422DE-FAB3-4473-9702-A4FBA866E5C9} = {2D0AFB3F-4243-4CE2-9A96-2B02425EAFF5}
 		{17B63989-2CFA-4255-9419-6292B36890AF} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780} = {30B7A262-8549-42B8-80BD-DBC026C45635}
+		{D6941A74-93FE-41C8-80D3-6FAA65AE5B20} = {30B7A262-8549-42B8-80BD-DBC026C45635}
+		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA} = {D6941A74-93FE-41C8-80D3-6FAA65AE5B20}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F35A053-34A6-44FB-8EC8-32E93CA1C106}
