@@ -716,12 +716,17 @@ namespace de.unika.ipd.grGen.lgsp
         private bool DepsOlder(DateTime oldestOutputTime, List<String> neededFiles)
         {
             // LibGr, LGSPBackend, or GrGen newer than generated files?
+            DateTime consoleUITime = File.GetLastWriteTime(typeof(ConsoleUI).Assembly.Location);
             DateTime libGrTime = File.GetLastWriteTime(typeof(IGraph).Assembly.Location);
             DateTime lgspTime = File.GetLastWriteTime(typeof(LGSPBackend).Assembly.Location);
-            DateTime grGenTime = File.GetLastWriteTime(
-                Path.GetDirectoryName(typeof(LGSPBackend).Assembly.Location) + Path.DirectorySeparatorChar + "grgen.jar");
-            if(libGrTime > oldestOutputTime || lgspTime > oldestOutputTime || grGenTime > oldestOutputTime)
+            String basePath = Path.GetDirectoryName(typeof(LGSPBackend).Assembly.Location); // typically engine-net-2/bin
+            DateTime grGenFrontendTime = File.GetLastWriteTime(basePath + Path.DirectorySeparatorChar + "FrontendGrGen.exe");
+            DateTime grGenTime = File.GetLastWriteTime(basePath + Path.DirectorySeparatorChar + "GrGen.exe");
+            if(consoleUITime > oldestOutputTime || libGrTime > oldestOutputTime || lgspTime > oldestOutputTime
+                || grGenFrontendTime > oldestOutputTime || grGenTime > oldestOutputTime)
+            {
                 return true;
+            }
 
             // Check used file dates
             foreach(String neededFilename in neededFiles)
