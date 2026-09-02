@@ -4,6 +4,7 @@
     <TargetFramework>net472</TargetFramework>
     <Platforms>x64;x86;AnyCPU</Platforms>
     <IsPackable>false</IsPackable>
+    <NoWarn>1701;1702;3021</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
