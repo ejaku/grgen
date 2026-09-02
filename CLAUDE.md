@@ -20,6 +20,8 @@ Typical uses are in compiler construction, model transformation, computer lingui
 
 ## Build Commands
 
+The source code can be accessed from GrGen.sln (referencing both the frontend as well as the engine-net-2 projects).
+
 ### Full Build (Linux)
 ```bash
 ./make_linux.sh
