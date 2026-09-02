@@ -273,20 +273,29 @@ namespace de.unika.ipd.grGen.lgsp
             };
 
             ProcessStartInfo startInfo = null;
-            String frontendString = binPath + "FrontendGrGen.exe"; // .NET frontend exe directly executed (well, in fact by the .NET runtime - instead of the previous jar executed by the java/javaw runtime)
+            String processString = null;
+            String frontendString = null;
             try
             {
                 if(WorkaroundManager.IsMono)
-                    frontendString = "mono " + frontendString; // when executing with mono (under LINUX), use mono also for executing the frontend (maybe todo: dotnet handling)
+                {
+                    processString = "mono"; // when executing with mono (under LINUX), use mono also for executing the frontend (maybe todo: dotnet handling)
+                    frontendString = /*binPath +*/ "FrontendGrGen.exe" + " ";
+                }
+                else
+                {
+                    processString = /*binPath +*/ "FrontendGrGen.exe"; // .NET frontend exe directly executed (well, in fact by the .NET runtime - instead of the previous jar executed by the java/javaw runtime)
+                    frontendString = "";
+                }
 
-                String execStr ="-b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
+                String execStr = "-b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
                     + "-c \"" + tmpDir + Path.DirectorySeparatorChar + "printOutput.txt\" "
                     + "-o \"" + tmpDir + "\""
                     + ((flags & ProcessSpecFlags.NoEvents) != 0 ? " --noevents" : "")
                     + ((flags & ProcessSpecFlags.NoDebugEvents) != 0 ? " --nodebugevents" : "")
                     + ((flags & ProcessSpecFlags.Profile) != 0 ? " --profile" : "")
                     + " \"" + String.Join("\" \"", sourceFiles) + "\"";
-                startInfo = new ProcessStartInfo(frontendString, execStr);
+                startInfo = new ProcessStartInfo(processString, frontendString + execStr);
                 startInfo.CreateNoWindow = true;
                 startInfo.UseShellExecute = false;
                 try
@@ -309,7 +318,8 @@ namespace de.unika.ipd.grGen.lgsp
             catch(System.ComponentModel.Win32Exception e)
             {
                 ConsoleUI.errorOutWriter.WriteLine("Unable to process specification: " + e.Message);
-                ConsoleUI.errorOutWriter.WriteLine("Is " + frontendString + " available in one of the folders of the search path? Search path: " + startInfo.EnvironmentVariables["path"]);
+                ConsoleUI.errorOutWriter.WriteLine("Is " + processString + " " + frontendString + " available in one of the folders of the search path? The search path is: " + startInfo.EnvironmentVariables["PATH"]);
+                ConsoleUI.errorOutWriter.WriteLine("The current working directory is: " + Directory.GetCurrentDirectory());
                 return false;
             }
             catch(Exception e)
