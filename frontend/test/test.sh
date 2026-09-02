@@ -62,7 +62,7 @@ do_test()
 	if [ -f "$EXTIMPLFILEACTIONS" ]; then cp "$EXTIMPLFILEACTIONS" "$DIR/$PLAINEXTIMPLFILEACTIONS"; fi
 	echo -n "===> TEST $FILE"
 	FRONTEND_ARGS="-b $BE_CSC -t $WITHDEBUG -o $DIR $FILE"
-	if $MONO FrontendGrGen.exe $FRONTEND_ARGS > "$DIR/log" 2>&1; then
+	if $MONO "$GRGENNET/FrontendGrGen.exe" $FRONTEND_ARGS > "$DIR/log" 2>&1; then
         if grep -q "WARNING" < "$DIR/log"; then
             echo -n " ... WARNED"
             local WARNED="TRUE";
