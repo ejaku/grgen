@@ -39,6 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MutexDirectExample", "engin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YCompExample", "engine-net-2\examples-api\YCompExample\YCompExample.csproj", "{7F694C8F-C781-46FA-935F-0B0BBCC0B9DA}"
 	ProjectSection(ProjectDependencies) = postProject
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780} = {8F94D84D-5525-A66F-B0D4-2AED7225D780}
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 		{77133185-36B5-4134-9F5B-C6AC0AEF9BD5} = {77133185-36B5-4134-9F5B-C6AC0AEF9BD5}
 		{88133185-36B5-4134-9F5B-C6AC0AEF9BD6} = {88133185-36B5-4134-9F5B-C6AC0AEF9BD6}
@@ -46,6 +47,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YCompExample", "engine-net-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloMutex", "engine-net-2\examples-api\HelloMutex\HelloMutex.csproj", "{E85C49AA-619C-4A4C-8D3D-BD73ED2D52CD}"
 	ProjectSection(ProjectDependencies) = postProject
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780} = {8F94D84D-5525-A66F-B0D4-2AED7225D780}
 		{28747063-D1D2-4626-B1F1-84CC201B2063} = {28747063-D1D2-4626-B1F1-84CC201B2063}
 	EndProjectSection
 EndProject
@@ -127,11 +129,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "graphViewerAndSequenceDebuggerWindowsForms", "engine-net-2\src\graphViewerAndSequenceDebuggerWindowsForms\graphViewerAndSequenceDebuggerWindowsForms.csproj", "{88133185-36B5-4134-9F5B-C6AC0AEF9BD6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebuggerExample", "engine-net-2\examples-api\DebuggerExample\DebuggerExample.csproj", "{7F795C8F-C781-46FA-935F-0B0DBCC0B9DB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780} = {8F94D84D-5525-A66F-B0D4-2AED7225D780}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGrShell", "engine-net-2\src\libGrShell\libGrShell.csproj", "{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellExample", "engine-net-2\examples-api\ShellExample\ShellExample.csproj", "{7F7A5C9F-C781-46FA-936F-0B0DBCD0B9DC}"
 	ProjectSection(ProjectDependencies) = postProject
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780} = {8F94D84D-5525-A66F-B0D4-2AED7225D780}
 		{77133185-36B5-4134-9F5B-C6AC0AEF9BD5} = {77133185-36B5-4134-9F5B-C6AC0AEF9BD5}
 		{88133185-36B5-4134-9F5B-C6AC0AEF9BD6} = {88133185-36B5-4134-9F5B-C6AC0AEF9BD6}
 		{57B2E7B1-058E-4EBE-85EA-A65C3404FA49} = {57B2E7B1-058E-4EBE-85EA-A65C3404FA49}
@@ -153,7 +159,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGrPersistenceProviderSQL
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unittests", "unittests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphAndModelTests", "engine-net-2\unittests\GraphAndModelTests\GraphAndModelTests.csproj", "{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphAndModelTests", "engine-net-2\unittests\GraphAndModelTests\GraphAndModelTests.csproj", "{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8F94D84D-5525-A66F-B0D4-2AED7225D780} = {8F94D84D-5525-A66F-B0D4-2AED7225D780}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{30B7A262-8549-42B8-80BD-DBC026C45635}"
 EndProject
