@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
@@ -27,7 +27,7 @@
     </None>
   </ItemGroup>
 
-  <Target Name="CopyGrGenJars" AfterTargets="PostBuildEvent">
+  <Target Name="CopyFrontendBinaries" AfterTargets="PostBuildEvent">
     <Exec Condition=" '$(OS)' == 'Windows_NT' "
         Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\FrontendGrGen.exe&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
     <Exec Condition=" '$(OS)' == 'Windows_NT' "

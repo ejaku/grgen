@@ -26,14 +26,14 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Name="CopyFrontendBinaries" AfterTargets="PostBuildEvent">
     <Exec Condition=" '$(OS)' == 'Windows_NT' "
-        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\grgen.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
+        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\FrontendGrGen.exe&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
     <Exec Condition=" '$(OS)' == 'Windows_NT' "
-        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\antlr-runtime-3.4.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
+        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\Antlr3.Runtime.dll&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
     <Exec Condition=" '$(OS)' != 'Windows_NT' "
-        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/grgen.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/FrontendGrGen.exe&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
     <Exec Condition=" '$(OS)' != 'Windows_NT' "
-        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/antlr-runtime-3.4.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/Antlr3.Runtime.dll&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
   </Target>
 </Project>
