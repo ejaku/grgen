@@ -199,7 +199,7 @@ namespace de.unika.ipd.grgen.ir
 			dumper.EndSubgraph();
 		}
 
-		public static void Dump(in string id, in string s, GraphDumper dumper)
+		public static void Dump(string id, string s, GraphDumper dumper)
 		{
 			dumper.Node(new GraphDumpableAnonymousInnerClass(id, s));
 		}
@@ -261,8 +261,8 @@ namespace de.unika.ipd.grgen.ir
 			}
 		}
 
-		public static void Dump(in string s, in string fromId,
-				in string toId, GraphDumper dumper)
+		public static void Dump(string s, string fromId,
+				string toId, GraphDumper dumper)
 		{
 			dumper.Edge(new GraphDumpableAnonymousInnerClass2(fromId)
 				, new GraphDumpableAnonymousInnerClass3(fromId, toId)
