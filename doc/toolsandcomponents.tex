@@ -22,7 +22,7 @@ To be more specific: an academic license restricts the use of the software (\yCo
 Utilizing the internal \MSAGL{} based graph viewer saves you from license issues due to its permissive MIT license, but it lacks the sophistication of \yComp{}.
 The persistent graph is implemented (by an internal persistence provider) utilizing the SQLite database and its ADO.NET drivers, which are in the public domain.
 
-Executing a generated graph rewrite system requires .NET Framework\cite{NET} version 4.7.2 or mono\cite{MONO} version 5.10, or later (maybe complete packaging); compiling (and debugging with \yComp) a graph rewrite system in addition requires JAVA\cite{JAVAweb} version 1.8 or later. 
+Executing a generated graph rewrite system requires .NET Framework\cite{NET} version 4.7.2 or mono\cite{MONO} version 5.10, or later (maybe complete packaging); the same holds for compiling it, building \GrG{} itself and debugging a graph rewrite system with \yComp{} in addition requires JAVA\cite{JAVAweb} version 1.8 or later. 
 You find the binaries (tool applications and components) in the \texttt{bin} subdirectory of your \GrG\ installation.
 %tools: to be distinguished from the tools of engine-net-2
 
@@ -69,7 +69,7 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
       \texttt{-lazynic} & Negatives, Independents, and Conditions are only executed at the end of matching (normally asap).\\
       \texttt{-noinline} & Subpattern usages and independents are not inlined.\\
     \end{tabularx}
-  \item[Requires] .NET Framework 4.0 (or above) or Mono 3.0 (or above). Java Runtime Environment 1.8 (or above).
+  \item[Requires] .NET Framework 4.0 (or above) or Mono 3.0 (or above).
 \end{description}
 
 \begin{note}
@@ -81,18 +81,16 @@ As .NET supports integration with native code, you may even use a \GrG-generated
 \end{note}
 
 \begin{note}\label{note:modelruledump}
-The grgen compiler consists of a Java frontend used by the C\# backend and driver \texttt{grgen.exe}.
-The java frontend can be executed itself to get a visualization of the model and the rewrite rules,
+The grgen compiler consists of a frontend \texttt{FrontendGrGen.exe} used by the C\# backend and driver \texttt{GrGen.exe}.
+The frontend can be executed directly to get a visualization of the model and the rewrite rules,
 in the form of a dump of the compiler IR as a .vcg file:\\
-\texttt{java -jar grgen.jar -i yourfile.grg}
+\texttt{FrontendGrGen.exe -i yourfile.grg}
 \end{note}
 
 \begin{note}
 If you run into \texttt{Unable to process specification: The system cannot find the file specified} errors, 
-grgen is typically not able to execute the JAVA frontend.
-Check whether your path contains a zombie java variable from an old installation pointing to nowhere; remove it in this case.
-Installing a JDK to a non system path and adding the bin folder of the JDK to the path variable may help.
-(Normally just installing a JRE is sufficient.)
+\texttt{GrGen.exe} is typically not able to execute the frontend \texttt{FrontendGrGen.exe}.
+Likely the system is not referenced in the search path, the error message should give further hints.
 \end{note}
 
 %\pagebreak
@@ -108,7 +106,7 @@ Installing a JDK to a non system path and adding the bin folder of the JDK to th
 For further information about the \GrShell\ language see Chapter~\ref{chapgrshell}.
 
 \begin{description}
-  \item[Usage] \texttt{[mono] grShell.exe [-N] [-SI] [-C "<commands>"] <grshell-script>*} \\
+  \item[Usage] \texttt{[mono] GrShell.exe [-N] [-SI] [-C "<commands>"] <grshell-script>*} \\
      Opens the interactive shell. The \GrShell\ will include and execute the commands in the optional list of \emph{grshell-script}s\indexmain{graph rewrite script} (usually \texttt{*\indexed{.grs}} files) in the given order.
 	 The \texttt{grs} suffixes may be omitted. \GrShell\ returns 0 on successful execution, or in non-interactive mode -1 if the specified shell script could not be executed, or -2 if a \texttt{validate} with \texttt{exitonfailure} failed. This allows you to build a test-suite consisting of shell scripts.
   \item[Options] \mbox{}
@@ -221,7 +219,9 @@ It is well integrated and shipped with \GrG, but it's not a part of \GrG; it is 
 \end{description}
 
 \begin{note}
-It could be necessary to utilize the OpenJDK in an old version (e.g. \texttt{1.8}) to get a running yComp.jar because of incompatibilities introduced later on (or JAVA from Oracle).
+If yComp doesn't start: check whether your path contains a zombie java variable from an old installation pointing to nowhere; remove it in this case.
+Normally just installing a JRE is sufficient, but it may help to install a JDK to a non system path and adding the bin folder of the JDK to the path variable.
+It could be necessary to utilize the OpenJDK in an old version (e.g. \texttt{1.8}) to get a running yComp.jar because of incompatibilities introduced later on (or may be necessary to use JAVA from Oracle, which is normally the better choice regarding compatibility anyway).
 \end{note}
 
 %-----------------------------------------------------------------------------------------------

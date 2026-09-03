@@ -196,11 +196,11 @@ And another remark about design: errors should be caught early.
 \GrG{} supports you in this regard with its well-founded semantics (you could use for formal verification), its static type checking, and the means for validation/testing described in Chapter~\ref{chapvalidation}.
 
 \section{Platform Independence}
-is achieved by using languages compiled to byte code for virtual machines backed by large, standardized libraries, specifically: Java and C\#.
+is achieved by using languages compiled to byte code for virtual machines backed by large, standardized libraries, specifically: C\# and to a small degree Java.
 This should prevent the fate of the grandfather of all graph rewrite systems, PROGRES\cite{schuerr99progres},
 which achieved a high level of sophistication, but is difficult to run by now, or simply: outdated.
 
-Java is only needed for development, the generated code and its supporting libraries are entirely .NET based.
+Java is only needed to build \GrG{} itself (to generate some of its parsers) and run \yComp{}, the code generator as well as the generated code and its supporting libraries are entirely .NET based.
 The .NET framework allows to use native code, so if you really need to, you can integrate via .NET - native interop a graph rewrite system into some native application.
 
 There's another trait to platform independence: \GrG\ is built on its own model layer, in contrast to the Java model transformation world, where EMF has emerged as a quasi-standard.

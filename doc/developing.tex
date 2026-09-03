@@ -14,17 +14,18 @@ Here we repeat some content from chapter \ref{cha:performance}, refining it with
 \section{How to Build}\label{sub:building}\indexmain{building GrGen}
 
 In case you want to build \GrG~on your own (which is available from the public git repository \texttt{https://github.com/ejaku/grgen}), you should recall the system layout \ref{figsys}. 
-The graph rewrite generator consists of a frontend written in Java \cite{Java} and a backend written in C\# \cite{csharp}.
-The frontend was extended and changed since its first version, but not replaced.
+The graph rewrite generator consists of a frontend and a backend written in C\# \cite{csharp} (the \texttt{engine-net-2}).
+The frontend orginally written in Java \cite{Java} was recently ported to C\#; it was extended and changed since its first version, but never replaced (the C\#-port is somewhat of an one-to-one mapping of the Java version).
 In contrast to the backend, which has seen multiple engines and versions: a MySQL database based version, a PSQL database based version, 
 a C version executing a search plan with a virtual machine, a C\# engine executing code generated from a search plan and finally the current C\# engine version 2 featuring attributes stored in the graph elements instead of in an extra object, and being capable of matching nested and subpatterns.
 
 The frontend is available in the \texttt{frontend} subdirectory.
-It can be built with the included \texttt{Makefile} on Linux or the \texttt{Makefile\_Cygwin} on Windows with the cygwin environment, yielding a \texttt{grgen.jar}. 
-Alternatively, you may add the \texttt{de} subfolder and the jars in the \texttt{jars} subfolder to your favourite IDE (e.g. Eclipse), but then you must take care of the ANTLR parser generation pre-build-step on your own. 
+It contains a VisualStudio 2022 solution file \texttt{Frontend.sln}, that results in a \texttt{FrontendGrGen.exe} when built.
+
+Before you can build the solution, you have to execute \texttt{./gen\-parser.bat} under Windows, or you have to execute \texttt{./gen\-parser.sh} under Linux in order to get the ANTLR parsers for the model and actions languages, and the embedded/compiled sequences generated.
 
 The backend is available in the \texttt{engine-net-2} subdirectory. 
-It contains a VisualStudio 2022 solution file (if you want to use VisualStudio 2017, you have to remove the comments around the binding redirect of \texttt{System.Resources.Extensions} in the \texttt{app.config}s of the application projects), containing projects for the \texttt{lib\-Console\-And\-OS} environment abstraction library, the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend), the \texttt{graph\-Viewer\-And\-Sequence\-Debugger} library, the \texttt{lib\-Gr\-Shell}, the \texttt{GrGen} compiler (backend) as well as the \texttt{GrShell}.
+It contains a VisualStudio 2022 solution file \texttt{EngineNet2.sln} (if you want to use VisualStudio 2017, you have to remove the comments around the binding redirect of \texttt{System.Resources.Extensions} in the \texttt{app.config}s of the application projects), containing projects for the \texttt{lib\-Console\-And\-OS} environment abstraction library, the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend), the \texttt{graph\-Viewer\-And\-Sequence\-Debugger} library, the \texttt{lib\-Gr\-Shell}, the \texttt{GrGen} compiler (backend) as well as the \texttt{GrShell}.
 
 Plus the WindowsForms versions/extensions \texttt{lib\-Console\-And\-OS\-Windows\-Forms}, the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms} library employing \MSAGL{}, as well as the WindowsForms \texttt{GGrShell} application.
 Also available is a \texttt{lib\-Gr\-Persistence\-Provider\-SQLite} (implementing the persistent graph by mapping to an SQLite database --- in contrast to the previous database-based backends it is a strictly optional extension and only read once at session start, i.e. it is esp. not used for runtime pattern matching).
@@ -40,9 +41,10 @@ It was able to carry out a complete build with \texttt{mdtool} from MonoDevelop 
 The new way of development under LINUX is to employ VisualStudio Code with the C\#-extensions and the Mono Debug extension; the \texttt{dotnet} tool is used then also.
 Note that for running/debugging, you still have to use \texttt{mono} (\GrG{} still targets the .NET framework, largely because of the WindowsForms GUI (a few adaptations yet missing would be needed regarding the compilation of the generated code so that the system core could also work with .NET standard 2.0)).
 
+On both systems, you may use \texttt{GrGen.sln} to build the complete code (frontend plus engine-net-2), but without parser generation.
 %\pagebreak
 
-The VisualStudio solution contains build configurations for \texttt{x64}, \texttt{x86}, and \texttt{Any CPU}.
+The VisualStudio solutions contain build configurations for \texttt{x64}, \texttt{x86}, and \texttt{Any CPU}.
 The binary release contains the binaries from the \texttt{x64} build only.
 If you want to run \GrG\ in 32bit mode, or esp. want to include it in a native 32bit application, you have to build the assemblies on your own.
 Before version 8.0, the \texttt{Any CPU} build was released, this changed because of the introduction of the persistent graph.
@@ -71,15 +73,15 @@ They get executed by calling \texttt{./test.sh}.
 
 The examples from \texttt{engine-net-2/examples} can be used as smoke tests by the contained \texttt{./test.sh} (under Windows).
 
-For a very thorough test coverage, you could manually force parallelization of all pattern matchers in the frontend code (search for \texttt{uncomment} in \texttt{Unit.java}, or you could manually force profiling instrumentation of all pattern matchers (search for \texttt{uncomment} in \texttt{GrGen.cs}).
+For a very thorough test coverage, you could manually force parallelization of all pattern matchers in the frontend code (search for \texttt{uncomment} in \texttt{Unit.cs}, or you could manually force profiling instrumentation of all pattern matchers (search for \texttt{uncomment} in \texttt{GrGen.cs}).
 
 A unit test suite was recently added to the \texttt{engine-net-2} folder (in the \texttt{unittests} subfolder) and to the solution file, you may run it directly in VisualStudio 2022 or use \texttt{dotnet test}.
 It is based on NUnit3 
 \footnote{you may need NUnit2 when you want to execute your own tests from a native application like AutoCAD hosting your graph rewrite system --- but beware of outdated knowledge}
 and very limited in what it covers as of now.
 
-A unit test suite was also recently added to the \texttt{frontend} folder (in the \texttt{unittest} subfolder), you may run it directly in Eclipse or use \texttt{unittest/make\_unittest.sh} under Linux (the bash script also calls make on the frontend and builds the unit-tests).
-It is based on JUnit 4 and comprises a small set of quick-check acceptance tests as of now (so also limited coverage).
+A unit test suite was also recently added to the \texttt{frontend} folder (in the \texttt{unittest} subfolder), you may run it directly in VisualStudio 2022 or use \texttt{dotnet test}.
+It is based on NUnit3 and comprises a small set of quick-check acceptance tests as of now (so also limited coverage).
 
 The application tests checking that the languages work as expected (on the outside) had priority over checking internal components --- but the unit tests are to be extended, as they allow finding errors much earlier than the syntax/semantics test suites that take a long time to execute.
 
@@ -487,21 +489,21 @@ An iso-check scheduling pass ensures that checks are only inserted if the elemen
   \label{figfrontendcodegen}
 \end{figure}
 
-The frontend is spread over the directories \texttt{parser}, \texttt{ast}, \texttt{ir}, \texttt{be} and \texttt{util}, with their code being used from \texttt{Main.java}.
+The frontend is spread over the directories \texttt{parser}, \texttt{ast}, \texttt{ir}, \texttt{be} and \texttt{util}, with their code being used from \texttt{Main.cs}.
 
 \subsubsection*{Syntax and Static Semantics}
 The directory \texttt{parser} contains parser helpers like the symbol table and scopes and within the \texttt{antlr} subdirectory the ANTLR parser grammar of \GrG~in the files \texttt{Grgen.g} and \texttt{EmbeddedExec.g}.
 The semantic actions of the parser build an abstract syntax tree consisting of instances of the classes given in the directory \texttt{ast}, with the base class \texttt{BaseNode}.
-The AST is operated upon in three passes, first resolving by \texttt{resolve} and \texttt{resolveLocal}, mainly replacing identifier nodes by their declaration nodes during a (largely) preorder walk.
-Afterwards, the AST is checked by \texttt{check} and \texttt{checkLocal} during a (largely) postorder walk for type and other semantic constraints.
-Finally, an intermediate representation is built from the abstract syntax tree by the \texttt{getIR} and \texttt{constructIR} methods.
+The AST is operated upon in three passes, first resolving by \texttt{Resolve} and \texttt{ResolveLocal}, mainly replacing identifier nodes by their declaration nodes during a (largely) preorder walk.
+Afterwards, the AST is checked by \texttt{Check} and \texttt{CheckLocal} during a (largely) postorder walk for type and other semantic constraints.
+Finally, an intermediate representation is built from the abstract syntax tree by reading from the \texttt{IR} property and calling \texttt{ConstructIR} methods.
 
 \subsubsection*{Intermediate Representation}
 The IR classes given in the \texttt{ir} folder can be seen as more lightweight AST classes; their name is often the same as for their corresponding AST classes, but without the \texttt{Node}-suffix which is appended to all AST classes.
 The most interesting classes are \texttt{Rule} used for rules, alternative cases and iterateds, as well as \texttt{PatternGraphLhs} used for all left hand side pattern graphs including negatives and independents, and \texttt{PatternGraphRhs} used for all right hand side pattern graphs;
 several data flow analyses are contained in \texttt{PatternGraphLhs}, some covering the nesting of patterns, some being even global.
 
-A particularly interesting one is \texttt{ensure\-Directly\-Nesting\-Pattern\-Contains\-All\-Non\-Local\-Elements\-Of\-Nested\-Pattern} from \texttt{Unit.java}, it ensures that, from a pattern which contains a certain entity the first time, up to every pattern that references this entity, all intermediate patterns contain that entity, too.
+A particularly interesting one is \texttt{Ensure\-Directly\-Nesting\-Pattern\-Contains\-All\-Non\-Local\-Elements\-Of\-Nested\-Pattern} from \texttt{Unit.cs}, it ensures that, from a pattern which contains a certain entity the first time, up to every pattern that references this entity, all intermediate patterns contain that entity, too.
 It is implemented with a recursive walk over the nested patterns in the IR-structure. 
 Each pattern receives the set of already known elements as parameter.
 Before descending, the elements available in the current pattern are added to the set of already known elements,
@@ -509,29 +511,28 @@ then recursive descent into the directly nested patterns follows, handing down t
 On ascending, elements are added to the current pattern if they are contained in a directly nested pattern, but not in the current pattern, although they are known in the current pattern.
 This function allows keeping the backends simple.
 
-The IR classes are the input to the two backends of the JAVA frontend.
-They can be found in the folders \texttt{be/C} and \texttt{be/Csharp}.
-
-
-\subsubsection*{Backends (of the Frontend)}
-
-The directory \texttt{be/C} contains the code generator for the C based backend, which is integrated into the IPD C compiler.
+The IR classes are the input to the backend of the frontend, which can be found in the \texttt{be/Csharp} folder
+\footnote{
+The directory \texttt{be/C} is only contained in the SCM history anymore, it contains the code generator for the C based backend, which is integrated into the IPD C compiler.
 (The compiler transforms a C program into a graph and SSA based compiler intermediate representation named FIRM using libFirm (see \url{libfirm.org}, \cite{TBL:99}, \cite{Lin:02}) and further on to x86 machine code.)
+}
+
+\subsubsection*{Backend (of the Frontend)}
 
 The directory \texttt{be/Csharp} contains the code generator for the C\# based backend of \GrG. 
 It generates the source code for the model with the node and edge classes, in \texttt{FooModel.cs} for a rule file named \texttt{Foo.grg},
 and the intermediate source code for the rules, consisting of a specification of the patterns to match, a listing of the embedded graph rewrite sequences, and the rewriting code, in \texttt{Foo\-Actions\_intermediate.cs}.
 This is done in several recursive passes over the nesting structure of the patterns in the IR. 
 
-The backend of the frontend does \emph{not} generate the complete source code for the rules including the matcher code or the code for the embedded rewrite sequences --- this is done by \texttt{grgen.exe}, which calls the \texttt{grgen.jar} of the frontend (generating a \texttt{Foo\-Actions.cs}).
-You may call the Java archive on your own in order to get a visualization of the model and rewrite rules, in the form of a \texttt{.vcg}-dump of the IR, cf. Note\ref{note:modelruledump}.
+The backend of the frontend does \emph{not} generate the complete source code for the rules including the matcher code or the code for the embedded rewrite sequences --- this is done by \texttt{grgen.exe}, which calls the \texttt{FrontendGrGen.exe} (formerly \texttt{grgen.jar}) of the frontend (generating a \texttt{Foo\-Actions.cs}).
+You may call it on your own in order to get a visualization of the model and rewrite rules, in the form of a \texttt{.vcg}-dump of the IR, cf. Note\ref{note:modelruledump}.
 
 
 \subsubsection*{Model Generation}
 
 %potential todo: separate more clearly the explained/mentioned constructs from the code generator from the constructs in the generated code that are explained/mentioned: \texttt{\emph{Modify\-Gen}}
 
-The code generation emitting the model is implemented in \texttt{Model\-Gen} (entry point \texttt{gen\-Model}), it is rather straight forward:
+The code generation emitting the model is implemented in \texttt{Model\-Gen} (entry point \texttt{Gen\-Model}), it is rather straight forward:
 \begin{enumerate}
 	\item first, code for the user defined enums is generated,
 	\item then the node classes are generated,
@@ -556,24 +557,24 @@ This occurs for the global namespace and also by-package for the available model
 \end{enumerate}
 
 Additionally, the (database-like) indices are generated by \texttt{Model\-Index\-Gen}, and functionality regarding external extensions by \texttt{Model\-External\-Gen}.
-\texttt{Model\-Index\-Gen} generates first the index types with \texttt{gen\-Index\-Types} (they inherit from \texttt{IAttribute\-Index} or \texttt{IIncidence\-Count\-Index}, and contain diverse \texttt{Lookup} functions), then the index implementations with \texttt{gen\-Index\-Implementations} (each being an implementation of an AA-tree consisting of event handlers that are notified about graph changes, the maintenance functions for insertion, deletion and tree rebalancing, and the implementation of the lookup functions from the interface returning data from the tree), and finally the overall index set with \texttt{gen\-Index\-Set\-Type}.
+\texttt{Model\-Index\-Gen} generates first the index types with \texttt{Gen\-Index\-Types} (they inherit from \texttt{IAttribute\-Index} or \texttt{IIncidence\-Count\-Index}, and contain diverse \texttt{Lookup} functions), then the index implementations with \texttt{Gen\-Index\-Implementations} (each being an implementation of an AA-tree consisting of event handlers that are notified about graph changes, the maintenance functions for insertion, deletion and tree rebalancing, and the implementation of the lookup functions from the interface returning data from the tree), and finally the overall index set with \texttt{Gen\-Index\-Set\-Type}.
 
 
 \subsubsection*{Rule Representation Pass}
 
-The code generation emitting the actions -- better their representation -- is implemented in \texttt{ActionsGen} (entry point \texttt{gen\-Actionlike}), with the main functionality (the LHS pattern descriptions and the RHS pattern implementations, in this section we concentrate on the former) in the code called from \texttt{gen\-Subpattern} for the subpatterns and \texttt{gen\-Action} for the rules and tests.
+The code generation emitting the actions -- better their representation -- is implemented in \texttt{ActionsGen} (entry point \texttt{Gen\-Actionlike}), with the main functionality (the LHS pattern descriptions and the RHS pattern implementations, in this section we concentrate on the former) in the code called from \texttt{Gen\-Subpattern} for the subpatterns and \texttt{Gen\-Action} for the rules and tests.
 
-The main functionality is complemented by the code called from \texttt{gen\-Sequence}, \texttt{gen\-Functions}, \texttt{gen\-Procedures}, \texttt{gen\-Filter\-Functions}, \texttt{gen\-Match\-Class\-Filter\-Functions}, and finally \texttt{gen\-Match\-Classes}.
+The main functionality is complemented by the code called from \texttt{Gen\-Sequence}, \texttt{Gen\-Functions}, \texttt{Gen\-Procedures}, \texttt{Gen\-Filter\-Functions}, \texttt{Gen\-Match\-Class\-Filter\-Functions}, and finally \texttt{Gen\-Match\-Classes}.
 This occurs for the global namespace and also by-package for the available action packages.
 
-Then the representation classes of the external functions and procedures are generated with \texttt{gen\-External\-Function\-Infos} and \texttt{gen\-External\-Procedure\-Infos}, and finally the actions representation class (which is inheriting from \texttt{LGSP\-Rule\-And\-Matching\-Patterns}).
+Then the representation classes of the external functions and procedures are generated with \texttt{Gen\-External\-Function\-Infos} and \texttt{Gen\-External\-Procedure\-Infos}, and finally the actions representation class (which is inheriting from \texttt{LGSP\-Rule\-And\-Matching\-Patterns}).
 
 Regarding the main functionality:
-in a prerun from \texttt{gen\-Rule\-Or\-Subpattern\-Class\-Entities} on, some needed entities are generated, e.g. type arrays for the allowed types of the pattern elements (the arrays are only filled if the base type was constrained), or indexing enums, which map the pattern element names to their index in the arrays of the matched host graph elements in the match objects of the generic match interface.
+in a prerun from \texttt{Gen\-Rule\-Or\-Subpattern\-Class\-Entities} on, some needed entities are generated, e.g. type arrays for the allowed types of the pattern elements (the arrays are only filled if the base type was constrained), or indexing enums, which map the pattern element names to their index in the arrays of the matched host graph elements in the match objects of the generic match interface.
 
-In the rule representation pass, from \texttt{gen\-Rule\-Or\-Subpattern\-Init} on, the subpattern- or rule representations of type \texttt{Matching\-Pattern} or \texttt{Rule\-Pattern} are generated, including the contained \texttt{Pattern\-Graph}-objects for the (nested) pattern graph(s), by mutually recursive calls of \texttt{gen\-Pattern\-Graph} and \texttt{gen\-Elements\-Required\-By\-Pattern\-Graph} (the former assembling the rule representation with the elements generated by the latter).
+In the rule representation pass, from \texttt{Gen\-Rule\-Or\-Subpattern\-Init} on, the subpattern- or rule representations of type \texttt{Matching\-Pattern} or \texttt{Rule\-Pattern} are generated, including the contained \texttt{Pattern\-Graph}-objects for the (nested) pattern graph(s), by mutually recursive calls of \texttt{Gen\-Pattern\-Graph} and \texttt{Gen\-Elements\-Required\-By\-Pattern\-Graph} (the former assembling the rule representation with the elements generated by the latter).
 
-The method \texttt{gen\-Elements\-Required\-By\-Pattern\-Graph} generates for a pattern graph its contained elements, the pattern nodes, the pattern edges, the used subpatterns as \texttt{Pattern\-Graph\-Embedding} members, the contained alternatives, and the iterateds; the representations of contained negative and independent patterns as well as alternative cases are generated by \texttt{gen\-Pattern\-Graph} before the containing pattern. 
+The method \texttt{Gen\-Elements\-Required\-By\-Pattern\-Graph} generates for a pattern graph its contained elements, the pattern nodes, the pattern edges, the used subpatterns as \texttt{Pattern\-Graph\-Embedding} members, the contained alternatives, and the iterateds; the representations of contained negative and independent patterns as well as alternative cases are generated by \texttt{Gen\-Pattern\-Graph} before the containing pattern. 
 
 A graph element contained in a pattern, but defined in a nesting pattern, is saved in the pattern as a reference to the element in the nesting pattern. 
 The \texttt{Pattern\-Graph} in which it was used first is remembered in a \texttt{Point\-Of\-Definition} member variable (in the generated code, but a similar scheme is used in the compiler frontend).
@@ -585,7 +586,7 @@ The split into constructor and \texttt{initialize} method is needed because a re
 
 Furthermore, local and global homomorphy tables for the nodes and the edges are generated, defining which pattern elements are allowed to match the same host graph element (the global tables specify the homomorphy in between elements from the \texttt{Pattern\-Graph} of an alternative case or an iterated, and an enclosing \texttt{Pattern\-Graph}).
 
-Additionally, expression trees for the attribute checks and statement blocks for the yieldings are generated, by \texttt{gen\-Expression\-Tree} and \texttt{gen\-Yield} from \texttt{Actions\-Expression\-Or\-Yielding\-Gen}, called by \texttt{gen\-Pattern\-Condition} and \texttt{gen\-Pattern\-Yielding}; the entities referenced in them are gathered by \texttt{collect\-Needed\-Entities}.
+Additionally, expression trees for the attribute checks and statement blocks for the yieldings are generated, by \texttt{Gen\-Expression\-Tree} and \texttt{Gen\-Yield} from \texttt{Actions\-Expression\-Or\-Yielding\-Gen}, called by \texttt{Gen\-Pattern\-Condition} and \texttt{Gen\-Pattern\-Yielding}; the entities referenced in them are gathered by \texttt{Collect\-Needed\-Entities}.
 The real code for these representations is emitted in the \texttt{engine-net-2}-backend as is the real code (the pattern matchers) for the pattern representations.
 
 Then the rewrite code pass is executed (explained in more detail further below), followed by the handling of embedded sequences.
@@ -593,18 +594,18 @@ Then the rewrite code pass is executed (explained in more detail further below),
 For embedded sequences, representations in form of \texttt{LGSP\-Embedded\-Sequence\-Info} objects are generated, which contain the sequence as string, plus additional parameter information; the real sequence code is generated in the \texttt{engine-net-2} backend.
 For sequences embedded in alternatives, iterateds, or subpatterns, additionally closure classes inheriting from \texttt{LGSP\-Embedded\-Sequence\-Closure} are generated.
 They store the graph elements the pattern elements from the pattern containing the exec were bound to; the sequence execution function is then called on this closure, which is stored in a queue, and executed from the top level rule.
-This is carried out in \texttt{ActionsExecGen}; the representations of the non-embedded defined sequences bearing a name are directly emitted in \texttt{gen\-Sequence} of \texttt{ActionsGen}.
+This is carried out in \texttt{ActionsExecGen}; the representations of the non-embedded defined sequences bearing a name are directly emitted in \texttt{Gen\-Sequence} of \texttt{ActionsGen}.
 
-Finally (the exact) match classes are generated by calls of \texttt{gen\-Match} utilizing \texttt{Actions\-Match\-Gen}, for every pattern besides negative patterns an interface and a class implementing this interface (they are not to be confused with the match class types defined by the user directly, getting emitted by calls of \texttt{gen\-Match\-Class}, utilizing the same \texttt{Actions\-Match\-Gen}).
+Finally (the exact) match classes are generated by calls of \texttt{Gen\-Match} utilizing \texttt{Actions\-Match\-Gen}, for every pattern besides negative patterns an interface and a class implementing this interface (they are not to be confused with the match class types defined by the user directly, getting emitted by calls of \texttt{Gen\-Match\-Class}, utilizing the same \texttt{Actions\-Match\-Gen}).
 The match classes are instantiated after a match of the corresponding pattern was found, giving a highly convenient and type safe interface to the matched entities at API level.
 
-Note that \texttt{gen\-Function}, \texttt{gen\-Procedure}, \texttt{gen\-Filter\-Function}, and \texttt{gen\-Match\-Class\-Filter\-Function} are largely using \texttt{Modify\-Eval\-Gen} to generate the body with their functionality (besides their interfaces/representations), the procedures that may contain embedded sequences also utilize \texttt{Modify\-Exec\-Gen}.
+Note that \texttt{Gen\-Function}, \texttt{Gen\-Procedure}, \texttt{Gen\-Filter\-Function}, and \texttt{Gen\-Match\-Class\-Filter\-Function} are largely using \texttt{Modify\-Eval\-Gen} to generate the body with their functionality (besides their interfaces/representations), the procedures that may contain embedded sequences also utilize \texttt{Modify\-Exec\-Gen}.
 
-For the actions in the narrow sense (rules and tests), some further (match processing) helper code is emitted by \texttt{gen\-Extractor}, \texttt{emit\-Convert\-As\-Needed\-Helper} and \texttt{gen\-Array\-Sort\-By}.
+For the actions in the narrow sense (rules and tests), some further (match processing) helper code is emitted by \texttt{Gen\-Extractor}, \texttt{Emit\-Convert\-As\-Needed\-Helper} and \texttt{Gen\-Array\-Sort\-By}.
 
 
 \subsubsection*{Rewrite Code Pass}
-In the rewrite pass (a virtual pass woven into the code generation, not being a separate top-level pass in its strict sense in the code generation), the rewrite code gets generated, via \texttt{gen\-Modify} of \texttt{Modify\-Gen}.
+In the rewrite pass (a virtual pass woven into the code generation, not being a separate top-level pass in its strict sense in the code generation), the rewrite code gets generated, via \texttt{Gen\-Modify} of \texttt{Modify\-Gen}.
 The nesting of negative or independent patterns does not need to be taken care of here, as they come without rewrite parts.
 
 For every pattern piece and its rewrite role (dependent rewriting, creation, deletion) are local rewrite methods generated, carrying out the complete rewriting by calling each other at runtime.
@@ -617,7 +618,7 @@ For alternatives and iterateds, dispatching methods are generated, calling the r
 Rewrite parameters are mapped to local parameters of the rewrite methods.
 %potential todo: crisp and uniform usage of pattern and graph, the basic scheme is pattern matched in graph (non-graph pattern? when speaking about rules as in the actions code-generation always only patterns?)
 
-The core method of rewrite code generation named \texttt{gen\-Modify\-Rule\-Or\-Subrule} generates the rewriting of the given pattern and the calls to the rewrite methods of the nested patterns.
+The core method of rewrite code generation named \texttt{Gen\-Modify\-Rule\-Or\-Subrule} generates the rewriting of the given pattern and the calls to the rewrite methods of the nested patterns.
 The rewrite methods of the nested patterns are prefixed with their nesting path, in order to avoid name conflicts, which may occur as they are placed flatly in their \texttt{Matching\-Pattern} or \texttt{Rule\-Pattern}.
 Their role is distinguished by one of the name postfixes \texttt{Modify}, \texttt{Create} or \texttt{Delete}; for keeping a graph unmodified obviously no methods are needed.
 
