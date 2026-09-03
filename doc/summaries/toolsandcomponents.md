@@ -7,8 +7,8 @@
 - SQLite/ADO.NET drivers: public domain
 
 ### Runtime Requirements
-- Executing: .NET Framework 4.7.2+ or Mono 5.10+
-- Compiling/debugging with yComp: additionally Java 1.8+
+- Executing and compiling: .NET Framework 4.7.2+ or Mono 5.10+
+- Debugging with yComp: additionally Java 1.8+
 - Binaries are in the `bin` subdirectory
 
 ### GrGen.exe (Compiler Driver)
@@ -25,8 +25,9 @@
 - `-statistics <file>` -- optimize matchers for graphs described by statistics file (see GrShell `custom graph`)
 - `-lazynic` -- evaluate negatives/independents/conditions only at end of matching (not ASAP)
 - `-noinline` -- do not inline subpattern usages and independents
-- Invokes `grgen.jar` (Java frontend), then compiles generated C# to DLLs
-- Note: `java -jar grgen.jar -i yourfile.grg` dumps compiler IR as .vcg for visualization
+- Invokes `FrontendGrGen.exe` (C# frontend), then compiles generated C# to DLLs
+- Note: `FrontendGrGen.exe -i yourfile.grg` dumps compiler IR as .vcg for visualization
+- Note: `Unable to process specification: The system cannot find the file specified` → `FrontendGrGen.exe` not found; check that the `bin` directory is in the search path
 
 ### GrShell.exe (Command-Line Shell)
 - Usage: `[mono] GrShell.exe [-N] [-SI] [-C "<commands>"] [script.grs ...]`
@@ -85,5 +86,5 @@ Required for MSAGL graph viewer: `Microsoft.Msagl.dll`, `Microsoft.Msagl.Drawing
 - Java-based graph visualization tool; not part of GrGen.NET (academic license)
 - Usually launched by GrShell; manual: `java -jar yComp.jar [<graph-file>]`; or use `ycomp`/`ycomp.bat` batch scripts (with increased heap)
 - Supports VCG, GML, YGF file formats; several layout algorithms (hierarchic default; try organic or orthogonal)
-- Requires Java 1.5+; note: newer JVM versions may cause incompatibilities (use OpenJDK 1.8 if needed)
+- Requires Java 1.5+; if yComp doesn't start: check for stale `java` path entries; normally a JRE suffices, but a JDK on a non-system path may help; use OpenJDK 1.8 (or Oracle Java) if newer JVM versions cause incompatibilities
 - Communicates with GrShell via TCP (port 4242+)

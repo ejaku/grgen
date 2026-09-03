@@ -1,10 +1,11 @@
 # Developing GrGen (Internals)
 
 ### Building
-- Frontend: `cd frontend && make` (or make -f Makefile_Cygwin on Windows); yields `grgen.jar`
-  - IDE alternative: add `de/` subfolder + `jars/` to Eclipse; ANTLR parser generation must be done manually as pre-build step
-- Backend: VisualStudio 2022 solution in `engine-net-2/`; VisualStudio 2017 requires uncommenting binding redirects in `app.config` files
+- Frontend: VisualStudio 2022 solution `frontend/Frontend.sln`; yields `FrontendGrGen.exe` (now C#, previously Java, yielding `grgen.jar`)
+  - Before building: run `./genparser.sh` (Linux) or `./genparser.bat` (Windows) to generate ANTLR parsers for model/actions languages and embedded/compiled sequences
+- Backend: VisualStudio 2022 solution `engine-net-2/EngineNet2.sln`; VisualStudio 2017 requires uncommenting binding redirects in `app.config` files
   - Before building: run `./genparsers.sh` (Linux) or `./genparsers.bat` (Windows) to generate CSharpCC parsers for sequences, constant literals, and shell
+- Combined build: `GrGen.sln` builds frontend + engine-net-2 (without parser generation steps)
 - Full build Linux: `./make_linux.sh` (uses `dotnet build`; mdtool/MonoDevelop no longer works since SDK-style projects)
   - Development: VSCode + C# extension + Mono Debug extension; `dotnet` for build, `mono` still required for running/debugging (.NET Framework target)
 - Full build Windows: `./make_cygwin_windows.sh` (uses `dotnet`; the official releases are built with VisualStudio/`msbuild`)
@@ -16,11 +17,11 @@
 ### Testing
 - Frontend tests: `cd frontend/test && ./test.sh` (should_pass/should_fail/should_warn)
   - Known failures: 3 math tests on Mono/Linux due to minor numeric differences
-- Frontend unit tests (JUnit4): `cd frontend && ./unittest/make_unittest.sh` (also builds frontend)
+- Frontend unit tests (NUnit3): `cd frontend/unittest && dotnet test` (acceptance tests, limited coverage)
 - Backend semantic tests: `cd engine-net-2/tests && ./test.sh` (compares output against `.grs.data` files)
 - Backend NUnit3 unit tests: `cd engine-net-2/unittests/GraphAndModelTests && dotnet test`
 - Examples smoke tests: `cd engine-net-2/examples && ./test.sh`
-- Thorough parallelization/profiling coverage: manually force parallelization (search `uncomment` in `Unit.java`) or profiling (search `uncomment` in `GrGen.cs`)
+- Thorough parallelization/profiling coverage: manually force parallelization (search `uncomment` in `Unit.cs`) or profiling (search `uncomment` in `GrGen.cs`)
 
 ### Internal Graph Representation
 - **Type ringlists**: doubly-linked per-type list of all node/edge instances; head stored in array indexed by type; `typeNext`/`typePrev` fields in graph elements
@@ -55,26 +56,27 @@
 - Isomorphy checking: flags in graph elements (set on bind, reset on unbind); one flag per negative/independent nesting level up to implementation limit, then list of dictionaries; iso-check scheduling pass avoids redundant checks when types already rule out identity
 
 ### Code Generator Architecture — Frontend
-Frontend directories: `parser` (ANTLR grammar `Grgen.g`/`EmbeddedExec.g` + symbol table/scopes), `ast` (AST node classes with base `BaseNode`), `ir` (IR classes), `be` (backends), `util`, entry point `Main.java`
+Frontend directories: `parser` (ANTLR grammar `Grgen.g`/`EmbeddedExec.g` + symbol table/scopes), `ast` (AST node classes with base `BaseNode`), `ir` (IR classes), `be` (backends), `util`, entry point `Main.cs`
 
 **3-pass AST processing:**
-1. `resolve`/`resolveLocal` (preorder): replace identifier nodes with declaration nodes
-2. `check`/`checkLocal` (postorder): type and semantic checking
-3. `getIR`/`constructIR`: build IR from AST
+1. `Resolve`/`ResolveLocal` (preorder): replace identifier nodes with declaration nodes
+2. `Check`/`CheckLocal` (postorder): type and semantic checking
+3. `IR` property / `ConstructIR`: build IR from AST
 
-**IR classes** (`ir/`): `Rule` (rules, alternative cases, iterateds), `PatternGraphLhs` (all LHS patterns incl. negatives/independents; contains data flow analyses), `PatternGraphRhs`; noteworthy `ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern` from `Unit.java`
+**IR classes** (`ir/`): `Rule` (rules, alternative cases, iterateds), `PatternGraphLhs` (all LHS patterns incl. negatives/independents; contains data flow analyses), `PatternGraphRhs`; noteworthy `EnsureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern` from `Unit.cs`
 
 **Frontend backends:**
-- `be/C`: C backend for IPD C compiler (FIRM-based); not used by GrGen.NET
+- `be/C`: C backend for IPD C compiler (FIRM-based); exists only in SCM history, not in the active source tree
 - `be/Csharp`: generates `FooModel.cs` (model) and `FooActions_intermediate.cs` (pattern specs, embedded sequences, rewrite code) — does NOT generate matcher code (that is done by `grgen.exe` utilizing `lgspBackend`)
 
-**Model generation** (`ModelGen`): enums → node classes → node model → edge classes → edge model → graph model; 3 classes per node/edge type: interface (user-visible attributes), implementation (inherits `LGSPNode`/`LGSPEdge`), type-representation (inherits `NodeType`/`EdgeType`); plus `ModelIndexGen`, `ModelExternalGen`
+**Model generation** (`ModelGen`, entry point `GenModel`): enums → node classes → node model → edge classes → edge model → graph model; 3 classes per node/edge type: interface (user-visible attributes), implementation (inherits `LGSPNode`/`LGSPEdge`), type-representation (inherits `NodeType`/`EdgeType`); plus `ModelIndexGen` (`GenIndexTypes`, `GenIndexImplementations`, `GenIndexSetType`), `ModelExternalGen`
 
-**Rule representation pass** (`ActionsGen`): generates `MatchingPattern`/`RulePattern`/`PatternGraph` C# classes/object building code describing the subpatterns/rules/patterns; homomorphy tables (local + global); match classes (`ActionsMatchGen`); embedded sequences as `LGSPEmbeddedSequenceInfo`; closure classes (`LGSPEmbeddedSequenceClosure`) for sequences in alternatives/iterateds/subpatterns (`ActionsExecGen`); condition expressions and yield statements via `ActionsExpressionOrYieldingGen`
+**Rule representation pass** (`ActionsGen`, entry point `GenActionlike`): generates `MatchingPattern`/`RulePattern`/`PatternGraph` C# classes/object building code; called from `GenSubpattern`/`GenAction` (main); `GenSequence`, `GenFunctions`, `GenProcedures`, `GenFilterFunctions`, `GenMatchClassFilterFunctions`, `GenMatchClasses`; `GenExternalFunctionInfos`/`GenExternalProcedureInfos`; homomorphy tables (local + global); match classes via `GenMatch`/`GenMatchClass` (`ActionsMatchGen`); embedded sequences as `LGSPEmbeddedSequenceInfo`; closure classes (`LGSPEmbeddedSequenceClosure`) for sequences in alternatives/iterateds/subpatterns (`ActionsExecGen`); condition expressions and yield statements via `GenExpressionTree`/`GenYield` from `ActionsExpressionOrYieldingGen`; needed entities gathered by `CollectNeededEntities`; prerun via `GenRuleOrSubpatternClassEntities`; rule representations from `GenRuleOrSubpatternInit` via mutually recursive `GenPatternGraph`/`GenElementsRequiredByPatternGraph`
 - Elements defined in a nesting pattern carry a `PointOfDefinition` member recording the first `PatternGraph` in which they appear
 - All elements are created flatly in `MatchingPattern.initialize()`; `pathPrefix` parameter prevents name clashes across nesting levels
+- Further helpers: `GenExtractor`, `EmitConvertAsNeededHelper`, `GenArraySortBy`; `GenFunction`/`GenProcedure`/`GenFilterFunction`/`GenMatchClassFilterFunction` use `ModifyEvalGen`/`ModifyExecGen`
 
-**Rewrite code pass** (`ModifyGen`): local rewrite methods per pattern piece with roles Modify/Create/Delete; `ModifyGenerationState`/`ModifyGenerationTask`; eval blocks (`ModifyEvalGen`), exec calls (`ModifyExecGen`)
+**Rewrite code pass** (`ModifyGen`, entry point `GenModify`, core method `GenModifyRuleOrSubrule`): local rewrite methods per pattern piece with roles Modify/Create/Delete; `ModifyGenerationState`/`ModifyGenerationTask`; eval blocks (`ModifyEvalGen`), exec calls (`ModifyExecGen`)
 
 ### Code Generator Architecture — Backend (lgspBackend)
 Main driver: `lgspMatcherGenerator.cs`; operates on `PatternGraph` nesting in `RulePattern`/`MatchingPattern` objects;
@@ -107,7 +109,7 @@ generates matcher code from rule and pattern representations
 - Importers/exporters in `src/libGr/IO`
 - **Graph comparison**: `InterpretationPlanBuilder` builds `InterpretationPlan` from a pattern; `Execute` runs it; after N uses auto-compiles to speed up (see `lgspBackend/GraphComparison/`)
 - Filter implementations: `FilterGenerator.cs` for auto-generated filters, `SymmetryChecker.cs` for automorph filter; auto-supplied filters in `libGr/matchesHelper.cs` and `lgspBackend/Actions/lgspMatches.cs`
-- `src/GrGen/`: driver of `grgen.exe` compiler (calls Java frontend, extends and compiles generated C# code)
+- `src/GrGen/`: driver of `grgen.exe` compiler (calls `FrontendGrGen.exe`, extends and compiles generated C# code)
 
 ### GrShell and Debugger Internals
 - `src/GrShell` and `src/libGrShell`: uses sequence interpretation + generic libGr interface (works with arbitrary models/actions at runtime)

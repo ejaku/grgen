@@ -6,4 +6,4 @@
 - **Understandability**: Declarative rules close to mathematical notation; visual debugging
 - **Development convenience**: Rapid prototyping with GrShell; integration via C# API
 - **Well-founded semantics**: Based on SPO graph rewriting theory
-- **Platform independence**: Runs on .NET and Mono (Windows, Linux)
+- **Platform independence**: Primarily C# (.NET/Mono); Java only needed to build GrGen itself (some parsers) and to run yComp

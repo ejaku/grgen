@@ -7,7 +7,7 @@
 - **Shell Language** (`.grs`) -- interactive/scripted graph manipulation and rule execution via GrShell
 
 ### Tools
-- **GrGen.exe** -- compiler driver: invokes Java frontend, compiles generated C# into DLLs
+- **GrGen.exe** -- compiler driver: invokes `FrontendGrGen.exe` (C# frontend), compiles generated C# into DLLs
 - **GrShell.exe** -- command-line shell for interactive use and scripting
 - **GGrShell.exe** -- GUI shell (Windows Forms)
 - **yComp** -- Java-based graph viewer (external, communicates via TCP)
