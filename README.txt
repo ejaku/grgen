@@ -1,5 +1,5 @@
-GrGen.NET v8.1 (2026-05-14)
----------------------------
+GrGen.NET > v8.1 (2026-09-03)
+-----------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
@@ -20,9 +20,10 @@ INSTALL
 -------
 
 You need the following system setup for GrGen.NET:
-  - Microsoft .NET Framework 4.7.2 or above
-    OR Mono 5.10.0 or above
-  - Java 1.8 (RE) or above (during development of your graph rewrite system)
+  - Microsoft .NET Framework 4.7.2 or above (Windows)
+    OR Mono 5.10.0 or above (Linux)
+
+For the graph viewer yComp you addtionally need Java 1.8 (RE) or above.
 
 For Linux:
   - Unpack GrGenNET.tar.bz2 to a folder of your choice (referred to
@@ -50,13 +51,6 @@ For Windows:
     ATTENTION: Do NOT add ""s around any part of the path, even if it
       contains spaces! Otherwise yComp, our graph visualisation tool, will not
       run out of GrShell!
-
-    If you run into "Unable to process specification: 
-    The system cannot find the file specified" errors, 
-    you may need to install a JDK to a non system path
-    and add the bin folder of the JDK to the path variable.
-    (Normally just installing a JRE is sufficient.)
-    Or you may need to remove a wrong java folder from the system path.
 
 
 RUN

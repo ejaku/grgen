@@ -2,7 +2,7 @@ COMPONENTS AND APPLICATIONS / SOFTWARE BILL OF MATERIALS
 --------------------------------------------------------
 
 GrGen.exe: C#/.NET compiler application
-- uses grgen.jar compiler frontend
+- uses FrontendGrGen.exe compiler frontend
 - pattern matcher and sequence code generation, utilizing a few of the components mentioned below (esp. sequence parsing)
 
 (G)GrShell: C#/.NET shell application
@@ -22,7 +22,7 @@ External libraries/programs:
 - the MSAGL library for graph drawing, in its Windows Forms version
 - the SQLite database for persistent storage of the graph
 
-grgen.jar: JAVA compiler frontend
+FrontendGrGen.exe: compiler frontend (formerly grgen.jar)
 - model code, pattern specification and rewrite code generation, plus sequences checking
 - ANTLR-generated parsers for the model and the actions language, as well as the sequence language (compiled embedded sequences)
 
@@ -54,9 +54,8 @@ In order to visualize graphs with graphviz, you have to install the correspondin
 Developing a graph rewrite system with GrGen.exe (compilation without debugging)
  model and actions specification files are compiled with GrGen to model and actions dlls
 This needs the same as "Running a generated graph rewrite system" without additions,
-additionally the GrGen compiler frontend grgen.jar is required,
-it needs antlr-runtime-3.4.jar (and utilizes the jargs library from https://github.com/purcell/jargs)
-Prerequisite: JAVA (RE)
+additionally the GrGen compiler frontend Frontend.exe is required,
+it needs Antlr3.Runtime.dll (and utilizes a C# port of the jargs library from https://github.com/purcell/jargs)
 
 Running a generated graph rewrite system from the execution host GrShell.exe
  as an interactive workbench application or a script execution host

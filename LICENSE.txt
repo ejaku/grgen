@@ -1,6 +1,6 @@
 Copyright (C) 2003-2026 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 8.1
+This file is part of GrGen, Version GrGen.NET > 8.1
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -39,6 +39,8 @@ to non-commercial purposes (research, teaching, projects, courses and applicatio
 Regarding batik.jar likely from the apache xmlgraphics batik project used in yComp for svg functionality:
 the Apache License Version 2.0 holds, see batik.txt in the licenses folder.
 
+Regarding antlr-3.1.1.jar a BSD-like license holds, see ANTLR3.txt.
+
 --------
 
 Regarding the MSAGL (Microsoft Automatic Graph Layout library) the following holds:
@@ -56,16 +58,15 @@ Imported via nuget package System.Data.SQLite 2.0.2 and SourceGear.sqlite3 3.50.
 
 --------
 
-Regarding the ANTLR binaries a BSD-like license holds, see ANTLR3.txt.
- (The ANTLR 3.4 runtimes are needed when using grgen.jar, i.e. the GrGen compiler frontend,
-  ANTLR 3.4 complete is needed when building grgen.jar,
-  ANTLR 3.1.1 is needed by yComp.)
-
-Regarding the jargs library used in grgen.jar for parsing the command line arguments a BSD-like license holds, see jargs.txt.
-
-Regarding junit-4.13.2.jar used for testing the frontend java classes the Eclipse Public License holds, see junit.txt contained in the jar itself.
-Regarding hamcrest-core-1.3.jar used for testing the frontend java classes the BSD License holds, see LICENSE.txt contained in the jar itself.
- (They are only needed when unit-testing GrGen itself (and excluded from the binary release).)
+The compiler frontend FrontendGrGen.exe employs ANTLR 3.5.0.2 .NET version
+ from https://theantlrguy.atlassian.net/wiki/spaces/ANTLR3/pages/2686980/Antlr3CSharpReleases
+This means: it needs Antlr3.Runtime.dll at runtime
+And at compile time Antlr3.exe (which also needs the runtime)
+ It is contained in the frontend sources, the runtime in the bin folder
+Regarding it, a BSD-like license holds, see ANTLR3_NET.txt
+   
+The jargs library is used in FrontendGrGen.exe for parsing the command line arguments,
+ in its source version, ported to C#; a BSD-like license holds, see jargs.txt.
 
 --------
 
