@@ -142,10 +142,10 @@ namespace de.unika.ipd.grgen
 			Console.WriteLine("  -r  --profile                     emit profiling instrumentation");
 			Console.WriteLine("  -a, --dump-ast                    dump the AST");
 			Console.WriteLine("  -i, --dump-ir                     dump the intermidiate representation");
-			Console.WriteLine("  -j, --dump-ir-rules               dump each ir rule in a seperate file");
+			Console.WriteLine("  -j, --dump-ir-rules               dump each ir rule in a seperate file (requires -i)");
 			Console.WriteLine("  -b, --backend=BE                  select backend BE");
-			Console.WriteLine("  -f, --debug-filter=REGEX          only debug messages matching this filter will be displayd");
-			Console.WriteLine("  -F, --inverse-debug-filter=REGEX  only debug messages not matching this filter will be displayd");
+			Console.WriteLine("  -f, --debug-filter=REGEX          only debug messages matching this filter will be displayd (requires -d)");
+			Console.WriteLine("  -F, --inverse-debug-filter=REGEX  only debug messages not matching this filter will be displayd (requires -d)");
 			Console.WriteLine("  -o, --output=DIRECTORY            write generated files to DIRECTORY");
 			Console.WriteLine("  -v, --noactionevents              the generated code may not fire action events");
 			Console.WriteLine("  -e, --noattributeevents           the generated code may not fire attribute change events");
@@ -224,14 +224,14 @@ namespace de.unika.ipd.grgen
 					}
 				}
 
-				dumpAST = parser.GetOptionValue(astDumpOpt);// != null;
-				dumpIR = parser.GetOptionValue(irDumpOpt);// != null;
-				dumpRules = parser.GetOptionValue(ruleDumpOpt);// != null;
-				enableDebug = parser.GetOptionValue(debugOpt);// != null;
-				emitProfiling = parser.GetOptionValue(profOpt);// != null;
-				printTiming = parser.GetOptionValue(timeOpt);// != null;
-				noEvents = parser.GetOptionValue(noEventsOpt);// != null;
-				noDebugEvents = parser.GetOptionValue(noDebugEventsOpt);// != null;
+				dumpAST = parser.GetOptionValue(astDumpOpt);
+				dumpIR = parser.GetOptionValue(irDumpOpt);
+				dumpRules = parser.GetOptionValue(ruleDumpOpt);
+				enableDebug = parser.GetOptionValue(debugOpt);
+				emitProfiling = parser.GetOptionValue(profOpt);
+				printTiming = parser.GetOptionValue(timeOpt);
+				noEvents = parser.GetOptionValue(noEventsOpt);
+				noDebugEvents = parser.GetOptionValue(noDebugEventsOpt);
 
 				debugFilter = (string)parser.GetOptionValue(debugFilterOpt);
 				invDebugFilter = (string)parser.GetOptionValue(invDebugFilterOpt);
@@ -405,7 +405,11 @@ namespace de.unika.ipd.grgen
 
 		private void GenerateCode()
 		{
-			Debug.Assert(!string.ReferenceEquals(backend, null), "backend must be set to generate code.");
+			if(string.ReferenceEquals(backend, null))
+			{
+				Console.WriteLine("backend must be set to generate code - defaulting to de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2");
+				backend = "de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2";
+			}
 
 			try
 			{
@@ -577,8 +581,8 @@ namespace de.unika.ipd.grgen
 
 			debug.Report(NOTE, "### Generate Code ###");
 			codeGen = -DateTimeHelper.CurrentUnixTimeMillis();
-			if(!string.ReferenceEquals(backend, null))
-				GenerateCode();
+
+			GenerateCode();
 			codeGen += DateTimeHelper.CurrentUnixTimeMillis();
 
 			debug.Report(NOTE, "### done. ###");
