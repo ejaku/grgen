@@ -1,0 +1,12 @@
+using array_model_001b;
+
+rule addAllToArray {
+	a:A;
+	
+	modify {
+		eval {
+			def ref arr:array<int> = array<int>[];
+			arr.addAll(a.niceArray);
+		}
+	}
+}

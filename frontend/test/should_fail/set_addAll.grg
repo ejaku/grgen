@@ -1,0 +1,12 @@
+using set_model_002;
+
+rule addAllToSet {
+	a:A;
+
+	modify {
+		eval {
+			def ref se:set<int> = set<int>{};
+			se.addAll(a.niceSet);
+		}		
+	}
+}

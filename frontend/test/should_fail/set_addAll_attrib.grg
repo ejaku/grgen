@@ -1,0 +1,11 @@
+using set_model_002;
+
+rule addAllToSet {
+	a:A;
+
+	modify {
+		eval {
+			a.niceSet.addAll(array<string>[ "yeah", a.niceSet.peek(0) ]);
+		}		
+	}
+}
