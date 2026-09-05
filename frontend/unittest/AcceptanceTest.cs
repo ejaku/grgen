@@ -72,7 +72,7 @@ namespace unittest
         [Test]
         public void AllTypesWithAllTypesModel()
         {
-            Compile("all_types.grg", "all_types_model.gm");
+            Compile("all_types.grg");
             Assert.AreEqual(0, ErrorReporter.ErrorCount, "No errors after compilation");
             Assert.AreEqual(0, ErrorReporter.WarnCount, "No warnings after compilation");
         }
@@ -80,7 +80,7 @@ namespace unittest
         [Test]
         public void NestedAndSubpatterns()
         {
-            Compile("nested_and_subpatterns.grg", "nested_and_subpatterns_model.gm");
+            Compile("nested_and_subpatterns.grg");
             Assert.AreEqual(0, ErrorReporter.ErrorCount, "No errors after compilation");
             Assert.AreEqual(0, ErrorReporter.WarnCount, "No warnings after compilation");
         }
@@ -88,7 +88,7 @@ namespace unittest
         [Test]
         public void AdvancedConstructs()
         {
-            Compile("advanced_constructs.grg", "advanced_constructs_model.gm");
+            Compile("advanced_constructs.grg");
             Assert.AreEqual(0, ErrorReporter.ErrorCount, "No errors after compilation");
             Assert.AreEqual(0, ErrorReporter.WarnCount, "No warnings after compilation");
         }
