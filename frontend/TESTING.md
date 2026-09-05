@@ -36,21 +36,15 @@ Test outcomes:
 Results are written to `test/summary.log` (or `test/summary_fe.log` with `-f`) and compared against `test/summary_gold.log`.
 High coverage but slow execution.
 
-### JUnit Unit/Acceptance Tests (`unittest/`)
+### NUnit Unit/Acceptance Tests (`unittest/`)
 
 ```bash
-# Build frontend and run acceptance tests
-./unittest/make_unittest.sh
+cd unittest && dotnet test
 ```
 
-Quick-running JUnit 4 tests that exercise the full compiler pipeline (parse, AST, IR, code generation) on small `.grg`/`.gm` input files.
-The test files live in `unittest/` alongside `AcceptanceTest.java`.
+Quick-running NUnit 3 tests that exercise the full compiler pipeline (parse, AST, IR, code generation) on small `.grg`/`.gm` input files.
+The test files live in `unittest/` alongside `AcceptanceTest.cs`.
 Limited coverage but fast execution.
-
-Under Windows you have to use cygwin:
-```bash
-./unittest/make_unittest_cygwin.sh
-```
 
 ## Generating Test
 
