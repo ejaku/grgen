@@ -663,7 +663,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     guiConsoleDebuggerHost = null;
                     basicGraphViewerClientHost = null;
-                    if(graphViewerType != GraphViewerTypes.YComp)
+                    if(GraphViewerBaseClient.IsInternalGraphViewer(graphViewerType))
                     {
                         IHostCreator hostCreator = GraphViewerClient.GetGuiConsoleDebuggerHostCreator();
                         guiConsoleDebuggerHost = GetDebugOptionGui() ? hostCreator.CreateGuiDebuggerHost() : hostCreator.CreateGuiConsoleDebuggerHost(GetDebugOptionTwoPane());
@@ -676,7 +676,7 @@ namespace de.unika.ipd.grGen.grShell
                         TheDebuggerConsoleUIForDataRendering = GetDebugOptionTwoPane() ? guiConsoleDebuggerHost.OptionalGuiConsoleControl : guiConsoleDebuggerHost.GuiConsoleControl;
                     }
                     debugger = new Debugger(this, impl.curShellProcEnv, impl.realizers, graphViewerType, impl.debugLayout, optMap, basicGraphViewerClientHost);
-                    if(graphViewerType != GraphViewerTypes.YComp)
+                    if(GraphViewerBaseClient.IsInternalGraphViewer(graphViewerType))
                     {
                         guiConsoleDebuggerHost.Debugger = debugger;
                         guiConsoleDebuggerHost.Show();
@@ -835,7 +835,7 @@ namespace de.unika.ipd.grGen.grShell
                 return GraphViewer.ShowGraphWithMSAGL(impl.curShellProcEnv, false, impl.debugLayout, programName, arguments, keep);
             else if(programName.Equals("MSAGLExt", StringComparison.InvariantCultureIgnoreCase))
                 return GraphViewer.ShowGraphWithMSAGL(impl.curShellProcEnv, true, impl.debugLayout, programName, arguments, keep);
-            else
+            else // yComp and extMSAGLExt
                 return GraphViewer.ShowVcgGraph(impl.curShellProcEnv, impl.debugLayout, programName, arguments, keep);
         }
     }

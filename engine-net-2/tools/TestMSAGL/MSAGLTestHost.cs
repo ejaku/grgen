@@ -19,7 +19,7 @@ namespace TestMSAGL
         {
         }
 
-        YCompServerProxy yCompServerProxy;
+        YCompStarter yCompStarter;
         BasicGraphViewerClientHost msaglClientHost;
         IBasicGraphViewerClient graphViewer;
 
@@ -31,9 +31,9 @@ namespace TestMSAGL
         {
             if(comboBoxGraphViewerChooser.SelectedItem as string == "yComp")
             {
-                yCompServerProxy = new YCompServerProxy(YCompServerProxy.GetFreeTCPPort());
+                yCompStarter = new YCompStarter(YCompStarter.GetFreeTCPPort());
                 int connectionTimeout = 20000;
-                int port = yCompServerProxy.port;
+                int port = yCompStarter.port;
                 graphViewer = new YCompClient(connectionTimeout, port);
             }
             else

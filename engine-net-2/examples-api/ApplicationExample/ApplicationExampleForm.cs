@@ -291,11 +291,12 @@ namespace ApplicationExample
 
             DebuggerEnvironment debuggerEnv = null;
             Debugger debugger = null;
-            if(graphViewerType == GraphViewerTypes.YComp)
+            if(graphViewerType == GraphViewerTypes.YComp || graphViewerType == GraphViewerTypes.ExtMSAGLExt)
             {
                 debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance, null);
+                string layoutMethod = graphViewerType == GraphViewerTypes.YComp ? "Organic"/*"Hierarchic"*/ : "MDS"/*"SugiyamaScheme"*/;
                 debugger = new Debugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
-                    graphViewerType, "Organic"/*"Hierarchic"*/, optMap, null);
+                    graphViewerType, layoutMethod, optMap, null);
             }
             else
             {

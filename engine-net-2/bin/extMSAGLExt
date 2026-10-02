@@ -1,0 +1,8 @@
+#! /bin/sh
+EXTMSAGLEXT=`readlink -f "$0"`
+EXTMSAGLEXT_HOME=`dirname "$EXTMSAGLEXT"`
+if which mono &> /dev/null; then
+	mono "$EXTMSAGLEXT_HOME/extMSAGLExt.exe" ${1+"$@"}
+else
+	"$EXTMSAGLEXT_HOME/extMSAGLExt.exe" ${1+"$@"}
+fi

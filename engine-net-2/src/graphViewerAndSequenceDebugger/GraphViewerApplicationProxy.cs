@@ -23,13 +23,13 @@ using de.unika.ipd.grGen.libGr;
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     /// <summary>
-    /// Class starting the yComp server (on a specific socket)
+    /// Base class for starting the graph viewer application server (on a specific socket)
     /// </summary>
-    public class YCompServerProxy
+    public abstract class GraphViewerApplicationStarter
     {
         /// <summary>
         /// Searches for a free TCP port in the range 4242-4251.
-        /// To be called in order to obtain a free yComp port to i) start yComp at ii) communicate with yComp.
+        /// To be called in order to obtain a free port to i) start the graph viewer application server at ii) communicate with it.
         /// </summary>
         /// <returns>A free TCP port, or throws an exception if all are occupied</returns>
         public static int GetFreeTCPPort()
@@ -72,11 +72,28 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
+        /// Ends the yComp process.
+        /// </summary>
+        public void Close()
+        {
+            viewerProcess.Close();
+        }
+
+        public Process viewerProcess;
+        public int port;
+    }
+
+    /// <summary>
+    /// Class starting the yComp server (on a specific socket)
+    /// </summary>
+    public class YCompStarter : GraphViewerApplicationStarter
+    {
+        /// <summary>
         /// Starts yComp (acting as a local server) at the given port (throws an exception if it fails so).
         /// The preferred way to obtain a port is GetFreeTCPPort().
         /// </summary>
         /// <param name="ycompPort">The port to start yComp at</param>
-        public YCompServerProxy(int ycompPort)
+        public YCompStarter(int ycompPort)
         {
             try
             {
@@ -89,23 +106,39 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 throw new Exception("Unable to start yComp: " + e.ToString());
             }
         }
-
-        /// <summary>
-        /// Ends the yComp process.
-        /// </summary>
-        public void Close()
-        {
-            viewerProcess.Close();
-        }
-
-        public readonly Process viewerProcess;
-        public readonly int port;
     }
 
     /// <summary>
-    /// The stream over which the client communicates with yComp
+    /// Class starting the extMSAGLExt server (on a specific socket)
     /// </summary>
-    class YCompStream
+    public class ExtMSAGLExtStarter : GraphViewerApplicationStarter
+    {
+        /// <summary>
+        /// Starts extMSAGLExt (acting as a local server) at the given port (throws an exception if it fails so).
+        /// The preferred way to obtain a port is GetFreeTCPPort().
+        /// </summary>
+        /// <param name="extMSAGLExtPort">The port to start extMSAGLExtPort at</param>
+        public ExtMSAGLExtStarter(int extMSAGLExtPort)
+        {
+            try
+            {
+                port = extMSAGLExtPort;
+                viewerProcess = Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+                    + Path.DirectorySeparatorChar + "extMSAGLExt", "-p " + extMSAGLExtPort);
+            }
+            catch(Exception e)
+            {
+                throw new Exception("Unable to start extMSAGLExt: " + e.ToString());
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// The stream over which the client communicates with the graph viewer application server (which may be yComp or extMSAGLExt)
+    /// </summary>
+    class GraphViewerApplicationStream
     {
         NetworkStream stream;
         readonly byte[] readBuffer = new byte[4096];
@@ -117,7 +150,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         StreamWriter dumpWriter;
 #endif
 
-        public YCompStream(TcpClient client)
+        public GraphViewerApplicationStream(TcpClient client)
         {
             stream = client.GetStream();
 
@@ -215,38 +248,23 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
     }
 
+    // ------------------------------------------------------------------------------------
 
     /// <summary>
-    /// Class communicating with yComp over a socket via the GrGen-yComp protocol,
-    /// mainly telling yComp what should be displayed (and how)
+    /// Proxy base class for communicating with a graph viewer application
+    /// (over a socket via the GrGen-yComp protocol, mainly telling the graph viewer application what should be displayed (and how))
     /// </summary>
-    public class YCompClient : IBasicGraphViewerClient
+    public abstract class GraphViewerApplicationProxy : IBasicGraphViewerClient
     {
         TcpClient ycompClient;
-        internal YCompStream ycompStream;
-        
-        private static Dictionary<String, bool> availableLayouts;
+        internal GraphViewerApplicationStream ycompStream;
 
-
-        static YCompClient()
-        {
-            availableLayouts = new Dictionary<string, bool>();
-            availableLayouts.Add("Random", true);
-            availableLayouts.Add("Hierarchic", true);
-            availableLayouts.Add("Organic", true);
-            availableLayouts.Add("Orthogonal", true);
-            availableLayouts.Add("Circular", true);
-            availableLayouts.Add("Tree", true);
-            availableLayouts.Add("Diagonal", true);
-            availableLayouts.Add("Incremental Hierarchic", true);
-            availableLayouts.Add("Compilergraph", true);
-        }
 
         /// <summary>
         /// Creates a new YCompClient instance and connects to the local YComp server.
         /// If it is not available an Exception is thrown.
         /// </summary>
-        public YCompClient(int connectionTimeout, int port)
+        protected GraphViewerApplicationProxy(int connectionTimeout, int port, string applicationName)
         {
             try
             {
@@ -269,13 +287,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(ycompClient == null)
                     throw new Exception("Connection timeout!");
 
-                ycompStream = new YCompStream(ycompClient);
+                ycompStream = new GraphViewerApplicationStream(ycompClient);
 
                 // TODO: Add group related events
             }
             catch(Exception ex)
             {
-                throw new Exception("Unable to connect to yComp at port " + port + ": " + ex.Message);
+                throw new Exception("Unable to connect to " + applicationName + " at port " + port + ": " + ex.Message);
             }
         }
 
@@ -295,16 +313,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             System.Threading.Thread.Sleep(1);
         }
 
-
-        public static IEnumerable<String> AvailableLayouts
-        {
-            get { return availableLayouts.Keys; }
-        }
-
-        public static bool IsValidLayout(String layoutName)     // TODO: allow case insensitive layout name
-        {
-            return availableLayouts.ContainsKey(layoutName);
-        }
 
         public event ConnectionLostHandler OnConnectionLost
         {
@@ -328,29 +336,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Sets the current layouter of yComp
+        /// Sets the current layouter of the graph viewer application
         /// </summary>
-        /// <param name="moduleName">The name of the layouter.
-        ///     Can be one of:
-        ///     - Random
-        ///     - Hierarchic
-        ///     - Organic
-        ///     - Orthogonal
-        ///     - Circular
-        ///     - Tree
-        ///     - Diagonal
-        ///     - Incremental Hierarchic
-        ///     - Compilergraph
-        /// </param>
         public void SetLayout(String moduleName)
         {
             ycompStream.Write("setLayout \"" + moduleName + "\"\n");
         }
 
         /// <summary>
-        /// Retrieves the available options of the current layouter of yComp and the current values.
+        /// Retrieves the available options of the current layouter of the graph viewer application and the current values.
         /// </summary>
-        /// <returns>A description of the available options of the current layouter of yComp
+        /// <returns>A description of the available options of the current layouter of the graph viewer application
         /// and the current values.</returns>
         public String GetLayoutOptions()
         {
@@ -365,7 +361,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Sets a layout option of the current layouter of yComp.
+        /// Sets a layout option of the current layouter of the graph viewer application.
         /// </summary>
         /// <param name="optionName">The name of the option.</param>
         /// <param name="optionValue">The new value.</param>
@@ -378,7 +374,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Forces yComp to relayout the graph.
+        /// Forces the graph viewer application to relayout the graph.
         /// </summary>
         public void ForceLayout()
         {
@@ -540,7 +536,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompStream.Write("addEdgeRealizer \"" + name + "\" \""
                                 + VCGDumper.GetColor(color) + "\" \""
                                 + VCGDumper.GetColor(textColor) + "\" \""
-                                + lineWidth + "\" \"" 
+                                + lineWidth + "\" \""
                                 + VCGDumper.GetLineStyle(lineStyle) + "\"\n");
         }
 
@@ -554,6 +550,92 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             sb.Replace("\n", "\\n");
             sb.Replace("\"", "&quot;");
             return sb.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Proxy class for communicating with the graph viewer application yComp
+    /// (over a socket via the GrGen-yComp protocol).
+    /// The layout can be one of:
+    ///     - Random
+    ///     - Hierarchic
+    ///     - Organic
+    ///     - Orthogonal
+    ///     - Circular
+    ///     - Tree
+    ///     - Diagonal
+    ///     - Incremental Hierarchic
+    ///     - Compilergraph
+    /// </summary>
+    public class YCompClient : GraphViewerApplicationProxy
+    {
+        protected static Dictionary<String, bool> availableLayouts;
+
+        static YCompClient()
+        {
+            availableLayouts = new Dictionary<string, bool>();
+            availableLayouts.Add("Random", true);
+            availableLayouts.Add("Hierarchic", true);
+            availableLayouts.Add("Organic", true);
+            availableLayouts.Add("Orthogonal", true);
+            availableLayouts.Add("Circular", true);
+            availableLayouts.Add("Tree", true);
+            availableLayouts.Add("Diagonal", true);
+            availableLayouts.Add("Incremental Hierarchic", true);
+            availableLayouts.Add("Compilergraph", true);
+        }
+
+        public YCompClient(int connectionTimeout, int port)
+            : base(connectionTimeout, port, "yComp")
+        {
+        }
+
+        public static IEnumerable<String> AvailableLayouts
+        {
+            get { return availableLayouts.Keys; }
+        }
+
+        public static bool IsValidLayout(String layoutName)     // TODO: allow case insensitive layout name
+        {
+            return availableLayouts.ContainsKey(layoutName);
+        }
+    }
+
+    /// <summary>
+    /// Proxy class for communicating with the graph viewer application extMSAGLExt
+    /// (over a socket via the GrGen-yComp protocol).
+    /// The layout can be one of:
+    ///     - SugiyamaScheme
+    ///     - MDS
+    ///     - Ranking
+    ///     - IcrementalLayout
+    /// </summary>
+    public class ExtMSAGLExtClient : GraphViewerApplicationProxy
+    {
+        protected static Dictionary<String, bool> availableLayouts;
+
+        static ExtMSAGLExtClient()
+        {
+            availableLayouts = new Dictionary<string, bool>();
+            availableLayouts.Add("SugiyamaScheme", true);
+            availableLayouts.Add("MDS", true);
+            availableLayouts.Add("Ranking", true);
+            availableLayouts.Add("IcrementalLayout", true);
+        }
+
+        public ExtMSAGLExtClient(int connectionTimeout, int port)
+            : base(connectionTimeout, port, "extMSAGLExt")
+        {
+        }
+
+        public static IEnumerable<String> AvailableLayouts
+        {
+            get { return availableLayouts.Keys; }
+        }
+
+        public static bool IsValidLayout(String layoutName)     // TODO: allow case insensitive layout name
+        {
+            return availableLayouts.ContainsKey(layoutName);
         }
     }
 }

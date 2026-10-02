@@ -2928,7 +2928,7 @@ namespace de.unika.ipd.grGen.grShell
         private GraphViewerBaseClient GetGraphDisplayer(GraphViewerTypes graphViewerType)
         {
             IBasicGraphViewerClientHost basicGraphViewerClientHost = null;
-            if (graphViewerType == GraphViewerTypes.MSAGL)
+            if (graphViewerType == GraphViewerTypes.MSAGL) // todo: shouldn't this also hold for MSAGLExt
             {
                 IHostCreator hostCreator = GraphViewerBaseClient.GetGuiConsoleDebuggerHostCreator();
                 basicGraphViewerClientHost = hostCreator.CreateBasicGraphViewerClientHost();
@@ -2940,7 +2940,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void ProcessEventsUntilKeyPressedAsNeeded()
         {
-            if(GraphViewerBaseClient.IsMSAGLLike(seqApplierAndDebugger.GraphViewerType))
+            if(GraphViewerBaseClient.IsInternalGraphViewer(seqApplierAndDebugger.GraphViewerType))
             {
                 IDoEventsCaller doEventsCaller = TypeCreator.GetDoEventsCaller();
                 while (!ConsoleUI.consoleIn.KeyAvailable)
@@ -2953,7 +2953,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void ProcessEventsAsNeeded()
         {
-            if(GraphViewerBaseClient.IsMSAGLLike(seqApplierAndDebugger.GraphViewerType))
+            if(GraphViewerBaseClient.IsInternalGraphViewer(seqApplierAndDebugger.GraphViewerType))
             {
                 IDoEventsCaller doEventsCaller = TypeCreator.GetDoEventsCaller();
                 doEventsCaller.DoEvents();
@@ -3611,7 +3611,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool SetDebugMode(bool enable)
         {
-            if(enable && GraphViewerBaseClient.IsMSAGLLike(seqApplierAndDebugger.GraphViewerType))
+            if(enable && GraphViewerBaseClient.IsInternalGraphViewer(seqApplierAndDebugger.GraphViewerType))
                 ConsoleUI.outWriter.WriteLine("Note that the MSAGL-based debugger GUI will be frozen unless you debug a sequence (/graph changes occur).");
             return seqApplierAndDebugger.SetDebugMode(enable);
         }
@@ -4255,28 +4255,34 @@ showavail:
 
         public void DebugWith(string debuggerName)
         {
-            if(debuggerName.Equals("msagl", StringComparison.InvariantCultureIgnoreCase))
+            if(debuggerName.Equals("MSAGL", StringComparison.InvariantCultureIgnoreCase))
             {
                 bool success = seqApplierAndDebugger.DebugWith(GraphViewerTypes.MSAGL);
-                if(success) // error message printed by seqApplierAndDebugger in case of failure
+                if(success) // error message printed by seqApplierAndDebugger.DebugWith in case of failure (because debugger is already running)
                     ConsoleUI.outWriter.WriteLine("Changed debugger/graph viewer to MSAGL.");
             }
-            else if (debuggerName.Equals("msaglext", StringComparison.InvariantCultureIgnoreCase))
+            else if (debuggerName.Equals("MSAGLExt", StringComparison.InvariantCultureIgnoreCase))
             {
                 bool success = seqApplierAndDebugger.DebugWith(GraphViewerTypes.MSAGLExt);
-                if (success) // error message printed by seqApplierAndDebugger in case of failure
+                if (success)
                     ConsoleUI.outWriter.WriteLine("Changed debugger/graph viewer to MSAGLExt.");
             }
-            else if(debuggerName.Equals("ycomp", StringComparison.InvariantCultureIgnoreCase))
+            else if(debuggerName.Equals("extMSAGLExt", StringComparison.InvariantCultureIgnoreCase))
+            {
+                bool success = seqApplierAndDebugger.DebugWith(GraphViewerTypes.ExtMSAGLExt);
+                if(success)
+                    ConsoleUI.outWriter.WriteLine("Changed debugger/graph viewer to extMSAGLExt.");
+            }
+            else if(debuggerName.Equals("yComp", StringComparison.InvariantCultureIgnoreCase))
             {
                 bool success = seqApplierAndDebugger.DebugWith(GraphViewerTypes.YComp);
-                if(success) // error message printed by seqApplierAndDebugger in case of failure
+                if(success)
                     ConsoleUI.outWriter.WriteLine("Changed debugger/graph viewer to yComp.");
             }
             else
             {
                 ConsoleUI.errorOutWriter.WriteLine("\"" + debuggerName + "\" is not a valid debugger/graph viewer name!");
-                ConsoleUI.outWriter.WriteLine("Available debuggers/graph viewers are yComp, MSAGL, and MSAGLExt.");
+                ConsoleUI.outWriter.WriteLine("Available debuggers/graph viewers are yComp, MSAGL, MSAGLExt, and extMSAGLExt.");
             }
         }
 

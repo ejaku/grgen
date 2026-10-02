@@ -26,11 +26,12 @@ namespace DebuggerExample
 
             DebuggerEnvironment debuggerEnv = null;
             Debugger debugger = null;
-            if(graphViewerType == GraphViewerTypes.YComp)
+            if(graphViewerType == GraphViewerTypes.YComp || graphViewerType == GraphViewerTypes.ExtMSAGLExt)
             {
                 debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance, null);
+                string layoutMethod = graphViewerType == GraphViewerTypes.YComp ? "Organic"/*"Hierarchic"*/ : "MDS"/*"SugiyamaScheme"*/;
                 debugger = new Debugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
-                    graphViewerType, "Organic"/*"Hierarchic"*/, optMap, null);
+                    graphViewerType, layoutMethod, optMap, null);
             }
             else
             {
@@ -103,9 +104,9 @@ namespace DebuggerExample
             graph.AddEdge(nextType, p1, p2);
             graph.AddEdge(nextType, p2, p1);
 
-            // in case of GraphViewerTypes.YComp: uses normal stdout-console of this Console Application in order to print sequence execution, allowing to follow execution step by step,
-            // showing the graph in the external yComp application (changes to the graph are observed, rule applications are highlighted in case of detail mode)
-            // in case of GraphViewerTypes.MSAGL: opens a WindowsForms form with a console-like control in order to print sequence execution, allowing to follow execution step by step, (you could use it directly in a non-console project)
+            // in case of GraphViewerTypes.YComp/ExtMSAGLExt: uses normal stdout-console of this Console Application in order to print sequence execution, allowing to follow execution step by step,
+            // showing the graph in the external yComp/extMSAGLExt application (changes to the graph are observed, rule applications are highlighted in case of detail mode)
+            // in case of GraphViewerTypes.MSAGL/MSAGLExt: opens a WindowsForms form with a console-like control in order to print sequence execution, allowing to follow execution step by step, (you could use it directly in a non-console project)
             // showing the graph with the WindowsForms graph viewer control of the MSAGL library (changes to the graph are observed, rule applications are highlighted in case of detail mode)
             Debugger debugger = OpenDebugger(graph, procEnv, /*GraphViewerTypes.YComp*/GraphViewerTypes.MSAGL);
 

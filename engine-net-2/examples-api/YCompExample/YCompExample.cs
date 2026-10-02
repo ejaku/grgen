@@ -49,8 +49,9 @@ namespace YCompExample
 
             GraphViewer graphViewer = new GraphViewer();
             graphViewer.ShowGraph(graph, GraphViewerTypes.YComp, "Organic", null); // Let yComp observe any changes to the graph
-            // you could use MSAGL as graph viewer too, with e.g. layout MDS corresponding roughly to Organic, or SugiyamaScheme corresponding roughly to Hierarchic
+            // you could use MSAGL/MSAGLExt as graph viewer too, with e.g. layout MDS corresponding roughly to Organic, or SugiyamaScheme corresponding roughly to Hierarchic
             // but note that Application.DoEvents(); must be called in this case in order to get a responsive GUI (this is a console app project) (take a look at GraphViewer.ShowGraphWithMSAGL)
+            // alternatively, you could use the external application extMSAGLExt as a replacement for yComp, but the note regarding the layout method from above still holds then
 
             NodeType processType = graph.GetNodeType("Process");
             EdgeType nextType = graph.GetEdgeType("next");

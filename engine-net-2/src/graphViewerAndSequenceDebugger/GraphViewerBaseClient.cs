@@ -19,19 +19,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     // potentially available graph viewer client types (debugger types)
     public enum GraphViewerTypes
     {
-        YComp, MSAGL, MSAGLExt
+        YComp, // console and external app
+        MSAGL, MSAGLExt, // GUI frame/console and internal API
+        ExtMSAGLExt // console and external app
     }
 
     public delegate void ConnectionLostHandler();
 
     /// <summary>
-    /// Class communicating with yComp or MSAGL, over a simple live graph viewer protocol,
+    /// Class communicating with yComp or MSAGL, over a simple live graph viewer protocol (transmitted over a loopback TCP socket or entirely internally),
     /// some very basic shared functionality is implemented here, real graph handling is contained in the GraphViewerClient.
     /// </summary>
     public class GraphViewerBaseClient
     {
-        YCompServerProxy yCompServerProxy; // not null in case the basicClient is a YCompClient
-        internal IBasicGraphViewerClient basicClient; // either the traditional YCompClient or a MSAGLClient
+        GraphViewerApplicationStarter graphViewerApplicationStarter; // not null in case the basicClient is a YCompClient or an ExtMSAGLExtClient
+        internal IBasicGraphViewerClient basicClient; // either the proxy YCompClient/ExtMSAGLExtClient or a MSAGLClient/MSAGLExtClient
 
         protected ElementRealizers realizers;
 
@@ -40,7 +42,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         static GraphViewerBaseClient()
         {
-            availableMSAGLLayouts = new Dictionary<string, bool>();
+            availableMSAGLLayouts = new Dictionary<string, bool>(); // layouts of internal MSAGL client
             availableMSAGLLayouts.Add("SugiyamaScheme", true);
             availableMSAGLLayouts.Add("MDS", true);
             availableMSAGLLayouts.Add("Ranking", true);
@@ -49,29 +51,35 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         /// <summary>
         /// Creates a new GraphViewerBaseClient instance.
-        /// Internally, it creates a YCompClient and connects to the local YComp server,
-        /// or creates a MSAGLClient, inside the basicGraphViewerClientHost (which may be a GuiConsoleDebuggerHost) in case one is supplied,
+        /// Internally, it creates a YCompClient/ExtMSAGLExtClient and connects to the external local yComp/extMSAGLExt server,
+        /// or creates an internal MSAGLClient/MSAGLExtClient, inside the basicGraphViewerClientHost (which may be a GuiConsoleDebuggerHost) in case one is supplied,
         /// depending on the graph viewer type that is requested (the layout is expected to be one of the valid layouts of the corresponding graph viewer client).
         /// </summary>
         public GraphViewerBaseClient(GraphViewerTypes graphViewerType, String layoutModule,
             ElementRealizers realizers, IBasicGraphViewerClientHost basicGraphViewerClientHost)
         {
-            if (IsMSAGLLike(graphViewerType))
+            if(IsInternalGraphViewer(graphViewerType))
             {
                 IHostCreator guiConsoleDebuggerHostCreator = GetGuiConsoleDebuggerHostCreator();
                 IBasicGraphViewerClientCreator basicGraphViewerClientCreator = GetBasicGraphViewerClientCreator();
                 IBasicGraphViewerClientHost host = basicGraphViewerClientHost;
-                if (host == null)
+                if(host == null)
                     host = guiConsoleDebuggerHostCreator.CreateBasicGraphViewerClientHost();
                 basicClient = basicGraphViewerClientCreator.Create(graphViewerType, host);
                 host.BasicGraphViewerClient = basicClient;
             }
-            else // default is yCompClient
+            else
             {
-                yCompServerProxy = new YCompServerProxy(YCompServerProxy.GetFreeTCPPort());
+                if(graphViewerType == GraphViewerTypes.ExtMSAGLExt)
+                    graphViewerApplicationStarter = new ExtMSAGLExtStarter(ExtMSAGLExtStarter.GetFreeTCPPort());
+                else // default is YCompClient
+                    graphViewerApplicationStarter = new YCompStarter(YCompStarter.GetFreeTCPPort());
                 int connectionTimeout = 20000;
-                int port = yCompServerProxy.port;
-                basicClient = new YCompClient(connectionTimeout, port);
+                int port = graphViewerApplicationStarter.port;
+                if(graphViewerType == GraphViewerTypes.ExtMSAGLExt)
+                    basicClient = new ExtMSAGLExtClient(connectionTimeout, port);
+                else
+                    basicClient = new YCompClient(connectionTimeout, port);
             }
 
             basicClient.SetLayout(layoutModule);
@@ -81,7 +89,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         // normally the GraphViewerClient should be used not exposing this one...
-        public IBasicGraphViewerClient GetBasicClient() // either the traditional YCompClient or a MSAGLClient
+        public IBasicGraphViewerClient GetBasicClient() // either the traditional YCompClient or one of the MSAGL based clients
         {
             return basicClient;
         }
@@ -110,16 +118,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             basicClient.Close();
             basicClient = null;
 
-            if (yCompServerProxy != null)
-                yCompServerProxy.Close();
-            yCompServerProxy = null;
+            if(graphViewerApplicationStarter != null)
+                graphViewerApplicationStarter.Close();
+            graphViewerApplicationStarter = null;
         }
 
         public static IEnumerable<String> AvailableLayouts(GraphViewerTypes type)
         {
-            if (type == GraphViewerTypes.YComp)
+            if(type == GraphViewerTypes.YComp)
                 return YCompClient.AvailableLayouts;
-            else if (IsMSAGLLike(type))
+            else if(type == GraphViewerTypes.ExtMSAGLExt)
+                return ExtMSAGLExtClient.AvailableLayouts;
+            else if(IsInternalGraphViewer(type))
             {
                 // better to be handled by the corresponding graph viewer client that has that knowledge,
                 // but this would require to create an instance of a dll we don't want to instantiate for technology reasons unless really requested
@@ -132,9 +142,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public static bool IsValidLayout(GraphViewerTypes type, String layoutName)     // TODO: allow case insensitive layout name
         {
-            if (type == GraphViewerTypes.YComp)
+            if(type == GraphViewerTypes.YComp)
                 return YCompClient.IsValidLayout(layoutName);
-            else if (IsMSAGLLike(type))
+            else if(type == GraphViewerTypes.ExtMSAGLExt)
+                return ExtMSAGLExtClient.IsValidLayout(layoutName);
+            else if(IsInternalGraphViewer(type))
             {
                 // better to be handled by the corresponding graph viewer client that has that knowledge,
                 // but this would require to create an instance of a dll we don't want to instantiate for technology reasons unless really requested
@@ -145,7 +157,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return false;
         }
 
-        public static bool IsMSAGLLike(GraphViewerTypes graphViewerType)
+        public static bool IsInternalGraphViewer(GraphViewerTypes graphViewerType)
         {
             return graphViewerType == GraphViewerTypes.MSAGL
                 || graphViewerType == GraphViewerTypes.MSAGLExt;
