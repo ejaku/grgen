@@ -1,0 +1,158 @@
+<!-- by Edgar Jakumeit -->
+
+Vcg Import
+==========
+
+VCG is a graph serialization/deserialization format geared at graph visualization in compiler construction[^1].
+It is textual, works with attribute key ":" value definitions, nesting denoted by curly braces, graph concept keywords, and names to reference(/use) already defined entities (it shows a certain superficial similarity with JSON).
+GrGen writes VCG, the graph viewer application yComp reads VCG and visualizes it, the graph viewer application extMSAGLExt also has to read and visualize it (with a limitation: only what is dumped by GrGen.NET needs to be supported, neither the full vcg specification nor the full yComp implementation).
+Processing should occur in two passes, the first for parsing into an AST, the second for constraint checking and building of the final graph.
+
+
+Examples
+========
+
+The following are example vcg files with nodes and edges being nested inside a graph and edges referencing nodes by name.
+
+Minimum example
+---------------
+
+graph: { node: { title: "foo" } edge: { sourcename: "foo" targetname: "foo" } }
+
+Small characteristic example
+----------------------------
+
+graph: {
+  node: { title: "foo" label: "Foo" }
+  node: { title: "bar" color: yellow }
+  edge: { sourcename: "foo" targetname: "bar" thickness: 3 }
+  graph: { title: "subgraph" }
+}
+
+
+Grammar
+=======
+
+graph ::= "graph" ":" "{" (graphattribute | subgraph | node | edge)* "}"
+subgraph ::= "graph" ":" "{" (graphattribute | subgraph | node | edge)* "}"
+node ::= "node" ":" "{" (nodeattribute)* "}"
+edge ::= "edge" ":" "{" (edgeattribute)* "}"
+
+The nesting concepts graph/subgraph support arbitrary nesting, the nesting concepts node/edge support one-level nesting of nested content.
+
+graphattribute ::= attribute // attribute key limited to graph attributes, not included now, maybe later: special-syntax graph attributes according to the specification, e.g. node/edge defaults
+nodeattribute ::= attribute // attribute key limited to node attributes, not included now, maybe later: special-syntax node attributes according to the specification, e.g. loc
+edgeattribute ::= attribute // attribute key limited to edge attributes, no special-syntax edge attributes
+attribute ::= attribute-name ":" attribute-value
+
+attribute-name ::= identifier | identifier integerNumber
+attribute-value ::= integerNumber | floatingPointNumber | stringLiteral | identifier
+
+The identifier is an identifier as defined in the C programming language.
+The identifier from the attribute-value is typically an enum value, of the known/supported enums defined later, 
+but may be also from other enums that are not to be interpreted but should be read without an abort - so arbitrary identifiers should pass, albeit with a warning.
+
+Admissible attributes in detail, it is to be ensured during constraint checking that only allowed combinations pass:
+
+node attributes:
+title : stringLiteral, mandatory
+label : stringLiteral, default ""
+textcolor : identifier from Colors enum, default black
+color : identifier from Colors enum, default yellow
+bordercolor : identifier from Colors enum, default black
+shape : identifier from Shapes enum, default box
+info1 : stringLiteral, default ""
+
+edge attributes:
+sourcename : stringLiteral, mandatory
+targetname : stringLiteral, mandatory
+label : stringLiteral, default ""
+textcolor : identifier from Colors enum, default black
+color : identifier from Colors enum, default khaki
+linestyle : identifier from LineStyles enum, default continuous
+thickness : integerNumber, default 1, limit to 1-5
+
+graph attributes:
+title : stringLiteral, default ""
+label : stringLiteral, default ""
+textcolor : identifier from Colors enum, default black
+color : identifier from Colors enum, default yellow
+info1 : stringLiteral, default ""
+
+Shapes = box | triangle | circle | ellipse | rhomb | hexagon | trapeze | uptrapeze | lparallelogram | rparallelogram
+
+Colors = black | blue | green | cyan| red | purple | khaki | darkgrey
+            | lightgrey | lightblue | lightgreen | lightcyan | lightred | lightmagenta | yellow | white
+            | darkblue | darkred | darkgreen | darkyellow | darkmagenta | darkcyan | gold | lilac
+            | turquoise | aquamarine | khaki | pink | orange | orchid | lightyellow | yellowgreen
+
+LineStyles = continuous | dotted | dashed | invisible
+
+Comments may be given in C++ style as // to be skipped until line end
+or C style as /*not to be processed*/ - they are to be read over.
+
+This grammer is syntacically simpler than the original vcg grammar (over-accepting), this is to be compensated by additional constraint checking (removing overaccepted language constructs).
+
+
+Code mapping hints / architectural decisions / entry points
+===========================================================
+
+The implementation of the vcg dumper already exists in libGr/IO/VCGDumper.cs, which is used for writing/exporting.
+
+How to implement the vcg import (the vcg importer of yComp is also already existing, but its source code is not available):
+
+Create a grammar file for the ANTLR parser generator with semantic actions building the AST (reuse the ANTLR already in use in the project).
+Use a two pass architecture, after building the AST, carry out constraint checking when creating the real (MSAGL) graph.
+When a syntax error is found: show an error message dialog and abort
+
+Create classes: AST.Graph, AST.Node, AST.Edge, AST.Subgraph each containing a Dictionary<string, string> attributes member variable;
+using string instead of object in the range of the map has the advantage that it can be just filled in the parser, leaving the checking and the conversions of e.g. the string representation of a number to the second pass.
+Use a global definition table Dictionary<string, AST.Entity> nodeOrSubgraphNameToEntity to look up the nodes and subgraphs by name;
+it could make sense to let AST.Subgraph inherit from AST.Node, then using AST.Node instead of the general base class AST.Entity would make more sense.
+
+Constraints to check/depend upon:
+- in nodes and subgraphs: the attribute title must exist, emit an error message when it does not, do not create the node/subgraph then
+- in edges: the attributes sourcename and targetname must exist, emit an error message when they are missing, do not create an edge then
+- the attribute value must fit to the specified type/must be in the specified range, emit an error message when this does not hold, using the default attribute value then
+- when a node/subgraph of same name already exists in global definition table: emit an error message reporting the duplicate and do not enter it
+- upon visiting an unknown attribute: emit a warning message (to the console, like the error messages) and skip it
+
+Further reading / Discussion / Rationale
+========================================
+
+[^1]: to be more precise:
+it is a tool for graph visualization that reads a graph description language with .vcg file suffix and format
+that is based on the graph representation language GRL.
+
+You can find the vcg source code and documentation in the github project <https://github.com/deadcodesoc/vcg.git>
+doc/grammar.txt contains the detailed/full language grammar in BNF notation (with left-recursive rules)
+ (plus the PGS parser generator parsing grammar (compiled to bison) in src/grammar.pgs)
+The main documentation of vcg is contained in doc/visual.ps and may be used to look up detailed information.
+expl contains several examples (which might be used for testing)
+
+engine-net-2/examples/JavaProgramGraphs-GraBaTs08/MoveMethodsExampleGraph.vcg is a non-trivial example written by the vcg dumper of GrGen.NET that should be used for testing, derived from InstanceGraph.grsi
+
+The pointers to the VCG sources above are given for completeness.
+Non-goals, at least for now:
+- extMSAGLExt is not intended as a replacement of vcg/xvcg,
+- extMSAGLExt is not intended as a full replacement of yComp, which is also used to visualize FIRM compiler graphs and explicitly intended to be somewhat of a modern vcg replacement
+Its current goal is only to be a viewer für GrGen.NET graph dumps.
+
+graphattribute, nodeattribute, edgeattribute should be own rules in the grammar, they could be extended in the future by further syntactical constructs only supported in the context of the containing concept.
+It should be possible to later extend the grammar to cover more of the vcg language/the vcg supported by yComp (yComp supports even some specific extensions not defined by vcg).
+
+For flexibility reasons (to allow simple dumpers):
+Nodes may not exist when edges are created (use-before-definition by edges referencing nodes only dumped later).
+This allows to keep the exporter simple, but forces a two-pass architecture in the importer.
+(In comparison, the grs exporter is complex, as it has to ensure that entities exist when they are referenced, because of the required single-pass line-by-line import.)
+
+A simple single pass architecture would be possible when:
+- nodes are dumped before the edges referencing them; by first dumping all nodes and group nodes then all edges this would be ensured; this would be feasible because node names must be unique per file
+- the syntax already enforces proper nesting of subgraphs (the vcg dumper of GrGen.NET does some preprocessing of group nodes to ensure they are appropriately nested)
+- the mandatory attributes are dumped first before the other attributes
+
+The GrGen.NET vcg dumper writes some graph attributes not listed in our grammar definition - they are (at least for now) to be ignored like other unknown attributes (causing a warning message).
+Note that the "layoutalgorithm" attribute is dumped as "normal" with a comment telling about the algorithm to use. This (dubious behavior) is to ensure (exact) compatibility with the outdated vcg program (its inner workings). An incompatible appropriate extension by listing own layout methods would make more sense.
+Also to be ignored are the classname num, infoname num, colorentry num attributes/attribute keys.
+
+Note that strings in vcg (at least the dumps from GrGen) contain newlines verbatim without escaping.

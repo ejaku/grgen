@@ -1,0 +1,245 @@
+<!-- by Edgar Jakumeit -->
+
+Live Graph Changes Protocol
+===========================
+
+During a debugging session, the GrGen.NET debugger uploads the initial graph (at the time debugging is enabled)
+and thereafter sends online graph modifications (including match and rewrite highglighting)
+to the yComp graph viewer in server mode, which receives and interprets them.
+The extMSAGLExt graph viewer in server mode also has to receive and interpret them (in the same or at least a similar way).
+
+The graph updates are transmitted as text commands over TCP (defining a kind of simple RPC protocol, but only used locally).
+Parts of the debugger have the role of the client, the graph viewer application the role of the server (in this client/server protocol).
+The text commands are always triggered by the client, never by the server (request-response/reply only, no indication/confirmation backchannel, only the client has the active role).
+Most text commands are sent only as requests from the client to the server, a few receive a response from the server.
+
+
+Examples / Workflow
+===================
+
+Workflow
+--------
+
+A typical usage session consists of the following steps:
+- a layout method is specified
+- node and edge realizers are registered (specifing the appearence of the nodes/edges following this realizer)
+- nodes and subgraph nodes, as well as edges are added 
+  (defining a name, including their realizer, label, and type; the label is to displayed in-place in the main rendering to the user)
+  (the source and target nodes referenced by an edge must have been added before)
+- nodes are moved to a parent subgraph node (when hierarchical graphs are used)
+- a layout process is triggered or the graph is to be shown without relayout
+- single node and edge attributes are set/changed (or cleared, i.e. removed, which may occur on retyping)
+- nodes (including subgraph nodes) and edges may be deleted (by their name)
+- labels may be set/changed
+- realizers may be set/changed for the elements
+- the graph is deleted/cleared
+- the connection is closed
+
+Minimum example
+---------------
+
+setLayout "SugiyamaScheme"
+addNodeRealizer "nr0" "darkyellow" "yellow" "black" "box"
+addEdgeRealizer "er0" "darkyellow" "black" "1" "continuous"
+addNode "-1" "n0" "nr0" "$0:Node"
+addEdge "e0" "n0" "n0" "er0" "$1:Edge"
+layout
+
+Characteristic example
+----------------------
+from the domain of state machines, showing a fake epsilon transition removal, drafted for the purpose of illustration
+
+setLayout "Orthogonal"
+addNodeRealizer "nr0" "darkyellow" "yellow" "black" "box"
+addNodeRealizer "nr1" "darkyellow" "aquamarine" "black" "box"
+addEdgeRealizer "er0" "darkyellow" "black" "1" "continuous"
+addNode "-1" "n0" "nr0" "S:StartState"
+changeNodeAttr "n0" "State::id : int" "0"
+addNode "-1" "n1" "nr1" "F:FinalState"
+changeNodeAttr "n1" "State::id : int" "1"
+addEdge "e0" "n0" "n1" "er0" "t:Transition"
+changeEdgeAttr "e0" "Transition::Trigger : string" "a"
+addEdge "e1" "n1" "n0" "er0" "et:EpsilonTransition"
+changeEdgeAttr "e1" "Transition::Trigger : string" ""
+layout
+sync
+setNodeLabel "n0" "S:StartFinalState"
+changeNode "n0" "nr1"
+clearNodeAttr "n0" "State::id : int"
+changeNodeAttr "n0" "AnotherState::id : int" "0"
+show
+sync
+deleteEdge "e1"
+layout
+sync
+exit
+
+
+Commands listing / protocol specification
+=========================================
+
+Format of the command lines sent by the client/received by the server:
+Each line
+- starts with the command name, 
+- which is followed by 0 to k arguments, 
+  each enclosed in " (also integer values and enumeration literals),
+  the arguments are separated by spaces,
+- the line is terminated by the newline character
+The client defines the names/ids used to speak about the entities.
+The responses have a less fixed format, see below.
+
+Single commands
+---------------
+the "> " is not part of the command line
+
+- Realizers:
+
+> addNodeRealizer "name" "borderColor" "color" "textColor" "nodeShape"\n
+registers a node realizer with the given name, the border color borderColor, the color color, the text color textColor and the shape nodeShape
+
+> addEdgeRealizer "name" "color" " "lineWidth" "lineStyle"\n
+registers an edge realizer with the given name, the color color, the line width/thickness lineWidth (an integer value) and the line style lineStyle
+
+The admissible color names, node shapes, and edge line styles are defined in VcgImport.txt
+
+> changeNode "nodeName" "nr"\n"
+sets the realizer of the node nodeName to nr (or the default if nr is empty)
+
+> changeEdge "edgeName" "er"\n
+sets the realizer of the edge edgeName to er (or the default if er is empty)
+
+- Addition:
+
+> addSubgraphNode "parent" "name" "nrName" "nodeLabel"\n
+adds a subgraph node with the given name to the graph, with the node realizer nrName, and the label nodeLabel
+the first parameter parent must be "-1" as of now, if supported a subgraph node could be specified, this would save a later MoveNode
+
+> addNode "parent" "name" "nrName" "nodeLabel"\n
+adds a node with the given name to the graph, with the node realizer nrName, and the label nodeLabel
+the first parameter parent must be "-1" as of now, if supported a subgraph node could be specified, this would save a later MoveNode
+
+> addEdge "edgeName" "srcName" "tgtName" "erName" "edgeLabel"\n
+adds an edge with the given name to the graph, with the edge realizer erName, and the label edgeLabel
+
+- Node nesting:
+
+> moveNode "srcName" "tgtName"\n
+moves the node srcName to the subgraph node tgtName ("-1" for ungrouping)
+
+- Attributes:
+
+> changeNodeAttr "name" "attr" "value"\n
+sets the attribute attr of the node name to value (note that attr may comprise more than the attribute name)
+
+> changeEdgeAttr "name" "attr" "value"\n
+sets the attribute attr of the edge name to value (note that attr may comprise more than the attribute name)
+
+> clearNodeAttr "name" "attr"\n
+clears/removes the attribute attr of node name (typically by retyping)
+
+> clearEdgeAttr "name" "attr"\n
+clears/removes the attribute attr of edge name (typically by retyping)
+
+- Labels:
+
+> setNodeLabel "name" "label"\n
+sets the label of the node name
+
+> setEdgeLabel "name" "label"\
+sets the label of the edge name
+
+- Deletion:
+
+> deleteNode "name"\n
+deletes node name
+
+> deleteEdge "name"\n
+deletes edge name
+
+> deleteGraph\n
+clears the graph
+
+- Layout and display:
+
+> setLayout "layoutName"\n
+sets the graph layout to the layoutName
+
+> getLayoutOptions\n
+requests the layout options supported by the graph viewer
+returns the options supported by the current layout
+format: arbitrary number of lines, ended by endoptions\n
+
+> setLayoutOption "optionName" "optionValue"\n
+sets the layout option optionName to the optionValue, which may be a value of the types int, double, enum, bool, string, as needed by the graph viewer
+returns optionset\n or an error message
+
+> layout\n
+forces a relayout
+
+> show\n
+shows the graph (without relayout)
+
+- Miscellaneous:
+
+> sync\n
+sends a sync request and waits for a sync response
+returns sync\n
+
+> waitForElement true\n
+> waitForElement false\n
+when sent with true, the user has to pick an element, the client waits until it receives its name
+returns the element selected by the user
+when sent with false, the debugger aborts the user query
+Note: this command is an exception regarding the general arguments enclosing rule, the boolean input argument is given without ".
+
+> exit\n
+closes connection/ends application
+
+- Unsupported:
+
+> renameNode "oldName" "newName"\n
+changes the name(==id) by which the node is accessible; deprecated, purge, not supported by MSAGL
+
+> renameEdge "oldName" "newName"\n
+changes the name(==id) by which the edge is accessible; deprected, purge, not supported by MSAGL
+
+
+Code mapping hints / architectural decisions / entry points
+===========================================================
+
+The implementation of the clients already exists in GraphViewerApplicationProxy.cs, with the GraphViewerApplicationProxy base class, and the YCompClient as well as the ExtMSAGLExtClient.
+
+How to implement the server mode in the extMSAGLExt application (the server mode of yComp is also already existing, but its source code is not available):
+
+Use TcpListener on loopback/localhost address and given port, accept incoming connection as TcpClient, read bytes (ascii-encoding) from NetworkStream, and process line-wise, matching against the known commands and their expected inputs.
+The UI must stay responsive in the meantime / normal message processing must continue (thus async/await should be preferable).
+
+Directly forward the received input commands to the MSAGLExtClient class the extMSAGLExt application is built upon.
+The input commands received via the network socket are an 1:1 mapping of the according IBasicGraphViewerClient operations.
+
+Upon errors, emit messages to the console.
+In case of graph element not known errors, do not modify the graph.
+In case of realizer not known errors, use the default node/edge attributes as given in the VcgImport.txt specification.
+
+Fail if single line command exceeds 64MB in size (the normal receive buffer should be much smaller), emit an error message and close the connection then.
+
+Because of the command line termination by \n and the need for newlines in labels, an escaping is applied in the clients which needs to be unapplied, of backslashes and newlines.
+
+Class inheritance locally in the client: 
+ExtMSAGLExtClient : GraphViewerApplicationProxy
+YCompClient : GraphViewerApplicationProxy
+GraphViewerApplicationProxy : IBasicGraphViewerClient
+
+Class inheritance in the server:
+MSAGLExtClient : UserControl, IBasicGraphViewerClient (this class is also used in the client to display the graph, but its important usage in our context is in the server application extMSAGLExt).
+Introducing an ExtMSAGLExtClient class (not to be mistaken with the ExtMSAGLExtClient proxy class in the client) could make sense.
+
+It is unclear whether the best implementation of the command line parsing is with a parser/lexer generated by the parser generator ANTLR already used in the project, standard regular expressions (and their implementing state machines), or plain code. 
+Investigate and decide (a single finite state machine for tokenizing should be preferable).
+
+
+Further points / Discussion / Rationale
+=======================================
+
+Note that this part of the protocol is fixed because of the frozen closed source yComp application.
+The protocol may be extended later for/in the extMSAGLExt version.

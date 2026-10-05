@@ -1,0 +1,35 @@
+<!-- by Edgar Jakumeit -->
+
+extMSAGLExt
+===========
+
+The extMSAGLExt.exe is an external graph viewer application based on the MSAGLExtClient control (which in turn is an extended version of the MSAGLClient control).
+It is a Windows Forms based application that offers two extensions:
+- server mode like yComp: the GrGen debugger communicates with it over the same text-commands-over-TCP protocol that is used by the YCompClient to implement live graph updates.
+- vcg file support similar to yComp: extMSAGLExt offers to import and visualize vcg files (in the same or at least a similar way - limited to what GrGen.NET dumps).
+
+When started with an argument denoting a file path: read the according vcg file (or show an error message if a non-vcg file is given, or the file can't be found)
+When started with a -p <portnumber> argument: open a TCP server socket, listen to commands, and apply them (or show an error message if the port can't be opened).
+
+GUI:
+The main display is the MSAGLExtClient control.
+The application shows additionally a menu bar with a File menu and an Open command as well as a Close command.
+The Open command opens a file open dialog that allows the user to select a .vcg file for import.
+When exited with OK, the current graph is cleared (a potentially running debugging session closed), then the chosen VCG file is imported and displayed.
+The Close command closes the application.
+
+The protocol of the server mode of the graph viewer application to be implemented is specified in LiveGraphChangesProtocol.txt
+The vcg format to be supported and the way how it should be processed during import is specified in VcgImport.txt
+(The MSAGLExtClient control is specified in MSAGLExt.txt.)
+
+The client code was already adapted to support extMSAGLExt, with support for the following GrShell commands (that can be used for testing, besides executing the graph viewer application directly):
+> debug with extMSAGLExt
+> show graph extMSAGLExt
+
+The server, i.e. extMSAGLExt graph viewer application is to be implemented.
+
+Code mapping hints/architectural decisions/entry points:
+In the engine-net-2/src folder add a folder extMSAGLExt.
+Create an extMSAGLExt.csproj VisualStudio project (WindowsForms application) building an extMSAGLExt.exe into the engine-net-2/bin folder (it is going to be added later to the GrGen.sln and EngineNet2.sln solution files).
+Import/reference graphViewerAndSequenceDebuggerWindowsForms.csproj containing the MSAGLExtClient and its dependencies (maybe later try to reduce the dependencies/the quite large amount of unused code).
+Reuse grgen.ico as application icon.
