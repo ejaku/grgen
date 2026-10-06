@@ -102,13 +102,15 @@ The implementation of the vcg dumper already exists in libGr/IO/VCGDumper.cs, wh
 How to implement the vcg import (the vcg importer of yComp is also already existing, but its source code is not available):
 
 Create a grammar file for the ANTLR parser generator with semantic actions building the AST (reuse the ANTLR already in use in the project).
-Use a two pass architecture, after building the AST, carry out constraint checking when creating the real (MSAGL) graph.
+An alternative would be a hand-written recursive descent parser, the grammar is simple. To be investigated and decided.
+Use a two pass architecture, after building the AST (and filling the definition table), carry out constraint checking when creating the real (MSAGL) graph.
 When a syntax error is found: show an error message dialog and abort
 
 Create classes: AST.Graph, AST.Node, AST.Edge, AST.Subgraph each containing a Dictionary<string, string> attributes member variable;
 using string instead of object in the range of the map has the advantage that it can be just filled in the parser, leaving the checking and the conversions of e.g. the string representation of a number to the second pass.
 Use a global definition table Dictionary<string, AST.Entity> nodeOrSubgraphNameToEntity to look up the nodes and subgraphs by name;
-it could make sense to let AST.Subgraph inherit from AST.Node, then using AST.Node instead of the general base class AST.Entity would make more sense.
+it could make sense to let AST.Subgraph inherit from AST.Node, then using AST.Node instead of the general base class AST.Entity would make more sense for this map.
+Regarding the graph building: very direct, with the exception that for each unique node/edge-style combination, a realizer must be registered.
 
 Constraints to check/depend upon:
 - in nodes and subgraphs: the attribute title must exist, emit an error message when it does not, do not create the node/subgraph then
@@ -156,5 +158,6 @@ A simple single pass architecture would be possible when:
 The GrGen.NET vcg dumper writes some graph attributes not listed in our grammar definition - they are (at least for now) to be ignored like other unknown attributes (causing a warning message).
 Note that the "layoutalgorithm" attribute is dumped as "normal" with a comment telling about the algorithm to use. This (dubious behavior) is to ensure (exact) compatibility with the outdated vcg program (its inner workings). An incompatible appropriate extension by listing own layout methods would make more sense.
 Also to be ignored are the classname num, infoname num, colorentry num attributes/attribute keys.
+Not to be ignored is info1 which contains the attributes (of the graph element/its type).
 
 Note that strings in vcg (at least the dumps from GrGen) contain newlines verbatim without escaping.
