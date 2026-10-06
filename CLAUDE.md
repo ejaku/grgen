@@ -94,7 +94,7 @@ For more see the CLAUDE.md in engine-net-2.
 
 ### Key Design Pattern
 
-- **Formal language processing**: Generated recursive-descent (potentially backtracking) parsers, nested symbol tables and type checking, syntax directed interpretation/translation
+- **Formal language processing**: Generated recursive-descent (potentially backtracking) parsers, nested symbol tables and type checking, syntax directed **interpretation**/translation/code-**generation**
 - Backend/Runtime implementation with high-performance graph pattern matching by **scheduled search programs** on specifically tailored **O(1) data structures**; modifications cause change **events**, quite some functionality offered on top of them.
 
 ### Code Style (/Architecture)

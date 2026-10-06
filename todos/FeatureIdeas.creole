@@ -1,5 +1,34 @@
 == Planned upcoming features in GrGen (Roadmap) ==
 
+=== Improved Graph Visualizer ===
+Extend the MSAGLExt graph viewer with folding/unfolding of nested nodes in the main graph display.
+Also by on-demand edges: Remove edges from static layout, adding/showing them only when certain nodes are hovered (similar to the Compilergraph layout in yComp).
+Add a vcg import (potentially as yComp transplant, and maybe other import/export visualization formats).
+extMSAGLExt: MSAGLExt in form of an external app, remote controllable via the yComp protocol (with a decoupled GUI message loop).
+
+=== Improved GGrShell/GrShell ===
+Implement a shell history function.
+Implement the ability to debug graph rewrite scripts line-by-line (GGrShell only).
+Multi console tab support (GGrShell only)?
+
+=== Basic standalone IDE ===
+Rendering the project layout based on the files and folders.
+Supplying textual editors with language support (maybe a language server could be used towards this purpose).
+Project execution with the GGrShell.
+Nice-to-have addition: logical views of the contents of the physical files (entity trees, graphical renderings/views, the latter could be added as shell features before).
+Nice-to-have addition: graphical editors.
+Nice-to-have addition: a terminal window that could be used for agentic code generation / as a flexible project wizard.
+Compiler/Execution host/Debugger/Viewer has priority over IDE/GUI development tools - the former are needed, the latter only add convenience - but they could be vibe coded...
+Analogy: Visual Studio/TeXnicCenter, files derived from roots.
+But: because of the targeted usage as algorithmic kernel in a .NET program a VisualStudio plugin would make sense.
+
+=== Language Server Support (Visual Studio Code) ===
+Write a syntax-highlighting and auto-completion plugin for GrGen (based on its grammar and scoping rules, for the the model language, the rules language, the sequences language, the shell language).
+Considerable effort, but a distinct component with few dependencies and a rather low amount of expected future changes.
+Maybe possible re-using the available grammars, building the language AST, which is then queried via the language server interface.
+Unclear what kind of support for incremental parsing is needed.
+https://microsoft.github.io/language-server-protocol/
+
 === Improved GUI / debugger ===
 The WindowsForms components could be extended by features utilizing the MSAGL graph visualization library, e.g. sequence abstract syntax graphs showing variable reading/writing instead of only a syntax tree, and/or support for sequence expressions and computations as tree/graph elements instead of only text components.
 The graphical model display and rule pattern visualization could be improved (gshow extension).
@@ -7,10 +36,6 @@ Visualize the complete rule, i.e. in addition to the LHS also the RHS, would req
 Visualize the match structure in form of a parse tree (GrGen.NET generates a top-down backtracking (context-free) star graph grammar parser/pair star graph grammar transducer out of the constructs from its nested patterns/subpatterns language acting as nonterminals, guided by the matched terminals i.e. graph elements, and the lookahead you specify with application conditions) - also: visualize the grammar structure of the generated parser / the nested patterns/subpatterns language.
 Analogy: a graph database browser/workbench (an analogy working well since the availability of the persistent graph).
 Plus: improved AsGraph-support for the visualization of non-graph object structures.
-
-=== Improved GGrShell/GrShell ===
-Implement the ability to debug graph rewrite scripts line-by-line.
-Implement a shell history function.
 
 === Model language extensions ===
 Improve subgraph support by allowing graph crossing edges (and maybe by allowing to define a graph valued attribute to be the one nested subgraph).
@@ -21,6 +46,7 @@ This would be nearer to C#/Java, more intuitive to programmers from that languag
 (Vice versa maybe even internal class object embeddings by var prefix/object composition instead of aggregation (but no value class types).)
 Add support for ordered edges (benefitial side-effect: less expensive graph comparison).
 Maybe: use object class as base for node, edge, graph class (with shared flags bitvector)?
+Add configuration options to generate singly linked graph model, or e.g. model with LinkedHashMap instead of Dictionary.
 
 === Rule language completions/extensions ===
 Add a constructor (the semantics of C++ constructors when virtual inheritance is used could be applied).
@@ -33,23 +59,13 @@ Generic node/edge returning methods nodes<T>(T)/edges<T>(T) defining the output 
 The sequence computations language lacks control flow constructs (several loops).
 For effort reasons (also preventing "duplication"), these are only available in the sequences, requiring ugly syntax and a break to the sequences in order to get back to the sequence computations if a computation is to be controlled.
 (The constructs from the rule language with their distinction into expressions and statements are to be taken as examples/ideals, the constructs from the sequences proper with a boolean return plus side-effects are less well suited).
+Maybe todo: variable hoisting. Less direct semantics but better pragmatics.
 
 === Graph interface completions/extensions ===
 Supply incident edge functions that return an ordered array instead of an unordered set; to be used with ordered edges.
  
 === Core parts also available in a .NET standard configuration (instead of .NET Framework) ===
 Requires some CodeDom/assembly referencing changes in the compiler.
-
-=== Improved Graph Visualizer ===
-Extend the MSAGLExt graph viewer with folding/unfolding of nested nodes in the main graph display.
-Also by on-demand edges: Remove edges from static layout, adding/showing them only when certain nodes are hovered (similar to the Compilergraph layout in yComp).
-Add a vcg import (potentially as yComp transplant, and maybe other import/export visualization formats).
-extMSAGLExt: MSAGLExt in form of an external app, remote controllable via the yComp protocol (with a decoupled GUI message loop).
-
-=== Non-automatic graph layout/3D-Visualization ===
-In computational design synthesis, typically 3D models are generated.
-They contain already a fixed 3D-layout (world coordinates).
-Supply a Unity based graph viewer/renderer for them.
 
 === Known bugs / Issues due to change in the environment / Missing orthogonality of features ===
 - yComp is closed source (because of the usage of yFiles), unmaintained, and does not run with modern versions of OpenJDK/requires specific configurations (see https://github.com/bigraph-toolkit-suite/bigraphs.grgen-bigraphs#Troubleshooting).
@@ -58,6 +74,7 @@ Create an open-source .NET replacement (and give a clear hint to the user that h
 - The MSAGL component has some bugs (e.g. incremental layout requiers a non-empty graph), see which workarounds are possible in GrGen.
 Also: sometimes text labels are not displayed anymore, find out when/why, maybe a workaround is possible.
 - Investigate the "Unknown edge" messages that appear under certain circumstances in case of nested graphs.
+- Use nuget package of ANTLR (https://www.nuget.org/packages/antlr/) instead of storing the binaries downloaded from the webpage in the project(?)
 
 == Feature ideas for GrGen (General TODOs) ==
 
@@ -66,6 +83,24 @@ Adding of subgraphs into the graph on user request.
 New visualization configuration/layout directives. Potentially dedicated languages/files.
 (Now that a graph viewer is available that can also be used in end user applications: icon support would be nice.)
 Further integration of the behavior with the visual rendering would be possible (gui events handlers, command menu configurations).
+
+=== Non-automatic graph layout/3D-Visualization ===
+In computational design synthesis, typically 3D models are generated.
+They contain already a fixed 3D-layout (world coordinates).
+Supply a Unity based graph viewer/renderer for them.
+
+=== Browser Graph Viewer ===
+Only a graph viewer, proxy-like class in graphViewerAndSequenceDebugger.dll with a mini-server, handing out a WebMSAGL JavaScript that is then fed by Server-Sent Events (or better a WebSocket?) with online graph changes (and/after the initial graph).
+show graph/debug with MSAGLWeb, also opens the system default browser to the localhost address at which the server was opened, user interaction occurrs with the console debugger.
+Note the inverted client/server logic compared to yComp/extMSAGLExt. (Compared to a WPF version, this one would also work under Linux.)
+Alternative: use MSAGL layout core in C# and deliver layouted graph with coordinates as html (no/few js)
+Alternative: webassembly blazor version of graph viewer (issue: MSAGL has no built-in support)
+(In general, for original development, type script is highly preferable to java script. But WebMSAGL java script is transpiled from C#. The same method could be used to offer a complete WebGrGen - but that one is not welcome/intended/targeted.)
+
+=== WPF-based Graph Viewer/Debugger ===
+Implement a graphViewerAndSequenceDebuggerWPF.dll (TBD: only a graph viewer with console debugger versus complete coverage including a WPF-based debugger GUI)
+Possible because MSAGL also supports WPF. (Supply data bindings to the GrGen graph types. Caveat: Windows only. Issue: DoEvents in WPF?)
+Alternative: non-MSAGL graph viewer based on Tulip (native).
 
 === Extended automated tests ===
 While the language features are quite well covered by compiler (frontend/smoke/error message) and shell-execution-effect (semantic/function/backend) tests, i.e. integration tests, their implementing modules are lacking unit tests (e.g. the scheduler would be an excellent target for unit tests).
@@ -82,33 +117,16 @@ Some test devices in the rule/computations language (written through to its unde
 Maybe some example base targeted at ingestion by machine learning (so AI/agentic coding becomes better at writing code in the GrGen languages -- spec driven development with natural language specifications being transformed to GrGen-specifications/code).
 Improve CLAUDE.md surveys/summaries with more implicit design knowledge/applied-and-to-be-applied patterns (but todo: relationship to developing section in user manual?).
 
-=== Basic standalone IDE ===
-Rendering the project layout based on the files and folders.
-Supplying textual editors with language support (maybe a language server could be used towards this purpose).
-Project execution with the GGrShell.
-Nice-to-have addition: logical views of the contents of the physical files (entity trees, graphical renderings/views, the latter could be added as shell features before).
-Nice-to-have addition: graphical editors.
-Nice-to-have addition: a terminal window that could be used for agentic code generation / as a flexible project wizard.
-Compiler/Execution host/Debugger/Viewer has priority over IDE/GUI development tools - the former are needed, the latter only add convenience - but they could be vibe coded....
-Analogy: Visual Studio/TeXnicCenter, files derived from roots.
-But: because of the targeted usage as algorithmic kernel in a .NET program a VisualStudio plugin would make sense.
-
 === Visual Studio Integration ===
 Write a Visual Studio plugin with support for GrGen files in a C# project (maybe also a Visual Studio Code plugin).
 (Writing an own IDE would safe one from adaptations at interface changes of external providers but would be questionable given limited resources.)
-
-=== Language Server Support (Visual Studio Code) ===
-Write a syntax-highlighting and auto-completion plugin for GrGen (based on its grammar and scoping rules, for the the model language, the rules language, the sequences language, the shell language).
-Considerable effort, but a distinct component with few dependencies and a rather low amount of expected future changes.
-Maybe possible re-using the available grammars, building the language AST, which is then queried via the language server interface.
-Unclear what kind of support for incremental parsing is needed.
-https://microsoft.github.io/language-server-protocol/
 
 === Usability from C# ===
 Maybe some improvements in C#-interfacing possible:
 - use GrGen.NET-object from API level
 - embedd .NET objects as external extensions into GrGen objects
 Both available, but important for regular development workflows, so improvements are to be investigated, e.g. integration with the GrGen-framework so that persistence and visualization can be offered for .NET objects, and GrGen-objects can be easily used from C# code (and e.g. persisted with another ORM-mapper).
+Maybe use INotifyPropertyChanged/INotifyPropertyChanging and other pre-defined/standard interfaces instead of the custom ones.
 
 === Compiler Integration ===
 C# language integration based on Roslyn - The .NET Compiler Platform.
@@ -122,6 +140,7 @@ I.e. allow to encapsulate control programs with their corrsponding state into on
 Potential add-on in the interpreted sequences of the actions/the GrShell: extension sequences similar to extension methods, that would allow to also dynamically extend the statically known and compiled transient classes with sequences, object oriented programming with inheritance would not be possible this way, only "external" object-based programming.
 (Changes to the overloading of the symbol this would be needed...)
 But: rethink transient handling, maybe only a modifier in all types...
+Maybe better name: control class/workflow class (natürliche Umebung für Transaktionen)
 
 === Test sequences ===
 Carry through the command-query-separation (architecture with state-change events) that is ingrained in the languages with the separation into stateless/non-modifiying expressions and stateful/state-changing statements, abstracted into functions/procedures, or tests/rules (and pattern-matches/rewrites) through to the sequences.
@@ -317,6 +336,12 @@ Besides, some extra thoughts are needed because of the envisaged graph classes.
 === Support for different memory management models ===
 Supply two memory management models, a garbage collection and an explicit resource allocation/deallocation model (delete on objects needed for the latter, graph.add/rem are already available, a graph re-add could make sense in the former model), the former allows to run the latter highlighting programming errors, the latter can run in languages/environments without a garbage collector (and can offer further optimizations). (Also clarify the semantics/usage of esp. node/edge references, maybe adding debugging helpers.)
 
+=== Code structure ===
+New project structure regarding folders:
+- frontend: frontend.exe
+- engine-net-2 with only: grgen.exe, libGr.dll, lgspBackend.dll, libConsoleAndOs.dll, libGrPeristentGraphSQLite.dll
+- graph viewer / debugger / execution shell / design workbench: the other project files, assemblies, executables, on top of the engine-net-2 infrastructure
+
 === C++ backend ===
 Port the C# backend and the runtime to C++, offer it additionally to the .NET backend.
 A huge effort, and difficult for the untyped graph global variables, because they are handled by typeof/reflection (for the normal class types, RTTI would do the job).
@@ -379,9 +404,11 @@ But feels like an important omission that has to be supplied so it is a full pro
 === Formal Semantics ===
 Extend the formal (execution) semantics (graph morphims, category theory, pair star graph grammars, denotational semantics) by a type system (specification of the static semantics).
 
-=== User manual style ===
-TBD and consistently applied. Clearly separate syntax/semantic specifications from hints to the user and tutorials about pragmatically using stuff (both parts needed).
+=== User manual ===
+Define a user manual style and apply it consistently.
+Clearly separate syntax/semantic specifications from hints to the user and tutorials about pragmatically using stuff (both parts needed).
 Add a comparison with ISO GQL.
+Supply a german language version of the user manual.
 
 === Commit history ===
 There were several commits since the switch to git of the kind "Split x out of y" or "Split x into y" with only one file continuing the file history (due to the lack of a versioned copy command).

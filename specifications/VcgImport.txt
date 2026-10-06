@@ -124,7 +124,9 @@ Further reading / Discussion / Rationale
 it is a tool for graph visualization that reads a graph description language with .vcg file suffix and format
 that is based on the graph representation language GRL.
 
-You can find the vcg source code and documentation in the github project <https://github.com/deadcodesoc/vcg.git>
+You can find the vcg source code and documentation
+on the original website <https://www.rw.cdl.uni-saarland.de/people/sander/private/html/gsvcg1.html>
+or in the github repository <https://github.com/deadcodesoc/vcg.git>.
 doc/grammar.txt contains the detailed/full language grammar in BNF notation (with left-recursive rules)
  (plus the PGS parser generator parsing grammar (compiled to bison) in src/grammar.pgs)
 The main documentation of vcg is contained in doc/visual.ps and may be used to look up detailed information.
