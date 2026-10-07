@@ -155,6 +155,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unittests", "unittests", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphAndModelTests", "unittests\GraphAndModelTests\GraphAndModelTests.csproj", "{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "extMSAGLExt", "src\extMSAGLExt\extMSAGLExt.csproj", "{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -655,6 +657,18 @@ Global
 		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|x64.Build.0 = Release|x64
 		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|x86.ActiveCfg = Release|x86
 		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|x86.Build.0 = Release|x86
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|x64.ActiveCfg = Debug|x64
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|x64.Build.0 = Debug|x64
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|x86.ActiveCfg = Debug|x86
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|x86.Build.0 = Debug|x86
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|x64.ActiveCfg = Release|x64
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|x64.Build.0 = Release|x64
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|x86.ActiveCfg = Release|x86
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

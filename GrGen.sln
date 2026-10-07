@@ -172,6 +172,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unittest", "unittest", "{D6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcceptanceTests", "frontend\unittest\AcceptanceTests.csproj", "{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "extMSAGLExt", "engine-net-2\src\extMSAGLExt\extMSAGLExt.csproj", "{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -696,6 +698,18 @@ Global
 		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Release|x64.Build.0 = Release|x64
 		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Release|x86.ActiveCfg = Release|x86
 		{2567A962-6DAC-2DDE-F67B-3E70AA3044EA}.Release|x86.Build.0 = Release|x86
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|x64.ActiveCfg = Debug|x64
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|x64.Build.0 = Debug|x64
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|x86.ActiveCfg = Debug|x86
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Debug|x86.Build.0 = Debug|x86
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|x64.ActiveCfg = Release|x64
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|x64.Build.0 = Release|x64
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|x86.ActiveCfg = Release|x86
+		{99133185-36B5-4134-9F5B-C6AC0AEF9BD7}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
