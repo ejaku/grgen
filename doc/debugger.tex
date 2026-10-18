@@ -2,8 +2,17 @@
 \label{chapdebugger}
 
 This chapter gives an introduction to the visualization and debugging capabilities of \GrG.
-They are offered by a console debugger (either rendered on a stdout-console or a WindowsForms console like display) or a GUI debugger containing an input/output console,
-in combination with the graph viewer application \yComp{} or a builtin graph viewer based on the MSAGL library, that can also be used in your own application via an API, and the configuration commands offered by \GrShell\ (which is the traditional execution host of the console debugger).
+They are offered by a
+\begin{itemize}
+  \item console debugger (either rendered on a stdout-console or a WindowsForms console like display) or a
+  \item GUI debugger (containing an input/output console).
+\end{itemize}
+Together with the
+\begin{itemize}
+  \item external graph viewer applications \extMSAGLExt{} or \yComp{}, or an 
+  \item internal builtin graph viewer based on the MSAGL library, that can also be used in your own application via an API,
+\end{itemize}
+and the configuration commands offered by \GrShell\ (which is the traditional execution host of the console debugger).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Visualization Commands (Nested Layout)}\label{sub:visual}\indexmain{visualization}\indexmainsee{layout}{visualization}\indexmainsee{visualization}{group node}\indexmain{nested layout}\indexmainsee{nested layout}{group node}\indexmain{nested graph}\indexmainsee{nested graph}{group node}
@@ -20,7 +29,7 @@ If you use \yComp\footnote{See Section~\ref{tools:ycomp}.}\indexmain{yComp} as e
   \includegraphics[width=0.85\linewidth]{fig/showgraph}
 \end{center}
 
-\pagebreak
+%\pagebreak
 
 If you use one of the programs of the graphviz\indexmain{graphviz} package, e.g. dot\indexmain{DOT} (\texttt{show graph dot}), this may look like
 \begin{center}
@@ -34,15 +43,18 @@ The executables must be available in the search path of the system (so you have 
 The temporary file(s) will be deleted when the application \emph{Filename} is terminated, in case \GrShell\ is still running at this time.
 If the \texttt{keep} parameter was specified, the file(s) will be kept instead.
 
-You may also specify \texttt{MSAGL} or \texttt{MSAGLExt} (see \ref{sec:MSAGL} for more on MSAGL).
+You may also specify \texttt{MSAGL} or \texttt{MSAGLExt} (see \ref{sec:MSAGL} for more on \MSAGL{}).
 Note that no file will be dumped in this case, and that the shell will be frozen until you close the graph viewer window (furthermore, parameters will be ignored). 
+
+For that reason, \texttt{MSAGL} and \texttt{MSAGLExt} are discouraged when it comes to the \texttt{show graph} command, but alternatively, you may specify \texttt{extMSAGLExt} (which is based on \MSAGLExt{}), then the graph is dumped into a \texttt{vcg}-file as in the \yComp{}-case, and displayed in the external graph viewer application \extMSAGLExt{} (see \ref{sec:extMSAGLExt} for more on this program).
+This may look like in \ref{fig:antworld} (note that the screenshot shows a situation from debugging, in contrast to the display of a static dumped file).
 
 \begin{rail}
   'dump' 'graph' Filename
 \end{rail}\ixkeyw{dump}\ixkeyw{graph}
 Dumps the current graph in \indexed{VCG} format into the file \emph{Filename}.\\
 
-\pagebreak
+%\pagebreak
 
 The following commands control the style of the VCG output and the online graph display.
 This affects \texttt{dump graph}, \texttt{show graph}, and \texttt{enable debug}.
@@ -153,7 +165,7 @@ The following example consisting of Figures~\ref{figprogramgraph1} and \ref{figp
 \begin{itemize}
 	\item nesting to show containment
 	\item color coding to distinguish different classes of elements (yellow for classes, magenta for methods, cyan for variables, and green for expressions and statements)
-	\item the typical rendering of the \texttt{Hierarchic} layout (its advanced version \texttt{Compilergraph} to be more exact)
+	\item the typical rendering of the \texttt{Hierarchic} layout (its specific version \texttt{Compilergraph} aimed at compiler construction to be more exact)
 \end{itemize}
 
 \begin{figure}[htbp]
@@ -226,7 +238,7 @@ Besides the things already mentioned in \ref{tools:ycomp}, we want to give the f
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MSAGL Usage}\label{sec:MSAGL}
+\section{MSAGL and MSAGLExt Usage}\label{sec:MSAGL}
 
 \MSAGL\indexmain{MSAGL}\cite{MSAGL}, an abbreviation of Microsoft Automatic Graph Layout, is a .NET library and tool for graph layout and viewing.
 \MSAGL{} is not a standalone application, in contrast to \yComp{}, but a library that is linked into \GrG\ (and used at API level).
@@ -238,13 +250,16 @@ The available layouts of \MSAGL{} are: \texttt{SugiyamaScheme}, \texttt{MDS}, \t
 
 In order to use it from \GrShell{}, you have to employ the \texttt{debug with} command.
 \begin{rail}
-  'debug' 'with' ( 'yComp' | 'MSAGL' | 'MSAGLExt' )
+  'debug' 'with' ( 'yComp' | 'MSAGL' | 'MSAGLExt' | 'extMSAGLExt' )
 \end{rail}\ixkeyw{debug}\ixkeyw{with}
-Switches the graphical part of the debugger (the graph viewer) in between \yComp{} (default) and \MSAGL{} or extended \MSAGL{}.
+Switches the graphical part of the debugger (the graph viewer) in between \yComp{} (default) or \MSAGL{} or extended \MSAGL{} or \extMSAGLExt{} (external MSAGL extended).
 Extended \MSAGL{} supplies an additional left pane similar to \yComp{}, with a map-like view, a search pane, a node subgraph nesting tree, and an attributes/properties view.
 Here, too, you can search with \texttt{Ctrl-f} or \texttt{/}.
 
-If \MSAGL{} (or its extended version) is used, the debugger is displayed with a Windows Forms\cite{WinForms} GUI, potentially consisting only of a console like control -- similar to the stdout console of the \GrShell{} used to display the debugger in case of \yComp{}.
+If \MSAGL{} (or its extended version) is used (unless it's the external version), the debugger is displayed with a Windows Forms\cite{WinForms} GUI.
+It may be reduced to only a console like control,
+which is functionally similar to the stdout console of the \GrShell{} used to display the debugger in case of \yComp{} or \extMSAGLExt{},
+but technically different as it is a Windows Forms control.
 
 The program graph from \texttt{examples/JavaProgramGraphs-GraBaTs08} looks like depicted in Figures~\ref{figprogramgraph3} and \ref{figprogramgraph4} (compared to the \yComp{}-rendering in Figures~\ref{figprogramgraph1} and \ref{figprogramgraph2}).
 
@@ -286,6 +301,23 @@ You may find out which mode is enabled with the following command:
   'debug' 'get' 'options'
 \end{rail}\ixkeyw{debug}\ixkeyw{get}\ixkeyw{options}
 Lists the available debug options.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{extMSAGLExt Usage}\label{sec:extMSAGLExt}
+
+\extMSAGLExt\indexmain{extMSAGLExt} is an external graph viewer application based on the internal \MSAGLExt{} graph viewer.
+When started as a server process, it can be controlled by the console debugger (see \ref{fig:antworld} for an example screenshot) via a loopback/localhost TCP/IP connection like \yComp{} (just to be explicit: the GUI debugger can not be used with \extMSAGLExt{}, it is only employed when \texttt{MSAGL} or \texttt{MSAGLExt} are specified).
+When started with a file path of a vcg file as argument, it imports and renders the vcg file.
+It supports the layouts also supported by \MSAGL{}\ref{sec:MSAGL}.
+The \extMSAGLExt{} app may be also used freely (in contrast to the \yComp{} app).
+
+\begin{figure}[hptb]
+  \centering
+  \includegraphics[width=0.99\linewidth]{fig/extMSAGLExt}
+  \caption{A situation from debugging the GrGen.NET-solution of the AntWorld case from GraBaTs\cite{grabats} that can be found in \texttt{examples/AntWorld-GraBaTs08}, rendered with \extMSAGLExt{} and layout MDS}
+  \label{fig:antworld}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -57,7 +57,7 @@ You find a more detailed explanation in \ref{cha:toolsandcomponents}, also expla
 
 The programs and libraries of \GrG\ are open source licensed under \indexed{LGPL}\cite{LGPL3}.
 The graph viewer \yComp\ is closed source and ships with its own license granted by \yFiles\ for academic use.
-The \MSAGL{} based graph viewer comes with a way more permissive MIT license.
+The \MSAGL{} graph viewer library comes with a way more permissive MIT license.
 The persistent graph is implemented utilizing the SQLite database, which is in the public domain.
 
 Executing a generated graph rewrite system requires .NET Framework\cite{NET} version 4.7.2 or mono\cite{MONO} version 5.10, or later (maybe complete packaging); the same holds for compiling it, building \GrG{} itself and debugging a graph rewrite system with \yComp{} in addition requires JAVA\cite{JAVAweb} version 1.8 or later. 
@@ -96,9 +96,10 @@ The \GrShell\ is a console application, while the \GGrShell\ is a WindowsForms a
 It is well integrated and shipped with \GrG, but it's not a part of \GrG; it is supplied by IPD Snelting, the successor institute of IPD Goos.% at \url{https://pp.ipd.kit.edu/firm/yComp.html}.
 \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML and YGF among others.
 
-You may use the internal \MSAGL{} based graph viewer instead, which comes as a .NET component.
-It is a more natural fit for a .NET application, and can be freely included in your own .NET applications (to visualize the graph(s) for the user).
-For more on \yComp, see Section~\ref{tools:ycomp}, for more on MSAGL, see Section~\ref{sec:MSAGL}.
+You may use the internal \MSAGL{} graph viewer or its extended version \MSAGLExt{} instead, which come as a .NET component.
+Alternatively, you may use the external graph viewer application \extMSAGLExt{}.
+They are a more natural fit for a .NET application, and can be freely included in your own .NET applications (to visualize the graph(s) for the user).
+For more on \yComp, see Section~\ref{tools:ycomp}, for more on \MSAGL{} and \MSAGLExt{}, see Section~\ref{sec:MSAGL}, and for more on \extMSAGLExt{}, see Section~\ref{sec:extMSAGLExt}.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Several Dynamic Link Libraries that can be used at API level}

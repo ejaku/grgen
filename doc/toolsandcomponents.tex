@@ -132,7 +132,7 @@ The shell script \texttt{GrgenifyMovieDatabase.sh} from \texttt{examples/MovieDa
 \includegraphics[width=48pt]{fig/grshell-256.png}
 }
 \noindent The Graphical \texttt{GrShell.exe}\indexmain{GGrShell} is a shell application on top of the \LibGr\ that is implemented as a WindowsForms application (instead of a console application, which is the case for the \texttt{GrShell.exe}).
-It fits better to the MSAGL based WindowsForms debugger (that can also be employed from \GrShell).
+It fits better to the internal MSAGL based Windows Forms debugger (that can also be employed from \GrShell).
 The \GGrShell\ supports the same language that is offered by the \GrShell\, see Chapter~\ref{chapgrshell}.
 
 %-----------------------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ You may use it in your own applications (build a .NET application on top of it, 
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{graphViewerAndSequenceDebugger.dll}}
-The \texttt{graphViewerAndSequenceDebugger.dll} contains code that allows to display graphs (with \yComp) and debug sequences on a console.
+The \texttt{graphViewerAndSequenceDebugger.dll} contains code that allows to display graphs (with \yComp{} or \extMSAGLExt{}) and debug sequences on a console.
 You may use it in your own applications (build a .NET application on top of it, or even a native one based on .NET-interop) to include graph display with an external app and console-based sequence debugging.
 
 %-----------------------------------------------------------------------------------------------
@@ -150,6 +150,7 @@ You may use it in your own applications (build a .NET application on top of it, 
 The WindowsForms extension of the \texttt{graphViewerAndSequenceDebugger.dll} contains code that allows to use the MSAGL graph viewer, and debug sequences with a graphical debugger.
 You may use it in your own applications (build a .NET application on top of it, or even a native one based on .NET-interop) to include in-app graph display (based on the .NET library MSAGL) and graphical sequence debugging.
 The MSAGL library can be used nearly freely due to its MIT license.
+The \extMSAGLExt{} graph viewer application (see below) is built on top of it.
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{lgspBackend.dll}}
@@ -196,6 +197,19 @@ In order to use the MSAGL graph viewer on API level, you have to ensure that the
 \section{SQLite assemblies/libraries}
 In order to use the persistent graph, or better the SQLite persistence provider on API level, you have to ensure that the \texttt{System.Data.SQLite.dll} is available in your search path, besides the \texttt{libGrPersistenceProviderSQLite.dll}, and the \texttt{e\_sqlite3.dll} in case of Windows or the \texttt{libe\_sqlite3.so} in case of LINUX (note that the latter two libraries are native x64-builds of SQLite, and that the release of \GrG{} is a 64bit-only version by now, you may build the x86-version(s) on your own, see Section~\ref{sub:building}).
 You find them in the \texttt{bin} directory.
+
+%-----------------------------------------------------------------------------------------------
+\section{\texttt{extMSAGLExt.exe}}
+\label{tools:extMSAGLExt}
+\extMSAGLExt\indexmain{extMSAGLExt} is a graph visualization application based on the \texttt{MSAGLExt} control from \texttt{graphViewerAndSequenceDebuggerWindowsForms.dll}.
+\extMSAGLExt\ implements several graph layout algorithms and has file format support for \indexed{VCG}.
+
+\begin{description}
+  \item[Usage] Usually \extMSAGLExt\ will be loaded by the \GrShell. You might want to open \extMSAGLExt\ manually by typing\\
+   \texttt{extMSAGLExt.exe [<graph-file>]}\\
+  Or by executing the batch file \texttt{extMSAGLExt} under Linux,
+  which will start \extMSAGLExt\ on the given file adding the \texttt{mono} prefix as needed.
+\end{description}
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{yComp.jar}}
