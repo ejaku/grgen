@@ -15,7 +15,7 @@ Its features can also by used via an API in end-user .NET-applications.
 Typical uses are in compiler construction, model transformation, computer linguistics/knowledge representation, and engineering domains (in which graph representations of data are natural/intuitive).
 
 **Two main components:**
-- **Frontend** (`frontend/`): Compiler frontend using ANTLR 3.5 that parses `.grg` (rules) and `.gm` (model) files, formerly written in Java, now in C#, generates C# code
+- **Frontend** (`frontend/`): Compiler frontend using ANTLR 3.5 that parses `.grg` (rules) and `.gm` (model) files, written in C# (formerly in Java), generates C# code
 - **Backend** (`engine-net-2/`): C# engine that compiles the generated code into assemblies and executes graph rewriting operations with the GrShell application (CSharpCC-based, it interprets `.grs` graph rewrite script files)
 
 ## Build Commands
@@ -80,13 +80,14 @@ For more see the CLAUDE.md in frontend.
 - **GrGen**: Compiler driver - invokes the FrontendGrGen, extends and compiles generated C# code (main implementation in lgspBackend)
 - **GrShell**: Command-line shell for interactive graph manipulation and scripting (real implementation in libGrShell)
 - **GGrShell**: GUI shell/workbench with Windows Forms
+- **extMSAGLExt**: External graph viewer application based on the MSAGL library
 
 ### C# Library Projects
 
 - **libGr**: Core graph library - graph interfaces, pattern matching interfaces, sequence parsing and interpretation
 - **lgspBackend**: Search plan backend - generates search programs for pattern matching, also graph implementation and sequence code generation
-- **graphViewerAndSequenceDebugger**: sequence execution debugger (text-console) with graph visualization functionality
-- **graphViewerAndSequenceDebuggerWindowsForms**: GUI/visual debugger and MSAGL-graph-viewer
+- **graphViewerAndSequenceDebugger**: sequence execution debugger (text-console) with graph visualization functionality (extMSAGLExt and yComp)
+- **graphViewerAndSequenceDebuggerWindowsForms**: GUI/visual debugger and internal MSAGL-graph-viewer
 
 Further projects contain cross-platform consoles, a library with the GrShell main functionality, and the SQLite-based persistent graph storage.
 These libraries may be all included in end-user applications (used on API level).
