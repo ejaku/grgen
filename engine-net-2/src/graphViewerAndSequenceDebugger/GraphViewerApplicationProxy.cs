@@ -256,12 +256,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     /// </summary>
     public abstract class GraphViewerApplicationProxy : IBasicGraphViewerClient
     {
-        TcpClient ycompClient;
-        internal GraphViewerApplicationStream ycompStream;
+        TcpClient ycompClient; // TODO: rename to tcpClient, move to GraphViewerApplicationStream?
+        internal GraphViewerApplicationStream ycompStream; // TODO: rename to graphViewerApplicationStream
 
 
         /// <summary>
-        /// Creates a new YCompClient instance and connects to the local YComp server.
+        /// Creates a new GraphViewerApplicationProxy instance and connects to the local graph viewer application (yComp/or extMSAGLExt in server mode).
         /// If it is not available an Exception is thrown.
         /// </summary>
         protected GraphViewerApplicationProxy(int connectionTimeout, int port, string applicationName)
@@ -540,17 +540,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                                 + VCGDumper.GetLineStyle(lineStyle) + "\"\n");
         }
 
-        public String Encode(String str)
-        {
-            if(str == null)
-                return "";
-
-            StringBuilder sb = new StringBuilder(str);
-            sb.Replace("  ", " &nbsp;");
-            sb.Replace("\n", "\\n");
-            sb.Replace("\"", "&quot;");
-            return sb.ToString();
-        }
+        public abstract String Encode(String str);
     }
 
     /// <summary>
@@ -599,6 +589,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             return availableLayouts.ContainsKey(layoutName);
         }
+
+        public override String Encode(String str)
+        {
+            if(str == null)
+                return "";
+
+            StringBuilder sb = new StringBuilder(str);
+            sb.Replace("  ", " &nbsp;"); // seems not to be decoded, unclear what it is for at all
+            sb.Replace("\n", "\\n");
+            sb.Replace("\"", "&quot;"); // seems not to be decoded, but potentially prevents a " mismatch
+            return sb.ToString();
+        }
     }
 
     /// <summary>
@@ -636,6 +638,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public static bool IsValidLayout(String layoutName)     // TODO: allow case insensitive layout name
         {
             return availableLayouts.ContainsKey(layoutName);
+        }
+
+        public override String Encode(String str)
+        {
+            if(str == null)
+                return "";
+
+            StringBuilder sb = new StringBuilder(str);
+            sb.Replace("\n", "\\n");
+            sb.Replace("\"", "\\\"");
+            return sb.ToString();
         }
     }
 }
