@@ -3627,7 +3627,9 @@ namespace de.unika.ipd.grGen.grShell
 
             try
             {
-                using(VCGDumper dump = new VCGDumper(filename, curShellProcEnv.VcgFlags, debugLayout))
+                using(VCGBaseDumper dump = seqApplierAndDebugger.GraphViewerType == GraphViewerTypes.YComp
+                        ? new VCGDumper(filename, curShellProcEnv.VcgFlags, debugLayout)
+                        : new VCGBaseDumper(filename, debugLayout))
                     GraphDumper.Dump(curShellProcEnv.ProcEnv.NamedGraph, dump, curShellProcEnv.DumpInfo);
             }
             catch(Exception ex)

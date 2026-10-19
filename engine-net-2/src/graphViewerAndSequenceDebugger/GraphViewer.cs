@@ -256,14 +256,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Shows the graph dumped in vcg format with the renderer specified by programName (typically yComp), plus the arguments.
+        /// Shows the graph dumped in vcg format with the renderer specified by programName (typically yComp, potentially extMSAGLExt), plus the arguments.
         /// The .vcg file is deleted if !keep (the return value is the filename of the vcg file).
         /// </summary>
         public static string ShowVcgGraph(DebuggerGraphProcessingEnvironment debuggerProcEnv, String debugLayout, String programName, String arguments, bool keep)
         {
             String filename = GetUniqueFilename("tmpgraph", "vcg");
 
-            VCGDumper dumper = new VCGDumper(filename, debuggerProcEnv.VcgFlags, debugLayout);
+            // TODO: potential mismatch - layout is from the configured graph viewer while the program name is explicitly specified
+            VCGBaseDumper dumper = programName.Equals("extMSAGLExt", StringComparison.InvariantCultureIgnoreCase) 
+                ? new VCGBaseDumper(filename, debugLayout)
+                : new VCGDumper(filename, debuggerProcEnv.VcgFlags, debugLayout);
 
             GraphDumper.Dump(debuggerProcEnv.ProcEnv.NamedGraph, dumper, debuggerProcEnv.DumpInfo);
             dumper.FinishDump();

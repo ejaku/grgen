@@ -83,34 +83,34 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// A VCG graph dumper.
+    /// A VCG graph dumper writing a simplified VCG file not intended to be (fully) compatible with the original vcg program or yComp.
     /// </summary>
-    public class VCGDumper : IDumper
+    public class VCGBaseDumper : IDumper
     {
         //maps by index to GrColor defined in dumpInterface.cs:
         //Black, Blue, Green, Cyan, Red, Purple, Brown, Grey,
         //LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yellow, White,
         //DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac,
         //Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid, LightYellow, YellowGreen
-        private static readonly string[] colors = { "black", "blue", "green", "cyan", "red", "purple", "khaki", "darkgrey",
+        protected static readonly string[] colors = { "black", "blue", "green", "cyan", "red", "purple", "khaki", "darkgrey",
             "lightgrey", "lightblue", "lightgreen", "lightcyan", "lightred", "lightmagenta", "yellow", "white",
             "darkblue", "darkred", "darkgreen", "darkyellow", "darkmagenta", "darkcyan", "gold", "lilac",
             "turquoise", "aquamarine", "khaki", "pink", "orange", "orchid", "lightyellow", "yellowgreen"
         };
-        private static readonly string[] orientation = { "top_to_bottom", "bottom_to_top", "left_to_right", "right_to_left" };
+        protected static readonly string[] orientation = { "top_to_bottom", "bottom_to_top", "left_to_right", "right_to_left" };
         // maps by index to GrLineStyle defined in dumpInterface.cs:
         // Continuous, Dotted, Dashed, Invisible
-        private static readonly string[] lineStyles = { "continuous", "dotted", "dashed", "invisible" };
+        protected static readonly string[] lineStyles = { "continuous", "dotted", "dashed", "invisible" };
         // maps by index to GrNodeShape defined in dumpInterface.cs:
         // Box, Triangle, Circle, Ellipse, Rhomb, Hexagon,
         // Trapeze, UpTrapeze, LParallelogram, RParallelogram
-        private static readonly string[] nodeShapes = { "box", "triangle", "circle", "ellipse", "rhomb", "hexagon",
+        protected static readonly string[] nodeShapes = { "box", "triangle", "circle", "ellipse", "rhomb", "hexagon",
             "trapeze", "uptrapeze", "lparallelogram", "rparallelogram" };
 
-        private readonly StreamWriter sw;
-        private int indent = 0;
+        protected readonly StreamWriter sw;
+        protected int indent = 0;
 
-        private void Indent()
+        protected void Indent()
         {
             for(int i = 0; i < indent; ++i)
             {
@@ -118,17 +118,16 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        private void WriteLine(String format, params object[] arg)
+        protected void WriteLine(String format, params object[] arg)
         {
             Indent();
             sw.WriteLine(format, arg);
         }
 
-        private static String EncodeString(String str)
+        protected virtual String EncodeString(String str)
         {
             StringBuilder encStr = new StringBuilder(str);
-            encStr.Replace("  ", " &nbsp;");
-            encStr.Replace("\"", "&quot;");
+            encStr.Replace("\"", "\\\""); // escape quotation marks
             return encStr.ToString();
         }
 
@@ -172,52 +171,28 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Initializes a new instance of the VCGDumper.
+        /// Initializes a new instance of the VCGBaseDumper.
         /// </summary>
         /// <param name="filename">Destination file.</param>
-        /// <param name="flags">Flags to control the dumper's behavior.</param>
-        /// <param name="layouter">Specifies the yComp layouter to be used.</param>
+        /// <param name="layouter">Specifies the layouter to be used.</param>
         /// <exception cref="IOException">Thrown when the destination cannot be created.</exception>
-        /// <remarks>Currently (YComp 1.3.9) valid layouters are:
-        ///  - "Random"
-        ///  - "Hierarchic"
-        ///  - "Organic"
-        ///  - "Orthogonal"
-        ///  - "Circular"
-        ///  - "Tree"
-        ///  - "Diagonal"
-        ///  - "Incremental Hierarchic"
-        ///  - "Compilergraph"
+        /// <remarks>Currently (extMSAGLExt) valid layouters are:
+        ///  - SugiyamaScheme,
+        ///  - MDS,
+        ///  - Ranking,
+        ///  - IcrementalLayout
         /// </remarks>
-        public VCGDumper(String filename, VCGFlags flags, String layouter)
+        public VCGBaseDumper(String filename, String layouter)
+            : this(filename)
         {
-            sw = new StreamWriter(filename, false);
-
             WriteLine("graph:{{");
             ++indent;
-            WriteLine("infoname 1: \"Attributes\"");
-            WriteLine("display_edge_labels: {0}", (flags & VCGFlags.EdgeLabels) != 0 ? "yes" : "no");
-            WriteLine("layoutalgorithm: normal //$ \"{0}\"", layouter);
-            WriteLine("port_sharing: {0}", (flags & VCGFlags.PortSharing) != 0 ? "yes" : "no");
-            WriteLine("splines: {0}", (flags & VCGFlags.Splines) != 0 ? "yes" : "no");
-            WriteLine("manhattan_edges: {0}", (flags & VCGFlags.ManhattanEdges) != 0 ? "yes" : "no");
-            WriteLine("smanhattan_edges: {0}", (flags & VCGFlags.SManhattanEdges) != 0 ? "yes" : "no");
-            WriteLine("orientation: {0}", orientation[(int)(flags & VCGFlags.OrientMask)]);
-            WriteLine("edges: {0}", (flags & VCGFlags.SuppressEdges) != 0 ? "no" : "yes");
-            WriteLine("nodes: {0}", (flags & VCGFlags.SuppressNodes) != 0 ? "no" : "yes");
-
-            WriteLine("classname 1: \"normal\"");
-            WriteLine("classname 2: \"matches\"");
-            WriteLine("classname 3: \"hidden\"");
+            WriteLine("layoutalgorithm: normal //$ \"{0}\"", layouter); // TODO: maybe dump layouter directly instead of as comment
         }
 
-        /// <summary>
-        /// Initializes a new instance of the VCGDumper with standard flags (VCGFlags.OrientBottomToTop) and the "Orthogonal" layouter.
-        /// </summary>
-        /// <param name="filename">Destination file.</param>
-        /// <exception cref="IOException">Thrown when the destination cannot be created.</exception>
-        public VCGDumper(String filename) : this(filename, VCGFlags.OrientBottomToTop, "Orthogonal")
+        protected VCGBaseDumper(String filename)
         {
+            sw = new StreamWriter(filename, false);
         }
 
         /// <summary>
@@ -330,14 +305,27 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="attributes">An enumerable of attribute strings</param>
         /// <param name="textColor">The color of the text</param>
         /// <param name="subgraphColor">The color of the subgraph node</param>
-        /// TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
-        public void StartSubgraph(INode node, string label, IEnumerable<String> attributes, GrColor textColor,
+        public virtual void StartSubgraph(INode node, string label, IEnumerable<String> attributes, GrColor textColor,
             GrColor subgraphColor)
+        {
+            StartSubgraph(node, label, attributes, textColor, subgraphColor, false);
+        }
+
+        /// Creates a new sub-graph to the VCG graph
+        /// clustered tells to start the subgraph folded I assume
+        /// TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
+        protected void StartSubgraph(INode node, string label, IEnumerable<String> attributes, GrColor textColor,
+            GrColor subgraphColor, bool clustered)
         {
             Indent();
             sw.Write("graph:{{title:\"n{0}\"", node.GetHashCode());
             if(label != null)
-                sw.Write(" label:\"{0}\" status:clustered", label);
+            {
+                if(clustered)
+                    sw.Write(" label:\"{0}\" status:clustered", label);
+                else
+                    sw.Write(" label:\"{0}\"", label);
+            }
             if(textColor != GrColor.Default)
                 sw.Write(" textcolor:" + GetColor(textColor));
             if(subgraphColor != textColor)
@@ -391,6 +379,83 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(sw != null)
                 FinishDump();
+        }
+    }
+
+    /// <summary>
+    /// A VCG graph dumper.
+    /// </summary>
+    public class VCGDumper : VCGBaseDumper
+    {
+        /// <summary>
+        /// Initializes a new instance of the VCGDumper.
+        /// </summary>
+        /// <param name="filename">Destination file.</param>
+        /// <param name="flags">Flags to control the dumper's behavior.</param>
+        /// <param name="layouter">Specifies the yComp layouter to be used.</param>
+        /// <exception cref="IOException">Thrown when the destination cannot be created.</exception>
+        /// <remarks>Currently (YComp 1.3.9) valid layouters are:
+        ///  - "Random"
+        ///  - "Hierarchic"
+        ///  - "Organic"
+        ///  - "Orthogonal"
+        ///  - "Circular"
+        ///  - "Tree"
+        ///  - "Diagonal"
+        ///  - "Incremental Hierarchic"
+        ///  - "Compilergraph"
+        /// </remarks>
+        public VCGDumper(String filename, VCGFlags flags, String layouter)
+            : base(filename)
+        {
+            WriteLine("graph:{{");
+            ++indent;
+            WriteLine("infoname 1: \"Attributes\"");
+            WriteLine("display_edge_labels: {0}", (flags & VCGFlags.EdgeLabels) != 0 ? "yes" : "no");
+            WriteLine("layoutalgorithm: normal //$ \"{0}\"", layouter);
+            WriteLine("port_sharing: {0}", (flags & VCGFlags.PortSharing) != 0 ? "yes" : "no");
+            WriteLine("splines: {0}", (flags & VCGFlags.Splines) != 0 ? "yes" : "no");
+            WriteLine("manhattan_edges: {0}", (flags & VCGFlags.ManhattanEdges) != 0 ? "yes" : "no");
+            WriteLine("smanhattan_edges: {0}", (flags & VCGFlags.SManhattanEdges) != 0 ? "yes" : "no");
+            WriteLine("orientation: {0}", orientation[(int)(flags & VCGFlags.OrientMask)]);
+            WriteLine("edges: {0}", (flags & VCGFlags.SuppressEdges) != 0 ? "no" : "yes");
+            WriteLine("nodes: {0}", (flags & VCGFlags.SuppressNodes) != 0 ? "no" : "yes");
+
+            WriteLine("classname 1: \"normal\"");
+            WriteLine("classname 2: \"matches\"");
+            WriteLine("classname 3: \"hidden\"");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the VCGDumper with standard flags (VCGFlags.OrientBottomToTop) and the "Orthogonal" layouter.
+        /// </summary>
+        /// <param name="filename">Destination file.</param>
+        /// <exception cref="IOException">Thrown when the destination cannot be created.</exception>
+        public VCGDumper(String filename)
+            : this(filename, VCGFlags.OrientBottomToTop, "Orthogonal")
+        {
+        }
+
+        protected override String EncodeString(String str)
+        {
+            StringBuilder encStr = new StringBuilder(str);
+            encStr.Replace("  ", " &nbsp;"); // don't know what this is good for, but yComp seems to decode it
+            encStr.Replace("\"", "&quot;"); // strange encoding - why XML? - but yComp seems to decode it
+            return encStr.ToString();
+        }
+
+        /// <summary>
+        /// Creates a new sub-graph to the VCG graph
+        /// </summary>
+        /// <param name="node">The node starting the new sub-graph</param>
+        /// <param name="label">The label to use for the node</param>
+        /// <param name="attributes">An enumerable of attribute strings</param>
+        /// <param name="textColor">The color of the text</param>
+        /// <param name="subgraphColor">The color of the subgraph node</param>
+        public override void StartSubgraph(INode node, string label, IEnumerable<String> attributes, GrColor textColor,
+            GrColor subgraphColor)
+        {
+            StartSubgraph(node, label, attributes, textColor, subgraphColor, true);
         }
     }
 }
