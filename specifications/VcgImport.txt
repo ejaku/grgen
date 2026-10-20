@@ -103,8 +103,10 @@ Constraints to check/depend upon:
 - in edges: the attributes sourcename and targetname must exist, emit an error message when they are missing, do not create an edge then
 - the attribute value must fit to the specified type/must be in the specified range, emit an error message when this does not hold, using the default attribute value then
 - when a node/subgraph of same name already exists in global definition table: emit an error message reporting the duplicate and do not enter it
-- upon visiting an unknown attribute: emit a warning message (to the console, like the error messages) and skip it
+- upon visiting an unknown attribute: emit a warning message and skip it
+Error and warning message are to be emitted to the console.
 
+An escaping of quotation marks is applied in the client (in label strings) which needs to be unapplied (to prevent a premature end of a string literal).
 Note that strings in vcg (at least the dumps from GrGen) contain newlines verbatim without escaping.
 
 The GrGen.NET vcg dumper writes some graph attributes not listed in the grammar definition above - they are (at least for now) to be ignored like other unknown attributes (causing a warning message).
@@ -117,6 +119,7 @@ Code mapping hints / architectural decisions / entry points
 ===========================================================
 
 The implementation of the vcg dumper already exists in libGr/IO/VCGDumper.cs, which is used for writing/exporting.
+The VCGBaseDumper is the relevant class for us (the VCGDumper inheriting from it aims at yComp/xvcg).
 
 How to implement the vcg import (the vcg importer of yComp is also already existing, but its source code is not available):
 
@@ -131,7 +134,11 @@ Use a global definition table Dictionary<string, AST.Entity> nodeOrSubgraphNameT
 it could make sense to let AST.Subgraph inherit from AST.Node, then using AST.Node instead of the general base class AST.Entity would make more sense for this map.
 Regarding the graph building: very direct, with the exception that for each unique node/edge-style combination, a realizer must be registered.
 
-Create unit tests for the vcg import (check the calls to create the graph with an IBasicGraphViewerClient mock based on some simple example files).
+The STRING_LITERAL in GrGen.g may be a useful example showing how to prevent a premature end of a string literal.
+
+Create unit tests for the vcg import.
+Check that some simple example vcg files yield an expected imported graph, with an IBasicGraphViewerClient mock, and the calls to create it.
+Also test with some bogus dumps that the errors and warnings are reported as requested.
 
 engine-net-2/examples/JavaProgramGraphs-GraBaTs08/MoveMethodsExampleGraph.vcg is a non-trivial example written by the vcg dumper of GrGen.NET that should be used for testing, derived from InstanceGraph.grsi
 
@@ -170,4 +177,11 @@ A simple single pass architecture would be possible when:
 - the syntax already enforces proper nesting of subgraphs (the vcg dumper of GrGen.NET does some preprocessing of group nodes to ensure they are appropriately nested)
 - the mandatory attributes are dumped first before the other attributes
 
-Note that the "layoutalgorithm" attribute is dumped as "normal" with a comment telling about the algorithm to use. This (dubious behavior) is to ensure (exact) compatibility with the outdated vcg program (its inner workings). An incompatible appropriate extension by listing own layout methods would make more sense.
+Note that the "layoutalgorithm" attribute is dumped as "normal" with a comment telling about the algorithm to use. This is to ensure (exact) compatibility with the outdated vcg program (its inner workings). An incompatible appropriate extension by listing own layout methods would make more sense (later todo).
+
+Note that yComp is a frozen closed source application.
+The vcg file format supported by it cannot be changed.
+The vcg file format written for extMSAGLExt is a bit simplified compared to it, regarding the omission of some questionable graph attributes (which would cause a warning), and a simplified escaping/encoding (in VCGBaseDumper compared to VCGDumper).
+The vcg importer must work without warnings on the vcg dumps from the VCGBaseDumper and should not fail on the vcg files dumped by the VCGDumper.
+
+Idea for future acceptance/integration test: create a graph, visualize it with the live graph changes protocol (into IBasicGraphViewerClient), dump it, import the dump (into IBasicGraphViewerClient), the visualization should be the same as the imported dump. Issue: not strictly the case, e.g. the names will be different.

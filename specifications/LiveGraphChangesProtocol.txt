@@ -206,21 +206,20 @@ changes the name(==id) by which the edge is accessible; deprected, purge, not su
 Behavior on errors and special cases
 ------------------------------------
 
-Upon errors, emit messages to the console.
-In case of graph element not known errors, do not modify the graph.
-In case of realizer not known errors, use default node/edge attributes (the default values of the attributes given in the VcgImport.txt specification).
+Upon syntax protocol errors, throw an exception (which will cause an application crash dialog to be shown).
+Semantic protocol errors are typically reported by an exception by the graph viewer client, just let them pass.
 
-Fail if single line command exceeds 64MB in size (the normal receive buffer should be much smaller), emit an error message and close the connection then.
+Fail if single line command exceeds 64MB in size (the normal receive buffer should be much smaller), close the connection then.
 
-Because of the command line termination by \n and the need for newlines in labels, an escaping is applied in the clients which needs to be unapplied, of backslashes and newlines.
+Because of the command line argument enclosing by " and the command line termination by \n, combined with the need for newlines or quotation marks in labels, an escaping is applied in the clients which needs to be unapplied.
 
 Network
 -------
 
 The IP address must be a loopback/localhost address.
 The listening port must be in the range 4242-4251.
-Don't accept more than one connection (ignore connection attempts after the first accepted connection). 
-Use ASCII-encoding (in accordance with the existing protocol).
+Don't accept more than one connection (ignore connection attempts after the first accepted connection, even if that ended). 
+Use ASCII-encoding (in accordance with the existing protocol/the sender implementation).
 
 
 Code mapping hints / architectural decisions / entry points
@@ -256,5 +255,17 @@ Create unit tests for the tokenizer (testing the loopback network code is hardly
 Further points / Discussion / Rationale
 =======================================
 
-Note that this part of the protocol is fixed because of the frozen closed source yComp application.
-The protocol may be extended later for/in the extMSAGLExt version.
+Note that yComp is a frozen closed source application.
+The protocol used in communicating with it cannot be changed.
+The protocol used in communicating with extMSAGLExt should be as similar as possible.
+It may be extended later on, but not now.
+A minor deviation is the encoding/escaping, the one used by yComp with XML escaping looks strange and should not be replicated; instead the escaping from ExtMSAGLExtClient.Encode should be unescaped.
+
+The live graph changes protocol is a means for local interprocess-communication. It is not a webservice. It does not support remote debugging.
+Semantic errors must be found by the sink for sure, i.e. the graph viewer implementing the IBasicGraphViewerClient (MSAGLClient).
+Less so by the data-transfer intermediaries in between, to keep things simple and stupid, the interpreter should not try to detect semantic errors in the protocol (e.g. unregistered realizers, not added but referenced elements), saving us from maintaining state solely for that purpose (even if this is against the find errors early design rule).
+
+Rationale for the non-robustness/let-it-crash strategy regrading error handling:
+- In contrast to the vcg importer that should be also able to load vcg files dumped by other programs (thus having to ignoring unknown things silently),
+this part is strongly coupled to the own program and the protocol (and errors are typically symptoms of bugs in the sending client).
+- Errors should not go undetected in the general case, but esp. so in a debugger application that is used to find errors in user graph rewrite specifications - having to sort out bogus graphs while trying to find own bugs would be a truly bad thing.

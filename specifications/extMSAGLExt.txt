@@ -8,14 +8,15 @@ It is a Windows Forms based application that offers two extensions:
 - server mode like yComp: the GrGen debugger communicates with it over the same text-commands-over-TCP protocol that is used by the YCompClient to implement live graph updates.
 - vcg file support similar to yComp: extMSAGLExt offers to import and visualize vcg files (in the same or at least a similar way - limited to what GrGen.NET dumps).
 
-When started with an argument denoting a file path: read the according vcg file (or show an error message if a non-vcg file is given, or the file can't be found)
+When started with an argument denoting a file path: read the according vcg file (or show an error message if a non-vcg file is given, or the file can't be found).
 When started with a -p <portnumber> argument: open a TCP server socket, listen to commands, and apply them (or show an error message if the port can't be opened).
 
 GUI:
 The main display is the MSAGLExtClient control.
-The application shows additionally a menu bar with a File menu and an Open command as well as a Close command.
+The application shows additionally a menu bar with a File menu, which contains an "Open..." command, a "Show error log console" command, as well as a "Close" command.
 The Open command opens a file open dialog that allows the user to select a .vcg file for import.
 When exited with OK, the current graph is cleared (a potentially running debugging session closed), then the chosen VCG file is imported and displayed.
+The Show error log console command opens a console window that receives console output from then on (it is normally printed in the parent console or hidden when that one is hidden/not existing).
 The Close command closes the application.
 
 The protocol of the server mode of the graph viewer application to be implemented is specified in LiveGraphChangesProtocol.txt
@@ -33,3 +34,9 @@ In the engine-net-2/src folder add a folder extMSAGLExt.
 Create an extMSAGLExt.csproj VisualStudio project (WindowsForms application) building an extMSAGLExt.exe into the engine-net-2/bin folder (it is going to be added later to the GrGen.sln and EngineNet2.sln solution files).
 Import/reference graphViewerAndSequenceDebuggerWindowsForms.csproj containing the MSAGLExtClient and its dependencies (maybe later try to reduce the dependencies/the quite large amount of unused code).
 Reuse grgen.ico as application icon.
+Open the error log console amounts to: IWorkaround.AllocTheConsole (see also ApplicationExampleForm.AllocateConsole - a GUI console control is NOT to be used).
+
+Further points / Discussion / Rationale:
+The show error log console command allows to find errors that are hidden when the parent console is not visible (when started from an OS console or the GrShell this is not the case).
+Not wanted as of now: introduce a log file (overwritten at program start) instead of logging to the console (this would not fit well to the normal compiler/shell interpreter console-io/logless tech stack).
+(Also unwanted: an extMSAGLExtCon that is built as console application straight from the start, to be supplied in addition; even less so an extMSAGLExt that is built as such one, the ugly extra console window is only of interest in case of errors.)
