@@ -646,6 +646,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return "";
 
             StringBuilder sb = new StringBuilder(str);
+            sb.Replace("\\", "\\\\"); // first escape backslashes
             sb.Replace("\n", "\\n");
             sb.Replace("\"", "\\\"");
             return sb.ToString();

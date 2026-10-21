@@ -127,6 +127,7 @@ namespace de.unika.ipd.grGen.libGr
         protected virtual String EncodeString(String str)
         {
             StringBuilder encStr = new StringBuilder(str);
+            encStr.Replace("\\", "\\\\"); // first escape backslashes
             encStr.Replace("\"", "\\\""); // escape quotation marks
             return encStr.ToString();
         }
