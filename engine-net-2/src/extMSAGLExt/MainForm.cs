@@ -13,11 +13,13 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         readonly string startupVcgFile;
         readonly int serverPort;
+        readonly bool showErrorLogConsoleAtStartup;
 
-        public MainForm(string vcgFile, int port)
+        public MainForm(string vcgFile, int port, bool showErrorLogConsole)
         {
             startupVcgFile = vcgFile;
             serverPort = port;
+            showErrorLogConsoleAtStartup = showErrorLogConsole;
             InitializeComponent();
             LoadWindowIcon();
         }
@@ -37,6 +39,9 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         // no Invoke needed, and ConfigureAwait(false) must NOT be used anywhere in the receiver.
         async void MainForm_Load(object sender, EventArgs e)
         {
+            if(showErrorLogConsoleAtStartup)
+                ShowErrorLogConsole();
+
             if(startupVcgFile != null)
             {
                 ImportVcgFile(startupVcgFile);
@@ -72,6 +77,11 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         // allocates a console window that receives the console output from then on
         // (it is normally printed in the parent console, or hidden when there is none)
         void MenuFileShowErrorLog_Click(object sender, EventArgs e)
+        {
+            ShowErrorLogConsole();
+        }
+
+        void ShowErrorLogConsole()
         {
             de.unika.ipd.grGen.libConsoleAndOS.WorkaroundManager.Workaround.AllocTheConsole();
             Console.SetOut(new System.IO.StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
