@@ -1,0 +1,852 @@
+graph:{
+ layoutalgorithm: normal //$ "SugiyamaScheme"
+ graph:{title:"n-1385174165" label:"$21:Package" color:lightgrey info1: "Package::name : string = java"
+  graph:{title:"n-595078720" label:"$6F:Package" color:lightgrey info1: "Package::name : string = lang"
+   graph:{title:"n-182994270" label:"$B0:Class" color:yellow info1: "Classifier::name : string = System
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = False
+    Class::isFinal : boolean = True"
+    node:{title:"n1399080154" label:"$B2:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = out
+     Variable::visibility : string = public
+     Variable::isStatic : boolean = True
+     Variable::isFinal : boolean = True"}
+   }
+   graph:{title:"n-1372611240" label:"$DA:Class" color:yellow info1: "Classifier::name : string = Integer
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = False
+    Class::isFinal : boolean = True"
+   }
+   graph:{title:"n1779987369" label:"$70:Class" color:yellow info1: "Classifier::name : string = String
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = False
+    Class::isFinal : boolean = True"
+   }
+  }
+  graph:{title:"n-454452117" label:"$22:Package" color:lightgrey info1: "Package::name : string = util"
+   graph:{title:"n-1879169162" label:"$24:Class" color:yellow info1: "Classifier::name : string = Vector
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = False
+    Class::isFinal : boolean = False"
+   }
+  }
+ }
+ graph:{title:"n-1989537203" label:"$0:Package" color:lightgrey info1: "Package::name : string = lansimulation"
+  graph:{title:"n751224354" label:"$1:Package" color:lightgrey info1: "Package::name : string = files"
+   graph:{title:"n92054166" label:"$8:Class" color:yellow info1: "Classifier::name : string = PostscriptDocument
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = False
+    Class::isFinal : boolean = False"
+    node:{title:"n-346544872" label:"$23:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = figures
+     Variable::visibility : string = private
+     Variable::isStatic : boolean = False
+     Variable::isFinal : boolean = False"}
+    edge:{sourcename:"n-346544872" targetname:"n-1879169162" label:"$163:type_" color:darkyellow}
+    graph:{title:"n1545146239" label:"$2B:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n2067009921" label:"$2C:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-1706093693" label:"$2D:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n1470205750" label:"$2E:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n1992069432" label:"$2F:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-1781034182" label:"$30:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n875356032" label:"$2A:Operation" color:pink info1: "Operation::name : string = getName
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n875356032" targetname:"n1779987369" label:"$162:type_" color:darkyellow}
+    edge:{sourcename:"n875356032" targetname:"n-1781034182" label:"$10B:binding" color:darkyellow}
+    graph:{title:"n-986088064" label:"$29:Operation" color:pink info1: "Operation::name : string = setName
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-534243279" label:"$7B:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-534243279" targetname:"n1779987369" label:"$19B:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-986088064" targetname:"n1992069432" label:"$10A:binding" color:darkyellow}
+    graph:{title:"n2074062445" label:"$28:Operation" color:pink info1: "Operation::name : string = toString
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n2074062445" targetname:"n1779987369" label:"$161:type_" color:darkyellow}
+    edge:{sourcename:"n2074062445" targetname:"n1470205750" label:"$109:binding" color:darkyellow}
+    graph:{title:"n-1188562794" label:"$27:Operation" color:pink info1: "Operation::name : string = getFigures
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n-1188562794" targetname:"n-1879169162" label:"$160:type_" color:darkyellow}
+    edge:{sourcename:"n-1188562794" targetname:"n-1706093693" label:"$108:binding" color:darkyellow}
+    graph:{title:"n-1170124963" label:"$26:Operation" color:pink info1: "Operation::name : string = includeFigure
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-42202735" label:"$7A:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-42202735" targetname:"n1890708368" label:"$19E:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-1170124963" targetname:"n2067009921" label:"$107:binding" color:darkyellow}
+    graph:{title:"n1383456077" label:"$25:Operation" color:pink info1: "Operation::name : string = PostscriptDocument
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n1181228745" label:"$78:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n1181228745" targetname:"n1779987369" label:"$19D:type_" color:darkyellow}
+     node:{title:"n449837809" label:"$79:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n449837809" targetname:"n1779987369" label:"$19C:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n1383456077" targetname:"n1545146239" label:"$106:binding" color:darkyellow}
+   }
+   edge:{sourcename:"n92054166" targetname:"n1890708368" label:"$EF:imports" color:darkyellow}
+   edge:{sourcename:"n92054166" targetname:"n-1332662879" label:"$F0:imports" color:darkyellow}
+   edge:{sourcename:"n92054166" targetname:"n-1879169162" label:"$105:imports" color:darkyellow}
+   graph:{title:"n1890708368" label:"$7:Class" color:yellow info1: "Classifier::name : string = Figure
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = False
+    Class::isFinal : boolean = False"
+   }
+   graph:{title:"n620970372" label:"$6:Class" color:yellow info1: "Classifier::name : string = Document
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = False
+    Class::isFinal : boolean = False"
+    node:{title:"n279658560" label:"$17:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = _content
+     Variable::visibility : string = protected
+     Variable::isStatic : boolean = False
+     Variable::isFinal : boolean = False"}
+    edge:{sourcename:"n279658560" targetname:"n1779987369" label:"$15C:type_" color:darkyellow}
+    node:{title:"n444068463" label:"$18:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = _name
+     Variable::visibility : string = protected
+     Variable::isStatic : boolean = False
+     Variable::isFinal : boolean = False"}
+    edge:{sourcename:"n444068463" targetname:"n1779987369" label:"$15D:type_" color:darkyellow}
+    graph:{title:"n-1135627631" label:"$1D:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-613763949" label:"$1E:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-1584505277" label:"$1F:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-1062641595" label:"$20:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-791513612" label:"$1C:Operation" color:pink info1: "Operation::name : string = toStirng
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n-791513612" targetname:"n1779987369" label:"$15F:type_" color:darkyellow}
+    edge:{sourcename:"n-791513612" targetname:"n-1062641595" label:"$102:binding" color:darkyellow}
+    graph:{title:"n-1399703090" label:"$1B:Operation" color:pink info1: "Operation::name : string = getContent
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n-1399703090" targetname:"n1779987369" label:"$15E:type_" color:darkyellow}
+    edge:{sourcename:"n-1399703090" targetname:"n-1584505277" label:"$101:binding" color:darkyellow}
+    graph:{title:"n1273170502" label:"$1A:Operation" color:pink info1: "Operation::name : string = setContent
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n1673269289" label:"$77:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n1673269289" targetname:"n1779987369" label:"$199:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n1273170502" targetname:"n-613763949" label:"$100:binding" color:darkyellow}
+    graph:{title:"n-348923202" label:"$19:Operation" color:pink info1: "Operation::name : string = Document
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n868892317" label:"$75:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n868892317" targetname:"n1779987369" label:"$19A:type_" color:darkyellow}
+     node:{title:"n-2129657463" label:"$76:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-2129657463" targetname:"n1779987369" label:"$198:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-348923202" targetname:"n-1135627631" label:"$FF:binding" color:darkyellow}
+   }
+   graph:{title:"n-1662671850" label:"$5:Class" color:yellow info1: "Classifier::name : string = ASCIIDocument
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = False
+    Class::isFinal : boolean = False"
+    graph:{title:"n55602381" label:"$12:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-675788555" label:"$13:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-153924873" label:"$14:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-1272592726" label:"$15:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-750729044" label:"$16:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n396572782" label:"$11:Operation" color:pink info1: "Operation::name : string = setName
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n1360932861" label:"$74:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n1360932861" targetname:"n1779987369" label:"$196:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n396572782" targetname:"n-750729044" label:"$F9:binding" color:darkyellow}
+    graph:{title:"n2073979979" label:"$F:Operation" color:pink info1: "Operation::name : string = getName
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n2073979979" targetname:"n1779987369" label:"$15B:type_" color:darkyellow}
+    edge:{sourcename:"n2073979979" targetname:"n-1272592726" label:"$F8:binding" color:darkyellow}
+    graph:{title:"n654361005" label:"$10:Operation" color:pink info1: "Operation::name : string = toString
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n654361005" targetname:"n1779987369" label:"$15A:type_" color:darkyellow}
+    edge:{sourcename:"n654361005" targetname:"n-153924873" label:"$F7:binding" color:darkyellow}
+    graph:{title:"n-1427995652" label:"$E:Operation" color:pink info1: "Operation::name : string = includeFigure
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n1852973405" label:"$73:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n1852973405" targetname:"n1890708368" label:"$197:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-1427995652" targetname:"n-675788555" label:"$F6:binding" color:darkyellow}
+    graph:{title:"n-1078783562" label:"$D:Operation" color:pink info1: "Operation::name : string = ASCIIDocument
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-1605839328" label:"$71:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-1605839328" targetname:"n1779987369" label:"$194:type_" color:darkyellow}
+     node:{title:"n-1710602955" label:"$72:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-1710602955" targetname:"n1779987369" label:"$195:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-1078783562" targetname:"n55602381" label:"$F5:binding" color:darkyellow}
+   }
+   edge:{sourcename:"n-1662671850" targetname:"n1890708368" label:"$ED:imports" color:darkyellow}
+   edge:{sourcename:"n-1662671850" targetname:"n-1332662879" label:"$EE:imports" color:darkyellow}
+   edge:{sourcename:"n-1662671850" targetname:"n620970372" label:"$156:extends_" color:darkyellow}
+  }
+  graph:{title:"n41414867" label:"$2:Package" color:lightgrey info1: "Package::name : string = nodes"
+   graph:{title:"n-1332662879" label:"$A:Class" color:yellow info1: "Classifier::name : string = Printserver
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = False
+    Class::isFinal : boolean = False"
+    graph:{title:"n-56048838" label:"$53:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-577912520" label:"$52:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-1099776202" label:"$51:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n1272146269" label:"$50:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n750282587" label:"$4F:MethodBody" color:orchid info1: ""
+    }
+    node:{title:"n2098446101" label:"$3F:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = lastDocument
+     Variable::visibility : string = private
+     Variable::isStatic : boolean = False
+     Variable::isFinal : boolean = False"}
+    edge:{sourcename:"n2098446101" targetname:"n620970372" label:"$166:type_" color:darkyellow}
+    graph:{title:"n1094396606" label:"$4E:Operation" color:pink info1: "Operation::name : string = accept
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n136736093" label:"$86:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n136736093" targetname:"n-968921864" label:"$1AF:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n1094396606" targetname:"n750282587" label:"$117:binding" color:darkyellow}
+    graph:{title:"n-767047490" label:"$4D:Operation" color:pink info1: "Operation::name : string = print
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n-767047490" targetname:"n1272146269" label:"$118:binding" color:darkyellow}
+    graph:{title:"n1666475710" label:"$4C:Operation" color:pink info1: "Operation::name : string = formatDocument
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n1666475710" targetname:"n1779987369" label:"$167:type_" color:darkyellow}
+    edge:{sourcename:"n1666475710" targetname:"n-1099776202" label:"$119:binding" color:darkyellow}
+    graph:{title:"n44382006" label:"$4B:Operation" color:pink info1: "Operation::name : string = PrintServer
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n106912955" label:"$84:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n106912955" targetname:"n1779987369" label:"$1AD:type_" color:darkyellow}
+     node:{title:"n-385127589" label:"$85:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-385127589" targetname:"n826588720" label:"$1AE:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n44382006" targetname:"n-577912520" label:"$11A:binding" color:darkyellow}
+    graph:{title:"n-1577711698" label:"$4A:Operation" color:pink info1: "Operation::name : string = PrintServer
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n598953499" label:"$83:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n598953499" targetname:"n1779987369" label:"$1AC:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-1577711698" targetname:"n-56048838" label:"$11B:binding" color:darkyellow}
+   }
+   edge:{sourcename:"n-1332662879" targetname:"n620970372" label:"$F2:imports" color:darkyellow}
+   edge:{sourcename:"n-1332662879" targetname:"n-968921864" label:"$F3:imports" color:darkyellow}
+   graph:{title:"n-1464106026" label:"$B:Class" color:yellow info1: "Classifier::name : string = Workstation
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = False
+    Class::isFinal : boolean = False"
+    graph:{title:"n855811502" label:"$49:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n500312176" label:"$45:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-1244982986" label:"$46:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-723119304" label:"$47:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-201255622" label:"$48:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n844426195" label:"$44:Operation" color:pink info1: "Operation::name : string = accept
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-1266399503" label:"$8C:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-1266399503" targetname:"n-968921864" label:"$1AB:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n844426195" targetname:"n-201255622" label:"$116:binding" color:darkyellow}
+    graph:{title:"n-1017017901" label:"$43:Operation" color:pink info1: "Operation::name : string = originate
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-535008567" label:"$8B:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-535008567" targetname:"n-968921864" label:"$1AA:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-1017017901" targetname:"n-723119304" label:"$115:binding" color:darkyellow}
+    graph:{title:"n1655855691" label:"$42:Operation" color:pink info1: "Operation::name : string = setPacketOriginator
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-42968023" label:"$8A:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-42968023" targetname:"n-968921864" label:"$1A9:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n1655855691" targetname:"n-1244982986" label:"$114:binding" color:darkyellow}
+    graph:{title:"n273112379" label:"$41:Operation" color:pink info1: "Operation::name : string = Workstation
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-847344995" label:"$88:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-847344995" targetname:"n1779987369" label:"$1A7:type_" color:darkyellow}
+     node:{title:"n449072521" label:"$89:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n449072521" targetname:"n826588720" label:"$1A8:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n273112379" targetname:"n500312176" label:"$113:binding" color:darkyellow}
+    graph:{title:"n-335077099" label:"$40:Operation" color:pink info1: "Operation::name : string = Workstation
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-355304451" label:"$87:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-355304451" targetname:"n1779987369" label:"$1A6:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-335077099" targetname:"n855811502" label:"$112:binding" color:darkyellow}
+   }
+   edge:{sourcename:"n-1464106026" targetname:"n-968921864" label:"$F4:imports" color:darkyellow}
+   graph:{title:"n826588720" label:"$9:Class" color:yellow info1: "Classifier::name : string = Node
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = True
+    Class::isFinal : boolean = False"
+    node:{title:"n-403388941" label:"$32:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = _nextNode
+     Variable::visibility : string = public
+     Variable::isStatic : boolean = False
+     Variable::isFinal : boolean = False"}
+    edge:{sourcename:"n-403388941" targetname:"n826588720" label:"$165:type_" color:darkyellow}
+    graph:{title:"n-1062559129" label:"$39:MethodBody" color:orchid info1: ""
+     graph:{title:"n-118673800" label:"$9C:Block" color:darkmagenta info1: ""
+      node:{title:"n-363122263" label:"$9E:Call" color:green bordercolor:darkyellow info1: "Call::this_ : boolean = False
+       Call::super : boolean = False"}
+      edge:{sourcename:"n-363122263" targetname:"n785368728" label:"$1C4:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n785368728" label:"$9F:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n785368728" targetname:"n-639006906" label:"$1C5:link" color:darkyellow}
+      node:{title:"n755545590" label:"$9D:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = True"}
+      edge:{sourcename:"n755545590" targetname:"n-363122263" label:"$1C7:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+     }
+     edge:{sourcename:"n-118673800" targetname:"n755545590" label:"$1C3:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+    }
+    graph:{title:"n1635039530" label:"$3A:MethodBody" color:orchid info1: ""
+     graph:{title:"n-1065879226" label:"$98:Block" color:darkmagenta info1: ""
+      node:{title:"n-1765492571" label:"$95:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = True"}
+      edge:{sourcename:"n-1765492571" targetname:"n1171456480" label:"$1BA:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n1171456480" label:"$96:Call" color:green bordercolor:darkyellow info1: "Call::this_ : boolean = False
+       Call::super : boolean = False"}
+      edge:{sourcename:"n1171456480" targetname:"n52788627" label:"$1BB:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n1171456480" targetname:"n-127928175" label:"$1BC:link" color:darkyellow}
+      node:{title:"n52788627" label:"$97:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n52788627" targetname:"n-1131047450" label:"$1BD:link" color:darkyellow}
+      node:{title:"n717480763" label:"$9A:Update" color:darkgreen bordercolor:darkyellow info1: "Update::this_ : boolean = False"}
+      edge:{sourcename:"n717480763" targetname:"n-1267164791" label:"$1C0:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n717480763" targetname:"n-403388941" label:"$1C6:link" color:darkyellow}
+      node:{title:"n-1267164791" label:"$9B:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n-1267164791" targetname:"n-1623087994" label:"$1C1:link" color:darkyellow}
+      node:{title:"n1836148616" label:"$99:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = True"}
+      edge:{sourcename:"n1836148616" targetname:"n717480763" label:"$1BF:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+     }
+     edge:{sourcename:"n-1065879226" targetname:"n-1765492571" label:"$1B9:expression
+Attributes:expression::order : int = 1" color:darkyellow}
+     edge:{sourcename:"n-1065879226" targetname:"n1836148616" label:"$1BE:expression
+Attributes:expression::order : int = 2" color:darkyellow}
+    }
+    graph:{title:"n-2138064084" label:"$3B:MethodBody" color:orchid info1: ""
+     graph:{title:"n1933859719" label:"$A0:Block" color:darkmagenta info1: ""
+      node:{title:"n-577747588" label:"$A2:Update" color:darkgreen bordercolor:darkyellow info1: "Update::this_ : boolean = False"}
+      edge:{sourcename:"n-577747588" targetname:"n-1069788132" label:"$1CB:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n-577747588" targetname:"n741958432" label:"$1CD:link" color:darkyellow}
+      node:{title:"n-1069788132" label:"$A3:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n-1069788132" targetname:"n-2115128538" label:"$1CC:link" color:darkyellow}
+      node:{title:"n540920265" label:"$A1:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = True"}
+      edge:{sourcename:"n540920265" targetname:"n-577747588" label:"$1CA:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+     }
+     edge:{sourcename:"n1933859719" targetname:"n540920265" label:"$1C9:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+    }
+    graph:{title:"n-1616200402" label:"$3C:MethodBody" color:orchid info1: ""
+     graph:{title:"n1240533610" label:"$A4:Block" color:darkmagenta info1: ""
+      node:{title:"n-1658350614" label:"$A6:Call" color:green bordercolor:darkyellow info1: "Call::this_ : boolean = False
+       Call::super : boolean = False"}
+      edge:{sourcename:"n-1658350614" targetname:"n504044603" label:"$1CE:actualParameter" color:darkyellow}
+      edge:{sourcename:"n-1658350614" targetname:"n-718445110" label:"$1D3:link" color:darkyellow}
+      node:{title:"n504044603" label:"$A7:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n504044603" targetname:"n47266679" label:"$1CF:link" color:darkyellow}
+      node:{title:"n2114753000" label:"$A5:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = True"}
+      edge:{sourcename:"n2114753000" targetname:"n-1658350614" label:"$1D0:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+     }
+     edge:{sourcename:"n1240533610" targetname:"n2114753000" label:"$1D1:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+    }
+    graph:{title:"n1081398257" label:"$3D:MethodBody" color:orchid info1: ""
+     graph:{title:"n1652535594" label:"$A8:Block" color:darkmagenta info1: ""
+      node:{title:"n146590824" label:"$A9:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n146590824" targetname:"n-444773865" label:"$1D4:link" color:darkyellow}
+      edge:{sourcename:"n146590824" targetname:"n-972077029" label:"$1D7:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n-972077029" label:"$AA:Update" color:darkgreen bordercolor:darkyellow info1: "Update::this_ : boolean = False"}
+      edge:{sourcename:"n-972077029" targetname:"n-1464117573" label:"$1D8:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n-972077029" targetname:"n826412241" label:"$1DE:link" color:darkyellow}
+      node:{title:"n-1464117573" label:"$AB:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n-1464117573" targetname:"n-444773865" label:"$1D5:link" color:darkyellow}
+      edge:{sourcename:"n-1464117573" targetname:"n-1956158117" label:"$1D9:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n-1956158117" label:"$AC:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n-1956158117" targetname:"n1628999692" label:"$1DA:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n-1956158117" targetname:"n826412241" label:"$1DF:link" color:darkyellow}
+      node:{title:"n1628999692" label:"$AD:Operator" color:green bordercolor:darkyellow info1: "Operator::name : string = +"}
+      edge:{sourcename:"n1628999692" targetname:"n-1544156133" label:"$1DC:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n-1544156133" label:"$AF:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n-1544156133" targetname:"n679839813" label:"$1DB:link" color:darkyellow}
+      node:{title:"n562925591" label:"$B4:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n562925591" targetname:"n1711416582" label:"$1E3:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n562925591" targetname:"n1399080154" label:"$1E8:link" color:darkyellow}
+      node:{title:"n1711416582" label:"$B5:Call" color:green bordercolor:darkyellow info1: "Call::this_ : boolean = False
+       Call::super : boolean = False"}
+      edge:{sourcename:"n1711416582" targetname:"n-1047782806" label:"$1E0:actualParameter" color:darkyellow}
+      edge:{sourcename:"n1711416582" targetname:"n1291172909" label:"$1E9:link" color:darkyellow}
+      node:{title:"n-1047782806" label:"$B6:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n-1047782806" targetname:"n-504337675" label:"$1E4:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n-1047782806" targetname:"n1104416269" label:"$1E7:link" color:darkyellow}
+      node:{title:"n-504337675" label:"$B7:Operator" color:green bordercolor:darkyellow info1: "Operator::name : string = +"}
+      edge:{sourcename:"n-504337675" targetname:"n-1510000212" label:"$1E5:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n-1510000212" label:"$B8:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = True"}
+      edge:{sourcename:"n-1510000212" targetname:"n1666299231" label:"$1E6:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n1666299231" label:"$B9:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n1666299231" targetname:"n741958432" label:"$1F6:link" color:darkyellow}
+      node:{title:"n1054966135" label:"$B3:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n1054966135" targetname:"n562925591" label:"$1E2:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n1054966135" targetname:"n-182994270" label:"$1EA:link" color:darkyellow}
+     }
+     edge:{sourcename:"n1652535594" targetname:"n1054966135" label:"$1F5:expression
+Attributes:expression::order : int = 2" color:darkyellow}
+     edge:{sourcename:"n1652535594" targetname:"n146590824" label:"$1D6:expression
+Attributes:expression::order : int = 1" color:darkyellow}
+    }
+    graph:{title:"n1603261939" label:"$3E:MethodBody" color:orchid info1: ""
+     graph:{title:"n-1953355910" label:"$CA:Block" color:darkmagenta info1: ""
+      node:{title:"n150158319" label:"$BE:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n150158319" targetname:"n-182994270" label:"$1EB:link" color:darkyellow}
+      edge:{sourcename:"n150158319" targetname:"n-1847826995" label:"$1F3:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n-1079136520" label:"$CB:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = True"}
+      edge:{sourcename:"n-1079136520" targetname:"n-1562935375" label:"$20A:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n-1028155810" label:"$BB:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n-1028155810" targetname:"n-182994270" label:"$1EC:link" color:darkyellow}
+      edge:{sourcename:"n-1028155810" targetname:"n-1520196354" label:"$1F1:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n-1520196354" label:"$BC:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n-1520196354" targetname:"n1399080154" label:"$1EF:link" color:darkyellow}
+      edge:{sourcename:"n-1520196354" targetname:"n-371705363" label:"$1F2:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n-371705363" label:"$BD:Call" color:green bordercolor:darkyellow info1: "Call::this_ : boolean = False
+       Call::super : boolean = False"}
+      edge:{sourcename:"n-371705363" targetname:"n1291172909" label:"$1ED:link" color:darkyellow}
+      edge:{sourcename:"n-371705363" targetname:"n-1452308389" label:"$1F7:actualParameter" color:darkyellow}
+      node:{title:"n-1452308389" label:"$C1:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = True"}
+      edge:{sourcename:"n-1452308389" targetname:"n1723991054" label:"$1F8:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n1723991054" label:"$C2:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n1723991054" targetname:"n1231950510" label:"$1F9:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n1723991054" targetname:"n741958432" label:"$202:link" color:darkyellow}
+      node:{title:"n1231950510" label:"$C3:Operator" color:green bordercolor:darkyellow info1: "Operator::name : string = <Not initialized>"}
+      edge:{sourcename:"n1231950510" targetname:"n113282657" label:"$1FA:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n113282657" label:"$C4:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n113282657" targetname:"n-485475967" label:"$1FB:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n113282657" targetname:"n1818558539" label:"$1FF:link" color:darkyellow}
+      node:{title:"n-485475967" label:"$C6:Operator" color:green bordercolor:darkyellow info1: "Operator::name : string = <Not initialized>"}
+      edge:{sourcename:"n-485475967" targetname:"n-237883886" label:"$1FC:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n-237883886" label:"$C7:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = True"}
+      edge:{sourcename:"n-237883886" targetname:"n-1356551739" label:"$1FD:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n-1356551739" label:"$C8:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n-1356551739" targetname:"n1193120395" label:"$1FE:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n-1356551739" targetname:"n-403388941" label:"$203:link" color:darkyellow}
+      node:{title:"n1193120395" label:"$C9:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n1193120395" targetname:"n741958432" label:"$204:link" color:darkyellow}
+      node:{title:"n-1562935375" label:"$CD:Call" color:green bordercolor:darkyellow info1: "Call::this_ : boolean = False
+       Call::super : boolean = False"}
+      edge:{sourcename:"n-1562935375" targetname:"n1613364068" label:"$209:actualParameter" color:darkyellow}
+      edge:{sourcename:"n-1562935375" targetname:"n1715078090" label:"$20C:link" color:darkyellow}
+      node:{title:"n1613364068" label:"$CE:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n1613364068" targetname:"n-936814409" label:"$20B:link" color:darkyellow}
+      node:{title:"n-1847826995" label:"$C0:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n-1847826995" targetname:"n1399080154" label:"$1F0:link" color:darkyellow}
+      edge:{sourcename:"n-1847826995" targetname:"n1298649310" label:"$1F4:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n1298649310" label:"$BF:Call" color:green bordercolor:darkyellow info1: "Call::this_ : boolean = False
+       Call::super : boolean = False"}
+      edge:{sourcename:"n1298649310" targetname:"n1291172909" label:"$1EE:link" color:darkyellow}
+      edge:{sourcename:"n1298649310" targetname:"n32478809" label:"$213:actualParameter" color:darkyellow}
+      node:{title:"n32478809" label:"$D2:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n32478809" targetname:"n-999863248" label:"$214:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n32478809" targetname:"n-1930585296" label:"$21B:link" color:darkyellow}
+      node:{title:"n-999863248" label:"$D4:Operator" color:green bordercolor:darkyellow info1: "Operator::name : string = +"}
+      edge:{sourcename:"n-999863248" targetname:"n1162531969" label:"$215:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n1162531969" label:"$D5:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n1162531969" targetname:"n670491425" label:"$216:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n1162531969" targetname:"n-936814409" label:"$217:link" color:darkyellow}
+      node:{title:"n670491425" label:"$D6:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n670491425" targetname:"n1601213473" label:"$218:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n670491425" targetname:"n826412241" label:"$21E:link" color:darkyellow}
+      node:{title:"n1601213473" label:"$D7:Operator" color:green bordercolor:darkyellow info1: "Operator::name : string = +"}
+      edge:{sourcename:"n1601213473" targetname:"n-531358606" label:"$219:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      node:{title:"n-531358606" label:"$D8:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n-531358606" targetname:"n-1093241568" label:"$21A:link" color:darkyellow}
+      node:{title:"n1121323524" label:"$CF:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n1121323524" targetname:"n-2025152781" label:"$20F:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+      edge:{sourcename:"n1121323524" targetname:"n-403388941" label:"$212:link" color:darkyellow}
+      node:{title:"n-2025152781" label:"$D0:Call" color:green bordercolor:darkyellow info1: "Call::this_ : boolean = False
+       Call::super : boolean = False"}
+      edge:{sourcename:"n-2025152781" targetname:"n524519353" label:"$210:actualParameter" color:darkyellow}
+      edge:{sourcename:"n-2025152781" targetname:"n1733515921" label:"$211:link" color:darkyellow}
+      node:{title:"n524519353" label:"$D1:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = False"}
+      edge:{sourcename:"n524519353" targetname:"n-936814409" label:"$20D:link" color:darkyellow}
+      node:{title:"n-2084799057" label:"$CC:Access" color:lightgreen bordercolor:darkyellow info1: "Access::this_ : boolean = True"}
+      edge:{sourcename:"n-2084799057" targetname:"n1121323524" label:"$20E:expression
+Attributes:expression::order : int = 0" color:darkyellow}
+     }
+     edge:{sourcename:"n-1953355910" targetname:"n-1028155810" label:"$201:expression
+Attributes:expression::order : int = 1" color:darkyellow}
+     edge:{sourcename:"n-1953355910" targetname:"n-1079136520" label:"$206:expression
+Attributes:expression::order : int = 2" color:darkyellow}
+     edge:{sourcename:"n-1953355910" targetname:"n150158319" label:"$207:expression
+Attributes:expression::order : int = 3" color:darkyellow}
+     edge:{sourcename:"n-1953355910" targetname:"n-2084799057" label:"$208:expression
+Attributes:expression::order : int = 4" color:darkyellow}
+    }
+    graph:{title:"n-718445110" label:"$38:Operation" color:pink info1: "Operation::name : string = send
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-936814409" label:"$82:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-936814409" targetname:"n-968921864" label:"$1A5:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-718445110" targetname:"n1603261939" label:"$10C:binding" color:darkyellow}
+    graph:{title:"n1715078090" label:"$37:Operation" color:pink info1: "Operation::name : string = incrementJumps
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-444773865" label:"$81:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-444773865" targetname:"n-968921864" label:"$1A4:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n1715078090" targetname:"n1081398257" label:"$10D:binding" color:darkyellow}
+    graph:{title:"n1733515921" label:"$36:Operation" color:pink info1: "Operation::name : string = accept
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n47266679" label:"$80:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n47266679" targetname:"n-968921864" label:"$1A3:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n1733515921" targetname:"n-1616200402" label:"$10E:binding" color:darkyellow}
+    graph:{title:"n-127928175" label:"$35:Operation" color:pink info1: "Operation::name : string = setName
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-2115128538" label:"$7F:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-2115128538" targetname:"n1779987369" label:"$1A1:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-127928175" targetname:"n-2138064084" label:"$10F:binding" color:darkyellow}
+    graph:{title:"n-1989372271" label:"$34:Operation" color:pink info1: "Operation::name : string = Node
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-1131047450" label:"$7D:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-1131047450" targetname:"n1779987369" label:"$1A0:type_" color:darkyellow}
+     node:{title:"n-1623087994" label:"$7E:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-1623087994" targetname:"n826588720" label:"$1A2:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-1989372271" targetname:"n1635039530" label:"$110:binding" color:darkyellow}
+    graph:{title:"n444150929" label:"$33:Operation" color:pink info1: "Operation::name : string = Node
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-639006906" label:"$7C:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-639006906" targetname:"n1779987369" label:"$19F:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n444150929" targetname:"n-1062559129" label:"$111:binding" color:darkyellow}
+    node:{title:"n741958432" label:"$31:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = _name
+     Variable::visibility : string = public
+     Variable::isStatic : boolean = False
+     Variable::isFinal : boolean = False"}
+    edge:{sourcename:"n741958432" targetname:"n1779987369" label:"$164:type_" color:darkyellow}
+   }
+   edge:{sourcename:"n826588720" targetname:"n-968921864" label:"$F1:imports" color:darkyellow}
+  }
+  graph:{title:"n-668394620" label:"$3:Package" color:lightgrey info1: "Package::name : string = packets"
+   graph:{title:"n-968921864" label:"$C:Class" color:yellow info1: "Classifier::name : string = Packet
+    Classifier::visibility : string = public
+    Classifier::isAbstract : boolean = False
+    Class::isFinal : boolean = False"
+    node:{title:"n-318935132" label:"$55:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = _document
+     Variable::visibility : string = private
+     Variable::isStatic : boolean = False
+     Variable::isFinal : boolean = False"}
+    edge:{sourcename:"n-318935132" targetname:"n620970372" label:"$16B:type_" color:darkyellow}
+    node:{title:"n-63101362" label:"$56:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = _content
+     Variable::visibility : string = private
+     Variable::isStatic : boolean = False
+     Variable::isFinal : boolean = False"}
+    edge:{sourcename:"n-63101362" targetname:"n1779987369" label:"$168:type_" color:darkyellow}
+    node:{title:"n-194544509" label:"$57:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = _originator
+     Variable::visibility : string = private
+     Variable::isStatic : boolean = False
+     Variable::isFinal : boolean = False"}
+    edge:{sourcename:"n-194544509" targetname:"n826588720" label:"$169:type_" color:darkyellow}
+    node:{title:"n61289261" label:"$58:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = _destination
+     Variable::visibility : string = private
+     Variable::isStatic : boolean = False
+     Variable::isFinal : boolean = False"}
+    edge:{sourcename:"n61289261" targetname:"n826588720" label:"$16A:type_" color:darkyellow}
+    node:{title:"n826412241" label:"$54:Variable" color:cyan bordercolor:darkyellow info1: "Variable::name : string = _jumps
+     Variable::visibility : string = public
+     Variable::isStatic : boolean = False
+     Variable::isFinal : boolean = False"}
+    edge:{sourcename:"n826412241" targetname:"n-1372611240" label:"$221:type_" color:darkyellow}
+    graph:{title:"n1639113368" label:"$6C:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n1117249686" label:"$6B:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n1222013313" label:"$6A:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n700149631" label:"$69:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n178285949" label:"$68:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-1118131567" label:"$67:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-1639995249" label:"$66:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n2133108365" label:"$65:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-1430467995" label:"$64:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-1952331677" label:"$63:MethodBody" color:orchid info1: ""
+    }
+    graph:{title:"n-354197752" label:"$5D:Operation" color:pink info1: "Operation::name : string = Packet
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-1668970633" label:"$93:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-1668970633" targetname:"n1779987369" label:"$1B2:type_" color:darkyellow}
+     node:{title:"n2133956119" label:"$94:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n2133956119" targetname:"n826588720" label:"$1B1:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-354197752" targetname:"n-1952331677" label:"$125:binding" color:darkyellow}
+    graph:{title:"n-1608217658" label:"$62:Operation" color:pink info1: "Operation::name : string = Packet
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n955641990" label:"$91:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n955641990" targetname:"n620970372" label:"$1B3:type_" color:darkyellow}
+     node:{title:"n463601446" label:"$92:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n463601446" targetname:"n826588720" label:"$1B0:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-1608217658" targetname:"n-1430467995" label:"$124:binding" color:darkyellow}
+    graph:{title:"n1267895952" label:"$5E:Operation" color:pink info1: "Operation::name : string = setDestination
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n1447682534" label:"$90:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n1447682534" targetname:"n826588720" label:"$1B7:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n1267895952" targetname:"n2133108365" label:"$123:binding" color:darkyellow}
+    graph:{title:"n2079325448" label:"$5C:Operation" color:pink info1: "Operation::name : string = getDestination
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n2079325448" targetname:"n826588720" label:"$16C:type_" color:darkyellow}
+    edge:{sourcename:"n2079325448" targetname:"n-1639995249" label:"$122:binding" color:darkyellow}
+    graph:{title:"n825305542" label:"$61:Operation" color:pink info1: "Operation::name : string = setContent
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n1939723078" label:"$8F:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n1939723078" targetname:"n1779987369" label:"$1B5:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n825305542" targetname:"n-1118131567" label:"$121:binding" color:darkyellow}
+    graph:{title:"n2097763279" label:"$5B:Operation" color:pink info1: "Operation::name : string = getContent
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n2097763279" targetname:"n1779987369" label:"$16D:type_" color:darkyellow}
+    edge:{sourcename:"n2097763279" targetname:"n178285949" label:"$120:binding" color:darkyellow}
+    graph:{title:"n-796788162" label:"$60:Operation" color:pink info1: "Operation::name : string = setOriginator
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n2044486705" label:"$8E:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n2044486705" targetname:"n826588720" label:"$1B6:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-796788162" targetname:"n700149631" label:"$11F:binding" color:darkyellow}
+    graph:{title:"n475669575" label:"$5A:Operation" color:pink info1: "Operation::name : string = getOriginator
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n475669575" targetname:"n826588720" label:"$16E:type_" color:darkyellow}
+    edge:{sourcename:"n475669575" targetname:"n1222013313" label:"$11E:binding" color:darkyellow}
+    graph:{title:"n-1404977640" label:"$5F:Operation" color:pink info1: "Operation::name : string = setDocument
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+     node:{title:"n-1758440047" label:"$8D:Parameter" color:lightcyan bordercolor:darkyellow info1: ""}
+     edge:{sourcename:"n-1758440047" targetname:"n620970372" label:"$1B4:type_" color:darkyellow}
+    }
+    edge:{sourcename:"n-1404977640" targetname:"n1117249686" label:"$11D:binding" color:darkyellow}
+    graph:{title:"n-971052796" label:"$59:Operation" color:pink info1: "Operation::name : string = getDocument
+     Operation::visibility : string = pubic
+     Operation::isAbstract : boolean = False
+     Operation::isStatic : boolean = False
+     Operation::isFinal : boolean = False"
+    }
+    edge:{sourcename:"n-971052796" targetname:"n620970372" label:"$16F:type_" color:darkyellow}
+    edge:{sourcename:"n-971052796" targetname:"n1639113368" label:"$11C:binding" color:darkyellow}
+   }
+  }
+  graph:{title:"n-1827081753" label:"$4:Class" color:yellow info1: "Classifier::name : string = LANExample
+   Classifier::visibility : string = public
+   Classifier::isAbstract : boolean = False
+   Class::isFinal : boolean = False"
+   graph:{title:"n1085472095" label:"$6D:Operation" color:pink info1: "Operation::name : string = main
+    Operation::visibility : string = pubic
+    Operation::isAbstract : boolean = False
+    Operation::isStatic : boolean = False
+    Operation::isFinal : boolean = False"
+   }
+   edge:{sourcename:"n1085472095" targetname:"n741358076" label:"$154:binding" color:darkyellow}
+   graph:{title:"n741358076" label:"$6E:MethodBody" color:orchid info1: ""
+   }
+  }
+  edge:{sourcename:"n-1827081753" targetname:"n-1662671850" label:"$E7:imports" color:darkyellow}
+  edge:{sourcename:"n-1827081753" targetname:"n620970372" label:"$E8:imports" color:darkyellow}
+  edge:{sourcename:"n-1827081753" targetname:"n92054166" label:"$E9:imports" color:darkyellow}
+  edge:{sourcename:"n-1827081753" targetname:"n-1332662879" label:"$EA:imports" color:darkyellow}
+  edge:{sourcename:"n-1827081753" targetname:"n-1464106026" label:"$EB:imports" color:darkyellow}
+  edge:{sourcename:"n-1827081753" targetname:"n-968921864" label:"$EC:imports" color:darkyellow}
+ }
+ graph:{title:"n1291172909" label:"$B1:Operation" color:pink info1: "Operation::name : string = println
+  Operation::visibility : string = public
+  Operation::isAbstract : boolean = False
+  Operation::isStatic : boolean = False
+  Operation::isFinal : boolean = False"
+ }
+ node:{title:"n-1093241568" label:"$D9:Literal" color:gold bordercolor:darkyellow info1: "Literal::value : string =  of this packet"}
+ edge:{sourcename:"n-1093241568" targetname:"n1779987369" label:"$21D:type_" color:darkyellow}
+ node:{title:"n-1930585296" label:"$D3:Literal" color:gold bordercolor:darkyellow info1: "Literal::value : string = This is jump "}
+ edge:{sourcename:"n-1930585296" targetname:"n1779987369" label:"$21C:type_" color:darkyellow}
+ node:{title:"n1818558539" label:"$C5:Literal" color:gold bordercolor:darkyellow info1: "Literal::value : string =  is sending to "}
+ edge:{sourcename:"n1818558539" targetname:"n1779987369" label:"$205:type_" color:darkyellow}
+ node:{title:"n1104416269" label:"$BA:Literal" color:gold bordercolor:darkyellow info1: "Literal::value : string = Traversing node "}
+ edge:{sourcename:"n1104416269" targetname:"n1779987369" label:"$1E1:type_" color:darkyellow}
+ node:{title:"n679839813" label:"$AE:Literal" color:gold bordercolor:darkyellow info1: "Literal::value : string = 1"}
+ edge:{sourcename:"n679839813" targetname:"n-1372611240" label:"$223:type_" color:darkyellow}
+}
