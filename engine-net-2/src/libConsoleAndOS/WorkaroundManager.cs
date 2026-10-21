@@ -53,7 +53,6 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
 
         /// <summary>
         /// Allocates the console.
-        /// TODO: LINUX version. Currently Windows only. Silent nop.
         /// </summary>
         bool AllocTheConsole();
 
@@ -65,7 +64,6 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
 
         /// <summary>
         /// Frees the console.
-        /// TODO: LINUX version. Currently Windows only. Silent nop.
         /// </summary>
         bool FreeTheConsole();
 
@@ -260,8 +258,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
 
         public override bool AllocTheConsole()
         {
-            // TODO - NIY
-            return false;
+            return LinuxConsoleAllocator.Alloc();
         }
 
         public override bool AttachTheConsole(int pid)
@@ -272,8 +269,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
 
         public override bool FreeTheConsole()
         {
-            // TODO - NIY
-            return false;
+            return LinuxConsoleAllocator.Free();
         }
 
         public override void PreventRedraw(IntPtr hWnd)
