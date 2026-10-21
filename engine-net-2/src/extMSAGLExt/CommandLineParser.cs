@@ -17,11 +17,12 @@ namespace de.unika.ipd.grGen.extMSAGLExt
     {
         // ---- tokenizer: keyword "arg1" "arg2" ... ----
         // Arguments are enclosed in quotes; waitForElement is the exception with an unquoted bool.
-        // Backslash escaping inside quotes: \\n -> newline, \\\\ -> backslash.
+        // Escaping inside quotes (applied by the sending client, undone here): \\ -> backslash, \n -> newline, \" -> quotation mark.
+        // Throws a ProtocolSyntaxException on syntax errors.
 
         public static List<string> Tokenize(string line)
         {
-            var tokens = new List<string>();
+            List<string> tokens = new List<string>();
             int i = 0;
             // skip leading whitespace
             while(i < line.Length && line[i] == ' ') i++;
@@ -37,19 +38,29 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 if(line[i] == '"')
                 {
                     i++; // skip opening quote
-                    var sb = new StringBuilder();
+                    StringBuilder sb = new StringBuilder();
                     while(i < line.Length && line[i] != '"')
                     {
-                        if(line[i] == '\\' && i + 1 < line.Length)
+                        if(line[i] == '\\')
                         {
+                            if(i + 1 >= line.Length)
+                                throw new ProtocolSyntaxException("dangling backslash at the end of the command line \"" + line + "\"");
                             char next = line[i + 1];
-                            if(next == 'n') { sb.Append('\n'); i += 2; }
-                            else if(next == '\\') { sb.Append('\\'); i += 2; }
-                            else { sb.Append(line[i]); i++; }
+                            if(next == 'n') sb.Append('\n');
+                            else if(next == '\\') sb.Append('\\');
+                            else if(next == '"') sb.Append('"');
+                            else throw new ProtocolSyntaxException("unknown escape sequence \\" + next + " in the command line \"" + line + "\"");
+                            i += 2;
                         }
-                        else { sb.Append(line[i]); i++; }
+                        else
+                        {
+                            sb.Append(line[i]);
+                            i++;
+                        }
                     }
-                    if(i < line.Length) i++; // skip closing quote
+                    if(i >= line.Length)
+                        throw new ProtocolSyntaxException("unterminated string argument in the command line \"" + line + "\"");
+                    i++; // skip closing quote
                     tokens.Add(sb.ToString());
                 }
                 else
@@ -65,18 +76,22 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         // ---- attribute key parsing: "ownerType::attrName : attrTypeStr" ----
 
-        public static bool SplitAttrKey(string attrKey, out string ownerType, out string attrName, out string attrType)
+        public static void SplitAttrKey(string attrKey, out string ownerType, out string attrName, out string attrType)
         {
-            ownerType = attrName = attrType = "";
             int dcIdx = attrKey.IndexOf("::", StringComparison.Ordinal);
-            if(dcIdx < 0) return false;
+            if(dcIdx < 0)
+                throw new ProtocolSyntaxException("attribute key \"" + attrKey + "\" does not contain ::");
             ownerType = attrKey.Substring(0, dcIdx);
             string rest = attrKey.Substring(dcIdx + 2);
             int csIdx = rest.IndexOf(" : ", StringComparison.Ordinal);
-            if(csIdx < 0) { attrName = rest; return true; }
+            if(csIdx < 0)
+            {
+                attrName = rest;
+                attrType = "";
+                return;
+            }
             attrName = rest.Substring(0, csIdx);
             attrType = rest.Substring(csIdx + 3);
-            return true;
         }
 
         // ---- enum parsing (wire names identical to VCGDumper strings) ----
@@ -116,7 +131,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 case "orchid": return GrColor.Orchid;
                 case "lightyellow": return GrColor.LightYellow;
                 case "yellowgreen": return GrColor.YellowGreen;
-                default: Console.Error.WriteLine("extMSAGLExt: unknown color \"" + s + "\""); return GrColor.Black;
+                default: throw new ProtocolSyntaxException("unknown color \"" + s + "\"");
             }
         }
 
@@ -134,7 +149,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 case "uptrapeze": return GrNodeShape.UpTrapeze;
                 case "lparallelogram": return GrNodeShape.LParallelogram;
                 case "rparallelogram": return GrNodeShape.RParallelogram;
-                default: Console.Error.WriteLine("extMSAGLExt: unknown shape \"" + s + "\""); return GrNodeShape.Box;
+                default: throw new ProtocolSyntaxException("unknown shape \"" + s + "\"");
             }
         }
 
@@ -146,15 +161,28 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 case "dotted": return GrLineStyle.Dotted;
                 case "dashed": return GrLineStyle.Dashed;
                 case "invisible": return GrLineStyle.Invisible;
-                default: Console.Error.WriteLine("extMSAGLExt: unknown linestyle \"" + s + "\""); return GrLineStyle.Continuous;
+                default: throw new ProtocolSyntaxException("unknown linestyle \"" + s + "\"");
             }
         }
 
-        // Reverses GraphViewerApplicationProxy.Encode: "\\n" -> newline, " &nbsp;" -> "  ", "&quot;" -> "\""
-        public static string Decode(string s)
+        public static int ParseInt(string s)
         {
-            if(s == null) return "";
-            return s.Replace("\\n", "\n").Replace(" &nbsp;", "  ").Replace("&quot;", "\"");
+            int value;
+            if(!int.TryParse(s, out value))
+                throw new ProtocolSyntaxException("\"" + s + "\" is not an integer");
+            return value;
+        }
+    }
+
+    /// <summary>
+    /// Thrown upon a syntax error in the live graph changes protocol (received from the sending client);
+    /// not caught on purpose, errors are symptoms of bugs in the sender and are to be noticed (crash dialog).
+    /// </summary>
+    public class ProtocolSyntaxException : Exception
+    {
+        public ProtocolSyntaxException(string message)
+            : base("extMSAGLExt protocol syntax error: " + message)
+        {
         }
     }
 }

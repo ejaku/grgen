@@ -73,12 +73,22 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         {
             Console.Out.WriteLine("VCG import of \"" + filePath + "\".");
 
-            string text;
+            string text; // maybe TODO: memory consumption optimization, reading entire file into memory is costly, but (building AST and) visualizing it later on will require even more memory...
             try { text = File.ReadAllText(filePath); }
             catch(Exception ex) { return "Cannot read file \"" + filePath + "\": " + ex.Message; }
 
-            var lexer = new VcgLexer(new ANTLRStringStream(text));
-            var parser = new VcgParser(new CommonTokenStream(lexer));
+            return ImportFromText(text, client);
+        }
+
+        /// <summary>
+        /// Imports VCG text and displays it via the given client.
+        /// Returns an error message string on a syntax error, null on success.
+        /// Constraint violations are reported to the console and do not abort the import.
+        /// </summary>
+        public static string ImportFromText(string text, IBasicGraphViewerClient client)
+        {
+            VcgLexer lexer = new VcgLexer(new ANTLRStringStream(text));
+            VcgParser parser = new VcgParser(new CommonTokenStream(lexer));
             VcgAst.Graph ast;
             try { ast = parser.vcgFile(); }
             catch(RecognitionException ex) { return "VCG parse error: " + ex.Message; }
@@ -136,10 +146,10 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         void AddNodeOrSubgraph(VcgAst.Entity entity, VcgAst.Subgraph parent)
         {
-            string title = GetAttr(entity.Attributes, "title", null);
+            string title = GetString(entity.Attributes, "title", null);
             if(title == null) return; // already warned during parse
 
-            string label = GetAttr(entity.Attributes, "label", "");
+            string label = GetString(entity.Attributes, "label", "");
             GrColor borderColor = GetColor(entity.Attributes, "bordercolor", GrColor.Black);
             GrColor color = GetColor(entity.Attributes, "color", GrColor.Yellow);
             GrColor textColor = GetColor(entity.Attributes, "textcolor", GrColor.Black);
@@ -161,7 +171,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 {
                     if(child is VcgAst.Subgraph || child is VcgAst.Node)
                     {
-                        string childTitle = GetAttr(child.Attributes, "title", null);
+                        string childTitle = GetString(child.Attributes, "title", null);
                         if(childTitle != null)
                             client.MoveNode(childTitle, title);
                     }
@@ -175,14 +185,13 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         void ApplyNodeAttributes(VcgAst.Entity entity)
         {
-            string title = GetAttr(entity.Attributes, "title", null);
+            string title = GetString(entity.Attributes, "title", null);
             if(title == null) return;
 
-            string info1 = GetAttr(entity.Attributes, "info1", null);
+            string info1 = GetString(entity.Attributes, "info1", null);
             if(info1 != null)
             {
-                string decoded = DecodeVcg(info1);
-                foreach(string line in decoded.Split('\n'))
+                foreach(string line in info1.Split('\n'))
                 {
                     string trimmed = line.Trim();
                     if(trimmed.Length == 0) continue;
@@ -200,8 +209,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         void AddEdge(VcgAst.Edge edge)
         {
-            string src = GetAttr(edge.Attributes, "sourcename", null);
-            string tgt = GetAttr(edge.Attributes, "targetname", null);
+            string src = GetString(edge.Attributes, "sourcename", null);
+            string tgt = GetString(edge.Attributes, "targetname", null);
             if(src == null || tgt == null) return;
 
             if(!nodeByName.ContainsKey(src)) { Console.Error.WriteLine("VCG error: edge source \"" + src + "\" not found"); return; }
@@ -210,13 +219,12 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             GrColor color = GetColor(edge.Attributes, "color", GrColor.Khaki);
             GrColor textColor = GetColor(edge.Attributes, "textcolor", GrColor.Black);
             GrLineStyle lineStyle = GetLineStyle(edge.Attributes, "linestyle", GrLineStyle.Continuous);
-            int thickness = GetInt(edge.Attributes, "thickness", 1);
-            thickness = Math.Max(1, Math.Min(5, thickness));
+            int thickness = GetInt(edge.Attributes, "thickness", 1, 1, 5);
 
             string realizerName = GetOrCreateEdgeRealizer(color, textColor, thickness, lineStyle);
 
             string edgeName = "e" + edgeCount++;
-            string fullLabel = GetAttr(edge.Attributes, "label", "");
+            string fullLabel = GetString(edge.Attributes, "label", "");
 
             // split label into visual part and attribute section
             string visualLabel = fullLabel;
@@ -245,12 +253,11 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         void SetAttributeFromLine(string entityName, string line, bool isEdge)
         {
             // format: ownerType::attrName : attrTypeStr = value
-            string decoded = DecodeVcg(line);
-            int dcIdx = decoded.IndexOf("::", StringComparison.Ordinal);
+            int dcIdx = line.IndexOf("::", StringComparison.Ordinal);
             if(dcIdx < 0) return;
-            string ownerType = decoded.Substring(0, dcIdx);
+            string ownerType = line.Substring(0, dcIdx);
 
-            string rest = decoded.Substring(dcIdx + 2);
+            string rest = line.Substring(dcIdx + 2);
             int csIdx = rest.IndexOf(" : ", StringComparison.Ordinal);
             if(csIdx < 0) return;
             string attrName = rest.Substring(0, csIdx);
@@ -295,22 +302,43 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             return name;
         }
 
-        // ---- attribute helpers ----
+        // ---- attribute helpers (the AST contains the attribute values as written, they are checked here) ----
 
-        static string GetAttr(Dictionary<string, string> attrs, string key, string defaultValue)
+        // the raw value of a string literal attribute is turned into its content; for a non-string-literal value an error is reported
+        static string GetString(Dictionary<string, string> attrs, string key, string defaultValue)
         {
-            string val;
-            return attrs.TryGetValue(key, out val) ? val : defaultValue;
+            string raw;
+            if(!attrs.TryGetValue(key, out raw))
+                return defaultValue;
+            if(!VcgAst.Literal.IsStringLiteral(raw))
+            {
+                Console.Error.WriteLine("VCG error: attribute \"" + key + "\" requires a string literal but is " + raw + " -- using default");
+                return defaultValue;
+            }
+            return VcgAst.Literal.ToStringValue(raw);
+        }
+
+        // the raw value of an enum attribute must be an identifier of the enum
+        static bool TryGetEnumIdentifier(Dictionary<string, string> attrs, string key, out string identifier)
+        {
+            if(!attrs.TryGetValue(key, out identifier))
+                return false;
+            if(VcgAst.Literal.IsStringLiteral(identifier) || !(char.IsLetter(identifier[0]) || identifier[0] == '_'))
+            {
+                Console.Error.WriteLine("VCG error: attribute \"" + key + "\" requires an identifier but is " + identifier + " -- using default");
+                return false;
+            }
+            return true;
         }
 
         static GrColor GetColor(Dictionary<string, string> attrs, string key, GrColor defaultValue)
         {
-            string s = GetAttr(attrs, key, null);
-            if(s == null) return defaultValue;
+            string s;
+            if(!TryGetEnumIdentifier(attrs, key, out s)) return defaultValue;
             GrColor c;
             if(!colorByName.TryGetValue(s, out c))
             {
-                Console.Error.WriteLine("VCG warning: unknown color \"" + s + "\" for attribute \"" + key + "\" -- using default");
+                Console.Error.WriteLine("VCG error: unknown color \"" + s + "\" for attribute \"" + key + "\" -- using default");
                 return defaultValue;
             }
             return c;
@@ -318,12 +346,12 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         static GrNodeShape GetShape(Dictionary<string, string> attrs, string key, GrNodeShape defaultValue)
         {
-            string s = GetAttr(attrs, key, null);
-            if(s == null) return defaultValue;
+            string s;
+            if(!TryGetEnumIdentifier(attrs, key, out s)) return defaultValue;
             GrNodeShape shape;
             if(!shapeByName.TryGetValue(s, out shape))
             {
-                Console.Error.WriteLine("VCG warning: unknown shape \"" + s + "\" for attribute \"" + key + "\" -- using default");
+                Console.Error.WriteLine("VCG error: unknown shape \"" + s + "\" for attribute \"" + key + "\" -- using default");
                 return defaultValue;
             }
             return shape;
@@ -331,30 +359,34 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         static GrLineStyle GetLineStyle(Dictionary<string, string> attrs, string key, GrLineStyle defaultValue)
         {
-            string s = GetAttr(attrs, key, null);
-            if(s == null) return defaultValue;
+            string s;
+            if(!TryGetEnumIdentifier(attrs, key, out s)) return defaultValue;
             GrLineStyle ls;
             if(!lineStyleByName.TryGetValue(s, out ls))
             {
-                Console.Error.WriteLine("VCG warning: unknown linestyle \"" + s + "\" for attribute \"" + key + "\" -- using default");
+                Console.Error.WriteLine("VCG error: unknown linestyle \"" + s + "\" for attribute \"" + key + "\" -- using default");
                 return defaultValue;
             }
             return ls;
         }
 
-        static int GetInt(Dictionary<string, string> attrs, string key, int defaultValue)
+        // an integer attribute within the given range (inclusive)
+        static int GetInt(Dictionary<string, string> attrs, string key, int defaultValue, int minValue, int maxValue)
         {
-            string s = GetAttr(attrs, key, null);
-            if(s == null) return defaultValue;
+            string s;
+            if(!attrs.TryGetValue(key, out s)) return defaultValue;
             int v;
-            return int.TryParse(s, out v) ? v : defaultValue;
-        }
-
-        // Reverses VCGDumper.EncodeString: " &nbsp;" -> "  ", "&quot;" -> "\""
-        static string DecodeVcg(string s)
-        {
-            if(s == null) return "";
-            return s.Replace(" &nbsp;", "  ").Replace("&quot;", "\"");
+            if(!int.TryParse(s, out v))
+            {
+                Console.Error.WriteLine("VCG error: attribute \"" + key + "\" requires an integer number but is " + s + " -- using default");
+                return defaultValue;
+            }
+            if(v < minValue || v > maxValue)
+            {
+                Console.Error.WriteLine("VCG error: attribute \"" + key + "\" must be in the range " + minValue + "-" + maxValue + " but is " + v + " -- using default");
+                return defaultValue;
+            }
+            return v;
         }
     }
 }

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -11,7 +12,7 @@ using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
 namespace de.unika.ipd.grGen.extMSAGLExt
 {
     /// <summary>
-    /// Async TCP server that receives GrGen-yComp protocol command lines and hands them
+    /// Async TCP server (accepting a single connection) that receives GrGen-yComp protocol command lines and hands them
     /// to the CommandLineParser and then to a CommandLineInterpreter, which executes them on the IBasicGraphViewerClient (typically MSAGLExtClient).
     /// Started from the UI thread; async/await + WinForms SynchronizationContext keeps
     /// all callbacks on the UI thread -- no Invoke needed.
@@ -20,38 +21,48 @@ namespace de.unika.ipd.grGen.extMSAGLExt
     {
         CommandLineInterpreter commandLineInterpreter;
         TcpListener listener;
-        bool stopped;
 
         const int MaxLineBytes = 64 * 1024 * 1024;
 
         // ---- public API ----
 
-        public async Task RunAsync(int port, IBasicGraphViewerClient graphClient)
+        /// <summary>
+        /// Starts listening on the given loopback port.
+        /// Returns an error message if the port can't be opened, null on success.
+        /// </summary>
+        public string StartListening(int port)
         {
-            commandLineInterpreter = new CommandLineInterpreter(graphClient);
             listener = new TcpListener(IPAddress.Loopback, port);
             try { listener.Start(); }
             catch(Exception ex)
             {
-                Console.Error.WriteLine("extMSAGLExt: cannot listen on port " + port + ": " + ex.Message);
-                return;
+                return "cannot listen on port " + port + " of loopback address: " + ex.Message;
             }
-            Console.WriteLine("extMSAGLExt: listening on port " + port);
+            Console.WriteLine("extMSAGLExt: listening on port " + port + " of loopback address");
+            return null;
+        }
 
-            while(!stopped)
-            {
-                TcpClient tcpClient;
-                try { tcpClient = await listener.AcceptTcpClientAsync(); }
-                catch(Exception) { break; }
+        /// <summary>
+        /// Accepts the first connection (and only that one, no further connections are accepted, also not after it ended)
+        /// and processes the commands received over it.
+        /// Syntax errors in the protocol are passed on as exceptions (ProtocolSyntaxException), as are the
+        /// semantic errors reported by the graph viewer client.
+        /// </summary>
+        public async Task RunAsync(IBasicGraphViewerClient graphClient)
+        {
+            commandLineInterpreter = new CommandLineInterpreter(graphClient);
 
-                await HandleConnectionAsync(tcpClient);
-            }
-            listener.Stop();
+            TcpClient tcpClient;
+            try { tcpClient = await listener.AcceptTcpClientAsync(); }
+            catch(ObjectDisposedException) { return; } // stopped while waiting for the connection
+            catch(SocketException) { return; }
+            finally { listener.Stop(); } // refuse any further connection attempts
+
+            await HandleConnectionAsync(tcpClient);
         }
 
         public void Stop()
         {
-            stopped = true;
             try { listener?.Stop(); } catch { }
         }
 
@@ -64,33 +75,31 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             using(NetworkStream stream = tcpClient.GetStream())
             {
                 byte[] readBuf = new byte[65536];
-                var lineBuf = new StringBuilder();
+                MemoryStream lineBuf = new MemoryStream();
                 bool closed = false;
 
                 while(!closed)
                 {
                     int n;
                     try { n = await stream.ReadAsync(readBuf, 0, readBuf.Length); }
-                    catch(Exception) { break; }
+                    catch(IOException) { break; }
+                    catch(ObjectDisposedException) { break; }
                     if(n == 0) break;
 
                     for(int i = 0; i < n && !closed; i++)
                     {
-                        char c = (char)readBuf[i];
-                        if(c == '\n')
+                        if(readBuf[i] == (byte)'\n')
                         {
-                            List<string> args = CommandLineParser.Tokenize(lineBuf.ToString());
+                            string line = Encoding.ASCII.GetString(lineBuf.GetBuffer(), 0, (int)lineBuf.Length);
+                            lineBuf.SetLength(0);
+                            List<string> args = CommandLineParser.Tokenize(line);
                             closed = await commandLineInterpreter.InterpretAsync(args, stream);
-                            lineBuf.Clear();
                         }
                         else
                         {
-                            lineBuf.Append(c);
+                            lineBuf.WriteByte(readBuf[i]);
                             if(lineBuf.Length > MaxLineBytes)
-                            {
-                                Console.Error.WriteLine("extMSAGLExt: line too long (>" + MaxLineBytes + " bytes) -- closing connection");
-                                return;
-                            }
+                                return; // line too long, close the connection
                         }
                     }
                 }

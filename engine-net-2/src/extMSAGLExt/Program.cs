@@ -22,9 +22,9 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             }
             else if(args.Length == 2 && args[0] == "-p")
             {
-                if(!int.TryParse(args[1], out port) || port <= 0 || port > 65535)
+                if(!int.TryParse(args[1], out port) || port < 4242 || port > 4251)
                 {
-                    MessageBox.Show("Invalid port number: " + args[1] + "\nUsage: extMSAGLExt -p <port>",
+                    MessageBox.Show("Invalid port number: " + args[1] + " (must be in the range 4242-4251)\nUsage: extMSAGLExt -p <port>",
                         "extMSAGLExt", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }

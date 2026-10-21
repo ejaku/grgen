@@ -18,6 +18,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.menuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemShowErrorLog = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemSep = new System.Windows.Forms.ToolStripSeparator();
             this.menuItemClose = new System.Windows.Forms.ToolStripMenuItem();
             this.msaglExtClient = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLExtClient();
@@ -36,7 +37,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             // menuItemFile
             this.menuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
             {
-                this.menuItemOpen, this.menuItemSep, this.menuItemClose
+                this.menuItemOpen, this.menuItemShowErrorLog, this.menuItemSep, this.menuItemClose
             });
             this.menuItemFile.Name = "menuItemFile";
             this.menuItemFile.Size = new System.Drawing.Size(37, 20);
@@ -48,6 +49,12 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             this.menuItemOpen.Size = new System.Drawing.Size(154, 22);
             this.menuItemOpen.Text = "&Open...";
             this.menuItemOpen.Click += new System.EventHandler(this.MenuFileOpen_Click);
+
+            // menuItemShowErrorLog
+            this.menuItemShowErrorLog.Name = "menuItemShowErrorLog";
+            this.menuItemShowErrorLog.Size = new System.Drawing.Size(154, 22);
+            this.menuItemShowErrorLog.Text = "Show &error log console";
+            this.menuItemShowErrorLog.Click += new System.EventHandler(this.MenuFileShowErrorLog_Click);
 
             // menuItemSep
             this.menuItemSep.Name = "menuItemSep";
@@ -87,6 +94,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         System.Windows.Forms.ToolStripMenuItem menuItemFile;
         System.Windows.Forms.ToolStripMenuItem menuItemOpen;
         System.Windows.Forms.ToolStripSeparator menuItemSep;
+        System.Windows.Forms.ToolStripMenuItem menuItemShowErrorLog;
         System.Windows.Forms.ToolStripMenuItem menuItemClose;
     }
 }

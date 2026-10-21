@@ -43,9 +43,40 @@ grammar Vcg;
     // Populated during parsing; edges use this to resolve source/target names.
     public Dictionary<string, Node> NodeOrSubgraphByName = new Dictionary<string, Node>();
 
-    void WarnUnknown(string context, string key, string val)
+    // The attribute values are stored as written (string literals including their quotation marks),
+    // the checking of the values is up to the second pass.
+    static readonly HashSet<string> graphAttributes = new HashSet<string> { "title", "label", "textcolor", "color", "info1" };
+    static readonly HashSet<string> nodeAttributes = new HashSet<string> { "title", "label", "textcolor", "color", "bordercolor", "shape", "info1" };
+    static readonly HashSet<string> edgeAttributes = new HashSet<string> { "sourcename", "targetname", "label", "textcolor", "color", "linestyle", "thickness" };
+    // written by the VCGBaseDumper, but of no interest to us (the layout is chosen by extMSAGLExt)
+    static readonly HashSet<string> silentlyIgnoredGraphAttributes = new HashSet<string> { "layoutalgorithm" };
+
+    // returns true if the attribute is to be entered into the AST, otherwise a warning was emitted (or it is silently ignored)
+    bool AcceptAttribute(HashSet<string> knownAttributes, string context, string key, string val)
     {
-        System.Console.Error.WriteLine("VCG warning: unknown " + context + " attribute \"" + key + "\" (value: \"" + val + "\") -- ignored");
+        if(knownAttributes.Contains(key))
+            return true;
+        if(context == "graph" && silentlyIgnoredGraphAttributes.Contains(key))
+            return false;
+        System.Console.Error.WriteLine("VCG warning: unknown " + context + " attribute \"" + key + "\" (value: " + val + ") -- ignored");
+        return false;
+    }
+
+    // the title/sourcename/targetname attributes must be string literals, returns their content or null (after emitting an error)
+    static string GetNameOrNull(Entity entity, string attributeName, string context)
+    {
+        string raw;
+        if(!entity.Attributes.TryGetValue(attributeName, out raw))
+        {
+            System.Console.Error.WriteLine("VCG error: " + context + " missing mandatory " + attributeName + " attribute -- skipped");
+            return null;
+        }
+        if(!Literal.IsStringLiteral(raw))
+        {
+            System.Console.Error.WriteLine("VCG error: " + context + " attribute " + attributeName + " is not a string literal (" + raw + ") -- skipped");
+            return null;
+        }
+        return Literal.ToStringValue(raw);
     }
 }
 
@@ -58,7 +89,7 @@ public vcgFile returns [Graph result]
 topGraph returns [Graph result]
     @init { result = new Graph(); }
     : 'graph' COLON LBRACE
-        ( a=graphAttribute  { result.Attributes[$a.key] = $a.val; }
+        ( a=graphAttribute  { if(AcceptAttribute(graphAttributes, "graph", $a.key, $a.val)) result.Attributes[$a.key] = $a.val; }
         | s=subgraph        { if($s.result != null) result.Children.Add($s.result); }
         | n=nodeRule        { if($n.result != null) result.Children.Add($n.result); }
         | e=edgeRule        { if($e.result != null) result.Children.Add($e.result); }
@@ -69,68 +100,53 @@ topGraph returns [Graph result]
 subgraph returns [Subgraph result]
     @init { result = new Subgraph(); }
     : 'graph' COLON LBRACE
-        ( a=graphAttribute  { result.Attributes[$a.key] = $a.val; }
+        ( a=graphAttribute  { if(AcceptAttribute(graphAttributes, "graph", $a.key, $a.val)) result.Attributes[$a.key] = $a.val; }
         | s=subgraph        { if($s.result != null) result.Children.Add($s.result); }
         | n=nodeRule        { if($n.result != null) result.Children.Add($n.result); }
         | e=edgeRule        { if($e.result != null) result.Children.Add($e.result); }
         )*
       RBRACE
       {
-          string title;
-          if(result.Attributes.TryGetValue("title", out title))
+          string title = GetNameOrNull(result, "title", "subgraph");
+          if(title == null)
+              result = null;
+          else if(NodeOrSubgraphByName.ContainsKey(title))
           {
-              if(!NodeOrSubgraphByName.ContainsKey(title))
-                  NodeOrSubgraphByName[title] = result;
-              else
-              {
-                  System.Console.Error.WriteLine("VCG error: duplicate subgraph title \"" + title + "\" -- skipped");
-                  result = null;
-              }
-          }
-          else
-          {
-              System.Console.Error.WriteLine("VCG error: subgraph missing mandatory title attribute -- skipped");
+              System.Console.Error.WriteLine("VCG error: duplicate subgraph title \"" + title + "\" -- skipped");
               result = null;
           }
+          else
+              NodeOrSubgraphByName[title] = result;
       }
     ;
 
 nodeRule returns [Node result]
     @init { result = new Node(); }
     : 'node' COLON LBRACE
-        ( a=nodeAttribute { result.Attributes[$a.key] = $a.val; } )*
+        ( a=nodeAttribute { if(AcceptAttribute(nodeAttributes, "node", $a.key, $a.val)) result.Attributes[$a.key] = $a.val; } )*
       RBRACE
       {
-          string title;
-          if(result.Attributes.TryGetValue("title", out title))
+          string title = GetNameOrNull(result, "title", "node");
+          if(title == null)
+              result = null;
+          else if(NodeOrSubgraphByName.ContainsKey(title))
           {
-              if(!NodeOrSubgraphByName.ContainsKey(title))
-                  NodeOrSubgraphByName[title] = result;
-              else
-              {
-                  System.Console.Error.WriteLine("VCG error: duplicate node title \"" + title + "\" -- skipped");
-                  result = null;
-              }
-          }
-          else
-          {
-              System.Console.Error.WriteLine("VCG error: node missing mandatory title attribute -- skipped");
+              System.Console.Error.WriteLine("VCG error: duplicate node title \"" + title + "\" -- skipped");
               result = null;
           }
+          else
+              NodeOrSubgraphByName[title] = result;
       }
     ;
 
 edgeRule returns [Edge result]
     @init { result = new Edge(); }
     : 'edge' COLON LBRACE
-        ( a=edgeAttribute { result.Attributes[$a.key] = $a.val; } )*
+        ( a=edgeAttribute { if(AcceptAttribute(edgeAttributes, "edge", $a.key, $a.val)) result.Attributes[$a.key] = $a.val; } )*
       RBRACE
       {
-          if(!result.Attributes.ContainsKey("sourcename") || !result.Attributes.ContainsKey("targetname"))
-          {
-              System.Console.Error.WriteLine("VCG error: edge missing mandatory sourcename or targetname -- skipped");
+          if(GetNameOrNull(result, "sourcename", "edge") == null || GetNameOrNull(result, "targetname", "edge") == null)
               result = null;
-          }
       }
     ;
 
@@ -149,7 +165,7 @@ edgeAttribute returns [string key, string val]
 attributeValue returns [string result]
     : n=NUMBER          { result = $n.text; }
     | f=FLOAT           { result = $f.text; }
-    | s=STRING_LITERAL  { string raw = $s.text; result = raw.Substring(1, raw.Length - 2); }
+    | s=STRING_LITERAL  { result = $s.text; } // including the quotation marks, so the kind of the value remains known
     | i=IDENT           { result = $i.text; }
     ;
 
@@ -162,7 +178,8 @@ RBRACE  : '}' ;
 FLOAT  : ('0'..'9')+ '.' ('0'..'9')* ;
 NUMBER : ('0'..'9')+ ;
 
-STRING_LITERAL : '"' ( ~('"') )* '"' ;
+// the quotation marks and backslashes in the string are escaped by a backslash, newlines are contained verbatim
+STRING_LITERAL : '"' ( '\\' . | ~('"' | '\\') )* '"' ;
 
 IDENT : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'-'|'.')* ;
 

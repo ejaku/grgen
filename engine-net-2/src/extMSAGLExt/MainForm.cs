@@ -44,7 +44,14 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             else if(serverPort > 0)
             {
                 receiver = new GraphCommandReceiver();
-                await receiver.RunAsync(serverPort, msaglExtClient);
+                string error = receiver.StartListening(serverPort);
+                if(error != null)
+                {
+                    MessageBox.Show(error, "extMSAGLExt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    receiver = null;
+                    return;
+                }
+                await receiver.RunAsync(msaglExtClient);
             }
         }
 
@@ -60,6 +67,16 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 if(dlg.ShowDialog(this) != DialogResult.OK) return;
                 ImportVcgFile(dlg.FileName);
             }
+        }
+
+        // allocates a console window that receives the console output from then on
+        // (it is normally printed in the parent console, or hidden when there is none)
+        void MenuFileShowErrorLog_Click(object sender, EventArgs e)
+        {
+            de.unika.ipd.grGen.libConsoleAndOS.WorkaroundManager.Workaround.AllocTheConsole();
+            Console.SetOut(new System.IO.StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
+            Console.SetError(new System.IO.StreamWriter(Console.OpenStandardError()) { AutoFlush = true });
+            menuItemShowErrorLog.Enabled = false;
         }
 
         void MenuFileClose_Click(object sender, EventArgs e)
