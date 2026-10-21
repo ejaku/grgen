@@ -10,6 +10,7 @@ It is a Windows Forms based application that offers two extensions:
 
 When started with an argument denoting a file path: read the according vcg file (or show an error message if a non-vcg file is given, or the file can't be found).
 When started with a -p <portnumber> argument: open a TCP server socket, listen to commands, and apply them (or show an error message if the port can't be opened).
+When started with a -console argument: show the error log console straight from the beginning.
 
 GUI:
 The main display is the MSAGLExtClient control.
@@ -37,6 +38,6 @@ Reuse grgen.ico as application icon.
 Open the error log console amounts to: IWorkaround.AllocTheConsole (see also ApplicationExampleForm.AllocateConsole - a GUI console control is NOT to be used).
 
 Further points / Discussion / Rationale:
-The show error log console command allows to find errors that are hidden when the parent console is not visible (when started from an OS console or the GrShell this is not the case).
+The show error log console command allows to find errors that are hidden when the parent console is not visible or Windows is used (when started from an OS console under Linux the text output reaches the parent console).
 Not wanted as of now: introduce a log file (overwritten at program start) instead of logging to the console (this would not fit well to the normal compiler/shell interpreter console-io/logless tech stack).
 (Also unwanted: an extMSAGLExtCon that is built as console application straight from the start, to be supplied in addition; even less so an extMSAGLExt that is built as such one, the ugly extra console window is only of interest in case of errors.)
