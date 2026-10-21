@@ -21,6 +21,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
     {
         CommandLineInterpreter commandLineInterpreter;
         TcpListener listener;
+        TcpClient connectedClient;
 
         const int MaxLineBytes = 64 * 1024 * 1024;
 
@@ -58,12 +59,18 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             catch(SocketException) { return; }
             finally { listener.Stop(); } // refuse any further connection attempts
 
+            connectedClient = tcpClient;
             await HandleConnectionAsync(tcpClient);
         }
 
+        /// <summary>
+        /// Stops listening and closes the connection if one is established (ending the debugging session).
+        /// </summary>
         public void Stop()
         {
+            commandLineInterpreter?.Stop();
             try { listener?.Stop(); } catch { }
+            try { connectedClient?.Close(); } catch { }
         }
 
         // ---- connection loop ----

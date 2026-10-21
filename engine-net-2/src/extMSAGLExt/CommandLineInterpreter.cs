@@ -17,10 +17,19 @@ namespace de.unika.ipd.grGen.extMSAGLExt
     public class CommandLineInterpreter
     {
         readonly IBasicGraphViewerClient client;
+        bool stopped;
 
         public CommandLineInterpreter(IBasicGraphViewerClient client)
         {
             this.client = client;
+        }
+
+        /// <summary>
+        /// Ends the waiting for an element in a pending waitForElement command (the client is about to be disposed).
+        /// </summary>
+        public void Stop()
+        {
+            stopped = true;
         }
 
         /// <summary>
@@ -189,9 +198,9 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                     if(enable)
                     {
                         // poll the UI-thread CommandAvailable flag; each await yields to the message pump
-                        while(!client.CommandAvailable && !client.ConnectionLost)
+                        while(!stopped && !client.CommandAvailable && !client.ConnectionLost)
                             await Task.Delay(10);
-                        if(!client.ConnectionLost)
+                        if(!stopped && !client.ConnectionLost)
                         {
                             string response = client.ReadCommand();
                             byte[] data = Encoding.ASCII.GetBytes(response);

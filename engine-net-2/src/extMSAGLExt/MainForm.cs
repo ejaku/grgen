@@ -86,11 +86,26 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         // ---- vcg import ----
 
+        void ReplaceGraphViewer()
+        {
+            Controls.Remove(msaglExtClient);
+            msaglExtClient.Dispose();
+
+            msaglExtClient = new MSAGLExtClient();
+            msaglExtClient.Dock = DockStyle.Fill;
+            msaglExtClient.Name = "msaglExtClient";
+            msaglExtClient.TabIndex = 1;
+            Controls.Add(msaglExtClient);
+            Controls.SetChildIndex(msaglExtClient, 0); // the front-most control with Dock.Fill is laid out last, i.e. below the menu strip
+        }
+
         void ImportVcgFile(string path)
         {
+            // end a potentially running debugging session, then start with a pristine graph viewer
+            // (a cleared graph would still contain the realizers registered so far)
             receiver?.Stop();
             receiver = null;
-            msaglExtClient.ClearGraph();
+            ReplaceGraphViewer();
 
             string error = VcgImporter.Import(path, msaglExtClient);
             if(error != null)
