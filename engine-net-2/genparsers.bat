@@ -7,3 +7,6 @@ cd ..\..
 cd src\graphViewerAndSequenceDebugger
 cmd /c genparser.bat
 cd ..\..
+cd src\extMSAGLExt
+cmd /c genparser.bat
+cd ..\..
