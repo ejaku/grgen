@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Text.RegularExpressions;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.extMSAGLExt
@@ -20,58 +20,46 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         // Escaping inside quotes (applied by the sending client, undone here): \\ -> backslash, \n -> newline, \" -> quotation mark.
         // Throws a ProtocolSyntaxException on syntax errors.
 
+        // the line is matched as a whole, strictly: no leading or trailing spaces, exactly one space between the parts;
+        // keyword, then quoted (with escaped content) or unquoted arguments
+        private static readonly Regex commandLine =
+            new Regex(@"^(?<keyword>\w+)(?: (?<argument>""(?:[^""\\]|\\.)*""|\w+))*$", RegexOptions.Compiled);
+
+        private static readonly Regex escapeSequence = new Regex(@"\\(.)", RegexOptions.Compiled);
+
         public static List<string> Tokenize(string line)
         {
             List<string> tokens = new List<string>();
-            int i = 0;
-            // skip leading whitespace
-            while(i < line.Length && line[i] == ' ') i++;
-            // read command keyword (unquoted, up to first space)
-            int start = i;
-            while(i < line.Length && line[i] != ' ') i++;
-            if(i > start) tokens.Add(line.Substring(start, i - start));
-            // read remaining arguments
-            while(i < line.Length)
+            if(line.Length == 0)
+                return tokens;
+
+            Match match = commandLine.Match(line);
+            if(!match.Success)
+                throw new ProtocolSyntaxException("malformed command line (e.g. unterminated string argument or dangling backslash) \"" + line + "\"");
+
+            tokens.Add(match.Groups["keyword"].Value);
+            foreach(Capture argument in match.Groups["argument"].Captures)
             {
-                while(i < line.Length && line[i] == ' ') i++;
-                if(i >= line.Length) break;
-                if(line[i] == '"')
-                {
-                    i++; // skip opening quote
-                    StringBuilder sb = new StringBuilder();
-                    while(i < line.Length && line[i] != '"')
-                    {
-                        if(line[i] == '\\')
-                        {
-                            if(i + 1 >= line.Length)
-                                throw new ProtocolSyntaxException("dangling backslash at the end of the command line \"" + line + "\"");
-                            char next = line[i + 1];
-                            if(next == 'n') sb.Append('\n');
-                            else if(next == '\\') sb.Append('\\');
-                            else if(next == '"') sb.Append('"');
-                            else throw new ProtocolSyntaxException("unknown escape sequence \\" + next + " in the command line \"" + line + "\"");
-                            i += 2;
-                        }
-                        else
-                        {
-                            sb.Append(line[i]);
-                            i++;
-                        }
-                    }
-                    if(i >= line.Length)
-                        throw new ProtocolSyntaxException("unterminated string argument in the command line \"" + line + "\"");
-                    i++; // skip closing quote
-                    tokens.Add(sb.ToString());
-                }
+                if(argument.Value[0] == '"')
+                    tokens.Add(Unescape(argument.Value.Substring(1, argument.Value.Length - 2), line));
                 else
-                {
-                    // unquoted token (e.g. waitForElement true/false)
-                    start = i;
-                    while(i < line.Length && line[i] != ' ') i++;
-                    tokens.Add(line.Substring(start, i - start));
-                }
+                    tokens.Add(argument.Value); // unquoted token (e.g. waitForElement true/false)
             }
             return tokens;
+        }
+
+        private static string Unescape(string content, string line)
+        {
+            return escapeSequence.Replace(content, delegate(Match escape)
+            {
+                switch(escape.Groups[1].Value[0])
+                {
+                    case 'n': return "\n";
+                    case '\\': return "\\";
+                    case '"': return "\"";
+                    default: throw new ProtocolSyntaxException("unknown escape sequence " + escape.Value + " in the command line \"" + line + "\"");
+                }
+            });
         }
 
         // ---- attribute key parsing: "ownerType::attrName : attrTypeStr" ----

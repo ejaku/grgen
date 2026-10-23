@@ -25,7 +25,34 @@ namespace extMSAGLExtTests
         public void EmptyLineYieldsNoTokens()
         {
             Assert.IsEmpty(CommandLineParser.Tokenize(""));
-            Assert.IsEmpty(CommandLineParser.Tokenize("   "));
+        }
+
+        [TestCase(" sync")]
+        [TestCase("sync ")]
+        [TestCase("   ")]
+        [TestCase("addNode  \"n\"")]
+        [TestCase("addNode \"n\"  \"nr0\"")]
+        [TestCase("addNode \"n\" ")]
+        public void SuperfluousSpacesAreASyntaxError(string line)
+        {
+            Assert.Throws<ProtocolSyntaxException>(() => CommandLineParser.Tokenize(line));
+        }
+
+        [TestCase("add-Node")]
+        [TestCase("add\"Node")]
+        [TestCase("\"sync\"")]
+        [TestCase("add\\Node \"n\"")]
+        public void KeywordWithNonWordCharactersIsASyntaxError(string line)
+        {
+            Assert.Throws<ProtocolSyntaxException>(() => CommandLineParser.Tokenize(line));
+        }
+
+        [TestCase("waitForElement tr-ue")]
+        [TestCase("waitForElement tr\"ue")]
+        [TestCase("waitForElement true\"x\"")]
+        public void UnquotedArgumentWithNonWordCharactersIsASyntaxError(string line)
+        {
+            Assert.Throws<ProtocolSyntaxException>(() => CommandLineParser.Tokenize(line));
         }
 
         [Test]

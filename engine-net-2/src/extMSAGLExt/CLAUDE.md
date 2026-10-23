@@ -63,7 +63,7 @@ The parser regeneration needs Mono: `./genparser.sh` (Linux), `genparser.bat` (W
 The protocol is the one used between GrGen and yComp: one command per line, `keyword "arg1" "arg2" ...`, quotes, backslashes and newlines in the arguments escaped by a backslash; the commands are a 1:1 mapping of the `IBasicGraphViewerClient` operations.
 Three classes with distinct roles:
 1. `GraphCommandReceiver` - `TcpListener` on the loopback address, accepts exactly one connection (and none after it ended), reads bytes (ASCII) from the `NetworkStream` and splits them into lines (limit 64MB per line, the connection is closed when exceeded)
-2. `CommandLineParser` - hand-written tokenizer (a single state machine) that splits a line into the keyword and the unescaped arguments, plus helpers converting arguments (colors, shapes, line styles, integers, attribute keys)
+2. `CommandLineParser` - tokenizer (a single regular expression matching the whole line, plus unescaping of the arguments) that splits a line into the keyword and the unescaped arguments, plus helpers converting arguments (colors, shapes, line styles, integers, attribute keys)
 3. `CommandLineInterpreter` - calls the `MSAGLExtClient` according to the command, writes the responses (e.g. to `sync` or `getLayoutOptions`) back to the stream, implements `waitForElement` by polling `CommandAvailable`
 
 Threading: there is no background thread. `MainForm_Load` (`async void`) awaits the receiver on the UI thread, so the WinForms synchronization context is captured and all continuations run on the UI thread - no `Invoke` is needed, `ConfigureAwait(false)` and `Task.Run` must NOT be used in the receiving chain.
