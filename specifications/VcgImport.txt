@@ -124,7 +124,7 @@ The VCGBaseDumper is the relevant class for us (the VCGDumper inheriting from it
 How to implement the vcg import (the vcg importer of yComp is also already existing, but its source code is not available):
 
 Create a grammar file for the ANTLR parser generator with semantic actions building the AST (reuse the ANTLR already in use in the project).
-(An alternative would be a hand-written recursive descent parser. To be investigated and decided. The ANTLR grammar is a good deal cleaner than the plain-code parser, decided for the grammar.)
+(An alternative would have been a hand-written recursive descent parser. Decided against, the declarative ANTLR grammar is a good deal cleaner and simpler than a plain-code parser.)
 Use a two pass architecture, after building the AST (and filling the definition table), carry out constraint checking when creating the real (MSAGL) graph
 (the vcg import must be capable of reading dumps with edges referencing nodes that were not introduced yet, and deferring parts of the work to the checking of the static semantics yields a much simpler parser).
 
@@ -141,7 +141,7 @@ Check that some simple example vcg files yield an expected imported graph, with 
 Also test with some bogus dumps that the errors and warnings are reported as requested.
 
 engine-net-2/examples/JavaProgramGraphs-GraBaTs08/MoveMethodsExampleGraph.vcg is a non-trivial example written by the vcg dumper of GrGen.NET that should be used for testing, derived from InstanceGraph.grsi
-
+MoveMethodsExampleGraphMSAGL.vcg is the same written by the vcg base dumper under Linux instead of Windows.
 
 Further reading / Discussion / Rationale
 ========================================
@@ -167,7 +167,7 @@ Its current goal is only to be a viewer für GrGen.NET graph dumps.
 graphattribute, nodeattribute, edgeattribute should be own rules in the grammar, they could be extended in the future by further syntactical constructs only supported in the context of the containing concept.
 It should be possible to later extend the grammar to cover more of the vcg language/the vcg supported by yComp (yComp supports even some specific extensions not defined by vcg).
 
-For flexibility reasons (to allow simple dumpers):
+For flexibility reasons (to allow for simple dumpers):
 Nodes may not exist when edges are created (use-before-definition by edges referencing nodes only dumped later).
 This allows to keep the exporter simple, but forces a two-pass architecture in the importer.
 (In comparison, the grs exporter is complex, as it has to ensure that entities exist when they are referenced, because of the required single-pass line-by-line import.)
