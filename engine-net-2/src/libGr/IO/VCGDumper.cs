@@ -188,7 +188,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             WriteLine("graph:{{");
             ++indent;
-            WriteLine("layoutalgorithm: normal //$ \"{0}\"", layouter); // TODO: maybe dump layouter directly instead of as comment
+            WriteLine("layoutalgorithm: {0} //MSAGL", layouter);
         }
 
         protected VCGBaseDumper(String filename)
