@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using de.unika.ipd.grGen.libGr;
 
@@ -25,8 +26,6 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         private static readonly Regex commandLine =
             new Regex(@"^(?<keyword>\w+)(?: (?<argument>""(?:[^""\\]|\\.)*""|\w+))*$", RegexOptions.Compiled);
 
-        private static readonly Regex escapeSequence = new Regex(@"\\(.)", RegexOptions.Compiled);
-
         public static List<string> Tokenize(string line)
         {
             List<string> tokens = new List<string>();
@@ -48,18 +47,27 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             return tokens;
         }
 
+        // the regex guarantees that a backslash is always followed by a character
         private static string Unescape(string content, string line)
         {
-            return escapeSequence.Replace(content, delegate(Match escape)
+            StringBuilder sb = new StringBuilder(content.Length);
+            for(int i = 0; i < content.Length; ++i)
             {
-                switch(escape.Groups[1].Value[0])
+                if(content[i] != '\\')
                 {
-                    case 'n': return "\n";
-                    case '\\': return "\\";
-                    case '"': return "\"";
-                    default: throw new ProtocolSyntaxException("unknown escape sequence " + escape.Value + " in the command line \"" + line + "\"");
+                    sb.Append(content[i]);
+                    continue;
                 }
-            });
+                ++i;
+                switch(content[i])
+                {
+                    case 'n': sb.Append('\n'); break;
+                    case '\\': sb.Append('\\'); break;
+                    case '"': sb.Append('"'); break;
+                    default: throw new ProtocolSyntaxException("unknown escape sequence \\" + content[i] + " in the command line \"" + line + "\"");
+                }
+            }
+            return sb.ToString();
         }
 
         // ---- attribute key parsing: "ownerType::attrName : attrTypeStr" ----

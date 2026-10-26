@@ -25,9 +25,10 @@ The specifications are in `specifications/` (extMSAGLExt.txt, VcgImport.txt, Liv
 | `Program.cs` | Entry point, command line argument handling |
 | `MainForm.cs` / `MainForm.Designer.cs` | Main window: menu, startup of import or server mode, replacement of the graph viewer control upon import |
 | `Vcg.g` | ANTLR 3.5 grammar of the vcg format; builds the AST and fills the definition table (the node/subgraph names) while parsing |
+| `VcgParserEnvironment.cs` | Environment of the vcg parser: definition table `NodeOrSubgraphByName` (`env` in the grammar) and the helpers of the grammar actions filling it |
 | `VcgLexer.cs`, `VcgParser.cs`, `Vcg.tokens` | Generated from `Vcg.g` by `genparser.sh`/`genparser.bat` (do not edit) |
 | `VcgAst.cs` | AST classes (`Graph`, `Subgraph`, `Node`, `Edge`; attributes are kept as strings) in the namespace `VcgAst` |
-| `VcgImporter.cs` | Second pass of the vcg import: constraint checking and building of the graph with calls to an `IBasicGraphViewerClient` |
+| `VcgImporter.cs` | Second pass of the vcg import: constraint checking (incl. the known attributes) and building of the graph with calls to an `IBasicGraphViewerClient` |
 | `GraphCommandReceiver.cs` | Network part of the server mode: single loopback connection, line-wise reception |
 | `CommandLineParser.cs` | Tokenizer for a protocol command line, argument conversions, `ProtocolSyntaxException` |
 | `CommandLineInterpreter.cs` | Executes a tokenized protocol command on the `IBasicGraphViewerClient` |
@@ -51,8 +52,8 @@ The error log console allocates a console for the stdout/stderr output of the ap
 ## Vcg Import
 
 Two passes:
-1. The ANTLR parser (`Vcg.g`) builds the `VcgAst`. It over-accepts (any attribute with any value), the attribute values are stored as written (string literals with their quotes, so the kind of the value can be checked later). While parsing, the nodes and subgraphs are entered into `NodeOrSubgraphByName`, so edges referencing nodes declared later in the file can be resolved without a third pass. Mandatory attributes (`title`, `sourcename`/`targetname`), duplicate names, and unknown attributes (warning, skipped) are handled there already.
-2. `VcgImporter` walks the AST: checks the attribute values (error and default value on violations), registers a node/edge realizer for each distinct style (`nr0`, `er0`, ...), adds the nodes and subgraphs (nesting by `MoveNode` after the children were added), applies the attributes contained in `info1` (nodes) or the label after `\nAttributes:` (edges) with `SetNodeAttribute`/`SetEdgeAttribute`, adds the edges (also the ones nested in subgraphs), and lays out the graph.
+1. The ANTLR parser (`Vcg.g`) builds the `VcgAst`. It over-accepts: any attribute name with any value is entered into the AST, as written (string literals with their quotes, so the kind of the value can be checked later). The only checks in the grammar actions are the ones needed for filling the definition table (with the help of the `VcgParserEnvironment`): a node or subgraph lacking the mandatory `title` attribute (must be a string literal) or with a duplicate title is reported by an error and skipped; otherwise it is entered into `NodeOrSubgraphByName`, so edges referencing nodes declared later in the file can be resolved without a third pass.
+2. `VcgImporter` walks the AST: reports unknown attributes by a warning (`layoutalgorithm` is ignored silently), skips edges lacking the mandatory `sourcename`/`targetname` (error), checks the attribute values (error and default value on violations), registers a node/edge realizer for each distinct style (`nr0`, `er0`, ...), adds the nodes and subgraphs (nesting by `MoveNode` after the children were added), applies the attributes contained in `info1` (nodes) or the label after `\nAttributes:` (edges) with `SetNodeAttribute`/`SetEdgeAttribute`, adds the edges (also the ones nested in subgraphs), and lays out the graph.
 
 `ImportFromText` is the testable entry point (syntax errors are returned, constraint violations are reported to the console and the import continues).
 String literals contain newlines verbatim; quotation marks and backslashes are escaped with a backslash (as written by `VCGBaseDumper`, in contrast to the `VCGDumper` aiming at yComp with its `&quot;`).
@@ -63,7 +64,7 @@ The parser regeneration needs Mono: `./genparser.sh` (Linux), `genparser.bat` (W
 The protocol is the one used between GrGen and yComp: one command per line, `keyword "arg1" "arg2" ...`, quotes, backslashes and newlines in the arguments escaped by a backslash; the commands are a 1:1 mapping of the `IBasicGraphViewerClient` operations.
 Three classes with distinct roles:
 1. `GraphCommandReceiver` - `TcpListener` on the loopback address, accepts exactly one connection (and none after it ended), reads bytes (ASCII) from the `NetworkStream` and splits them into lines (limit 64MB per line, the connection is closed when exceeded)
-2. `CommandLineParser` - tokenizer (a single regular expression matching the whole line, plus unescaping of the arguments) that splits a line into the keyword and the unescaped arguments, plus helpers converting arguments (colors, shapes, line styles, integers, attribute keys)
+2. `CommandLineParser` - tokenizer (a single regular expression matching the whole line, plus a scan and unescape loop for the arguments) that splits a line into the keyword and the unescaped arguments, plus helpers converting arguments (colors, shapes, line styles, integers, attribute keys)
 3. `CommandLineInterpreter` - calls the `MSAGLExtClient` according to the command, writes the responses (e.g. to `sync` or `getLayoutOptions`) back to the stream, implements `waitForElement` by polling `CommandAvailable`
 
 Threading: there is no background thread. `MainForm_Load` (`async void`) awaits the receiver on the UI thread, so the WinForms synchronization context is captured and all continuations run on the UI thread - no `Invoke` is needed, `ConfigureAwait(false)` and `Task.Run` must NOT be used in the receiving chain.

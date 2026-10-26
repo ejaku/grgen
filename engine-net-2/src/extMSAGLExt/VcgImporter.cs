@@ -33,6 +33,13 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         // VCG line style names in GrLineStyle enum order (matches VCGDumper.lineStyles)
         static readonly string[] lineStyleNames = { "continuous", "dotted", "dashed", "invisible" };
 
+        // the attributes known to the import (their values are checked when they are read); other attributes are reported by a warning and ignored
+        static readonly HashSet<string> graphAttributes = new HashSet<string> { "title", "label", "textcolor", "color", "info1" };
+        static readonly HashSet<string> nodeAttributes = new HashSet<string> { "title", "label", "textcolor", "color", "bordercolor", "shape", "info1" };
+        static readonly HashSet<string> edgeAttributes = new HashSet<string> { "sourcename", "targetname", "label", "textcolor", "color", "linestyle", "thickness" };
+        // written by the VCGBaseDumper, but of no interest to us (the layout is chosen by extMSAGLExt)
+        static readonly HashSet<string> silentlyIgnoredGraphAttributes = new HashSet<string> { "layoutalgorithm" };
+
         static VcgImporter()
         {
             colorByName = new Dictionary<string, GrColor>(StringComparer.Ordinal);
@@ -89,6 +96,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         {
             VcgLexer lexer = new VcgLexer(new ANTLRStringStream(text));
             VcgParser parser = new VcgParser(new CommonTokenStream(lexer));
+            VcgParserEnvironment env = new VcgParserEnvironment();
+            parser.env = env;
             VcgAst.Graph ast;
             try { ast = parser.vcgFile(); }
             catch(RecognitionException ex) { return "VCG parse error: " + ex.Message; }
@@ -96,7 +105,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             if(parser.Errors.Count > 0) return "VCG parse error: " + parser.Errors[0];
             if(ast == null) return "VCG parse error: no graph found";
 
-            new VcgImporter(client, parser.NodeOrSubgraphByName).BuildGraph(ast);
+            new VcgImporter(client, env.NodeOrSubgraphByName).BuildGraph(ast);
             return null;
         }
 
@@ -105,6 +114,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         void BuildGraph(VcgAst.Graph ast)
         {
             client.ClearGraph();
+
+            WarnAboutUnknownAttributes(ast.Attributes, "graph");
 
             // 1) nodes and subgraphs
             foreach(VcgAst.Entity entity in ast.Children)
@@ -146,8 +157,9 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         void AddNodeOrSubgraph(VcgAst.Entity entity, VcgAst.Subgraph parent)
         {
-            string title = GetString(entity.Attributes, "title", null);
-            if(title == null) return; // already warned during parse
+            WarnAboutUnknownAttributes(entity.Attributes, entity is VcgAst.Subgraph ? "graph" : "node");
+
+            string title = GetString(entity.Attributes, "title", null); // existence checked during parse
 
             string label = GetString(entity.Attributes, "label", "");
             GrColor borderColor = GetColor(entity.Attributes, "bordercolor", GrColor.Black);
@@ -209,8 +221,10 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         void AddEdge(VcgAst.Edge edge)
         {
-            string src = GetString(edge.Attributes, "sourcename", null);
-            string tgt = GetString(edge.Attributes, "targetname", null);
+            WarnAboutUnknownAttributes(edge.Attributes, "edge");
+
+            string src = GetMandatoryString(edge.Attributes, "sourcename", "edge");
+            string tgt = GetMandatoryString(edge.Attributes, "targetname", "edge");
             if(src == null || tgt == null) return;
 
             if(!nodeByName.ContainsKey(src)) { Console.Error.WriteLine("VCG error: edge source \"" + src + "\" not found"); return; }
@@ -302,7 +316,38 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             return name;
         }
 
-        // ---- attribute helpers (the AST contains the attribute values as written, they are checked here) ----
+        // ---- attribute helpers (the AST contains the attributes as written, they are checked here) ----
+
+        // the context is one of "graph" (also used for subgraphs), "node", "edge"
+        static void WarnAboutUnknownAttributes(Dictionary<string, string> attrs, string context)
+        {
+            HashSet<string> knownAttributes = context == "graph" ? graphAttributes : context == "node" ? nodeAttributes : edgeAttributes;
+            foreach(KeyValuePair<string, string> attribute in attrs)
+            {
+                if(knownAttributes.Contains(attribute.Key))
+                    continue;
+                if(context == "graph" && silentlyIgnoredGraphAttributes.Contains(attribute.Key))
+                    continue;
+                Console.Error.WriteLine("VCG warning: unknown " + context + " attribute \"" + attribute.Key + "\" (value: " + attribute.Value + ") -- ignored");
+            }
+        }
+
+        // a mandatory string literal attribute, returns its content or null (after emitting an error)
+        static string GetMandatoryString(Dictionary<string, string> attrs, string key, string context)
+        {
+            string raw;
+            if(!attrs.TryGetValue(key, out raw))
+            {
+                Console.Error.WriteLine("VCG error: " + context + " missing mandatory " + key + " attribute -- skipped");
+                return null;
+            }
+            if(!VcgAst.Literal.IsStringLiteral(raw))
+            {
+                Console.Error.WriteLine("VCG error: " + context + " attribute " + key + " is not a string literal (" + raw + ") -- skipped");
+                return null;
+            }
+            return VcgAst.Literal.ToStringValue(raw);
+        }
 
         // the raw value of a string literal attribute is turned into its content; for a non-string-literal value an error is reported
         static string GetString(Dictionary<string, string> attrs, string key, string defaultValue)
