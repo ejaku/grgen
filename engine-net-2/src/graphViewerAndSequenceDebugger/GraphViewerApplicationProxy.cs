@@ -512,10 +512,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompStream.Write("deleteGraph\n");
         }
 
-        public void WaitForElement(bool val)
-        {
-            ycompStream.Write("waitForElement " + (val ? "true" : "false") + "\n");
-        }
+        public abstract void WaitForElement(bool val);
 
         public void MoveNode(String srcName, String tgtName)
         {
@@ -590,6 +587,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return availableLayouts.ContainsKey(layoutName);
         }
 
+        public override void WaitForElement(bool val)
+        {
+            ycompStream.Write("waitForElement " + (val ? "true" : "false") + "\n"); // true and false without quotes, ugly exceptions of the general format and very likely a mistake, but frozen due to the frozen closed-source yComp application
+        }
+
         public override String Encode(String str)
         {
             if(str == null)
@@ -638,6 +640,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public static bool IsValidLayout(String layoutName)     // TODO: allow case insensitive layout name
         {
             return availableLayouts.ContainsKey(layoutName);
+        }
+
+        public override void WaitForElement(bool val)
+        {
+            ycompStream.Write("waitForElement " + (val ? "\"true\"" : "\"false\"") + "\n");
         }
 
         public override String Encode(String str)
