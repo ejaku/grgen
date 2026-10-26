@@ -52,7 +52,16 @@ The identifier is an identifier as defined in the C programming language.
 The identifier from the attribute-value is typically an enum value, of the known/supported enums defined later, 
 but may be also from other enums that are not to be interpreted but should be read without an abort - so arbitrary identifiers should pass, albeit with a warning.
 
+Comments may be given in C++ style as // to be skipped until line end
+or C style as /*not to be processed*/ - they are to be read over.
+
+This grammer is syntacically simpler than the original vcg grammar (for one over-accepting, for the other lacking some not used special-syntax constructs), this is to be compensated by additional constraint checking (removing overaccepted language constructs) and feature omission.
+
+Attributes
+----------
+
 Admissible attributes in detail, it is to be ensured during constraint checking that only allowed combinations pass:
+(In the original vcg grammar, the enum identifiers are a part of the grammar.)
 
 node attributes:
 title : stringLiteral, mandatory
@@ -78,6 +87,7 @@ label : stringLiteral, default ""
 textcolor : identifier from Colors enum, default black
 color : identifier from Colors enum, default yellow
 info1 : stringLiteral, default ""
+layoutalgorithm : identifier from MSAGLLayouts enum, default SugiyamaScheme
 
 Shapes = box | triangle | circle | ellipse | rhomb | hexagon | trapeze | uptrapeze | lparallelogram | rparallelogram
 
@@ -88,10 +98,7 @@ Colors = black | blue | green | cyan| red | purple | khaki | darkgrey
 
 LineStyles = continuous | dotted | dashed | invisible
 
-Comments may be given in C++ style as // to be skipped until line end
-or C style as /*not to be processed*/ - they are to be read over.
-
-This grammer is syntacically simpler than the original vcg grammar (over-accepting), this is to be compensated by additional constraint checking (removing overaccepted language constructs).
+MSAGLLayouts = SugiyamaScheme | MDS | Ranking | IcrementalLayout
 
 Behavior on errors and special cases
 ------------------------------------
@@ -110,8 +117,7 @@ An escaping of quotation marks is applied in the client (in label strings) which
 Note that strings in vcg (at least the dumps from GrGen) contain newlines verbatim without escaping.
 
 The GrGen.NET vcg dumper writes some graph attributes not listed in the grammar definition above - they are (at least for now) to be ignored like other unknown attributes (causing a warning message).
-This esp. holds for the "layoutalgorithm" attribute (see below for more on this).
-Also to be ignored are the classname num, infoname num, colorentry num attributes/attribute keys.
+Esp. to be ignored are the classname num, infoname num, colorentry num attributes/attribute keys.
 Not to be ignored is info1 which contains the attributes (of the graph element/its type).
 
 
@@ -130,7 +136,7 @@ Use a two pass architecture, after building the AST (and filling the definition 
 
 Create classes: AST.Graph, AST.Node, AST.Edge, AST.Subgraph each containing a Dictionary<string, string> attributes member variable;
 using string instead of object in the range of the map has the advantage that it can be just filled in the parser, leaving the checking and the conversions of e.g. the string representation of a number to the second pass.
-Use a global definition table Dictionary<string, AST.Entity> nodeOrSubgraphNameToEntity to look up the nodes and subgraphs by name;
+Use a global definition table Dictionary<string, AST.Entity> nodeOrSubgraphNameToEntity to look up the nodes and subgraphs by name (to be contained in a VcgParserEnvironment);
 it could make sense to let AST.Subgraph inherit from AST.Node, then using AST.Node instead of the general base class AST.Entity would make more sense for this map.
 Regarding the graph building: very direct, with the exception that for each unique node/edge-style combination, a realizer must be registered.
 
@@ -177,11 +183,20 @@ A simple single pass architecture would be possible when:
 - the syntax already enforces proper nesting of subgraphs (the vcg dumper of GrGen.NET does some preprocessing of group nodes to ensure they are appropriately nested)
 - the mandatory attributes are dumped first before the other attributes
 
-Note that the "layoutalgorithm" attribute is dumped as "normal" with a comment telling about the algorithm to use. This is to ensure (exact) compatibility with the outdated vcg program (its inner workings). An incompatible appropriate extension by listing own layout methods would make more sense (later todo).
-
 Note that yComp is a frozen closed source application.
 The vcg file format supported by it cannot be changed.
-The vcg file format written for extMSAGLExt is a bit simplified compared to it, regarding the omission of some questionable graph attributes (which would cause a warning), and a simplified escaping/encoding (in VCGBaseDumper compared to VCGDumper).
-The vcg importer must work without warnings on the vcg dumps from the VCGBaseDumper and should not fail on the vcg files dumped by the VCGDumper.
+The vcg file format written for extMSAGLExt is a bit simplified compared to it:
+- it omits some questionable graph attributes,
+- it uses a simplified escaping/encoding (to be found in VCGBaseDumper compared to VCGDumper),
+- it writes the layout algorithm name directly (an enum case from MSAGLLayout)
+
+Note that for yComp, the "layoutalgorithm" attribute is dumped as "normal" together with a comment telling about the real yComp/yFiles-layout algorithm to use.
+The original vcg uses even different layout algorithms.
+No special support is needed to handle these layout algorithms, just a warning about an unsupported layout algorithm is to be emitted, with a setting of the default value.
+
+Our vcg importer must work without warnings on the vcg dumps from the VCGBaseDumper and should not fail on the vcg files dumped by the VCGDumper (yComp should not fail on typical dumps from the VCGBaseDumper).
+
+A clear syntax-semantics separation with a simple parser is an architectural target (accepted: AST bloat with attributes that could be filtered already in the first pass - graph layout/rendering is the expensive part (which is limiting the size of the graph that can be visualized)).
+This importer is not to be confused with the GRS import (supporting graphs way beyond what can be visualized), a maximum efficient hand-written single-pass recursive-descent parser is adequate there.
 
 Idea for future acceptance/integration test: create a graph, visualize it with the live graph changes protocol (into IBasicGraphViewerClient), dump it, import the dump (into IBasicGraphViewerClient), the visualization should be the same as the imported dump. Issue: not strictly the case, e.g. the names will be different.
