@@ -111,9 +111,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             remove { basicClient.OnConnectionLost -= value; }
         }
 
-        public bool CommandAvailable
+        public bool ElementAvailable
         {
-            get { return basicClient.CommandAvailable; }
+            get { return basicClient.ElementAvailable; }
         }
 
         public bool ConnectionLost
@@ -121,9 +121,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             get { return basicClient.ConnectionLost; }
         }
 
-        public String ReadCommand()
+        public String GetAwaitedElement()
         {
-            return basicClient.ReadCommand();
+            return basicClient.GetAwaitedElement();
         }
 
         /// <summary>

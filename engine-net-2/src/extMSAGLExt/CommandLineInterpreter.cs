@@ -198,11 +198,11 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                     if(enable)
                     {
                         // poll the UI-thread CommandAvailable flag; each await yields to the message pump
-                        while(!stopped && !client.CommandAvailable && !client.ConnectionLost)
+                        while(!stopped && !client.ElementAvailable && !client.ConnectionLost)
                             await Task.Delay(10);
                         if(!stopped && !client.ConnectionLost)
                         {
-                            string response = client.ReadCommand();
+                            string response = client.GetAwaitedElement();
                             byte[] data = Encoding.ASCII.GetBytes(response);
                             await stream.WriteAsync(data, 0, data.Length);
                         }

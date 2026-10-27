@@ -156,7 +156,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public event ConnectionLostHandler OnConnectionLost;
 
-        public bool CommandAvailable
+        public bool ElementAvailable
         {
             get { return false; }
         }
@@ -166,7 +166,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             get { return hostClosed; }
         }
 
-        public String ReadCommand()
+        public String GetAwaitedElement()
         {
             throw new NotImplementedException(); // implemented in MSAGLExtClient, potential todo: re-implement here, too
         }

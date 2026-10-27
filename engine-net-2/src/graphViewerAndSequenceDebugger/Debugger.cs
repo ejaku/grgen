@@ -1011,20 +1011,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     graphViewerClient.WaitForElement(false);
                     return null;
                 }
-                if(graphViewerClient.CommandAvailable)
+                if(graphViewerClient.ElementAvailable)
                     break;
                 Thread.Sleep(100);
             }
 
-            String cmd = graphViewerClient.ReadCommand();
-            if(cmd.Length < 7 || !cmd.StartsWith("send "))
-            {
-                env.WriteLine("Unexpected yComp/MSAGL command: \"" + cmd + "\"!");
-                return null;
-            }
-
-            // Skip 'n' or 'e'
-            return cmd.Substring(6);
+            return graphViewerClient.GetAwaitedElement();
         }
 
         /// <summary>

@@ -34,9 +34,9 @@ namespace extMSAGLExtTests
         public void Close() { }
         public void SleepAndDoEvents() { }
         public event ConnectionLostHandler OnConnectionLost { add { } remove { } }
-        public bool CommandAvailable { get { return false; } }
+        public bool ElementAvailable { get { return false; } }
         public bool ConnectionLost { get { return false; } }
-        public string ReadCommand() { return ""; }
+        public string GetAwaitedElement() { return ""; }
 
         public void SetLayout(string moduleName) { Record("SetLayout", moduleName); }
         public string GetLayoutOptions() { Record("GetLayoutOptions"); return ""; }

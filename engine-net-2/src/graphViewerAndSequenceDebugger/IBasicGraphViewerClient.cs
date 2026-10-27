@@ -23,11 +23,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         event ConnectionLostHandler OnConnectionLost; // may come directly, may come only when a Sync is executed, depending on the implementation; may come when the connection to yComp is lost, or when the MSAGL host window is closed
 
-        bool CommandAvailable { get; }
+        bool ElementAvailable { get; }
 
         bool ConnectionLost { get; }
 
-        String ReadCommand();
+        String GetAwaitedElement();
 
         // TODO: improve error handling, with error returns or exceptions, currently e.g. SetLayout silently swallows errors (worked around by a pre-check in the shell)
         void SetLayout(String moduleName);

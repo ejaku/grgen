@@ -320,7 +320,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             remove { ycompStream.OnConnectionLost -= value; }
         }
 
-        public bool CommandAvailable
+        public bool ElementAvailable
         {
             get { return ycompStream.Ready; }
         }
@@ -330,10 +330,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             get { return !ycompStream.IsStreamOpen; }
         }
 
-        public String ReadCommand()
-        {
-            return ycompStream.Read();
-        }
+        public abstract String GetAwaitedElement();
 
         /// <summary>
         /// Sets the current layouter of the graph viewer application
@@ -587,6 +584,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return availableLayouts.ContainsKey(layoutName);
         }
 
+        public override String GetAwaitedElement()
+        {
+            // the Read is used to fetch the direct response of a request which here is a graph element that may come after a certain waiting time in the form of a "send name" (otherwise responses come promptly after the request)
+            // maybe intended as a general means to receive asynchronous commands/indications from the server, to be reintroduced as needed, in a working version, in its implemented form it was a broken abstraction
+            String cmd = ycompStream.Read();
+            if(cmd.Length < 7 || !cmd.StartsWith("send "))
+                throw new Exception("Unexpected yComp awaited element command: \"" + cmd + "\"!");
+
+            // Skip 'send ' and 'n' or 'e'
+            return cmd.Substring(6);
+        }
+
         public override void WaitForElement(bool val)
         {
             ycompStream.Write("waitForElement " + (val ? "true" : "false") + "\n"); // true and false without quotes, ugly exceptions of the general format and very likely a mistake, but frozen due to the frozen closed-source yComp application
@@ -640,6 +649,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public static bool IsValidLayout(String layoutName)     // TODO: allow case insensitive layout name
         {
             return availableLayouts.ContainsKey(layoutName);
+        }
+
+        public override String GetAwaitedElement()
+        {
+            String entityName = ycompStream.Read();
+            return entityName.Substring(1, entityName.Length - 1); // chop off the n/e prefix from the returned entity name - potential todo: drop the n/e prefixes altogether, they are worthless
         }
 
         public override void WaitForElement(bool val)

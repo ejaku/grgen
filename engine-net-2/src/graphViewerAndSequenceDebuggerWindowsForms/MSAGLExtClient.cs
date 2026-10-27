@@ -147,16 +147,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public event ConnectionLostHandler OnConnectionLost;
 
-        public bool CommandAvailable { get { return doubleClickedEntityName != null; } }
+        public bool ElementAvailable { get { return doubleClickedEntityName != null; } }
 
         public bool ConnectionLost { get { return hostClosed; } }
 
-        public String ReadCommand()
+        public String GetAwaitedElement()
         {
             string doubleClickedEntityName = this.doubleClickedEntityName;
             this.doubleClickedEntityName = null;
             waitForElementRequested = false;
-            return "send x" + doubleClickedEntityName;
+            return doubleClickedEntityName;
         }
 
         public void Close()
