@@ -103,7 +103,7 @@ MSAGLLayouts = SugiyamaScheme | MDS | Ranking | IcrementalLayout
 Behavior on errors and special cases
 ------------------------------------
 
-When a syntax error is found: show an error message dialog and abort.
+When the file size exceeds 1GB or a syntax error is found: show an error message dialog and abort.
 
 Constraints to check/depend upon:
 - in nodes and subgraphs: the attribute title must exist, emit an error message when it does not, do not create the node/subgraph then

@@ -188,7 +188,7 @@ returns sync\n
 > waitForElement "true"\n
 > waitForElement "false"\n
 when sent with true, the user has to pick an element, the client waits until it receives its name
-returns the element selected by the user
+returns the element selected by the user, in the form of the name which which it was added, yComp returns it with a "send " prefix
 when sent with false, the debugger aborts the user query
 Note: in the yComp version of the protocol, this command is an exception regarding the general arguments enclosed-in-quotes rule, the boolean input is given as a plain argument.
 
@@ -209,7 +209,7 @@ Behavior on errors and special cases
 Upon syntax protocol errors, throw an exception (which will cause an application crash dialog to be shown).
 Semantic protocol errors are typically reported by an exception by the graph viewer client, just let them pass.
 
-Fail if single line command exceeds 64MB in size (the normal receive buffer should be much smaller), close the connection then.
+Fail if a single line command exceeds 64MB in size (the normal receive buffer should be much smaller), close the connection then.
 
 Because of the command line argument enclosing by " and the command line termination by \n, combined with the need for newlines or quotation marks in labels, an escaping is applied in the clients which needs to be unapplied.
 

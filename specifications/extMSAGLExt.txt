@@ -9,16 +9,43 @@ It is a Windows Forms based application that offers two extensions:
 - vcg file support similar to yComp: extMSAGLExt offers to import and visualize vcg files (in the same or at least a similar way - limited to what GrGen.NET dumps).
 
 When started with an argument denoting a file path: read the according vcg file (or show an error message if a non-vcg file is given, or the file can't be found).
+When started with a -autoreload argument: watch the file, automatically reload it when it changed.
 When started with a -p <portnumber> argument: open a TCP server socket, listen to commands, and apply them (or show an error message if the port can't be opened).
 When started with a -console argument: show the error log console straight from the beginning.
 
 GUI:
 The main display is the MSAGLExtClient control.
-The application shows additionally a menu bar with a File menu, which contains an "Open..." command, a "Show error log console" command, as well as a "Close" command.
+The application shows additionally a menu bar with a File menu, which contains an "Open..." command, a "Reload file on changes" toggle command (checked menu item), a "Close" command, a "Show error log console" command, as well as an "Exit" command.
 The Open command opens a file open dialog that allows the user to select a .vcg file for import.
-When exited with OK, the current graph is cleared (a potentially running debugging session closed), then the chosen VCG file is imported and displayed.
+When exited with OK, the current graph is cleared (a potentially running debugging session closed, watching stopped if underway), then the chosen VCG file is imported and displayed.
+The Reload-on-changes command toggles in between watching mode and non-watching mode. It is greyed/disabled when no file is open (defaulting to non-watching mode then).
+The Close command closes the currently open file (disabled when no file is open).
 The Show error log console command opens a console window that receives console output from then on (it is normally printed in the parent console or hidden when that one is hidden/not existing).
-The Close command closes the application.
+The Exit command closes the application.
+
+Application states: idle, showing file, server mode/debugging. Server mode can only be entered at startup, when left it cannot be re-entered in the usage session.
+Application substates: file opened distinguishes watching/autoreload and nonwatching; debugging server mode distinguishes waiting, client connected, and client disconnected.
+
+The GUI shows a status bar. It primarily reports the state the application is in:
+Showing file <current path>
+Showing file <current path>, watching it in order to reload it on changes
+Server mode, listening on port <number>, waiting for the client
+Server mode, client connected, debugging underway
+Server mode ended, client disconnected
+Idle
+
+It secondarily reports the action that is currently getting executed, if any (separated from the state):
+Opening file <new path>
+Reopening changed file
+
+Regarding the watching state: when notified about file changes, wait a bit of time to ensure file modifications ended, before you reload the file;
+when a watched file is (finally) not available anymore because it was deleted or moved away/renamed: switch the state to not-watching (when watching is toggled on for a non-existing file switch back to not-watching - so: only existing files can be watched after).
+
+When the watched file becomes unavailable or the connection breaks, the loaded graph has to stay open for inspection.
+When the client sends the exit command, the application has to close.
+
+In state Idle, no graph is displayed, instead a placeholder with a centered text is shown that tells: "Open a .vcg file in order to display it (debugging/server mode must be started from the GrShell/GrGen.NET debugger)".
+When a vcg file is drag'n'dropped to this pane from the OS, open it (otherwise don't support drag'n'drop for now).
 
 The protocol of the server mode of the graph viewer application to be implemented is specified in LiveGraphChangesProtocol.txt
 The vcg format to be supported and the way how it should be processed during import is specified in VcgImport.txt
@@ -27,8 +54,7 @@ The vcg format to be supported and the way how it should be processed during imp
 The client code was already adapted to support extMSAGLExt, with support for the following GrShell commands (that can be used for testing, besides executing the graph viewer application directly):
 > debug with extMSAGLExt
 > show graph extMSAGLExt
-
-The server, i.e. extMSAGLExt graph viewer application is to be implemented.
+The server, i.e. extMSAGLExt graph viewer application is to be implemented based on this specification.
 
 Code mapping hints/architectural decisions/entry points:
 In the engine-net-2/src folder add a folder extMSAGLExt.
@@ -41,3 +67,7 @@ Further points / Discussion / Rationale:
 The show error log console command allows to find errors that are hidden when the parent console is not visible or Windows is used (when started from an OS console under Linux the text output reaches the parent console).
 Not wanted as of now: introduce a log file (overwritten at program start) instead of logging to the console (this would not fit well to the normal compiler/shell interpreter console-io/logless tech stack).
 (Also unwanted: an extMSAGLExtCon that is built as console application straight from the start, to be supplied in addition; even less so an extMSAGLExt that is built as such one, the ugly extra console window is only of interest in case of errors.)
+
+Handling the live graph changes protocol is similar to rendering a sequence of dumps to a watched file, with the following differences:
+The match/rewrite state is typically only transferred via the debugging protocol (but could be also dumped if needed).
+The protocol is way more efficient, as it only reports the change diffs in between the graphs/graph states instead of the full dumps (and executes immediately because it is known when a state change is completed, a file may still be modified).
