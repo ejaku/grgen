@@ -82,10 +82,30 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             Console.Out.WriteLine("VCG import of \"" + filePath + "\".");
 
             string text; // maybe TODO: memory consumption optimization, reading entire file into memory is costly, but (building AST and) visualizing it later on will require even more memory...
-            try { text = File.ReadAllText(filePath); }
+            try
+            {
+                string fileSizeError = CheckFileSize(filePath);
+                if(fileSizeError != null)
+                    return fileSizeError;
+                text = File.ReadAllText(filePath);
+            }
             catch(Exception ex) { return "Cannot read file \"" + filePath + "\": " + ex.Message; }
 
             return ImportFromText(text, client);
+        }
+
+        public const long MaxFileSize = 1024L * 1024L * 1024L; // 1GB, the file is read into memory as a whole
+
+        /// <summary>
+        /// Returns an error message if the file exceeds the maximum file size of an import, null otherwise.
+        /// Throws an IOException if the file can't be accessed.
+        /// </summary>
+        public static string CheckFileSize(string filePath)
+        {
+            long fileSize = new FileInfo(filePath).Length;
+            if(fileSize > MaxFileSize)
+                return "File \"" + filePath + "\" is too large (" + fileSize + " bytes), files exceeding 1GB are refused";
+            return null;
         }
 
         /// <summary>

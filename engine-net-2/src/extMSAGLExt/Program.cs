@@ -7,7 +7,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 {
     static class Program
     {
-        const string Usage = "Usage:\n  extMSAGLExt [-console] [<vcg-file>]\n  extMSAGLExt [-console] -p <port>\n\n-console: show the error log console from the start";
+        const string Usage = "Usage:\n  extMSAGLExt [-console] [[-autoreload] <vcg-file>]\n  extMSAGLExt [-console] -p <port>\n\n"
+            + "-console: show the error log console from the start\n-autoreload: watch the file, reload it when it changed";
 
         [STAThread]
         static void Main(string[] args)
@@ -18,12 +19,17 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             string vcgFile = null;
             int port = -1;
             bool showErrorLogConsole = false;
+            bool watchVcgFile = false;
 
             for(int i = 0; i < args.Length; ++i)
             {
                 if(args[i] == "-console")
                 {
                     showErrorLogConsole = true;
+                }
+                else if(args[i] == "-autoreload")
+                {
+                    watchVcgFile = true;
                 }
                 else if(args[i] == "-p" && port == -1 && vcgFile == null && i + 1 < args.Length)
                 {
@@ -46,7 +52,13 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 }
             }
 
-            Application.Run(new MainForm(vcgFile, port, showErrorLogConsole));
+            if(watchVcgFile && vcgFile == null) // -autoreload requires a file (so it is also rejected in server mode)
+            {
+                MessageBox.Show("-autoreload requires a vcg file\n" + Usage, "extMSAGLExt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Application.Run(new MainForm(vcgFile, watchVcgFile, port, showErrorLogConsole));
         }
     }
 }

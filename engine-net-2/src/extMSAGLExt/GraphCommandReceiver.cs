@@ -25,6 +25,11 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         const int MaxLineBytes = 64 * 1024 * 1024;
 
+        /// <summary>
+        /// Raised (on the UI thread) when the client connected.
+        /// </summary>
+        public event Action ClientConnected;
+
         // ---- public API ----
 
         /// <summary>
@@ -48,19 +53,22 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         /// and processes the commands received over it.
         /// Syntax errors in the protocol are passed on as exceptions (ProtocolSyntaxException), as are the
         /// semantic errors reported by the graph viewer client.
+        /// Returns true if the connection was ended by the exit command of the client,
+        /// false if it broke/was closed otherwise (or the receiver was stopped).
         /// </summary>
-        public async Task RunAsync(IBasicGraphViewerClient graphClient)
+        public async Task<bool> RunAsync(IBasicGraphViewerClient graphClient)
         {
             commandLineInterpreter = new CommandLineInterpreter(graphClient);
 
             TcpClient tcpClient;
             try { tcpClient = await listener.AcceptTcpClientAsync(); }
-            catch(ObjectDisposedException) { return; } // stopped while waiting for the connection
-            catch(SocketException) { return; }
+            catch(ObjectDisposedException) { return false; } // stopped while waiting for the connection
+            catch(SocketException) { return false; }
             finally { listener.Stop(); } // refuse any further connection attempts
 
             connectedClient = tcpClient;
-            await HandleConnectionAsync(tcpClient);
+            ClientConnected?.Invoke();
+            return await HandleConnectionAsync(tcpClient);
         }
 
         /// <summary>
@@ -75,15 +83,16 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
         // ---- connection loop ----
 
-        async Task HandleConnectionAsync(TcpClient tcpClient)
+        // returns true if the connection was ended by the exit command
+        async Task<bool> HandleConnectionAsync(TcpClient tcpClient)
         {
             Console.WriteLine("extMSAGLExt: client connected");
+            bool closed = false; // by the exit command
             using(tcpClient)
             using(NetworkStream stream = tcpClient.GetStream())
             {
                 byte[] readBuf = new byte[65536];
                 MemoryStream lineBuf = new MemoryStream();
-                bool closed = false;
 
                 while(!closed)
                 {
@@ -106,12 +115,13 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                         {
                             lineBuf.WriteByte(readBuf[i]);
                             if(lineBuf.Length > MaxLineBytes)
-                                return; // line too long, close the connection
+                                return false; // line too long, close the connection
                         }
                     }
                 }
             }
             Console.WriteLine("extMSAGLExt: client disconnected");
+            return closed;
         }
     }
 }

@@ -409,6 +409,48 @@ namespace extMSAGLExtTests
             AssertAllElementsWereAdded(text);
         }
 
+        // the content does not matter, the file is refused before it is read (created sparse, so it does not occupy 1GB of disk space)
+        [Test]
+        public void FileExceedingTheMaximumFileSizeIsRefused()
+        {
+            string path = Path.GetTempFileName();
+            try
+            {
+                using(FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    stream.SetLength(VcgImporter.MaxFileSize + 1);
+                }
+
+                string error = VcgImporter.Import(path, client);
+
+                StringAssert.Contains("too large", error);
+                Assert.AreEqual(0, client.CountCalls("AddNode"));
+            }
+            finally
+            {
+                File.Delete(path);
+            }
+        }
+
+        [Test]
+        public void FileOfTheMaximumFileSizeIsNotRefusedBySizeCheck()
+        {
+            string path = Path.GetTempFileName();
+            try
+            {
+                using(FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    stream.SetLength(VcgImporter.MaxFileSize);
+                }
+
+                Assert.IsNull(VcgImporter.CheckFileSize(path));
+            }
+            finally
+            {
+                File.Delete(path);
+            }
+        }
+
         void AssertAllElementsWereAdded(string text)
         {
             int declaredNodes = Regex.Matches(text, @"\bnode\s*:\s*\{").Count;
