@@ -475,7 +475,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return elem;
         }
 
-        // TODO: no idea what this is good for or what's the best way to cope with it, under Mono-LINUX it throws, maybe some issue in the MonoWorkaroundConsoleTextReader
+        // reading null means the end of the input stream was reached (e.g. Ctrl-D/Ctrl-Z or exhausted redirected stdin), there is nothing sensible left to do for the debugger
+        // (note: the MonoWorkaroundConsoleTextReader never reports EOF, it returns an empty line instead, and note: the bug that it reported an empty line immediately is fixed now) (comment partly by Claude Code)
         public string ReadOrEofErr()
         {
             string result = ReadLine();
