@@ -203,7 +203,7 @@ namespace extMSAGLExtTests
         {
             // in the style written by the VCGBaseDumper
             string error = Import(@"graph:{
- layoutalgorithm: normal //$ ""SugiyamaScheme""
+ layoutalgorithm: SugiyamaScheme //MSAGL
  node:{title:""n1"" label:""Node"" textcolor:black color:yellow shape:box info1: ""Node::a : int = 1""}
  graph:{title:""n2"" label:""Sub"" textcolor:black color:lightgrey info1: ""Node::a : int = 2""
   node:{title:""n3"" label:""Inner"" textcolor:black color:yellow shape:box info1: ""Node::a : int = 3""}
@@ -217,6 +217,16 @@ namespace extMSAGLExtTests
             Assert.AreEqual(2, client.CountCalls("AddNode"));
             Assert.AreEqual(1, client.CountCalls("AddEdge"));
             Assert.AreEqual(3, client.CountCalls("SetNodeAttribute"));
+        }
+
+        [Test]
+        public void LayoutAlgorithmIsApplied()
+        {
+            string error = Import("graph: { layoutalgorithm: MDS node: { title: \"a\" } }");
+
+            Assert.IsNull(error);
+            Assert.IsEmpty(Messages);
+            Assert.IsTrue(client.Calls.Contains("SetLayout MDS"));
         }
 
         [Test]
@@ -312,6 +322,18 @@ namespace extMSAGLExtTests
         }
 
         [Test]
+        public void UnsupportedLayoutAlgorithmCausesAWarningAndTheDefaultIsUsed()
+        {
+            // as written by the VCGDumper for yComp
+            string error = Import("graph: { layoutalgorithm: normal //$ \"Compilergraph\"\n node: { title: \"a\" } }");
+
+            Assert.IsNull(error);
+            StringAssert.Contains("warning", Messages);
+            StringAssert.Contains("normal", Messages);
+            Assert.IsTrue(client.Calls.Contains("SetLayout SugiyamaScheme"));
+        }
+
+        [Test]
         public void UnknownColorShapeAndLineStyleCauseAnErrorAndTheDefaultIsUsed()
         {
             string error = Import(@"graph: {
@@ -359,8 +381,9 @@ namespace extMSAGLExtTests
             Assert.IsTrue(client.Calls.Contains("AddNode a nr0 "));
         }
 
-        // ---- non-trivial example written by the vcg dumper of GrGen.NET ----
+        // ---- non-trivial examples written by the vcg dumpers of GrGen.NET ----
 
+        // written by the VCGDumper (for yComp), must not fail (but may cause warnings)
         [Test]
         public void MoveMethodsExampleGraphIsImportedCompletely()
         {
@@ -370,6 +393,24 @@ namespace extMSAGLExtTests
 
             Assert.IsNull(error);
             StringAssert.DoesNotContain("error", Messages);
+            AssertAllElementsWereAdded(text);
+        }
+
+        // written by the VCGBaseDumper (for extMSAGLExt), must be imported without warnings
+        [Test]
+        public void MoveMethodsExampleGraphMSAGLIsImportedCompletelyWithoutMessages()
+        {
+            string text = File.ReadAllText("MoveMethodsExampleGraphMSAGL.vcg");
+
+            string error = Import(text);
+
+            Assert.IsNull(error);
+            Assert.IsEmpty(Messages);
+            AssertAllElementsWereAdded(text);
+        }
+
+        void AssertAllElementsWereAdded(string text)
+        {
             int declaredNodes = Regex.Matches(text, @"\bnode\s*:\s*\{").Count;
             int declaredSubgraphs = Regex.Matches(text, @"\bgraph\s*:\s*\{").Count - 1; // the first one is the top-level graph
             int declaredEdges = Regex.Matches(text, @"\bedge\s*:\s*\{").Count;

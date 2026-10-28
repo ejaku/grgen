@@ -1,5 +1,5 @@
 graph:{
- layoutalgorithm: normal //$ "SugiyamaScheme"
+ layoutalgorithm: SugiyamaScheme //MSAGL
  graph:{title:"n-1385174165" label:"$21:Package" color:lightgrey info1: "Package::name : string = java"
   graph:{title:"n-595078720" label:"$6F:Package" color:lightgrey info1: "Package::name : string = lang"
    graph:{title:"n-182994270" label:"$B0:Class" color:yellow info1: "Classifier::name : string = System

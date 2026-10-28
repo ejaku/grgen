@@ -23,6 +23,10 @@
       <Link>MoveMethodsExampleGraph.vcg</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\..\examples\JavaProgramGraphs-GraBaTs08\MoveMethodsExampleGraphMSAGL.vcg">
+      <Link>MoveMethodsExampleGraphMSAGL.vcg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -47,10 +47,11 @@ namespace extMSAGLExtTests
             Assert.Throws<ProtocolSyntaxException>(() => CommandLineParser.Tokenize(line));
         }
 
+        [TestCase("waitForElement true")]
         [TestCase("waitForElement tr-ue")]
-        [TestCase("waitForElement tr\"ue")]
-        [TestCase("waitForElement true\"x\"")]
-        public void UnquotedArgumentWithNonWordCharactersIsASyntaxError(string line)
+        [TestCase("addNode n \"nr0\" \"label\"")]
+        [TestCase("waitForElement \"true\"x")]
+        public void UnquotedArgumentIsASyntaxError(string line)
         {
             Assert.Throws<ProtocolSyntaxException>(() => CommandLineParser.Tokenize(line));
         }
@@ -70,9 +71,9 @@ namespace extMSAGLExtTests
         }
 
         [Test]
-        public void UnquotedBooleanArgument()
+        public void BooleanArgumentIsQuotedToo()
         {
-            Assert.AreEqual(new string[] { "waitForElement", "true" }, CommandLineParser.Tokenize("waitForElement true"));
+            Assert.AreEqual(new string[] { "waitForElement", "true" }, CommandLineParser.Tokenize("waitForElement \"true\""));
         }
 
         [Test]
@@ -235,7 +236,7 @@ namespace extMSAGLExtTests
             Assert.Throws<ProtocolSyntaxException>(() => Interpret("addNodeRealizer \"nr0\" \"black\" \"yellowish\" \"black\" \"box\""));
             Assert.Throws<ProtocolSyntaxException>(() => Interpret("addEdgeRealizer \"er0\" \"khaki\" \"black\" \"wide\" \"dotted\""));
             Assert.Throws<ProtocolSyntaxException>(() => Interpret("changeNodeAttr \"n1\" \"nodoublecolon\" \"5\""));
-            Assert.Throws<ProtocolSyntaxException>(() => Interpret("waitForElement maybe"));
+            Assert.Throws<ProtocolSyntaxException>(() => Interpret("waitForElement \"maybe\""));
             Assert.IsEmpty(client.Calls);
         }
     }

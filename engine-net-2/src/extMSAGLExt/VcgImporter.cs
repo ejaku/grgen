@@ -34,11 +34,12 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         static readonly string[] lineStyleNames = { "continuous", "dotted", "dashed", "invisible" };
 
         // the attributes known to the import (their values are checked when they are read); other attributes are reported by a warning and ignored
-        static readonly HashSet<string> graphAttributes = new HashSet<string> { "title", "label", "textcolor", "color", "info1" };
+        static readonly HashSet<string> graphAttributes = new HashSet<string> { "title", "label", "textcolor", "color", "info1", "layoutalgorithm" };
         static readonly HashSet<string> nodeAttributes = new HashSet<string> { "title", "label", "textcolor", "color", "bordercolor", "shape", "info1" };
         static readonly HashSet<string> edgeAttributes = new HashSet<string> { "sourcename", "targetname", "label", "textcolor", "color", "linestyle", "thickness" };
-        // written by the VCGBaseDumper, but of no interest to us (the layout is chosen by extMSAGLExt)
-        static readonly HashSet<string> silentlyIgnoredGraphAttributes = new HashSet<string> { "layoutalgorithm" };
+        // the MSAGL layout algorithms (as written by the VCGBaseDumper into the layoutalgorithm graph attribute)
+        static readonly HashSet<string> layoutAlgorithms = new HashSet<string> { "SugiyamaScheme", "MDS", "Ranking", "IcrementalLayout" };
+        const string defaultLayoutAlgorithm = "SugiyamaScheme";
 
         static VcgImporter()
         {
@@ -148,11 +149,18 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             }
         }
 
+        // the layout algorithms of MSAGL are supported, the layout algorithms of yComp or even xvcg (e.g. the "normal" written by the VCGDumper for yComp) are not supported, they cause a warning
         static string GetLayout(Dictionary<string, string> attrs)
         {
-            // VCGDumper always writes layoutalgorithm: normal // comment
-            // MSAGL layout names: SugiyamaScheme, MDS, Ranking, IcrementalLayout
-            return "SugiyamaScheme";
+            string layoutAlgorithm;
+            if(!TryGetEnumIdentifier(attrs, "layoutalgorithm", out layoutAlgorithm))
+                return defaultLayoutAlgorithm;
+            if(!layoutAlgorithms.Contains(layoutAlgorithm))
+            {
+                Console.Error.WriteLine("VCG warning: unsupported layout algorithm \"" + layoutAlgorithm + "\" -- using " + defaultLayoutAlgorithm);
+                return defaultLayoutAlgorithm;
+            }
+            return layoutAlgorithm;
         }
 
         void AddNodeOrSubgraph(VcgAst.Entity entity, VcgAst.Subgraph parent)
@@ -325,8 +333,6 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             foreach(KeyValuePair<string, string> attribute in attrs)
             {
                 if(knownAttributes.Contains(attribute.Key))
-                    continue;
-                if(context == "graph" && silentlyIgnoredGraphAttributes.Contains(attribute.Key))
                     continue;
                 Console.Error.WriteLine("VCG warning: unknown " + context + " attribute \"" + attribute.Key + "\" (value: " + attribute.Value + ") -- ignored");
             }

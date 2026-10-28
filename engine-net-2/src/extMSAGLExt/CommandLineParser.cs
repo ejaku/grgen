@@ -17,14 +17,14 @@ namespace de.unika.ipd.grGen.extMSAGLExt
     public static class CommandLineParser
     {
         // ---- tokenizer: keyword "arg1" "arg2" ... ----
-        // Arguments are enclosed in quotes; waitForElement is the exception with an unquoted bool.
+        // All arguments are enclosed in quotes (also the bool of waitForElement, in contrast to the yComp version of the protocol).
         // Escaping inside quotes (applied by the sending client, undone here): \\ -> backslash, \n -> newline, \" -> quotation mark.
         // Throws a ProtocolSyntaxException on syntax errors.
 
         // the line is matched as a whole, strictly: no leading or trailing spaces, exactly one space between the parts;
-        // keyword, then quoted (with escaped content) or unquoted arguments
+        // keyword, then quoted arguments (with escaped content)
         private static readonly Regex commandLine =
-            new Regex(@"^(?<keyword>\w+)(?: (?<argument>""(?:[^""\\]|\\.)*""|\w+))*$", RegexOptions.Compiled);
+            new Regex(@"^(?<keyword>\w+)(?: (?<argument>""(?:[^""\\]|\\.)*""))*$", RegexOptions.Compiled);
 
         public static List<string> Tokenize(string line)
         {
@@ -39,10 +39,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             tokens.Add(match.Groups["keyword"].Value);
             foreach(Capture argument in match.Groups["argument"].Captures)
             {
-                if(argument.Value[0] == '"')
-                    tokens.Add(Unescape(argument.Value.Substring(1, argument.Value.Length - 2), line));
-                else
-                    tokens.Add(argument.Value); // unquoted token (e.g. waitForElement true/false)
+                tokens.Add(Unescape(argument.Value.Substring(1, argument.Value.Length - 2), line));
             }
             return tokens;
         }
