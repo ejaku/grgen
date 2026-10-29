@@ -22,6 +22,7 @@ The Reload-on-changes command toggles in between watching mode and non-watching 
 The Close command closes the currently open file (disabled when no file is open).
 The Show error log console command opens a console window that receives console output from then on (it is normally printed in the parent console or hidden when that one is hidden/not existing).
 The Exit command closes the application.
+Additionally, a Help menu is shown, with an "About..." menu entry, that opens a dialog box similar to the About box from the GGrShell.
 
 Application states: idle, showing file, server mode/debugging. Server mode can only be entered at startup, when left it cannot be re-entered in the usage session.
 Application substates: file opened distinguishes watching/autoreload and nonwatching; debugging server mode distinguishes waiting, client connected, and client disconnected.
