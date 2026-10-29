@@ -199,6 +199,15 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             Close();
         }
 
+        void MenuHelpAbout_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This is the extMSAGLExt graph viewer application from the GrGen.NET graph rewrite system.\n"
+                + "Call it (from the command line) with the .vcg file that you want to display as argument.\n"
+                + "The server mode for the GrGen.NET debugger is started from the GrShell (configure it with: debug with extMSAGLExt).\n"
+                + "Regarding licenses, see LICENSE.txt included in the packaging of this application.\n"
+                + "Also see http://www.grgen.de", "About extMSAGLExt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         // ---- drag'n'drop of a vcg file onto the idle placeholder ----
 
         void IdleLabel_DragEnter(object sender, DragEventArgs e)

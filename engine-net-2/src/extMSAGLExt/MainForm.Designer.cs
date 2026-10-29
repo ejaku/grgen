@@ -24,6 +24,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             this.menuItemShowErrorLog = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemSep = new System.Windows.Forms.ToolStripSeparator();
             this.menuItemExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusLabelState = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusLabelAction = new System.Windows.Forms.ToolStripStatusLabel();
@@ -35,7 +37,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             this.SuspendLayout();
 
             // menuStrip
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemFile });
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemFile, this.menuItemHelp });
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1200, 24);
@@ -86,6 +88,18 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             this.menuItemExit.Size = new System.Drawing.Size(200, 22);
             this.menuItemExit.Text = "E&xit";
             this.menuItemExit.Click += new System.EventHandler(this.MenuFileExit_Click);
+
+            // menuItemHelp
+            this.menuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemAbout });
+            this.menuItemHelp.Name = "menuItemHelp";
+            this.menuItemHelp.Size = new System.Drawing.Size(44, 20);
+            this.menuItemHelp.Text = "&Help";
+
+            // menuItemAbout
+            this.menuItemAbout.Name = "menuItemAbout";
+            this.menuItemAbout.Size = new System.Drawing.Size(200, 22);
+            this.menuItemAbout.Text = "&About...";
+            this.menuItemAbout.Click += new System.EventHandler(this.MenuHelpAbout_Click);
 
             // statusStrip
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.statusLabelState, this.statusLabelAction });
@@ -150,6 +164,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         System.Windows.Forms.ToolStripMenuItem menuItemShowErrorLog;
         System.Windows.Forms.ToolStripSeparator menuItemSep;
         System.Windows.Forms.ToolStripMenuItem menuItemExit;
+        System.Windows.Forms.ToolStripMenuItem menuItemHelp;
+        System.Windows.Forms.ToolStripMenuItem menuItemAbout;
         System.Windows.Forms.StatusStrip statusStrip;
         System.Windows.Forms.ToolStripStatusLabel statusLabelState;
         System.Windows.Forms.ToolStripStatusLabel statusLabelAction;

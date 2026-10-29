@@ -47,7 +47,7 @@ extMSAGLExt [-console] -p <port>
 - `-console`: show the error log console from the start
 - no arguments: idle, use File > Open... or drop a .vcg file onto the placeholder
 
-The File menu offers Open... (stops watching, closes a running debugging session, then imports the chosen vcg file), Reload file on changes (toggles watching, enabled only when a file is shown), Close (closes the shown file, back to idle), Show error log console, and Exit.
+The File menu offers Open... (stops watching, closes a running debugging session, then imports the chosen vcg file), Reload file on changes (toggles watching, enabled only when a file is shown), Close (closes the shown file, back to idle), Show error log console, and Exit; the Help menu offers About... (an information message box similar to the one of the GGrShell).
 The error log console allocates a console for the stdout/stderr output of the application (`IWorkaround.AllocTheConsole`; a terminal emulator window under Linux, see `LinuxConsoleAllocator` in libConsoleAndOS). Errors and warnings are emitted to the console, only syntax errors of the vcg import and the fatal errors of the program start are shown as message box.
 
 ## Application States
