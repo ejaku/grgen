@@ -73,10 +73,21 @@ namespace de.unika.ipd.grGen.grShell
 
         private readonly IGrShellImplForSequenceApplierAndDebugger impl;
 
-        private GraphViewerTypes graphViewerType = GraphViewerTypes.YComp;
+        private GraphViewerTypes graphViewerType = GraphViewerTypes.Undefined;
         public GraphViewerTypes GraphViewerType
         {
-            get { return graphViewerType; }
+            get
+            {
+                if(graphViewerType == GraphViewerTypes.Undefined)
+                    return GraphViewerTypes.YComp; // is going to be changed in the future to extMSAGLExt
+                return graphViewerType;
+            }
+        }
+
+        public void WarnOnUndefinedGraphViewerType()
+        {
+            if(graphViewerType == GraphViewerTypes.Undefined)
+                ConsoleUI.outWriter.WriteLine("Warning: the graph viewer type was not specified (debug with XXX), defaulting to yComp");
         }
 
 
@@ -661,6 +672,7 @@ namespace de.unika.ipd.grGen.grShell
                 impl.debugLayoutOptions.TryGetValue(impl.debugLayout, out optMap);
                 try
                 {
+                    WarnOnUndefinedGraphViewerType();
                     guiConsoleDebuggerHost = null;
                     basicGraphViewerClientHost = null;
                     if(GraphViewerBaseClient.IsInternalGraphViewer(graphViewerType))

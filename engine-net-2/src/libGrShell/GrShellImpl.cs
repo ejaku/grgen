@@ -2880,7 +2880,7 @@ namespace de.unika.ipd.grGen.grShell
 
             IGraphModel model = curShellProcEnv.ProcEnv.NamedGraph.Model;
 
-            GraphViewerBaseClient graphViewer = GetGraphDisplayer(seqApplierAndDebugger.GraphViewerType);
+            GraphViewerBaseClient graphViewer = GetGraphDisplayer();
             IBasicGraphViewerClient basicGraphViewer = graphViewer.GetBasicClient();
 
             new ModelRenderer().RenderModelAsGraph(model, basicGraphViewer);
@@ -2907,7 +2907,7 @@ namespace de.unika.ipd.grGen.grShell
 
             IActions actions = curShellProcEnv.ProcEnv.Actions;
 
-            GraphViewerBaseClient graphViewer = GetGraphDisplayer(seqApplierAndDebugger.GraphViewerType);
+            GraphViewerBaseClient graphViewer = GetGraphDisplayer();
             IBasicGraphViewerClient basicGraphViewer = graphViewer.GetBasicClient();
 
             new PatternsRenderer().RenderPatternsAsGraph(actions, basicGraphViewer);
@@ -2925,17 +2925,13 @@ namespace de.unika.ipd.grGen.grShell
 
         // returns a graph displayer for the gshow commands rendering technical graphs of the user specifications formulated in the GrGen programming language constructs
         // todo: graph viewer vs graph displayer, user is viewing graph
-        private GraphViewerBaseClient GetGraphDisplayer(GraphViewerTypes graphViewerType)
+        private GraphViewerBaseClient GetGraphDisplayer()
         {
-            IBasicGraphViewerClientHost basicGraphViewerClientHost = null;
-            if (graphViewerType == GraphViewerTypes.MSAGL) // todo: shouldn't this also hold for MSAGLExt
-            {
-                IHostCreator hostCreator = GraphViewerBaseClient.GetGuiConsoleDebuggerHostCreator();
-                basicGraphViewerClientHost = hostCreator.CreateBasicGraphViewerClientHost();
-            }
+            seqApplierAndDebugger.WarnOnUndefinedGraphViewerType();
+            GraphViewerTypes graphViewerType = seqApplierAndDebugger.GraphViewerType;
             ElementRealizers elementRealizers = new ElementRealizers();
             String layout = graphViewerType == GraphViewerTypes.YComp ? "Hierarchic" : "SugiyamaScheme";
-            return new GraphViewerBaseClient(graphViewerType, layout, elementRealizers, basicGraphViewerClientHost);
+            return new GraphViewerBaseClient(graphViewerType, layout, elementRealizers, null); // creates host internally
         }
 
         private void ProcessEventsUntilKeyPressedAsNeeded()
@@ -3627,6 +3623,9 @@ namespace de.unika.ipd.grGen.grShell
 
             try
             {
+                seqApplierAndDebugger.WarnOnUndefinedGraphViewerType();
+                String vcgGraphViewerName = seqApplierAndDebugger.GraphViewerType == GraphViewerTypes.YComp ? "yComp" : "extMSAGLExt";
+                ConsoleUI.outWriter.WriteLine("Dumping graph to " + filename + " (VCG " + vcgGraphViewerName + "-optimized)");
                 using(VCGBaseDumper dump = seqApplierAndDebugger.GraphViewerType == GraphViewerTypes.YComp
                         ? new VCGDumper(filename, curShellProcEnv.VcgFlags, debugLayout)
                         : new VCGBaseDumper(filename, debugLayout))

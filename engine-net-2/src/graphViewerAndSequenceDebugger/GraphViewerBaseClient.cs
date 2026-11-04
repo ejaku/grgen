@@ -19,6 +19,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     // potentially available graph viewer client types (debugger types)
     public enum GraphViewerTypes
     {
+        Undefined,
         YComp, // console and external app
         MSAGL, MSAGLExt, // GUI frame/console and internal API
         ExtMSAGLExt // console and external app
