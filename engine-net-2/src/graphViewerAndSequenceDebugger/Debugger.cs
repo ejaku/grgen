@@ -564,8 +564,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void HandleDump()
         {
-            string filename = env.ShowGraphWith("ycomp", "", false);
-            env.WriteLine("Showing dumped graph " + filename + " with ycomp");
+            string programName = graphViewerClient.GetBasicClient() is YCompClient ? "ycomp" : "extMSAGLExt";
+            string filename = env.ShowGraphWith(programName, "", false);
+            env.WriteLine("Showing dumped graph " + filename + " with " + programName);
 
             String undoLog = task.procEnv.TransactionManager.ToString();
             if(undoLog.Length > 0)
