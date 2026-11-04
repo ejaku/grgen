@@ -13,15 +13,15 @@ using System;
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     /// <summary>
-    /// interface to the basic graph viewer clients (yComp and MSAGL, offering the core graph viewer functionality, utilized by the GraphViewerClient that adds its own functionality)
+    /// interface to the basic graph viewer clients (yComp or the MSAGL-based ones, offering the core graph viewer functionality, utilized by the GraphViewerClient that adds its own functionality)
     /// </summary>
     public interface IBasicGraphViewerClient
     {
         void Close();
 
-        void SleepAndDoEvents(); // only implemented in the graph viewer client of the internal WindowsForms based MSAGL graph viewer, the graph viewer client (proxy) of the external yComp app only sleeps without pumping WindowsForms event
+        void SleepAndDoEvents(); // only implemented in the graph viewer client of the internal WindowsForms based MSAGL/MSAGLExt graph viewer, the graph viewer client (proxy) of the external yComp/extMSAGLExt app only sleeps without pumping WindowsForms event
 
-        event ConnectionLostHandler OnConnectionLost; // may come directly, may come only when a Sync is executed, depending on the implementation; may come when the connection to yComp is lost, or when the MSAGL host window is closed
+        event ConnectionLostHandler OnConnectionLost; // may come directly, may come only when a Sync is executed, depending on the implementation; may come when the connection to yComp/extMSAGLExt is lost, or when the MSAGL/MSAGLExt host window is closed
 
         bool ElementAvailable { get; }
 
@@ -33,14 +33,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         void SetLayout(String moduleName);
 
         /// <summary>
-        /// Retrieves the available options of the current layouter of yComp/MSAGL and the current values.
+        /// Retrieves the available options of the current layouter of the graph viewer and the current values.
         /// </summary>
-        /// <returns>A description of the available options of the current layouter of yComp/MSAGL
+        /// <returns>A description of the available options of the current layouter of the graph viewer
         /// and the current values.</returns>
         String GetLayoutOptions();
 
         /// <summary>
-        /// Sets a layout option of the current layouter of yComp/MSAGL.
+        /// Sets a layout option of the current layouter of the graph viewer.
         /// </summary>
         /// <param name="optionName">The name of the option.</param>
         /// <param name="optionValue">The new value.</param>
@@ -48,7 +48,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         String SetLayoutOption(String optionName, String optionValue);
 
         /// <summary>
-        /// Forces yComp/MSAGL to relayout the graph.
+        /// Forces the graph viewer to relayout the graph.
         /// </summary>
         void ForceLayout();
 

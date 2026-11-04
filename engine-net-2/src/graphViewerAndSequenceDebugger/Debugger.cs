@@ -134,7 +134,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// If null, Orthogonal is used.</param>
         /// <param name="layoutOptions">An dictionary mapping layout option names to their values.
         /// It may be null, if no options are to be applied.</param>
-        /// <param name="basicGraphViewerClientHost">An optional basic graph viewer client host, in case the graph viewer type MSAGL is requested, the MSAGL graph viewer form is added to that form (YComp is a standalone application).</param>
+        /// <param name="basicGraphViewerClientHost">An optional basic graph viewer client host, in case the graph viewer type MSAGL/MSAGLExt is requested, the MSAGL graph viewer form is added to that form (YComp/extMSAGLExt are standalone applications).</param>
         public Debugger(IDebuggerEnvironment env, DebuggerGraphProcessingEnvironment debuggerProcEnv,
             ElementRealizers realizers, GraphViewerTypes graphViewerType, String debugLayout, Dictionary<String, String> layoutOptions,
             IBasicGraphViewerClientHost basicGraphViewerClientHost)
@@ -188,7 +188,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             catch(OperationCanceledException)
             {
-                throw new Exception("Connection to yComp/MSAGL lost");
+                throw new Exception("Connection to the graph viewer lost");
             }
 
             NotifyOnConnectionLost = false;
@@ -280,7 +280,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             get { return debuggerProcEnv; }
             set
             {
-                // switch to new graph in YComp
+                // switch to new graph in graph viewer
                 task.UnregisterActionEvents(debuggerProcEnv.ProcEnv);
                 task.UnregisterGraphEvents(debuggerProcEnv.ProcEnv.NamedGraph);
                 graphViewerClient.ClearGraph();
@@ -317,11 +317,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Sets a layout option for the current layout in yComp/MSAGL.
+        /// Sets a layout option for the current layout in the graph viewer.
         /// </summary>
         /// <param name="optionName">The name of the option.</param>
         /// <param name="optionValue">The new value for the option.</param>
-        /// <returns>True, iff yComp/MSAGL did not report an error.</returns>
+        /// <returns>True, iff the graph viewer did not report an error.</returns>
         public bool SetLayoutOption(String optionName, String optionValue)
         {
             String errorMessage = graphViewerClient.SetLayoutOption(optionName, optionValue);
@@ -993,7 +993,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// returns the id/persistent name of a node/edge chosen by the user in yComp/MSAGL
+        /// returns the id/persistent name of a node/edge chosen by the user in the graph viewer
         /// </summary>
         public string ChooseGraphElement()
         {
@@ -2201,7 +2201,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// informs debugger about the change of the graph, so it can switch yComp/MSAGL display to the new one
+        /// informs debugger about the change of the graph, so it can switch the graph viewer display to the new one
         /// called just before switch with the new one, the old one is the current graph
         /// </summary>
         public void DebugSwitchToGraph(IGraph newGraph)
@@ -2218,7 +2218,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// informs debugger about the change of the graph, so it can switch yComp/MSAGL display to the new one
+        /// informs debugger about the change of the graph, so it can switch the graph viewer display to the new one
         /// called just after the switch with the old one, the new one is the current graph
         /// </summary>
         public void DebugReturnedFromGraph(IGraph oldGraph)

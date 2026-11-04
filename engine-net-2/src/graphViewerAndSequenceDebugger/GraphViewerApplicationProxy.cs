@@ -72,7 +72,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Ends the yComp process.
+        /// Ends the graph viewer application process (yComp or extMSAGLExt).
         /// </summary>
         public void Close()
         {
@@ -251,8 +251,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     // ------------------------------------------------------------------------------------
 
     /// <summary>
-    /// Proxy base class for communicating with a graph viewer application
-    /// (over a socket via the GrGen-yComp protocol, mainly telling the graph viewer application what should be displayed (and how))
+    /// Proxy base class for communicating with a graph viewer application (yComp or extMSAGLExt)
+    /// (over a socket via the GrGen-GraphViewer protocol, mainly telling the graph viewer application what should be displayed (and how))
     /// </summary>
     public abstract class GraphViewerApplicationProxy : IBasicGraphViewerClient
     {
@@ -616,7 +616,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
     /// <summary>
     /// Proxy class for communicating with the graph viewer application extMSAGLExt
-    /// (over a socket via the GrGen-yComp protocol).
+    /// (over a socket via the GrGen-extMSAGLExt protocol).
     /// The layout can be one of:
     ///     - SugiyamaScheme
     ///     - MDS

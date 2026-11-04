@@ -28,7 +28,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     public delegate void ConnectionLostHandler();
 
     /// <summary>
-    /// Class communicating with yComp or MSAGL, over a simple live graph viewer protocol (transmitted over a loopback TCP socket or entirely internally),
+    /// Class communicating with yComp or MSAGL or MSAGLExt or extMSAGLExt, over a simple live graph viewer protocol
+    /// (transmitted over a loopback TCP socket in case of yComp or extMSAGLExt or entirely internally in case of MSAGL or MSAGLExt),
     /// some very basic shared functionality is implemented here, real graph handling is contained in the GraphViewerClient.
     /// </summary>
     public class GraphViewerBaseClient

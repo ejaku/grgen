@@ -149,7 +149,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!CheckDebuggerAlive())
             {
-                ConsoleUI.outWriter.WriteLine("YComp is not active, yet!");
+                ConsoleUI.outWriter.WriteLine("The graph viewer is not active, yet!");
                 return;
             }
 
@@ -166,7 +166,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!CheckDebuggerAlive())
             {
-                ConsoleUI.errorOutWriter.WriteLine("Layout options can only be read, when YComp is active!");
+                ConsoleUI.errorOutWriter.WriteLine("Layout options can only be read, when the graph viewer is active!");
                 return;
             }
 
@@ -699,7 +699,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 catch(Exception ex)
                 {
-                    if(ex.Message != "Connection to yComp/MSAGL lost")
+                    if(ex.Message != "Connection to the graph viewer lost")
                         ConsoleUI.errorOutWriter.WriteLine(ex.Message);
                     return false;
                 }

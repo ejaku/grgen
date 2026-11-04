@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.libGr
 
     // If the containment specified does not lead to a tree the results are unspecified,
     // the nodes and incident edges will be placed within several groups and dumped this way;
-    // it is up to yComp to decide which nesting to use/where to locate the node (you'll see one node with duplicate edges in this case).
+    // it is up to the graph viewer to decide which nesting to use/where to locate the node (you'll see one node with duplicate edges in this case in yComp).
     // One could think of using the most deeply nested unambiguous node as the most sensible conflict resolution strategy in this case
     // but this would require quite some additional code plus a loop detection.
     // But that has the feeling of a workaround, it would only apply to dumping, not debugging,

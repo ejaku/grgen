@@ -233,7 +233,7 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// Maps layouts to layout option names to their values.
         /// This only reflects the settings made by the user and may even contain illegal entries,
-        /// if the options were set before yComp/MSAGL was attached.
+        /// if the options were set before the graph viewer/debugger was attached.
         /// </summary>
         private readonly Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
 
@@ -1200,7 +1200,7 @@ namespace de.unika.ipd.grGen.grShell
                 + "                               - <elem>.<member>\n"
                 + "                               - <val>, a value literal (see user manual)\n"
                 + " - <var> = askfor <type>     Asks the user to input a value of given type\n"
-                + "                             a node/edge is to be entered in yComp or MSAGL\n"
+                + "                             a node/edge is to be entered in the graph viewer\n"
                 + "                             (debug mode must be enabled); other values are\n"
                 + "                             to be entered on the keyboard (format as in <expr>\n"
                 + "                             but constant only)\n");
@@ -1345,6 +1345,7 @@ namespace de.unika.ipd.grGen.grShell
                 + "   Shows the current graph with the given program and optional arguments.\n"
                 + "   The program determines the format used for dumping (either .vcg or .dot)\n"
                 + "   Example: show graph ycomp\n"
+                + "   Example: show graph extMSAGLExt\n"
                 + "   Example: show graph dot (graphviz must be in the search path)\n"
                 + "   Example: show graph MSAGL (no dumping but in-memory display)\n\n"
                 + " - show graphs\n"
@@ -1368,13 +1369,14 @@ namespace de.unika.ipd.grGen.grShell
             ConsoleUI.outWriter.WriteLine("\nList of available commands for \"gshow\":\n"
                 + " - gshow model\n"
                 + "   Graphically shows the model of the current graph\n"
-                + "   with the configured graph viewer (yComp or MSAGL).\n\n"
+                + "   with the configured graph viewer\n"
+                + "   (yComp or MSAGL or MSAGLExt or extMSAGLExt).\n\n"
                 + " - gshow patterns\n"
                 + "   Graphically shows the patterns of the current actions\n"
-                + "   with the configured graph viewer (yComp or MSAGL).\n\n"
+                + "   with the configured graph viewer.\n\n"
                 + " - gshow graph\n"
                 + "   Graphically shows the current graph\n"
-                + "   with the configured graph viewer (yComp or MSAGL).\n");
+                + "   with the configured graph viewer.\n");
         }
 
         public void HelpDebug(List<String> commands)
@@ -1392,7 +1394,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - debug (enable | disable)\n"
                 + "   Enables/disables debug mode.\n\n"
                 + " - debug layout\n"
-                + "   Forces yComp or MSAGL to relayout the graph.\n\n"
+                + "   Forces the graph viewer to relayout the graph.\n\n"
                 + " - debug set layout [<algo>]\n"
                 + "   Selects the layout algorithm. If algorithm is not given,\n"
                 + "   all available layout algorithms are listed.\n\n"
@@ -1402,9 +1404,12 @@ namespace de.unika.ipd.grGen.grShell
                 + "   Lists all available layout options for the current layout algorithm.\n\n"
                 + " - debug set layout option <name> <value>\n"
                 + "   Sets the value of the given layout option.\n\n"
-                + " - debug with (MSAGL | yComp)\n"
-                + "   Switches to debugging with a WindowsForms GUI and a MSAGL graph viewer,\n"
-                + "   or to debugging with a console UI and the external yComp graph viewer.\n\n"
+                + " - debug with (MSAGL | MSAGLExt | extMSAGLExt | yComp)\n"
+                + "   Switches to debugging with a WindowsForms GUI\n"
+                + "   and a MSAGL or MSAGLExt graph viewer,\n"
+                + "   or to debugging with a console UI\n"
+                + "   and the external yComp or extMSAGLExt graph viewer app.\n"
+                + "   Also influences the gshow commands, and even vcg dumping.\n\n"
                 + " - debug get options\n"
                 + "   Lists all available debugging options.\n\n"
                 + " - debug set option <name> <value>\n"

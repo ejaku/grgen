@@ -9,7 +9,7 @@ using de.unika.ipd.grGen.libGr;
 namespace de.unika.ipd.grGen.extMSAGLExt
 {
     /// <summary>
-    /// Parses the syntactic elements of GrGen-yComp protocol command lines:
+    /// Parses the syntactic elements of GrGen-GraphViewer protocol command lines:
     /// splits a line into keyword and (unescaped) arguments, and converts argument strings
     /// to attribute keys, colors, shapes and line styles. Stateless; the execution of the commands
     /// is up to the CommandLineInterpreter.
@@ -17,7 +17,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
     public static class CommandLineParser
     {
         // ---- tokenizer: keyword "arg1" "arg2" ... ----
-        // All arguments are enclosed in quotes (also the bool of waitForElement, in contrast to the yComp version of the protocol).
+        // All arguments are enclosed in quotes (also the bool of waitForElement, in this extMSAGLExt-version, in contrast to the yComp version of the protocol).
         // Escaping inside quotes (applied by the sending client, undone here): \\ -> backslash, \n -> newline, \" -> quotation mark.
         // Throws a ProtocolSyntaxException on syntax errors.
 

@@ -17,7 +17,7 @@ using de.unika.ipd.grGen.libGr;
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     /// <summary>
-    /// Class communicating with yComp or MSAGL, over a simple live graph viewer protocol,
+    /// Class communicating with yComp or MSAGL or MSAGLExt or extMSAGLExt, over a simple live graph viewer protocol,
     /// some higher-level shared functionality regarding graph presentation state handling is implemented here.
     /// </summary>
     public class GraphViewerClient : GraphViewerBaseClient
@@ -43,7 +43,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         /// <summary>
         /// Creates a new GraphViewerClient instance.
-        /// Internally, it creates a YCompClient or a MSAGLClient, depending on the graph viewer type that is requested, see the base constructor for more on this.
+        /// Internally, it creates a YCompClient or a MSAGLClient or a MSAGLExtClient or an extMSAGLExtClient, depending on the graph viewer type that is requested, see the base constructor for more on this.
         /// </summary>
         public GraphViewerClient(INamedGraph graph, GraphViewerTypes graphViewerType, String layoutModule,
             DumpInfo dumpInfo, ElementRealizers realizers,
@@ -140,7 +140,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         ///     - Diagonal
         ///     - Incremental Hierarchic
         ///     - Compilergraph
-        ///     In case of MSAGL, it can be one of:
+        ///     In case of a MSAGL based graph viewer, it can be one of:
         ///     - SugiyamaScheme
         ///     - MDS
         ///     - Ranking
@@ -156,7 +156,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <summary>
         /// Retrieves the available options of the current layouter and the current values.
         /// </summary>
-        /// <returns>A description of the available options of the current layouter of yComp or MSAGL
+        /// <returns>A description of the available options of the current layouter of the graph viewer
         /// and the current values.</returns>
         public String GetLayoutOptions()
         {
@@ -164,7 +164,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Sets a layout option of the current layouter of yComp or MSAGL.
+        /// Sets a layout option of the current layouter of the graph viewer.
         /// </summary>
         /// <param name="optionName">The name of the option.</param>
         /// <param name="optionValue">The new value.</param>
@@ -182,7 +182,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Forces yComp/MSAGL to relayout the graph.
+        /// Forces the graph viewer to relayout the graph.
         /// </summary>
         public void ForceLayout()
         {
@@ -646,7 +646,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         //}
 
         /// <summary>
-        /// Uploads the graph to YComp/MSAGL, updates the display and makes a synchronisation.
+        /// Uploads the graph to the graph viewer, updates the display and makes a synchronisation.
         /// Does not change the stored graph, even though this is required for naming.
         /// </summary>
         public void UploadGraph()

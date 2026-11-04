@@ -12,7 +12,7 @@ using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
 namespace de.unika.ipd.grGen.extMSAGLExt
 {
     /// <summary>
-    /// Async TCP server (accepting a single connection) that receives GrGen-yComp protocol command lines and hands them
+    /// Async TCP server (accepting a single connection) that receives GrGen-GraphViewer protocol command lines and hands them
     /// to the CommandLineParser and then to a CommandLineInterpreter, which executes them on the IBasicGraphViewerClient (typically MSAGLExtClient).
     /// Started from the UI thread; async/await + WinForms SynchronizationContext keeps
     /// all callbacks on the UI thread -- no Invoke needed.
