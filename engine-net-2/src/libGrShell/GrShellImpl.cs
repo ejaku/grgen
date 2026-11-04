@@ -1371,6 +1371,9 @@ namespace de.unika.ipd.grGen.grShell
                 + "   with the configured graph viewer (yComp or MSAGL).\n\n"
                 + " - gshow patterns\n"
                 + "   Graphically shows the patterns of the current actions\n"
+                + "   with the configured graph viewer (yComp or MSAGL).\n\n"
+                + " - gshow graph\n"
+                + "   Graphically shows the current graph\n"
                 + "   with the configured graph viewer (yComp or MSAGL).\n");
         }
 
@@ -2914,6 +2917,31 @@ namespace de.unika.ipd.grGen.grShell
 
             basicGraphViewer.ForceLayout();
             basicGraphViewer.Sync();
+
+            ConsoleUI.outWriter.WriteLine("Press any key to continue...");
+            ProcessEventsUntilKeyPressedAsNeeded();
+            ConsoleUI.consoleIn.ReadKey(true);
+
+            graphViewer.Close();
+            ProcessEventsAsNeeded();
+        }
+
+        public void GShowGraph()
+        {
+            if(!GraphExists())
+                return;
+            if(nonDebugNonGuiExitOnError)
+                return;
+
+            ConsoleUI.outWriter.WriteLine("Showing graph graphically...");
+
+            seqApplierAndDebugger.WarnOnUndefinedGraphViewerType();
+
+            GraphViewerClient graphViewer = new GraphViewerClient(curShellProcEnv.ProcEnv.NamedGraph,
+                seqApplierAndDebugger.GraphViewerType, debugLayout, curShellProcEnv.DumpInfo, new ElementRealizers(),
+                curShellProcEnv.objectNamerAndIndexer, curShellProcEnv.transientObjectNamerAndIndexer, null);
+
+            graphViewer.UploadGraph();
 
             ConsoleUI.outWriter.WriteLine("Press any key to continue...");
             ProcessEventsUntilKeyPressedAsNeeded();

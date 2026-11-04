@@ -1978,6 +1978,11 @@ void GShowCommand():
         {
             impl.GShowPatterns();
         }
+    |
+        "graph" LineEnd()
+        {
+            impl.GShowGraph();
+        }
     }
     catch(ParseException ex)
     {
