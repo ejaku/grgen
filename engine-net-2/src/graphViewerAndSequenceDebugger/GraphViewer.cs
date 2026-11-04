@@ -20,15 +20,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     /// <summary>
     /// helper class to
     /// - employ a graph viewer client from an own program 
-    /// - dump a graph in vcg format and then show it with yComp or dump a graph in dot format and show it with graphviz, also utilized internally
+    /// - dump a graph in vcg format and then show it with yComp or extMSAGLExt, or dump a graph in dot format and show it with graphviz, also utilized internally
     /// </summary>
     public class GraphViewer
     {
-        // convenience function to dump a file in vcg format and show it with ycomp
-        public static string DumpAndShowGraph(INamedGraph graph, String layout)
+        // limited convenience function to dump a file in vcg format and show it with programName, which may be ycomp (default when null) or extMSAGLExt, layout may be one of the according layouts, defaulting to Orthogonal of yComp when null
+        // use ShowVcgGraph for improved functionality (e.g. dump info configuration)
+        public static string DumpAndShowGraph(INamedGraph graph, String programName, String layout)
         {
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph);
-            return ShowVcgGraph(debuggerProcEnv, layout ?? "Orthogonal", "ycomp", "", true);
+            return ShowVcgGraph(debuggerProcEnv, layout ?? "Orthogonal", programName ?? "ycomp", "", true);
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,10 +38,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
         }
 
-        // in case of GraphViewerTypes.MSAGL, you may hand in a WindowsForms Form implementing IBasicGraphViewerClientHost, the GViewer control will then be added to its controls
-        public void ShowGraph(INamedGraph graph, GraphViewerTypes type, String layout, IBasicGraphViewerClientHost host)
+        // when you supply a debuggerProcEnv, the dump info from it will be used
+        // in case of GraphViewerTypes.MSAGL/MSAGLExt, you may hand in a WindowsForms Form implementing IBasicGraphViewerClientHost as host, the GViewer control will then be added to its controls
+        public void ShowGraph(INamedGraph graph, GraphViewerTypes type, String layout,
+            DebuggerGraphProcessingEnvironment debuggerProcEnv, IBasicGraphViewerClientHost host)
         {
-            DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph);
+            if(debuggerProcEnv == null)
+                debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph);
             ElementRealizers realizers = new ElementRealizers();
             graphViewerClient = new GraphViewerClient(graph, type, layout ?? (type == GraphViewerTypes.YComp ? "Orthogonal" : "SugiyamaScheme"),
                 debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, host);
