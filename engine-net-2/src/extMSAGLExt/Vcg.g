@@ -1,4 +1,5 @@
 // by Claude Code with Edgar Jakumeit
+// this file is part of GrGen.NET
 //
 // ANTLR 3.5 grammar for VCG files as produced by GrGen.NET VCGDumper.
 // Builds a VcgAst.Graph. The NodeOrSubgraphByName map of the VcgParserEnvironment env

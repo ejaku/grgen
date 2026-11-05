@@ -1,4 +1,5 @@
 // by Claude Code with Edgar Jakumeit
+// this file is part of GrGen.NET
 
 // todo: IsRefType should be rather named IsContainerType and a real IsRefType should be added and used here
 // todo: more information in the interfaces is needed (IActions, IRulePattern, IPatternGraph) to display everything of importance, e.g. subpattern parameters and conditions, or a rule/test distinction, or all subpatterns even if not used

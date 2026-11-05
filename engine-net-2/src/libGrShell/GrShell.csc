@@ -1,4 +1,5 @@
 // by Moritz Kroll, Edgar Jakumeit
+// this file is part of GrGen.NET
 
 options {
     STATIC=false;

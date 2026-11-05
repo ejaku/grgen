@@ -1,4 +1,5 @@
 // by Claude Code with Edgar Jakumeit
+// this file is part of GrGen.NET
 
 using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
 using de.unika.ipd.grGen.libConsoleAndOS;

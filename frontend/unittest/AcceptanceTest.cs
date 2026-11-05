@@ -1,4 +1,5 @@
 // by Claude Code with Edgar Jakumeit
+// this file is part of GrGen.NET
 
 using System;
 using NUnit.Framework;
