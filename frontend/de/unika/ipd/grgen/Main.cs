@@ -217,7 +217,7 @@ namespace de.unika.ipd.grgen
 						Console.SetError(dumpOutputStream);
 						Console.SetOut(dumpOutputStream);
 					}
-					catch(FileNotFoundException e)
+					catch(Exception e) // covers esp. FileNotFoundException, on error with dump output stream write error message but don't crash
 					{
 						Console.WriteLine(e.ToString());
 						Console.Write(e.StackTrace);
@@ -277,7 +277,7 @@ namespace de.unika.ipd.grgen
 			{
 				return new FileStream(debFile.FullName, FileMode.Create, FileAccess.Write);
 			}
-			catch(FileNotFoundException)
+			catch(Exception) // covers esp. FileNotFoundException, on error with debug file write error message and return null stream (but don't crash)
 			{
 				errorReporter.Error("Cannot open debug file " + debFile.FullName + ".");
 				return Stream.Null;

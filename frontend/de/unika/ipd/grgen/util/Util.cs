@@ -157,28 +157,6 @@ namespace de.unika.ipd.grgen.util
 			}
 		}
 
-		public static PrintStream OpenFile(FileInfo file, ErrorReporter reporter)
-		{
-			Stream os = Stream.Null;
-
-			try
-			{
-				os = new FileStream(file.FullName, FileMode.Create, FileAccess.Write);
-			}
-			catch(FileNotFoundException e)
-			{
-				reporter.Error(e.ToString());
-			}
-
-			return new PrintStream(os);
-		}
-
-		public static void CloseFile(PrintStream ps)
-		{
-			ps.Flush();
-			ps.Close();
-		}
-
 		/// <summary>
 		/// Tells whether c1 is subclass of c2.
 		/// </summary>
@@ -344,31 +322,6 @@ namespace de.unika.ipd.grgen.util
 				return "";
 			}
 		}
-
-		/*public static void CopyFile(File sourceFile, File targetFile)
-		{
-			if(!targetFile.Exists())
-				targetFile.CreateNewFile();
-
-			using(FileStream sourceStream = new FileStream(sourceFile, FileMode.Open, FileAccess.Read))
-			{
-				using(FileChannel sourceChannel = sourceStream.GetChannel())
-				{
-					using(FileStream targetStream = new FileStream(targetFile, FileMode.Create, FileAccess.Write))
-					{
-						using(FileChannel targetChannel = targetStream.GetChannel())
-						{
-							long count = 0;
-							long size = sourceChannel.Size();
-							while((count += targetChannel.TransferFrom(sourceChannel, count, size - count)) < size)
-							{
-								// empty
-							}
-						}
-					}
-				}
-			}
-		}*/
 	}
 
 }
