@@ -256,8 +256,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     /// </summary>
     public abstract class GraphViewerApplicationProxy : IBasicGraphViewerClient
     {
-        TcpClient ycompClient; // TODO: rename to tcpClient, move to GraphViewerApplicationStream?
-        internal GraphViewerApplicationStream ycompStream; // TODO: rename to graphViewerApplicationStream
+        TcpClient tcpClient; // TODO: move to GraphViewerApplicationStream?
+        internal GraphViewerApplicationStream graphViewerApplicationStream;
 
 
         /// <summary>
@@ -274,20 +274,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     try
                     {
-                        ycompClient = new TcpClient("localhost", port);
+                        tcpClient = new TcpClient("localhost", port);
                     }
                     catch(SocketException)
                     {
-                        ycompClient = null;
+                        tcpClient = null;
                         Thread.Sleep(1000);
                     }
                 }
-                while(ycompClient == null && Environment.TickCount - startTime < connectionTimeout);
+                while(tcpClient == null && Environment.TickCount - startTime < connectionTimeout);
 
-                if(ycompClient == null)
+                if(tcpClient == null)
                     throw new Exception("Connection timeout!");
 
-                ycompStream = new GraphViewerApplicationStream(ycompClient);
+                graphViewerApplicationStream = new GraphViewerApplicationStream(tcpClient);
 
                 // TODO: Add group related events
             }
@@ -299,13 +299,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void Close()
         {
-            if(ycompStream.IsStreamOpen)
+            if(graphViewerApplicationStream.IsStreamOpen)
             {
-                ycompStream.Closing = true;     // don't care if exit doesn't work
-                ycompStream.Write("exit\n");
+                graphViewerApplicationStream.Closing = true;     // don't care if exit doesn't work
+                graphViewerApplicationStream.Write("exit\n");
             }
-            ycompClient.Close();
-            ycompClient = null;
+            tcpClient.Close();
+            tcpClient = null;
         }
 
         public void SleepAndDoEvents()
@@ -316,18 +316,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public event ConnectionLostHandler OnConnectionLost
         {
-            add { ycompStream.OnConnectionLost += value; }
-            remove { ycompStream.OnConnectionLost -= value; }
+            add { graphViewerApplicationStream.OnConnectionLost += value; }
+            remove { graphViewerApplicationStream.OnConnectionLost -= value; }
         }
 
         public bool ElementAvailable
         {
-            get { return ycompStream.Ready; }
+            get { return graphViewerApplicationStream.Ready; }
         }
 
         public bool ConnectionLost
         {
-            get { return !ycompStream.IsStreamOpen; }
+            get { return !graphViewerApplicationStream.IsStreamOpen; }
         }
 
         public abstract String GetAwaitedElement();
@@ -337,7 +337,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public void SetLayout(String moduleName)
         {
-            ycompStream.Write("setLayout \"" + moduleName + "\"\n");
+            graphViewerApplicationStream.Write("setLayout \"" + moduleName + "\"\n");
         }
 
         /// <summary>
@@ -347,11 +347,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// and the current values.</returns>
         public String GetLayoutOptions()
         {
-            ycompStream.Write("getLayoutOptions\n");
+            graphViewerApplicationStream.Write("getLayoutOptions\n");
             String msg = "";
             do
             {
-                msg += ycompStream.Read();
+                msg += graphViewerApplicationStream.Read();
             }
             while(!msg.EndsWith("endoptions\n"));
             return msg.Substring(0, msg.Length - 11);       // remove "endoptions\n" from message
@@ -365,8 +365,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <returns>"optionset\n", or an error message, if setting the option failed.</returns>
         public String SetLayoutOption(String optionName, String optionValue)
         {
-            ycompStream.Write("setLayoutOption \"" + optionName + "\" \"" + optionValue + "\"\n");
-            String msg = ycompStream.Read();
+            graphViewerApplicationStream.Write("setLayoutOption \"" + optionName + "\" \"" + optionValue + "\"\n");
+            String msg = graphViewerApplicationStream.Read();
             return msg;
         }
 
@@ -375,7 +375,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public void ForceLayout()
         {
-            ycompStream.Write("layout\n");
+            graphViewerApplicationStream.Write("layout\n");
         }
 
         /// <summary>
@@ -383,7 +383,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public void Show()
         {
-            ycompStream.Write("show\n");
+            graphViewerApplicationStream.Write("show\n");
         }
 
         /// <summary>
@@ -391,13 +391,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public bool Sync()
         {
-            ycompStream.Write("sync\n");
-            return ycompStream.Read() == "sync\n";
+            graphViewerApplicationStream.Write("sync\n");
+            return graphViewerApplicationStream.Read() == "sync\n";
         }
 
         public void AddSubgraphNode(String name, String nrName, String nodeLabel)
         {
-            ycompStream.Write("addSubgraphNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n"); // -1 is for subgraph parent, could be added directly instead of a later MoveNode
+            graphViewerApplicationStream.Write("addSubgraphNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n"); // -1 is for subgraph parent, could be added directly instead of a later MoveNode
         }
         public void AddSubgraphNode(String name, String nrName, String nodeLabel, String type)
         {
@@ -406,7 +406,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void AddNode(String name, String nrName, String nodeLabel)
         {
-            ycompStream.Write("addNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n"); // -1 is for subgraph parent, could be added directly instead of a later MoveNode
+            graphViewerApplicationStream.Write("addNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n"); // -1 is for subgraph parent, could be added directly instead of a later MoveNode
         }
         public void AddNode(String name, String nrName, String nodeLabel, String type)
         {
@@ -415,13 +415,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void SetNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
         {
-            ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
+            graphViewerApplicationStream.Write("changeNodeAttr \"n" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
                 + attrTypeString + "\" \"" + attrValueString + "\"\n");
         }
 
         public void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel)
         {
-            ycompStream.Write("addEdge \"e" + edgeName + "\" \"n" + srcName + "\" \"n" + tgtName
+            graphViewerApplicationStream.Write("addEdge \"e" + edgeName + "\" \"n" + srcName + "\" \"n" + tgtName
                 + "\" \"" + edgeRealizerName + "\" \"" + edgeLabel + "\"\n");
         }
         public void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel, String type)
@@ -431,7 +431,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void SetEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
         {
-            ycompStream.Write("changeEdgeAttr \"e" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
+            graphViewerApplicationStream.Write("changeEdgeAttr \"e" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
                 + attrTypeString + "\" \"" + attrValueString + "\"\n");
         }
 
@@ -441,7 +441,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public void ChangeNode(String nodeName, String realizer)
         {
-            ycompStream.Write("changeNode \"n" + nodeName + "\" \"" + realizer + "\"\n");
+            graphViewerApplicationStream.Write("changeNode \"n" + nodeName + "\" \"" + realizer + "\"\n");
         }
 
         /// <summary>
@@ -450,12 +450,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public void ChangeEdge(String edgeName, String realizer)
         {
-            ycompStream.Write("changeEdge \"e" + edgeName + "\" \"" + realizer + "\"\n");
+            graphViewerApplicationStream.Write("changeEdge \"e" + edgeName + "\" \"" + realizer + "\"\n");
         }
 
         public void SetNodeLabel(String name, String label)
         {
-            ycompStream.Write("setNodeLabel \"n" + name + "\" \"" + label + "\"\n");
+            graphViewerApplicationStream.Write("setNodeLabel \"n" + name + "\" \"" + label + "\"\n");
         }
         public void SetNodeLabel(String name, String label, String type)
         {
@@ -464,7 +464,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void SetEdgeLabel(String name, String label)
         {
-            ycompStream.Write("setEdgeLabel \"e" + name + "\" \"" + label + "\"\n");
+            graphViewerApplicationStream.Write("setEdgeLabel \"e" + name + "\" \"" + label + "\"\n");
         }
         public void SetEdgeLabel(String name, String label, String type)
         {
@@ -473,52 +473,52 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ClearNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString)
         {
-            ycompStream.Write("clearNodeAttr \"n" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
+            graphViewerApplicationStream.Write("clearNodeAttr \"n" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
                 + attrTypeString + "\"\n");
         }
 
         public void ClearEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString)
         {
-            ycompStream.Write("clearEdgeAttr \"e" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
+            graphViewerApplicationStream.Write("clearEdgeAttr \"e" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
                 + attrTypeString + "\"\n");
         }
 
         public void DeleteNode(String nodeName)
         {
-            ycompStream.Write("deleteNode \"n" + nodeName + "\"\n");
+            graphViewerApplicationStream.Write("deleteNode \"n" + nodeName + "\"\n");
         }
 
         public void DeleteEdge(String edgeName)
         {
             // TODO: Update group relation
-            ycompStream.Write("deleteEdge \"e" + edgeName + "\"\n");
+            graphViewerApplicationStream.Write("deleteEdge \"e" + edgeName + "\"\n");
         }
 
         public void RenameNode(String oldName, String newName)
         {
-            ycompStream.Write("renameNode \"n" + oldName + "\" \"n" + newName + "\"\n"); // changes the name(==id) by which the node is accessible
+            graphViewerApplicationStream.Write("renameNode \"n" + oldName + "\" \"n" + newName + "\"\n"); // changes the name(==id) by which the node is accessible
         }
 
         public void RenameEdge(String oldName, String newName)
         {
-            ycompStream.Write("renameEdge \"e" + oldName + "\" \"e" + newName + "\"\n"); // changes the name(==id) by which the edge is accessible
+            graphViewerApplicationStream.Write("renameEdge \"e" + oldName + "\" \"e" + newName + "\"\n"); // changes the name(==id) by which the edge is accessible
         }
 
         public void ClearGraph()
         {
-            ycompStream.Write("deleteGraph\n");
+            graphViewerApplicationStream.Write("deleteGraph\n");
         }
 
         public abstract void WaitForElement(bool val);
 
         public void MoveNode(String srcName, String tgtName)
         {
-            ycompStream.Write("moveNode \"n" + srcName + "\" \"n" + tgtName + "\"\n");
+            graphViewerApplicationStream.Write("moveNode \"n" + srcName + "\" \"n" + tgtName + "\"\n");
         }
 
         public void AddNodeRealizer(String name, GrColor borderColor, GrColor color, GrColor textColor, GrNodeShape nodeShape)
         {
-            ycompStream.Write("addNodeRealizer \"" + name + "\" \""
+            graphViewerApplicationStream.Write("addNodeRealizer \"" + name + "\" \""
                                 + VCGDumper.GetColor(borderColor) + "\" \""
                                 + VCGDumper.GetColor(color) + "\" \""
                                 + VCGDumper.GetColor(textColor) + "\" \""
@@ -527,7 +527,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void AddEdgeRealizer(String name, GrColor color, GrColor textColor, int lineWidth, GrLineStyle lineStyle)
         {
-            ycompStream.Write("addEdgeRealizer \"" + name + "\" \""
+            graphViewerApplicationStream.Write("addEdgeRealizer \"" + name + "\" \""
                                 + VCGDumper.GetColor(color) + "\" \""
                                 + VCGDumper.GetColor(textColor) + "\" \""
                                 + lineWidth + "\" \""
@@ -588,7 +588,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             // the Read is used to fetch the direct response of a request which here is a graph element that may come after a certain waiting time in the form of a "send name" (otherwise responses come promptly after the request)
             // maybe intended as a general means to receive asynchronous commands/indications from the server, to be reintroduced as needed, in a working version, in its implemented form it was a broken abstraction
-            String cmd = ycompStream.Read();
+            String cmd = graphViewerApplicationStream.Read();
             if(cmd.Length < 7 || !cmd.StartsWith("send "))
                 throw new Exception("Unexpected yComp awaited element command: \"" + cmd + "\"!");
 
@@ -598,7 +598,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public override void WaitForElement(bool val)
         {
-            ycompStream.Write("waitForElement " + (val ? "true" : "false") + "\n"); // true and false without quotes, ugly exceptions of the general format and very likely a mistake, but frozen due to the frozen closed-source yComp application
+            graphViewerApplicationStream.Write("waitForElement " + (val ? "true" : "false") + "\n"); // true and false without quotes, ugly exceptions of the general format and very likely a mistake, but frozen due to the frozen closed-source yComp application
         }
 
         public override String Encode(String str)
@@ -653,13 +653,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public override String GetAwaitedElement()
         {
-            String entityName = ycompStream.Read();
+            String entityName = graphViewerApplicationStream.Read();
             return entityName.Substring(1, entityName.Length - 1); // chop off the n/e prefix from the returned entity name - potential todo: drop the n/e prefixes altogether, they are worthless
         }
 
         public override void WaitForElement(bool val)
         {
-            ycompStream.Write("waitForElement " + (val ? "\"true\"" : "\"false\"") + "\n");
+            graphViewerApplicationStream.Write("waitForElement " + (val ? "\"true\"" : "\"false\"") + "\n");
         }
 
         public override String Encode(String str)
