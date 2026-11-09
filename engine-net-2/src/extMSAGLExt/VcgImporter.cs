@@ -80,8 +80,19 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         /// </summary>
         public static string Import(string filePath, IBasicGraphViewerClient client)
         {
+            return Import(filePath, client, null);
+        }
+
+        /// <summary>
+        /// Imports a VCG file and displays it via the given client,
+        /// reporting the subaction currently executed (Loading, Parsing, Building, Laying out) to the given reporter (if not null).
+        /// Returns an error message string on failure, null on success.
+        /// </summary>
+        public static string Import(string filePath, IBasicGraphViewerClient client, Action<string> subactionReporter)
+        {
             Console.Out.WriteLine("VCG import of \"" + filePath + "\".");
 
+            ReportSubaction(subactionReporter, "Loading");
             string text; // maybe TODO: memory consumption optimization, reading entire file into memory is costly, but (building AST and) visualizing it later on will require even more memory...
             try
             {
@@ -92,7 +103,13 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             }
             catch(Exception ex) { return "Cannot read file \"" + filePath + "\": " + ex.Message; }
 
-            return ImportFromText(text, client);
+            return ImportFromText(text, client, subactionReporter);
+        }
+
+        static void ReportSubaction(Action<string> subactionReporter, string subaction)
+        {
+            if(subactionReporter != null)
+                subactionReporter(subaction);
         }
 
         public const long MaxFileSize = 1024L * 1024L * 1024L; // 1GB, the file is read into memory as a whole
@@ -116,6 +133,18 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         /// </summary>
         public static string ImportFromText(string text, IBasicGraphViewerClient client)
         {
+            return ImportFromText(text, client, null);
+        }
+
+        /// <summary>
+        /// Imports VCG text and displays it via the given client,
+        /// reporting the subaction currently executed (Parsing, Building, Laying out) to the given reporter (if not null).
+        /// Returns an error message string on a syntax error, null on success.
+        /// Constraint violations are reported to the console and do not abort the import.
+        /// </summary>
+        public static string ImportFromText(string text, IBasicGraphViewerClient client, Action<string> subactionReporter)
+        {
+            ReportSubaction(subactionReporter, "Parsing");
             VcgLexer lexer = new VcgLexer(new ANTLRStringStream(text));
             VcgParser parser = new VcgParser(new CommonTokenStream(lexer));
             VcgParserEnvironment env = new VcgParserEnvironment();
@@ -127,14 +156,15 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             if(parser.Errors.Count > 0) return "VCG parse error: " + parser.Errors[0];
             if(ast == null) return "VCG parse error: no graph found";
 
-            new VcgImporter(client, env.NodeOrSubgraphByName).BuildGraph(ast);
+            new VcgImporter(client, env.NodeOrSubgraphByName).BuildGraph(ast, subactionReporter);
             return null;
         }
 
         // ---- private implementation ----
 
-        void BuildGraph(VcgAst.Graph ast)
+        void BuildGraph(VcgAst.Graph ast, Action<string> reportSubaction)
         {
+            ReportSubaction(reportSubaction, "Building");
             client.ClearGraph();
 
             WarnAboutUnknownAttributes(ast.Attributes, "graph");
@@ -154,6 +184,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             AddEdges(ast.Children);
 
             // 4) layout
+            ReportSubaction(reportSubaction, "Laying out");
             string layoutName = GetLayout(ast.Attributes);
             client.SetLayout(layoutName);
             client.ForceLayout();

@@ -146,6 +146,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             statusLabelAction.Text = action ?? "";
             statusLabelAction.Visible = action != null;
             statusStrip.Refresh();
+            Application.DoEvents();
         }
 
         // ---- menu handlers ----
@@ -268,9 +269,9 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             receiver = null;
 
             string fullPath = Path.GetFullPath(path);
-            ShowAction("Opening file " + fullPath);
             MSAGLExtClient newMsaglExtClient = new MSAGLExtClient();
-            string error = VcgImporter.Import(fullPath, newMsaglExtClient);
+            string error = VcgImporter.Import(fullPath, newMsaglExtClient,
+                subaction => ShowAction("Opening (" + subaction + ") file " + fullPath));
             ShowAction(null);
 
             if(error != null)
@@ -365,6 +366,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 return;
             }
 
+            ShowAction("Reopening (Loading) changed file");
             string text;
             try
             {
@@ -392,13 +394,17 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 Console.Error.WriteLine("Cannot reload \"" + currentFilePath + "\": " + ex.Message);
                 return;
             }
+            finally
+            {
+                ShowAction(null);
+            }
             reloadRetries = 0;
 
             // the new graph is built in a fresh graph viewer, the previous graph stays open in case of an error
             Console.Out.WriteLine("VCG reimport of \"" + currentFilePath + "\".");
-            ShowAction("Reopening changed file");
             MSAGLExtClient newMsaglExtClient = new MSAGLExtClient();
-            string error = VcgImporter.ImportFromText(text, newMsaglExtClient);
+            string error = VcgImporter.ImportFromText(text, newMsaglExtClient,
+                subaction => ShowAction("Reopening (" + subaction + ") changed file"));
             ShowAction(null);
 
             if(error != null)

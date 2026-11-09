@@ -8,8 +8,14 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 {
     static class Program
     {
-        const string Usage = "Usage:\n  extMSAGLExt [-console] [[-autoreload] <vcg-file>]\n  extMSAGLExt [-console] -p <port>\n\n"
-            + "-console: show the error log console from the start\n-autoreload: watch the file, reload it when it changed";
+        const string Usage = "Usage:\n"
+            + "  extMSAGLExt [--console] [[--autoreload] <vcg-file>]\n"
+            + "  extMSAGLExt [--console] -p <port>\n"
+            + "  extMSAGLExt --help\n\n"
+            + "--console: show the error log console from the start\n"
+            + "--autoreload: watch the file, reload it when it changed\n"
+            + "-p <port>: listen on the given port (4242-4251) for the commands of a debugging session\n"
+            + "--help: print the available options to standard out";
 
         [STAThread]
         static void Main(string[] args)
@@ -24,11 +30,16 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
             for(int i = 0; i < args.Length; ++i)
             {
-                if(args[i] == "-console")
+                if(args[i] == "--help")
+                {
+                    Console.Out.WriteLine(Usage);
+                    return;
+                }
+                else if(args[i] == "--console")
                 {
                     showErrorLogConsole = true;
                 }
-                else if(args[i] == "-autoreload")
+                else if(args[i] == "--autoreload")
                 {
                     watchVcgFile = true;
                 }
@@ -53,9 +64,9 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 }
             }
 
-            if(watchVcgFile && vcgFile == null) // -autoreload requires a file (so it is also rejected in server mode)
+            if(watchVcgFile && vcgFile == null) // --autoreload requires a file (so it is also rejected in server mode)
             {
-                MessageBox.Show("-autoreload requires a vcg file\n" + Usage, "extMSAGLExt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("--autoreload requires a vcg file\n" + Usage, "extMSAGLExt", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
