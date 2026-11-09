@@ -19,10 +19,11 @@ The programs and libraries of \GrG\ are open source licensed under \indexed{LGPL
 Notice that the \yComp\ graph viewer is not a part of \GrG ; \yComp\ (cf. \url{https://pp.ipd.kit.edu/firm/yComp.html}) is closed source and ships with its own license granted by \yFiles\ for academic use --
 this means above all that you are not allowed to ship it with a release of your own commercial software, in contrast to the \GrG\ libraries.
 To be more specific: an academic license restricts the use of the software (\yComp) to \emph{non-commercial} purposes (research, teaching, projects, courses and application development).
-Utilizing the internal \MSAGL{} based graph viewer saves you from license issues due to its permissive MIT license, but it lacks the sophistication of \yComp{}.
+Utilizing the \MSAGL{} based graph viewers saves you from license issues due to the permissive MIT license of the MSAGL library, but they lack the sophistication of \yComp{}.
 The persistent graph is implemented (by an internal persistence provider) utilizing the SQLite database and its ADO.NET drivers, which are in the public domain.
 
-Executing a generated graph rewrite system requires .NET Framework\cite{NET} version 4.7.2 or mono\cite{MONO} version 5.10, or later (maybe complete packaging); the same holds for compiling it, building \GrG{} itself and debugging a graph rewrite system with \yComp{} in addition requires JAVA\cite{JAVAweb} version 1.8 or later. 
+Executing a generated graph rewrite system requires the .NET Framework\cite{NET} version 4.7.2 or mono\cite{MONO} version 5.10, or later versions (maybe complete packaging); the same holds for compiling/generating it.
+Building \GrG{} itself on the other hand and debugging a graph rewrite system with \yComp{} in addition requires JAVA\cite{JAVAweb} version 1.8 or later. 
 You find the binaries (tool applications and components) in the \texttt{bin} subdirectory of your \GrG\ installation.
 %tools: to be distinguished from the tools of engine-net-2
 
@@ -201,15 +202,19 @@ You find them in the \texttt{bin} directory.
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{extMSAGLExt.exe}}
 \label{tools:extMSAGLExt}
-\extMSAGLExt\indexmain{extMSAGLExt} is a graph visualization application based on the \texttt{MSAGLExt} control from \texttt{graphViewerAndSequenceDebuggerWindowsForms.dll}.
-\extMSAGLExt\ implements several graph layout algorithms and has file format support for \indexed{VCG}.
+\extMSAGLExt\indexmain{extMSAGLExt} is a graph visualization application based on the \texttt{MSAGLExt} control from \texttt{graphViewerAndSequenceDebuggerWindowsForms.dll} (and intended to be the open-source successor of \yComp\ in \GrG).
+\extMSAGLExt\ implements several graph layout algorithms (the ones offered by the Microsoft Automatic Graph Layout graph drawing library MSAGL\cite{msagl}) and supports files in \indexed{VCG} format, which is originating from the VCG\cite{vcg} tool, which in turn is based on the graph representation language GRL from the EDGE\cite{grl} tool.
 
 \begin{description}
-  \item[Usage] Usually \extMSAGLExt\ will be loaded by the \GrShell. You might want to open \extMSAGLExt\ manually by typing\\
+  \item[Usage] Usually \extMSAGLExt\ will be loaded by the \GrShell, and esp. by its debugger, it will run in server mode in the latter case. You might want to open \extMSAGLExt\ manually by typing\\
    \texttt{extMSAGLExt.exe [<graph-file>]}\\
   Or by executing the batch file \texttt{extMSAGLExt} under Linux,
   which will start \extMSAGLExt\ on the given file adding the \texttt{mono} prefix as needed.
 \end{description}
+
+The program offers a menu entry to show an error log console (and even a \texttt{--console} argument you may give at startup), this is primarily for Windows, under Linux, error message are printed on the parent console.
+When you add a \texttt{--autoreload} option before the filename, \extMSAGLExt\ is going to watch the file and reload it when it changes (this may be used when you \texttt{dump} multiple times into the same file).
+You may use the \texttt{--help} option to list all available arguments.
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{yComp.jar}}
@@ -231,6 +236,8 @@ It is well integrated and shipped with \GrG, but it's not a part of \GrG; it is 
   Use the rightmost blue play button to start the layout process. Depending on the graph size this may take a while.
   \item[Requires] Java Runtime Environment 1.5 (or above).
 \end{description}
+
+You may use the \texttt{--autoreload} option to watch a file for changes or the \texttt{--help} option to list all available arguments.
 
 \begin{note}
 If yComp doesn't start: check whether your path contains a zombie java variable from an old installation pointing to nowhere; remove it in this case.

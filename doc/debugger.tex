@@ -220,9 +220,9 @@ Notice the infotags on the \texttt{rating} and \texttt{avgRating} attributes.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{yComp Usage}
 
-\yComp\indexmain{yComp}\cite{ycomp} (a graph viewer application originally targeting compiler construction, based on the yFiles library) is the default graph viewer of GrGen, and -- when started as a server process -- can be controlled by the debugger via a TCP/IP connection.
+\yComp\indexmain{yComp}\cite{ycomp} (a graph viewer application originally targeting compiler construction, based on the yFiles\cite{yfiles} library) is the default graph viewer of GrGen, and -- when started as a server process -- can be controlled by the debugger via a TCP/IP connection.
 
-The available layouts of \yComp{} are: \texttt{Random}, \texttt{Hierarchic}, \texttt{Organic}, \texttt{Orthogonal}, \texttt{Circular}, \texttt{Tree}, \texttt{Diagonal}, \texttt{Incremental Hierarchic}, \texttt{Compilergraph}, see \ref{sec:debuggercommands} for more.
+The available layouts of \yComp{} are: \texttt{Random}, \texttt{Hierarchic}, \texttt{Organic}, \texttt{Orthogonal}, \texttt{Circular}, \texttt{Tree}, \texttt{Diagonal}, \texttt{Incremental Hierarchic}, as well as \texttt{Compilergraph}, see \ref{sec:debuggercommands} for more.
 
 Besides the things already mentioned in \ref{tools:ycomp}, we want to give the following hints:
 \begin{itemize}
@@ -236,6 +236,8 @@ Besides the things already mentioned in \ref{tools:ycomp}, we want to give the f
 	\item the context menu opened by pressing the right mouse button over a graph element allows you to explore the adjacent nodes in non-edit-mode, or delete the element in edit mode
 	\item you can search with \texttt{Ctrl-f} or \texttt{/} for the persistent name or an attribute value (or by clicking into the left search field), the matching elements get highlighted
 \end{itemize}
+
+Note that \yComp{} requires a JAVA installation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MSAGL and MSAGLExt Usage}\label{sec:MSAGL}
@@ -490,7 +492,7 @@ In addition, you may crawl the network of objects or transient objects, starting
   \texttt{t}(race) & Prints the stack trace of the current sequence call stack.
      The stack trace includes the body of each sequence called at its execution state.\\
   \texttt{f}(ull dump) & Prints the stack trace including the local variables of each stack frame plus the global variables.\\
-  (dum)\texttt{p} (graph)\label{dumpgraph} & Dumps the current graph as a \texttt{.vcg} file and shows it in yComp. 
+  (dum)\texttt{p} (graph)\label{dumpgraph} & Dumps the current graph as a \texttt{.vcg} file and shows it in \yComp{} or \extMSAGLExt{} (depending on the graph viewer configuration). 
     This can be used as a workaround to check the real state in case transaction/backtracking rollback is used on a graph with node nesting, which may lead to a buggy display.
     In addition, an \texttt{undo.log} is written with the undo commands of the open transactions for \emph{change reversal}, which would be applied on rollback.\\
   (as)-\texttt{g}(raph) & Asks for the value of the externally defined type that is to be shown in the debugger in graph form 

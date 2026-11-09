@@ -168,7 +168,7 @@ Every node supports an unbounded number of incident edges, increasing flexibilit
 
 There's one convenience not offered you might expect: a visual rule language and an editor.
 We're following a first things first policy here, and graphical debugging is a must-have, while a graphical rule editor is only nice-to-have 
-(we consider tools offering the other way round mere toys, created by people without own experience in graph-representation processing).% just praying at the altar of some visual programming theory idea.
+(we consider tools offering the other way round mere toys, created by people without own experience in graph-representation processing).
 Besides, textual languages bring some benefits on their own: graph transformation specifications to be processed by \GrG\ can be easily \emph{generated}, maybe by agentic coding tools like Claude Code\cite{claudecode}, stored in a source code management system, and \emph{textually diff'ed}.
 A graphical editor can be implemented on top of the \GrG\ languages, reading and writing their textual serialization format --- volunteers are welcome.
 Textual languages are also a good deal cheaper to implement.
@@ -211,9 +211,15 @@ The costs of developing a domain-specific language, a model as a high-level repr
 Model-based development of single applications is economical nonsense, no matter what the claimed benefits are, the costs will never pay off.
 So only large program families are left, which are few, or languages for certain infrastructure tasks that are common among multiple applications, which requires a general-purpose language for that specific domain so it can be adapted to the exact context, leading to further increased costs (as can be seen in the feature development of the GrGen language, a domain-specific language for graph-representation processing...).
 We assume there are a good deal more use cases existing for graph representation processing than for model-based development.
+Nowadays, a new twist comes in due to AI code generators, that require only natural language specifications.
 
 Many graph rewriting and model transformation tools are from the Java technical space, a few are from the .NET technical space, e.g. GraphSynth \cite{graphsynth}, some are native application e.g. written in C++ \cite{cplusplus}, but there you find more graph libraries and graph algorithm libraries than graph rewrite engines. %TODO some more cites, also add a bit on programming language design
 In contrast to many of the graph based tools, \GrG{} has a strong background in formal language processing (a realm in which parser generator tools like ANTLR \cite{antlr} are used -- we use it to implement our domain specific languages in the frontend). %sprachtechnologie ... die wurde aber um machine-learning-based natural language processing erweitert ... todo weiter ausführen
+
+Platform independence is also achieved by not using advanced language-specific features (e.g. LINQ)
+- this allows for easy/reliable automatic porting (e.g. by compiler technology as offered by the converters by Tangible Software Solutions) %better than open source converters of the same kind, but unclear verdict compared to AI
+- or single-platform frameworks (Windows Forms is also supported on Linux, WPF is not).
+%GrG is a programming language/(interactive) design tool, so cloud and mobile are not of much importance - in contrast to parser generators or graph layout libraries, that are not of much importance in other domains.
 
 \section{General-Purpose Graph Transformation}
 in contrast to \emph{model} transformation.
