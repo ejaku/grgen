@@ -1,6 +1,6 @@
 # Frontend Compiler Test Creation Guide
 
-The `test/` directory contains tests for the GrGen.NET Java frontend compiler. Each test is a `.grg` file (optionally with a companion `.gm` model file) that is compiled by the frontend. Tests are organized by expected compiler outcome.
+The `test/` directory contains tests for the GrGen.NET frontend compiler. Each test is a `.grg` file (optionally with a companion `.gm` model file) that is compiled by the frontend. Tests are organized by expected compiler outcome.
 
 ## Test Categories
 

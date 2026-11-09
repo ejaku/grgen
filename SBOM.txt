@@ -26,6 +26,10 @@ FrontendGrGen.exe: compiler frontend (formerly grgen.jar)
 - model code, pattern specification and rewrite code generation, plus sequences checking
 - ANTLR-generated parsers for the model and the actions language, as well as the sequence language (compiled embedded sequences)
 
+extMSAGLExt.exe: graph viewer application
+- graph vizualization based on the internal Windows Forms graph viewer library, which in turn is based on the MSAGL library
+- ANTLR-generated parser for VCG file import
+
 yComp.jar: JAVA graph visualization application
 - based on yFiles for graph drawing
 - utilizing ANTLR
@@ -42,7 +46,7 @@ needs libConsoleAndOS.dll, libGr.dll, lgspBackend.dll (dlls from LGPL licensed c
 Prerequisite: .NET Framework or mono
 
 Additional graph visualization by MSAGL or sequence debugging needs graphViewerAndSequencesDebugger.dll
-and graphViewerAndSequencesDebuggerWindowsForms.dll, libConsoleAndOSWindowsForms.dll
+and graphViewerAndSequencesDebuggerWindowsForms.dll plus libConsoleAndOSWindowsForms.dll
  they require Microsoft.Msagl.dll, Microsoft.Msagl.Drawing.dll, Microsoft.Msagl.GraphViewerGdi.dll, 
  plus the System.***.dlls you find in the bin folder (with exception of the SQLite one)
 Additional database persistence by SQLite needs libGrPersistenceProviderSQLite.dll
@@ -62,9 +66,11 @@ Running a generated graph rewrite system from the execution host GrShell.exe
 needs the same as "Running a generated graph rewrite system" without additions, 
 when optional functionality is needed, the according additions are required,
  GGrShell.exe requires libConsoleAndOSWindowsForms.dll in addition
-Allowed In academia: additional graph visualization by yComp, needs graphViewerAndSequencesDebugger.dll utilizing yComp.jar,
+Allowed in academia: additional graph visualization by yComp, needs graphViewerAndSequencesDebugger.dll utilizing yComp.jar,
  which requires yObf.jar, graphmlObf.jar, ysvgObf.jar, batik.jar, antlr-3.1.1.jar (graphViewerAndSequencesDebuggerWindowsForms.dll is not needed then)
 Prerequisite: JAVA (RE)
+Allowed also outside of academia: additional graph visualization by extMSAGLExt, needs graphViewerAndSequencesDebugger.dll utilizing extMSAGLExt.exe,
+ which requires graphViewerAndSequencesDebuggerWindowsForms.dll (for the MSAGLExt user control) and its dependencies plus Antlr3.Runtime.dll
 
 Developing a graph rewrite system with GrShell or GGrShell
  they automatically employ the GrGen compiler as needed (requires the dependencies of "Developing a graph rewrite system with GrGen.exe")

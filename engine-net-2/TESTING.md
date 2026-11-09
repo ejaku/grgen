@@ -18,6 +18,14 @@ cd tests && ./test.sh --mono
 Tests compare GrShell output against `.grs.data` reference files.
 High coverage but slow execution.
 
+### Test Structure
+
+Each test directory contains:
+- `.gm` - Model definition
+- `.grg` - Rules/grammar
+- `.grs` - Test script(s) — multiple scripts can share the same `.gm`/`.grg`
+- `.grs.data` - Expected output
+
 ### NUnit Tests (`unittests/`)
 
 ```bash
@@ -28,13 +36,11 @@ NUnit 3 tests that exercise the C# backend API directly (graph creation, node/ed
 The project references `libGr` and `lgspBackend` from `bin/`.
 Very limited coverage but fast execution.
 
-### Test Structure
+```bash
+cd unittests/extMSAGLExtTests && dotnet test
+```
 
-Each test directory contains:
-- `.gm` - Model definition
-- `.grg` - Rules/grammar
-- `.grs` - Test script(s) — multiple scripts can share the same `.gm`/`.grg`
-- `.grs.data` - Expected output
+NUnit 3 tests that check parts of the extMSAGLExt graph viewer application.
 
 ## Generating Tests
 

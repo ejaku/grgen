@@ -2,27 +2,31 @@ BUILDING / DEVELOPING GRGEN ITSELF
 ----------------------------------
 
 The AI onboarding CLAUDE.md should be also helpful for a human developer.
+The following explanation is split alongside the frontend and engine-net-2 folders,
+to build the complete code you may use the encompassing GrGen.sln from the root folder instead.
 
 Building the compiler frontend (FrontendGrGen.exe):
-Generate the ANTLR-parsers and build Frontend.sln (alternatively the encompassing GrGen.sln).
+Generate the ANTLR-based-parsers (genparser.bat/.sh) and build Frontend.sln.
 Antlr3.exe needed (included) for generating the model, rules/computations and embedded sequences languages parsers
  (plus Antlr3.Runtime.dll, which is also needed at runtime, for running the generated parsers)
-See also frontend/BUILDING.md.
+See frontend/BUILDING.md for more on this.
 
-Building engine-net-2 containing the GrGen.exe compiler (backend) and the (G)GrShell as well as the internal dlls:
-Generate the CSharpCC-parsers and build the EngineNet2.sln (alternatively the encompassing GrGen.sln).
+Building engine-net-2 containing the GrGen.exe compiler (backend), (G)GrShell.exe, extMSAGLExt.exe, as well as the internal dlls:
+Generate the CSharpCC-based-parsers (plus the ANTLR-based-parser, with genparsers.bat/.sh) and build EngineNet2.sln.
 csharpcc.jar needed (included) for generating the sequences, shell, and constant parsers (they require no runtime libraries)
 Prerequisite: JAVA RE in order to execute the csharpcc.jar (the JAVE RS is also needed for executing yComp)
+Also needed: Antlr3.exe (included) for generating the VCG parser of the extMSAGLExt graph viewer.
 The required external nuget packages of MSALG and SQLite are going to be downloaded by msbuild or dotnet build.
 The parser generators are included for your convenience.
-See also engine-net-2/BUILDING.md.
+You need to execute genlibs.bat to get the API example code generated.
+See engine-net-2/BUILDING.md for more on this.
 
-Prerequisites Windows: VisualStudio with msbuild, for manually building the GrGen.sln or Frontend.sln or EngineNet2.sln
- when using the cygwin build script you also need cygwin bash, then dotnet is used and required (by default)
-Prerequisites Linux: dotnet, bash (you may use VisualStudio Code as IDE then)
+Prerequisites Windows: VisualStudio with msbuild, for manually building the GrGen.sln or Frontend.sln and EngineNet2.sln
+ when you alternatively use the cygwin build script make_cygwin_windows.sh from the root folder, you also need cygwin bash, then dotnet is used and required (by default)
+Prerequisites Linux: make_linux.sh from the root folder uses dotnet, bash (you may use VisualStudio Code as IDE then)
  mono(/MonoDevelop) is outdated for development, the mdtool cannot be used for compiling anymore, but mono is still required for execution
 
-User manual building: build_cygwin.sh for Windows with cygwin bash (and sed), build for Linux, 
+User manual building (doc directory): build_cygwin.sh for Windows with cygwin bash (and sed), build for Linux, 
  employing rail.exe/rail accordingly for railroad diagram building (included for your convenience)
 Prerequisite: LaTeX distribution (MiKTeX recommended)
 
@@ -32,10 +36,11 @@ For building the API documentation, you need the Sandcastle Help File Builder.
 TESTING
 -------
 
-Here we assume the folder structure of the source code with dedicated frontend and enginge-net-2 folders,
+Here we assume the folder structure of the source code with dedicated frontend and engine-net-2 folders,
 the folder structure of the binary release (referenced in the TESTS section of the README.txt) is reduced in comparison.
 
-For the test suites we use or you may use in order to test the integrity of the releases, or for testing during development, you need bash/cygwin bash (and awk).
+For the test suites we use (or you may use) in order to test the integrity of the releases,
+or for testing during development, you need bash/cygwin bash (and awk).
 
 The compiler/syntax/frontend tests can be found in frontend/test.
 Run test.sh to execute them, it compiles the *.grg files in the should_pass, should_warn, should_fail folders,
@@ -50,12 +55,14 @@ Run gentest.sh to add a test, i.e. generate the test data file (it contains sele
 See also engine-net-2/TESTING.md and engine-net-2/TESTGENERATION.md.
 
 The engine-net-2/examples folder contains examples that can be used as smoke tests.
-Run test.sh to execute them, it writes a testlog.sh with the results (compare to the version from the scm).
+Run test.sh to execute them, it writes a testlog.sh with the results (compare it to the version from the scm).
 
-Additionally, rudimentary unit/acceptance tests can be used during development. 
+Additionally, rudimentary unit/acceptance tests can be executed during development. 
 
 The frontend unittests employing NUnit 3 can be found in frontend/unittest.
 You may use cd unittest && dotnet test in order to build the frontend and run the acceptance tests (or your favorite IDE).
 
 The engine-net-2 unittests employing NUnit 3 can be found in engine-net-2/unittests.
-You may use cd unittests/GraphAndModelTests && dotnet test in order to build and run the graph and model unit tests (or your favorite IDE).
+You may use cd unittests/GraphAndModelTests && dotnet test in order to build and run the graph and model unit tests,
+or cd unittests/extMSAGLExtTests && dotnet test in order to build and run the extMSAGLExt graph viewer application unit tests.
+Alternatively, you may run them from your favorite IDE.
