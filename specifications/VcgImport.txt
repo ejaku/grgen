@@ -189,6 +189,7 @@ The vcg file format written for extMSAGLExt is a bit simplified compared to it:
 - it omits some questionable graph attributes,
 - it uses a simplified escaping/encoding (to be found in VCGBaseDumper compared to VCGDumper),
 - it writes the layout algorithm name directly (an enum case from MSAGLLayout)
+Compatibility is more important compared to the live graph changes protocol because old files should still be openable.
 
 Note that for yComp, the "layoutalgorithm" attribute is dumped as "normal" together with a comment telling about the real yComp/yFiles-layout algorithm to use.
 The original vcg uses even different layout algorithms.

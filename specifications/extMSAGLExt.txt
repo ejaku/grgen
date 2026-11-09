@@ -9,9 +9,10 @@ It is a Windows Forms based application that offers two extensions:
 - vcg file support similar to yComp: extMSAGLExt offers to import and visualize vcg files (in the same or at least a similar way - limited to what GrGen.NET dumps).
 
 When started with an argument denoting a file path: read the according vcg file (or show an error message if a non-vcg file is given, or the file can't be found).
-When started with a -autoreload argument: watch the file, automatically reload it when it changed.
+When started with a --autoreload argument: watch the file, automatically reload it when it changed.
 When started with a -p <portnumber> argument: open a TCP server socket, listen to commands, and apply them (or show an error message if the port can't be opened).
-When started with a -console argument: show the error log console straight from the beginning.
+When started with a --console argument: show the error log console straight from the beginning.
+When started with a --help argument: print the available options to standard out.
 
 GUI:
 The main display is the MSAGLExtClient control.
@@ -36,8 +37,9 @@ Server mode ended, client disconnected
 Idle
 
 It secondarily reports the action that is currently getting executed, if any (separated from the state):
-Opening file <new path>
-Reopening changed file
+Opening (<subaction>) file <new path>
+Reopening (<subaction>) changed file
+where subaction is one of Loading, Parsing, Building, Laying out
 
 Regarding the watching state: when notified about file changes, wait a bit of time to ensure file modifications ended, before you reload the file;
 when a watched file is (finally) not available anymore because it was deleted or moved away/renamed: switch the state to not-watching (when watching is toggled on for a non-existing file switch back to not-watching - so: only existing files can be watched after).

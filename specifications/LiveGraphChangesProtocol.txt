@@ -267,6 +267,7 @@ The protocol used in communicating with extMSAGLExt should be as similar as poss
 It is, with two small bugfix deviations:
 - the encoding/escaping, the one used by yComp with XML escaping looks strange and should not be replicated; instead the escaping from ExtMSAGLExtClient.Encode should be unescaped.
 - non-quoted arguments for the waitForElement command were likely due to a mistake during a later extension, which we don't repeat here (compare WaitForElement of ExtMSAGLExtClient and YCompClient).
+Development goal: stay compatible when/where possible but don't hamper progress (sender and receiver can be changed at the same time).
 
 The live graph changes protocol is a means for local interprocess-communication. It is not a webservice. It does not support remote debugging.
 Semantic errors are typically errors of the source and must be found by the sink for sure, i.e. the graph viewer implementing the IBasicGraphViewerClient (MSAGLClient).
