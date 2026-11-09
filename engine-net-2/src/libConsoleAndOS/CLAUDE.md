@@ -23,7 +23,9 @@ None - this is the foundation library with no project dependencies.
 | `IDoEventsCaller.cs` | Interface for Windows Forms event processing (non-blocking GUI) |
 | `TwinConsoleUI.cs` | Interfaces for dual-panel UIs with separate user-dialog and data-rendering consoles (used by the debugger) (the latter console is for the main work object, typically a sequence) |
 | `TypeCreator.cs` | Runtime type creation utilities |
-| `WorkaroundManager.cs` | Platform-specific workarounds for Windows/Mono compatibility |
+| `WorkaroundManager.cs` | Platform-specific workarounds for Windows/Mono compatibility (`IWorkaround` implementations per platform) |
+| `MonoWorkaroundConsoleTextReader.cs` | Line-buffering console text reader used by the Mono workarounds (overrides `Read()`/`Peek()` too, so `ReadLine` works) |
+| `LinuxConsoleAllocator.cs` | Linux counterpart of the Windows `AllocConsole`: opens a terminal emulator window and redirects stdout/stderr into it via a named pipe (output only) |
 
 ## Key Classes
 

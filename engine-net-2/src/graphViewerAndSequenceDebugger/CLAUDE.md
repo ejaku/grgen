@@ -5,9 +5,16 @@ Core (sequence) debugger engine and graph visualization interface/abstraction/he
 ## Purpose
 
 Implements debugger functionality independent of any UI framework, plus the text-only interface with the Printers. Provides step-by-step execution, breakpoints, watchpoints, and variable inspection (based on graph change and action/pattern matched events).
-Graph visualization uses one of three viewers: yComp, an external application communicated with directly from this library; MSAGL, a .NET library that requires loading `graphViewerAndSequenceDebuggerWindowsForms.dll`; or MSAGLExt, the extended MSAGL viewer (same DLL) that adds a left pane with map overview, search, node nesting tree, and attributes pane. The three options are represented by the `GraphViewerTypes` enum (`YComp`, `MSAGL`, `MSAGLExt`) defined in `GraphViewerBaseClient.cs`.
-This library also contains code to render sequences as graphs, against the base graph visualization interface, but this is only used with the MSAGL graph viewer (rendered to the main work object view of the GuiDebuggerHost from `graphViewerAndSequenceDebuggerWindowsForms.dll`).
-When yComp is used, sequence output is printed to the main console of the shell (the regular console in GrShell, the GUI console in GGrShell).
+Graph visualization uses one of four viewers:
+- yComp, an external (Java) application communicated with directly from this library over a loopback TCP socket;
+- extMSAGLExt, an external (.NET) application (see `src/extMSAGLExt`) communicated with in the same way (it wraps the MSAGLExt viewer control in an own application, also able to display .vcg files);
+- MSAGL, an internal viewer based on the MSAGL .NET library that requires loading `graphViewerAndSequenceDebuggerWindowsForms.dll`;
+- MSAGLExt, the extended internal MSAGL viewer (same DLL) that adds a left pane with map overview, search, node nesting tree, and attributes pane.
+
+The options are represented by the `GraphViewerTypes` enum (`Undefined`, `YComp`, `MSAGL`, `MSAGLExt`, `ExtMSAGLExt`) defined in `GraphViewerBaseClient.cs` (`Undefined` = not configured yet, the shell warns and defaults to yComp).
+This library also contains code to render sequences as graphs, against the base graph visualization interface, but this is only used with the internal MSAGL/MSAGLExt graph viewers (rendered to the main work object view of the GuiDebuggerHost from `graphViewerAndSequenceDebuggerWindowsForms.dll`).
+When one of the external applications yComp or extMSAGLExt is used, sequence output is printed to the main console of the shell (the regular console in GrShell, the GUI console in GGrShell).
+Graph dumps (.vcg) written for/shown with a viewer depend on the configured viewer: the `VCGDumper` for yComp, the `VCGBaseDumper` for extMSAGLExt (both from libGr).
 The graph visualization and the debugger can be used also from API level (without libGrShell or derived applications; the same holds for the WindowsForms extension).
 
 ## Output
@@ -49,12 +56,13 @@ The graph visualization and the debugger can be used also from API level (withou
 
 | File | Size | Purpose |
 |------|------|---------|
-| `GraphViewer.cs` | 13KB | High-level helper: manages `GraphViewerClient` lifecycle (`ShowGraph`/`EndShowGraph`), registers/unregisters graph change events (add/remove/retype/attribute), static `DumpAndShowGraph` utility |
-| `GraphViewerClient.cs` | 39KB | Core graph viewer protocol layer (extends `GraphViewerBaseClient`): creates yComp or MSAGL backend (which is contained in the IBasicGraphViewerClient basicClient member), manages presentation state (dirty flags, hidden edges, included/excluded elements, realizer overrides), handles `DumpInfo` appearance change events |
+| `GraphViewer.cs` | 14KB | High-level helper: manages `GraphViewerClient` lifecycle (`ShowGraph`/`EndShowGraph`), registers/unregisters graph change events (add/remove/retype/attribute), static `DumpAndShowGraph` utility |
+| `GraphViewerBaseClient.cs` | 8KB | `GraphViewerTypes` enum; base class creating the basic graph viewer client: starts yComp/extMSAGLExt and connects the proxy to it, or creates the internal MSAGL/MSAGLExt client (via the dynamically loaded Windows Forms DLL) |
+| `GraphViewerClient.cs` | 35KB | Core graph viewer protocol layer (extends `GraphViewerBaseClient`): uses the yComp/extMSAGLExt proxy or the internal MSAGL/MSAGLExt client (which is contained in the IBasicGraphViewerClient basicClient member), manages presentation state (dirty flags, hidden edges, included/excluded elements, realizer overrides), handles `DumpInfo` appearance change events |
 | `ElementRealizers.cs` | 14KB | Defines `NodeRealizer`/`EdgeRealizer` visual styles (color, shape/line, text color) and `ElementMode` (normal, matched, created, deleted, retyped, redirected); manages the per-mode realizer sets registered with the graph viewer |
 | `GraphAnnotationAndChangesRecorder.cs` | 9KB | Records changes for highlighting |
 | `MatchMarkerAndAnnotator.cs` | 12KB | Match visualization and annotation |
-| `YCompClient.cs` | 19KB | YComp graph visualization integration |
+| `GraphViewerApplicationProxy.cs` | 26KB | External graph viewer applications: starters (`YCompStarter`, `ExtMSAGLExtStarter`, free port search in 4242-4251), socket stream, and the proxies `YCompClient`/`ExtMSAGLExtClient` (common base `GraphViewerApplicationProxy` implementing `IBasicGraphViewerClient` by sending live graph changes protocol commands) |
 
 ### Output and Highlighting
 
@@ -89,7 +97,7 @@ Parses constant values in debugger expressions:
 
 | File | Purpose |
 |------|---------|
-| `IBasicGraphViewerClient.cs` | Graph viewer client abstraction (the interface to yComp and MSAGL) |
+| `IBasicGraphViewerClient.cs` | Graph viewer client abstraction (the interface to yComp, extMSAGLExt, MSAGL, and MSAGLExt) |
 | `IBasicGraphViewerClientCreator.cs` | Factory for graph viewer clients |
 | `IBasicGraphViewerClientHost.cs` | Host for graph viewer |
 | `IDisplayer.cs` | Display interface |
@@ -120,12 +128,13 @@ Graph visualization manager:
 - Handles element highlighting
 - Manages layout updates
 
-### YCompClient
+### GraphViewerApplicationProxy (YCompClient, ExtMSAGLExtClient)
 
-Integration with YComp visualization tool:
-- External graph viewer communication
-- Sends graph updates via protocol
-- Supports interactive exploration
+Integration with the external graph viewer applications yComp and extMSAGLExt:
+- Starts the application as local server on a free port, then connects to it
+- Sends graph updates as commands of the live graph changes protocol (see `specifications/LiveGraphChangesProtocol.txt`)
+- Receives elements selected by the user when they are awaited (`ElementAvailable`/`GetAwaitedElement`), and notices a lost connection
+- The subclasses differ in the application-specific details (e.g. extMSAGLExt expects quoted arguments and MSAGL layout names)
 
 ## Debugger Features
 

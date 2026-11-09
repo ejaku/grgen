@@ -96,7 +96,7 @@ Graph import/export in multiple formats:
 - `GrgExport.cs` - Graph model export
 - `GXLImport.cs`, `GXLExport.cs` - GXL format
 - `ECoreImport.cs`, `XMIExport.cs` - ECore/XMI format
-- `DOTDumper.cs`, `VCGDumper.cs`, `GraphDumper.cs` - Visualization dump formats
+- `DOTDumper.cs`, `VCGDumper.cs`, `GraphDumper.cs` - Visualization dump formats (`VCGDumper.cs` contains the `VCGBaseDumper` writing the simplified vcg dialect read by extMSAGLExt (MSAGL layout name in `layoutalgorithm`), and the derived `VCGDumper` writing the yComp dialect)
 - `Porter.cs` - General import/export driver
 
 ### PatternsAndMatches/

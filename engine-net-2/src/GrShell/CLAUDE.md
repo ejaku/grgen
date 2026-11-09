@@ -69,7 +69,7 @@ mono GrShell.exe -N -C "exec myRule();;show graph" script.grs
 - **Graph creation/manipulation** - Create and modify graphs
 - **Rule execution** - Apply pattern matching rules
 - **Sequence execution** - Execute control flow sequences
-- **Graph display** - Show and dump graph structure and element information; both yComp and MSAGL graph viewers available (MSAGL causes GUI freeze in GrShell while the viewer window is open)
+- **Graph display** - Show and dump graph structure and element information; the external yComp and extMSAGLExt graph viewer apps as well as the internal MSAGL and MSAGLExt graph viewers are available (the internal ones cause a GUI freeze in GrShell while the viewer window is open, so prefer the external ones here)
 - **Debugging** - Console-based sequence debugging with breakpoints; visualizes matched patterns and rewrites in the graph; shows online graph changes
 - **Testing** - Compare output against expected results (when using the test bash scripts which in turn use GrShell)
 - **Recording** - Record and replay operations

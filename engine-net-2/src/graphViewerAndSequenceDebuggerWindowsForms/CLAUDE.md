@@ -5,6 +5,7 @@ Windows Forms UI layer for the GrGen.NET debugger using MSAGL graph visualizatio
 ## Purpose
 
 Provides the Windows Forms-based GUI for MSAGL-based interactive debugging. This DLL is loaded dynamically by the (G)GrShell when `debug with MSAGL` or `debug with MSAGLExt` is configured and the debugger is opened (the default is `debug with yComp`, which requires only `graphViewerAndSequenceDebugger.dll`). Two different debugger windows (host forms) are offered, the used one depends on the configuration; plus an extra graph viewer window (host form) for the (host) graph.
+The `MSAGLExtClient` control (together with the `MSAGLClient` it wraps) is also reused outside the debugger: the external graph viewer application extMSAGLExt (`src/extMSAGLExt`) references this DLL and hosts the control in its own main window.
 (Integrates/synchronizes the user queries (and action/pattern matched events the debugger is based on) with the GUI message loop.)
 
 ## Output

@@ -97,7 +97,7 @@ The grammar in `GrShell.csc` defines commands including:
 - `new :NodeType($="name", attr=value)` - Create nodes
 - `new @("srcname") -:EdgeType-> @("tgtname")` - Create edges
 - `select` - Select active backend, graph, actions
-- `show` / `dump` - Display graph information
+- `show` / `dump` / `gshow` - Display graph information
 - `validate` - Check connection assertions
 - `exec seq` - Execute sequences
 - `debug exec seq` - Enter debugger (see Debugger Shell Commands below)
@@ -108,9 +108,9 @@ The grammar in `GrShell.csc` defines commands including:
 
 ## Debugger Shell Commands
 
-The `debug` command enters debugger mode with two primary modes:
-- **debug with yComp** (default): graph rendered in external yComp app; sequence output on the shell's main console
-- **debug with MSAGL**: Windows Forms/MSAGL debugger; the host graph is always rendered in a separate extra window (outside the main debugger window with consoles); `debug set option` settings apply:
+The `debug with` command selects the graph viewer and with it the debugger mode (it also influences the `gshow` commands and vcg dumping, i.e. which vcg dialect is written and which application is started to show a dump); when it was not given, a warning is printed and yComp is used:
+- **debug with yComp** / **debug with extMSAGLExt**: graph rendered in the external yComp (Java) or extMSAGLExt (.NET) app; sequence output on the shell's main console
+- **debug with MSAGL** / **debug with MSAGLExt**: Windows Forms/MSAGL debugger; the host graph is always rendered in a separate extra window (outside the main debugger window with consoles); `debug set option` settings apply:
   - `gui true/false` - full GUI debugger window (`true`, default) or naked GUI console based host (`false`)
   - `twopane true/false` - with `gui false`: two GUI consoles for main work object + I/O/logs (`true`, default) or one console for everything (`false`)
 

@@ -21,7 +21,7 @@ See TESTING.md
 
 ```
 src/
-├── libConsoleAndOS/                      # Cross-platform console I/O abstraction (ConsoleUI, IConsoleOutput/Input, HighlightingMode); foundation, no dependencies
+├── libConsoleAndOS/                      # Cross-platform console I/O abstraction (ConsoleUI, IConsoleOutput/Input, HighlightingMode) plus platform workarounds (WorkaroundManager, LinuxConsoleAllocator); foundation, no dependencies
 ├── libConsoleAndOSWindowsForms/          # Windows Forms GUI console controls (GuiConsoleControl) implementing libConsoleAndOS interfaces; used by GGrShell and the Windows Forms/MSAGL debugger
 ├── libGr/                                # Core graph library: interfaces, sequence interpreter, and runtime helpers
 │   ├── Graph/                            # INode, IEdge, IGraph, IGraphModel; NodeType/EdgeType/ObjectType; AttributeType; BaseGraph; GraphValidator; IIndexSet

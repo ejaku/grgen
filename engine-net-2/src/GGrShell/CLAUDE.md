@@ -4,7 +4,7 @@ GUI shell for GrGen.NET with a Windows Forms interface employing a GUI console c
 
 ## Purpose
 
-Windows Forms version of GrShell. Offers the same graph manipulation and rule/sequence execution features, but not usable for automatized testing with the bash test framework (due to its GUI nature). Both yComp and MSAGL graph viewers are available; when using MSAGL, sequence debugging runs in a dedicated Windows Forms/MSAGL debugger window, whereas with yComp it runs on the console as in GrShell. MSAGL is a better fit here since the Windows Forms message loop prevents the GUI freezes that occur when using MSAGL from GrShell.
+Windows Forms version of GrShell. Offers the same graph manipulation and rule/sequence execution features, but not usable for automatized testing with the bash test framework (due to its GUI nature). The external yComp and extMSAGLExt graph viewer apps and the internal MSAGL and MSAGLExt graph viewers are available; when using MSAGL/MSAGLExt, sequence debugging runs in a dedicated Windows Forms/MSAGL debugger window, whereas with yComp/extMSAGLExt it runs on the console as in GrShell. MSAGL/MSAGLExt are a better fit here since the Windows Forms message loop prevents the GUI freezes that occur when using MSAGL from GrShell.
 
 ## Output
 
@@ -67,8 +67,8 @@ Multi-line clipboard paste: the Paste menu item creates a `ClipboardLineSource` 
 
 Offers the same features the GrShell offers, presented in a Windows Forms GUI, thus lacking the testability with the bash scripts, a few noteworthy points are:
 - **Integrated console** - GUI-based console I/O (replaces terminal)
-- **Graph viewers** - yComp, MSAGL, and MSAGLExt; MSAGL/MSAGLExt preferable here (no GUI freeze)
-- **Sequence debugger** - With MSAGL/MSAGLExt: dedicated Windows Forms debugger window; with yComp: console-based (as in GrShell)
+- **Graph viewers** - yComp, extMSAGLExt, MSAGL, and MSAGLExt; MSAGL/MSAGLExt preferable here compared to the GrShell (no GUI freeze)
+- **Sequence debugger** - With MSAGL/MSAGLExt: dedicated Windows Forms debugger window; with yComp/extMSAGLExt: console-based (as in GrShell)
 - **Multi-line clipboard paste** - File > Paste drains clipboard line-by-line via `ClipboardLineSource`; handles backslash continuation
 - **Menu** - File (Close), Edit (Paste), Help (About)
 
