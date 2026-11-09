@@ -27,7 +27,7 @@ Before you can build the solution, you have to execute \texttt{./gen\-parser.bat
 The backend is available in the \texttt{engine-net-2} subdirectory. 
 It contains a VisualStudio 2022 solution file \texttt{EngineNet2.sln} (if you want to use VisualStudio 2017, you have to remove the comments around the binding redirect of \texttt{System.Resources.Extensions} in the \texttt{app.config}s of the application projects), containing projects for the \texttt{lib\-Console\-And\-OS} environment abstraction library, the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend), the \texttt{graph\-Viewer\-And\-Sequence\-Debugger} library, the \texttt{lib\-Gr\-Shell}, the \texttt{GrGen} compiler (backend) as well as the \texttt{GrShell}.
 
-Plus the WindowsForms versions/extensions \texttt{lib\-Console\-And\-OS\-Windows\-Forms}, the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms} library employing \MSAGL{}, as well as the WindowsForms \texttt{GGrShell} application.
+Plus the WindowsForms versions/extensions \texttt{lib\-Console\-And\-OS\-Windows\-Forms}, the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms} library employing \MSAGL{}, as well as the WindowsForms \texttt{GGrShell} application and the graph viewer application \texttt{extMSAGLExt}.
 Also available is a \texttt{lib\-Gr\-Persistence\-Provider\-SQLite} (implementing the persistent graph by mapping to an SQLite database --- in contrast to the previous database-based backends it is a strictly optional extension and only read once at session start, i.e. it is esp. not used for runtime pattern matching).
 
 Before you can build the solution, you have to execute \texttt{./gen\-parsers.bat} under Windows (which will call \texttt{./src/lib\-Gr/gen\-parser.bat}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.bat}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.bat} and \texttt{./src/ext\-MSAGL\-Ext/gen\-parser.bat}), or you have to execute \texttt{./gen\-parsers.sh} under Linux (which will call \texttt{./src/lib\-Gr/gen\-parser.sh}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.sh}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.sh} and \texttt{./src/ext\-MSAGL\-Ext/gen\-parser.sh}) in order to get the CSharpCC parsers for the rewrite sequences, the constant literals, and the shell generated, as well as the ANTLR parser for the VCG importer of the \extMSAGLExt{} graph viewer.
@@ -66,7 +66,9 @@ It is split into syntactic (/frontend) tests checking language acceptance by the
 and semantic (/backend) tests checking the execution semantics of the languages.
 
 The syntactic tests reside in \texttt{frontend/test} (the \texttt{test} folder in the binary release), they are checking that example model and rule files can get compiled by \texttt{grgen} (or not compiled, or only compiled emitting warnings) and that the resulting code can get compiled by \texttt{csc}.
-The tests get executed by calling \texttt{./test.sh} or \texttt{./testpar.sh} from \texttt{bash} or \texttt{cygwin-bash} (\texttt{testpar.sh} executes them in parallel speeding up execution on multi core systems considerably, at the price of potential false positive reports); deviations from a gold standard are reported (at the time of writing, 3 mathematics tests are failing under mono/LINUX because of minor numeric differences).
+The tests get executed by calling \texttt{./test.sh} from \texttt{bash} or \texttt{cygwin-bash};
+%(\texttt{testpar.sh} executes them in parallel speeding up execution on multi core systems considerably, at the price of potential false positive reports)
+deviations from a gold standard are reported (at the time of writing, 3 mathematics tests are failing under mono/LINUX because of minor numeric differences).
 
 The semantic tests reside in \texttt{engine-net-2/tests} (the \texttt{tests} folder in the binary release), they are checking that executing example shell scripts on example models and rules yields the expected results (utilizing the outputs of the commands described in Chapter~\ref{chapvalidation}).
 They get executed by calling \texttt{./test.sh}.
@@ -513,7 +515,7 @@ This function allows keeping the backends simple.
 
 The IR classes are the input to the backend of the frontend, which can be found in the \texttt{be/Csharp} folder
 \footnote{
-The directory \texttt{be/C} is only contained in the SCM history anymore, it contains the code generator for the C based backend, which is integrated into the IPD C compiler.
+The directory \texttt{be/C} is only contained in the SCM history anymore, it contained the code generator for the C based backend, which is integrated into the IPD C compiler.
 (The compiler transforms a C program into a graph and SSA based compiler intermediate representation named FIRM using libFirm (see \url{libfirm.org}, \cite{TBL:99}, \cite{Lin:02}) and further on to x86 machine code.)
 }
 
@@ -795,14 +797,17 @@ Another shell application on top of the \LibGrShell{} is the \GGrShell{}, the gr
 
 Stepwise and graphical debugging is offered by the \texttt{Debugger.cs} and several helper classes, esp. including the \texttt{Graph\-Viewer\-Client}, which contains higher-level graph viewer functionality (with parts of the visualization configuration and the implementation of the hierarchical node grouping specification), delegating to a lower-level \texttt{basic\-Client} implementing the \texttt{IBasic\-Graph\-Viewer\-Client} interface for real graph rendering.
 Further notable is the \texttt{Graph\-Viewer} class, an auxiliary class with helper methods for viewing and dumping graph (which in turn delegates most of the tasks to the \texttt{Graph\-Viewer\-Client}).
-One of the usable basic clients implementing \texttt{IBasic\-Graph\-Viewer\-Client} is the \texttt{YComp\-Client.cs}, it communicates with the \yComp{} application with a custom protocol over a TCP connection to localhost.
+One of the usable basic clients implementing \texttt{IBasic\-Graph\-Viewer\-Client} is the \texttt{YComp\-Client.cs} (inheriting from the \texttt{Graph\-Viewer\-Application\-Proxy}), it communicates with the \yComp{} application with a custom protocol over a TCP connection to localhost.
 They are contained in the \GraphViewerAndSequenceDebugger{} library.
 
-Another graph viewer is offered by the \texttt{MSAGL\-Client.cs} and its extended version, the \texttt{MSAGL\-Ext\-Client.cs}, they also implement the \texttt{IBasic\-Graph\-Viewer\-Client} interface.
+Another (internal-only) graph viewer is offered by the \texttt{MSAGL\-Client.cs} and its extended version, the \texttt{MSAGL\-Ext\-Client.cs}, they also implement the \texttt{IBasic\-Graph\-Viewer\-Client} interface.
 They are contained in the \GraphViewerAndSequenceDebuggerWindowsForms{} library, together with the \texttt{Gui\-Debugger\-Host.cs}, which offers a GUI debugger (based on the same debugger application logic used by the console debugger, just embedded into a different hosting environment).
 
 The dlls are loaded on demand, and can be used from API level; you could implement a debugger for another GUI framework and OS with the same mechanisms.
 %maybe TODO: explain some parts in more detail
+
+The graph viewer \extMSAGLExt{} is an external application (like \yComp{}) that is based on the \texttt{MSAGL\-Ext\-Client.cs} and available as source code (in contrast to \yComp{}).
+It additionally implements VCG import, and support for nearly the same server mode/custom protocol that is offered by \yComp{}, on the client side implemented by the \texttt{Ext\-MSAGL\-Ext\-Client.cs} (also inheriting from the \texttt{Graph\-Viewer\-Application\-Proxy}).
 
 
 \subsubsection*{Further Libraries and Applications}
