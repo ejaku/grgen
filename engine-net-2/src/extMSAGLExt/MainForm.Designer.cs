@@ -103,21 +103,21 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             this.menuItemAbout.Click += new System.EventHandler(this.MenuHelpAbout_Click);
 
             // statusStrip
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.statusLabelState, this.statusLabelAction });
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.statusLabelAction, this.statusLabelState });
             this.statusStrip.Location = new System.Drawing.Point(0, 778);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1200, 22);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "statusStrip";
 
-            // statusLabelState (takes the remaining space, so the action is shown at the right)
+            // statusLabelState (takes the remaining space, the action is shown to the left of it)
             this.statusLabelState.Name = "statusLabelState";
             this.statusLabelState.Spring = true;
             this.statusLabelState.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
             // statusLabelAction
             this.statusLabelAction.Name = "statusLabelAction";
-            this.statusLabelAction.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.statusLabelAction.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.statusLabelAction.Visible = false;
 
             // idleLabel (placeholder shown instead of the graph viewer in state Idle, accepts a dropped vcg file)

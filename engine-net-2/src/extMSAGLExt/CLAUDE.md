@@ -37,14 +37,16 @@ The specifications are in `specifications/` (extMSAGLExt.txt, VcgImport.txt, Liv
 ## Command Line
 
 ```
-extMSAGLExt [-console] [[-autoreload] <vcg-file>]
-extMSAGLExt [-console] -p <port>
+extMSAGLExt [--console] [[--autoreload] <vcg-file>]
+extMSAGLExt [--console] -p <port>
+extMSAGLExt --help
 ```
 
 - `<vcg-file>`: import and display the file (an error dialog is shown when it can't be read or has syntax errors)
-- `-autoreload`: watch the file, reload it when it changed (only together with a file)
+- `--autoreload`: watch the file, reload it when it changed (only together with a file)
 - `-p <port>`: server mode, listen on the loopback address (the port must be in the range 4242-4251; an error dialog is shown if it can't be opened)
-- `-console`: show the error log console from the start
+- `--console`: show the error log console from the start
+- `--help`: print the available options to standard out
 - no arguments: idle, use File > Open... or drop a .vcg file onto the placeholder
 
 The File menu offers Open... (stops watching, closes a running debugging session, then imports the chosen vcg file), Reload file on changes (toggles watching, enabled only when a file is shown), Close (closes the shown file, back to idle), Show error log console, and Exit; the Help menu offers About... (an information message box similar to the one of the GGrShell).
@@ -101,12 +103,12 @@ Windows Forms, works on:
 
 **Windows:**
 ```
-extMSAGLExt.exe [-console] [[-autoreload] file.vcg | -p 4242]
+extMSAGLExt.exe [--console] [[--autoreload] file.vcg | -p 4242]
 ```
 
 **Linux:**
 ```bash
-mono extMSAGLExt.exe [-console] [[-autoreload] file.vcg | -p 4242]
+mono extMSAGLExt.exe [--console] [[--autoreload] file.vcg | -p 4242]
 ```
 
 Normally it is started by the GrGen debugger (`debug with extMSAGLExt` for configuration followed by the real `debug` command), which picks a free port from the range 4242-4251 and connects to it. Or from the GrShell `show graph extMSAGLExt`.
