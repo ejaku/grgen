@@ -31,7 +31,7 @@ Per-chapter `.md` summaries of the user manual, one file per `.tex` chapter. The
 - Ch. 26 `persistentstorage.md` — SQLite-backed persistent graphs, import/export, record/replay
 - Ch. 27 `debugger.md` — Visual debugger: graph visualization, stepping, breakpoints, watchpoints
 - Ch. 28 `validation.md` — Show commands, graph validation
-- Ch. 29 `toolsandcomponents.md` — GrGen.exe, GrShell, GGrShell, graph viewers, core libraries
+- Ch. 29 `toolsandcomponents.md` — GrGen.exe, GrShell, GGrShell, graph viewers (extMSAGLExt, yComp), core libraries
 - Ch. 30 `indices.md` — Attribute, incidence count, name, uniqueness indices
 - Ch. 31 `performance.md` — Search plans, rule design tips, profiling, indices, parallelization
 - Ch. 32 `examples.md` — Fractal generation, Busy Beaver Turing machine

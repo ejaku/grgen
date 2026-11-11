@@ -43,6 +43,7 @@
 - Pre-compile dlls with `ngen` (.NET) or `--aot` (mono) to reduce JIT overhead for short-running tasks
 
 ### Miscellaneous Tips
+- Persistent graph: every change is written through in its own database transaction; wrap sequences in persistence provider transactions `<: seq :>` for coarser synchronization points
 - Visited flags are most efficient for marking large numbers of elements (stored in graph element flags); but don't allow direct lookup of marked elements — use storages for that
 - All-bracketing `[r]` > sequence loops `r*` > iterated patterns (performance order)
 - Prefer `reachable*()` predicate over subpattern recursion for reachability (tighter implementation, no pushdown overhead)

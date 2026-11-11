@@ -53,7 +53,7 @@ Chapters in manual order (matching the `\include` sequence in `grgen.tex`):
 - `persistentstorage.tex` - SQLite-based persistent graph storage
 - `debugger.tex` - Visual debugger: breakpoints, stepping, match highlighting, graph visualization
 - `validation.tex` - Graph validation: connection assertions, type constraints
-- `toolsandcomponents.tex` - Overview of GrGen, GrShell, GGrShell, yComp, MSAGL components
+- `toolsandcomponents.tex` - Overview of GrGen, GrShell, GGrShell, extMSAGLExt, yComp, MSAGL components
 - `indices.tex` - Attribute indices and incidence indices for fast lookup
 - `performance.tex` - Performance tuning: search plans, profiling, optimization tips
 - `examples.tex` - Detailed example walkthroughs

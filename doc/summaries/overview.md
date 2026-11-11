@@ -11,7 +11,8 @@
 - **GrShell.exe** -- command-line shell for interactive use and scripting
 - **GGrShell.exe** -- GUI shell (Windows Forms)
 - **yComp** -- Java-based graph viewer (external, communicates via TCP)
-- **MSAGL viewer** -- Microsoft graph layout viewer (built-in alternative to yComp)
+- **MSAGL/MSAGLExt viewer** -- internal graph viewer .NET component based on the Microsoft Automatic Graph Layout library (MIT license; MSAGLExt adds a left pane); alternative to yComp
+- **extMSAGLExt** -- external graph viewer application based on MSAGLExt (open source alternative to yComp, communicates via TCP)
 
 ### Workflow
 1. Define graph model (`.gm`) and rules (`.grg`)

@@ -6,4 +6,4 @@
 - Core concept: rules specify a left-hand side (LHS) pattern to match and a right-hand side (RHS) replacement
 - Matching semantics: injective by default (each graph element matched at most once), based on graph morphisms
 - Rewriting semantics: SPO (Single Pushout) by default -- dangling edges are deleted automatically
-- Visual debugging: work directly on a visualization of your graph and rule applications; graph viewers (yComp, MSAGL) and the step-wise debugger are central to the development workflow
+- Visual debugging: work directly on a visualization of your graph and rule applications; graph viewers (yComp, extMSAGLExt, MSAGL/MSAGLExt) and the step-wise debugger are central to the development workflow

@@ -1,11 +1,21 @@
 # Visualization and Debugging
 
 ### Graph Viewers
-- `show graph ycomp` — dump graph to VCG/DOT file and open in yComp (default viewer, academic license only)
-- `show graph msagl` — show graph in built-in MSAGL viewer (MIT license, embeddable in own .NET app)
-- `show graph dot|neato|...` — dump to dot file, render with graphviz, open as PNG
+Console debugger (stdout console or WindowsForms console-like control) or GUI debugger (WindowsForms, with input/output console); graph viewer either an external application (yComp or extMSAGLExt, controlled via loopback TCP) or the internal MSAGL/MSAGLExt viewer (also usable at API level).
+- `show graph ycomp` — dump graph to VCG file and open in yComp (default viewer, academic license only, requires Java)
+- `show graph msagl|msaglext` — show graph in built-in MSAGL viewer (MIT license, embeddable in own .NET app); no file dumped, shell frozen until viewer window is closed, parameters ignored — hence discouraged for `show graph`
+- `show graph extMSAGLExt` — dump graph to VCG file and show it in the external extMSAGLExt application (based on MSAGLExt)
+- `show graph dot|neato|...` — dump to DOT file, render with graphviz, open as PNG
 - `dump graph Filename` — dump current graph to VCG file
-- `debug with yComp|MSAGL|MSAGLExt` — switch active graph viewer; MSAGLExt is the extended MSAGL with an additional left pane (map-like view, search pane, node subgraph nesting tree, attributes/properties view); search with `Ctrl-f` or `/`
+- `debug with yComp|MSAGL|MSAGLExt|extMSAGLExt` — switch active graph viewer (yComp default); MSAGLExt is the extended MSAGL with an additional left pane (map-like view, search pane, node subgraph nesting tree, attributes/properties view); search with `Ctrl-f` or `/`
+  - MSAGL/MSAGLExt: debugger displayed with a WindowsForms GUI (possibly reduced to a console-like control)
+  - yComp/extMSAGLExt: debugger runs on the stdout console of GrShell (the GUI debugger is not available with extMSAGLExt)
+
+### extMSAGLExt
+- External graph viewer application based on the internal MSAGLExt viewer; open source, may be used freely (in contrast to yComp)
+- Server mode: controlled by the console debugger via loopback TCP like yComp
+- Started with a VCG file path: imports and renders the file
+- Supports the MSAGL layouts
 
 ### Display Configuration (dump commands)
 - `dump set node/edge Type color Color` — set element colors
@@ -27,7 +37,7 @@
 - `debug eval SequenceExpression` — evaluate sequence expression under debugger
 - `debug set layout Text` — set layout algorithm
   - yComp: Random, Hierarchic, Organic, Orthogonal, Circular, Tree, Compilergraph, ...
-  - MSAGL: SugiyamaScheme, MDS, Ranking, IncrementalLayout
+  - MSAGL/MSAGLExt/extMSAGLExt: SugiyamaScheme, MDS, Ranking, IncrementalLayout
 - `debug set layout option Name Value` — set layout option
 - `debug layout` — force re-layout in yComp
 - `debug set node|edge mode Text DumpContinuation` — configure visual debug state colors (matched/created/deleted/retyped/redirected)
@@ -51,7 +61,7 @@
 - `v` (variables) — print global and local variables plus visited flags
 - `t` (trace) — print sequence call stack trace
 - `f` (full dump) — stack trace plus all local variables per frame
-- `p` (dump graph) — dump current graph to .vcg and show in yComp
+- `p` (dump graph) — dump current graph to .vcg and show in yComp or extMSAGLExt (depending on the configured graph viewer)
 - `g` (as-graph) — show external type or graph value as graph
 - `h` (highlight) — highlight graph elements by visited flag or variable
 - `j` (show object) — crawl objects/transient objects by id or variable

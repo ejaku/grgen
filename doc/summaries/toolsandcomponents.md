@@ -3,12 +3,12 @@
 ### Licensing
 - GrGen.NET libraries: LGPL (open source, may be shipped with commercial software)
 - yComp: academic/non-commercial license (not for commercial shipping)
-- MSAGL: MIT license (use freely)
+- MSAGL library: MIT license (use freely); the MSAGL-based viewers (MSAGL, MSAGLExt, extMSAGLExt) avoid yComp's license issues, but lack its sophistication
 - SQLite/ADO.NET drivers: public domain
 
 ### Runtime Requirements
 - Executing and compiling: .NET Framework 4.7.2+ or Mono 5.10+
-- Debugging with yComp: additionally Java 1.8+
+- Building GrGen itself and debugging with yComp: additionally Java 1.8+
 - Binaries are in the `bin` subdirectory
 
 ### GrGen.exe (Compiler Driver)
@@ -40,7 +40,7 @@
 
 ### GGrShell.exe (GUI Shell)
 - WindowsForms application wrapping GrShell functionality
-- Fits better with the MSAGL-based WindowsForms graphical debugger
+- Fits better with the internal MSAGL-based WindowsForms graphical debugger
 
 ### Output Assemblies
 - `lgsp-*Model.dll` -- graph model (types, attribute storage)
@@ -52,12 +52,13 @@
 - Embeddable in own .NET (or native via interop) applications to provide graph rewrite shell scripting
 
 ### graphViewerAndSequenceDebugger.dll
-- Graph display in yComp (external app via TCP connection) and console-based sequence debugging
+- Graph display in yComp or extMSAGLExt (external apps via loopback TCP connection) and console-based sequence debugging
 - Embeddable in own applications
 
 ### graphViewerAndSequenceDebuggerWindowsForms.dll
 - Extends graphViewerAndSequenceDebugger.dll with MSAGL-based in-process graph viewer and graphical sequence debugger
 - Embeddable in own applications, preferably WindowsForms applications
+- The extMSAGLExt graph viewer application is built on top of it
 
 ### lgspBackend.dll
 - LibGr SearchPlan backend: implements the libGr API together with generated assemblies
@@ -82,9 +83,18 @@
 ### MSAGL Assemblies
 Required for MSAGL graph viewer: `Microsoft.Msagl.dll`, `Microsoft.Msagl.Drawing.dll`, `Microsoft.Msagl.GraphViewerGdi.dll`, `System.Buffers.dll`, `System.Memory.dll`, `System.Numerics.Vectors.dll`, `System.Resources.Extensions.dll`, `System.Runtime.CompilerServices.Unsafe.dll`
 
+### extMSAGLExt.exe (External Graph Viewer)
+- Graph visualization application based on the MSAGLExt control from `graphViewerAndSequenceDebuggerWindowsForms.dll`; intended open-source successor of yComp in GrGen.NET
+- Layout algorithms of MSAGL; supports VCG files
+- Usually launched by GrShell/the debugger (server mode); manual: `extMSAGLExt.exe [<graph-file>]`, or the `extMSAGLExt` script on Linux (adds `mono` prefix)
+- Menu entry to show an error log console, or `--console` at startup (primarily for Windows; on Linux errors are printed on the parent console)
+- `--autoreload` (before the filename) — watch the file and reload it on changes (e.g. repeated `dump` into the same file)
+- `--help` — list all available arguments
+
 ### yComp (External Graph Viewer)
 - Java-based graph visualization tool; not part of GrGen.NET (academic license)
 - Usually launched by GrShell; manual: `java -jar yComp.jar [<graph-file>]`; or use `ycomp`/`ycomp.bat` batch scripts (with increased heap)
 - Supports VCG, GML, YGF file formats; several layout algorithms (hierarchic default; try organic or orthogonal)
 - Requires Java 1.5+; if yComp doesn't start: check for stale `java` path entries; normally a JRE suffices, but a JDK on a non-system path may help; use OpenJDK 1.8 (or Oracle Java) if newer JVM versions cause incompatibilities
 - Communicates with GrShell via TCP (port 4242+)
+- `--autoreload` to watch a file for changes; `--help` to list all available arguments

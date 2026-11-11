@@ -11,7 +11,8 @@
 - `show var Variable` -- variable content (recorded by test framework)
 
 ### Graphical Show Commands
-Graphical output via the configured graph viewer (yComp or MSAGL); not suited for test automation.
+Graphical output via the configured graph viewer (`debug with`: yComp, MSAGL, MSAGLExt, or extMSAGLExt); not suited for test automation.
+- `gshow graph` -- show the graph (in contrast to `show graph`, which requires the viewer to be specified explicitly)
 - `gshow model` -- show the graph model as a UML-like inheritance diagram
 - `gshow patterns` -- show the patterns of the current actions as a graph (edges rendered as nodes so that pattern nesting is visible)
 

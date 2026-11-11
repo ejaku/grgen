@@ -56,7 +56,7 @@ bar.Modify(graph, matches.First);    // matches.First.node_x etc. for typed acce
   - `DumpAndShowGraph` -- dump to `.vcg` file and render
 - `Debugger` class allows to execute sequence under debugger control
   - Requires `DebuggerEnvironment` and `DebuggerGraphProcessingEnvironment` configuration
-  - `GraphViewerTypes.YComp` (stdout console and external app), `GraphViewerTypes.MSAGL` (WindowsForms, internal), or `GraphViewerTypes.MSAGLExt` (extended MSAGL with left pane)
+  - `GraphViewerTypes.YComp` or `GraphViewerTypes.ExtMSAGLExt` (stdout console and external app), `GraphViewerTypes.MSAGL` (WindowsForms, internal), or `GraphViewerTypes.MSAGLExt` (extended MSAGL with left pane)
 - `libGrShell`: include GrShell functionality (execute `.grs` scripts) in own application
 - Examples: `examples-api/YCompExample`, `examples-api/DebuggerExample`, `examples-api/ShellExample`, `examples-api/ApplicationExample`
 

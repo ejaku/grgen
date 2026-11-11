@@ -4,7 +4,8 @@
 - Frontend: VisualStudio 2022 solution `frontend/Frontend.sln`; yields `FrontendGrGen.exe` (now C#, previously Java, yielding `grgen.jar`)
   - Before building: run `./genparser.sh` (Linux) or `./genparser.bat` (Windows) to generate ANTLR parsers for model/actions languages and embedded/compiled sequences
 - Backend: VisualStudio 2022 solution `engine-net-2/EngineNet2.sln`; VisualStudio 2017 requires uncommenting binding redirects in `app.config` files
-  - Before building: run `./genparsers.sh` (Linux) or `./genparsers.bat` (Windows) to generate CSharpCC parsers for sequences, constant literals, and shell
+  - Contains also the WindowsForms extensions (`libConsoleAndOSWindowsForms`, `graphViewerAndSequenceDebuggerWindowsForms` with MSAGL, `GGrShell`) and the graph viewer application `extMSAGLExt`
+  - Before building: run `./genparsers.sh` (Linux) or `./genparsers.bat` (Windows) to generate CSharpCC parsers for sequences, constant literals, and shell, as well as the ANTLR parser for the VCG importer of extMSAGLExt (`src/extMSAGLExt/genparser.*`)
 - Combined build: `GrGen.sln` builds frontend + engine-net-2 (without parser generation steps)
 - Full build Linux: `./make_linux.sh` (uses `dotnet build`; mdtool/MonoDevelop no longer works since SDK-style projects)
   - Development: VSCode + C# extension + Mono Debug extension; `dotnet` for build, `mono` still required for running/debugging (.NET Framework target)
@@ -114,4 +115,7 @@ generates matcher code from rule and pattern representations
 ### GrShell and Debugger Internals
 - `src/GrShell` and `src/libGrShell`: uses sequence interpretation + generic libGr interface (works with arbitrary models/actions at runtime)
 - Parser from `GrShell.csc`; shell implementation in `GrShellImpl.cs`; entry point in `GrShellMain.cs`; sequence execution in `GrShellSequenceApplierAndDebugger.cs`
-- Debugger: `Debugger.cs` + `YCompClient.cs` (controls yComp via TCP to localhost) + `GraphViewer.cs`
+- Debugger: `Debugger.cs` + `GraphViewer.cs` (helper for viewing/dumping) + `GraphViewerClient` (higher-level viewer functionality, delegates to a `basicClient` implementing `IBasicGraphViewerClient`), in `graphViewerAndSequenceDebugger`
+  - `YCompClient` (derived from `GraphViewerApplicationProxy`): controls yComp via custom protocol over TCP to localhost
+  - `MSAGLClient`/`MSAGLExtClient` (internal-only viewers) and `GuiDebuggerHost` (GUI debugger on the same debugger logic) in `graphViewerAndSequenceDebuggerWindowsForms`; DLLs loaded on demand, usable at API level
+  - extMSAGLExt: external application (like yComp, but source available) based on `MSAGLExtClient`, adds VCG import and nearly the same server mode/protocol as yComp; client side is `ExtMSAGLExtClient` (also derived from `GraphViewerApplicationProxy`)

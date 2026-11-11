@@ -21,4 +21,4 @@ The tutorial walks through a complete example: modeling a state machine graph th
 
 ### Debugging
 - `debug exec sequence` -- step through rule application visually
-- Graph visualization via yComp or MSAGL
+- Graph visualization via yComp, extMSAGLExt, or MSAGL/MSAGLExt
