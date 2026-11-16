@@ -40,7 +40,10 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         public string StartListening(int port)
         {
             listener = new TcpListener(IPAddress.Loopback, port);
-            try { listener.Start(); }
+            try
+            {
+                listener.Start();
+            }
             catch(Exception ex)
             {
                 return "cannot listen on port " + port + " of loopback address: " + ex.Message;
@@ -62,10 +65,22 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             commandLineInterpreter = new CommandLineInterpreter(graphClient);
 
             TcpClient tcpClient;
-            try { tcpClient = await listener.AcceptTcpClientAsync(); }
-            catch(ObjectDisposedException) { return false; } // stopped while waiting for the connection
-            catch(SocketException) { return false; }
-            finally { listener.Stop(); } // refuse any further connection attempts
+            try
+            {
+                tcpClient = await listener.AcceptTcpClientAsync();
+            }
+            catch(ObjectDisposedException) // stopped while waiting for the connection
+            {
+                return false;
+            } 
+            catch(SocketException)
+            {
+                return false;
+            }
+            finally
+            {
+                listener.Stop(); // refuse any further connection attempts
+            }
 
             connectedClient = tcpClient;
             ClientConnected?.Invoke();
@@ -78,8 +93,20 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         public void Stop()
         {
             commandLineInterpreter?.Stop();
-            try { listener?.Stop(); } catch { }
-            try { connectedClient?.Close(); } catch { }
+            try
+            {
+                listener?.Stop();
+            }
+            catch
+            {
+            }
+            try
+            {
+                connectedClient?.Close();
+            }
+            catch
+            {
+            }
         }
 
         // ---- connection loop ----
@@ -98,10 +125,20 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 while(!closed)
                 {
                     int n;
-                    try { n = await stream.ReadAsync(readBuf, 0, readBuf.Length); }
-                    catch(IOException) { break; }
-                    catch(ObjectDisposedException) { break; }
-                    if(n == 0) break;
+                    try
+                    {
+                        n = await stream.ReadAsync(readBuf, 0, readBuf.Length);
+                    }
+                    catch(IOException)
+                    {
+                        break;
+                    }
+                    catch(ObjectDisposedException)
+                    {
+                        break;
+                    }
+                    if(n == 0)
+                        break;
 
                     for(int i = 0; i < n && !closed; i++)
                     {

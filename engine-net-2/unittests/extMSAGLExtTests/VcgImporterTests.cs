@@ -444,7 +444,7 @@ namespace extMSAGLExtTests
                     stream.SetLength(VcgImporter.MaxFileSize);
                 }
 
-                Assert.IsNull(VcgImporter.CheckFileSize(path));
+                Assert.IsNull(VcgImporter.GetErrorMessageWhenFileIsTooLarge(path));
             }
             finally
             {

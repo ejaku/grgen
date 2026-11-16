@@ -46,15 +46,21 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         {
             colorByName = new Dictionary<string, GrColor>(StringComparer.Ordinal);
             for(int i = 0; i < colorNames.Length; i++)
+            {
                 colorByName[colorNames[i]] = (GrColor)i;
+            }
 
             shapeByName = new Dictionary<string, GrNodeShape>(StringComparer.Ordinal);
             for(int i = 0; i < shapeNames.Length; i++)
+            {
                 shapeByName[shapeNames[i]] = (GrNodeShape)i;
+            }
 
             lineStyleByName = new Dictionary<string, GrLineStyle>(StringComparer.Ordinal);
             for(int i = 0; i < lineStyleNames.Length; i++)
+            {
                 lineStyleByName[lineStyleNames[i]] = (GrLineStyle)i;
+            }
         }
 
         // state of one import run
@@ -96,12 +102,15 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             string text; // maybe TODO: memory consumption optimization, reading entire file into memory is costly, but (building AST and) visualizing it later on will require even more memory...
             try
             {
-                string fileSizeError = CheckFileSize(filePath);
-                if(fileSizeError != null)
-                    return fileSizeError;
+                string fileTooLargeError = GetErrorMessageWhenFileIsTooLarge(filePath);
+                if(fileTooLargeError != null)
+                    return fileTooLargeError;
                 text = File.ReadAllText(filePath);
             }
-            catch(Exception ex) { return "Cannot read file \"" + filePath + "\": " + ex.Message; }
+            catch(Exception ex)
+            {
+                return "Cannot read file \"" + filePath + "\": " + ex.Message;
+            }
 
             return ImportFromText(text, client, subactionReporter);
         }
@@ -118,7 +127,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         /// Returns an error message if the file exceeds the maximum file size of an import, null otherwise.
         /// Throws an IOException if the file can't be accessed.
         /// </summary>
-        public static string CheckFileSize(string filePath)
+        public static string GetErrorMessageWhenFileIsTooLarge(string filePath)
         {
             long fileSize = new FileInfo(filePath).Length;
             if(fileSize > MaxFileSize)
@@ -150,11 +159,20 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             VcgParserEnvironment env = new VcgParserEnvironment();
             parser.env = env;
             VcgAst.Graph ast;
-            try { ast = parser.vcgFile(); }
-            catch(RecognitionException ex) { return "VCG parse error: " + ex.Message; }
-            if(lexer.Errors.Count > 0) return "VCG parse error: " + lexer.Errors[0];
-            if(parser.Errors.Count > 0) return "VCG parse error: " + parser.Errors[0];
-            if(ast == null) return "VCG parse error: no graph found";
+            try
+            {
+                ast = parser.vcgFile();
+            }
+            catch(RecognitionException ex)
+            {
+                return "VCG parse error: " + ex.Message;
+            }
+            if(lexer.Errors.Count > 0)
+                return "VCG parse error: " + lexer.Errors[0];
+            if(parser.Errors.Count > 0)
+                return "VCG parse error: " + parser.Errors[0];
+            if(ast == null)
+                return "VCG parse error: no graph found";
 
             new VcgImporter(client, env.NodeOrSubgraphByName).BuildGraph(ast, subactionReporter);
             return null;
@@ -178,7 +196,9 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
             // 2) node attribute assignment from info1
             foreach(VcgAst.Entity entity in ast.Children)
+            {
                 ApplyNodeAttributes(entity);
+            }
 
             // 3) edges (including the ones nested in subgraphs)
             AddEdges(ast.Children);
@@ -258,7 +278,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         void ApplyNodeAttributes(VcgAst.Entity entity)
         {
             string title = GetString(entity.Attributes, "title", null);
-            if(title == null) return;
+            if(title == null)
+                return;
 
             string info1 = GetString(entity.Attributes, "info1", null);
             if(info1 != null)
@@ -266,8 +287,10 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 foreach(string line in info1.Split('\n'))
                 {
                     string trimmed = line.Trim();
-                    if(trimmed.Length == 0) continue;
-                    if(!trimmed.Contains("::")) continue; // skip non-attribute lines like "name : type"
+                    if(trimmed.Length == 0)
+                        continue;
+                    if(!trimmed.Contains("::"))
+                        continue; // skip non-attribute lines like "name : type"
                     SetAttributeFromLine(title, trimmed, false);
                 }
             }
@@ -275,7 +298,9 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             if(entity is VcgAst.Subgraph)
             {
                 foreach(VcgAst.Entity child in ((VcgAst.Subgraph)entity).Children)
+                {
                     ApplyNodeAttributes(child);
+                }
             }
         }
 
@@ -285,10 +310,19 @@ namespace de.unika.ipd.grGen.extMSAGLExt
 
             string src = GetMandatoryString(edge.Attributes, "sourcename", "edge");
             string tgt = GetMandatoryString(edge.Attributes, "targetname", "edge");
-            if(src == null || tgt == null) return;
+            if(src == null || tgt == null)
+                return;
 
-            if(!nodeByName.ContainsKey(src)) { Console.Error.WriteLine("VCG error: edge source \"" + src + "\" not found"); return; }
-            if(!nodeByName.ContainsKey(tgt)) { Console.Error.WriteLine("VCG error: edge target \"" + tgt + "\" not found"); return; }
+            if(!nodeByName.ContainsKey(src))
+            {
+                Console.Error.WriteLine("VCG error: edge source \"" + src + "\" not found");
+                return;
+            }
+            if(!nodeByName.ContainsKey(tgt))
+            {
+                Console.Error.WriteLine("VCG error: edge target \"" + tgt + "\" not found");
+                return;
+            }
 
             GrColor color = GetColor(edge.Attributes, "color", GrColor.Khaki);
             GrColor textColor = GetColor(edge.Attributes, "textcolor", GrColor.Black);
@@ -317,8 +351,10 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 foreach(string line in attrSection.Split('\n'))
                 {
                     string trimmed = line.Trim();
-                    if(trimmed.Length == 0) continue;
-                    if(!trimmed.Contains("::")) continue;
+                    if(trimmed.Length == 0)
+                        continue;
+                    if(!trimmed.Contains("::"))
+                        continue;
                     SetAttributeFromLine(edgeName, trimmed, true);
                 }
             }
@@ -328,17 +364,20 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         {
             // format: ownerType::attrName : attrTypeStr = value
             int dcIdx = line.IndexOf("::", StringComparison.Ordinal);
-            if(dcIdx < 0) return;
+            if(dcIdx < 0)
+                return;
             string ownerType = line.Substring(0, dcIdx);
 
             string rest = line.Substring(dcIdx + 2);
             int csIdx = rest.IndexOf(" : ", StringComparison.Ordinal);
-            if(csIdx < 0) return;
+            if(csIdx < 0)
+                return;
             string attrName = rest.Substring(0, csIdx);
 
             string rest2 = rest.Substring(csIdx + 3);
             int eqIdx = rest2.IndexOf(" = ", StringComparison.Ordinal);
-            if(eqIdx < 0) return;
+            if(eqIdx < 0)
+                return;
             string attrTypeStr = rest2.Substring(0, eqIdx);
             string value = rest2.Substring(eqIdx + 3);
 
@@ -437,7 +476,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         static GrColor GetColor(Dictionary<string, string> attrs, string key, GrColor defaultValue)
         {
             string s;
-            if(!TryGetEnumIdentifier(attrs, key, out s)) return defaultValue;
+            if(!TryGetEnumIdentifier(attrs, key, out s))
+                return defaultValue;
             GrColor c;
             if(!colorByName.TryGetValue(s, out c))
             {
@@ -450,7 +490,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         static GrNodeShape GetShape(Dictionary<string, string> attrs, string key, GrNodeShape defaultValue)
         {
             string s;
-            if(!TryGetEnumIdentifier(attrs, key, out s)) return defaultValue;
+            if(!TryGetEnumIdentifier(attrs, key, out s))
+                return defaultValue;
             GrNodeShape shape;
             if(!shapeByName.TryGetValue(s, out shape))
             {
@@ -463,7 +504,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         static GrLineStyle GetLineStyle(Dictionary<string, string> attrs, string key, GrLineStyle defaultValue)
         {
             string s;
-            if(!TryGetEnumIdentifier(attrs, key, out s)) return defaultValue;
+            if(!TryGetEnumIdentifier(attrs, key, out s))
+                return defaultValue;
             GrLineStyle ls;
             if(!lineStyleByName.TryGetValue(s, out ls))
             {
@@ -477,7 +519,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
         static int GetInt(Dictionary<string, string> attrs, string key, int defaultValue, int minValue, int maxValue)
         {
             string s;
-            if(!attrs.TryGetValue(key, out s)) return defaultValue;
+            if(!attrs.TryGetValue(key, out s))
+                return defaultValue;
             int v;
             if(!int.TryParse(s, out v))
             {

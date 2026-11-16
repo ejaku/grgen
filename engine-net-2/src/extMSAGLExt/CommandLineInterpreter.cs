@@ -200,7 +200,9 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                     {
                         // poll the UI-thread CommandAvailable flag; each await yields to the message pump
                         while(!stopped && !client.ElementAvailable && !client.ConnectionLost)
+                        {
                             await Task.Delay(10);
+                        }
                         if(!stopped && !client.ConnectionLost)
                         {
                             string response = client.GetAwaitedElement();

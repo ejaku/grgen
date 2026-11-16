@@ -158,7 +158,8 @@ namespace de.unika.ipd.grGen.extMSAGLExt
                 dlg.Title = "Open VCG File";
                 dlg.Filter = "VCG files (*.vcg)|*.vcg|All files (*.*)|*.*";
                 dlg.DefaultExt = "vcg";
-                if(dlg.ShowDialog(this) != DialogResult.OK) return;
+                if(dlg.ShowDialog(this) != DialogResult.OK)
+                    return;
                 OpenFile(dlg.FileName);
             }
         }
@@ -370,10 +371,10 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             string text;
             try
             {
-                string fileSizeError = VcgImporter.CheckFileSize(currentFilePath);
-                if(fileSizeError != null)
+                string fileTooLargeError = VcgImporter.GetErrorMessageWhenFileIsTooLarge(currentFilePath);
+                if(fileTooLargeError != null)
                 {
-                    Console.Error.WriteLine("Reload refused, keeping the previous graph: " + fileSizeError);
+                    Console.Error.WriteLine("Reload refused, keeping the previous graph: " + fileTooLargeError);
                     return;
                 }
                 text = File.ReadAllText(currentFilePath);
