@@ -263,7 +263,7 @@ namespace de.unika.ipd.grGen.libGr
                 recordingState.writer.WriteLine();
                 recordingState.writer.Write(deferredInits.ToString());
             }
-            recordingState.writer.Write("@@(\"" + mainExportContext.GetOrAssignPersistentName((IObject)owner) + "\")." + attrType.Name + " = ");
+            recordingState.writer.Write("*(\"" + mainExportContext.GetOrAssignPersistentName((IObject)owner) + "\")." + attrType.Name + " = ");
         }
 
         /// <summary>

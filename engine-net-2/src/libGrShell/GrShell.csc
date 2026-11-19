@@ -444,6 +444,12 @@ ElementDef ObjectAttributeValue():
 |
     "@@" "(" objName=WordOrText() ")"
     {
+        ConsoleUI.errorOutWriter.WriteLine("Warning: the syntax @@(\"object-name\") is deprecated and is going to be dropped in the next release - please replace it by *(\"object-name\")!");
+        return new ElementDef(objName, null, null, null);
+    }
+|
+    "*" "(" objName=WordOrText() ")"
+    {
         return new ElementDef(objName, null, null, null);
     }
 }
@@ -495,6 +501,12 @@ object AttributeOrObjectAttributeValue():
     }
 |
     "@@" "(" objName=WordOrText() ")"
+    {
+        ConsoleUI.errorOutWriter.WriteLine("Warning: The syntax @@(\"object-name\") is deprecated and is going to be dropped in the next release - please replace it by *(\"object-name\")!");
+        return new ElementDef(objName, null, null, null);
+    }
+|
+    "*" "(" objName=WordOrText() ")"
     {
         return new ElementDef(objName, null, null, null);
     }
@@ -675,7 +687,13 @@ IAttributeBearer GraphElementOrClassObject():
 }
 {
     (
-        "@@" "(" str=WordOrText() ")" { owner = impl.GetClassObjectByName(str); }
+        "@@" "(" str=WordOrText() ")"
+        {
+            ConsoleUI.errorOutWriter.WriteLine("Warning: The syntax @@(\"object-name\") is deprecated and is going to be dropped in the next release - please replace it by *(\"object-name\")!");
+            owner = impl.GetClassObjectByName(str);
+        }
+    |
+        "*" "(" str=WordOrText() ")" { owner = impl.GetClassObjectByName(str); }
     |
         "@" "(" str=WordOrText() ")" { owner = impl.GetElemByName(str); }
     |
@@ -780,7 +798,13 @@ IObject Object():
 }
 {
     (
-        "@@" "(" str=WordOrText() ")" { obj = impl.GetClassObjectByName(str); }
+        "@@" "(" str=WordOrText() ")"
+        {
+            ConsoleUI.errorOutWriter.WriteLine("Warning: The syntax @@(\"object-name\") is deprecated and is going to be dropped in the next release - please replace it by *(\"object-name\")!");
+            obj = impl.GetClassObjectByName(str);
+        }
+    |
+        "*" "(" str=WordOrText() ")" { obj = impl.GetClassObjectByName(str); }
     |
         str=Variable() { obj = impl.GetClassObjectByVar(str); }
     )

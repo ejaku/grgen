@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using de.unika.ipd.grGen.libConsoleAndOS;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -32,6 +33,7 @@ namespace de.unika.ipd.grGen.libGr
         RPARENTHESIS, //)
         AT, //@
         ATAT, //@@
+        STAR, //*
         LANGLE, //<
         RANGLE, //>
         LBRACE, //{
@@ -278,6 +280,7 @@ namespace de.unika.ipd.grGen.libGr
                     break;
                 case TokenKind.AT:
                 case TokenKind.ATAT:
+                case TokenKind.STAR:
                     ParseDeferredAttributeAssignment();
                     break;
                 default:
@@ -418,6 +421,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             IAttributeBearer owner;
             if(LookaheadToken()==TokenKind.ATAT)
+                owner = ParseDeprecatedClassObjectElement();
+            else if(LookaheadToken()==TokenKind.STAR)
                 owner = ParseClassObjectElement();
             else //if(LookaheadToken()==TokenKind.AT)
                 owner = ParseGraphElement();
@@ -671,10 +676,21 @@ namespace de.unika.ipd.grGen.libGr
             return GetElemByName(elemName); // todo: error message on null instead of later null pointer exception; in the function returning the object (instead of at all the using places)
         }
 
-        private IObject ParseClassObjectElement()
+        private IObject ParseDeprecatedClassObjectElement()
         {
             // atat lparen Text rparen
             Match(TokenKind.ATAT);
+            ConsoleUI.errorOutWriter.WriteLine("Warning: the syntax @@(\"object-name\") is deprecated and is going to be dropped in the next release - please replace it by *(\"object-name\")!");
+            Match(TokenKind.LPARENTHESIS);
+            string elemName = ParseText();
+            Match(TokenKind.RPARENTHESIS);
+            return graphToObjectNamerAndIndexer[graph].GetObject(elemName); // todo: error message on null instead of later null pointer exception; in the function returning the object (instead of at all the using places)
+        }
+
+        private IObject ParseClassObjectElement()
+        {
+            // star lparen Text rparen
+            Match(TokenKind.STAR);
             Match(TokenKind.LPARENTHESIS);
             string elemName = ParseText();
             Match(TokenKind.RPARENTHESIS);
@@ -1726,6 +1742,10 @@ namespace de.unika.ipd.grGen.libGr
                         return FoundToken(TokenKind.ATAT);
                     }
                     return FoundToken(TokenKind.AT);
+
+                case '*':
+                    EatChar();
+                    return FoundToken(TokenKind.STAR);
 
                 case '<':
                     EatChar();

@@ -12,12 +12,12 @@ exec { ::t4 = new T4() }
 
 node type @("$0") is @("$2")
 edge type @("$1") is @("$3")
-object type @@("%0") is @@("%1")
+object type *("%0") is *("%1")
 transient object type t1 is t4
 
 node type @("$2") is @("$0")
 edge type @("$3") is @("$1")
-object type @@("%1") is @@("%0")
+object type *("%1") is *("%0")
 transient object type t4 is t1
 
 quit

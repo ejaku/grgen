@@ -551,7 +551,7 @@ restart:
             else
             {
                 String persistentName = mainGraphContext.GetOrAssignPersistentName((IObject)owner);
-                sw.Write("@@(\"{0}\").{1} = ", persistentName, attrType.Name);
+                sw.Write("*(\"{0}\").{1} = ", persistentName, attrType.Name);
             }
 
             StringBuilder deferredInits = new StringBuilder();
@@ -572,7 +572,7 @@ restart:
             ObjectType objType, IObject obj, INamedGraph graph, StreamWriter sw, StringBuilder deferredInits)
         {
             if(mainGraphContext.HasPersistentName(obj))
-                sw.Write("@@(\"{0}\")", mainGraphContext.GetOrAssignPersistentName(obj));
+                sw.Write("*(\"{0}\")", mainGraphContext.GetOrAssignPersistentName(obj));
             else
                 EmitObjectCreation(mainGraphContext, objType, obj, graph, sw, deferredInits);
         }
