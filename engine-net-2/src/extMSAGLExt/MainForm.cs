@@ -207,6 +207,7 @@ namespace de.unika.ipd.grGen.extMSAGLExt
             MessageBox.Show("This is the extMSAGLExt graph viewer application from the GrGen.NET graph rewrite system.\n"
                 + "Call it (from the command line) with the .vcg file that you want to display as argument.\n"
                 + "The server mode for the GrGen.NET debugger is started from the GrShell (configure it with: debug with extMSAGLExt).\n"
+                + "This software is based on the MSAGL (Microsoft Automatic Graph Layout) library.\n"
                 + "Regarding licenses, see LICENSE.txt included in the packaging of this application.\n"
                 + "Also see http://www.grgen.de", "About extMSAGLExt", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
