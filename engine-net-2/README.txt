@@ -1,6 +1,6 @@
 In order to compile GrGen.NET you first have to execute "genparser.bat"
-in the subfolders src/libGr, src/libGrShell and src/graphViewerAndSequenceDebugger.
-This will generate necessary C# files from .csc files.
+in the subfolders src/libGr, src/libGrShell, src/graphViewerAndSequenceDebugger and src/extMSAGLExt.
+This will generate necessary C# files from .csc files and .g files.
 
 After compilation, you should execute "editbin.bat".
 (This will e.g. increase maximum stack size to allow for deeper pattern matching.)

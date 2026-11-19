@@ -1,4 +1,39 @@
-﻿v8.1 (2026-05-14)
+﻿v8.6 (2026-11-??)
+ Ported the compiler frontend from JAVA to C#
+  its name changed from grgen.jar to FrontendGrGen.exe
+
+ Implemented an external MSAGL extended graph viewer,
+  the extMSAGLExt.exe application found in the bin directory is a WindowsForms GUI application
+  - it offers to load vcg files (and potentially to watch them for changes, automatically reloading them in this case)
+    (the VCG files that are dumped when it is configured as graph viewer 
+     are a bit simplified compared to the ones dumped for yComp)
+  - and a server mode that allows the GrGen.NET debugger from the GrShell to use it as a remote controlled graph viewer
+    (speaking a debugging protocol that is very similar to the one from yComp)
+ It is a less feature-rich but open-source drop-in replacement for yComp based on .NET/MSAGL instead of Java/yFiles
+
+ Consequence: Java is not needed anymore for using GrGen.NET, it is only needed for yComp (or generating some of the GrGen.NET parsers)
+
+ Purged the C backend and removed outdated compiler frontend options
+
+ Implemented panning with the middle mouse button in MSAGLExt
+
+ Implemented a gshow graph command in the (G)GrShell showing the graph with the currently configured graph viewer (debug with XXX)
+
+ A warning message is shown to the user when the debugger/graph viewer type is not set (with the debug with command)
+  when the debugger is started (or the gshow or the dump graph command is used)
+
+ Changed the syntax of object access in the (G)GrShell and the grs importer/exporter from @@("name/id") to *("name/id")
+  deprecated the old syntax which yields now a warning and is going to be dropped in the future
+
+ Some smaller user interface improvements
+
+ Bugfix: fixed mono Linux user queries in the console debugger
+
+ User manual adaptations
+
+--------------------------------------------------------------------------------------------------------
+
+v8.1 (2026-05-14)
  Implemented an extended MSAGL graph viewer
   compared to MSAGL, it offers an additional left pane similar to yComp,
   with a map-like view, a search pane, a node subgraph nesting tree, and an attributes/properties view

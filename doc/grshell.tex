@@ -94,10 +94,10 @@ In order to describe the commands more precisely, the following (semantic) speci
 
 \makeatletter
 \begin{rail}
-  Object: Text | ('@@' '(' Text ')')
-\end{rail}\indexmain{\texttt{"@"@}}\ixnterm{Object}
+  Object: Text | ('*' '(' Text ')')
+\end{rail}\indexmain{\texttt{*}}\ixnterm{Object}
 \makeatother
-The \emph{Object} requires the corresponding object to be an internal class object. The atat-notation references by unique id, otherwise a variable name is used.
+The \emph{Object} requires the corresponding object to be an internal class object. The star-notation references by unique id, otherwise a variable name is used.
 
 \makeatletter
 \begin{rail}
