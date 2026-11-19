@@ -30,7 +30,7 @@
 - `show profile [Action]` — show profiling info for one action or all rules/tests
 
 ### Variables
-- `var = value` — assign variable (implicit declaration); value can be: another variable, entity by name (`@("name")`), entity by unique id (`@@("id")`), or literal
+- `var = value` — assign variable (implicit declaration); value can be: another variable, graph element by persistent name (`@("name")`), internal class object by unique id name (`*("id")`), or literal
 - Shell variables are the same as graph-global variables; accessible in sequences/rule language with `::v` prefix
 - `show var Variable` — print variable value (or entity identifier for references)
 - `askfor` — wait for user to press enter
