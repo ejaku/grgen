@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-
-/*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
+﻿/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 8.6
  * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
  * www.grgen.de / www.grgen.net
@@ -16,6 +12,9 @@ using System.Text;
 
 namespace de.unika.ipd.grgen.be.Csharp
 {
+	using System.Collections.Generic;
+	using System.Diagnostics;
+	using System.Text;
 
 	using CopyKind = de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode.CopyKind;
 	using de.unika.ipd.grgen.ir;
