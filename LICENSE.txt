@@ -48,7 +48,6 @@ Regarding antlr-3.1.1.jar a BSD-like license holds, see ANTLR3.txt.
 Regarding the MSAGL (Microsoft Automatic Graph Layout library) the following holds:
 Copyright (c) Microsoft Corporation. 
 It is available under an MIT License, see the MIT_of_MSAGL.txt in the licenses folder.
-Imported via nuget package Microsoft.Msagl.GraphViewerGDI 1.1.7
 
 --------
 
@@ -56,12 +55,10 @@ Graph persistence is implemented using SQLite.
 The code and documentation in System.Data.SQLite as well as SQLite proper have been dedicated to the public domain.
 The System.Data.SQLite.Linq and System.Data.SQLite.EF6 assemblies are compiled from files covered by the Microsoft Public License (MS-PL)
 - but they are not used in implementing graph persistence.
-Imported via nuget package System.Data.SQLite 2.0.4 and SourceGear.sqlite3 3.53.4
 
 --------
 
-The compiler frontend FrontendGrGen.exe employs ANTLR 3.5.0.2 .NET version
- from https://theantlrguy.atlassian.net/wiki/spaces/ANTLR3/pages/2686980/Antlr3CSharpReleases
+The compiler frontend FrontendGrGen.exe employs ANTLR 3 .NET version.
 This means: it needs Antlr3.Runtime.dll at runtime
 And at compile time Antlr3.exe (which also needs the runtime)
  It is contained in the frontend sources, the runtime in the bin folder
@@ -72,19 +69,16 @@ The jargs library is used in FrontendGrGen.exe for parsing the command line argu
 
 --------
 
-Regarding the CSharpCC 3.2 binary (likely a home-brew version by Moritz Kroll of MinosseCC,
- described at https://www.codeproject.com/articles/MinosseCC-a-lexer-parser-generator-for-C-#comments-section by Antonello Provenzano,
- you may find it in the internet archive when searching for http://www.codeproject.com/Articles/11632/MinosseCC-a-lexer-parser-generator-for-C)
-most likely a BSD-like license holds, see CSharpCC.txt and JavaCC.txt (the build is from 2008-03-10).
+Regarding the CSharpCC 3.2 binary most likely a BSD-like license holds, see CSharpCC.txt and JavaCC.txt.
  (CSharpCC is only needed when building GrGen.NET itself, only generated code is used at runtime
   (for the shell parser, the sequences parser, a constant literals parser)
   So the exact license text is only available in the source code repository.)
 
-Regarding NUnit (3.12.0) used for testing the engine-net-2 C# classes the license NUnit.txt holds.
+Regarding NUnit used for testing the engine-net-2 C# classes the license NUnit.txt holds.
 Regarding the NUnit3TestAdapter used for testing the engine-net-2 C# classes the MIT license holds, see MIT_of_NUnit3TestAdapter.txt.
  (They are only needed when unit-testing GrGen.NET itself, when developing it.
  So the exact license text is only available in the source code repository.)
-Imported via nuget package NUnit 3.12.0 and NUnit3TestAdapter 6.1.0 (plus Microsoft.NET.Test.Sdk 16.5.0 which comes with a MIT license)
+ (Microsoft.NET.Test.Sdk comes with a MIT license.)
 
 --------
 

@@ -32,9 +32,10 @@ extMSAGLExt.exe: graph viewer application
 
 yComp.jar: JAVA graph visualization application
 - based on yFiles for graph drawing
-- utilizing ANTLR
+- utilizing Java ANTLR
 
-The following section goes into detail regarding the exact files, as does the LICENSE.txt, the latter lists the licenses that apply to the components.
+The following section goes into detail regarding the exact files, plus the version numbers and package sources.
+LICENSE.txt lists the licenses that apply to the components (/files).
 
 
 USAGE SCENARIOS AND DEPENDENCIES
@@ -53,13 +54,18 @@ Additional database persistence by SQLite needs libGrPersistenceProviderSQLite.d
  they require System.Data.SQLite.dll, and e_sqlite3.dll for Windows (x64) or libe_sqlite3.so for Linux (x64)
 Additional shell script execution/shell functionality needs libGrShell.dll
 
+MSAGL: Imported via nuget package Microsoft.Msagl.GraphViewerGDI 1.1.7
+SQLite: Imported via nuget package System.Data.SQLite 2.0.4 and SourceGear.sqlite3 3.53.4
+
 In order to visualize graphs with graphviz, you have to install the corresponding package and make the programs available in the search path.
 
 Developing a graph rewrite system with GrGen.exe (compilation without debugging)
  model and actions specification files are compiled with GrGen to model and actions dlls
 This needs the same as "Running a generated graph rewrite system" without additions,
-additionally the GrGen compiler frontend Frontend.exe is required,
+additionally the GrGen compiler frontend FrontendGrGen.exe is required,
 it needs Antlr3.Runtime.dll (and utilizes a C# port of the jargs library from https://github.com/purcell/jargs)
+
+Antlr3.Runtime.dll (FrontendGrGen.exe and extMSAGLExt.exe): ANTLR .NET version 3.5.0.2 from https://theantlrguy.atlassian.net/wiki/spaces/ANTLR3/pages/2686980/Antlr3CSharpReleases
 
 Running a generated graph rewrite system from the execution host GrShell.exe
  as an interactive workbench application or a script execution host
@@ -72,14 +78,27 @@ Prerequisite: JAVA (RE)
 Allowed also outside of academia: additional graph visualization by extMSAGLExt, needs graphViewerAndSequencesDebugger.dll utilizing extMSAGLExt.exe,
  which requires graphViewerAndSequencesDebuggerWindowsForms.dll (for the MSAGLExt user control) and its dependencies plus Antlr3.Runtime.dll
 
+yComp.jar requires antlr-3.1.1.jar (https://www.antlr3.org/download.html, https://pp.ipd.kit.edu/firm/yComp.html).
+
 Developing a graph rewrite system with GrShell or GGrShell
  they automatically employ the GrGen compiler as needed (requires the dependencies of "Developing a graph rewrite system with GrGen.exe")
  (it works like a mini-make, following the includes and checking the file dates)
  (for debugging, the according graph visualization/sequence debugger additions are employed)
 
+----------------
 
 Developing GrGen itself requires the source code from the public git repository at https://github.com/ejaku/grgen
 You may also build it locally to gain access to the debug symbols and source level diagnostics in case of crashes,
 or in order to be able to use the newest features before an official release.
 Then you need further components, as explained in BUILDING_AND_TESTING.txt (sources only).
 The most complete source of documentation, the user manual, also contains a chapter on "Understanding and Extending GrGen.NET".
+
+It requires at compile time Antlr3.exe, which is contained, the same source and version information as for the Antlr3.Runtime.dll applies.
+
+It requires the CSharpCC parser generator, which is contained, the CSharpCC 3.2 binary
+is likely a home-brew version of MinosseCC built at 2008-03-10 by Moritz Kroll
+(described at https://www.codeproject.com/articles/MinosseCC-a-lexer-parser-generator-for-C-#comments-section by Antonello Provenzano,
+ you may find it in the internet archive when searching for http://www.codeproject.com/Articles/11632/MinosseCC-a-lexer-parser-generator-for-C).
+
+NUnit and NUnit3TestAdapter used for testing:
+Imported via nuget package NUnit 3.12.0 and NUnit3TestAdapter 6.1.0 (plus Microsoft.NET.Test.Sdk 16.5.0)
