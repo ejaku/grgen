@@ -18,7 +18,7 @@ namespace de.unika.ipd.grGen.grShell
 {
     public class GrShellDriver
     {
-        public const String VersionString = "v8.1";
+        public const String VersionString = "v8.6";
 
         // stack of token sources, for a new file included, a new token source is created, while the old ones are kept so we can restore its state
         public readonly Stack<GrShellTokenManager> tokenSources = new Stack<GrShellTokenManager>();
