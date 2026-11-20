@@ -3455,7 +3455,7 @@ actionIdentDecl returns [ IdentNode res = ParserEnvironment.DummyIdent ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.Define(ParserEnvironment.ACTIONS, i.Text, getCoords(i))); }
 		( annots=annotations { res.Annotations = annots; } )?
-		//{ if (res.getAnnotations() is EmptyAnnotations) { res.setAnnotations(new DefaultAnnotations()); } } // uncomment to parallelize everything as far as possible, for testing
+		//{ if (res.Annotations is EmptyAnnotations) { res.Annotations = new DefaultAnnotations(); } } // uncomment to parallelize everything as far as possible, for testing
 	;
 
 altIdentDecl returns [ IdentNode res = ParserEnvironment.DummyIdent ]

@@ -328,7 +328,7 @@ namespace de.unika.ipd.grgen.ir
 		{
 			foreach(Model model in models)
 			{
-				//model.forceFunctionsParallel(); // comment out to parallelize everything as far as possible, for testing - don't forget "uncomment to parallelize everything as far as possible, for testing"
+				//model.ForceFunctionsParallel(); // comment out to parallelize everything as far as possible, for testing - don't forget "uncomment to parallelize everything as far as possible, for testing"
 				PostPatchIR(model);
 				foreach(PackageType pt in model.Packages)
 					PostPatchIR(pt);
@@ -361,9 +361,9 @@ namespace de.unika.ipd.grgen.ir
 
 		public static void PostPatchIR(ActionsBearer bearer)
 		{
-			/*for(Rule actionRule : bearer.getActionRules()) {
-				if(!actionRule.getAnnotations().containsKey("parallelize")) // uncomment to parallelize everything as far as possible, for testing
-					actionRule.getAnnotations().put("parallelize", 2); // don't forget "comment out to parallelize everything as far as possible, for testing"
+			/*foreach(Rule actionRule in bearer.ActionRules) {
+				if(!actionRule.Annotations.ContainsKey("parallelize")) // uncomment to parallelize everything as far as possible, for testing
+					actionRule.Annotations.Put("parallelize", 2); // don't forget "comment out to parallelize everything as far as possible, for testing"
 			}*/
 		}
 
