@@ -24,7 +24,7 @@
             If null, Orthogonal is used.</param>
             <param name="layoutOptions">An dictionary mapping layout option names to their values.
             It may be null, if no options are to be applied.</param>
-            <param name="basicGraphViewerClientHost">An optional basic graph viewer client host, in case the graph viewer type MSAGL is requested, the MSAGL graph viewer form is added to that form (YComp is a standalone application).</param>
+            <param name="basicGraphViewerClientHost">An optional basic graph viewer client host, in case the graph viewer type MSAGL/MSAGLExt is requested, the MSAGL graph viewer form is added to that form (YComp/extMSAGLExt are standalone applications).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.Close">
             <summary>
@@ -33,11 +33,11 @@
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.SetLayoutOption(System.String,System.String)">
             <summary>
-            Sets a layout option for the current layout in yComp/MSAGL.
+            Sets a layout option for the current layout in the graph viewer.
             </summary>
             <param name="optionName">The name of the option.</param>
             <param name="optionValue">The new value for the option.</param>
-            <returns>True, iff yComp/MSAGL did not report an error.</returns>
+            <returns>True, iff the graph viewer did not report an error.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.GetParentSequence(de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
@@ -103,7 +103,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseGraphElement">
             <summary>
-            returns the id/persistent name of a node/edge chosen by the user in yComp/MSAGL
+            returns the id/persistent name of a node/edge chosen by the user in the graph viewer
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseValue(System.String,de.unika.ipd.grGen.libGr.Sequence)">
@@ -124,13 +124,13 @@
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.DebugSwitchToGraph(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            informs debugger about the change of the graph, so it can switch yComp/MSAGL display to the new one
+            informs debugger about the change of the graph, so it can switch the graph viewer display to the new one
             called just before switch with the new one, the old one is the current graph
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.DebugReturnedFromGraph(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            informs debugger about the change of the graph, so it can switch yComp/MSAGL display to the new one
+            informs debugger about the change of the graph, so it can switch the graph viewer display to the new one
             called just after the switch with the old one, the new one is the current graph
             </summary>
         </member>
@@ -230,7 +230,7 @@
             <summary>
             helper class to
             - employ a graph viewer client from an own program 
-            - dump a graph in vcg format and then show it with yComp or dump a graph in dot format and show it with graphviz, also utilized internally
+            - dump a graph in vcg format and then show it with yComp or extMSAGLExt, or dump a graph in dot format and show it with graphviz, also utilized internally
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewer.IsDotExecutable(System.String)">
@@ -252,7 +252,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewer.ShowVcgGraph(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerGraphProcessingEnvironment,System.String,System.String,System.String,System.Boolean)">
             <summary>
-            Shows the graph dumped in vcg format with the renderer specified by programName (typically yComp), plus the arguments.
+            Shows the graph dumped in vcg format with the renderer specified by programName (typically yComp, potentially extMSAGLExt), plus the arguments.
             The .vcg file is deleted if !keep (the return value is the filename of the vcg file).
             </summary>
         </member>
@@ -262,17 +262,156 @@
             </summary>
             <param name="obj">A ShowGraphParam object</param>
         </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationStarter">
+            <summary>
+            Base class for starting the graph viewer application server (on a specific socket)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationStarter.GetFreeTCPPort">
+            <summary>
+            Searches for a free TCP port in the range 4242-4251.
+            To be called in order to obtain a free port to i) start the graph viewer application server at ii) communicate with it.
+            </summary>
+            <returns>A free TCP port, or throws an exception if all are occupied</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationStarter.Close">
+            <summary>
+            Ends the graph viewer application process (yComp or extMSAGLExt).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompStarter">
+            <summary>
+            Class starting the yComp server (on a specific socket)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompStarter.#ctor(System.Int32)">
+            <summary>
+            Starts yComp (acting as a local server) at the given port (throws an exception if it fails so).
+            The preferred way to obtain a port is GetFreeTCPPort().
+            </summary>
+            <param name="ycompPort">The port to start yComp at</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ExtMSAGLExtStarter">
+            <summary>
+            Class starting the extMSAGLExt server (on a specific socket)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ExtMSAGLExtStarter.#ctor(System.Int32)">
+            <summary>
+            Starts extMSAGLExt (acting as a local server) at the given port (throws an exception if it fails so).
+            The preferred way to obtain a port is GetFreeTCPPort().
+            </summary>
+            <param name="extMSAGLExtPort">The port to start extMSAGLExtPort at</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationStream">
+            <summary>
+            The stream over which the client communicates with the graph viewer application server (which may be yComp or extMSAGLExt)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationStream.Read">
+            <summary>
+            Reads up to 4096 bytes from the stream
+            </summary>
+            <returns>The read bytes converted to a String using ASCII encoding</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationProxy">
+            <summary>
+            Proxy base class for communicating with a graph viewer application (yComp or extMSAGLExt)
+            (over a socket via the GrGen-GraphViewer protocol, mainly telling the graph viewer application what should be displayed (and how))
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationProxy.#ctor(System.Int32,System.Int32,System.String)">
+            <summary>
+            Creates a new GraphViewerApplicationProxy instance and connects to the local graph viewer application (yComp/or extMSAGLExt in server mode).
+            If it is not available an Exception is thrown.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationProxy.SetLayout(System.String)">
+            <summary>
+            Sets the current layouter of the graph viewer application
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationProxy.GetLayoutOptions">
+            <summary>
+            Retrieves the available options of the current layouter of the graph viewer application and the current values.
+            </summary>
+            <returns>A description of the available options of the current layouter of the graph viewer application
+            and the current values.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationProxy.SetLayoutOption(System.String,System.String)">
+            <summary>
+            Sets a layout option of the current layouter of the graph viewer application.
+            </summary>
+            <param name="optionName">The name of the option.</param>
+            <param name="optionValue">The new value.</param>
+            <returns>"optionset\n", or an error message, if setting the option failed.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationProxy.ForceLayout">
+            <summary>
+            Forces the graph viewer application to relayout the graph.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationProxy.Show">
+            <summary>
+            Shows the graph (without relayout).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationProxy.Sync">
+            <summary>
+            Sends a "sync" request and waits for a "sync" answer
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationProxy.ChangeNode(System.String,System.String)">
+            <summary>
+            Sets the node realizer of the given node.
+            If realizer is null, the realizer for the type of the node is used.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerApplicationProxy.ChangeEdge(System.String,System.String)">
+            <summary>
+            Sets the edge realizer of the given edge.
+            If realizer is null, the realizer for the type of the edge is used.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient">
+            <summary>
+            Proxy class for communicating with the graph viewer application yComp
+            (over a socket via the GrGen-yComp protocol).
+            The layout can be one of:
+                - Random
+                - Hierarchic
+                - Organic
+                - Orthogonal
+                - Circular
+                - Tree
+                - Diagonal
+                - Incremental Hierarchic
+                - Compilergraph
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ExtMSAGLExtClient">
+            <summary>
+            Proxy class for communicating with the graph viewer application extMSAGLExt
+            (over a socket via the GrGen-extMSAGLExt protocol).
+            The layout can be one of:
+                - SugiyamaScheme
+                - MDS
+                - Ranking
+                - IcrementalLayout
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerBaseClient">
             <summary>
-            Class communicating with yComp or MSAGL, over a simple live graph viewer protocol,
+            Class communicating with yComp or MSAGL or MSAGLExt or extMSAGLExt, over a simple live graph viewer protocol
+            (transmitted over a loopback TCP socket in case of yComp or extMSAGLExt or entirely internally in case of MSAGL or MSAGLExt),
             some very basic shared functionality is implemented here, real graph handling is contained in the GraphViewerClient.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerBaseClient.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerTypes,System.String,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClientHost)">
             <summary>
             Creates a new GraphViewerBaseClient instance.
-            Internally, it creates a YCompClient and connects to the local YComp server,
-            or creates a MSAGLClient, inside the basicGraphViewerClientHost (which may be a GuiConsoleDebuggerHost) in case one is supplied,
+            Internally, it creates a YCompClient/ExtMSAGLExtClient and connects to the external local yComp/extMSAGLExt server,
+            or creates an internal MSAGLClient/MSAGLExtClient, inside the basicGraphViewerClientHost (which may be a GuiConsoleDebuggerHost) in case one is supplied,
             depending on the graph viewer type that is requested (the layout is expected to be one of the valid layouts of the corresponding graph viewer client).
             </summary>
         </member>
@@ -283,14 +422,14 @@
         </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient">
             <summary>
-            Class communicating with yComp or MSAGL, over a simple live graph viewer protocol,
+            Class communicating with yComp or MSAGL or MSAGLExt or extMSAGLExt, over a simple live graph viewer protocol,
             some higher-level shared functionality regarding graph presentation state handling is implemented here.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.#ctor(de.unika.ipd.grGen.libGr.INamedGraph,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerTypes,System.String,de.unika.ipd.grGen.libGr.DumpInfo,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClientHost)">
             <summary>
             Creates a new GraphViewerClient instance.
-            Internally, it creates a YCompClient or a MSAGLClient, depending on the graph viewer type that is requested, see the base constructor for more on this.
+            Internally, it creates a YCompClient or a MSAGLClient or a MSAGLExtClient or an extMSAGLExtClient, depending on the graph viewer type that is requested, see the base constructor for more on this.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.NodeRealizerOverride">
@@ -318,7 +457,7 @@
                 - Diagonal
                 - Incremental Hierarchic
                 - Compilergraph
-                In case of MSAGL, it can be one of:
+                In case of a MSAGL based graph viewer, it can be one of:
                 - SugiyamaScheme
                 - MDS
                 - Ranking
@@ -329,12 +468,12 @@
             <summary>
             Retrieves the available options of the current layouter and the current values.
             </summary>
-            <returns>A description of the available options of the current layouter of yComp or MSAGL
+            <returns>A description of the available options of the current layouter of the graph viewer
             and the current values.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.SetLayoutOption(System.String,System.String)">
             <summary>
-            Sets a layout option of the current layouter of yComp or MSAGL.
+            Sets a layout option of the current layouter of the graph viewer.
             </summary>
             <param name="optionName">The name of the option.</param>
             <param name="optionValue">The new value.</param>
@@ -342,7 +481,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.ForceLayout">
             <summary>
-            Forces yComp/MSAGL to relayout the graph.
+            Forces the graph viewer to relayout the graph.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.UpdateDisplay">
@@ -381,25 +520,25 @@
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.UploadGraph">
             <summary>
-            Uploads the graph to YComp/MSAGL, updates the display and makes a synchronisation.
+            Uploads the graph to the graph viewer, updates the display and makes a synchronisation.
             Does not change the stored graph, even though this is required for naming.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient">
             <summary>
-            interface to the basic graph viewer clients (yComp and MSAGL, offering the core graph viewer functionality, utilized by the GraphViewerClient that adds its own functionality)
+            interface to the basic graph viewer clients (yComp or the MSAGL-based ones, offering the core graph viewer functionality, utilized by the GraphViewerClient that adds its own functionality)
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.GetLayoutOptions">
             <summary>
-            Retrieves the available options of the current layouter of yComp/MSAGL and the current values.
+            Retrieves the available options of the current layouter of the graph viewer and the current values.
             </summary>
-            <returns>A description of the available options of the current layouter of yComp/MSAGL
+            <returns>A description of the available options of the current layouter of the graph viewer
             and the current values.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.SetLayoutOption(System.String,System.String)">
             <summary>
-            Sets a layout option of the current layouter of yComp/MSAGL.
+            Sets a layout option of the current layouter of the graph viewer.
             </summary>
             <param name="optionName">The name of the option.</param>
             <param name="optionValue">The new value.</param>
@@ -407,7 +546,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.ForceLayout">
             <summary>
-            Forces yComp/MSAGL to relayout the graph.
+            Forces the graph viewer to relayout the graph.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.Show">
@@ -779,112 +918,6 @@
             built from an array of options, describing the option/command, which must be a unique name from the resources, mapping to the command string, giving its command key/character shortcut as a char in parenthesis,
             special cases: (0-9) to allow any keys from 0 ... 9, (any key) to allow any key not listed in the choices, (()) to render a text in simple parenthesis not getting interpreted as key char.
             The name should distinguish the different available choice menus.
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompServerProxy">
-            <summary>
-            Class starting the yComp server (on a specific socket)
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompServerProxy.GetFreeTCPPort">
-            <summary>
-            Searches for a free TCP port in the range 4242-4251.
-            To be called in order to obtain a free yComp port to i) start yComp at ii) communicate with yComp.
-            </summary>
-            <returns>A free TCP port, or throws an exception if all are occupied</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompServerProxy.#ctor(System.Int32)">
-            <summary>
-            Starts yComp (acting as a local server) at the given port (throws an exception if it fails so).
-            The preferred way to obtain a port is GetFreeTCPPort().
-            </summary>
-            <param name="ycompPort">The port to start yComp at</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompServerProxy.Close">
-            <summary>
-            Ends the yComp process.
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompStream">
-            <summary>
-            The stream over which the client communicates with yComp
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompStream.Read">
-            <summary>
-            Reads up to 4096 bytes from the stream
-            </summary>
-            <returns>The read bytes converted to a String using ASCII encoding</returns>
-        </member>
-        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient">
-            <summary>
-            Class communicating with yComp over a socket via the GrGen-yComp protocol,
-            mainly telling yComp what should be displayed (and how)
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.#ctor(System.Int32,System.Int32)">
-            <summary>
-            Creates a new YCompClient instance and connects to the local YComp server.
-            If it is not available an Exception is thrown.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.SetLayout(System.String)">
-            <summary>
-            Sets the current layouter of yComp
-            </summary>
-            <param name="moduleName">The name of the layouter.
-                Can be one of:
-                - Random
-                - Hierarchic
-                - Organic
-                - Orthogonal
-                - Circular
-                - Tree
-                - Diagonal
-                - Incremental Hierarchic
-                - Compilergraph
-            </param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.GetLayoutOptions">
-            <summary>
-            Retrieves the available options of the current layouter of yComp and the current values.
-            </summary>
-            <returns>A description of the available options of the current layouter of yComp
-            and the current values.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.SetLayoutOption(System.String,System.String)">
-            <summary>
-            Sets a layout option of the current layouter of yComp.
-            </summary>
-            <param name="optionName">The name of the option.</param>
-            <param name="optionValue">The new value.</param>
-            <returns>"optionset\n", or an error message, if setting the option failed.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.ForceLayout">
-            <summary>
-            Forces yComp to relayout the graph.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.Show">
-            <summary>
-            Shows the graph (without relayout).
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.Sync">
-            <summary>
-            Sends a "sync" request and waits for a "sync" answer
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.ChangeNode(System.String,System.String)">
-            <summary>
-            Sets the node realizer of the given node.
-            If realizer is null, the realizer for the type of the node is used.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.ChangeEdge(System.String,System.String)">
-            <summary>
-            Sets the edge realizer of the given edge.
-            If realizer is null, the realizer for the type of the edge is used.
             </summary>
         </member>
         <member name="T:graphViewerAndSequenceDebugger.Properties.Resources">

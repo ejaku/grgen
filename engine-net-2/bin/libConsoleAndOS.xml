@@ -73,6 +73,29 @@
             interface that allows to execute the WindowsForms message loop (Application.DoEvents).
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libConsoleAndOS.LinuxConsoleAllocator">
+            <summary>
+            The Linux counterpart of the Windows AllocConsole function (which is not available there):
+            opens a terminal emulator window that displays the output of the process.
+            A named pipe (FIFO) is created and the terminal emulator is started with a command that copies the pipe content to its window;
+            then the standard output and standard error file descriptors (1 and 2) of the process are redirected into the pipe,
+            so everything written to the console from then on (also via a freshly opened Console.OpenStandardOutput()) ends up in the window.
+            Output only, the standard input of the process stays as it is.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.LinuxConsoleAllocator.Alloc">
+            <summary>
+            Opens a terminal emulator window and redirects stdout and stderr into it.
+            Returns true on success (or if the console was already allocated), false if no console could be allocated
+            (e.g. because there is no display, or no known terminal emulator is installed), the reason is printed to stderr then.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.LinuxConsoleAllocator.Free">
+            <summary>
+            Restores stdout and stderr, which closes the pipe to the terminal emulator window (it then shows a hint and waits for Enter).
+            Returns true if a console was allocated before.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libConsoleAndOS.EXECUTION_STATE">
             <summary>
             Workaround fun due to the following bugs:
@@ -100,7 +123,6 @@
         <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IWorkaround.AllocTheConsole">
             <summary>
             Allocates the console.
-            TODO: LINUX version. Currently Windows only. Silent nop.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IWorkaround.AttachTheConsole(System.Int32)">
@@ -112,7 +134,6 @@
         <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IWorkaround.FreeTheConsole">
             <summary>
             Frees the console.
-            TODO: LINUX version. Currently Windows only. Silent nop.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IWorkaround.PreventRedraw(System.IntPtr)">
