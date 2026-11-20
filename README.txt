@@ -1,5 +1,5 @@
-GrGen.NET > v8.1 (2026-09-03)
------------------------------
+GrGen.NET v8.6 (2026-11-20)
+---------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
@@ -9,7 +9,7 @@ It consists of two parts of components:
   they are supported by the runtime environment implemented by the
   libGr and the lgspBackend dlls (plus some helper dlls).
 - the rapid prototyping environment offered by the (G)GrShell with the 
-  console or the GUI debugger, and the yComp or MSAGL graph viewers
+  console or the GUI debugger, and the yComp or MSAGL-based graph viewers
   (MSAGL and the debugger can be also used from your own .NET application;
   note that graphs may also be auto-persisted to a database
   or exported to/imported from line-based text files)

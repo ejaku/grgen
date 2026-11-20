@@ -1,4 +1,4 @@
-﻿v8.6 (2026-11-??)
+﻿v8.6 (2026-11-20)
  Ported the compiler frontend from JAVA to C#
   its name changed from grgen.jar to FrontendGrGen.exe
 
@@ -23,11 +23,11 @@
   when the debugger is started (or the gshow or the dump graph command is used)
 
  Changed the syntax of object access in the (G)GrShell and the grs importer/exporter from @@("name/id") to *("name/id")
-  deprecated the old syntax which yields now a warning and is going to be dropped in the future
+  deprecated the old syntax which yields now a warning and is going to be dropped/recycled in the future
 
  Some smaller user interface improvements
 
- Bugfix: fixed mono Linux user queries in the console debugger
+ Bugfix: fixed user queries in the console debugger when running with Mono under Linux 
 
  User manual adaptations
 
