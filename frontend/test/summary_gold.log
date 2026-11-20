@@ -40,6 +40,7 @@ OK     should_pass/array_accumulation_exec.grg
 OK     should_pass/array_accumulation_extraction.grg
 OK     should_pass/array_accumulation_extraction_graph_element_type.grg
 OK     should_pass/array_accumulation_extraction_match_class.grg
+OK     should_pass/array_addAll.grg
 OK     should_pass/array_assign_operations.grg
 OK     should_pass/array_element_parameters_and_addrem.grg
 OK     should_pass/array_identical_assignment.grg
@@ -680,6 +681,7 @@ OK     should_pass/set_002.grg
 OK     should_pass/set_003.grg
 OK     should_pass/set_004.grg
 OK     should_pass/set_005.grg
+OK     should_pass/set_addAll.grg
 OK     should_pass/set_assign_operations.grg
 OK     should_pass/set_element_parameters_and_addrem.grg
 OK     should_pass/set_identical_assignment.grg
@@ -809,6 +811,8 @@ FAILED should_fail/array_access_remove_array.grg
 ERROR  should_fail/array_access_remove_array2.grg
 ERROR  should_fail/array_access_remove_array2b.grg
 FAILED should_fail/array_access_remove_filter.grg
+ERROR  should_fail/array_addAll.grg
+ERROR  should_fail/array_addAll_attrib.grg
 ERROR  should_fail/array_and.grg
 ERROR  should_fail/array_and_exec.grg
 ERROR  should_fail/array_avg.grg
@@ -1222,6 +1226,7 @@ ERROR  should_fail/deque_002.grg
 ERROR  should_fail/deque_003.grg
 ERROR  should_fail/deque_004.grg
 ERROR  should_fail/deque_006.grg
+ERROR  should_fail/deque_007.grg
 ERROR  should_fail/different_number_of_rewrite_parts_nested_alternative.grg
 ERROR  should_fail/different_number_of_rewrite_parts_nested_iterated.grg
 ERROR  should_fail/disallow_action_package_declaration_of_builtin_Debug_package.grg
@@ -1915,6 +1920,8 @@ ERROR  should_fail/set_003.grg
 ERROR  should_fail/set_004.grg
 ERROR  should_fail/set_005.grg
 ERROR  should_fail/set_006.grg
+ERROR  should_fail/set_addAll.grg
+ERROR  should_fail/set_addAll_attrib.grg
 ERROR  should_fail/setmax.grg
 FAILED should_fail/setmax_exec.grg
 ERROR  should_fail/setmin.grg
