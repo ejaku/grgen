@@ -7,8 +7,6 @@
 
 // by Edgar Jakumeit
 
-//todo: auch ANTLR-header umschreiben - dazu .g-Datei, 2te Zeile nach header { verarbeiten
-
 using System;
 using System.Text;
 using System.IO;
@@ -42,8 +40,8 @@ namespace ChangeFileHeaders
             {
                 Encoding encoding = Encoding.Default;
 
-                // we're only interested in Java and C# source files
-                if (!(file.Name.EndsWith(".java") || file.Name.EndsWith(".cs")))
+                // we're only interested in C# source files and .g and .csc grammar files
+                if (!(file.Name.EndsWith(".cs") || file.Name.EndsWith(".g") || file.Name.EndsWith(".csc")))
                     continue;
 
                 // assembly info encoded in unicode
@@ -72,15 +70,13 @@ namespace ChangeFileHeaders
             DirectoryInfo[] nestedDirectories = dir.GetDirectories();
             foreach (DirectoryInfo nestedDirectory in nestedDirectories)
             {
-                if (nestedDirectory.Name.EndsWith(".svn"))
-                    continue;
-
                 output.Append(ProcessFilesInDirectoryThenDescend(nestedDirectory));
             }
 
             --indentLevel;
 
-            if (output.Length == nothingWasProcessedInThisDirectoryStringSize) return "";
+            if (output.Length == nothingWasProcessedInThisDirectoryStringSize)
+                return "";
             return output.ToString();
         }
 
