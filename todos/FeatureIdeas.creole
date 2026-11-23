@@ -1,11 +1,5 @@
 == Planned upcoming features in GrGen (Roadmap) ==
 
-=== Improved Graph Visualizer ===
-Extend the MSAGLExt graph viewer with folding/unfolding of nested nodes in the main graph display.
-Also by on-demand edges: Remove edges from static layout, adding/showing them only when certain nodes are hovered (similar to the Compilergraph layout in yComp).
-Add a vcg import (potentially as yComp transplant, and maybe other import/export visualization formats).
-extMSAGLExt: MSAGLExt in form of an external app, remote controllable via the yComp protocol (with a decoupled GUI message loop).
-
 === Improved GGrShell/GrShell ===
 Implement a shell history function.
 Implement the ability to debug graph rewrite scripts line-by-line (GGrShell only).
@@ -13,19 +7,22 @@ Multi console tab support (GGrShell only)?
 
 === Basic standalone IDE ===
 Rendering the project layout based on the files and folders.
-Supplying textual editors with language support (maybe a language server could be used towards this purpose).
+Supplying textual editors with simple keyword highlighting as language support, maybe some curly brace/parenthesis highlighting, similar to Notepad++.
 Project execution with the GGrShell.
-Nice-to-have addition: logical views of the contents of the physical files (entity trees, graphical renderings/views, the latter could be added as shell features before).
-Nice-to-have addition: graphical editors.
-Nice-to-have addition: a terminal window that could be used for agentic code generation / as a flexible project wizard.
 Compiler/Execution host/Debugger/Viewer has priority over IDE/GUI development tools - the former are needed, the latter only add convenience - but they could be vibe coded...
 Analogy: Visual Studio/TeXnicCenter, files derived from roots.
-But: because of the targeted usage as algorithmic kernel in a .NET program a VisualStudio plugin would make sense.
+But: because of the targeted usage as algorithmic kernel in a .NET program a VisualStudio plugin would make sense - issues: adaptations needed to changes, a standalone IDE does not require those.
+
+=== Extensions of basic standalone IDE ===
+Logical views of the contents of the physical files (entity trees of classes, methods, attributes, graphical renderings/views, the latter could be added as shell features before).
+Textual editor with syntax understanding and a program graph, features based on a language server. Most important refactoring: consistent renaming.
+Graphical editors: rule/pattern editor (problem: good visualization of entire features), sequences workflow editor, model editor.
+A terminal window that could be used for agentic code generation / as a flexible project wizard.
 
 === Language Server Support (Visual Studio Code) ===
 Write a syntax-highlighting and auto-completion plugin for GrGen (based on its grammar and scoping rules, for the the model language, the rules language, the sequences language, the shell language).
 Considerable effort, but a distinct component with few dependencies and a rather low amount of expected future changes.
-Maybe possible re-using the available grammars, building the language AST, which is then queried via the language server interface.
+Try to directly use the available grammars, building the language AST, maybe also the IR, which is then queried via the language server interface.
 Unclear what kind of support for incremental parsing is needed.
 https://microsoft.github.io/language-server-protocol/
 
@@ -67,6 +64,12 @@ Supply incident edge functions that return an ordered array instead of an unorde
 === Core parts also available in a .NET standard configuration (instead of .NET Framework) ===
 Requires some CodeDom/assembly referencing changes in the compiler.
 
+=== Improved Graph Visualizer ===
+Extend the MSAGLExt graph viewer with folding/unfolding of nested nodes in the main graph display.
+Also by on-demand edges: Remove edges from static layout, adding/showing them only when certain nodes are hovered (similar to the Compilergraph layout in yComp).
+Extend the MVP extMSAGLExt: vcg import with name : type instead of synthetic names for edges; add support for further import/export visualization formats besides vcg.
+Architectural split into view and model/application logic layer (communicating with events).
+
 === Known bugs / Issues due to change in the environment / Missing orthogonality of features ===
 - yComp is closed source (because of the usage of yFiles), unmaintained, and does not run with modern versions of OpenJDK/requires specific configurations (see https://github.com/bigraph-toolkit-suite/bigraphs.grgen-bigraphs#Troubleshooting).
 Create an open-source .NET replacement (and give a clear hint to the user that he needs an old Java or a Java implementation that puts an emphasize on compatibility).
@@ -99,7 +102,7 @@ Alternative: webassembly blazor version of graph viewer (issue: MSAGL has no bui
 
 === WPF-based Graph Viewer/Debugger ===
 Implement a graphViewerAndSequenceDebuggerWPF.dll (TBD: only a graph viewer with console debugger versus complete coverage including a WPF-based debugger GUI)
-Possible because MSAGL also supports WPF. (Supply data bindings to the GrGen graph types. Caveat: Windows only. Issue: DoEvents in WPF?)
+Possible because MSAGL also supports WPF. (Could allow animations similar to yComp, offering a richer UX. Supply data bindings to the GrGen graph types. Caveat: Windows only. Issue: DoEvents in WPF?)
 Alternative: non-MSAGL graph viewer based on Tulip (native).
 
 === Extended automated tests ===
@@ -228,6 +231,8 @@ Questionable whether this is really needed since the availability of the persist
 Another potential extension: serialization from/to a binary format.
 A libGrPersistenceProviderOnDemandLoading.dll that allows to handle graphs that are too large to fit into main memory, at the price of reduced performance when it comes to pattern matching.
 The repository abstraction of GrGen.NET is the IGraph, implement other data sources/persistence providers mapping to that interface.
+Automatic persisting based on repeated full dumps plus replay log, after crash read last snapshot and replay event log. Queries (no rewrites) could run in parallel with dumping.
+TBD: Some graph partitioning scheme for sharding, in contrast to explicit graph nesting.
 
 === Parallel grs import/export ===
 To speed up importing of large data sets; export a graph to multiple files containing parts, import them by several threads.
@@ -317,7 +322,7 @@ Use newer framework/language features, e.g. switch from a Dictionary with SetVal
 Most parts are still compatible with .NET framework 2.0, it would make sense to upgrade to .NET standard 2.0.
 
 === Replace CSharpCC ===
-Replace the aged CSharpCC/MinosseCC parser generator by JavaCC with the C# backend (or even by ANTLR with the C# backend).
+Replace the aged CSharpCC/MinosseCC parser generator by JavaCC with the C# backend, or even better: by ANTLR with the C# backend.
 
 === Eclipse Integration ===
 Write a syntax-highlighting and auto-complete plugin for GrGen. (Makes some sense with C# support in Eclipse, quite a lot when a JAVA backend is available.)
