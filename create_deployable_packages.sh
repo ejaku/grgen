@@ -24,6 +24,10 @@ rm -rf $GRGENDIRSRC/engine-net-2/unittests
 rm $GRGENDIRSRC/engine-net-2/bin/WarningDisabler.exe
 cp -rf $GRGENDIRSRC/engine-net-2/* $GRGENDIR
 
+echo "engine-net-2 processed, check whether the scripts GrGen, GrShell, GGrShell, extMSAGLExt are contained in the bin folder - they are sometimes not copied (in contrast to the exe)"
+read -p "Press any key to continue..." -n1 -s
+echo "Continuing..."
+
 cp -rf $GRGENDIRSRC/frontend/test $GRGENDIR
 
 cp -rf $GRGENDIRSRC/syntaxhighlighting $GRGENDIR
